@@ -1,4 +1,5 @@
 #pragma once
+
 #include <Windows.h>
 #include <map>
 #include <string>
@@ -8,7 +9,7 @@
 class GameEngineInput
 {
 private:
-	class GameEngineKey
+	class GameEngineKey 
 	{
 		friend GameEngineInput;
 
@@ -22,12 +23,12 @@ private:
 
 		int Key = -1;
 
-		bool KeyCheck()
+		bool KeyCheck() 
 		{
 			return 0 != GetAsyncKeyState(Key);
 		}
 
-		void Reset()
+		void Reset() 
 		{
 			if (true == Press)
 			{
@@ -48,13 +49,13 @@ private:
 		void Update(float _DeltaTime);
 
 	public:
-		GameEngineKey()
+		GameEngineKey() 
 			: Key(-1)
 		{
 
 		}
 
-		GameEngineKey(int _Key)
+		GameEngineKey(int _Key) 
 			: Key(_Key)
 		{
 
@@ -83,12 +84,9 @@ public:
 	static bool IsPress(int _Key);
 	static bool IsFree(int _Key);
 
-	/////////////////////////
-	static float GetPressTime(int _Key);
-	/////////////////////////
-
 protected:
 
 private:
 	static std::map<int, GameEngineKey> AllKeys;
 };
+

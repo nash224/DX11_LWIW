@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="GameEngineCore.h" />
+    <ClInclude Include="GameEngineLevel.h" />
+    <ClInclude Include="GameEngineActor.h" />
+    <ClInclude Include="GameEngineComponent.h" />
+    <ClInclude Include="PreCompile.h">
+      <Filter>PreCompile</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GameEngineLevel.cpp" />
+    <ClCompile Include="GameEngineActor.cpp" />
+    <ClCompile Include="GameEngineComponent.cpp" />
+    <ClCompile Include="GameEngineCore.cpp" />
+    <ClCompile Include="PreCompile.cpp">
+      <Filter>PreCompile</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="PreCompile">
+      <UniqueIdentifier>{687732a5-e946-4126-8c1e-7322d337055c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

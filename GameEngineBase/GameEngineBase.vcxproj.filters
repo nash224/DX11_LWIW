@@ -9,6 +9,9 @@
     <ClCompile Include="GameEnginePath.cpp" />
     <ClCompile Include="GameEngineDirectory.cpp" />
     <ClCompile Include="GameEngineFile.cpp" />
+    <ClCompile Include="PreCompile.cpp">
+      <Filter>PreCompile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngineDebug.h" />
@@ -19,5 +22,13 @@
     <ClInclude Include="GameEnginePath.h" />
     <ClInclude Include="GameEngineDirectory.h" />
     <ClInclude Include="GameEngineFile.h" />
+    <ClInclude Include="PreCompile.h">
+      <Filter>PreCompile</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="PreCompile">
+      <UniqueIdentifier>{a0fa4fbc-23a1-4c16-9739-17f4685a1408}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

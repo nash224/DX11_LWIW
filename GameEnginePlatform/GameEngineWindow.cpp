@@ -1,3 +1,4 @@
+#include "PreCompile.h"
 #include "GameEngineWindow.h"
 #include <GameEngineBase/GameEngineDebug.h>
 #include <iostream>
@@ -169,7 +170,11 @@ void GameEngineWindow::MyRegisterClass()
 	Check = true;
 }
 
-void GameEngineWindow::MessageLoop(HINSTANCE _Inst, void(*_Start)(HINSTANCE), void(*_Update)(), void(*_End)())
+void GameEngineWindow::MessageLoop(HINSTANCE _Inst,
+	std::function<void(HINSTANCE)> _Start,
+	std::function<void()> _Update,
+	std::function<void()> _End
+)
 {
 	// 윈도우가 뜨기전에 로딩해야할 이미지나 사운드 등등을 처리하는 단계
 	if (nullptr != _Start)
@@ -247,7 +252,7 @@ void GameEngineWindow::SetPosAndScale(const float4& _Pos, const float4& _Scale)
 	RECT Rc = { 0, 0, _Scale.iX(), _Scale.iY() };
 
 
-	AdjustWindowRect(&Rc, WS_OVERLAPPEDWINDOW, FALSE);
+	AdjustWindowRect(&Rc, WS_OVERLAPPEDWINDOW,FALSE);
 
 	//                          100        100         500          500
 	SetWindowPos(hWnd, nullptr, _Pos.iX(), _Pos.iY(), Rc.right - Rc.left, Rc.bottom - Rc.top, SWP_NOZORDER);

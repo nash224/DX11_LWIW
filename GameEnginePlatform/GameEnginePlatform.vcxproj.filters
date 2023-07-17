@@ -5,12 +5,18 @@
     <ClInclude Include="GameEngineWindowTexture.h" />
     <ClInclude Include="GameEngineInput.h" />
     <ClInclude Include="GameEngineSound.h" />
+    <ClInclude Include="PreCompile.h">
+      <Filter>PreCompile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineWindow.cpp" />
     <ClCompile Include="GameEngineWindowTexture.cpp" />
     <ClCompile Include="GameEngineInput.cpp" />
     <ClCompile Include="GameEngineSound.cpp" />
+    <ClCompile Include="PreCompile.cpp">
+      <Filter>PreCompile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="FMOD">
@@ -21,6 +27,9 @@
     </Filter>
     <Filter Include="FMOD\Release">
       <UniqueIdentifier>{dce83105-6ab2-474f-a9e5-b3088db8382a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PreCompile">
+      <UniqueIdentifier>{4761710f-38c2-4856-9c5b-accfe9369e82}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

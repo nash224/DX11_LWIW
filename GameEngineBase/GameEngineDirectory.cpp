@@ -1,21 +1,22 @@
+#include "PreCompile.h"
 #include "GameEngineDirectory.h"
 #include "GameEngineDebug.h"
 #include "GameEngineString.h"
 
-GameEngineDirectory::GameEngineDirectory()
+GameEngineDirectory::GameEngineDirectory() 
 {
 }
 
-GameEngineDirectory::~GameEngineDirectory()
+GameEngineDirectory::~GameEngineDirectory() 
 {
 }
 
-GameEngineDirectory::GameEngineDirectory(const std::string& _path)
+GameEngineDirectory::GameEngineDirectory(const std::string_view& _path) 
 	: GameEnginePath(_path)
 {
 	if (false == IsDirectory())
 	{
-		MsgBoxAssert("디렉토리 경로가 아닙니다." + _path);
+		MsgBoxAssert("디렉토리 경로가 아닙니다." + std::string(_path));
 	}
 
 
@@ -23,7 +24,7 @@ GameEngineDirectory::GameEngineDirectory(const std::string& _path)
 
 // 자신의 디렉토리의 파일만 넣습니다.
 // 
-std::vector<GameEngineFile> GameEngineDirectory::GetAllFile(std::vector<std::string> _Ext)
+std::vector<GameEngineFile> GameEngineDirectory::GetAllFile(std::vector<std::string> _Ext) 
 {
 
 	std::filesystem::directory_iterator DirIter = std::filesystem::directory_iterator(Path);
