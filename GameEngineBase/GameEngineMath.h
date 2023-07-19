@@ -213,12 +213,6 @@ public:
 		return POINT{ iX(), iY() };
 	}
 
-	float4 	GetRotationToDegZ(const float _Angle) const
-	{
-		return GetRotationToDegZ(*this, _Angle);
-	}
-
-
 
 
 public:
@@ -243,17 +237,79 @@ public:
 		return Angle;
 	}
 
-	static float4 GetRotationToDegZ(const float4& _Value, const float _Deg)
+
+	float4 VectorRotationToDegX(const float _Deg)
 	{
-		return GetRotationToRadZ(_Value, _Deg * GameEngineMath::D2R);
+		return VectorRotationToDegX(*this, _Deg);
 	}
 
-	static float4 GetRotationToRadZ(const float4& _Value, const float _Rad)
+	static float4 VectorRotationToDegX(const float4& _Value, const float _Deg)
 	{
+		return VectorRotationToRadX(_Value, _Deg * GameEngineMath::D2R);
+	}
+
+	static float4 VectorRotationToRadX(const float4& _Value, const float _Rad)
+	{
+		// 왜 이 공식인지를 이해해야 합니다.
+		float4 Rot;
+		Rot.X = _Value.X;
+		Rot.Y = _Value.Y * sinf(_Rad) + _Value.Z * cosf(_Rad);
+		Rot.Z = _Value.Y * cosf(_Rad) - _Value.Z * sinf(_Rad);
+		return Rot;
+	}
+
+	float4 VectorRotationToDegY(const float _Deg)
+	{
+		return VectorRotationToDegY(*this, _Deg);
+	}
+
+
+	static float4 VectorRotationToDegY(const float4& _Value, const float _Deg)
+	{
+		return VectorRotationToRadY(_Value, _Deg * GameEngineMath::D2R);
+	}
+
+	static float4 VectorRotationToRadY(const float4& _Value, const float _Rad)
+	{
+		// 왜 이 공식인지를 이해해야 합니다.
+		float4 Rot;
+		Rot.X = _Value.Z * cosf(_Rad) - _Value.X * sinf(_Rad);
+		Rot.Y = _Value.Y;
+		Rot.Z = _Value.Z * sinf(_Rad) + _Value.X * cosf(_Rad);
+		return Rot;
+	}
+
+	float4 VectorRotationToDegZ(const float _Deg)
+	{
+		return VectorRotationToDegZ(*this, _Deg);
+	}
+
+	static float4 VectorRotationToDegZ(const float4& _Value, const float _Deg)
+	{
+		return VectorRotationToRadZ(_Value, _Deg * GameEngineMath::D2R);
+	}
+
+	static float4 VectorRotationToRadZ(const float4& _Value, const float _Rad)
+	{
+		// 왜 이 공식인지를 이해해야 합니다.
 		float4 Rot;
 		Rot.X = _Value.X * cosf(_Rad) - _Value.Y * sinf(_Rad);
 		Rot.Y = _Value.X * sinf(_Rad) + _Value.Y * cosf(_Rad);
+		Rot.Z = _Value.Z;
 		return Rot;
+	}
+
+
+	//                                       90.0f
+	static float4 GetUnitVectorFromRad(const float _Rad)
+	{
+		// cosf(_Rad)반지름의 길이 1일때의 cosf값이 구해집니다.
+		// sinf(_Rad)반지름의 길이 1일때의 sinf값이 구해집니다.
+		// => 빗변의 길이가 1일때의 결과가 나온다.
+
+		// 
+		// 1.57
+		return { cosf(_Rad) , sinf(_Rad) };
 	}
 
 	// GetUnitVectorFromDeg(45)
@@ -276,16 +332,6 @@ public:
 		return GetUnitVectorFromRad(_Degree * GameEngineMath::D2R);
 	}
 
-	//                                       90.0f
-	static float4 GetUnitVectorFromRad(const float _Rad)
-	{
-		// cosf(_Rad)반지름의 길이 1일때의 cosf값이 구해집니다.
-		// sinf(_Rad)반지름의 길이 1일때의 sinf값이 구해집니다.
-		// => 빗변의 길이가 1일때의 결과가 나온다.
-
-		// 1.57
-		return { cosf(_Rad) , sinf(_Rad) };
-	}
 };
 
 class GameEngineRect

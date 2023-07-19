@@ -76,10 +76,10 @@ void GameEngineWindowTexture::ResLoad(const std::string& _Path)
 	ScaleCheck();
 }
 
-void GameEngineWindowTexture::ResCreate(const float4& _Scale)
+void GameEngineWindowTexture::ResCreate(HDC _HDC, const float4& _Scale)
 {
 	// 그냥 비어있는 흰색 이미지를 하나 만드는 함수인거에요.
-	HANDLE ImageHandle = CreateCompatibleBitmap(GameEngineWindow::MainWindow.GetHDC(), _Scale.iX(), _Scale.iY());
+	HANDLE ImageHandle = CreateCompatibleBitmap(_HDC, _Scale.iX(), _Scale.iY());
 
 	if (nullptr == ImageHandle)
 	{
@@ -261,9 +261,9 @@ void GameEngineWindowTexture::PlgCopy(GameEngineWindowTexture* _CopyTexture
 	float4 LeftBot = Rect.CenterLeftBot();
 	// float4 RightBot = Rect.CenterRightBot();
 
-	ArrPoint[0] = (LeftTop.GetRotationToDegZ(_Angle) + _Pos).WindowPOINT();
-	ArrPoint[1] = (RightTop.GetRotationToDegZ(_Angle) + _Pos).WindowPOINT();
-	ArrPoint[2] = (LeftBot.GetRotationToDegZ(_Angle) + _Pos).WindowPOINT();
+	ArrPoint[0] = (LeftTop.VectorRotationToDegZ(_Angle) + _Pos).WindowPOINT();
+	ArrPoint[1] = (RightTop.VectorRotationToDegZ(_Angle) + _Pos).WindowPOINT();
+	ArrPoint[2] = (LeftBot.VectorRotationToDegZ(_Angle) + _Pos).WindowPOINT();
 
 	HDC CopyImageDC = _CopyTexture->GetImageDC();
 

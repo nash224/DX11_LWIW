@@ -6,7 +6,6 @@
 
 
 HINSTANCE GameEngineWindow::Instance = nullptr;
-GameEngineWindow GameEngineWindow::MainWindow;
 bool GameEngineWindow::IsWindowUpdate = true;
 bool GameEngineWindow::IsFocusValue = false;
 
@@ -97,7 +96,7 @@ void GameEngineWindow::InitInstance()
 
 	// 더플버퍼링을 하기 위한 이미지
 	BackBuffer = new GameEngineWindowTexture();
-	BackBuffer->ResCreate(WindowBuffer->GetScale());
+	BackBuffer->ResCreate(Hdc, WindowBuffer->GetScale());
 
 	// CreateDC()
 
@@ -171,15 +170,15 @@ void GameEngineWindow::MyRegisterClass()
 }
 
 void GameEngineWindow::MessageLoop(HINSTANCE _Inst,
-	std::function<void(HINSTANCE)> _Start,
+	std::function<void()> _Start,
 	std::function<void()> _Update,
-	std::function<void()> _End
+	std::function<void()> _Release
 )
 {
 	// 윈도우가 뜨기전에 로딩해야할 이미지나 사운드 등등을 처리하는 단계
 	if (nullptr != _Start)
 	{
-		_Start(_Inst);
+		_Start();
 	}
 
 	MSG msg;
@@ -225,9 +224,9 @@ void GameEngineWindow::MessageLoop(HINSTANCE _Inst,
 	}
 
 
-	if (nullptr != _End)
+	if (nullptr != _Release)
 	{
-		_End();
+		_Release();
 	}
 
 
@@ -245,7 +244,7 @@ void GameEngineWindow::SetPosAndScale(const float4& _Pos, const float4& _Scale)
 	{
 		delete BackBuffer;
 		BackBuffer = new GameEngineWindowTexture();
-		BackBuffer->ResCreate(Scale);
+		BackBuffer->ResCreate(Hdc, Scale);
 	}
 
 	//                200           200
