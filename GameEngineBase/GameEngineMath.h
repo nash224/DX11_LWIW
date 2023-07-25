@@ -2,6 +2,11 @@
 #include "GameEngineDebug.h"
 #include <Windows.h>
 
+#include <d3d11_4.h>
+#include <d3dcompiler.h>
+#include <DirectXPackedVector.h>
+#include <DirectXCollision.h>
+
 // 설명 :
 class GameEngineMath
 {
@@ -27,10 +32,19 @@ public:
 	static const float4 UP;
 	static const float4 DOWN;
 
-	float X = 0.0f;
-	float Y = 0.0f;
-	float Z = 0.0f;
-	float W = 1.0f;
+	union
+	{
+		struct
+		{
+			float X;
+			float Y;
+			float Z;
+			float W;
+		};
+
+		float Arr1D[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+		float Arr2D[1][4];
+	};
 
 	inline int iX() const
 	{
@@ -243,20 +257,28 @@ public:
 		return VectorRotationToDegX(*this, _Deg);
 	}
 
+	static float DotProduct3D(const float4& _Left, const float4& _Right)
+	{
+		float Result = (_Left.X * _Right.X) + (_Left.Y * _Right.Y) + (_Left.Z * _Right.Z);
+		return Result;
+	}
+
+
+	static float4 Cross3D(const float4& _Left, const float4& _Right)
+	{
+		float4 Result;
+		Result.X = (_Left.Y * _Right.Z) - (_Left.Z * _Right.Y);
+		Result.Y = (_Left.Z * _Right.X) - (_Left.X * _Right.Z);
+		Result.Z = (_Left.X * _Right.Y) - (_Left.Y * _Right.X);
+		return Result;
+	}
+
 	static float4 VectorRotationToDegX(const float4& _Value, const float _Deg)
 	{
 		return VectorRotationToRadX(_Value, _Deg * GameEngineMath::D2R);
 	}
 
-	static float4 VectorRotationToRadX(const float4& _Value, const float _Rad)
-	{
-		// 왜 이 공식인지를 이해해야 합니다.
-		float4 Rot;
-		Rot.X = _Value.X;
-		Rot.Y = _Value.Y * sinf(_Rad) + _Value.Z * cosf(_Rad);
-		Rot.Z = _Value.Y * cosf(_Rad) - _Value.Z * sinf(_Rad);
-		return Rot;
-	}
+	static float4 VectorRotationToRadX(const float4& _Value, const float _Rad);
 
 	float4 VectorRotationToDegY(const float _Deg)
 	{
@@ -269,15 +291,7 @@ public:
 		return VectorRotationToRadY(_Value, _Deg * GameEngineMath::D2R);
 	}
 
-	static float4 VectorRotationToRadY(const float4& _Value, const float _Rad)
-	{
-		// 왜 이 공식인지를 이해해야 합니다.
-		float4 Rot;
-		Rot.X = _Value.Z * cosf(_Rad) - _Value.X * sinf(_Rad);
-		Rot.Y = _Value.Y;
-		Rot.Z = _Value.Z * sinf(_Rad) + _Value.X * cosf(_Rad);
-		return Rot;
-	}
+	static float4 VectorRotationToRadY(const float4& _Value, const float _Rad);
 
 	float4 VectorRotationToDegZ(const float _Deg)
 	{
@@ -289,15 +303,7 @@ public:
 		return VectorRotationToRadZ(_Value, _Deg * GameEngineMath::D2R);
 	}
 
-	static float4 VectorRotationToRadZ(const float4& _Value, const float _Rad)
-	{
-		// 왜 이 공식인지를 이해해야 합니다.
-		float4 Rot;
-		Rot.X = _Value.X * cosf(_Rad) - _Value.Y * sinf(_Rad);
-		Rot.Y = _Value.X * sinf(_Rad) + _Value.Y * cosf(_Rad);
-		Rot.Z = _Value.Z;
-		return Rot;
-	}
+	static float4 VectorRotationToRadZ(const float4& _Value, const float _Rad);
 
 
 	//                                       90.0f
@@ -332,6 +338,7 @@ public:
 		return GetUnitVectorFromRad(_Degree * GameEngineMath::D2R);
 	}
 
+	float4 operator*(const class float4x4& _Other) const;
 };
 
 class GameEngineRect
@@ -399,5 +406,238 @@ public:
 	int iCenterBot()
 	{
 		return Pos.iY() + Scale.ihY();
+	}
+};
+
+class float4x4
+{
+public:
+	union
+	{
+		float Arr2D[4][4] =
+		{
+			// 00   01   02    03
+			{1.0f, 0.0f, 0.0f, 0.0f},
+			{0.0f, 1.0f, 0.0f, 0.0f},
+			{0.0f, 0.0f, 1.0f, 0.0f},
+			{0.0f, 0.0f, 0.0f, 1.0f}
+		};
+
+		float4 ArrVector[4];
+
+		struct
+		{
+			float _00;
+			float _01;
+			float _02;
+			float _03;
+
+			float _10;
+			float _11;
+			float _12;
+			float _13;
+
+			float _20;
+			float _21;
+			float _22;
+			float _23;
+
+			float _30;
+			float _31;
+			float _32;
+			float _33;
+		};
+
+		float Arr1D[16];
+
+	};
+
+	float4x4()
+	{
+		Identity();
+	}
+
+	void Identity()
+	{
+		memset(&Arr1D, 0, sizeof(Arr1D));
+
+		Arr2D[0][0] = 1.0f;
+		Arr2D[1][1] = 1.0f;
+		Arr2D[2][2] = 1.0f;
+		Arr2D[3][3] = 1.0f;
+
+		return;
+	}
+
+	void Scale(const float4& _Value)
+	{
+		Identity();
+
+		Arr2D[0][0] = _Value.X;
+		Arr2D[1][1] = _Value.Y;
+		Arr2D[2][2] = _Value.Z;
+	}
+
+
+
+	void RotationXDegs(const float _Value)
+	{
+		RotationXRad(_Value * GameEngineMath::D2R);
+	}
+
+	void RotationXRad(const float _Value)
+	{
+		Identity();
+		// DirectX::XMMatrixRotationX
+		float CosValue = cosf(_Value);
+		float SinValue = sinf(_Value);
+		Arr2D[1][1] = CosValue;
+		Arr2D[1][2] = SinValue;
+		Arr2D[2][1] = -SinValue;
+		Arr2D[2][2] = CosValue;
+	}
+
+	void RotationYDegs(const float _Value)
+	{
+		RotationYRad(_Value * GameEngineMath::D2R);
+	}
+
+	void RotationYRad(const float _Value)
+	{
+		Identity();
+
+
+		// DirectX::XMMatrixRotationY
+		float CosValue = cosf(_Value);
+		float SinValue = sinf(_Value);
+		Arr2D[0][0] = CosValue;
+		Arr2D[0][2] = -SinValue;
+		Arr2D[2][0] = SinValue;
+		Arr2D[2][2] = CosValue;
+	}
+
+	void RotationZDegs(const float _Value)
+	{
+		RotationZRad(_Value * GameEngineMath::D2R);
+	}
+
+	void RotationZRad(const float _Value)
+	{
+		Identity();
+
+
+		// DirectX::XMMatrixRotationZ
+		float CosValue = cosf(_Value);
+		float SinValue = sinf(_Value);
+		Arr2D[0][0] = CosValue;
+		Arr2D[0][1] = SinValue;
+		Arr2D[1][0] = -SinValue;
+		Arr2D[1][1] = CosValue;
+
+
+		//					    [cosf(_Rad)][sinf(_Rad)][02][03]
+		//					    [-sinf(_Rad)][cosf(_Rad)][12][13]
+		//					    [20][21][22][23]
+		//					    [30][31][32][33]
+		// [x][y][z][w]        = rx  ry  rz  rw
+
+		// [x]*[00] + [y] *[10] + [z] * [20] + [w] * [30]
+
+		//float4 Rot * 행렬;
+
+		//Rot.X = _Value.X * cosf(_Rad) - _Value.Y * sinf(_Rad);
+		//Rot.Y = _Value.X * sinf(_Rad) + _Value.Y * cosf(_Rad);
+		//Rot.Z = _Value.Z;
+
+
+		// 회전을 시킬수 있는 행렬이 되어야 할거빈다.
+
+	}
+
+	void Pos(const float4& _Value)
+	{
+		Identity();
+
+		Arr2D[3][0] = _Value.X;
+		Arr2D[3][1] = _Value.Y;
+		Arr2D[3][2] = _Value.Z;
+	}
+
+	void LookAtLH(const float4& _EyePos, const float4& _EyeDir, const float4& _EyeUp)
+	{
+		Identity();
+
+		float4 EyePos = _EyePos;
+		float4 EyeForward = _EyeDir;
+		float4 EyeUp = _EyeUp;
+
+		// 카메라의 Z앞
+		EyeForward.Normalize();
+		// 카마라의 Y위 
+		EyeUp.Normalize();
+		// 카마라의 X위 
+		float4 EyeRight = float4::Cross3D(EyeUp, EyeForward);
+
+		// 회전행렬을 벡터만으로 만드는 방법.
+		// float4x4 RotMat;
+		ArrVector[0] = EyeRight;
+		ArrVector[1] = EyeUp;
+		ArrVector[2] = EyeForward;
+
+		// XYZ돌아서 어떤 물체를 바라보고 있는 카메라
+		// 회전행렬을 역으로 돌려야 한다.
+		// -X-Y-Z돌아서 어떤 물체를 원점으로 돌리게 만들어야 하는데.
+
+		float4 NegEyePos = -EyePos;
+
+		// 모든 물체가 이동해야할 방향을 구하고 있다.
+		float XValue = float4::DotProduct3D(EyeRight, NegEyePos);
+		float YValue = float4::DotProduct3D(EyeUp, NegEyePos);
+		float ZValue = float4::DotProduct3D(EyeForward, NegEyePos);
+
+
+
+		// 내적
+		// float4::
+
+		// 여기서 내적을 공부해야 합니다.
+
+		// 회전행렬의 축을 구성하는 규칙
+		// 그 두벡터에 수직인 벡터일수밖에
+		// [?][?][?][0] // ?
+		// [0][1][0][0] // y
+		// [0][0][1][0] // z
+		// [0][0][0][1]
+
+		int a = 0;
+	}
+
+	float4x4 operator*(const float4x4& _Other)
+	{
+		float4x4 Result;
+		const float4x4& A = *this;
+		const float4x4& B = _Other;
+
+		Result.Arr2D[0][0] = (A.Arr2D[0][0] * B.Arr2D[0][0]) + (A.Arr2D[0][1] * B.Arr2D[1][0]) + (A.Arr2D[0][2] * B.Arr2D[2][0]) + (A.Arr2D[0][3] * B.Arr2D[3][0]);
+		Result.Arr2D[0][1] = (A.Arr2D[0][0] * B.Arr2D[0][1]) + (A.Arr2D[0][1] * B.Arr2D[1][1]) + (A.Arr2D[0][2] * B.Arr2D[2][1]) + (A.Arr2D[0][3] * B.Arr2D[3][1]);
+		Result.Arr2D[0][2] = (A.Arr2D[0][0] * B.Arr2D[0][2]) + (A.Arr2D[0][1] * B.Arr2D[1][2]) + (A.Arr2D[0][2] * B.Arr2D[2][2]) + (A.Arr2D[0][3] * B.Arr2D[3][2]);
+		Result.Arr2D[0][3] = (A.Arr2D[0][0] * B.Arr2D[0][3]) + (A.Arr2D[0][1] * B.Arr2D[1][3]) + (A.Arr2D[0][2] * B.Arr2D[2][3]) + (A.Arr2D[0][3] * B.Arr2D[3][3]);
+
+		Result.Arr2D[1][0] = (A.Arr2D[1][0] * B.Arr2D[0][0]) + (A.Arr2D[1][1] * B.Arr2D[1][0]) + (A.Arr2D[1][2] * B.Arr2D[2][0]) + (A.Arr2D[1][3] * B.Arr2D[3][0]);
+		Result.Arr2D[1][1] = (A.Arr2D[1][0] * B.Arr2D[0][1]) + (A.Arr2D[1][1] * B.Arr2D[1][1]) + (A.Arr2D[1][2] * B.Arr2D[2][1]) + (A.Arr2D[1][3] * B.Arr2D[3][1]);
+		Result.Arr2D[1][2] = (A.Arr2D[1][0] * B.Arr2D[0][2]) + (A.Arr2D[1][1] * B.Arr2D[1][2]) + (A.Arr2D[1][2] * B.Arr2D[2][2]) + (A.Arr2D[1][3] * B.Arr2D[3][2]);
+		Result.Arr2D[1][3] = (A.Arr2D[1][0] * B.Arr2D[0][3]) + (A.Arr2D[1][1] * B.Arr2D[1][3]) + (A.Arr2D[1][2] * B.Arr2D[2][3]) + (A.Arr2D[1][3] * B.Arr2D[3][3]);
+
+		Result.Arr2D[2][0] = (A.Arr2D[2][0] * B.Arr2D[0][0]) + (A.Arr2D[2][1] * B.Arr2D[1][0]) + (A.Arr2D[2][2] * B.Arr2D[2][0]) + (A.Arr2D[2][3] * B.Arr2D[3][0]);
+		Result.Arr2D[2][1] = (A.Arr2D[2][0] * B.Arr2D[0][1]) + (A.Arr2D[2][1] * B.Arr2D[1][1]) + (A.Arr2D[2][2] * B.Arr2D[2][1]) + (A.Arr2D[2][3] * B.Arr2D[3][1]);
+		Result.Arr2D[2][2] = (A.Arr2D[2][0] * B.Arr2D[0][2]) + (A.Arr2D[2][1] * B.Arr2D[1][2]) + (A.Arr2D[2][2] * B.Arr2D[2][2]) + (A.Arr2D[2][3] * B.Arr2D[3][2]);
+		Result.Arr2D[2][3] = (A.Arr2D[2][0] * B.Arr2D[0][3]) + (A.Arr2D[2][1] * B.Arr2D[1][3]) + (A.Arr2D[2][2] * B.Arr2D[2][3]) + (A.Arr2D[2][3] * B.Arr2D[3][3]);
+
+		Result.Arr2D[3][0] = (A.Arr2D[3][0] * B.Arr2D[0][0]) + (A.Arr2D[3][1] * B.Arr2D[1][0]) + (A.Arr2D[3][2] * B.Arr2D[2][0]) + (A.Arr2D[3][3] * B.Arr2D[3][0]);
+		Result.Arr2D[3][1] = (A.Arr2D[3][0] * B.Arr2D[0][1]) + (A.Arr2D[3][1] * B.Arr2D[1][1]) + (A.Arr2D[3][2] * B.Arr2D[2][1]) + (A.Arr2D[3][3] * B.Arr2D[3][1]);
+		Result.Arr2D[3][2] = (A.Arr2D[3][0] * B.Arr2D[0][2]) + (A.Arr2D[3][1] * B.Arr2D[1][2]) + (A.Arr2D[3][2] * B.Arr2D[2][2]) + (A.Arr2D[3][3] * B.Arr2D[3][2]);
+		Result.Arr2D[3][3] = (A.Arr2D[3][0] * B.Arr2D[0][3]) + (A.Arr2D[3][1] * B.Arr2D[1][3]) + (A.Arr2D[3][2] * B.Arr2D[2][3]) + (A.Arr2D[3][3] * B.Arr2D[3][3]);
+
+		return Result;
 	}
 };
