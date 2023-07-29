@@ -9,29 +9,31 @@ GameEngineTime GameEngineCore::MainTime;
 GameEngineWindow GameEngineCore::MainWindow;
 
 
-GameEngineCore::GameEngineCore() 
+GameEngineCore::GameEngineCore()
 {
 }
 
-GameEngineCore::~GameEngineCore() 
+GameEngineCore::~GameEngineCore()
 {
 }
 
-void GameEngineCore::Start() 
+void GameEngineCore::Start()
 {
 	CoreObject->Start();
 }
 
-void GameEngineCore::Update() 
+void GameEngineCore::Update()
 {
 	MainTime.Update();
 
 	float DeltaTime = MainTime.GetDeltaTime();
 
+	GameEngineInput::Update(DeltaTime);
+
 	CoreObject->Update(DeltaTime);
 }
 
-void GameEngineCore::Release() 
+void GameEngineCore::Release()
 {
 	CoreObject->Release();
 }
