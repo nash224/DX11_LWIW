@@ -4,17 +4,35 @@
     <Filter Include="PreCompile">
       <UniqueIdentifier>{fc73cb97-b3e5-40f0-8e1b-8a3c3e01b6e9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Level">
+      <UniqueIdentifier>{f9f5e942-1124-4dab-8d39-885487c0391d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object">
+      <UniqueIdentifier>{c263a5d1-2bcc-4e34-914f-81e4a427a608}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
       <Filter>PreCompile</Filter>
     </ClInclude>
     <ClInclude Include="ContentsCore.h" />
+    <ClInclude Include="..\..\AR47\Directx\AR47DX\GameEngineContents\Player.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AR47\Directx\AR47DX\GameEngineContents\PlayLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
       <Filter>PreCompile</Filter>
     </ClCompile>
     <ClCompile Include="ContentsCore.cpp" />
+    <ClCompile Include="..\..\AR47\Directx\AR47DX\GameEngineContents\Player.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AR47\Directx\AR47DX\GameEngineContents\PlayLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

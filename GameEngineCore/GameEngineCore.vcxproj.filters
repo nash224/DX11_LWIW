@@ -17,6 +17,15 @@
     <ClInclude Include="GameEngineObject.h">
       <Filter>Object</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineTransform.h">
+      <Filter>Object\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineRenderer.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineCamera.h">
+      <Filter>Render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineCore.cpp" />
@@ -35,6 +44,15 @@
     <ClCompile Include="GameEngineObject.cpp">
       <Filter>Object</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineTransform.cpp">
+      <Filter>Object\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineRenderer.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineCamera.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
@@ -42,6 +60,12 @@
     </Filter>
     <Filter Include="Object">
       <UniqueIdentifier>{2b770bc8-8870-4544-8923-e18e0b35b380}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Transform">
+      <UniqueIdentifier>{8b113f45-4a39-440b-a3b5-f038900f5b54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render">
+      <UniqueIdentifier>{9e4ca4d9-c35e-4a6a-b7a1-aa5000abe39e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

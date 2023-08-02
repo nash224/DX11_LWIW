@@ -1,7 +1,9 @@
 #pragma once
+#include "GameEngineObject.h"
+#include <list>
 
 // 설명 :
-class GameEngineActor
+class GameEngineActor : public GameEngineObject
 {
 public:
 	// constrcuter destructer
@@ -17,6 +19,9 @@ public:
 protected:
 
 private:
+	// 다형성은 무조건 위쪽을 가질수록 범용성이 높아집니다.
+	// 그리고 + 이런 기능은 
+	// Renderer와 Collision : GameEngineComponent
 
 };
 

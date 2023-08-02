@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineCore/GameEngineObject.h>
+#include <GameEngineCore/GameEngineCore.h>
 
 // Ό³Έν :
 class ContentsCore : public GameEngineObject
@@ -12,7 +13,7 @@ public:
 
 	static float4 GetStartWindowSize()
 	{
-		return {1280, 720};
+		return { 1280, 720 };
 	}
 
 	static float4 GetStartWindowPos()
