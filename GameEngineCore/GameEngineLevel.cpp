@@ -2,12 +2,31 @@
 #include "GameEngineLevel.h"
 #include "GameEngineCore.h"
 #include "GameEngineActor.h"
+#include "GameEngineCamera.h"
 
-GameEngineLevel::GameEngineLevel() 
+GameEngineLevel::GameEngineLevel()
 {
+	// Main
+	{
+		std::shared_ptr<GameEngineCamera> NewCamera = CreateCamera(0, 0);
+	}
+
+	{
+		std::shared_ptr<GameEngineCamera> NewCamera = CreateCamera(0, 100);
+	}
+
+	// UIÄ«¸Þ¶ó
+	// CreateActor<GameEngineCamera>(100);
 }
 
-GameEngineLevel::~GameEngineLevel() 
+std::shared_ptr<GameEngineCamera> GameEngineLevel::CreateCamera(int _Order, int _CameraOrder)
+{
+	std::shared_ptr<GameEngineCamera> NewCamera = CreateActor<GameEngineCamera>(_Order);
+	NewCamera->SetCameraOrder(_CameraOrder);
+	return NewCamera;
+}
+
+GameEngineLevel::~GameEngineLevel()
 {
 }
 
@@ -35,5 +54,13 @@ void GameEngineLevel::AllUpdate(float _Delta)
 
 void GameEngineLevel::ActorRelease()
 {
-	
+
+}
+
+
+void GameEngineLevel::ActorInit(std::shared_ptr<class GameEngineActor> _Actor, int _Order)
+{
+	_Actor->SetParent(this);
+	_Actor->Start();
+	Childs[_Order].push_back(_Actor);
 }

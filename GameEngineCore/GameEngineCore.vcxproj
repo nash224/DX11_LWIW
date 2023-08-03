@@ -23,6 +23,7 @@
     <ClInclude Include="GameEngineCamera.h" />
     <ClInclude Include="GameEngineComponent.h" />
     <ClInclude Include="GameEngineCore.h" />
+    <ClInclude Include="GameEngineCoreObject.h" />
     <ClInclude Include="GameEngineLevel.h" />
     <ClInclude Include="GameEngineObject.h" />
     <ClInclude Include="GameEngineRenderer.h" />
@@ -34,6 +35,7 @@
     <ClCompile Include="GameEngineCamera.cpp" />
     <ClCompile Include="GameEngineComponent.cpp" />
     <ClCompile Include="GameEngineCore.cpp" />
+    <ClCompile Include="GameEngineCoreObject.cpp" />
     <ClCompile Include="GameEngineLevel.cpp" />
     <ClCompile Include="GameEngineObject.cpp" />
     <ClCompile Include="GameEngineRenderer.cpp" />
