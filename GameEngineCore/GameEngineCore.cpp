@@ -14,20 +14,20 @@ std::map<std::string, std::shared_ptr<GameEngineLevel>> GameEngineCore::AllLevel
 
 
 
-GameEngineCore::GameEngineCore() 
+GameEngineCore::GameEngineCore()
 {
 }
 
-GameEngineCore::~GameEngineCore() 
+GameEngineCore::~GameEngineCore()
 {
 }
 
-void GameEngineCore::Start() 
+void GameEngineCore::Start()
 {
 	CoreObject->Start();
 }
 
-void GameEngineCore::Update() 
+void GameEngineCore::Update()
 {
 
 	if (nullptr != NextLevel)
@@ -64,11 +64,20 @@ void GameEngineCore::Update()
 		GameEngineInput::Reset();
 	}
 
-	// 한프레임 동안은 절대로 기본적인 세팅의 
-	// 변화가 없게 하려고 하는 설계의도가 있는것.
-	// 이걸 호출한 애는 PlayLevel
 	CurLevel->AddLiveTime(DeltaTime);
 	CurLevel->AllUpdate(DeltaTime);
+
+	HDC DC;
+	{
+		DC = GameEngineCore::MainWindow.GetBackBuffer()->GetImageDC();
+		float4 WinScale = GameEngineCore::MainWindow.GetScale();
+		Rectangle(DC, 0, 0, WinScale.iX(), WinScale.iY());
+	}
+
+	CurLevel->Render(DeltaTime);
+
+	GameEngineCore::MainWindow.DoubleBuffering();
+
 	// GameEngineWindow::MainWindow.ClearBackBuffer();
 	// CurLevel->ActorRender(Delta);
 	// CurLevel->Render(Delta);
@@ -77,7 +86,7 @@ void GameEngineCore::Update()
 	// CurLevel->ActorRelease();
 }
 
-void GameEngineCore::Release() 
+void GameEngineCore::Release()
 {
 	CoreObject->Release();
 }

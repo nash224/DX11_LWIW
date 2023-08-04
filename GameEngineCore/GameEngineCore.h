@@ -8,6 +8,9 @@ class GameEngineCore
 	friend class GameEngineLevel;
 
 public:
+	static GameEngineTime MainTime;
+	static GameEngineWindow MainWindow;
+
 	// constrcuter destructer
 	GameEngineCore();
 	~GameEngineCore();
@@ -21,7 +24,7 @@ public:
 
 	// GameEngineCoreObject를 상속받은 클래스만 템플릿으로 사용 가능하다.
 	template<typename ObjectType>
-	static void EngineStart(HINSTANCE _Inst) 
+	static void EngineStart(HINSTANCE _Inst)
 	{
 		CoreObject = std::make_shared<ObjectType>();
 		EngineProcess(_Inst, ObjectType::GetWindowTitle(), ObjectType::GetStartWindowPos(), ObjectType::GetStartWindowSize());
@@ -64,8 +67,6 @@ public:
 protected:
 
 private:
-	static GameEngineTime MainTime;
-	static GameEngineWindow MainWindow;
 
 
 	static void EngineProcess(HINSTANCE _Inst, const std::string& _Name, float4 _Pos, float4 _Size);
@@ -81,7 +82,7 @@ private:
 	static void Start();
 	static void Update();
 	static void Release();
-	
+
 
 
 };

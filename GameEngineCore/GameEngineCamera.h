@@ -30,6 +30,10 @@ public:
 protected:
 	void Start() override;
 
+	void Update(float _Delta);
+
+	void Render(float _DeltaTime);
+
 private:
 	int CameraOrder = 0;
 
