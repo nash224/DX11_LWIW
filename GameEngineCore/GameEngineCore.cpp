@@ -7,6 +7,7 @@
 std::shared_ptr<GameEngineObject> GameEngineCore::CoreObject;
 GameEngineTime GameEngineCore::MainTime;
 GameEngineWindow GameEngineCore::MainWindow;
+GameEngineDevice GameEngineCore::MainDevcie;
 
 std::shared_ptr<GameEngineLevel> GameEngineCore::CurLevel;
 std::shared_ptr<GameEngineLevel> GameEngineCore::NextLevel;
@@ -14,20 +15,20 @@ std::map<std::string, std::shared_ptr<GameEngineLevel>> GameEngineCore::AllLevel
 
 
 
-GameEngineCore::GameEngineCore()
+GameEngineCore::GameEngineCore() 
 {
 }
 
-GameEngineCore::~GameEngineCore()
+GameEngineCore::~GameEngineCore() 
 {
 }
 
-void GameEngineCore::Start()
+void GameEngineCore::Start() 
 {
 	CoreObject->Start();
 }
 
-void GameEngineCore::Update()
+void GameEngineCore::Update() 
 {
 
 	if (nullptr != NextLevel)
@@ -67,16 +68,20 @@ void GameEngineCore::Update()
 	CurLevel->AddLiveTime(DeltaTime);
 	CurLevel->AllUpdate(DeltaTime);
 
-	HDC DC;
-	{
-		DC = GameEngineCore::MainWindow.GetBackBuffer()->GetImageDC();
-		float4 WinScale = GameEngineCore::MainWindow.GetScale();
-		Rectangle(DC, 0, 0, WinScale.iX(), WinScale.iY());
-	}
+	//HDC DC;
+	//{
+	//	DC = GameEngineCore::MainWindow.GetBackBuffer()->GetImageDC();
+	//	float4 WinScale = GameEngineCore::MainWindow.GetScale();
+	//	Rectangle(DC, 0, 0, WinScale.iX(), WinScale.iY());
+	//}
+
+	MainDevcie.RenderStart();
 
 	CurLevel->Render(DeltaTime);
 
-	GameEngineCore::MainWindow.DoubleBuffering();
+	MainDevcie.RenderEnd();
+
+	// GameEngineCore::MainWindow.DoubleBuffering();
 
 	// GameEngineWindow::MainWindow.ClearBackBuffer();
 	// CurLevel->ActorRender(Delta);
@@ -86,7 +91,7 @@ void GameEngineCore::Update()
 	// CurLevel->ActorRelease();
 }
 
-void GameEngineCore::Release()
+void GameEngineCore::Release() 
 {
 	CoreObject->Release();
 }
@@ -99,6 +104,9 @@ void GameEngineCore::EngineProcess(HINSTANCE _Inst, const std::string& _WindowNa
 	// 윈도우 만들고
 	MainWindow.Open(_WindowName, _Inst);
 	MainWindow.SetPosAndScale(_Pos, _Size);
+
+	// 3D 디바이스를 그 윈도우를 기반으로 만든다.
+	MainDevcie.Initiallize(MainWindow);
 
 	// 시간이나 타임
 	GameEngineWindow::MessageLoop(_Inst, Start, Update, Release);

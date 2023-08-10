@@ -7,11 +7,11 @@
 #include "GameEngineCore.h"
 #include <GameEnginePlatform/GameEngineWindow.h>
 
-GameEngineRenderer::GameEngineRenderer()
+GameEngineRenderer::GameEngineRenderer() 
 {
 }
 
-GameEngineRenderer::~GameEngineRenderer()
+GameEngineRenderer::~GameEngineRenderer() 
 {
 }
 
@@ -49,7 +49,6 @@ void GameEngineRenderer::Render(GameEngineCamera* _Camera, float _Delta)
 	{
 		// 아래있는 이녀석들이 리소스라면
 		// 이녀석들은 지금
-
 		std::vector<float4> Vertex;
 		Vertex.resize(4 * 6);
 
@@ -97,9 +96,9 @@ void GameEngineRenderer::Render(GameEngineCamera* _Camera, float _Delta)
 
 
 
-		std::vector<int> Index =
+		std::vector<int> Index = 
 		{
-			0, 1, 2,
+			0, 1, 2, 
 			0, 2, 3,
 			0 + 4, 1 + 4, 2 + 4,
 			0 + 4, 2 + 4, 3 + 4,
