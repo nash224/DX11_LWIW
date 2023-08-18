@@ -3,15 +3,20 @@
 #include "GameEngineLevel.h"
 #include "GameEngineActor.h"
 #include "GameEngineCamera.h"
+#include "GameEngineVertex.h"
 
 #include "GameEngineCore.h"
 #include <GameEnginePlatform/GameEngineWindow.h>
 
-GameEngineRenderer::GameEngineRenderer() 
+#include "GameEngineVertexBuffer.h"
+#include "GameEngineInputLayOut.h"
+#include "GameEngineVertexShader.h"
+
+GameEngineRenderer::GameEngineRenderer()
 {
 }
 
-GameEngineRenderer::~GameEngineRenderer() 
+GameEngineRenderer::~GameEngineRenderer()
 {
 }
 
@@ -47,17 +52,82 @@ int A = 0;
 void GameEngineRenderer::Render(GameEngineCamera* _Camera, float _Delta)
 {
 	{
-		// 아래있는 이녀석들이 리소스라면
-		// 이녀석들은 지금
-		std::vector<float4> Vertex;
+		// 인풋어셈블러1 버텍스 버퍼 세팅
+		std::shared_ptr<GameEngineVertexBuffer> VertexBuffer = GameEngineVertexBuffer::Find("Rect");
+		if (nullptr != VertexBuffer)
+		{
+			VertexBuffer->Setting();
+		}
+
+
+
+		std::shared_ptr<GameEngineVertexShader> VertexShader = GameEngineVertexShader::Find("ColorShader_VS");
+		if (nullptr != VertexShader && nullptr != VertexBuffer && nullptr == LayOut)
+		{
+			LayOut = std::make_shared<GameEngineInputLayOut>();
+
+			std::vector<D3D11_INPUT_ELEMENT_DESC> ArrLayOutInfo;
+
+			{
+				D3D11_INPUT_ELEMENT_DESC Data;
+				Data.SemanticName = "POSITION";
+				// 0바이트부터 시작하는
+				Data.AlignedByteOffset = 0;
+				// 16바이트짜리 자료형이야.
+				Data.Format = DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT;
+				// 버텍스 데이터용 레이아웃이야
+				// 점세팅의 구조를 설명하기 위한 레이아웃이야.
+				Data.InputSlotClass = D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA;
+
+				// 지금은 알아도 크게 의미 없음
+				Data.SemanticIndex = 0;
+				Data.InputSlot = 0;
+				Data.InstanceDataStepRate = 0;
+				ArrLayOutInfo.push_back(Data);
+			}
+
+			{
+				D3D11_INPUT_ELEMENT_DESC Data;
+				Data.SemanticName = "COLOR";
+				// 0바이트부터 시작하는
+				Data.AlignedByteOffset = 16;
+				// 16바이트짜리 자료형이야.
+				Data.Format = DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT;
+				// 버텍스 데이터용 레이아웃이야
+				// 점세팅의 구조를 설명하기 위한 레이아웃이야.
+				Data.InputSlotClass = D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA;
+
+				// 지금은 알아도 크게 의미 없음
+				Data.SemanticIndex = 0;
+				Data.InputSlot = 0;
+				Data.InstanceDataStepRate = 0;
+				ArrLayOutInfo.push_back(Data);
+			}
+
+			LayOut->ResCreate(ArrLayOutInfo, VertexShader);
+
+			// 레이아웃
+		}
+
+
+
+		// 버텍스 쉐이더 세팅
+		if (nullptr != VertexShader)
+		{
+			VertexShader->Setting();
+		}
+
+
+
+		std::vector<GameEngineVertex2D> Vertex;
 		Vertex.resize(4 * 6);
 
-		float4 BaseVertexs[4];
+		GameEngineVertex2D BaseVertexs[4];
 
-		BaseVertexs[0] = { -0.5f, -0.5f, -0.5f, 1.0f };
-		BaseVertexs[1] = { 0.5f, -0.5f, -0.5f, 1.0f };
-		BaseVertexs[2] = { 0.5f, 0.5f, -0.5f, 1.0f };
-		BaseVertexs[3] = { -0.5f, 0.5f, -0.5f, 1.0f };
+		BaseVertexs[0] = { { -0.5f, -0.5f, -0.5f, 1.0f } };
+		BaseVertexs[1] = { { 0.5f, -0.5f, -0.5f, 1.0f } };
+		BaseVertexs[2] = { { 0.5f, 0.5f, -0.5f, 1.0f } };
+		BaseVertexs[3] = { { -0.5f, 0.5f, -0.5f, 1.0f } };
 
 		// 앞면
 		Vertex[0] = BaseVertexs[0];
@@ -66,39 +136,38 @@ void GameEngineRenderer::Render(GameEngineCamera* _Camera, float _Delta)
 		Vertex[3] = BaseVertexs[3];
 
 		// 뒷면
-		Vertex[4] = float4::VectorRotationToDegX(BaseVertexs[0], 180.0f);
-		Vertex[5] = float4::VectorRotationToDegX(BaseVertexs[1], 180.0f);
-		Vertex[6] = float4::VectorRotationToDegX(BaseVertexs[2], 180.0f);
-		Vertex[7] = float4::VectorRotationToDegX(BaseVertexs[3], 180.0f);
+		Vertex[4].POSITION = float4::VectorRotationToDegX(BaseVertexs[0].POSITION, 180.0f);
+		Vertex[5].POSITION = float4::VectorRotationToDegX(BaseVertexs[1].POSITION, 180.0f);
+		Vertex[6].POSITION = float4::VectorRotationToDegX(BaseVertexs[2].POSITION, 180.0f);
+		Vertex[7].POSITION = float4::VectorRotationToDegX(BaseVertexs[3].POSITION, 180.0f);
 
 		// 왼쪽이나 오른쪽
-		Vertex[8] = float4::VectorRotationToDegY(BaseVertexs[0], 90.0f);
-		Vertex[9] = float4::VectorRotationToDegY(BaseVertexs[1], 90.0f);
-		Vertex[10] = float4::VectorRotationToDegY(BaseVertexs[2], 90.0f);
-		Vertex[11] = float4::VectorRotationToDegY(BaseVertexs[3], 90.0f);
+		Vertex[8].POSITION = float4::VectorRotationToDegY(BaseVertexs[0].POSITION, 90.0f);
+		Vertex[9].POSITION = float4::VectorRotationToDegY(BaseVertexs[1].POSITION, 90.0f);
+		Vertex[10].POSITION = float4::VectorRotationToDegY(BaseVertexs[2].POSITION, 90.0f);
+		Vertex[11].POSITION = float4::VectorRotationToDegY(BaseVertexs[3].POSITION, 90.0f);
 
 		// 왼쪽이나 오른쪽
-		Vertex[12] = float4::VectorRotationToDegY(BaseVertexs[0], -90.0f);
-		Vertex[13] = float4::VectorRotationToDegY(BaseVertexs[1], -90.0f);
-		Vertex[14] = float4::VectorRotationToDegY(BaseVertexs[2], -90.0f);
-		Vertex[15] = float4::VectorRotationToDegY(BaseVertexs[3], -90.0f);
+		Vertex[12].POSITION = float4::VectorRotationToDegY(BaseVertexs[0].POSITION, -90.0f);
+		Vertex[13].POSITION = float4::VectorRotationToDegY(BaseVertexs[1].POSITION, -90.0f);
+		Vertex[14].POSITION = float4::VectorRotationToDegY(BaseVertexs[2].POSITION, -90.0f);
+		Vertex[15].POSITION = float4::VectorRotationToDegY(BaseVertexs[3].POSITION, -90.0f);
 
 		// 위거나 아래
-		Vertex[16] = float4::VectorRotationToDegX(BaseVertexs[0], 90.0f);
-		Vertex[17] = float4::VectorRotationToDegX(BaseVertexs[1], 90.0f);
-		Vertex[18] = float4::VectorRotationToDegX(BaseVertexs[2], 90.0f);
-		Vertex[19] = float4::VectorRotationToDegX(BaseVertexs[3], 90.0f);
+		Vertex[16].POSITION = float4::VectorRotationToDegX(BaseVertexs[0].POSITION, 90.0f);
+		Vertex[17].POSITION = float4::VectorRotationToDegX(BaseVertexs[1].POSITION, 90.0f);
+		Vertex[18].POSITION = float4::VectorRotationToDegX(BaseVertexs[2].POSITION, 90.0f);
+		Vertex[19].POSITION = float4::VectorRotationToDegX(BaseVertexs[3].POSITION, 90.0f);
 
-		Vertex[20] = float4::VectorRotationToDegX(BaseVertexs[0], -90.0f);
-		Vertex[21] = float4::VectorRotationToDegX(BaseVertexs[1], -90.0f);
-		Vertex[22] = float4::VectorRotationToDegX(BaseVertexs[2], -90.0f);
-		Vertex[23] = float4::VectorRotationToDegX(BaseVertexs[3], -90.0f);
+		Vertex[20].POSITION = float4::VectorRotationToDegX(BaseVertexs[0].POSITION, -90.0f);
+		Vertex[21].POSITION = float4::VectorRotationToDegX(BaseVertexs[1].POSITION, -90.0f);
+		Vertex[22].POSITION = float4::VectorRotationToDegX(BaseVertexs[2].POSITION, -90.0f);
+		Vertex[23].POSITION = float4::VectorRotationToDegX(BaseVertexs[3].POSITION, -90.0f);
 
 
-
-		std::vector<int> Index = 
+		std::vector<int> Index =
 		{
-			0, 1, 2, 
+			0, 1, 2,
 			0, 2, 3,
 			0 + 4, 1 + 4, 2 + 4,
 			0 + 4, 2 + 4, 3 + 4,
@@ -133,10 +202,11 @@ void GameEngineRenderer::Render(GameEngineCamera* _Camera, float _Delta)
 			for (size_t VertexCount = 0; VertexCount < Tri.size(); VertexCount++)
 			{
 				// 위치를 더해줌으로해서 월드 상태로 이전시켰다고 한다.
-				float4 WorldPoint = Vertex[ArrIndex[VertexCount]];
+				float4 WorldPoint = Vertex[ArrIndex[VertexCount]].POSITION;
 
 				//변환식은 이제 딱 한가지 인것.
-				WorldPoint = WorldPoint * TransDataRef.WorldViewPorjectionMatrix;
+				// 버텍스 쉐이더
+				// WorldPoint = WorldPoint * TransDataRef.WorldViewPorjectionMatrix;
 
 				WorldPoint /= WorldPoint.W;
 				WorldPoint.W = 1.0f;

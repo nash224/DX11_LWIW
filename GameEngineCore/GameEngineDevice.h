@@ -32,7 +32,7 @@ public:
 	// 
 	void Initiallize(const class GameEngineWindow& _Window);
 
-	ID3D11Device* GetDevice() 
+	ID3D11Device* GetDevice()
 	{
 		return Device;
 	}
@@ -71,5 +71,7 @@ private:
 	void RenderEnd();
 
 	void CreateSwapChain();
+
+	void ResourcesInit();
 };
 
