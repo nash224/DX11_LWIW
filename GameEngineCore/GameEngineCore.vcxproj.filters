@@ -59,6 +59,10 @@
     <ClInclude Include="GameEngineDirectBuffer.h">
       <Filter>Resources\Buffer</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineRasterizer.h" />
+    <ClInclude Include="GameEngineIndexBuffer.h">
+      <Filter>Resources\Buffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineCore.cpp" />
@@ -121,6 +125,10 @@
     </ClCompile>
     <ClCompile Include="GameEngineDevice_Resources.cpp">
       <Filter>Device</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineRasterizer.cpp" />
+    <ClCompile Include="GameEngineIndexBuffer.cpp">
+      <Filter>Resources\Buffer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

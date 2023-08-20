@@ -8,11 +8,19 @@ class GameEngineVertex2D
 public:
 	static GameEngineInputLayOutInfo VertexInfo;
 
+	// 내가 얼마든지 바꿀수 있다.
 public:
 	float4 POSITION;
 	float4 COLOR;
 };
 
+//struct Vertex
+//{
+//    float4 Pos0 : POSITION0;
+//    float4 Pos1 : POSITION1;
+//    float4 COLOR : COLOR;
+//    float4 COLOR : TEXCOORD;
+//};
 
 class GameEngine3DVertex
 {

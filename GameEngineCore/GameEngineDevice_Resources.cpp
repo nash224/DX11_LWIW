@@ -3,11 +3,13 @@
 
 #include "GameEngineVertex.h"
 #include "GameEngineVertexBuffer.h"
+#include "GameEngineIndexBuffer.h"
 #include "GameEngineShader.h"
 #include "GameEngineVertexShader.h"
 
 void GameEngineDevice::ResourcesInit()
 {
+
 	// 엔진수준에서 지원해주는 가장 기초적인 리소스들은 여기에서 만들어질 겁니다.
 	// 기본 매쉬
 	// 기본 텍스처
@@ -91,5 +93,14 @@ void GameEngineDevice::ResourcesInit()
 		BaseVertexs[3] = { { -0.5f, 0.5f, -0.5f, 1.0f } };
 
 		GameEngineVertexBuffer::Create("Rect", Vertex);
+
+
+		std::vector<unsigned int> Index =
+		{
+			0, 1, 2,
+			0, 2, 3
+		};
+
+		GameEngineIndexBuffer::Create("Rect", Index);
 	}
 }

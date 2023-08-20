@@ -9,7 +9,6 @@ GameEngineVertexBuffer::~GameEngineVertexBuffer()
 {
 }
 
-
 void GameEngineVertexBuffer::ResCreate(const void* _Data, size_t _VertexSize, size_t _VertexCount)
 {
 	size_t VertexSize = _VertexSize;

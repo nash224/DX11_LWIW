@@ -7,6 +7,11 @@ GameEngineVertexShader::GameEngineVertexShader()
 
 GameEngineVertexShader::~GameEngineVertexShader()
 {
+	if (nullptr != ShaderPtr)
+	{
+		ShaderPtr->Release();
+		ShaderPtr = nullptr;
+	}
 }
 
 void GameEngineVertexShader::ShaderLoad(

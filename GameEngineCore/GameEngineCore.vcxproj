@@ -29,12 +29,17 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineIndexBuffer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineInputLayOut.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="GameEngineLevel.h" />
     <ClInclude Include="GameEngineObject.h" />
+    <ClInclude Include="GameEngineRasterizer.h" />
     <ClInclude Include="GameEngineRenderer.h" />
     <ClInclude Include="GameEngineRenderTarget.h" />
     <ClInclude Include="GameEngineResources.h" />
@@ -70,12 +75,17 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameEngineIndexBuffer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameEngineInputLayOut.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEngineLevel.cpp" />
     <ClCompile Include="GameEngineObject.cpp" />
+    <ClCompile Include="GameEngineRasterizer.cpp" />
     <ClCompile Include="GameEngineRenderer.cpp" />
     <ClCompile Include="GameEngineRenderTarget.cpp" />
     <ClCompile Include="GameEngineResources.cpp" />

@@ -6,6 +6,8 @@
 class GameEngineVertexBuffer :
 	public GameEngineResources<GameEngineVertexBuffer>, public GameEngineDirectBuffer
 {
+	friend class GameEngineInputLayOut;
+
 public:
 	// constrcuter destructer
 	GameEngineVertexBuffer();
@@ -22,6 +24,7 @@ public:
 	{
 		std::shared_ptr<GameEngineVertexBuffer> Res = GameEngineResources::CreateRes(_Name);
 		Res->ResCreate(&_Data[0], sizeof(VertexType), _Data.size());
+		Res->VertexInfoPtr = &VertexType::VertexInfo;
 		return nullptr;
 	}
 
@@ -30,6 +33,8 @@ public:
 protected:
 
 private:
+	const class GameEngineInputLayOutInfo* VertexInfoPtr;
+
 	//                                점1개의 크기가 얼마? 점 개수가 몇개냐.,
 	void ResCreate(const void* _Data, size_t _VertexSize, size_t _VertexCount);
 
