@@ -1,14 +1,18 @@
 #include "PreCompile.h"
 #include "GameEngineRasterizer.h"
 
-GameEngineRasterizer::GameEngineRasterizer() 
+GameEngineRasterizer::GameEngineRasterizer()
 {
 }
 
-GameEngineRasterizer::~GameEngineRasterizer() 
+GameEngineRasterizer::~GameEngineRasterizer()
 {
+	if (nullptr != State)
+	{
+		State->Release();
+		State = nullptr;
+	}
 }
-
 
 void GameEngineRasterizer::ResCreate(const D3D11_RASTERIZER_DESC& _Desc)
 {

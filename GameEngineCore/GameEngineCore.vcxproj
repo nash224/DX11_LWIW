@@ -39,6 +39,10 @@
     </ClInclude>
     <ClInclude Include="GameEngineLevel.h" />
     <ClInclude Include="GameEngineObject.h" />
+    <ClInclude Include="GameEnginePixelShader.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineRasterizer.h" />
     <ClInclude Include="GameEngineRenderer.h" />
     <ClInclude Include="GameEngineRenderTarget.h" />
@@ -85,6 +89,10 @@
     </ClCompile>
     <ClCompile Include="GameEngineLevel.cpp" />
     <ClCompile Include="GameEngineObject.cpp" />
+    <ClCompile Include="GameEnginePixelShader.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameEngineRasterizer.cpp" />
     <ClCompile Include="GameEngineRenderer.cpp" />
     <ClCompile Include="GameEngineRenderTarget.cpp" />
