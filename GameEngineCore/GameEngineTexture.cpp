@@ -2,6 +2,12 @@
 #include "GameEngineTexture.h"
 #include "GameEngineCore.h"
 
+#ifdef _DEBUG
+#pragma comment(lib, "..\\GameEngineCore\\ThirdParty\\DirectXTex\\lib\\Debug\\DirectXTex.lib")
+#else
+#pragma comment(lib, "..\\GameEngineCore\\ThirdParty\\DirectXTex\\lib\\Release\\DirectXTex.lib")
+#endif
+
 GameEngineTexture::GameEngineTexture()
 {
 }
@@ -48,5 +54,11 @@ void GameEngineTexture::CreateRenderTargetView()
 
 void GameEngineTexture::ResLoad(std::string_view _Path)
 {
+	// 팩토리니 어뎁터니 
+
+	// png 및 다수의 이미지를 로드 가능한 함수 
+
+	DirectX::LoadFromWICFile(L"안될거 뻔함", DirectX::WIC_FLAGS_NONE, &Data, Image);
+
 	int a = 0;
 }

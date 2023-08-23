@@ -1,6 +1,8 @@
 #pragma once
 #include "GameEngineResources.h"
 
+#include "..\\GameEngineCore\\ThirdParty\\DirectXTex\\inc\\DirectXTex.h"
+
 // 설명 :
 class GameEngineTexture : public GameEngineResources<GameEngineTexture>
 {
@@ -41,6 +43,9 @@ protected:
 private:
 	ID3D11Texture2D* Texture2D = nullptr;
 	ID3D11RenderTargetView* RTV = nullptr; // 이 텍스처를 수정대상으로 삼거나 수정할수 있는 권한.
+
+	DirectX::TexMetadata Data;
+	DirectX::ScratchImage Image;
 
 	void ResLoad(std::string_view _Path);
 };
