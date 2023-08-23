@@ -2,11 +2,11 @@
 #include "GameEngineTexture.h"
 #include "GameEngineCore.h"
 
-GameEngineTexture::GameEngineTexture() 
+GameEngineTexture::GameEngineTexture()
 {
 }
 
-GameEngineTexture::~GameEngineTexture() 
+GameEngineTexture::~GameEngineTexture()
 {
 	if (nullptr != RTV)
 	{
@@ -36,7 +36,7 @@ void GameEngineTexture::CreateRenderTargetView()
 
 	// 이미지를 수정할수 있는 권한을 '만든다'
 
-	HRESULT Result = GameEngineCore::MainDevcie.GetDevice()->CreateRenderTargetView(Texture2D, nullptr, &RTV);
+	HRESULT Result = GameEngineCore::GetDevice()->CreateRenderTargetView(Texture2D, nullptr, &RTV);
 
 	if (S_OK != Result)
 	{
@@ -44,4 +44,9 @@ void GameEngineTexture::CreateRenderTargetView()
 		return;
 	}
 
+}
+
+void GameEngineTexture::ResLoad(std::string_view _Path)
+{
+	int a = 0;
 }

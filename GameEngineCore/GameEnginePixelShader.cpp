@@ -15,8 +15,8 @@ GameEnginePixelShader::~GameEnginePixelShader()
 }
 
 void GameEnginePixelShader::ShaderLoad(
-	const std::string_view& _Path,
-	const std::string_view& _EntryPoint,
+	std::string_view _Path,
+	std::string_view _EntryPoint,
 	UINT _VersionHight,
 	UINT _VersionLow)
 {
@@ -65,7 +65,7 @@ void GameEnginePixelShader::ShaderLoad(
 	}
 
 
-	Result = GameEngineCore::MainDevcie.GetDevice()->CreatePixelShader(
+	Result = GameEngineCore::GetDevice()->CreatePixelShader(
 		BinaryCode->GetBufferPointer(),
 		BinaryCode->GetBufferSize(),
 		nullptr,
@@ -79,5 +79,5 @@ void GameEnginePixelShader::ShaderLoad(
 
 void GameEnginePixelShader::Setting()
 {
-	GameEngineCore::MainDevcie.GetContext()->PSSetShader(ShaderPtr, nullptr, 0);
+	GameEngineCore::GetContext()->PSSetShader(ShaderPtr, nullptr, 0);
 }

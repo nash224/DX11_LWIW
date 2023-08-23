@@ -15,6 +15,7 @@
 #include "GameEngineRasterizer.h"
 #include "GameEnginePixelShader.h"
 #include "GameEngineRenderTarget.h"
+#include "GameEngineConstantBuffer.h"
 
 GameEngineRenderer::GameEngineRenderer()
 {
@@ -53,7 +54,16 @@ void GameEngineRenderer::SetViewCameraSelect(int _Order)
 
 void GameEngineRenderer::Render(GameEngineCamera* _Camera, float _Delta)
 {
+	ResSetting();
+	Draw();
+}
+
+void GameEngineRenderer::ResSetting()
+{
+
 	{
+		float4x4 WorldViewProjection = Transform.GetWorldViewPorjectionMatrix();
+
 		// 인풋어셈블러1 버텍스 버퍼 세팅
 		std::shared_ptr<GameEngineVertexBuffer> VertexBuffer = GameEngineVertexBuffer::Find("Rect");
 		if (nullptr != VertexBuffer)
@@ -69,6 +79,17 @@ void GameEngineRenderer::Render(GameEngineCamera* _Camera, float _Delta)
 			LayOut = std::make_shared<GameEngineInputLayOut>();
 			LayOut->ResCreate(VertexBuffer, VertexShader);
 		}
+
+		std::shared_ptr<GameEngineConstantBuffer> Buffer = GameEngineConstantBuffer::CreateAndFind(sizeof(TransformData), "TransformData");
+
+		if (nullptr != Buffer)
+		{
+			const TransformData& Data = Transform.GetConstTransformDataRef();
+			Buffer->ChangeData(Data);
+			Buffer->Setting();
+		}
+
+
 
 		if (nullptr != LayOut)
 		{
@@ -93,7 +114,7 @@ void GameEngineRenderer::Render(GameEngineCamera* _Camera, float _Delta)
 		// D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST
 		// 선의 배열로 보고 그려라.
 		// D3D11_PRIMITIVE_TOPOLOGY_LINELIST
-		GameEngineCore::MainDevcie.GetContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		GameEngineCore::GetContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 
 		// 나중에 아웃풋 머저 때문에 그렇습니다.
@@ -108,7 +129,7 @@ void GameEngineRenderer::Render(GameEngineCamera* _Camera, float _Delta)
 		ViewPort.TopLeftX = 0.0f;
 		ViewPort.TopLeftY = 0.0f;
 
-		GameEngineCore::MainDevcie.GetContext()->RSSetViewports(1, &ViewPort);
+		GameEngineCore::GetContext()->RSSetViewports(1, &ViewPort);
 
 
 		std::shared_ptr<GameEngineRasterizer> Rasterizer = GameEngineRasterizer::Find("EngineRasterizer");
@@ -123,13 +144,31 @@ void GameEngineRenderer::Render(GameEngineCamera* _Camera, float _Delta)
 			PixelShader->Setting();
 		}
 
-		std::shared_ptr<class GameEngineRenderTarget> BackBufferRenderTarget = GameEngineCore::MainDevcie.GetBackBufferRenderTarget();
+		std::shared_ptr<class GameEngineRenderTarget> BackBufferRenderTarget = GameEngineCore::GetBackBufferRenderTarget();
 		if (nullptr != BackBufferRenderTarget)
 		{
 			BackBufferRenderTarget->Setting();
 		}
 
-		// 그린다.
 
+
+
+		// 세팅된 버텍스 버퍼로 그려라.
+		// 그린다라는 버튼을 누르지는 않은것.
+		// 이게 찍는 버튼이다.
+
+		// 그걸 다시 옵션을 줄수 있는데.
+		// 인덱스버퍼를 사용하는 경우 홏룰하는 DRAW함수이다.
 	}
+}
+
+
+void GameEngineRenderer::Draw()
+{
+	std::shared_ptr<GameEngineIndexBuffer> IndexBuffer = GameEngineIndexBuffer::Find("Rect");
+	if (nullptr == IndexBuffer)
+	{
+		return;
+	}
+	GameEngineCore::GetContext()->DrawIndexed(IndexBuffer->GetIndexCount(), 0, 0);
 }

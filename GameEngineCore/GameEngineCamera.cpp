@@ -93,8 +93,6 @@ void GameEngineCamera::Render(float _DeltaTime)
 
 		for (std::shared_ptr<class GameEngineRenderer> & Renderer : RendererList)
 		{
-			// Transform
-
 			Renderer->Transform.CalculationViewAndProjection(Transform.GetConstTransformDataRef());
 			Renderer->Render(this, _DeltaTime);
 		}

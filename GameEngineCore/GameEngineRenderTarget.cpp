@@ -16,7 +16,7 @@ void GameEngineRenderTarget::Clear()
 {
 	for (size_t i = 0; i < RTV.size(); i++)
 	{
-		GameEngineCore::MainDevcie.GetContext()->ClearRenderTargetView(RTV[i], ClearColor[i].Arr1D);
+		GameEngineCore::GetContext()->ClearRenderTargetView(RTV[i], ClearColor[i].Arr1D);
 	}
 }
 
@@ -28,5 +28,5 @@ void GameEngineRenderTarget::Setting()
 		return;
 	}
 
-	GameEngineCore::MainDevcie.GetContext()->OMSetRenderTargets(static_cast<UINT>(RTV.size()), &RTV[0], nullptr);
+	GameEngineCore::GetContext()->OMSetRenderTargets(static_cast<UINT>(RTV.size()), &RTV[0], nullptr);
 }

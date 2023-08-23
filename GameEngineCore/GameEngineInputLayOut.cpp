@@ -277,7 +277,7 @@ void GameEngineInputLayOutInfo::AddInputLayOutDesc(
 	{
 		Desc.AlignedByteOffset = Offset;
 		// 자동계산하라는 의미로 받아들인다.
-
+		
 	}
 	else {
 		Desc.AlignedByteOffset = _AlignedByteOffset;
@@ -288,11 +288,11 @@ void GameEngineInputLayOutInfo::AddInputLayOutDesc(
 	Infos.push_back(Desc);
 }
 
-GameEngineInputLayOut::GameEngineInputLayOut()
+GameEngineInputLayOut::GameEngineInputLayOut() 
 {
 }
 
-GameEngineInputLayOut::~GameEngineInputLayOut()
+GameEngineInputLayOut::~GameEngineInputLayOut() 
 {
 	if (nullptr != LayOut)
 	{
@@ -308,7 +308,7 @@ void GameEngineInputLayOut::ResCreate(
 {
 	const std::vector<D3D11_INPUT_ELEMENT_DESC>& Infos = _Buffer->VertexInfoPtr->Infos;
 
-	GameEngineCore::MainDevcie.GetDevice()->CreateInputLayout(
+	GameEngineCore::GetDevice()->CreateInputLayout(
 		&Infos[0],
 		static_cast<UINT>(Infos.size()),
 		_Shader->BinaryCode->GetBufferPointer(),
@@ -330,5 +330,5 @@ void GameEngineInputLayOut::Setting()
 	}
 
 	// 버텍스버퍼를 여러개 넣어줄수 있다.
-	GameEngineCore::MainDevcie.GetContext()->IASetInputLayout(LayOut);
+	GameEngineCore::GetContext()->IASetInputLayout(LayOut);
 }

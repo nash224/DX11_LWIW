@@ -111,7 +111,6 @@ public:
 	{
 		TransData.Position += _Value;
 		TransformUpdate();
-		
 	}
 
 
@@ -173,6 +172,11 @@ public:
 	}
 
 	void CalChilds();
+
+	float4x4 GetWorldViewPorjectionMatrix()
+	{
+		return TransData.WorldViewPorjectionMatrix;
+	}
 
 protected:
 

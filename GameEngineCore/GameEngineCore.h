@@ -11,7 +11,6 @@ class GameEngineCore
 public:
 	static GameEngineTime MainTime;
 	static GameEngineWindow MainWindow;
-	static GameEngineDevice MainDevcie;
 
 	// constrcuter destructer
 	GameEngineCore();
@@ -66,10 +65,25 @@ public:
 		NextLevel = Finditer->second;
 	}
 
+	static std::shared_ptr<class GameEngineRenderTarget> GetBackBufferRenderTarget()
+	{
+		return MainDevcie.GetBackBufferRenderTarget();
+	}
+
+	static ID3D11Device* GetDevice() 
+	{
+		return MainDevcie.GetDevice();
+	}
+
+	static ID3D11DeviceContext* GetContext()
+	{
+		return MainDevcie.GetContext();
+	}
+
 protected:
 
 private:
-
+	static GameEngineDevice MainDevcie;
 
 	static void EngineProcess(HINSTANCE _Inst, const std::string& _Name, float4 _Pos, float4 _Size);
 	static std::shared_ptr<GameEngineObject> CoreObject;

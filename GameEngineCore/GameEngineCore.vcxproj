@@ -22,6 +22,10 @@
     <ClInclude Include="GameEngineActor.h" />
     <ClInclude Include="GameEngineCamera.h" />
     <ClInclude Include="GameEngineComponent.h" />
+    <ClInclude Include="GameEngineConstantBuffer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineCore.h" />
     <ClInclude Include="GameEngineCoreObject.h" />
     <ClInclude Include="GameEngineDevice.h" />
@@ -51,6 +55,14 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineSprite.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEngineSpriteRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineTexture.h" />
     <ClInclude Include="GameEngineTransform.h" />
     <ClInclude Include="GameEngineVertex.h">
@@ -71,6 +83,10 @@
     <ClCompile Include="GameEngineActor.cpp" />
     <ClCompile Include="GameEngineCamera.cpp" />
     <ClCompile Include="GameEngineComponent.cpp" />
+    <ClCompile Include="GameEngineConstantBuffer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameEngineCore.cpp" />
     <ClCompile Include="GameEngineCoreObject.cpp" />
     <ClCompile Include="GameEngineDevice.cpp" />
@@ -98,6 +114,14 @@
     <ClCompile Include="GameEngineRenderTarget.cpp" />
     <ClCompile Include="GameEngineResources.cpp" />
     <ClCompile Include="GameEngineShader.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineSprite.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineSpriteRenderer.cpp">
       <SubType>
       </SubType>
     </ClCompile>
