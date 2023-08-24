@@ -24,6 +24,13 @@ public:
 		return NewRes;
 	}
 
+	static std::shared_ptr<GameEngineTexture> Load(std::string_view _Path)
+	{
+		GameEnginePath Path = _Path;
+
+		return Load(Path.GetStringPath(), Path.GetFileName());
+	}
+
 	static std::shared_ptr<GameEngineTexture> Load(std::string_view _Path, std::string_view _Name)
 	{
 		std::shared_ptr<GameEngineTexture> NewRes = CreateRes(_Name);
@@ -38,11 +45,28 @@ public:
 
 	void CreateRenderTargetView();
 
+	inline float4 GetScale()
+	{
+		return { static_cast<float>(Desc.Width), static_cast<float>(Desc.Height) };
+	}
+
+	inline ID3D11ShaderResourceView* GetSRV()
+	{
+		return SRV;
+	}
+
+	void VSSetting(UINT _Slot);
+	void PSSetting(UINT _Slot);
+
 protected:
 
 private:
+	D3D11_TEXTURE2D_DESC Desc; // 텍스처를 Create할때 정보인데. 그냥 load할때도 사용할것이다.
+
 	ID3D11Texture2D* Texture2D = nullptr;
+
 	ID3D11RenderTargetView* RTV = nullptr; // 이 텍스처를 수정대상으로 삼거나 수정할수 있는 권한.
+	ID3D11ShaderResourceView* SRV = nullptr; // 쉐이더에 세팅해줄수 있는 권한다.
 
 	DirectX::TexMetadata Data;
 	DirectX::ScratchImage Image;

@@ -11,7 +11,7 @@ public:
 	// 내가 얼마든지 바꿀수 있다.
 public:
 	float4 POSITION;
-	float4 COLOR;
+	float4 TEXCOORD;
 };
 
 //struct Vertex

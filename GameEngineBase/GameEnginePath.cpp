@@ -17,6 +17,11 @@ GameEnginePath::~GameEnginePath()
 {
 }
 
+std::string GameEnginePath::GetExtension()
+{
+	return Path.extension().string();
+}
+
 std::string GameEnginePath::GetFileName()
 {
 	return Path.filename().string();
