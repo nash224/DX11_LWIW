@@ -4,7 +4,7 @@
 // 부모자식관계를 처리한다.
 
 // 왜 굳이. 
-class TransformData 
+class TransformData
 {
 public:
 	// w가 0일때와 1일때의 차이를 잘 기억해놓자.
@@ -12,7 +12,7 @@ public:
 	float4 Scale = float4::ONENULL;
 	float4 Rotation = float4::ZERONULL;
 	float4 Position = float4::ZERO;
-	
+
 	float4 LocalScale;
 	float4 LocalRotation;
 	float4 LocalPosition;
@@ -37,7 +37,7 @@ public:
 	float4x4 ViewPort;
 
 	// 로컬 => 월드 => 뷰 => 프로젝션 
-	float4x4 WorldViewPorjectionMatrix;
+	float4x4 WorldViewProjectionMatrix;
 
 	void LocalCalculation()
 	{
@@ -50,7 +50,7 @@ public:
 
 	void WorldViewProjectionCalculation()
 	{
-		WorldViewPorjectionMatrix = WorldMatrix * ViewMatrix * ProjectionMatrix;
+		WorldViewProjectionMatrix = WorldMatrix * ViewMatrix * ProjectionMatrix;
 	}
 };
 
@@ -128,7 +128,7 @@ public:
 	// [0][0][1][0] 앞
 	// [0][0][0][1]
 
-	float4 GetWorldForwardVector() 
+	float4 GetWorldForwardVector()
 	{
 		return TransData.WorldMatrix.ArrVector[2].NormalizeReturn();
 	}
@@ -173,9 +173,9 @@ public:
 
 	void CalChilds();
 
-	float4x4 GetWorldViewPorjectionMatrix()
+	float4x4 GetWorldViewProjectionMatrix()
 	{
-		return TransData.WorldViewPorjectionMatrix;
+		return TransData.WorldViewProjectionMatrix;
 	}
 
 protected:

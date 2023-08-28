@@ -1,5 +1,6 @@
 #pragma once
 #include "GameEngineRenderer.h"
+#include "GameEngineSprite.h"
 
 // 설명 :
 class GameEngineSpriteRenderer : public GameEngineRenderer
@@ -15,12 +16,14 @@ public:
 	GameEngineSpriteRenderer& operator=(const GameEngineSpriteRenderer& _Other) = delete;
 	GameEngineSpriteRenderer& operator=(GameEngineSpriteRenderer&& _Other) noexcept = delete;
 
-	void SetSprite(std::string_view _Name);
+	// 스프라이트는 기본적으로 
+	void SetSprite(std::string_view _Name, unsigned int index = 0);
 
 protected:
 	void Render(GameEngineCamera* _Camera, float _Delta) override;
 
 private:
-
+	std::shared_ptr<GameEngineSprite> Sprite;
+	SpriteData CurSprite;
 };
 
