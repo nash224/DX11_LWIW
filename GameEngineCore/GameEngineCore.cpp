@@ -7,7 +7,7 @@
 std::shared_ptr<GameEngineObject> GameEngineCore::CoreObject;
 GameEngineTime GameEngineCore::MainTime;
 GameEngineWindow GameEngineCore::MainWindow;
-GameEngineDevice GameEngineCore::MainDevcie;
+GameEngineDevice GameEngineCore::MainDevice;
 
 std::shared_ptr<GameEngineLevel> GameEngineCore::CurLevel;
 std::shared_ptr<GameEngineLevel> GameEngineCore::NextLevel;
@@ -15,34 +15,32 @@ std::map<std::string, std::shared_ptr<GameEngineLevel>> GameEngineCore::AllLevel
 
 
 
-GameEngineCore::GameEngineCore() 
+GameEngineCore::GameEngineCore()
 {
 }
 
-GameEngineCore::~GameEngineCore() 
+GameEngineCore::~GameEngineCore()
 {
 }
 
-void GameEngineCore::Start() 
+void GameEngineCore::Start()
 {
 	CoreObject->Start();
 }
 
-void GameEngineCore::Update() 
+void GameEngineCore::Update()
 {
 
 	if (nullptr != NextLevel)
 	{
 		if (nullptr != CurLevel)
 		{
-			//CurLevel->LevelEnd(NextLevel);
-			//CurLevel->ActorLevelEnd();
+			CurLevel->AllLevelEnd(NextLevel.get());
 		}
 
 		// NextLevel->OverCheck(CurLevel);
 
-		//NextLevel->LevelStart(CurLevel);
-		//NextLevel->ActorLevelStart();
+		NextLevel->AllLevelStart(CurLevel.get());
 
 		CurLevel = NextLevel;
 
@@ -75,11 +73,11 @@ void GameEngineCore::Update()
 	//	Rectangle(DC, 0, 0, WinScale.iX(), WinScale.iY());
 	//}
 
-	MainDevcie.RenderStart();
+	MainDevice.RenderStart();
 
 	CurLevel->Render(DeltaTime);
 
-	MainDevcie.RenderEnd();
+	MainDevice.RenderEnd();
 
 	// GameEngineCore::MainWindow.DoubleBuffering();
 
@@ -91,7 +89,7 @@ void GameEngineCore::Update()
 	// CurLevel->ActorRelease();
 }
 
-void GameEngineCore::Release() 
+void GameEngineCore::Release()
 {
 	CoreObject->Release();
 }
@@ -99,14 +97,14 @@ void GameEngineCore::Release()
 void GameEngineCore::EngineProcess(HINSTANCE _Inst, const std::string& _WindowName, float4 _Pos, float4 _Size)
 {
 	// 릭체크 해주고
-	GameEngineDebug::LeckCheck();
+	GameEngineDebug::LeakCheck();
 
 	// 윈도우 만들고
 	MainWindow.Open(_WindowName, _Inst);
 	MainWindow.SetPosAndScale(_Pos, _Size);
 
 	// 3D 디바이스를 그 윈도우를 기반으로 만든다.
-	MainDevcie.Initiallize(MainWindow);
+	MainDevice.Initiallize(MainWindow);
 
 	// 시간이나 타임
 	GameEngineWindow::MessageLoop(_Inst, Start, Update, Release);

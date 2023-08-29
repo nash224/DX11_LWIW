@@ -54,6 +54,14 @@ public:
 			float W;
 		};
 
+		struct
+		{
+			float Pos2DX;
+			float Pos2DY;
+			float Scale2DX;
+			float Scale2DY;
+		};
+
 		float Arr2D[1][4];
 		DirectX::XMVECTOR DirectXVector;
 	};
@@ -383,7 +391,7 @@ public:
 
 	// GetUnitVectorFromDeg(45)
 
-	static float4 LerpClimp(const float4& Start, const float4& _End, float _Ratio)
+	static float4 LerpClamp(const float4& Start, const float4& _End, float _Ratio)
 	{
 		if (1.0f <= _Ratio)
 		{

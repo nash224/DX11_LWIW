@@ -52,7 +52,7 @@ public:
 	// 1바이트 자료형
 	void ChangeData(const void* _Data, UINT _Size);
 
-	void Setting();
+	void Setting(UINT _Slot);
 
 protected:
 

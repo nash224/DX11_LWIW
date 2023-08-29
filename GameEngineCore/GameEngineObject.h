@@ -28,7 +28,8 @@ public:
 	virtual void Start() {}
 	virtual void Update(float _Delta) {}
 	virtual void Release() {}
-
+	virtual void LevelStart(class GameEngineLevel* _NextLevel) {}
+	virtual void LevelEnd(class GameEngineLevel* _NextLevel) {}
 
 	virtual void On()
 	{
@@ -90,6 +91,9 @@ public:
 	{
 		return Name;
 	}
+
+	void AllLevelStart(class GameEngineLevel* _PrevLevel);
+	void AllLevelEnd(class GameEngineLevel* _NextLevel);
 
 	virtual void AllUpdate(float _Delta);
 

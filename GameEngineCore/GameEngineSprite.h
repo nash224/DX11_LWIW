@@ -10,7 +10,7 @@ class SpriteData
 public:
 	std::shared_ptr<GameEngineTexture> Texture;
 	// 이미지를 자르는 용도로 사용됩니다.
-	float4 SpriteData;
+	float4 SpritePivot;
 
 	float4 GetScale();
 };
@@ -51,7 +51,7 @@ public:
 		return NewRes;
 	}
 
-	const SpriteData& GetSpriteData(unsigned int _Index);
+	SpriteData GetSpriteData(unsigned int _Index);
 
 protected:
 	void ResCreateCut(std::string_view _Name, unsigned int _X, unsigned int _Y);

@@ -3,7 +3,7 @@
 
 float4 SpriteData::GetScale()
 {
-	return Texture->GetScale();
+	return Texture->GetScale() * float4(SpritePivot.Scale2DX, SpritePivot.Scale2DY, 1.0f, 0.0f);
 }
 
 GameEngineSprite::GameEngineSprite()
@@ -30,14 +30,24 @@ void GameEngineSprite::ResCreateCut(std::string_view _Name, unsigned int _X, uns
 
 	SpriteDatas.resize(_X * _Y);
 
+	float4 Start;
+	Start.Pos2DX = 0.0f;
+	Start.Pos2DY = 0.0f;
+	Start.Scale2DX = 1.0f / _X;
+	Start.Scale2DY = 1.0f / _Y;
+
 	for (size_t y = 0; y < _Y; y++)
 	{
 		for (size_t x = 0; x < _X; x++)
 		{
-			unsigned int index = (y * _X) + x;
+			unsigned int index = static_cast<unsigned int>((y * _X) + x);
 			SpriteDatas[index].Texture = Texture;
-			// GameEngineSpriteData[index].SpriteData = 
+			SpriteDatas[index].SpritePivot = Start;
+			Start.Pos2DX += Start.Scale2DX;
 		}
+
+		Start.Pos2DX = 0.0f;
+		Start.Pos2DY = Start.Scale2DY;
 	}
 
 
@@ -46,7 +56,7 @@ void GameEngineSprite::ResCreateCut(std::string_view _Name, unsigned int _X, uns
 
 }
 
-const SpriteData& GameEngineSprite::GetSpriteData(unsigned int _Index)
+SpriteData GameEngineSprite::GetSpriteData(unsigned int _Index)
 {
 	if (_Index >= SpriteDatas.size())
 	{
