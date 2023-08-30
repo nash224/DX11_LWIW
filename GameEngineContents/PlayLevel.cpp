@@ -31,7 +31,6 @@ void PlayLevel::Start()
 		}
 
 		GameEngineSprite::CreateCut("TestPlayer.png", 6, 6);
-
 	}
 
 

@@ -15,9 +15,13 @@ Player::~Player()
 void Player::Start()
 {
 	{
-
 		MainSpriteRenderer = CreateComponent<GameEngineSpriteRenderer>();
-		MainSpriteRenderer->SetSprite("TestPlayer.png", 5);
+		MainSpriteRenderer->CreateAnimation("Run", "TestPlayer.png");
+		MainSpriteRenderer->ChangeAnimation("Run");
+		MainSpriteRenderer->AutoSpriteSizeOn();
+
+		/*MainSpriteRenderer = CreateComponent<GameEngineSpriteRenderer>();
+		MainSpriteRenderer->SetSprite("TestPlayer.png", 5);*/
 
 	}
 }
