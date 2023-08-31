@@ -8,6 +8,8 @@
 #pragma comment(lib, "..\\GameEngineCore\\ThirdParty\\DirectXTex\\lib\\Release\\DirectXTex.lib")
 #endif
 
+const GameEngineColor GameEngineColor::RED = { 255, 0, 0, 255 };
+
 GameEngineTexture::GameEngineTexture()
 {
 }
@@ -117,4 +119,59 @@ void GameEngineTexture::VSSetting(UINT _Slot)
 void GameEngineTexture::PSSetting(UINT _Slot)
 {
 	GameEngineCore::GetContext()->PSSetShaderResources(_Slot, 1, &SRV);
+}
+
+GameEngineColor GameEngineTexture::GetColor(unsigned int _X, unsigned int _Y, GameEngineColor _DefaultColor)
+{
+
+	if (0 > _X)
+	{
+		return _DefaultColor;
+	}
+
+	if (0 > _Y)
+	{
+		return _DefaultColor;
+	}
+
+	if (_X >= GetScale().uiX())
+	{
+		return _DefaultColor;
+	}
+
+	if (_Y >= GetScale().uiY())
+	{
+		return _DefaultColor;
+	}
+
+	DXGI_FORMAT Fmt = Image.GetMetadata().format;
+
+
+	// 첫번째 주소를 1바이트 자료형으로 줬다.
+	unsigned char* Ptr = Image.GetPixels();
+
+	switch (Fmt)
+	{
+	case DXGI_FORMAT_R8G8B8A8_TYPELESS:
+	case DXGI_FORMAT_R8G8B8A8_UNORM:
+	case DXGI_FORMAT_R8G8B8A8_UNORM_SRGB:
+	case DXGI_FORMAT_R8G8B8A8_UINT:
+	case DXGI_FORMAT_R8G8B8A8_SNORM:
+	case DXGI_FORMAT_R8G8B8A8_SINT:
+	{
+		GameEngineColor ResultColor;
+		Ptr += ((_Y * GetScale().iX()) + _X) * 4;
+		ResultColor.R = Ptr[0];
+		ResultColor.G = Ptr[1];
+		ResultColor.B = Ptr[2];
+		ResultColor.A = Ptr[3];
+		return ResultColor;
+	}
+	default:
+		MsgBoxAssert("색깔을 처리하는 함수를 만들지 없는 포맷입니다");
+		break;
+	}
+
+
+	return _DefaultColor;
 }

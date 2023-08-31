@@ -1,11 +1,11 @@
 #include "PreCompile.h"
 #include "GameEngineTransform.h"
 
-GameEngineTransform::GameEngineTransform() 
+GameEngineTransform::GameEngineTransform()
 {
 }
 
-GameEngineTransform::~GameEngineTransform() 
+GameEngineTransform::~GameEngineTransform()
 {
 }
 
@@ -20,6 +20,8 @@ void GameEngineTransform::TransformUpdate()
 		TransData.ParentMatrix = Parent->TransData.WorldMatrix;
 		TransData.WorldMatrix = TransData.LocalWorldMatrix * TransData.ParentMatrix;
 	}
+
+
 
 	CalChilds();
 }

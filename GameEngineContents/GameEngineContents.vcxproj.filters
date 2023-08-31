@@ -25,6 +25,9 @@
     <ClInclude Include="TitleTestLevel.h">
       <Filter>Object\Level</Filter>
     </ClInclude>
+    <ClInclude Include="TestMap.h">
+      <Filter>Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -39,6 +42,9 @@
     </ClCompile>
     <ClCompile Include="TitleTestLevel.cpp">
       <Filter>Object\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="TestMap.cpp">
+      <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -154,7 +154,7 @@ void GameEngineWindow::MyRegisterClass()
 	wcex.cbWndExtra = 0;
 	wcex.hInstance = Instance;
 	wcex.hIcon = nullptr;
-	wcex.hCursor = LoadCursor(nullptr, IDC_CROSS);
+	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 2);
 	wcex.lpszMenuName = nullptr;
 	wcex.lpszClassName = "DefaultWindow";
@@ -251,7 +251,7 @@ void GameEngineWindow::SetPosAndScale(const float4& _Pos, const float4& _Scale)
 	RECT Rc = { 0, 0, _Scale.iX(), _Scale.iY() };
 
 
-	AdjustWindowRect(&Rc, WS_OVERLAPPEDWINDOW,FALSE);
+	AdjustWindowRect(&Rc, WS_OVERLAPPEDWINDOW, FALSE);
 
 	//                          100        100         500          500
 	SetWindowPos(hWnd, nullptr, _Pos.iX(), _Pos.iY(), Rc.right - Rc.left, Rc.bottom - Rc.top, SWP_NOZORDER);

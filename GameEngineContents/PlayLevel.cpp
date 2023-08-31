@@ -4,6 +4,8 @@
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineSprite.h>
 
+#include "TestMap.h"
+
 PlayLevel::PlayLevel()
 {
 }
@@ -31,17 +33,22 @@ void PlayLevel::Start()
 		}
 
 		GameEngineSprite::CreateCut("TestPlayer.png", 6, 6);
+		GameEngineSprite::CreateSingle("TestMap.png");
 	}
 
+	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
+
+	GetMainCamera()->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y, -500.0f });
+	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Orthographic);
 
 
-	GetMainCamera()->Transform.SetLocalPosition({ 0.0f, 0.0f, -500.0f });
-	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Perspective);
+	{
+		std::shared_ptr<Player> Object = CreateActor<Player>();
+	}
 
-	std::shared_ptr<Player> NewPlayer = CreateActor<Player>();
-
-	// GetMainCamera()->SetParent(NewPlayer);
-	// CreateActor<GameEngineRenderer>();
+	{
+		std::shared_ptr<TestMap> Object = CreateActor<TestMap>();
+	}
 }
 
 void PlayLevel::Update(float _Delta)

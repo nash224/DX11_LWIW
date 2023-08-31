@@ -3,6 +3,22 @@
 
 #include "..\\GameEngineCore\\ThirdParty\\DirectXTex\\inc\\DirectXTex.h"
 
+class GameEngineColor
+{
+public:
+	static const GameEngineColor RED;
+
+	unsigned char R = 0;
+	unsigned char G = 0;
+	unsigned char B = 0;
+	unsigned char A = 0;
+
+	bool operator==(const GameEngineColor& _Other) const
+	{
+		return memcmp(this, &_Other, sizeof(GameEngineColor)) == 0;
+	}
+};
+
 // Ό³Έν :
 class GameEngineTexture : public GameEngineResources<GameEngineTexture>
 {
@@ -57,6 +73,13 @@ public:
 
 	void VSSetting(UINT _Slot);
 	void PSSetting(UINT _Slot);
+
+	GameEngineColor GetColor(float4 _Pos, GameEngineColor _DefaultColor)
+	{
+		return GetColor(_Pos.iX(), _Pos.iY(), _DefaultColor);
+	}
+
+	GameEngineColor GetColor(unsigned int _X, unsigned int _Y, GameEngineColor _DefaultColor);
 
 protected:
 

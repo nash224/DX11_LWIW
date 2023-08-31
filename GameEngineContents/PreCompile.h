@@ -7,3 +7,8 @@
 #include <GameEngineCore/GameEngineActor.h>
 #include <GameEngineCore/GameEngineLevel.h>
 #include <GameEngineCore/GameEngineCamera.h>
+
+// Rendering
+#include <GameEngineCore/GameEngineRenderer.h>
+#include <GameEngineCore/GameEngineSprite.h>
+#include <GameEngineCore/GameEngineSpriteRenderer.h>
