@@ -10,6 +10,9 @@
     <Filter Include="Object\Level">
       <UniqueIdentifier>{f9f5e942-1124-4dab-8d39-885487c0391d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor">
+      <UniqueIdentifier>{d475ffac-205b-49ca-a630-90de97637717}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -19,14 +22,17 @@
     <ClInclude Include="PlayLevel.h">
       <Filter>Object\Level</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Object</Filter>
-    </ClInclude>
     <ClInclude Include="TitleTestLevel.h">
       <Filter>Object\Level</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Object\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="TestActor.h">
+      <Filter>Object\Actor</Filter>
+    </ClInclude>
     <ClInclude Include="TestMap.h">
-      <Filter>Object</Filter>
+      <Filter>Object\Actor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -37,14 +43,17 @@
     <ClCompile Include="PlayLevel.cpp">
       <Filter>Object\Level</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
     <ClCompile Include="TitleTestLevel.cpp">
       <Filter>Object\Level</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Object\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="TestActor.cpp">
+      <Filter>Object\Actor</Filter>
+    </ClCompile>
     <ClCompile Include="TestMap.cpp">
-      <Filter>Object</Filter>
+      <Filter>Object\Actor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

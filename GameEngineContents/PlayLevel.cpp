@@ -5,6 +5,7 @@
 #include <GameEngineCore/GameEngineSprite.h>
 
 #include "TestMap.h"
+#include "TestActor.h"
 
 PlayLevel::PlayLevel()
 {
@@ -34,6 +35,7 @@ void PlayLevel::Start()
 
 		GameEngineSprite::CreateCut("TestPlayer.png", 6, 6);
 		GameEngineSprite::CreateSingle("TestMap.png");
+		GameEngineSprite::CreateSingle("TestPlayerSprite.png");
 	}
 
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
@@ -48,6 +50,10 @@ void PlayLevel::Start()
 
 	{
 		std::shared_ptr<TestMap> Object = CreateActor<TestMap>();
+	}
+
+	{
+		std::shared_ptr<TestActor> Object = CreateActor<TestActor>();
 	}
 }
 
