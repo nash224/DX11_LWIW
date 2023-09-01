@@ -22,6 +22,7 @@ void Player::Start()
 		MainSpriteRenderer->CreateAnimation("Run", "TestPlayer.png");
 		MainSpriteRenderer->ChangeAnimation("Run");
 		MainSpriteRenderer->AutoSpriteSizeOn();
+		MainSpriteRenderer->SetAutoScaleRatio(2.0f);
 
 		int a = 0;
 	}
