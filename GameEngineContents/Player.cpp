@@ -19,10 +19,10 @@ void Player::Start()
 {
 	{
 		MainSpriteRenderer = CreateComponent<GameEngineSpriteRenderer>();
-		MainSpriteRenderer->CreateAnimation("Run", "TestPlayer.png");
+		MainSpriteRenderer->CreateAnimation("Run", "Sylas2_Intro2_.png");
 		MainSpriteRenderer->ChangeAnimation("Run");
 		MainSpriteRenderer->AutoSpriteSizeOn();
-		MainSpriteRenderer->SetAutoScaleRatio(2.0f);
+		
 
 		int a = 0;
 	}

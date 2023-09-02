@@ -13,6 +13,9 @@
     <Filter Include="Object\Actor">
       <UniqueIdentifier>{d475ffac-205b-49ca-a630-90de97637717}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Global">
+      <UniqueIdentifier>{ab10a2eb-9b67-4702-ba81-0ac60c48954b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -32,6 +35,18 @@
       <Filter>Object\Actor</Filter>
     </ClInclude>
     <ClInclude Include="TestMap.h">
+      <Filter>Object\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalUtils.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalValue.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalEnum.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="ActorEnum.h">
       <Filter>Object\Actor</Filter>
     </ClInclude>
   </ItemGroup>
@@ -54,6 +69,12 @@
     </ClCompile>
     <ClCompile Include="TestMap.cpp">
       <Filter>Object\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalUtils.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalValue.cpp">
+      <Filter>Global</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

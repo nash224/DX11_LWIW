@@ -13,9 +13,9 @@ TestActor::~TestActor()
 void TestActor::Start()
 {
 	std::shared_ptr<GameEngineSpriteRenderer> Renderer = CreateComponent<GameEngineSpriteRenderer>(-99);
-	Renderer->SetSprite("TestPlayerSprite.png");
+	Renderer->SetSprite("Atlas.png");
 
-	std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Find("TestPlayerSprite.png");
+	std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Find("Atlas.png");
 
 	float4 HScale = Tex->GetScale().Half();
 	HScale.Y *= -1.0f;
