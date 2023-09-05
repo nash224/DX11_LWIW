@@ -33,6 +33,10 @@ public:
 	// _Order 카메라로 이동하는거.
 	// void SetChangeViewCameraAllClear(int _Order);
 
+	void SetRenderOrder(int _Order);
+
+	void SetCameraOrder(int _Order);
+
 protected:
 	void Start();
 	virtual void Render(class GameEngineCamera* _Camera, float _Delta);
@@ -40,8 +44,12 @@ protected:
 	void ResSetting();
 	void Draw();
 
+	// 분명히 자신의 랜더링 순서이다.
+
+	// 
+
 private:
-	std::map<class GameEngineCamera*, int> ViewInfo;
+	class GameEngineCamera* Camera = nullptr;
 	std::shared_ptr<class GameEngineInputLayOut> LayOut = nullptr;
 
 	// int CameraOrder = 0;

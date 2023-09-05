@@ -16,6 +16,15 @@
     <Filter Include="Global">
       <UniqueIdentifier>{ab10a2eb-9b67-4702-ba81-0ac60c48954b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\NonInteractive">
+      <UniqueIdentifier>{643315a5-9be1-4024-b277-618261d2e870}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\NonInteractive\BackDrop">
+      <UniqueIdentifier>{1b0dee99-207d-445b-aa25-16e8f1c21756}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\NonInteractive\BackDrop\Prop">
+      <UniqueIdentifier>{9f1bf0bb-e064-4884-ae16-fc2fb74f23dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -43,10 +52,41 @@
     <ClInclude Include="GlobalValue.h">
       <Filter>Global</Filter>
     </ClInclude>
-    <ClInclude Include="GlobalEnum.h">
+    <ClInclude Include="ContentsEnum.h">
       <Filter>Global</Filter>
     </ClInclude>
     <ClInclude Include="ActorEnum.h">
+      <Filter>Object\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsLevel.h">
+      <Filter>Object\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="MainActorControl.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseObject.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenu.h">
+      <Filter>Object\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenery.h">
+      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
+    </ClInclude>
+    <ClInclude Include="GroundLayer.h">
+      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
+    </ClInclude>
+    <ClInclude Include="BackDrop.h">
+      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraControler.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsEvent.h" />
+    <ClInclude Include="TemplateA.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="TestActor2.h">
       <Filter>Object\Actor</Filter>
     </ClInclude>
   </ItemGroup>
@@ -75,6 +115,37 @@
     </ClCompile>
     <ClCompile Include="GlobalValue.cpp">
       <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsLevel.cpp">
+      <Filter>Object\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="MainActorControl.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseObject.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>Object\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Scenery.cpp">
+      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
+    </ClCompile>
+    <ClCompile Include="GroundLayer.cpp">
+      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
+    </ClCompile>
+    <ClCompile Include="BackDrop.cpp">
+      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraControler.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsEvent.cpp" />
+    <ClCompile Include="TemplateA.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="TestActor2.cpp">
+      <Filter>Object\Actor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

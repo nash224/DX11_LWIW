@@ -84,14 +84,7 @@ void GameEngineCore::Update()
 
 	MainDevice.RenderEnd();
 
-	// GameEngineCore::MainWindow.DoubleBuffering();
-
-	// GameEngineWindow::MainWindow.ClearBackBuffer();
-	// CurLevel->ActorRender(Delta);
-	// CurLevel->Render(Delta);
-	// GameEngineWindow::MainWindow.DoubleBuffering();
-	// 프레임의 가장 마지막에 Release가 될겁니다.
-	// CurLevel->ActorRelease();
+	CurLevel->AllReleaseCheck();
 }
 
 void GameEngineCore::Release()

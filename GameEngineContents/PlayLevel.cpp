@@ -27,6 +27,16 @@ void PlayLevel::Start()
 		GameEngineSprite::CreateSingle("Atlas.png");
 		GameEngineSprite::CreateSingle("Sylas2_Intro2_.png");
 		GameEngineSprite::CreateSingle("TestPlayerSprite.png");
+		GameEngineSprite::CreateSingle("Mission8_JarvanIVArena_Mask_FireLinesSmall.png");
+		GameEngineSprite::CreateSingle("sactx-0-2048x2048-BC7-Mission8Jarvan-65ffe534.png");
+
+		GameEngineDirectory Dir;
+		
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources");
+		Dir.MoveChild("SlyasTest");
+		GameEngineSprite::CreateFolder(Dir.GetStringPath());
+		
 	}
 
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
@@ -36,7 +46,7 @@ void PlayLevel::Start()
 
 
 	{
-		std::shared_ptr<Player> Object = CreateActor<Player>();
+		TestPlayer = CreateActor<Player>();
 	}
 
 	{
@@ -50,5 +60,10 @@ void PlayLevel::Start()
 
 void PlayLevel::Update(float _Delta)
 {
-	int a = 0;
+	float4 PlayerPos = TestPlayer->Transform.GetWorldPosition();
+
+	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
+	float4 CameraPos = PlayerPos + float4{ -HalfWindowScale.X , -HalfWindowScale.Y };
+
+	GetMainCamera()->Transform.SetLocalPosition(PlayerPos);
 }

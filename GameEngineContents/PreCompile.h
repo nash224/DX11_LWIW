@@ -12,3 +12,8 @@
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineSprite.h>
 #include <GameEngineCore/GameEngineSpriteRenderer.h>
+
+
+
+#include "ContentsEnum.h"
+#include "ActorEnum.h"

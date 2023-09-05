@@ -171,12 +171,44 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BackDrop.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ContentsCore.cpp" />
+    <ClCompile Include="ContentsEvent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ContentsLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GlobalUtils.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="GlobalValue.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GroundLayer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="MainActorControl.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="CameraControler.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="MainMenu.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="MouseObject.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -191,7 +223,19 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Scenery.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TemplateA.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="TestActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TestActor2.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -206,13 +250,45 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorEnum.h" />
+    <ClInclude Include="BackDrop.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="ContentsCore.h" />
-    <ClInclude Include="GlobalEnum.h" />
+    <ClInclude Include="ContentsEvent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ContentsLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="GlobalUtils.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="GlobalValue.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GroundLayer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MainActorControl.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CameraControler.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MainMenu.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MouseObject.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -222,7 +298,19 @@
     </ClInclude>
     <ClInclude Include="PlayLevel.h" />
     <ClInclude Include="PreCompile.h" />
+    <ClInclude Include="Scenery.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TemplateA.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="TestActor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TestActor2.h">
       <SubType>
       </SubType>
     </ClInclude>

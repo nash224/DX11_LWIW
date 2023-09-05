@@ -1,7 +1,10 @@
 #include "PreCompile.h"
 #include "ContentsCore.h"
-#include "PlayLevel.h"
+
+
+#include "MainMenu.h"
 #include "TitleTestLevel.h"
+#include "PlayLevel.h"
 
 ContentsCore::ContentsCore()
 {
@@ -15,7 +18,8 @@ void ContentsCore::Start()
 {
 	GameEngineCore::CreateLevel<PlayLevel>("PlayLevel");
 	GameEngineCore::CreateLevel<TitleTestLevel>("TitleTestLevel");
-	GameEngineCore::ChangeLevel("PlayLevel");
+	GameEngineCore::CreateLevel<MainMenu>("MainMenu");
+	GameEngineCore::ChangeLevel("MainMenu");
 
 }
 

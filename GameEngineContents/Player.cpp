@@ -19,7 +19,7 @@ void Player::Start()
 {
 	{
 		MainSpriteRenderer = CreateComponent<GameEngineSpriteRenderer>();
-		MainSpriteRenderer->CreateAnimation("Run", "Sylas2_Intro2_.png");
+		MainSpriteRenderer->CreateAnimation("Run", "SlyasTest", 0.1f, 0, 11);
 		MainSpriteRenderer->ChangeAnimation("Run");
 		MainSpriteRenderer->AutoSpriteSizeOn();
 		
@@ -29,11 +29,14 @@ void Player::Start()
 
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 	Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y, -500.0f });
+	
+	Transform.GetLocalScale();
+	
 }
 
 void Player::Update(float _Delta)
 {
-	float Speed = 100.0f;
+	float Speed = 500.0f;
 
 	if (GameEngineInput::IsPress('A'))
 	{
@@ -67,7 +70,7 @@ void Player::Update(float _Delta)
 
 
 
-	GameEngineColor Color = TestMap::MainTestMap->GetColor(Transform.GetWorldPosition(), GameEngineColor::RED);
+	/*GameEngineColor Color = TestMap::MainTestMap->GetColor(Transform.GetWorldPosition(), GameEngineColor::RED);
 
 	if (GameEngineColor::RED != Color)
 	{
@@ -77,7 +80,7 @@ void Player::Update(float _Delta)
 	else
 	{
 		GrivityForce = 0.0f;
-	}
+	}*/
 	// 땅에 딱붙게하고 싶다면 while돌려서 올려주세요.
 
 

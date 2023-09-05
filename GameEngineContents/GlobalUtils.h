@@ -11,6 +11,8 @@ public:
 
 
 	static void LoadAllFileInPath(std::string_view _Path);
+	static void LoadAllDirFile(std::string_view _Path);
+	static void releaseAllTextureInPath(std::string_view _Path);
 	static std::string GetParentString(std::string_view _ChildPath);
 
 protected:
