@@ -7,7 +7,7 @@ CameraControler::CameraControler()
 	, m_FocusActor(nullptr)
 	, m_Mode(ECAMERAMODE::None)
 	, m_CameraInfo({ float4::ZERO })
-	, m_CameraSpeed(500.0f)
+	, m_Speed(500.0f)
 {
 }
 
@@ -29,7 +29,7 @@ void CameraControler::Update(float _Delta)
 
 void CameraControler::LevelStart(class GameEngineLevel* _NextLevel)
 {
-
+	
 }
 
 void CameraControler::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -42,6 +42,19 @@ void CameraControler::SetCameraMode(ECAMERAMODE _Mode)
 	m_Mode = _Mode;
 }
 
+void CameraControler::SetWorldPostion(const float4& _Position)
+{
+	m_MainCamera->Transform.SetLocalPosition(_Position);
+	RenewCameraPosition();
+	m_CameraInfo.MoveDistance = 0.0f;
+}
+
+
+void CameraControler::Reset()
+{
+	m_CameraInfo = { float4::ZERO };
+}
+
 const float4& CameraControler::GetCameraMoveDistance() const
 {
 	return m_CameraInfo.MoveDistance;
@@ -50,6 +63,11 @@ const float4& CameraControler::GetCameraMoveDistance() const
 const float4& CameraControler::GetCameraCurrentPostion() const
 {
 	return m_CameraInfo.CurPosition;
+}
+
+bool CameraControler::IsCameraMove()
+{
+	return float4::ZERO != m_CameraInfo.MoveDistance;
 }
 
 
@@ -83,7 +101,7 @@ void CameraControler::UpdateCameraMode(float _Delta)
 
 void CameraControler::UpdateCameraEditorMode(float _Delta)
 {
-	float CameraSpeed = m_CameraSpeed * _Delta;
+	float CameraSpeed = m_Speed * _Delta;
 	float4 CameraMoveDistance = float4::ZERO;
 	
 	if (true == GameEngineInput::IsPress('W'))

@@ -21,6 +21,8 @@ void ContentsCore::Start()
 	GameEngineCore::CreateLevel<MainMenu>("MainMenu");
 	GameEngineCore::ChangeLevel("MainMenu");
 
+	
+	GlobalValue::SetWindowScale(GetStartWindowSize());
 }
 
 void ContentsCore::Update(float _Delta)

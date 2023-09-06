@@ -14,10 +14,13 @@ enum class ECAMERAMODE
 // Ό³Έν :
 class CameraControler : public GameEngineActor
 {
+	friend class ContentsLevel;
+
 public:
-	GameEngineCamera* m_MainCamera;
 	GameEngineActor* m_FocusActor;
 
+private:
+	GameEngineCamera* m_MainCamera;
 
 public:
 	// constrcuter destructer
@@ -39,10 +42,15 @@ protected:
 
 public:
 	void SetCameraMode(ECAMERAMODE _Mode);
+	void SetWorldPostion(const float4& _Position);
+
+public:
+	void Reset();
 
 public:
 	const float4& GetCameraMoveDistance() const;
 	const float4& GetCameraCurrentPostion() const;
+	bool IsCameraMove();
 
 private:
 	void RenewCameraPosition();
@@ -52,7 +60,7 @@ private:
 	void UpdateCameraEditorMode(float _Delta);
 
 
-public:
+private:
 	struct CameraInfo
 	{
 	public:
@@ -65,7 +73,7 @@ public:
 private:
 	CameraInfo m_CameraInfo;
 	ECAMERAMODE m_Mode;
-	float m_CameraSpeed;
+	float m_Speed;
 
 
 

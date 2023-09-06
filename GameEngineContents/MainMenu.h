@@ -4,11 +4,11 @@
 
 
 // Ό³Έν :
-class BackDrop;
+class BackDrop_MainMenu;
 class MainMenu : public ContentsLevel
 {
 public :
-	std::shared_ptr<BackDrop> m_BackDrop;
+	std::shared_ptr<BackDrop_MainMenu> m_BackDrop;
 
 public:
 	// constrcuter destructer

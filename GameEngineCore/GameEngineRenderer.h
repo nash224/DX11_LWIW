@@ -35,6 +35,13 @@ public:
 
 	void SetRenderOrder(int _Order);
 
+	template <typename EnumType>
+	void SetRenderOrder(EnumType _Order)
+	{
+		SetRenderOrder(static_cast<int>(_Order));
+	}
+
+
 	void SetCameraOrder(int _Order);
 
 protected:

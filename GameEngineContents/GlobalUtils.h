@@ -1,5 +1,13 @@
 #pragma once
 
+enum class ERENDERPIVOTPOS
+{
+	Center,
+	LeftTop,
+	RightBottom,
+};
+
+
 // Ό³Έν :
 class GlobalUtils
 {
@@ -10,10 +18,15 @@ public:
 
 
 
+public:
 	static void LoadAllFileInPath(std::string_view _Path);
 	static void LoadAllDirFile(std::string_view _Path);
-	static void releaseAllTextureInPath(std::string_view _Path);
+	static void ReleaseAllTextureInPath(std::string_view _Path);
 	static std::string GetParentString(std::string_view _ChildPath);
+
+
+public:
+	static float4 CalculateActorPivot(const float4& _Scale, ERENDERPIVOTPOS _Pivot);
 
 protected:
 

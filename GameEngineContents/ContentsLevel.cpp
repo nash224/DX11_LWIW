@@ -19,6 +19,9 @@ ContentsLevel::~ContentsLevel()
 
 void ContentsLevel::Start()
 {
+	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Orthographic);
+
+	// 카메라 컨트롤러 생성
 	m_LevelCameraControler = CreateActor<CameraControler>(EUPDATEORDER::CameraControler);
 }
 
@@ -31,9 +34,10 @@ void ContentsLevel::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	CurrentLevelSpriteCreateCheck = true;
 
-	if (m_LevelCameraControler->m_MainCamera == nullptr)
+	if (nullptr != m_LevelCameraControler)
 	{
 		m_LevelCameraControler->m_MainCamera = GetMainCamera().get();
+		GlobalValue::g_CameraControler = m_LevelCameraControler;
 	}
 }
 

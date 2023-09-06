@@ -5,6 +5,8 @@
 
 #include "GlobalValue.h"
 
+#include "CameraControler.h"
+
 
 Scenery::Scenery() 
 	:m_SpriteRenderer(nullptr)
@@ -27,8 +29,6 @@ void Scenery::Start()
 		MsgBoxAssert("컴포넌트 생성에 실패했습니다.");
 		return;
 	}
-
-	m_SpriteRenderer->On();
 }
 
 void Scenery::Update(float _Delta)
@@ -47,6 +47,7 @@ void Scenery::LevelEnd(class GameEngineLevel* _NextLevel)
 }
 
 
+#pragma region Setting
 
 void Scenery::SetSprite(std::string_view _SpriteName)
 {
@@ -116,6 +117,8 @@ void Scenery::SetMoveRatio(float _Ratio)
 	m_MoveRatio = _Ratio;
 }
 
+#pragma endregion 
+
 
 
 void Scenery::MoveSceneryLocation(float _Delta)
@@ -125,5 +128,26 @@ void Scenery::MoveSceneryLocation(float _Delta)
 		return;
 	}
 
-	
+	if (nullptr != GlobalValue::g_CameraControler)
+	{
+		if (true == GlobalValue::g_CameraControler->IsCameraMove())
+		{
+			float4 CameraMoveDistance = GlobalValue::g_CameraControler->GetCameraMoveDistance();
+			float4 CalMovePos = CameraMoveDistance * m_Direction * m_MoveRatio;
+			CalMovePos.X *= -1.0f;
+			Transform.AddLocalPosition(CalMovePos);
+		}
+	}
+}
+
+
+void Scenery::ActorRelease()
+{
+	if (nullptr != m_SpriteRenderer)
+	{
+		m_SpriteRenderer->Death();
+		m_SpriteRenderer = nullptr;
+	}
+
+	Death();
 }

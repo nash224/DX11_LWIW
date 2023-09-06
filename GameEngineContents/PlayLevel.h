@@ -1,8 +1,8 @@
 #pragma once
-#include <GameEngineCore/GameEngineLevel.h>
+#include "ContentsLevel.h"
 
 // Ό³Έν :
-class PlayLevel : public GameEngineLevel
+class PlayLevel : public ContentsLevel
 {
 public:
 	// constrcuter destructer
@@ -18,6 +18,8 @@ public:
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override;
+	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 	
 
 private:

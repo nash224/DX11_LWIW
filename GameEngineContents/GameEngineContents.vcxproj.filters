@@ -22,9 +22,6 @@
     <Filter Include="Object\Actor\NonInteractive\BackDrop">
       <UniqueIdentifier>{1b0dee99-207d-445b-aa25-16e8f1c21756}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\NonInteractive\BackDrop\Prop">
-      <UniqueIdentifier>{9f1bf0bb-e064-4884-ae16-fc2fb74f23dd}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -89,6 +86,12 @@
     <ClInclude Include="TestActor2.h">
       <Filter>Object\Actor</Filter>
     </ClInclude>
+    <ClInclude Include="BackDrop_MainMenu.h">
+      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
+    </ClInclude>
+    <ClInclude Include="Props.h">
+      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -146,6 +149,12 @@
     </ClCompile>
     <ClCompile Include="TestActor2.cpp">
       <Filter>Object\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="BackDrop_MainMenu.cpp">
+      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
+    </ClCompile>
+    <ClCompile Include="Props.cpp">
+      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

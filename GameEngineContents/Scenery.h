@@ -23,6 +23,7 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 public:
+	// 세팅
 	template<typename RenderOrder>
 	void SetRenderOrder(RenderOrder _Order)
 	{
@@ -36,9 +37,14 @@ public:
 	void SetMoveDirection(const float4& _Direction);
 	void SetMoveRatio(float _Ratio);
 
+
 private:
+	// 배경 Update => 카메라 이동거리의 일정비율로 위치가 변합니다.
 	void MoveSceneryLocation(float _Delta);
 
+public:
+	// 릴리즈
+	void ActorRelease();
 
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> m_SpriteRenderer;
@@ -46,5 +52,7 @@ private:
 	float4 m_Direction;
 	float m_MoveRatio;
 
+private:
+	
 };
 

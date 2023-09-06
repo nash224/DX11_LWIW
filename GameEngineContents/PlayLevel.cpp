@@ -5,8 +5,10 @@
 #include <GameEngineCore/GameEngineSprite.h>
 
 #include "GlobalUtils.h"
+
 #include "TestMap.h"
 #include "TestActor.h"
+#include "CameraControler.h"
 
 PlayLevel::PlayLevel()
 {
@@ -18,6 +20,7 @@ PlayLevel::~PlayLevel()
 
 void PlayLevel::Start()
 {
+	ContentsLevel::Start();
 	{
 		GlobalUtils::LoadAllFileInPath("Resources\\Texture");
 
@@ -42,7 +45,7 @@ void PlayLevel::Start()
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 
 	GetMainCamera()->Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y, -500.0f });
-	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Orthographic);
+	
 
 
 	{
@@ -60,10 +63,28 @@ void PlayLevel::Start()
 
 void PlayLevel::Update(float _Delta)
 {
+	if (true == GameEngineInput::IsDown('T'))
+	{
+		GameEngineCore::ChangeLevel("MainMenu");
+	}
+
+
 	float4 PlayerPos = TestPlayer->Transform.GetWorldPosition();
 
 	float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();
 	float4 CameraPos = PlayerPos + float4{ -HalfWindowScale.X , -HalfWindowScale.Y };
 
 	GetMainCamera()->Transform.SetLocalPosition(PlayerPos);
+}
+
+void PlayLevel::LevelStart(GameEngineLevel* _NextLevel)
+{
+	ContentsLevel::LevelStart(_NextLevel);
+
+	GlobalValue::g_CameraControler->SetCameraMode(ECAMERAMODE::Play);
+}
+
+void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
+{
+	ContentsLevel::LevelEnd(_NextLevel);
 }

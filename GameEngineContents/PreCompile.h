@@ -17,3 +17,4 @@
 
 #include "ContentsEnum.h"
 #include "ActorEnum.h"
+#include "GlobalValue.h"
