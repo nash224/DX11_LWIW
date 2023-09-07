@@ -79,7 +79,7 @@ void Props::CreateAnimation(
 		return;
 	}
 
-	m_Renderer->CreateAnimation(_AnimationName, _SpriteName, _Inter, _Start, _End, _Loop);
+ 	m_Renderer->CreateAnimation(_AnimationName, _SpriteName, _Inter, _Start, _End, _Loop);
 }
 
 

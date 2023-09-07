@@ -13,9 +13,9 @@ TestActor::~TestActor()
 void TestActor::Start()
 {
 	std::shared_ptr<GameEngineSpriteRenderer> Renderer = CreateComponent<GameEngineSpriteRenderer>(-99);
-	Renderer->SetSprite("sactx-0-2048x2048-BC7-Mission8Jarvan-65ffe534.png");
+	Renderer->SetSprite("Base-sharedassets3.assets-29.png");
 
-	std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Find("sactx-0-2048x2048-BC7-Mission8Jarvan-65ffe534.png");
+	std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Find("Base-sharedassets3.assets-29.png");
 
 
 	/*float4 HalfWindowScale = GameEngineCore::MainWindow.GetScale().Half();

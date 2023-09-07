@@ -25,8 +25,11 @@ void PlayLevel::Start()
 		GlobalUtils::LoadAllFileInPath("Resources\\Texture");
 
 		GameEngineSprite::CreateCut("TestPlayer.png", 6, 6);
+		GameEngineSprite::CreateCut("Ellie_Basic_ButterflyNet-sharedassets3.png", 12, 11);
+		GameEngineSprite::CreateCut("Ellie_Basic_Colleciton_RootUp-sharedassets3.png", 10, 9);
 		GameEngineSprite::CreateSingle("TestMap.png");
 		GameEngineSprite::CreateSingle("Slyas.png");
+		GameEngineSprite::CreateSingle("Base-sharedassets3.assets-29.png");
 		GameEngineSprite::CreateSingle("Atlas.png");
 		GameEngineSprite::CreateSingle("Sylas2_Intro2_.png");
 		GameEngineSprite::CreateSingle("TestPlayerSprite.png");

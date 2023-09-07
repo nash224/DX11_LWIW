@@ -19,9 +19,11 @@ void Player::Start()
 {
 	{
 		MainSpriteRenderer = CreateComponent<GameEngineSpriteRenderer>();
-		MainSpriteRenderer->CreateAnimation("Run", "SlyasTest", 0.1f, 0, 11);
+		MainSpriteRenderer->CreateAnimation("Run", "Ellie_Basic_ButterflyNet-sharedassets3.png", 0.1f);
 		MainSpriteRenderer->ChangeAnimation("Run");
 		MainSpriteRenderer->AutoSpriteSizeOn();
+		MainSpriteRenderer->SetSamplerState(SamplerOption::POINT);
+		MainSpriteRenderer->SetAutoScaleRatio(2.0f);
 		
 
 		int a = 0;

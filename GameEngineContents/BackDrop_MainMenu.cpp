@@ -22,7 +22,7 @@ void BackDrop_MainMenu::Start()
 
 void BackDrop_MainMenu::Update(float _Delta)
 {
-
+	
 }
 
 void BackDrop_MainMenu::LevelStart(class GameEngineLevel* _NextLevel)
@@ -72,7 +72,7 @@ void BackDrop_MainMenu::CreateScenery(class GameEngineLevel* _CurLevel)
 	Layor2->SetRenderOrder(ERENDERORDER::Scenery_1);
 	Layor2->SetWorldPosition(Layer3LeftTopPosition, ERENDER_PIVOT_LOCATION::LeftTop);
 	Layor2->SetMoveDirection(float4::LEFT);
-	Layor2->SetMoveRatio(1.6f);
+	Layor2->SetMoveRatio(1.2f);
 	vecScenery.push_back(Layor2);
 
 	std::shared_ptr<Scenery> Layor3 = _CurLevel->CreateActor<Scenery>(EUPDATEORDER::Objects);
@@ -110,6 +110,8 @@ void BackDrop_MainMenu::CreateScenery(class GameEngineLevel* _CurLevel)
 
 void BackDrop_MainMenu::CreateProps(class GameEngineLevel* _CurLevel)
 {
+	vecProps.reserve(5);
+
 	std::shared_ptr<Props> Props0 = _CurLevel->CreateActor<Props>(EUPDATEORDER::Objects);
 	Props0->CreateRenderer(ERENDERORDER::Prop_1);
 	Props0->CreateAnimation("Hair","MainMenuHair", 0.1f);
@@ -118,7 +120,60 @@ void BackDrop_MainMenu::CreateProps(class GameEngineLevel* _CurLevel)
 	float4 HairMovePoint = MainMenuHairSize.Half();
 	HairMovePoint.Y *= -1.0f;
 	Props0->SetWorldPosition(MainMenuHairLeftTopPosition + HairMovePoint);
+	vecProps.push_back(Props0);
+
+
+	std::shared_ptr<Props> Props1 = _CurLevel->CreateActor<Props>(EUPDATEORDER::Objects);
+	Props1->CreateRenderer(ERENDERORDER::Prop_1);
+	Props1->CreateAnimation("Clothes", "MainMenuClothes", 0.1f);
+	Props1->ChangeAnimation("Clothes");
+
+	std::shared_ptr<GameEngineTexture> ClothesTexture = GameEngineTexture::Find("MainMenuClothes_Idle_Body_Down_01.Png");
+	if (nullptr == ClothesTexture)
+	{
+		MsgBoxAssert("텍스처를 불러오지 못했습니다.");
+		return;
+	}
+
+	float4 ClothScale = ClothesTexture->GetScale();
+	ClothScale.Y *= -1.0f;
+	Props1->SetWorldPosition(MainMenuClothLeftTopPosition + ClothScale.Half());
+	vecProps.push_back(Props1);
+
+
+
+	std::shared_ptr<Props> Props2 = _CurLevel->CreateActor<Props>(EUPDATEORDER::Objects);
+	Props2->CreateRenderer(ERENDERORDER::Scenery_5);
+	Props2->CreateAnimation("Flags", "MainMenuFlag", 0.1f);
+	Props2->ChangeAnimation("Flags");
+
+	std::shared_ptr<GameEngineTexture> FlagsTexture = GameEngineTexture::Find("MainMenuFlag_Idle_Body_Down_01.Png");
+	if (nullptr == FlagsTexture)
+	{
+		MsgBoxAssert("텍스처를 불러오지 못했습니다.");
+		return;
+	}
+
+	float4 FlagScale = FlagsTexture->GetScale();
+	FlagScale.Y *= -1.0f;
+	Props2->SetWorldPosition(MainMenuFlagLeftTopPosition + FlagScale.Half());
+	vecProps.push_back(Props2);
 	
+
+	std::shared_ptr<Props> Props3 = _CurLevel->CreateActor<Props>(EUPDATEORDER::Objects);
+	Props3->CreateRenderer(ERENDERORDER::Scenery_5);
+	Props3->CreateAnimation("MagicBack", "MainMenuMagicBack", 0.1f);
+	Props3->ChangeAnimation("MagicBack");
+	Props3->SetWorldPosition(MainMenuMagicOraCenterPosition);
+	vecProps.push_back(Props3);
+
+
+	std::shared_ptr<Props> Props4 = _CurLevel->CreateActor<Props>(EUPDATEORDER::Objects);
+	Props4->CreateRenderer(ERENDERORDER::Prop_1);
+	Props4->CreateAnimation("MagicFront2", "MainMenuMagicFront2", 0.1f);
+	Props4->ChangeAnimation("MagicFront2");
+	Props4->SetWorldPosition(MainMenuMagicFront2CenterPosition);
+	vecProps.push_back(Props4);
 }
 
 
