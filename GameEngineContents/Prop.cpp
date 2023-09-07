@@ -1,34 +1,34 @@
 #include "PreCompile.h"
-#include "Props.h"
+#include "Prop.h"
 
-Props::Props()
+Prop::Prop()
 	:
 	m_Renderer(nullptr),
 	m_Position(float4::ZERO)
 {
 }
 
-Props::~Props() 
+Prop::~Prop() 
 {
 }
 
 
-void Props::Start()
+void Prop::Start()
 {
 
 }
 
-void Props::Update(float _Delta)
+void Prop::Update(float _Delta)
 {
 
 }
 
-void Props::LevelStart(class GameEngineLevel* _NextLevel)
+void Prop::LevelStart(class GameEngineLevel* _NextLevel)
 {
 
 }
 
-void Props::LevelEnd(class GameEngineLevel* _NextLevel)
+void Prop::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 
 }
@@ -37,7 +37,7 @@ void Props::LevelEnd(class GameEngineLevel* _NextLevel)
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-void Props::CreateRenderer(int _Order)
+void Prop::CreateRenderer(int _Order)
 {
 	m_Renderer = CreateComponent<GameEngineSpriteRenderer>(_Order);
 	if (nullptr == m_Renderer)
@@ -47,7 +47,7 @@ void Props::CreateRenderer(int _Order)
 	}
 }
 
-void Props::SetSprite(std::string_view _SpriteName)
+void Prop::SetSprite(std::string_view _SpriteName)
 {
 	if (nullptr == m_Renderer)
 	{
@@ -58,12 +58,12 @@ void Props::SetSprite(std::string_view _SpriteName)
 	m_Renderer->SetSprite(_SpriteName);
 }
 
-void Props::SetWorldPosition(const float4& _Position)
+void Prop::SetWorldPosition(const float4& _Position)
 {
 	Transform.SetLocalPosition(_Position);
 }
 
-void Props::CreateAnimation(
+void Prop::CreateAnimation(
 
 	std::string_view _AnimationName,
 	std::string_view _SpriteName,
@@ -83,7 +83,7 @@ void Props::CreateAnimation(
 }
 
 
-void Props::ChangeAnimation(std::string_view _AnimationName)
+void Prop::ChangeAnimation(std::string_view _AnimationName)
 {
 	if (nullptr == m_Renderer)
 	{
@@ -96,7 +96,7 @@ void Props::ChangeAnimation(std::string_view _AnimationName)
 }
 
 
-void Props::ActorRelease()
+void Prop::ActorRelease()
 {
 	if (nullptr == m_Renderer)
 	{

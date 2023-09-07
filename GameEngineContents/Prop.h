@@ -4,19 +4,19 @@
 // 상호작용이 가능한 Prop와 상호작용이 불가능한 Prop로 나뉜다.
 // 
 
-// 설명 :
-class Props : public GameEngineActor
+// 설명 : 
+class Prop : public GameEngineActor
 {
 public:
 	// constrcuter destructer
-	Props();
-	~Props();
+	Prop();
+	~Prop();
 
 	// delete Function
-	Props(const Props& _Other) = delete;
-	Props(Props&& _Other) noexcept = delete;
-	Props& operator=(const Props& _Other) = delete;
-	Props& operator=(Props&& _Other) noexcept = delete;
+	Prop(const Prop& _Other) = delete;
+	Prop(Prop&& _Other) noexcept = delete;
+	Prop& operator=(const Prop& _Other) = delete;
+	Prop& operator=(Prop&& _Other) noexcept = delete;
 
 protected:
 	void Start() override;

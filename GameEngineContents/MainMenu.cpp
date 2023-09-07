@@ -47,7 +47,7 @@ void MainMenu::LevelStart(GameEngineLevel* _PrevLevel)
 	ContentsLevel::LevelStart(_PrevLevel);
 
 	{
-		GlobalUtils::LoadAllFileInPath("Resources\\Main");
+		GlobalUtils::LoadAllFileInPath("Resources\\Main\\Prev");
 
 		GameEngineSprite::CreateSingle("Parallax_Layer1.png");
 		GameEngineSprite::CreateSingle("Parallax_Layer3.png");
@@ -104,41 +104,26 @@ void MainMenu::LevelEnd(GameEngineLevel* _NextLevel)
 
 	// 2. 스프라이트 정리
 	{
-		GameEngineSprite::Release("Parallax_Layer1.png");
-		GameEngineSprite::Release("Parallax_Layer3.png");
-		GameEngineSprite::Release("Parallax_Layer4.png");
-		GameEngineSprite::Release("Parallax_Layer5.png");
-		GameEngineSprite::Release("Parallax_Layer6.png");
-		GameEngineSprite::Release("Parallax_Layer7.png");
-		GameEngineSprite::Release("Parallax_Layer8.png");
-		GameEngineSprite::Release("Parallax_Layer10_2.png");
-
-		GameEngineSprite::Release("MainMenuClothes");
-		GameEngineSprite::Release("MainMenuElectric");
-		GameEngineSprite::Release("MainMenuFlag");
-		GameEngineSprite::Release("MainMenuHair");
-		GameEngineSprite::Release("MainMenuMagicBack");
-		GameEngineSprite::Release("MainMenuMagicFront");
-		GameEngineSprite::Release("MainMenuMagicFront2");
+		/*GameEngineSprite::Release("Parallax_Layer1.png");*/
 	}
 
 	// 3. 텍스처 정리
-	GlobalUtils::ReleaseAllTextureInPath("Resources\\Main");
+	GlobalUtils::ReleaseAllTextureInPath("Resources\\Train");
 
-	GameEngineDirectory Dir;
-	Dir.MoveParentToExistsChild("Resources");
-	Dir.MoveChild("Resources\\Main");
+	//GameEngineDirectory Dir;
+	//Dir.MoveParentToExistsChild("Resources");
+	//Dir.MoveChild("Resources\\Main\\Prev");
 
-	std::vector<GameEngineDirectory> Result = Dir.GetAllDirectory();
-	for (size_t i = 0; i < Result.size(); i++)
-	{
-		GameEngineDirectory& Dir = Result[i];
-		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-		for (size_t i = 0; i < Files.size(); i++)
-		{
-			GameEngineTexture::Release(Files[i].GetFileName());
-		}
-	}
+	//std::vector<GameEngineDirectory> Result = Dir.GetAllDirectory();
+	//for (size_t i = 0; i < Result.size(); i++)
+	//{
+	//	GameEngineDirectory& Dir = Result[i];
+	//	std::vector<GameEngineFile> Files = Dir.GetAllFile();
+	//	for (size_t i = 0; i < Files.size(); i++)
+	//	{
+	//		GameEngineTexture::Release(Files[i].GetFileName());
+	//	}
+	//}
 
 	
 	//GlobalUtils::releaseAllTextureInPath("Resources\\Main");

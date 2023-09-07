@@ -4,7 +4,7 @@
 #include "GlobalUtils.h"
 
 #include "Scenery.h"
-#include "Props.h"
+#include "Prop.h"
 
 BackDrop_MainMenu::BackDrop_MainMenu() 
 {
@@ -52,7 +52,7 @@ void BackDrop_MainMenu::CreateBackDrop()
 	}
 
 	CreateScenery(CurLevel);
-	CreateProps(CurLevel);
+	CreateProp(CurLevel);
 }
 
 void BackDrop_MainMenu::CreateScenery(class GameEngineLevel* _CurLevel)
@@ -108,25 +108,25 @@ void BackDrop_MainMenu::CreateScenery(class GameEngineLevel* _CurLevel)
 	vecScenery.push_back(Layor10);
 }
 
-void BackDrop_MainMenu::CreateProps(class GameEngineLevel* _CurLevel)
+void BackDrop_MainMenu::CreateProp(class GameEngineLevel* _CurLevel)
 {
 	vecProps.reserve(5);
 
-	std::shared_ptr<Props> Props0 = _CurLevel->CreateActor<Props>(EUPDATEORDER::Objects);
-	Props0->CreateRenderer(ERENDERORDER::Prop_1);
-	Props0->CreateAnimation("Hair","MainMenuHair", 0.1f);
-	Props0->ChangeAnimation("Hair");
+	std::shared_ptr<Prop> Prop0 = _CurLevel->CreateActor<Prop>(EUPDATEORDER::Objects);
+	Prop0->CreateRenderer(ERENDERORDER::Prop_1);
+	Prop0->CreateAnimation("Hair","MainMenuHair", 0.1f);
+	Prop0->ChangeAnimation("Hair");
 
 	float4 HairMovePoint = MainMenuHairSize.Half();
 	HairMovePoint.Y *= -1.0f;
-	Props0->SetWorldPosition(MainMenuHairLeftTopPosition + HairMovePoint);
-	vecProps.push_back(Props0);
+	Prop0->SetWorldPosition(MainMenuHairLeftTopPosition + HairMovePoint);
+	vecProps.push_back(Prop0);
 
 
-	std::shared_ptr<Props> Props1 = _CurLevel->CreateActor<Props>(EUPDATEORDER::Objects);
-	Props1->CreateRenderer(ERENDERORDER::Prop_1);
-	Props1->CreateAnimation("Clothes", "MainMenuClothes", 0.1f);
-	Props1->ChangeAnimation("Clothes");
+	std::shared_ptr<Prop> Prop1 = _CurLevel->CreateActor<Prop>(EUPDATEORDER::Objects);
+	Prop1->CreateRenderer(ERENDERORDER::Prop_1);
+	Prop1->CreateAnimation("Clothes", "MainMenuClothes", 0.1f);
+	Prop1->ChangeAnimation("Clothes");
 
 	std::shared_ptr<GameEngineTexture> ClothesTexture = GameEngineTexture::Find("MainMenuClothes_Idle_Body_Down_01.Png");
 	if (nullptr == ClothesTexture)
@@ -137,15 +137,15 @@ void BackDrop_MainMenu::CreateProps(class GameEngineLevel* _CurLevel)
 
 	float4 ClothScale = ClothesTexture->GetScale();
 	ClothScale.Y *= -1.0f;
-	Props1->SetWorldPosition(MainMenuClothLeftTopPosition + ClothScale.Half());
-	vecProps.push_back(Props1);
+	Prop1->SetWorldPosition(MainMenuClothLeftTopPosition + ClothScale.Half());
+	vecProps.push_back(Prop1);
 
 
 
-	std::shared_ptr<Props> Props2 = _CurLevel->CreateActor<Props>(EUPDATEORDER::Objects);
-	Props2->CreateRenderer(ERENDERORDER::Scenery_5);
-	Props2->CreateAnimation("Flags", "MainMenuFlag", 0.1f);
-	Props2->ChangeAnimation("Flags");
+	std::shared_ptr<Prop> Prop2 = _CurLevel->CreateActor<Prop>(EUPDATEORDER::Objects);
+	Prop2->CreateRenderer(ERENDERORDER::Scenery_5);
+	Prop2->CreateAnimation("Flags", "MainMenuFlag", 0.1f);
+	Prop2->ChangeAnimation("Flags");
 
 	std::shared_ptr<GameEngineTexture> FlagsTexture = GameEngineTexture::Find("MainMenuFlag_Idle_Body_Down_01.Png");
 	if (nullptr == FlagsTexture)
@@ -156,24 +156,24 @@ void BackDrop_MainMenu::CreateProps(class GameEngineLevel* _CurLevel)
 
 	float4 FlagScale = FlagsTexture->GetScale();
 	FlagScale.Y *= -1.0f;
-	Props2->SetWorldPosition(MainMenuFlagLeftTopPosition + FlagScale.Half());
-	vecProps.push_back(Props2);
+	Prop2->SetWorldPosition(MainMenuFlagLeftTopPosition + FlagScale.Half());
+	vecProps.push_back(Prop2);
 	
 
-	std::shared_ptr<Props> Props3 = _CurLevel->CreateActor<Props>(EUPDATEORDER::Objects);
-	Props3->CreateRenderer(ERENDERORDER::Scenery_5);
-	Props3->CreateAnimation("MagicBack", "MainMenuMagicBack", 0.1f);
-	Props3->ChangeAnimation("MagicBack");
-	Props3->SetWorldPosition(MainMenuMagicOraCenterPosition);
-	vecProps.push_back(Props3);
+	std::shared_ptr<Prop> Prop3 = _CurLevel->CreateActor<Prop>(EUPDATEORDER::Objects);
+	Prop3->CreateRenderer(ERENDERORDER::Scenery_5);
+	Prop3->CreateAnimation("MagicBack", "MainMenuMagicBack", 0.1f);
+	Prop3->ChangeAnimation("MagicBack");
+	Prop3->SetWorldPosition(MainMenuMagicOraCenterPosition);
+	vecProps.push_back(Prop3);
 
 
-	std::shared_ptr<Props> Props4 = _CurLevel->CreateActor<Props>(EUPDATEORDER::Objects);
-	Props4->CreateRenderer(ERENDERORDER::Prop_1);
-	Props4->CreateAnimation("MagicFront2", "MainMenuMagicFront2", 0.1f);
-	Props4->ChangeAnimation("MagicFront2");
-	Props4->SetWorldPosition(MainMenuMagicFront2CenterPosition);
-	vecProps.push_back(Props4);
+	std::shared_ptr<Prop> Prop4 = _CurLevel->CreateActor<Prop>(EUPDATEORDER::Objects);
+	Prop4->CreateRenderer(ERENDERORDER::Prop_1);
+	Prop4->CreateAnimation("MagicFront2", "MainMenuMagicFront2", 0.1f);
+	Prop4->ChangeAnimation("MagicFront2");
+	Prop4->SetWorldPosition(MainMenuMagicFront2CenterPosition);
+	vecProps.push_back(Prop4);
 }
 
 

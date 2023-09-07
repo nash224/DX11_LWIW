@@ -227,7 +227,11 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Props.cpp">
+    <ClCompile Include="Prop.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PropSeries.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -310,7 +314,11 @@
     </ClInclude>
     <ClInclude Include="PlayLevel.h" />
     <ClInclude Include="PreCompile.h" />
-    <ClInclude Include="Props.h">
+    <ClInclude Include="Prop.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PropSeries.h">
       <SubType>
       </SubType>
     </ClInclude>

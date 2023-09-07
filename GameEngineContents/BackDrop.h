@@ -4,7 +4,7 @@
 
 // 설명 :
 class Scenery;
-class Props;
+class Prop;
 class BackDrop : public GameEngineActor
 {
 public:
@@ -34,7 +34,7 @@ protected:
 	// 3. Prop(소품 : 건물, 구조물, 깃발, 시민 등)
 	// 4. 비트 충돌맵
 	std::vector<std::shared_ptr<Scenery>> vecScenery;
-	std::vector<std::shared_ptr<Props>> vecProps;
+	std::vector<std::shared_ptr<Prop>> vecProps;
 
 
 

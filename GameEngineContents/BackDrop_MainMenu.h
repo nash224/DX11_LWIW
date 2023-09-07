@@ -29,7 +29,7 @@ private:
 private:
 	void CreateBackDrop();
 	void CreateScenery(class GameEngineLevel* _CurLevel);
-	void CreateProps(class GameEngineLevel* _CurLevel);
+	void CreateProp(class GameEngineLevel* _CurLevel);
 
 public:
 	void ReleaseCurrentLevelChildActor();
