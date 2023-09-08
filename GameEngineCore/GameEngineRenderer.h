@@ -53,12 +53,11 @@ protected:
 
 	// 분명히 자신의 랜더링 순서이다.
 
-	// 
+	GameEngineTransform* DataTransform;
 
 private:
 	class GameEngineCamera* Camera = nullptr;
 	std::shared_ptr<class GameEngineInputLayOut> LayOut = nullptr;
-
 	// int CameraOrder = 0;
 };
 

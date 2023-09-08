@@ -49,6 +49,7 @@ void GameEngineRenderer::SetCameraOrder(int _Order)
 
 void GameEngineRenderer::Start()
 {
+	DataTransform = &Transform;
 	SetCameraOrder(0);
 }
 
@@ -106,7 +107,7 @@ void GameEngineRenderer::ResSetting()
 
 		if (nullptr != Buffer)
 		{
-			const TransformData& Data = Transform.GetConstTransformDataRef();
+			const TransformData& Data = DataTransform->GetConstTransformDataRef();
 			Buffer->ChangeData(Data);
 			Buffer->Setting(0);
 		}
@@ -189,29 +190,6 @@ void GameEngineRenderer::ResSetting()
 
 void GameEngineRenderer::Draw()
 {
-	ID3D11BlendState* pBlendState;
-
-	
-
-	D3D11_BLEND_DESC blendDesc = {};
-	blendDesc.AlphaToCoverageEnable = false;
-	blendDesc.IndependentBlendEnable = false;
-	blendDesc.RenderTarget[0].BlendEnable = true;
-	blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
-	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
-	blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
-	blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
-	blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
-	blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
-	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
-
-	HRESULT hr = GameEngineCore::GetDevice()->CreateBlendState(&blendDesc, &pBlendState);
-
-	GameEngineCore::GetContext()->OMSetBlendState(pBlendState, nullptr, 0xFFFFFFFF);
-
-	pBlendState->Release();
-
-
 	std::shared_ptr<GameEngineIndexBuffer> IndexBuffer = GameEngineIndexBuffer::Find("Rect");
 	if (nullptr == IndexBuffer)
 	{
