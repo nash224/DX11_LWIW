@@ -882,6 +882,60 @@ public:
 		//Arr2D[3][2] = -(_Near * _Far) / (_Far - _Near);
 	}
 
+	//      60도를 본다.                    200              100
+	// 수직
+	void PerspectiveFovLH(float _FovAngle, float _Width, float _Height, float _Far, float _Near)
+	{
+		PerspectiveFovLH(_FovAngle, _Width / _Height, _Far, _Near);
+	}
+
+	// 수직 시야각 
+	// 1000.0f 0.1f
+	void PerspectiveFovLH(float _FovAngle, float _AspectRatio, float _Far, float _Near)
+	{
+		Identity();
+
+		// DirectX::XMMatrixPerspectiveFovLH()
+
+		float YFOV = _FovAngle * GameEngineMath::D2R;
+
+		// 원근 투영행렬에서 특징적인 부분.
+		Arr2D[2][3] = 1.0f;
+		Arr2D[3][3] = 0.0f;
+
+		// 투영행렬의 규칙은
+		// 모든 오브젝트의 모든 점을 -1 사이의 공간에 넣는것이다.
+
+		// 요 2값은 제대로된 
+
+		// x와 곱해질 비율
+		Arr2D[0][0] = 1.0f / (tanf(YFOV / 2.0f) * _AspectRatio); // / 600
+
+
+		// y와 곱해질 비율
+		// 1나누기를 하는 이유는?
+		// -1 1사이의 값으로 만들려고.
+
+		// 근본적인 원근투영의 원리는
+		// z값이 클수록 y값이 줄어든다.
+		// 이 y * 
+		Arr2D[1][1] = 1.0f / tanf(YFOV / 2.0f);  // / 600
+
+		// 1000 
+
+		//     100    100   100 * 투영
+		//  * 0.5f          *0.5f
+		//                  50.0f
+
+		// 범위안에 있는 녀석들 다 0~1사이의 값으로 바꿉니다.
+		// 1000 * 0.9784123f
+		//           1000  / (1000 - 0.1f);
+		Arr2D[2][2] = _Far / (_Far - _Near);
+
+		// 이동이 이 좀 들어가기는 했는데
+		Arr2D[3][2] = -(_Near * _Far) / (_Far - _Near);
+	}
+
 
 	void ViewPort(float _Width, float _Height, float _Left, float _Right, float _ZMin = 0.0f, float _ZMax = 1.0f)
 	{
