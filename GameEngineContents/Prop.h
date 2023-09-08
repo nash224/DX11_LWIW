@@ -35,8 +35,9 @@ public:
 	void CreateRenderer(int _Order);
 
 	void SetSprite(std::string_view _SpriteName);
-	void SetWorldPosition(const float4& _Position);
+	void SetLocalPosition(const float4& _Position, EDIRECTION _Direction = EDIRECTION::CENTER);
 
+public:
 	void CreateAnimation(
 		std::string_view _AnimationName,
 		std::string_view _SpriteName,
@@ -47,7 +48,20 @@ public:
 	);
 
 	void ChangeAnimation(std::string_view _AnimationName);
+	void AutoSpriteSize(bool _Value, float _Ratio);
+
+	void CreateAutomatedAnimation(
+		std::string_view _AnimationName,
+		std::string_view _SpriteName,
+		float _Raito = 1.0f,
+		float _Inter = 0.1f,
+		unsigned int _Start = -1,
+		unsigned int _End = -1,
+		bool _Loop = true
+	);
 	
+public:
+	std::shared_ptr<class GameEngineSpriteRenderer>& GetSpriteRenderer();
 	
 public:
 	void ActorRelease();
@@ -56,7 +70,7 @@ public:
 protected:
 	
 	std::shared_ptr<class GameEngineSpriteRenderer> m_Renderer;
-
+	float4 m_TextureScale;
 	float4 m_Position;
 
 };

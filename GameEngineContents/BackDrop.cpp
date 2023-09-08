@@ -7,6 +7,9 @@
 
 
 BackDrop::BackDrop()
+	:
+	m_BackScale(float4::ZERO)
+
 {
 }
 

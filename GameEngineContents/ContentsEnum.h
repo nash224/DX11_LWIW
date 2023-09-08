@@ -15,6 +15,7 @@ enum class EUPDATEORDER
 
 enum class ERENDERORDER
 {
+	Back_,
 	Scenery_0,
 	Scenery_1,
 	Scenery_2,
@@ -36,6 +37,30 @@ enum class ERENDERORDER
 	Tone_Shader,
 };
 
+enum class ETITLERENDERORDER
+{
+	Back_,
+	Star,
+	Water,
+	Bridge_blur,
+	Train_blur,
+	Mountain_blur,
+	Train_Light_blur,
+	Water_blur,
+	Cloud_0,
+	Cloud_1,
+	Cloud_2,
+	Cloud_3,
+	Cloud_4,
+	Props_0,
+	Props_1,
+	Trains,
+	Trains_Light,
+	Bridge,
+	Shadow,
+	Logo,
+};
+
 
 enum class EUI_RENDERORDER
 {
@@ -55,4 +80,17 @@ enum class ELEVELTYPE
 	MainMenu,
 	Misson0_Part1,
 	Max,
+};
+
+enum class EDIRECTION
+{
+	CENTER,
+	TOP,
+	LEFTTOP,
+	LEFT,
+	LEFTBOT,
+	BOT,
+	RIGHTBOT,
+	RIGHT,
+	RIGHTTOP,
 };
