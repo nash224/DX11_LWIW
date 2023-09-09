@@ -61,6 +61,8 @@ void GameEngineLevel::Render(float _Delta)
 		std::shared_ptr<GameEngineCamera>& Camera = CameraPair.second;
 		Camera->Render(_Delta);
 	}
+
+	int a = 0;
 }
 
 void GameEngineLevel::Release()
@@ -109,8 +111,6 @@ void GameEngineLevel::AllReleaseCheck()
 			Start = Group.erase(Start);
 		}
 	}
-
-
 }
 
 void GameEngineLevel::ActorInit(std::shared_ptr<class GameEngineActor> _Actor, int _Order)

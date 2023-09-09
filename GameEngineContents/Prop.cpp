@@ -24,6 +24,11 @@ void Prop::Update(float _Delta)
 
 }
 
+void Prop::Release()
+{
+
+}
+
 void Prop::LevelStart(class GameEngineLevel* _NextLevel)
 {
 
@@ -68,38 +73,20 @@ void Prop::SetSprite(std::string_view _SpriteName)
 	m_TextureScale = Texture->GetScale();
 }
 
-void Prop::SetLocalPosition(const float4& _Position, EDIRECTION _Direction/* = EDIRECTION::CENTER*/)
+void Prop::SetLocalPosition(const float4& _Position, PivotType _Direction/* = EDIRECTION::CENTER*/)
 {
 	Transform.SetLocalPosition(_Position);
 
-	float4 HScale = m_TextureScale.Half();
-
-	switch (_Direction)
+	if (nullptr == m_Renderer)
 	{
-	case EDIRECTION::CENTER:
-		break;
-	case EDIRECTION::TOP:
-		break;
-	case EDIRECTION::LEFTTOP:
-		HScale.Y *= -1.0f;
-		break;
-	case EDIRECTION::LEFT:
-		break;
-	case EDIRECTION::LEFTBOT:
-		break;
-	case EDIRECTION::BOT:
-		break;
-	case EDIRECTION::RIGHTBOT:
-		break;
-	case EDIRECTION::RIGHT:
-		break;
-	case EDIRECTION::RIGHTTOP:
-		break;
-	default:
-		break;
+		MsgBoxAssert("렌더러를 생성하지 않고 애니메이션을 생성하려고 했습니다.");
+		return;
 	}
 
-	Transform.SetLocalPosition(HScale);
+	m_Renderer->SetPivotType(_Direction);
+
+	//float4 HScale = m_TextureScale.Half();
+	//Transform.SetLocalPosition(HScale);
 }
 
 void Prop::CreateAnimation(
@@ -133,7 +120,7 @@ void Prop::ChangeAnimation(std::string_view _AnimationName)
 	m_Renderer->AutoSpriteSizeOn();
 }
 
-void Prop::AutoSpriteSize(bool _Value, float _Ratio)
+void Prop::SetAutoSpriteSize(float _Ratio, bool _Value /*= true*/)
 {
 	if (nullptr == m_Renderer)
 	{
@@ -161,6 +148,7 @@ void Prop::CreateAutomatedAnimation(
 	}
 
 	m_Renderer->CreateAnimation(_AnimationName, _SpriteName, _Inter, _Start, _End, _Loop);
+	m_Renderer->ChangeAnimation(_AnimationName);
 	m_Renderer->AutoSpriteSizeOn();
 	m_Renderer->SetAutoScaleRatio(_Raito);
 }
@@ -180,11 +168,7 @@ std::shared_ptr<class GameEngineSpriteRenderer>& Prop::GetSpriteRenderer()
 
 void Prop::ActorRelease()
 {
-	if (nullptr != m_Renderer)
-	{
-		m_Renderer->Death();
-		m_Renderer = nullptr;
-	}
+	m_Renderer = nullptr;
 
 	Death();
 }

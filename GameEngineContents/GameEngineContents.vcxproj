@@ -231,11 +231,19 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="PropSeries.cpp">
+    <ClCompile Include="MainMenu_Trains.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ChainProp.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="Scenery.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="SequentialProp.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -256,6 +264,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="TitleTestLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TrainPart.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -318,11 +330,19 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="PropSeries.h">
+    <ClInclude Include="MainMenu_Trains.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ChainProp.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="Scenery.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SequentialProp.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -343,6 +363,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="TitleTestLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TrainPart.h">
       <SubType>
       </SubType>
     </ClInclude>

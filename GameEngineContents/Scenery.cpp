@@ -36,6 +36,11 @@ void Scenery::Update(float _Delta)
 	MoveSceneryLocation(_Delta);
 }
 
+void Scenery::Release()
+{
+	m_SpriteRenderer = nullptr;
+}
+
 void Scenery::LevelStart(class GameEngineLevel* _NextLevel)
 {
 

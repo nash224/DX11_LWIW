@@ -21,6 +21,7 @@ public:
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
+	void Release() override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
@@ -32,10 +33,10 @@ public:
 		CreateRenderer(static_cast<int>(_Order));
 	}
 
-	void CreateRenderer(int _Order);
+	virtual void CreateRenderer(int _Order);
 
 	void SetSprite(std::string_view _SpriteName);
-	void SetLocalPosition(const float4& _Position, EDIRECTION _Direction = EDIRECTION::CENTER);
+	void SetLocalPosition(const float4& _Position, PivotType _Direction = PivotType::Center);
 
 public:
 	void CreateAnimation(
@@ -48,7 +49,7 @@ public:
 	);
 
 	void ChangeAnimation(std::string_view _AnimationName);
-	void AutoSpriteSize(bool _Value, float _Ratio);
+	void SetAutoSpriteSize(float _Ratio, bool _Value = true);
 
 	void CreateAutomatedAnimation(
 		std::string_view _AnimationName,

@@ -25,6 +25,12 @@
     <Filter Include="Object\Actor\Tool">
       <UniqueIdentifier>{fd7a5fc6-0d4c-40ba-80c4-b15d4346d8a5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\NonInteractive\BackDrop\Prop">
+      <UniqueIdentifier>{bcf057dd-e7fe-4c0b-9aeb-089a080e4283}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\NonInteractive\BackDrop\Prop\Train">
+      <UniqueIdentifier>{9bea090b-73fd-4f04-98b6-027d841b716f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -93,10 +99,19 @@
       <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
     </ClInclude>
     <ClInclude Include="Prop.h">
-      <Filter>Object\Actor\Tool</Filter>
+      <Filter>Object\Actor\NonInteractive\BackDrop\Prop</Filter>
     </ClInclude>
-    <ClInclude Include="PropSeries.h">
-      <Filter>Object\Actor\Tool</Filter>
+    <ClInclude Include="ChainProp.h">
+      <Filter>Object\Actor\NonInteractive\BackDrop\Prop</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenu_Trains.h">
+      <Filter>Object\Actor\NonInteractive\BackDrop\Prop\Train</Filter>
+    </ClInclude>
+    <ClInclude Include="TrainPart.h">
+      <Filter>Object\Actor\NonInteractive\BackDrop\Prop\Train</Filter>
+    </ClInclude>
+    <ClInclude Include="SequentialProp.h">
+      <Filter>Object\Actor\NonInteractive\BackDrop\Prop</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -160,10 +175,19 @@
       <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
     </ClCompile>
     <ClCompile Include="Prop.cpp">
-      <Filter>Object\Actor\Tool</Filter>
+      <Filter>Object\Actor\NonInteractive\BackDrop\Prop</Filter>
     </ClCompile>
-    <ClCompile Include="PropSeries.cpp">
-      <Filter>Object\Actor\Tool</Filter>
+    <ClCompile Include="ChainProp.cpp">
+      <Filter>Object\Actor\NonInteractive\BackDrop\Prop</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenu_Trains.cpp">
+      <Filter>Object\Actor\NonInteractive\BackDrop\Prop\Train</Filter>
+    </ClCompile>
+    <ClCompile Include="TrainPart.cpp">
+      <Filter>Object\Actor\NonInteractive\BackDrop\Prop\Train</Filter>
+    </ClCompile>
+    <ClCompile Include="SequentialProp.cpp">
+      <Filter>Object\Actor\NonInteractive\BackDrop\Prop</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

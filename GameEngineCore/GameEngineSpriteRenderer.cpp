@@ -169,7 +169,8 @@ void GameEngineSpriteRenderer::SetSprite(std::string_view _Name, unsigned int in
 
 	if (nullptr == Sprite)
 	{
-		MsgBoxAssert("존재하지 않는 스프라이트를 사용하려고 했습니다.");
+		std::string FileName  = _Name.data();
+		MsgBoxAssert(FileName + "존재하지 않는 스프라이트를 사용하려고 했습니다.");
 	}
 
 	CurSprite = Sprite->GetSpriteData(index);
@@ -356,10 +357,16 @@ void GameEngineSpriteRenderer::SetPivotType(PivotType _Type)
 		Pivot = { 0.5f, 0.5f };
 		break;
 	case PivotType::Bottom:
-		Pivot = { 0.5f, 0.0f };
+		Pivot = { 0.5f, 1.0f };
+		break;
+	case PivotType::LeftTop:
+		Pivot = { 1.0f, 0.0f };
 		break;
 	case PivotType::Left:
 		Pivot = { 1.0f, 0.5f };
+		break;
+	case PivotType::Right:
+		Pivot = { 0.0f, 0.5f };
 		break;
 	default:
 		break;
