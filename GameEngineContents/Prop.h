@@ -43,8 +43,8 @@ public:
 		std::string_view _AnimationName,
 		std::string_view _SpriteName,
 		float _Inter = 0.1f,
-		unsigned int _Start = -1,
-		unsigned int _End = -1,
+		int _Start = -1,
+		int _End = -1,
 		bool _Loop = true
 	);
 
@@ -54,11 +54,11 @@ public:
 	void CreateAutomatedAnimation(
 		std::string_view _AnimationName,
 		std::string_view _SpriteName,
-		float _Raito = 1.0f,
 		float _Inter = 0.1f,
-		unsigned int _Start = -1,
-		unsigned int _End = -1,
-		bool _Loop = true
+		int _Start = -1,
+		int _End = -1,
+		bool _Loop = true,
+		float _Raito = 1.0f
 	);
 	
 public:

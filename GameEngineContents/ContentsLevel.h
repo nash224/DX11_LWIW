@@ -38,7 +38,6 @@ protected:
 private:
 
 
-
 protected:
 	bool CurrentLevelSpriteCreateCheck;
 	

@@ -45,3 +45,7 @@ void ContentsLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	CurrentLevelSpriteCreateCheck = false;
 }
+
+
+
+

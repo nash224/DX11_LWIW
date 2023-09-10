@@ -93,8 +93,8 @@ void Prop::CreateAnimation(
 	std::string_view _AnimationName,
 	std::string_view _SpriteName,
 	float _Inter /*= 0.1f*/,
-	unsigned int _Start /*= -1*/,
-	unsigned int _End /*= -1*/,
+	int _Start /*= -1*/,
+	int _End /*= -1*/,
 	bool _Loop /*= true*/
 )
 {
@@ -135,11 +135,11 @@ void Prop::SetAutoSpriteSize(float _Ratio, bool _Value /*= true*/)
 void Prop::CreateAutomatedAnimation(
 	std::string_view _AnimationName,
 	std::string_view _SpriteName,
-	float _Raito /*= 1.0f*/,
 	float _Inter /*= 0.1f*/,
-	unsigned int _Start /*= -1*/,
-	unsigned int _End /*= -1*/,
-	bool _Loop /*= true*/
+	int _Start /*= -1*/,
+	int _End /*= -1*/,
+	bool _Loop /*= true*/,
+	float _Raito /*= 1.0f*/
 )
 {
 	if (nullptr == m_Renderer)

@@ -148,11 +148,7 @@ void Scenery::MoveSceneryLocation(float _Delta)
 
 void Scenery::ActorRelease()
 {
-	if (nullptr != m_SpriteRenderer)
-	{
-		m_SpriteRenderer->Death();
-		m_SpriteRenderer = nullptr;
-	}
+	m_SpriteRenderer = nullptr;
 
 	Death();
 }

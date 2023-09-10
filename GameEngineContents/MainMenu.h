@@ -31,6 +31,15 @@ private:
 
 
 private:
+	void LoadTexture();
+	void LoadSprite();
+	void InitActor();
+
+
+	void ActorRelease();
+
+	void ReleaseSprite();
+	void ReleaseTexture();
 
 private:
 	

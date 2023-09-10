@@ -29,6 +29,7 @@ private:
 
 
 public:
+	// Init
 	template<typename DataType>
 	void SetRenderOrder(DataType _Order)
 	{
@@ -40,14 +41,16 @@ public:
 	void SetSprite(std::string_view _FileName);
 	void SetFirstLocation(const float4& _Position);
 	void SetRegenLocation(const float4& _Position);
-	void CalculateAndSetRegenLocationInputFirstLocation(const float4& _Position);
-	void SetRegenTime(float _Time);
+	void SetSpawnPoint(float _Value);
+	void SetAutoSpawnPoint();
 	void SetSpeed(float _Speed);
+	void CalculateAndSetRegenLocationInputFirstLocation(const float4& _Position);
 
 private:
 
 private:
-	void UpdateSeries(float _Delta);
+	// 업데이트 
+	void UpdateSeries();
 	void EraseOverScreenProp();
 
 	void RegenProp(const float4& _Position = float4::ZERO);
@@ -55,6 +58,7 @@ private:
 public:
 
 public:
+	// Release
 	void ActorRelease();
 
 private:
@@ -67,16 +71,11 @@ private:
 
 
 	float4 m_FirstLocation = float4::ZERO;	
-	float4 m_RegenLocation = float4::ZERO;	
+	float4 m_RegenLocation = float4::ZERO;
+	float m_RegenPoint = 0.0f;
 
+	float m_Speed = 0.0f;
 
-
-	float m_StateTime;							// 진행된 시간
-	float m_RegenTime;							// 리젠 간격
-	float m_Speed;							
-
-	float m_DelayDistance = 0.0f;				// 지체된 시간
-
-	bool isFirstActor = true;
+	bool isFirstActorCreate = false;
 };
 

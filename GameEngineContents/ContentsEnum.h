@@ -41,6 +41,7 @@ enum class ETITLERENDERORDER
 {
 	Back_,
 	Star,
+	Moon,
 	Water,
 	Mountain_blur,
 	Bridge_Down,
@@ -55,10 +56,14 @@ enum class ETITLERENDERORDER
 	Cloud_4,
 	Props_0,
 	Props_1,
+	TrainSmoke_Big,
+	TrainSmoke_Mid,
+	TrainSmoke_Small,
 	Trains,
 	Trains_Light,
 	Bridge,
 	Shadow,
+	Tree,
 	Logo,
 };
 

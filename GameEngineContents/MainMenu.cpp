@@ -26,14 +26,7 @@ void MainMenu::Start()
 
 	LevelType = ELEVELTYPE::MainMenu;
 
-	m_BackDrop = CreateActor<BackDrop_MainMenu>(EUPDATEORDER::Objects);
-	if (nullptr == m_BackDrop)
-	{
-		MsgBoxAssert("액터를 생성하지 못했습니다");
-		return;
-	}
-
-	if (m_LevelCameraControler)
+	if (nullptr != m_LevelCameraControler)
 	{
 		m_LevelCameraControler->SetCameraMode(ECAMERAMODE::Editor);
 	}
@@ -43,6 +36,8 @@ void MainMenu::Update(float _Delta)
 {
 	if (true == GameEngineInput::IsDown('T'))
 	{
+		ActorRelease();
+
 		GameEngineCore::ChangeLevel("PlayLevel");
 	}
 }
@@ -51,73 +46,9 @@ void MainMenu::LevelStart(GameEngineLevel* _PrevLevel)
 {
 	ContentsLevel::LevelStart(_PrevLevel);
 
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExistsChild("Resources");
-		Dir.MoveChild("Resources\\Main\\Train\\Title_train_star");
-
-		GameEngineSprite::CreateFolder(Dir.GetStringPath());
-	}
-
-	{
-		GlobalUtils::LoadAllFileInPath("Resources\\Main\\Train\\TitleSpriteName");
-
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExistsChild("Resources");
-		Dir.MoveChild("Resources\\Main\\Train\\TitleSpriteName");
-		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-		for (size_t i = 0; i < Files.size(); i++)
-		{
-			GameEngineFile File = Files[i];
-			GameEngineSprite::CreateSingle(File.GetFileName());
-		}
-
-
-		//GameEngineSprite::CreateSingle("Background_Shadow-Title.png");
-		//GameEngineSprite::CreateSingle("Title_Train_Bridge.png");
-		//GameEngineSprite::CreateSingle("Title_Train_Bridge_Down.png");
-		//GameEngineSprite::CreateSingle("Title_Train_Sky.png");
-		//GameEngineSprite::CreateSingle("Title_Train_Water.png");
-		//GameEngineSprite::CreateSingle("Title_Train_Light.png");
-		//GameEngineSprite::CreateSingle("Title_Train_Moon.png");
-		//GameEngineSprite::CreateSingle("Title_Train_Mountain.png");
-		//GameEngineSprite::CreateSingle("Title_Train_Train.png");
-		//GameEngineSprite::CreateSingle("Title_Train_Train_1.png");
-		//GameEngineSprite::CreateSingle("Title_Train_Train_2.png");
-		//GameEngineSprite::CreateSingle("Title_Train_Train_3.png");
-		//GameEngineSprite::CreateSingle("Title_Train_Train_4.png");
-		//GameEngineSprite::CreateSingle("Title_Train_WaterShine.png");
-		//GameEngineSprite::CreateSingle("Title_Train_Window_0.png");
-		//GameEngineSprite::CreateSingle("Title_Train_Window_1.png");
-		//GameEngineSprite::CreateSingle("Title_Train_Window_2.png");
-		//GameEngineSprite::CreateSingle("Title_Train_WindowWater_blur.png");
-		//GameEngineSprite::CreateSingle("Title_Train_TrainWater_blur.png");
-		//GameEngineSprite::CreateSingle("Title_Train_MountainWater_blur.png");
-		//GameEngineSprite::CreateSingle("Title_Train_WaterShine_blur.png");
-		//GameEngineSprite::CreateSingle("Title_Train_Light_Blur.png");
-		//GameEngineSprite::CreateSingle("Title_Train_Cover.png");
-		//GameEngineSprite::CreateSingle("trainsmoke_big.png");
-		//GameEngineSprite::CreateSingle("trainsmoke_mid.png");
-		//GameEngineSprite::CreateSingle("trainsmoke_small.png");
-		//GameEngineSprite::CreateSingle("Title_train_star0.png");
-	}
-
-
-
-	{
-		/*GameEngineDirectory Dir;
-		Dir.MoveParentToExistsChild("Resources");
-		Dir.MoveChild("Resources");
-		Dir.MoveChild("Main");
-
-		std::vector<GameEngineDirectory> Result = Dir.GetAllDirectory();
-		for (size_t i = 0; i < Result.size(); i++)
-		{
-			GameEngineDirectory& Dir = Result[i];
-			GameEngineSprite::CreateFolder(Dir.GetStringPath());
-		}*/
-	}
-
+	LoadTexture();
+	LoadSprite();
+	InitActor();
 
 	{
 		if (nullptr == m_LevelCameraControler)
@@ -137,10 +68,79 @@ void MainMenu::LevelEnd(GameEngineLevel* _NextLevel)
 {
 	ContentsLevel::LevelEnd(_NextLevel);
 
-	// 1. 액터 정리
-	
+	ReleaseSprite();
+	ReleaseTexture();
+}
 
-	// 2. 스프라이트 정리
+
+
+void MainMenu::LoadTexture()
+{
+	GlobalUtils::LoadAllFileInPath("Resources\\Main\\Train\\TitleSpriteName");
+	GlobalUtils::LoadAllFileInPath("Resources\\Main\\Train\\TitleSprite");
+}
+
+void MainMenu::LoadSprite()
+{
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\Main\\Train\\Title_train_star");
+
+		GameEngineSprite::CreateFolder(Dir.GetStringPath());
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\Main\\Train\\TitleSpriteName");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (size_t i = 0; i < Files.size(); i++)
+		{
+			GameEngineFile File = Files[i];
+			GameEngineSprite::CreateSingle(File.GetFileName());
+		}
+	}
+
+	{
+		GameEngineSprite::CreateCut("trainsmoke_big.png", 4, 1);
+		GameEngineSprite::CreateCut("trainsmoke_mid.png", 5, 1);
+		GameEngineSprite::CreateCut("trainsmoke_small.png", 4, 1);
+	}
+}
+
+void MainMenu::InitActor()
+{
+	m_BackDrop = CreateActor<BackDrop_MainMenu>(EUPDATEORDER::Objects);
+	if (nullptr == m_BackDrop)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다");
+		return;
+	}
+
+	m_BackDrop->Init();
+}
+
+
+
+void MainMenu::ReleaseSprite()
+{
+	{
+		GameEngineSprite::Release("Title_train_star");
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\Main\\Train\\TitleSprite");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (size_t i = 0; i < Files.size(); i++)
+		{
+			GameEngineFile File = Files[i];
+			GameEngineSprite::Release(File.GetFileName());
+		}
+	}
+
 	{
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExistsChild("Resources");
@@ -151,34 +151,14 @@ void MainMenu::LevelEnd(GameEngineLevel* _NextLevel)
 			GameEngineFile File = Files[i];
 			GameEngineSprite::Release(File.GetFileName());
 		}
-
-
-		/*GameEngineSprite::Release("Background_Shadow-Title.png");
-		GameEngineSprite::Release("Title_Train_Bridge.png");
-		GameEngineSprite::Release("Title_Train_Bridge_Down.png");
-		GameEngineSprite::Release("Title_Train_Sky.png");
-		GameEngineSprite::Release("Title_Train_Water.png");
-		GameEngineSprite::Release("Title_Train_Light.png");
-		GameEngineSprite::Release("Title_Train_Moon.png");
-		GameEngineSprite::Release("Title_Train_Mountain.png");
-		GameEngineSprite::Release("Title_Train_Train.png");
-		GameEngineSprite::Release("Title_Train_Train_1.png");
-		GameEngineSprite::Release("Title_Train_Train_2.png");
-		GameEngineSprite::Release("Title_Train_Train_3.png");
-		GameEngineSprite::Release("Title_Train_Train_4.png");
-		GameEngineSprite::Release("Title_Train_WaterShine.png");
-		GameEngineSprite::Release("Title_Train_Window_0.png");
-		GameEngineSprite::Release("Title_Train_Window_1.png");
-		GameEngineSprite::Release("Title_Train_Window_2.png");
-		GameEngineSprite::Release("Title_Train_WindowWater_blur.png");
-		GameEngineSprite::Release("trainsmoke_big.png");
-		GameEngineSprite::Release("trainsmoke_mid.png");*/
-		/*GameEngineSprite::Release("trainsmoke_small.png");*/
 	}
 
+}
+
+void MainMenu::ReleaseTexture()
+{
 	// 3. 텍스처 정리
 	GlobalUtils::ReleaseAllTextureInPath("Resources\\Main\\Train\\TitleSpriteName");
-
 
 	{
 		GameEngineDirectory Dir;
@@ -193,22 +173,26 @@ void MainMenu::LevelEnd(GameEngineLevel* _NextLevel)
 		}
 	}
 
-	//GameEngineDirectory Dir;
-	//Dir.MoveParentToExistsChild("Resources");
-	//Dir.MoveChild("Resources\\Main\\Prev");
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\Main\\Train\\TitleSprite");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (size_t i = 0; i < Files.size(); i++)
+		{
+			GameEngineFile File = Files[i];
+			GameEngineTexture::Release(File.GetFileName());
+		}
+	}
+}
 
-	//std::vector<GameEngineDirectory> Result = Dir.GetAllDirectory();
-	//for (size_t i = 0; i < Result.size(); i++)
-	//{
-	//	GameEngineDirectory& Dir = Result[i];
-	//	std::vector<GameEngineFile> Files = Dir.GetAllFile();
-	//	for (size_t i = 0; i < Files.size(); i++)
-	//	{
-	//		GameEngineTexture::Release(Files[i].GetFileName());
-	//	}
-	//}
 
-	
-	//GlobalUtils::releaseAllTextureInPath("Resources\\Main");
 
+void MainMenu::ActorRelease()
+{
+	if (nullptr != m_BackDrop)
+	{
+		m_BackDrop->ActorRelease();
+		m_BackDrop = nullptr;
+	}
 }
