@@ -2,8 +2,8 @@
 
 
 
-
-// 설명 :
+// 타이틀에서만 사용할 수 있는 액터입니다.
+// 설명 : 일정 시간마다 소품을 생성하는 액터입니다. 소품을 생성하는 Pivot의 기준은 Center입니다.
 class SequentialProp;
 class ChainProp : public GameEngineActor
 {
@@ -38,7 +38,9 @@ public:
 	void SetRenderOrder(int _Order);
 
 	void SetSprite(std::string_view _FileName);
+	void SetFirstLocation(const float4& _Position);
 	void SetRegenLocation(const float4& _Position);
+	void CalculateAndSetRegenLocationInputFirstLocation(const float4& _Position);
 	void SetRegenTime(float _Time);
 	void SetSpeed(float _Speed);
 
@@ -46,8 +48,11 @@ private:
 
 private:
 	void UpdateSeries(float _Delta);
+	void EraseOverScreenProp();
 
-	void RegenProp();
+	void RegenProp(const float4& _Position = float4::ZERO);
+
+public:
 
 public:
 	void ActorRelease();
@@ -60,6 +65,8 @@ private:
 	float4 m_TextureScale = float4::ZERO;
 	int m_Order = 0;
 
+
+	float4 m_FirstLocation = float4::ZERO;	
 	float4 m_RegenLocation = float4::ZERO;	
 
 

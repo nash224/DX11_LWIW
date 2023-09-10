@@ -4,6 +4,8 @@
 // Ό³Έν :
 class SequentialProp : public Prop
 {
+	friend class ChainProp;
+
 public:
 	// constrcuter destructer
 	SequentialProp();
@@ -32,5 +34,6 @@ private:
 	float4 m_TextureScale = float4::ZERO;
 
 	float m_Speed = 0.0f;
+	bool isOverScreen = false;
 };
 

@@ -361,9 +361,10 @@ void BackDrop_MainMenu::CreateProp(class GameEngineLevel* _CurLevel)
 
 		Object->SetRenderOrder(ETITLERENDERORDER::Cloud_0);
 		Object->SetSprite("Title_Train_Cloud_0.png");
-		Object->SetRegenLocation(CONST_Cloud1_Position);
 		Object->SetRegenTime(4.0f);
-		Object->SetSpeed(50.0f);
+		Object->SetSpeed(-50.0f);
+
+		Object->CalculateAndSetRegenLocationInputFirstLocation(CONST_Cloud1_Position);
 
 		vecMainMenu_Chain.push_back(Object);
 	}

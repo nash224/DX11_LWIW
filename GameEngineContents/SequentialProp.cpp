@@ -57,6 +57,6 @@ void SequentialProp::UpdateSequential(float _Delta)
 
 	if (CurPosition.X <= DeleteDistance)
 	{
-		ActorRelease();
+		isOverScreen = true;
 	}
 }
