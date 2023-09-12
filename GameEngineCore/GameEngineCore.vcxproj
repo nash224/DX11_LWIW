@@ -80,6 +80,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GameEngineTexture.h" />
+    <ClInclude Include="GameEngineTileMap.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineTransform.h" />
     <ClInclude Include="GameEngineVertex.h">
       <SubType>
@@ -159,6 +163,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEngineTexture.cpp" />
+    <ClCompile Include="GameEngineTileMap.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameEngineTransform.cpp" />
     <ClCompile Include="GameEngineVertex.cpp">
       <SubType>

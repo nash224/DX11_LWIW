@@ -8,3 +8,4 @@
 #include <GameEngineBase/GameEngineRandom.h>
 
 #include "GameEngineCore.h"
+#include "GameEngineSprite.h"
