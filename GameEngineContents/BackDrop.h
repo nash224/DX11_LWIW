@@ -25,14 +25,11 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 public:
-
+	const float4& GetBackGroundScale() const;
 
 protected:
-	// BackDrop의 요소
-	// 1. Scenery(배경)
-	// 2. Tile(바닥)
-	// 3. Prop(소품 : 건물, 구조물, 깃발, 시민 등)
-	// 4. 비트 충돌맵
+
+protected:
 	std::vector<std::shared_ptr<Scenery>> vecScenery;
 	std::vector<std::shared_ptr<Prop>> vecProps;
 

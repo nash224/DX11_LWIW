@@ -38,3 +38,9 @@ void BackDrop::LevelEnd(GameEngineLevel* _NextLevel)
 {
 
 }
+
+
+const float4& BackDrop::GetBackGroundScale() const
+{
+	return m_BackScale;
+}

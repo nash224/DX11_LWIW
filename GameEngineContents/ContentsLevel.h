@@ -3,8 +3,6 @@
 enum class EGAMEMODE
 {
 	None,
-	Movie,
-	Cinematic,
 	Play,
 	Editor,
 };
@@ -15,7 +13,7 @@ class CameraControler;
 class ContentsLevel : public GameEngineLevel
 {
 public:
-	std::shared_ptr<CameraControler> m_LevelCameraControler;
+	std::shared_ptr<CameraControler> m_LevelCameraControler = nullptr;
 
 public:
 	// constrcuter destructer

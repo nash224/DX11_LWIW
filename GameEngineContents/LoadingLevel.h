@@ -2,6 +2,7 @@
 #include "ContentsLevel.h"
 
 // Ό³Έν :
+class BackDrop_Loading;
 class LoadingLevel : public ContentsLevel
 {
 public:
@@ -23,6 +24,26 @@ protected:
 
 private:
 
+
+public:
+
+
+private:
+	void LoadTexture();
+	void LoadSprite();
+	void LoadActor();
+	
+private:
+	void ActorRelease();
+	void ReleaseSprite();
+	void ReleaseTexture();
+
+
+private:
+	std::shared_ptr<BackDrop_Loading> m_BackDrop = nullptr;
+
+	bool GlobalTextureLoadCheck = false;
+	bool GlobalSpriteLoadCheck = false;
 
 };
 

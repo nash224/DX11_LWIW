@@ -89,28 +89,6 @@ void Scenery::SetWorldPosition(const float4& _Position)
 	Transform.SetLocalPosition(_Position);
 }
 
-void Scenery::SetWorldPosition(const float4& _Position, ERENDER_PIVOT_LOCATION _Location)
-{
-	float4 RenderLocalPosition = float4::ZERO;
-	float4 TextureSize = m_TextureSize;
-
-	switch (_Location)
-	{
-	case ERENDER_PIVOT_LOCATION::LeftTop:
-		TextureSize = TextureSize.Half();
-		TextureSize.Y *= -1.0f;
-		RenderLocalPosition = TextureSize + _Position;
-		break;
-	case ERENDER_PIVOT_LOCATION::Center:
-		RenderLocalPosition = _Position;
-		break;
-	default:
-		break;
-	}
-
-	m_SpriteRenderer->Transform.SetLocalPosition(RenderLocalPosition);
-}
-
 void Scenery::SetMoveDirection(const float4& _Direction)
 {
 	m_Direction = _Direction;

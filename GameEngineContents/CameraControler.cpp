@@ -82,10 +82,6 @@ void CameraControler::UpdateCameraMode(float _Delta)
 		MsgBoxAssert("카메라 모드를 지정하지 않고 사용하려고 했습니다.");
 	}
 		break;
-	case ECAMERAMODE::Movie:
-		break;
-	case ECAMERAMODE::Cinematic:
-		break;
 	case ECAMERAMODE::Play:
 		break;
 	case ECAMERAMODE::Setting:

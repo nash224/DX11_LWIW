@@ -3,8 +3,6 @@
 enum class ECAMERAMODE
 {
 	None,
-	Movie,
-	Cinematic,
 	Play,
 	Setting,
 	Editor,

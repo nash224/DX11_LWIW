@@ -6,10 +6,9 @@
 #include "CameraControler.h"
 
 ContentsLevel::ContentsLevel() 
-	: m_LevelCameraControler(nullptr)
-	, CurrentLevelSpriteCreateCheck(false)
-	, LevelType(ELEVELTYPE::None)
-	, Mode(EGAMEMODE::None)
+	:	
+	LevelType(ELEVELTYPE::None),
+	Mode(EGAMEMODE::None)
 {
 }
 
@@ -23,6 +22,11 @@ void ContentsLevel::Start()
 
 	// 카메라 컨트롤러 생성
 	m_LevelCameraControler = CreateActor<CameraControler>(EUPDATEORDER::CameraControler);
+	if (nullptr == m_LevelCameraControler)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
 }
 
 void ContentsLevel::Update(float _Delta)
@@ -32,18 +36,16 @@ void ContentsLevel::Update(float _Delta)
 
 void ContentsLevel::LevelStart(class GameEngineLevel* _NextLevel)
 {
-	CurrentLevelSpriteCreateCheck = true;
-
 	if (nullptr != m_LevelCameraControler)
 	{
-		m_LevelCameraControler->m_MainCamera = GetMainCamera().get();
 		GlobalValue::g_CameraControler = m_LevelCameraControler;
+		GlobalValue::g_CameraControler->m_MainCamera = GetMainCamera().get();
 	}
 }
 
 void ContentsLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-	CurrentLevelSpriteCreateCheck = false;
+
 }
 
 

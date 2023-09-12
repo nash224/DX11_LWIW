@@ -10,6 +10,7 @@ enum class EUPDATEORDER
 	Projectile,
 	Objects,
 	CameraControler,
+	UI,
 };
 
 
@@ -35,6 +36,7 @@ enum class ERENDERORDER
 	Lighting_Shader,
 	Foreground_Ceiling,
 	Tone_Shader,
+	FadeObject,
 };
 
 enum class ETITLERENDERORDER

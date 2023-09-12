@@ -34,7 +34,6 @@ public:
 	void SetSprite(std::string_view _SpriteName);
 	void SetRenderOrder(int _Order);
 	void SetWorldPosition(const float4& _Position);
-	void SetWorldPosition(const float4& _Position, ERENDER_PIVOT_LOCATION _Location);
 	void SetMoveDirection(const float4& _Direction);
 	void SetMoveRatio(float _Ratio);
 

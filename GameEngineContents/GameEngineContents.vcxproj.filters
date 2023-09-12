@@ -22,14 +22,17 @@
     <Filter Include="Object\Actor\NonInteractive\BackDrop">
       <UniqueIdentifier>{1b0dee99-207d-445b-aa25-16e8f1c21756}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\NonInteractive\BackDrop\Prop">
-      <UniqueIdentifier>{bcf057dd-e7fe-4c0b-9aeb-089a080e4283}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\NonInteractive\BackDrop\Prop\Train">
-      <UniqueIdentifier>{9bea090b-73fd-4f04-98b6-027d841b716f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Actor\Interactive">
       <UniqueIdentifier>{e2fea63f-3b07-4ea3-a0c6-8afed64b65e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\Interactive\Ellie">
+      <UniqueIdentifier>{cbb55847-2201-4890-b2cb-4340bd12c511}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\NonInteractive\Prop">
+      <UniqueIdentifier>{bcf057dd-e7fe-4c0b-9aeb-089a080e4283}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\NonInteractive\Prop\Train">
+      <UniqueIdentifier>{9bea090b-73fd-4f04-98b6-027d841b716f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -38,9 +41,6 @@
     </ClInclude>
     <ClInclude Include="ContentsCore.h" />
     <ClInclude Include="PlayLevel.h">
-      <Filter>Object\Level</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleTestLevel.h">
       <Filter>Object\Level</Filter>
     </ClInclude>
     <ClInclude Include="GlobalUtils.h">
@@ -59,9 +59,6 @@
       <Filter>Object\Level</Filter>
     </ClInclude>
     <ClInclude Include="MainActorControl.h">
-      <Filter>Global</Filter>
-    </ClInclude>
-    <ClInclude Include="MouseObject.h">
       <Filter>Global</Filter>
     </ClInclude>
     <ClInclude Include="MainMenu.h">
@@ -87,19 +84,19 @@
       <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
     </ClInclude>
     <ClInclude Include="Prop.h">
-      <Filter>Object\Actor\NonInteractive\BackDrop\Prop</Filter>
+      <Filter>Object\Actor\NonInteractive\Prop</Filter>
     </ClInclude>
     <ClInclude Include="ChainProp.h">
-      <Filter>Object\Actor\NonInteractive\BackDrop\Prop</Filter>
+      <Filter>Object\Actor\NonInteractive\Prop</Filter>
     </ClInclude>
     <ClInclude Include="MainMenu_Trains.h">
-      <Filter>Object\Actor\NonInteractive\BackDrop\Prop\Train</Filter>
+      <Filter>Object\Actor\NonInteractive\Prop\Train</Filter>
     </ClInclude>
     <ClInclude Include="TrainPart.h">
-      <Filter>Object\Actor\NonInteractive\BackDrop\Prop\Train</Filter>
+      <Filter>Object\Actor\NonInteractive\Prop\Train</Filter>
     </ClInclude>
     <ClInclude Include="SequentialProp.h">
-      <Filter>Object\Actor\NonInteractive\BackDrop\Prop</Filter>
+      <Filter>Object\Actor\NonInteractive\Prop</Filter>
     </ClInclude>
     <ClInclude Include="TestActor2.h">
       <Filter>Object\Actor\Interactive</Filter>
@@ -119,6 +116,27 @@
     <ClInclude Include="LoadingLevel.h">
       <Filter>Object\Level</Filter>
     </ClInclude>
+    <ClInclude Include="InteractiveActor.h">
+      <Filter>Object\Actor\Interactive</Filter>
+    </ClInclude>
+    <ClInclude Include="Ellie.h">
+      <Filter>Object\Actor\Interactive\Ellie</Filter>
+    </ClInclude>
+    <ClInclude Include="FadeObject.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalLoad.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Field_Center.h">
+      <Filter>Object\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="BackDrop_CenterField.h">
+      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
+    </ClInclude>
+    <ClInclude Include="BackDrop_Loading.h">
+      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -126,9 +144,6 @@
     </ClCompile>
     <ClCompile Include="ContentsCore.cpp" />
     <ClCompile Include="PlayLevel.cpp">
-      <Filter>Object\Level</Filter>
-    </ClCompile>
-    <ClCompile Include="TitleTestLevel.cpp">
       <Filter>Object\Level</Filter>
     </ClCompile>
     <ClCompile Include="GlobalUtils.cpp">
@@ -141,9 +156,6 @@
       <Filter>Object\Level</Filter>
     </ClCompile>
     <ClCompile Include="MainActorControl.cpp">
-      <Filter>Global</Filter>
-    </ClCompile>
-    <ClCompile Include="MouseObject.cpp">
       <Filter>Global</Filter>
     </ClCompile>
     <ClCompile Include="MainMenu.cpp">
@@ -169,19 +181,19 @@
       <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
     </ClCompile>
     <ClCompile Include="Prop.cpp">
-      <Filter>Object\Actor\NonInteractive\BackDrop\Prop</Filter>
+      <Filter>Object\Actor\NonInteractive\Prop</Filter>
     </ClCompile>
     <ClCompile Include="ChainProp.cpp">
-      <Filter>Object\Actor\NonInteractive\BackDrop\Prop</Filter>
+      <Filter>Object\Actor\NonInteractive\Prop</Filter>
     </ClCompile>
     <ClCompile Include="MainMenu_Trains.cpp">
-      <Filter>Object\Actor\NonInteractive\BackDrop\Prop\Train</Filter>
+      <Filter>Object\Actor\NonInteractive\Prop\Train</Filter>
     </ClCompile>
     <ClCompile Include="TrainPart.cpp">
-      <Filter>Object\Actor\NonInteractive\BackDrop\Prop\Train</Filter>
+      <Filter>Object\Actor\NonInteractive\Prop\Train</Filter>
     </ClCompile>
     <ClCompile Include="SequentialProp.cpp">
-      <Filter>Object\Actor\NonInteractive\BackDrop\Prop</Filter>
+      <Filter>Object\Actor\NonInteractive\Prop</Filter>
     </ClCompile>
     <ClCompile Include="TestActor.cpp">
       <Filter>Object\Actor\Interactive</Filter>
@@ -200,6 +212,27 @@
     </ClCompile>
     <ClCompile Include="LoadingLevel.cpp">
       <Filter>Object\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="InteractiveActor.cpp">
+      <Filter>Object\Actor\Interactive</Filter>
+    </ClCompile>
+    <ClCompile Include="Ellie.cpp">
+      <Filter>Object\Actor\Interactive\Ellie</Filter>
+    </ClCompile>
+    <ClCompile Include="FadeObject.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalLoad.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="Field_Center.cpp">
+      <Filter>Object\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="BackDrop_CenterField.cpp">
+      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
+    </ClCompile>
+    <ClCompile Include="BackDrop_Loading.cpp">
+      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

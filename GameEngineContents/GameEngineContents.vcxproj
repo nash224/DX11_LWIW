@@ -175,11 +175,23 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="BackDrop_CenterField.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="BackDrop_ElliesHouse.cpp">
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="BackDrop_Loading.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="BackDrop_MainMenu.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Field_Center.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -192,6 +204,18 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Ellie.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="FadeObject.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GlobalLoad.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GlobalUtils.cpp">
       <SubType>
       </SubType>
@@ -201,6 +225,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GroundLayer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="InteractiveActor.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -217,10 +245,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="MainMenu.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="MouseObject.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -271,10 +295,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="TitleTestLevel.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="TrainPart.cpp">
       <SubType>
       </SubType>
@@ -286,11 +306,23 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="BackDrop_CenterField.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="BackDrop_ElliesHouse.h">
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="BackDrop_Loading.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="BackDrop_MainMenu.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Field_Center.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -304,6 +336,18 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ContentsEnum.h" />
+    <ClInclude Include="Ellie.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="FadeObject.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GlobalLoad.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GlobalUtils.h">
       <SubType>
       </SubType>
@@ -313,6 +357,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GroundLayer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="InteractiveActor.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -329,10 +377,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="MainMenu.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="MouseObject.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -375,10 +419,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="TestMap.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="TitleTestLevel.h">
       <SubType>
       </SubType>
     </ClInclude>

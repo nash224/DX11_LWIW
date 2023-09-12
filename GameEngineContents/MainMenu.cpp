@@ -38,7 +38,7 @@ void MainMenu::Update(float _Delta)
 	{
 		ActorRelease();
 
-		GameEngineCore::ChangeLevel("PlayLevel");
+		GameEngineCore::ChangeLevel("LoadingLevel");
 	}
 }
 
@@ -51,7 +51,7 @@ void MainMenu::LevelStart(GameEngineLevel* _PrevLevel)
 	InitActor();
 
 	{
-		if (nullptr == m_LevelCameraControler)
+		if (nullptr == GlobalValue::g_CameraControler)
 		{
 			MsgBoxAssert("카메라 컨트롤러를 생성하지 않고 사용하려고 했습니다.");
 			return;
@@ -60,7 +60,7 @@ void MainMenu::LevelStart(GameEngineLevel* _PrevLevel)
 		std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Find("Title_Train_Sky.png");
 		float4 HScale = Texture->GetScale().Half();
 		HScale.Y *= -1.0f;
-		m_LevelCameraControler->SetWorldPostion(HScale);
+		GlobalValue::g_CameraControler->SetWorldPostion(HScale);
 	}
 }
 
