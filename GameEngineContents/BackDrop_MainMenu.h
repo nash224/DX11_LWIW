@@ -48,15 +48,6 @@ private:
 
 private:
 
-	// Prop
-
-
-
-
-	
-
-
-
 	// ChainProp
 	const float CONST_MountainSpeed = -60.0f;
 	const float CONST_BridgeSpeed = -480.0f;

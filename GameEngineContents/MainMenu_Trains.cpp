@@ -44,6 +44,13 @@ void MainMenu_Trains::LevelEnd(class GameEngineLevel* _NextLevel)
 
 
 /////////////////////////////////////////////////////////////////////////////////////
+
+
+void MainMenu_Trains::SetRattleCycle(float _Value)
+{
+	m_RattleCycle = _Value;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -133,36 +140,10 @@ void MainMenu_Trains::Init()
 
 #pragma endregion 
 
-
-void MainMenu_Trains::ActorRelease()
-{
-	for (size_t i = 0; i < vecTrain.size(); i++)
-	{
-		std::shared_ptr<TrainPart> Train = vecTrain[i];
-		if (nullptr == Train)
-		{
-			MsgBoxAssert("존재하지 않는 액터를 참조하려고 했습니다.");
-			return;
-		}
-
-		Train->ActorRelease();
-	}
-
-	vecTrain.clear();
-
-	Death();
-}
+/////////////////////////////////////////////////////////////////////////////////////
 
 
-
-void MainMenu_Trains::SetRattleCycle(float _Value)
-{
-	m_RattleCycle = _Value;
-}
-
-
-
-
+#pragma region 기차 업데이트
 
 void MainMenu_Trains::UpdateTrainFSM(float _Delta)
 {
@@ -223,8 +204,6 @@ void MainMenu_Trains::ChangeState(TrainState _State)
 
 void MainMenu_Trains::StartRattleUp()
 {
-	m_StateTime = 0.0f;
-
 	std::shared_ptr<TrainPart> Train = vecTrain[m_TrainState];
 	if (nullptr == Train)
 	{
@@ -240,6 +219,8 @@ void MainMenu_Trains::UpdateRattleUp(float _Delta)
 	m_StateTime += _Delta;
 	if (m_StateTime > CONST_RattleTime)
 	{
+		m_StateTime -= CONST_RattleTime;
+
 		ChangeState(TrainState::RattleDown);
 		return;
 	}
@@ -249,8 +230,6 @@ void MainMenu_Trains::UpdateRattleUp(float _Delta)
 
 void MainMenu_Trains::StartRattleDown()
 {
-	m_StateTime = 0.0f;
-
 	std::shared_ptr<TrainPart> Train = vecTrain[m_TrainState];
 	if (nullptr == Train)
 	{
@@ -266,6 +245,8 @@ void MainMenu_Trains::UpdateRattleDown(float _Delta)
 	m_StateTime += _Delta;
 	if (m_StateTime > m_RattleCycle)
 	{
+		m_StateTime -= m_RattleCycle;
+
 		if (m_TrainState < CONST_TrainCount - 1)
 		{
 			m_TrainState++;
@@ -284,9 +265,7 @@ void MainMenu_Trains::UpdateRattleDown(float _Delta)
 
 void MainMenu_Trains::StartWait()
 {
-	m_StateTime = 0.0f;
 	m_TrainState = 0;
-
 }
 
 void MainMenu_Trains::UpdateWait(float _Delta)
@@ -295,8 +274,34 @@ void MainMenu_Trains::UpdateWait(float _Delta)
 
 	if (m_StateTime > CONST_WaitTime)
 	{
+		m_StateTime -= CONST_WaitTime;
+
 		ChangeState(TrainState::RattleUp);
 		return;
 	}
 }
 
+#pragma endregion 
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+void MainMenu_Trains::ActorRelease()
+{
+	for (size_t i = 0; i < vecTrain.size(); i++)
+	{
+		std::shared_ptr<TrainPart> Train = vecTrain[i];
+		if (nullptr == Train)
+		{
+			MsgBoxAssert("존재하지 않는 액터를 참조하려고 했습니다.");
+			return;
+		}
+
+		Train->ActorRelease();
+	}
+
+	vecTrain.clear();
+
+	Death();
+}

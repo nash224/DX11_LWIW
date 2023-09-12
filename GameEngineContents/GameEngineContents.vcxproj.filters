@@ -22,14 +22,14 @@
     <Filter Include="Object\Actor\NonInteractive\BackDrop">
       <UniqueIdentifier>{1b0dee99-207d-445b-aa25-16e8f1c21756}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\Tool">
-      <UniqueIdentifier>{fd7a5fc6-0d4c-40ba-80c4-b15d4346d8a5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Actor\NonInteractive\BackDrop\Prop">
       <UniqueIdentifier>{bcf057dd-e7fe-4c0b-9aeb-089a080e4283}</UniqueIdentifier>
     </Filter>
     <Filter Include="Object\Actor\NonInteractive\BackDrop\Prop\Train">
       <UniqueIdentifier>{9bea090b-73fd-4f04-98b6-027d841b716f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\Interactive">
+      <UniqueIdentifier>{e2fea63f-3b07-4ea3-a0c6-8afed64b65e4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -42,15 +42,6 @@
     </ClInclude>
     <ClInclude Include="TitleTestLevel.h">
       <Filter>Object\Level</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Object\Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="TestActor.h">
-      <Filter>Object\Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="TestMap.h">
-      <Filter>Object\Actor</Filter>
     </ClInclude>
     <ClInclude Include="GlobalUtils.h">
       <Filter>Global</Filter>
@@ -92,9 +83,6 @@
     <ClInclude Include="TemplateA.h">
       <Filter>Global</Filter>
     </ClInclude>
-    <ClInclude Include="TestActor2.h">
-      <Filter>Object\Actor</Filter>
-    </ClInclude>
     <ClInclude Include="BackDrop_MainMenu.h">
       <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
     </ClInclude>
@@ -113,6 +101,24 @@
     <ClInclude Include="SequentialProp.h">
       <Filter>Object\Actor\NonInteractive\BackDrop\Prop</Filter>
     </ClInclude>
+    <ClInclude Include="TestActor2.h">
+      <Filter>Object\Actor\Interactive</Filter>
+    </ClInclude>
+    <ClInclude Include="TestActor.h">
+      <Filter>Object\Actor\Interactive</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Object\Actor\Interactive</Filter>
+    </ClInclude>
+    <ClInclude Include="TestMap.h">
+      <Filter>Object\Actor\NonInteractive</Filter>
+    </ClInclude>
+    <ClInclude Include="BackDrop_ElliesHouse.h">
+      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingLevel.h">
+      <Filter>Object\Level</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -124,15 +130,6 @@
     </ClCompile>
     <ClCompile Include="TitleTestLevel.cpp">
       <Filter>Object\Level</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Object\Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="TestActor.cpp">
-      <Filter>Object\Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="TestMap.cpp">
-      <Filter>Object\Actor</Filter>
     </ClCompile>
     <ClCompile Include="GlobalUtils.cpp">
       <Filter>Global</Filter>
@@ -168,9 +165,6 @@
     <ClCompile Include="TemplateA.cpp">
       <Filter>Global</Filter>
     </ClCompile>
-    <ClCompile Include="TestActor2.cpp">
-      <Filter>Object\Actor</Filter>
-    </ClCompile>
     <ClCompile Include="BackDrop_MainMenu.cpp">
       <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
     </ClCompile>
@@ -188,6 +182,24 @@
     </ClCompile>
     <ClCompile Include="SequentialProp.cpp">
       <Filter>Object\Actor\NonInteractive\BackDrop\Prop</Filter>
+    </ClCompile>
+    <ClCompile Include="TestActor.cpp">
+      <Filter>Object\Actor\Interactive</Filter>
+    </ClCompile>
+    <ClCompile Include="TestActor2.cpp">
+      <Filter>Object\Actor\Interactive</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Object\Actor\Interactive</Filter>
+    </ClCompile>
+    <ClCompile Include="TestMap.cpp">
+      <Filter>Object\Actor\NonInteractive</Filter>
+    </ClCompile>
+    <ClCompile Include="BackDrop_ElliesHouse.cpp">
+      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingLevel.cpp">
+      <Filter>Object\Level</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

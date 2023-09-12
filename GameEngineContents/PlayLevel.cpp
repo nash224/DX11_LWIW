@@ -35,13 +35,6 @@ void PlayLevel::Start()
 		GameEngineSprite::CreateSingle("TestPlayerSprite.png");
 		GameEngineSprite::CreateSingle("Mission8_JarvanIVArena_Mask_FireLinesSmall.png");
 		GameEngineSprite::CreateSingle("sactx-0-2048x2048-BC7-Mission8Jarvan-65ffe534.png");
-
-		GameEngineDirectory Dir;
-		
-		Dir.MoveParentToExistsChild("Resources");
-		Dir.MoveChild("Resources");
-		Dir.MoveChild("SlyasTest");
-		GameEngineSprite::CreateFolder(Dir.GetStringPath());
 		
 	}
 
@@ -57,10 +50,6 @@ void PlayLevel::Start()
 
 	{
 		std::shared_ptr<TestMap> Object = CreateActor<TestMap>();
-	}
-
-	{
-		std::shared_ptr<TestActor> Object = CreateActor<TestActor>();
 	}
 }
 

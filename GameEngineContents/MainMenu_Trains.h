@@ -10,7 +10,8 @@ enum class TrainState
 
 
 
-// 설명 :
+// 설명 : 타이틀 메인 메뉴의 기차를 당담하고 있습니다. 
+// 각 기차칸을 위아래로 움직여 덜컹거림을 의도했습니다.
 class MainMenu_Trains : public GameEngineActor
 {
 	friend class BackDrop_MainMenu;

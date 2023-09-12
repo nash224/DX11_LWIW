@@ -87,7 +87,6 @@ void Scenery::SetRenderOrder(int _Order)
 void Scenery::SetWorldPosition(const float4& _Position)
 {
 	Transform.SetLocalPosition(_Position);
-	// 이게 맞나?
 }
 
 void Scenery::SetWorldPosition(const float4& _Position, ERENDER_PIVOT_LOCATION _Location)

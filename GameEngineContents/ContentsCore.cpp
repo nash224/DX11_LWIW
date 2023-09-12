@@ -3,7 +3,7 @@
 
 
 #include "MainMenu.h"
-#include "TitleTestLevel.h"
+#include "LoadingLevel.h"
 #include "PlayLevel.h"
 
 ContentsCore::ContentsCore()
@@ -18,9 +18,9 @@ void ContentsCore::Start()
 {
 	GameEngineSpriteRenderer::SetDefaultSampler("POINT");
 
-	GameEngineCore::CreateLevel<PlayLevel>("PlayLevel");
-	GameEngineCore::CreateLevel<TitleTestLevel>("TitleTestLevel");
 	GameEngineCore::CreateLevel<MainMenu>("MainMenu");
+	GameEngineCore::CreateLevel<LoadingLevel>("LoadingLevel");
+	GameEngineCore::CreateLevel<PlayLevel>("PlayLevel");
 	GameEngineCore::ChangeLevel("MainMenu");
 
 	

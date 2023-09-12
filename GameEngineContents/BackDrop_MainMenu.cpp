@@ -285,7 +285,7 @@ void BackDrop_MainMenu::CreateTrain(class GameEngineLevel* _CurLevel)
 
 void BackDrop_MainMenu::CreateChainProp(class GameEngineLevel* _CurLevel)
 {
-	vecMainMenu_Chain.reserve(10);
+	vecMainMenu_Chain.reserve(20);
 
 
 	{
@@ -315,7 +315,7 @@ void BackDrop_MainMenu::CreateChainProp(class GameEngineLevel* _CurLevel)
 		}
 
 		Object->SetRenderOrder(ETITLERENDERORDER::Cloud_1);
-		Object->SetSprite("Title_Train_Cloud_1.png");
+		Object->SetSprite("Title_Train_Cloud_3.png");
 		Object->SetSpawnPoint(200.0f);
 		Object->SetSpeed(-27.0f);
 

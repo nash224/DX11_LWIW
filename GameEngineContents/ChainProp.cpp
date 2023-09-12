@@ -91,6 +91,7 @@ void ChainProp::SetAutoSpawnPoint()
 }
 
 // 첫 위치를 넣으면 알아서 리젠 위치를 정해줍니다. 
+// 기준은 텍스처 크기가 화면 크기보다 크면 빈틈없이 이어서 출력해줍니다.
 void ChainProp::CalculateAndSetRegenLocationInputFirstLocation(const float4& _Position)
 {
 	if ("" == m_SpriteFileName)
@@ -129,7 +130,7 @@ void ChainProp::SetSpeed(float _Speed)
 
 void ChainProp::UpdateSeries()
 {
-	// 첫번째일때 먼저 띄운다.
+	// 첫번째일때 어쩃든 화면에 나와야하기 떄문에 하나를 먼저 띄워준다.
 	if (false == isFirstActorCreate)
 	{
 		RegenProp(m_FirstLocation);
@@ -137,6 +138,8 @@ void ChainProp::UpdateSeries()
 		isFirstActorCreate = true;
 	}
 
+	// (중요) 자료구조에 객체가 없으면 터지게 설정했다.
+	// 주의할 점은 객체가 없어지는 기준선보다 리젠 기준선이 더 멀리 있을 경우 터진다.
 	if (true == listProps.empty())
 	{
 		MsgBoxAssert("List에 객체가 없어서 업데이트를 할 수가 없습니다. ");
@@ -173,25 +176,6 @@ void ChainProp::UpdateSeries()
 
 		}
 	}
-	
-
-
-
-	//if (m_StateTime > m_RegenTime)
-	//{
-	//	// 일정 간격이 지날때마다 손해본 거리가 생긴다.
-	//	// 움직이는 체인의 소품의 위치에 그 거리를 빼줘야한다.
-	//	float DelayTime = m_StateTime - m_RegenTime;
-	//	m_DelayDistance = m_Speed * DelayTime ;
-	//	float DelayXDistance = m_RegenLocation.X + m_DelayDistance;
-	//	float4 RegenLocation = float4{ DelayXDistance , m_RegenLocation.Y };
-
-	//	RegenProp(RegenLocation);
-
-
-	//	m_DelayDistance = 0.0f;
-	//	m_StateTime -= m_RegenTime;
-	//}
 }
 
 
@@ -221,6 +205,9 @@ void ChainProp::RegenProp(const float4& _Position /*= float4::ZERO*/)
 }
 
 
+// 화면에 넘어간 소품은 더이상 필요가 없다.
+// 넘어간 객체를 추적해서 list를 순회해 없애준다.
+// 연산량이 많이 돌어가지만 타이틀에는 사용하는 메모리가 그닥 없기 때문에 순회로 돌려줬다.
 void ChainProp::EraseOverScreenProp()
 {
 	std::list<std::shared_ptr<SequentialProp>>::iterator StartIter = listProps.begin();

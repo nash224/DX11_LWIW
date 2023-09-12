@@ -2,7 +2,7 @@
 
 
 
-// 설명 :
+// 설명 : 타이틀 메인 메뉴에서 가차의 부품입니다.
 class TrainPart : public GameEngineActor
 {
 	friend class MainMenu_Trains;

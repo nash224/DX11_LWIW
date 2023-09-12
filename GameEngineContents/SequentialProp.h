@@ -1,7 +1,8 @@
 #pragma once
 #include "Prop.h"
 
-// 설명 :
+// 설명 : ChainProp에서 생성되는 객체입니다. 
+// 일정 시간마다 생성되고 기준선에서 넘어가면 자동으로 정리됩니다.
 class SequentialProp : public Prop
 {
 	friend class ChainProp;
