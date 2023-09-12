@@ -15,6 +15,7 @@
 #include "GameEngineRasterizer.h"
 #include "GameEnginePixelShader.h"
 #include "GameEngineRenderTarget.h"
+#include "GameEngineBlend.h"
 #include "GameEngineConstantBuffer.h"
 
 GameEngineRenderer::GameEngineRenderer()
@@ -167,7 +168,11 @@ void GameEngineRenderer::ResSetting()
 			PixelShader->Setting();
 		}
 
-
+		std::shared_ptr<class GameEngineBlend> Blend = GameEngineBlend::Find("EngineBlend");
+		if (nullptr != Blend)
+		{
+			Blend->Setting();
+		}
 
 
 		std::shared_ptr<class GameEngineRenderTarget> BackBufferRenderTarget = GameEngineCore::GetBackBufferRenderTarget();
