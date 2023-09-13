@@ -234,5 +234,8 @@
     <ClCompile Include="BackDrop_Loading.cpp">
       <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
     </ClCompile>
+    <ClCompile Include="Ellie_State.cpp">
+      <Filter>Object\Actor\Interactive\Ellie</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

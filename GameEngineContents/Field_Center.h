@@ -1,9 +1,10 @@
 #pragma once
-#include "ContentsLevel.h"
+#include "PlayLevel.h"
 
 // Ό³Έν :
 class BackDrop_CenterField;
-class Field_Center : public ContentsLevel
+class Ellie;
+class Field_Center : public PlayLevel
 {
 public:
 	// constrcuter destructer
@@ -29,6 +30,7 @@ private:
 	void LoadTexture();
 	void LoadSprite();
 	void LoadActor();
+	void LoadGlobalUnit();
 
 private:
 	void ActorRelease();
@@ -40,6 +42,7 @@ public:
 
 private:
 	std::shared_ptr<BackDrop_CenterField> m_BackDrop = nullptr;
+	std::shared_ptr<Ellie> m_Ellie = nullptr;
 
 };
 

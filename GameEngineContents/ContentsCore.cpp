@@ -18,7 +18,6 @@ ContentsCore::~ContentsCore()
 
 void ContentsCore::Start()
 {
-	GameEngineSpriteRenderer::SetDefaultSampler("POINT");
 
 	GlobalLoad::LoadGlobalResource();
 

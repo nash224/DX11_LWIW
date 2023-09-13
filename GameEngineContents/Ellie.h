@@ -2,6 +2,16 @@
 #include "InteractiveActor.h"
 #include "ActorEnum.h"
 
+
+
+enum class EELLIE_STATE
+{
+	None,
+	Idle,
+	Walk,
+	Run,
+};
+
 // 설명 :
 class Ellie : public InteractiveActor
 {
@@ -22,8 +32,34 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
+
+public:
+	void Init();
+	
+
 private:
+	void ChangeState(EELLIE_STATE _State);
+	void StateUpdate(float _Delta);
+	void ChangeAnimationByDirection(const std::string& _StateName, bool _Force =  false, unsigned int _Index = 0);
 
 
+	void StartIdle();
+	void UpdateIdle(float _Delta);
+
+	void StartWalk();
+	void UpdateWalk(float _Delta);
+
+	void StartRun();
+	void UpdateRun(float _Delta);
+
+
+private:
+	std::shared_ptr<GameEngineSpriteRenderer> m_Body = nullptr;
+
+
+private:
+	// 행동
+	EELLIE_STATE m_State = EELLIE_STATE::None;
+	float m_StateTime = 0.0f;
 };
 

@@ -7,7 +7,6 @@ CameraControler::CameraControler()
 	, m_FocusActor(nullptr)
 	, m_Mode(ECAMERAMODE::None)
 	, m_CameraInfo({ float4::ZERO })
-	, m_Speed(500.0f)
 {
 }
 
@@ -19,6 +18,8 @@ CameraControler::~CameraControler()
 void CameraControler::Start()
 {
 	m_Mode = ECAMERAMODE::None;
+
+	m_WinScale = GlobalValue::GetWindowScale();
 }
 
 void CameraControler::Update(float _Delta)
@@ -37,6 +38,13 @@ void CameraControler::LevelEnd(class GameEngineLevel* _NextLevel)
 
 }
 
+
+
+
+
+
+
+
 void CameraControler::SetCameraMode(ECAMERAMODE _Mode)
 {
 	m_Mode = _Mode;
@@ -47,6 +55,17 @@ void CameraControler::SetWorldPostion(const float4& _Position)
 	m_MainCamera->Transform.SetLocalPosition(_Position);
 	RenewCameraPosition();
 	m_CameraInfo.MoveDistance = 0.0f;
+}
+
+void CameraControler::SetFocusActor(GameEngineActor* _Actor)
+{
+	if (nullptr == _Actor)
+	{
+		MsgBoxAssert("존재하지 않는 액터를 적용하려고 했습니다.");
+		return;
+	}
+
+	m_FocusActor = _Actor;
 }
 
 
@@ -83,6 +102,7 @@ void CameraControler::UpdateCameraMode(float _Delta)
 	}
 		break;
 	case ECAMERAMODE::Play:
+		UpdateCameraPlayMode(_Delta);
 		break;
 	case ECAMERAMODE::Setting:
 		break;
@@ -95,9 +115,31 @@ void CameraControler::UpdateCameraMode(float _Delta)
 }
 
 
+void CameraControler::UpdateCameraPlayMode(float _Delta)
+{
+	if (nullptr == m_MainCamera)
+	{
+		MsgBoxAssert("레벨 카메라를 지정해주지 않았습니다.");
+		return;
+	}
+
+	if (nullptr == m_FocusActor)
+	{
+		return;
+	}
+
+	float4 ActorPos = m_FocusActor->Transform.GetWorldPosition();
+	float4 CameraPos = float4::ZERO;
+	CameraPos.X = ActorPos.X + m_WinScale.X;
+	CameraPos.Y = ActorPos.Y - m_WinScale.Y;
+
+	m_MainCamera->Transform.SetLocalPosition(CameraPos);
+}
+
+
 void CameraControler::UpdateCameraEditorMode(float _Delta)
 {
-	float CameraSpeed = m_Speed * _Delta;
+	float CameraSpeed = m_EditorModeSpeed * _Delta;
 	float4 CameraMoveDistance = float4::ZERO;
 	
 	if (true == GameEngineInput::IsPress('W'))

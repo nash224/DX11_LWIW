@@ -191,6 +191,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Ellie_State.cpp" />
     <ClCompile Include="Field_Center.cpp">
       <SubType>
       </SubType>

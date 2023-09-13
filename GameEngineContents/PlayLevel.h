@@ -2,6 +2,7 @@
 #include "ContentsLevel.h"
 
 // Ό³Έν :
+class Ellie;
 class PlayLevel : public ContentsLevel
 {
 public:
@@ -23,5 +24,15 @@ protected:
 	
 
 private:
-	std::shared_ptr<class Player> TestPlayer = nullptr;
+
+
+protected:
+	void InitPlayLevel();
+
+protected:
+	std::shared_ptr<Ellie> m_Ellie = nullptr;
+
+
+protected:
+	bool LevelInitCheck = false;
 };

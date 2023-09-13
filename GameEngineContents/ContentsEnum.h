@@ -17,25 +17,9 @@ enum class EUPDATEORDER
 enum class ERENDERORDER
 {
 	Back_,
-	Scenery_0,
-	Scenery_1,
-	Scenery_2,
-	Scenery_3,
-	Scenery_4,
-	Scenery_5,
-	Scenery_6,
-	Ground_Layer,
-	Prop_1,
-	Prop_2,
-	Prop_3,
-	Prop_4,
-	Back_Shader,
-	FX_Pre,
+	Ellie,
 	Object,
-	FX_Post,
-	Lighting_Shader,
-	Foreground_Ceiling,
-	Tone_Shader,
+	UI,
 	FadeObject,
 };
 
@@ -93,12 +77,12 @@ enum class ELEVELTYPE
 enum class EDIRECTION
 {
 	CENTER,
-	TOP,
-	LEFTTOP,
+	UP,
+	LEFTUP,
 	LEFT,
-	LEFTBOT,
-	BOT,
-	RIGHTBOT,
+	LEFTDOWN,
+	RIGHTUP,
 	RIGHT,
-	RIGHTTOP,
+	RIGHTDOWN,
+	DOWN,
 };

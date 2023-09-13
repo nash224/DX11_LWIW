@@ -41,6 +41,7 @@ protected:
 public:
 	void SetCameraMode(ECAMERAMODE _Mode);
 	void SetWorldPostion(const float4& _Position);
+	void SetFocusActor(GameEngineActor* _Actor);
 
 public:
 	void Reset();
@@ -55,9 +56,13 @@ private:
 
 private:
 	void UpdateCameraMode(float _Delta);
+	void UpdateCameraPlayMode(float _Delta);
 	void UpdateCameraEditorMode(float _Delta);
 
 
+private:
+	float4 m_WinScale = float4::ZERO;	
+	
 private:
 	struct CameraInfo
 	{
@@ -67,11 +72,9 @@ private:
 		float4 MoveDistance;
 	};
 
-	
-private:
 	CameraInfo m_CameraInfo;
 	ECAMERAMODE m_Mode;
-	float m_Speed;
+	float m_EditorModeSpeed = 500.0f;
 
 
 

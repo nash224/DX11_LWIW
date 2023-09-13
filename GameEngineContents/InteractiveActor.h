@@ -1,7 +1,6 @@
 #pragma once
 
 
-
 struct InterativeParameter
 {
 public:
@@ -32,13 +31,13 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
-private:
-
-
-public:
 
 protected:
 	InterativeParameter m_InteractiveParameter = {};
+
+
+protected:
+	EDIRECTION m_Dir = EDIRECTION::LEFT;
 
 
 private:

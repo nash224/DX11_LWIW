@@ -125,6 +125,21 @@ public:
 	{
 		WorldViewProjectionMatrix = WorldMatrix * ViewMatrix * ProjectionMatrix;
 	}
+
+	void operator=(const TransformData& _Other)
+	{
+		memcpy_s(this, sizeof(TransformData), &_Other, sizeof(TransformData));
+	}
+
+	TransformData()
+	{
+
+	}
+
+	TransformData(const TransformData& _Other)
+	{
+		memcpy_s(this, sizeof(TransformData), &_Other, sizeof(TransformData));
+	}
 };
 
 // Ό³Έν :
@@ -260,6 +275,7 @@ public:
 	{
 		Parent = &_Parent;
 		Parent->Childs.push_back(this);
+		TransformUpdate();
 	}
 
 	void CalChilds();

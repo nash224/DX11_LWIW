@@ -4,6 +4,7 @@
 
 #include "CameraControler.h"
 #include "BackDrop_CenterField.h"
+#include "Ellie.h"
 
 
 Field_Center::Field_Center() 
@@ -17,7 +18,7 @@ Field_Center::~Field_Center()
 
 void Field_Center::Start()
 {
-	ContentsLevel::Start();
+	PlayLevel::Start();
 
 	if (nullptr != m_LevelCameraControler)
 	{
@@ -27,12 +28,12 @@ void Field_Center::Start()
 
 void Field_Center::Update(float _Delta)
 {
-	ContentsLevel::Update(_Delta);
+	PlayLevel::Update(_Delta);
 }
 
 void Field_Center::LevelStart(class GameEngineLevel* _NextLevel)
 {
-	ContentsLevel::LevelStart(_NextLevel);
+	PlayLevel::LevelStart(_NextLevel);
 
 	LoadTexture();
 	LoadSprite();
@@ -41,7 +42,7 @@ void Field_Center::LevelStart(class GameEngineLevel* _NextLevel)
 
 void Field_Center::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-	ContentsLevel::LevelEnd(_NextLevel);
+	PlayLevel::LevelEnd(_NextLevel);
 }
 
 
@@ -70,6 +71,25 @@ void Field_Center::LoadSprite()
 
 void Field_Center::LoadActor()
 {
+	LoadGlobalUnit();
+
+	if (nullptr == m_LevelCameraControler)
+	{
+		MsgBoxAssert("존재하지 않는 액터를 사용하려고 했습니다.");
+		return;
+	}
+
+	m_LevelCameraControler->SetFocusActor(m_Ellie.get());
+
+}
+
+void Field_Center::LoadGlobalUnit()
+{
+	if (false == LevelInitCheck)
+	{
+		return;
+	}
+
 	m_BackDrop = CreateActor<BackDrop_CenterField>(EUPDATEORDER::Objects);
 	if (nullptr == m_BackDrop)
 	{
@@ -78,7 +98,21 @@ void Field_Center::LoadActor()
 	}
 
 	m_BackDrop->Init();
+
+
+	m_Ellie = CreateActor<Ellie>(EUPDATEORDER::Player);
+	if (nullptr == m_Ellie)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	/*m_Ellie->Init();
+	m_Ellie->SetSpawnPos();*/
+
+	LevelInitCheck = true;
 }
+
 
 
 void Field_Center::ActorRelease()
