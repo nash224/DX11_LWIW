@@ -41,6 +41,19 @@ void Ellie::Start()
 		m_Body->CreateAnimation("Walk_UP", "Ellie_Basic_Walk.png", 0.1f, 78, 85);
 		m_Body->CreateAnimation("Walk_RIGHTUP", "Ellie_Basic_Walk.png", 0.1f, 91, 98);
 	}
+
+	{
+		m_Body->CreateAnimation("Run_LEFT", "Ellie_Basic_Run.png", Ellie_Run_Inter, 4, 9);
+		m_Body->CreateAnimation("Run_LEFTDOWN", "Ellie_Basic_Run.png", Ellie_Run_Inter, 4, 9);
+		m_Body->CreateAnimation("Run_DOWN", "Ellie_Basic_Run.png", Ellie_Run_Inter, 10, 15);
+		m_Body->CreateAnimation("Run_RIGHT", "Ellie_Basic_Run.png", Ellie_Run_Inter, 17, 22);
+		m_Body->CreateAnimation("Run_RIGHTDOWN", "Ellie_Basic_Run.png", Ellie_Run_Inter, 17, 22);
+		m_Body->CreateAnimation("Run_LEFTUP", "Ellie_Basic_Run.png", Ellie_Run_Inter, 23, 28);
+		m_Body->CreateAnimation("Run_UP", "Ellie_Basic_Run.png", Ellie_Run_Inter, 30, 35);
+		m_Body->CreateAnimation("Run_RIGHTUP", "Ellie_Basic_Run.png", Ellie_Run_Inter, 36, 41);
+	}
+
+	m_Body->AutoSpriteSizeOn();
 }
 
 void Ellie::Update(float _Delta)
@@ -66,21 +79,13 @@ void Ellie::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void Ellie::Init()
 {
-	if (nullptr == m_Body)
-	{
-		MsgBoxAssert("존재하지 않은 액터를 사용하려 했습니다.");
-		return;
-	}
-
-	m_Body->AutoSpriteSizeOn();
-
 	ChangeState(EELLIE_STATE::Idle);
 }
 
 
 /////////////////////////////////////////////////////////////////////////////////////
 
-
+#pragma region State 함수
 void Ellie::StateUpdate(float _Delta)
 {
 	switch (m_State)
@@ -128,6 +133,8 @@ void Ellie::ChangeState(EELLIE_STATE _State)
 	}	
 }
 
+
+// 호출하면 방향에 따라 애니메이션 출력을 다르게 바꿔줍니다.
 void Ellie::ChangeAnimationByDirection(const std::string& _StateName, bool _Force /*= false*/, unsigned int _Index /*= 0*/)
 {
 	std::string SpriteName = "";
@@ -174,6 +181,10 @@ void Ellie::ChangeAnimationByDirection(const std::string& _StateName, bool _Forc
 	m_Body->ChangeAnimation(SpriteName, _Force, _Index);
 }
 
+#pragma endregion
+
+
+#pragma region 이동 키 감지
 
 bool Ellie::DetectMovement()
 {
@@ -182,11 +193,6 @@ bool Ellie::DetectMovement()
 
 	if (true == IsLeftDetect || true == IsRightDetect)
 	{
-		/*if (EHORIZONTAL_KEY_STATE::Center == m_HorizontalKey && EVERTICAL_KEY_STATE::Down == m_VerticalKey)
-		{
-			m_Dir = EDIRECTION::DOWN;
-		}*/
-
 		if (EHORIZONTAL_KEY_STATE::Center == m_HorizontalKey)
 		{
 			if (EVERTICAL_KEY_STATE::Down == m_VerticalKey)
@@ -305,11 +311,6 @@ bool Ellie::DetectHorizontalMovement()
 		isMoveHorizontal = false;
 	}
 
-	if (true == isMoveHorizontal && true == isPressLeft && true == isPressRight)
-	{
-		isMoveHorizontal = false;
-	}
-
 	if (true == isMoveHorizontal)
 	{
 		if (true == isPressLeft)
@@ -326,7 +327,10 @@ bool Ellie::DetectHorizontalMovement()
 	return isMoveHorizontal;
 }
 
+#pragma endregion 
 
+
+// 방향을 인자로 넣으면 방향 기저벡터를 뱉어 줍니다.
 float4 Ellie::CalulateDirectionVectorToDir(const EDIRECTION _Direction)
 {
 	float4 DirVector = float4::ZERO;

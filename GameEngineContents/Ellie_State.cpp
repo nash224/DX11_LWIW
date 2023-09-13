@@ -76,5 +76,40 @@ void Ellie::StartRun()
 
 void Ellie::UpdateRun(float _Delta)
 {
+	if (false == DetectMovement())
+	{
+		ChangeState(EELLIE_STATE::Idle);
+		return;
+	}
+	else
+	{
+		if (true == GameEngineInput::IsPress(VK_LSHIFT))
+		{
+			// 기어다니기
+		}
 
+		if (true == GameEngineInput::IsFree(VK_SPACE))
+		{
+			ChangeState(EELLIE_STATE::Walk);
+			return;
+		}
+	}
+
+
+	// 방향을 넣으면 방향 기저벡터를 반환 해줍니다.
+	float4 Dir = CalulateDirectionVectorToDir(m_Dir);
+
+	Transform.AddLocalPosition(Dir * Ellie_Run_Speed * _Delta);
+
+	if (m_Dir != m_RenderDir)
+	{
+		if (nullptr == m_Body)
+		{
+			MsgBoxAssert("생성하지 않은 렌더러를 사용하려 했습니다.");
+			return;
+		}
+
+		unsigned int CurIndex = m_Body->GetCurIndex();
+		ChangeAnimationByDirection("Run", false, CurIndex);
+	}
 }
