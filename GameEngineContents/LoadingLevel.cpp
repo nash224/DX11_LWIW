@@ -101,9 +101,16 @@ void LoadingLevel::LoadSprite()
 {
 	if (false == GlobalSpriteLoadCheck)
 	{
+		// 기본조작
 		GameEngineSprite::CreateCut("Ellie_Basic_Idle.png", 7, 6);
 		GameEngineSprite::CreateCut("Ellie_Basic_Walk.png", 12, 11);
 		GameEngineSprite::CreateCut("Ellie_Basic_Run.png", 9, 8);
+
+		// 수집 
+		GameEngineSprite::CreateCut("Ellie_Basic_ButterflyNet.png", 12, 11);
+		GameEngineSprite::CreateCut("Ellie_Basic_Colleciton_RootUp.png", 10, 9);
+		GameEngineSprite::CreateCut("Ellie_Basic_Colleciton_Sit.png", 7, 7);
+		GameEngineSprite::CreateCut("Ellie_Basic_Collecting_Mongsiri.png", 5, 4);
 
 		GlobalSpriteLoadCheck = true;
 	}

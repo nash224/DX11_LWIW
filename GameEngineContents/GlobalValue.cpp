@@ -4,6 +4,7 @@
 
 float4 GlobalValue::WindowScale = float4::ZERO;
 std::shared_ptr<CameraControler> GlobalValue::g_CameraControler = nullptr;
+std::shared_ptr<Ellie> GlobalValue::g_Ellie = nullptr;
 
 
 void GlobalValue::SetWindowScale(const float4& _Scale)

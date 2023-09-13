@@ -53,6 +53,50 @@ void Ellie::Start()
 		m_Body->CreateAnimation("Run_RIGHTUP", "Ellie_Basic_Run.png", Ellie_Run_Inter, 36, 41);
 	}
 
+	{
+		m_Body->CreateAnimation("Net_LEFT", "Ellie_Basic_ButterflyNet.png", Ellie_ButterflyNet_Inter, 7, 13);
+		m_Body->CreateAnimation("Net_LEFTDOWN", "Ellie_Basic_ButterflyNet.png", Ellie_ButterflyNet_Inter, 7, 13);
+		m_Body->CreateAnimation("Net_DOWN", "Ellie_Basic_ButterflyNet.png", Ellie_ButterflyNet_Inter, 21, 27);
+		m_Body->CreateAnimation("Net_RIGHT", "Ellie_Basic_ButterflyNet.png", Ellie_ButterflyNet_Inter, 35, 41);
+		m_Body->CreateAnimation("Net_RIGHTDOWN", "Ellie_Basic_ButterflyNet.png", Ellie_ButterflyNet_Inter, 35, 41);
+		m_Body->CreateAnimation("Net_LEFTUP", "Ellie_Basic_ButterflyNet.png", Ellie_ButterflyNet_Inter, 49, 55);
+		m_Body->CreateAnimation("Net_UP", "Ellie_Basic_ButterflyNet.png", Ellie_ButterflyNet_Inter, 63, 69);
+		m_Body->CreateAnimation("Net_RIGHTUP", "Ellie_Basic_ButterflyNet.png", Ellie_ButterflyNet_Inter, 77, 83);
+	}
+
+	{
+		m_Body->CreateAnimation("RootUp_LEFT", "Ellie_Basic_Colleciton_RootUp.png", Ellie_RootUp_Inter, 13, 20);
+		m_Body->CreateAnimation("RootUp_LEFTDOWN", "Ellie_Basic_Colleciton_RootUp.png", Ellie_RootUp_Inter, 13, 20);
+		m_Body->CreateAnimation("RootUp_DOWN", "Ellie_Basic_Colleciton_RootUp.png", Ellie_RootUp_Inter, 25, 32);
+		m_Body->CreateAnimation("RootUp_RIGHT", "Ellie_Basic_Colleciton_RootUp.png", Ellie_RootUp_Inter, 34, 41);
+		m_Body->CreateAnimation("RootUp_RIGHTDOWN", "Ellie_Basic_Colleciton_RootUp.png", Ellie_RootUp_Inter, 34, 41);
+		m_Body->CreateAnimation("RootUp_LEFTUP", "Ellie_Basic_Colleciton_RootUp.png", Ellie_RootUp_Inter, 43, 50);
+		m_Body->CreateAnimation("RootUp_UP", "Ellie_Basic_Colleciton_RootUp.png", Ellie_RootUp_Inter, 43, 50);
+		m_Body->CreateAnimation("RootUp_RIGHTUP", "Ellie_Basic_Colleciton_RootUp.png", Ellie_RootUp_Inter, 51, 58);
+	}
+
+	{
+		m_Body->CreateAnimation("Sit_LEFT", "Ellie_Basic_Colleciton_Sit.png", Ellie_Sit_Inter, 7, 12);
+		m_Body->CreateAnimation("Sit_LEFTDOWN", "Ellie_Basic_Colleciton_Sit.png", Ellie_Sit_Inter, 7, 12);
+		m_Body->CreateAnimation("Sit_DOWN", "Ellie_Basic_Colleciton_Sit.png", Ellie_Sit_Inter, 7, 12);
+		m_Body->CreateAnimation("Sit_RIGHT", "Ellie_Basic_Colleciton_Sit.png", Ellie_Sit_Inter, 13, 18);
+		m_Body->CreateAnimation("Sit_RIGHTDOWN", "Ellie_Basic_Colleciton_Sit.png", Ellie_Sit_Inter, 13, 18);
+		m_Body->CreateAnimation("Sit_LEFTUP", "Ellie_Basic_Colleciton_Sit.png", Ellie_Sit_Inter, 19, 24);
+		m_Body->CreateAnimation("Sit_UP", "Ellie_Basic_Colleciton_Sit.png", Ellie_Sit_Inter, 25, 30);
+		m_Body->CreateAnimation("Sit_RIGHTUP", "Ellie_Basic_Colleciton_Sit.png", Ellie_Sit_Inter, 25, 30);
+	}
+
+	{
+		m_Body->CreateAnimation("MongSiri_LEFT", "Ellie_Basic_Collecting_Mongsiri.png", Ellie_MongSiri_Inter, 3, 7);
+		m_Body->CreateAnimation("MongSiri_LEFTDOWN", "Ellie_Basic_Collecting_Mongsiri.png", Ellie_MongSiri_Inter, 3, 7);
+		m_Body->CreateAnimation("MongSiri_DOWN", "Ellie_Basic_Collecting_Mongsiri.png", Ellie_MongSiri_Inter, 3, 7);
+		m_Body->CreateAnimation("MongSiri_RIGHT", "Ellie_Basic_Collecting_Mongsiri.png", Ellie_MongSiri_Inter, 9, 13);
+		m_Body->CreateAnimation("MongSiri_RIGHTDOWN", "Ellie_Basic_Collecting_Mongsiri.png", Ellie_MongSiri_Inter, 9, 13);
+		m_Body->CreateAnimation("MongSiri_LEFTUP", "Ellie_Basic_Collecting_Mongsiri.png", Ellie_MongSiri_Inter, 3, 7);
+		m_Body->CreateAnimation("MongSiri_UP", "Ellie_Basic_Collecting_Mongsiri.png", Ellie_MongSiri_Inter, 9, 13);
+		m_Body->CreateAnimation("MongSiri_RIGHTUP", "Ellie_Basic_Collecting_Mongsiri.png", Ellie_MongSiri_Inter, 9, 13);
+	}
+
 	m_Body->AutoSpriteSizeOn();
 }
 
@@ -82,6 +126,16 @@ void Ellie::Init()
 	ChangeState(EELLIE_STATE::Idle);
 }
 
+void Ellie::SetSpawnLocalPosition(const float4& _Position)
+{
+	Transform.SetLocalPosition(_Position);
+}
+
+void Ellie::SetMoveControl(bool _Value)
+{
+	IsControl = _Value;
+}
+
 
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -99,6 +153,10 @@ void Ellie::StateUpdate(float _Delta)
 	case EELLIE_STATE::Idle:									UpdateIdle(_Delta);							break;
 	case EELLIE_STATE::Walk:									UpdateWalk(_Delta);							break;
 	case EELLIE_STATE::Run:										UpdateRun(_Delta);							break;
+	case EELLIE_STATE::Net:										UpdateNet(_Delta);							break;
+	case EELLIE_STATE::RootUp:									UpdateRootUp(_Delta);						break;
+	case EELLIE_STATE::Sit:										UpdateSit(_Delta);							break;
+	case EELLIE_STATE::MongSiri:								UpdateMongSiri(_Delta);						break;
 	default:
 		break;
 	}
@@ -120,6 +178,10 @@ void Ellie::ChangeState(EELLIE_STATE _State)
 		case EELLIE_STATE::Idle:								StartIdle();						break;
 		case EELLIE_STATE::Walk:								StartWalk();						break;
 		case EELLIE_STATE::Run:									StartRun();							break;
+		case EELLIE_STATE::Net:									StartNet();							break;
+		case EELLIE_STATE::RootUp:								StartRootUp();						break;
+		case EELLIE_STATE::Sit:									StartSit();							break;
+		case EELLIE_STATE::MongSiri:							StartMongSiri();					break;
 		default:
 			break;
 		}

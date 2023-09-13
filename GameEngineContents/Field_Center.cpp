@@ -107,7 +107,11 @@ void Field_Center::LoadGlobalUnit()
 	}
 
 	m_Ellie->Init();
-	/*m_Ellie->SetSpawnPos(); */
+
+	float4 HWinScale = GlobalValue::GetWindowScale().Half();
+	HWinScale.Y *= -1.0f;
+
+	m_Ellie->SetSpawnLocalPosition(HWinScale);
 
 	LevelInitCheck = true;
 }

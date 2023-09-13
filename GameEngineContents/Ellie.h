@@ -8,12 +8,25 @@ constexpr float EllieWalkSpeed = 200.0f;
 constexpr float Ellie_Run_Inter = 0.1f;
 constexpr float Ellie_Run_Speed = 300.0f;
 
+
+constexpr float Ellie_ButterflyNet_Inter = 0.1f;
+
+constexpr float Ellie_RootUp_Inter = 0.15f;
+
+constexpr float Ellie_Sit_Inter = 0.12f;
+
+constexpr float Ellie_MongSiri_Inter = 0.2f;
+
 enum class EELLIE_STATE
 {
 	None,
 	Idle,
 	Walk,
 	Run,
+	Net,
+	RootUp,
+	Sit,
+	MongSiri,
 };
 
 
@@ -42,7 +55,9 @@ protected:
 public:
 	// ¿Ã¥œº»
 	void Init();
-	
+	void SetSpawnLocalPosition(const float4& _Position);
+	void SetMoveControl(bool _Value);
+	/*void TransferControl(bool _Value);*/
 
 private:
 	// FSM
@@ -59,6 +74,19 @@ private:
 
 	void StartRun();
 	void UpdateRun(float _Delta);
+
+
+	void StartNet();
+	void UpdateNet(float _Delta);
+
+	void StartRootUp();
+	void UpdateRootUp(float _Delta);
+
+	void StartSit();
+	void UpdateSit(float _Delta);
+
+	void StartMongSiri();
+	void UpdateMongSiri(float _Delta);
 
 
 private:
@@ -88,6 +116,8 @@ private:
 	EDIRECTION m_RenderDir = EDIRECTION::CENTER;
 	EHORIZONTAL_KEY_STATE m_HorizontalKey = EHORIZONTAL_KEY_STATE::Center;
 	EVERTICAL_KEY_STATE m_VerticalKey = EVERTICAL_KEY_STATE::Center;
+
+	bool IsControl = true;
 
 private:
 };

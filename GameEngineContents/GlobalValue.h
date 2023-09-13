@@ -3,13 +3,13 @@
 
 
 // Ό³Έν :
+class Ellie;
 class CameraControler;
 class GlobalValue
 {
 public:
 	static std::shared_ptr<CameraControler> g_CameraControler;
-
-protected:
+	static std::shared_ptr<Ellie> g_Ellie;
 
 private:
 	// constrcuter destructer
@@ -22,13 +22,9 @@ private:
 	GlobalValue& operator=(const GlobalValue& _Other) = delete;
 	GlobalValue& operator=(GlobalValue&& _Other) noexcept = delete;
 
-private:
-
 public:
 	static void SetWindowScale(const float4& _Scale);
 	static float4 GetWindowScale();
-
-public:
 
 private:
 	static float4 WindowScale;
