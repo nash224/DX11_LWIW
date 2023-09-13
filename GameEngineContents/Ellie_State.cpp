@@ -35,6 +35,7 @@ void Ellie::StartWalk()
 
 void Ellie::UpdateWalk(float _Delta)
 {
+	// 움직이지 않으면 Idle인 상태로 간주합니다.
 	if (false == DetectMovement())
 	{
 		ChangeState(EELLIE_STATE::Idle);
@@ -49,41 +50,8 @@ void Ellie::UpdateWalk(float _Delta)
 		}
 	}
 
-	float4 Dir = float4::ZERO;
-
-	switch (m_Dir)
-	{
-	case EDIRECTION::UP:
-		Dir = { 0.0f , 1.0f };
-		break;
-	case EDIRECTION::LEFTUP:
-		Dir = { -1.0f , 1.0f };
-		Dir.Normalize();
-		break;
-	case EDIRECTION::LEFT:
-		Dir = { -1.0f , 0.0f };
-		break;
-	case EDIRECTION::LEFTDOWN:
-		Dir = { -1.0f , -1.0f };
-		Dir.Normalize();
-		break;
-	case EDIRECTION::RIGHTUP:
-		Dir = { 1.0f , 1.0f };
-		Dir.Normalize();
-		break;
-	case EDIRECTION::RIGHT:
-		Dir = { 1.0f , 0.0f };
-		break;
-	case EDIRECTION::RIGHTDOWN:
-		Dir = { 1.0f , -1.0f };
-		Dir.Normalize();
-		break;
-	case EDIRECTION::DOWN:
-		Dir = { 0.0f , -1.0f };
-		break;
-	default:
-		break;
-	}
+	// 방향을 넣으면 방향 기저벡터를 반환 해줍니다.
+	float4 Dir = CalulateDirectionVectorToDir(m_Dir);
 
 	Transform.AddLocalPosition(Dir * EllieWalkSpeed * _Delta);
 
@@ -99,6 +67,7 @@ void Ellie::UpdateWalk(float _Delta)
 		ChangeAnimationByDirection("Walk", false, CurIndex);
 	}
 }
+
 
 void Ellie::StartRun()
 {

@@ -60,6 +60,7 @@ private:
 	bool DetectVerticalMovement();
 	bool DetectHorizontalMovement();
 
+	float4 CalulateDirectionVectorToDir(const EDIRECTION _Direction);
 
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> m_Body = nullptr;

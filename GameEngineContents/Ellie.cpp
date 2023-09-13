@@ -39,7 +39,7 @@ void Ellie::Start()
 		m_Body->CreateAnimation("Walk_RIGHTDOWN", "Ellie_Basic_Walk.png", 0.1f, 54, 61);
 		m_Body->CreateAnimation("Walk_LEFTUP", "Ellie_Basic_Walk.png", 0.1f, 66, 73);
 		m_Body->CreateAnimation("Walk_UP", "Ellie_Basic_Walk.png", 0.1f, 78, 85);
-		m_Body->CreateAnimation("Walk_RIGHTUP", "Ellie_Basic_Walk.png", 0.1f, 90, 98);
+		m_Body->CreateAnimation("Walk_RIGHTUP", "Ellie_Basic_Walk.png", 0.1f, 91, 98);
 	}
 }
 
@@ -324,4 +324,46 @@ bool Ellie::DetectHorizontalMovement()
 	}
 
 	return isMoveHorizontal;
+}
+
+
+float4 Ellie::CalulateDirectionVectorToDir(const EDIRECTION _Direction)
+{
+	float4 DirVector = float4::ZERO;
+
+	switch (_Direction)
+	{
+	case EDIRECTION::UP:
+		DirVector = { 0.0f , 1.0f };
+		break;
+	case EDIRECTION::LEFTUP:
+		DirVector = { -1.0f , 1.0f };
+		DirVector.Normalize();
+		break;
+	case EDIRECTION::LEFT:
+		DirVector = { -1.0f , 0.0f };
+		break;
+	case EDIRECTION::LEFTDOWN:
+		DirVector = { -1.0f , -1.0f };
+		DirVector.Normalize();
+		break;
+	case EDIRECTION::RIGHTUP:
+		DirVector = { 1.0f , 1.0f };
+		DirVector.Normalize();
+		break;
+	case EDIRECTION::RIGHT:
+		DirVector = { 1.0f , 0.0f };
+		break;
+	case EDIRECTION::RIGHTDOWN:
+		DirVector = { 1.0f , -1.0f };
+		DirVector.Normalize();
+		break;
+	case EDIRECTION::DOWN:
+		DirVector = { 0.0f , -1.0f };
+		break;
+	default:
+		break;
+	}
+
+	return DirVector;
 }

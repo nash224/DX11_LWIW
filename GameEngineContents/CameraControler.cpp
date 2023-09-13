@@ -74,12 +74,12 @@ void CameraControler::Reset()
 	m_CameraInfo = { float4::ZERO };
 }
 
-const float4& CameraControler::GetCameraMoveDistance() const
+float4 CameraControler::GetCameraMoveDistance() const
 {
 	return m_CameraInfo.MoveDistance;
 }
 
-const float4& CameraControler::GetCameraCurrentPostion() const
+float4 CameraControler::GetCameraCurrentPostion() const
 {
 	return m_CameraInfo.CurPosition;
 }
@@ -133,6 +133,7 @@ void CameraControler::UpdateCameraPlayMode(float _Delta)
 	CameraPos.X = ActorPos.X + m_WinScale.X;
 	CameraPos.Y = ActorPos.Y - m_WinScale.Y;
 
+
 	m_MainCamera->Transform.SetLocalPosition(CameraPos);
 }
 
@@ -168,6 +169,7 @@ void CameraControler::UpdateCameraEditorMode(float _Delta)
 
 
 #pragma endregion
+
 
 void CameraControler::RenewCameraPosition()
 {

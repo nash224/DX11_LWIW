@@ -47,8 +47,8 @@ public:
 	void Reset();
 
 public:
-	const float4& GetCameraMoveDistance() const;
-	const float4& GetCameraCurrentPostion() const;
+	float4 GetCameraMoveDistance() const;
+	float4 GetCameraCurrentPostion() const;
 	bool IsCameraMove();
 
 private:
@@ -74,6 +74,8 @@ private:
 
 	CameraInfo m_CameraInfo;
 	ECAMERAMODE m_Mode;
+
+
 	float m_EditorModeSpeed = 500.0f;
 
 
