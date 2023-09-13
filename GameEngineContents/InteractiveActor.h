@@ -37,7 +37,6 @@ protected:
 
 
 protected:
-	EDIRECTION m_Dir = EDIRECTION::LEFT;
 
 
 private:

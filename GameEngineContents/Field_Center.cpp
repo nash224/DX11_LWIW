@@ -80,12 +80,11 @@ void Field_Center::LoadActor()
 	}
 
 	m_LevelCameraControler->SetFocusActor(m_Ellie.get());
-
 }
 
 void Field_Center::LoadGlobalUnit()
 {
-	if (false == LevelInitCheck)
+	if (true == LevelInitCheck)
 	{
 		return;
 	}
@@ -107,8 +106,8 @@ void Field_Center::LoadGlobalUnit()
 		return;
 	}
 
-	/*m_Ellie->Init();
-	m_Ellie->SetSpawnPos();*/
+	m_Ellie->Init();
+	/*m_Ellie->SetSpawnPos(); */
 
 	LevelInitCheck = true;
 }

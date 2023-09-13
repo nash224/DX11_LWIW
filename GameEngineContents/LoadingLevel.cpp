@@ -102,7 +102,7 @@ void LoadingLevel::LoadSprite()
 	if (false == GlobalSpriteLoadCheck)
 	{
 		GameEngineSprite::CreateCut("Ellie_Basic_Idle.png", 7, 6);
-		GameEngineSprite::CreateCut("Ellie_Basic_Walk.png", 12, 12);
+		GameEngineSprite::CreateCut("Ellie_Basic_Walk.png", 12, 11);
 		GameEngineSprite::CreateCut("Ellie_Basic_Run.png", 9, 8);
 
 		GlobalSpriteLoadCheck = true;

@@ -2,7 +2,9 @@
 #include "InteractiveActor.h"
 #include "ActorEnum.h"
 
+constexpr float EllieIdleInter = 0.2f;
 
+constexpr float EllieWalkSpeed = 200.0f;
 
 enum class EELLIE_STATE
 {
@@ -54,6 +56,12 @@ private:
 
 
 private:
+	bool DetectMovement();
+	bool DetectVerticalMovement();
+	bool DetectHorizontalMovement();
+
+
+private:
 	std::shared_ptr<GameEngineSpriteRenderer> m_Body = nullptr;
 
 
@@ -61,5 +69,12 @@ private:
 	// Çàµ¿
 	EELLIE_STATE m_State = EELLIE_STATE::None;
 	float m_StateTime = 0.0f;
+
+	EDIRECTION m_Dir = EDIRECTION::LEFT;
+	EDIRECTION m_RenderDir = EDIRECTION::CENTER;
+	EHORIZONTAL_KEY_STATE m_HorizontalKey = EHORIZONTAL_KEY_STATE::Center;
+	EVERTICAL_KEY_STATE m_VerticalKey = EVERTICAL_KEY_STATE::Center;
+
+private:
 };
 
