@@ -3,11 +3,15 @@
 #include "ActorEnum.h"
 
 constexpr float EllieIdleInter = 0.2f;
-constexpr float EllieWalkSpeed = 200.0f;
+constexpr float Ellie_SlowWalk_Inter = 0.2f;
 
 constexpr float Ellie_Run_Inter = 0.1f;
-constexpr float Ellie_Run_Speed = 300.0f;
 
+constexpr float Ellie_Throw_Inter = 0.1f;
+
+constexpr float Ellie_Riding_Idle_Inter = 0.1f;
+constexpr float Ellie_Riding_Move_Inter = 0.1f;
+constexpr float Ellie_Riding_Boost_Inter = 0.1f;
 
 constexpr float Ellie_ButterflyNet_Inter = 0.1f;
 
@@ -21,14 +25,28 @@ enum class EELLIE_STATE
 {
 	None,
 	Idle,
+	SlowWalk,
 	Walk,
 	Run,
+	Throw,
+	Riding_Idle,
+	Riding_Move,
+	Riding_Boost,
 	Net,
 	RootUp,
 	Sit,
 	MongSiri,
+	Cheer,
+	Fail,
+	Drink,
 };
 
+enum class EELLIE_STATUS
+{
+	None,
+	Normal,
+	Riding,
+};
 
 
 // 설명 : 주인공 앨리입니다. 
@@ -59,21 +77,41 @@ public:
 	void SetMoveControl(bool _Value);
 	/*void TransferControl(bool _Value);*/
 
+
+	void TestCode();
+
 private:
 	// FSM
 	void ChangeState(EELLIE_STATE _State);
 	void StateUpdate(float _Delta);
-	void ChangeAnimationByDirection(const std::string& _StateName, bool _Force =  false, unsigned int _Index = 0);
+	void ChangeAnimationByDirection(const std::string& _StateName, bool _DirectionInfluence = true, bool _Force =  false, unsigned int _Index = 0);
+	
 
+	bool InputTestPattern();
 
 	void StartIdle();
 	void UpdateIdle(float _Delta);
+
+	void StartSlowWalk();
+	void UpdateSlowWalk(float _Delta);
 
 	void StartWalk();
 	void UpdateWalk(float _Delta);
 
 	void StartRun();
 	void UpdateRun(float _Delta);
+
+	void StartThrow();
+	void UpdateThrow(float _Delta);
+
+	void StartRiding_Idle();
+	void UpdateRiding_Idle(float _Delta);
+
+	void StartRiding_Move();
+	void UpdateRiding_Move(float _Delta);
+
+	void StartRiding_Boost();
+	void UpdateRiding_Boost(float _Delta);
 
 
 	void StartNet();
@@ -88,6 +126,14 @@ private:
 	void StartMongSiri();
 	void UpdateMongSiri(float _Delta);
 
+	void StartCheer();
+	void UpdateCheer(float _Delta);
+
+	void StartFail();
+	void UpdateFail(float _Delta);
+
+	void StartDrink();
+	void UpdateDrink(float _Delta);
 
 private:
 	// 방향 키 감지
@@ -108,10 +154,11 @@ private:
 private:
 	// 행동
 	EELLIE_STATE m_State = EELLIE_STATE::None;
+	EELLIE_STATUS m_Status = EELLIE_STATUS::None;
 	float m_StateTime = 0.0f;
 
 
-	// 방향 키 관련
+	// 키 조작
 	EDIRECTION m_Dir = EDIRECTION::LEFT;
 	EDIRECTION m_RenderDir = EDIRECTION::CENTER;
 	EHORIZONTAL_KEY_STATE m_HorizontalKey = EHORIZONTAL_KEY_STATE::Center;
@@ -120,5 +167,11 @@ private:
 	bool IsControl = true;
 
 private:
+	const float Ellie_SlowWalk_Speed = 120.0f;
+	const float EllieWalkSpeed = 200.0f;
+	const float Ellie_Run_Speed = 300.0f;
+
+	const float Ellie_Riding_Move_Speed = 500.0f;
+	const float Ellie_Riding_Boost_Speed = 700.0f;
 };
 

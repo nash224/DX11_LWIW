@@ -105,12 +105,24 @@ void LoadingLevel::LoadSprite()
 		GameEngineSprite::CreateCut("Ellie_Basic_Idle.png", 7, 6);
 		GameEngineSprite::CreateCut("Ellie_Basic_Walk.png", 12, 11);
 		GameEngineSprite::CreateCut("Ellie_Basic_Run.png", 9, 8);
+		GameEngineSprite::CreateCut("Ellie_Basic_Throw.png", 8, 7);
+
+		// 기본조작 - Riding
+		GameEngineSprite::CreateCut("Ellie_Basic_Riding_Standing.png", 8, 7);
+		GameEngineSprite::CreateCut("Ellie_Basic_Riding_Moving.png", 8, 7);
+		GameEngineSprite::CreateCut("Ellie_Basic_Riding_Boosting.png", 8, 7);
+
 
 		// 수집 
 		GameEngineSprite::CreateCut("Ellie_Basic_ButterflyNet.png", 12, 11);
 		GameEngineSprite::CreateCut("Ellie_Basic_Colleciton_RootUp.png", 10, 9);
 		GameEngineSprite::CreateCut("Ellie_Basic_Colleciton_Sit.png", 7, 7);
 		GameEngineSprite::CreateCut("Ellie_Basic_Collecting_Mongsiri.png", 5, 4);
+
+		// 단일 방향
+		GameEngineSprite::CreateCut("Ellie_Basic_Cheer.png", 6, 6);
+		GameEngineSprite::CreateCut("Ellie_Basic_Fail.png", 6, 5);
+		GameEngineSprite::CreateCut("Ellie_Basic_Drink.png", 6, 5);
 
 		GlobalSpriteLoadCheck = true;
 	}
