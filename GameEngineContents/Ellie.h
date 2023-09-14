@@ -167,11 +167,11 @@ private:
 	bool IsControl = true;
 
 private:
-	const float Ellie_SlowWalk_Speed = 120.0f;
-	const float EllieWalkSpeed = 200.0f;
-	const float Ellie_Run_Speed = 300.0f;
+	const float CONST_Ellie_SlowWalk_Speed = 120.0f;
+	const float CONST_EllieWalkSpeed = 200.0f;
+	const float CONST_Ellie_Run_Speed = 300.0f;
 
-	const float Ellie_Riding_Move_Speed = 500.0f;
-	const float Ellie_Riding_Boost_Speed = 700.0f;
+	const float CONST_Ellie_Riding_Move_Speed = 500.0f;
+	const float CONST_Ellie_Riding_Boost_Speed = 700.0f;
 };
 

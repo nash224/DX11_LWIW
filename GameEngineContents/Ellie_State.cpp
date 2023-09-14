@@ -146,7 +146,7 @@ void Ellie::UpdateSlowWalk(float _Delta)
 	// 방향을 넣으면 방향 기저벡터를 반환 해줍니다.
 	float4 Dir = CalulateDirectionVectorToDir(m_Dir);
 
-	Transform.AddLocalPosition(Dir * Ellie_SlowWalk_Speed * _Delta);
+	Transform.AddLocalPosition(Dir * CONST_Ellie_SlowWalk_Speed * _Delta);
 
 	if (m_Dir != m_RenderDir)
 	{
@@ -203,7 +203,7 @@ void Ellie::UpdateWalk(float _Delta)
 	// 방향을 넣으면 방향 기저벡터를 반환 해줍니다.
 	float4 Dir = CalulateDirectionVectorToDir(m_Dir);
 
-	Transform.AddLocalPosition(Dir * EllieWalkSpeed * _Delta);
+	Transform.AddLocalPosition(Dir * CONST_EllieWalkSpeed * _Delta);
 
 	if (m_Dir != m_RenderDir)
 	{
@@ -257,7 +257,7 @@ void Ellie::UpdateRun(float _Delta)
 	// 방향을 넣으면 방향 기저벡터를 반환 해줍니다.
 	float4 Dir = CalulateDirectionVectorToDir(m_Dir);
 
-	Transform.AddLocalPosition(Dir * Ellie_Run_Speed * _Delta);
+	Transform.AddLocalPosition(Dir * CONST_Ellie_Run_Speed * _Delta);
 
 	if (m_Dir != m_RenderDir)
 	{
@@ -369,7 +369,7 @@ void Ellie::UpdateRiding_Move(float _Delta)
 	// 방향을 넣으면 방향 기저벡터를 반환 해줍니다.
 	float4 Dir = CalulateDirectionVectorToDir(m_Dir);
 
-	Transform.AddLocalPosition(Dir * Ellie_Riding_Move_Speed * _Delta);
+	Transform.AddLocalPosition(Dir * CONST_Ellie_Riding_Move_Speed * _Delta);
 
 	if (m_Dir != m_RenderDir)
 	{
@@ -424,7 +424,7 @@ void Ellie::UpdateRiding_Boost(float _Delta)
 	// 방향을 넣으면 방향 기저벡터를 반환 해줍니다.
 	float4 Dir = CalulateDirectionVectorToDir(m_Dir);
 
-	Transform.AddLocalPosition(Dir * Ellie_Riding_Boost_Speed * _Delta);
+	Transform.AddLocalPosition(Dir * CONST_Ellie_Riding_Boost_Speed * _Delta);
 
 	if (m_Dir != m_RenderDir)
 	{
