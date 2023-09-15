@@ -49,6 +49,16 @@ void BackDrop_CenterField::Init()
 	}
 
 	CreateProp(CurLevel);
+
+
+	std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Find("TestFieldMap.png");
+	if (nullptr == Texture)
+	{
+		MsgBoxAssert("존재하지 않는 텍스처입니다.");
+		return;
+	}
+
+	m_BackScale = Texture->GetScale();
 }
 
 void BackDrop_CenterField::CreateProp(GameEngineLevel* _Level)

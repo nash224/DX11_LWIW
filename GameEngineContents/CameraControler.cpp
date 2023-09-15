@@ -69,10 +69,16 @@ void CameraControler::SetFocusActor(GameEngineActor* _Actor)
 	m_FocusActor = _Actor;
 }
 
+void CameraControler::SetBackDropScale(const float4& _Scale)
+{
+	m_BackScale = _Scale;
+}
+
 
 void CameraControler::Reset()
 {
-	m_CameraInfo = { float4::ZERO };
+	m_CameraInfo.PrevPosition = m_MainCamera->Transform.GetWorldPosition();
+	m_CameraInfo.MoveDistance = float4::ZERO;
 }
 
 float4 CameraControler::GetCameraMoveDistance() const
@@ -133,11 +139,45 @@ void CameraControler::UpdateCameraPlayMode(float _Delta)
 	float4 ActorPos = m_FocusActor->Transform.GetWorldPosition();
 	float4 CurCameraPos = m_MainCamera->Transform.GetWorldPosition();
 
-	float4 CameraPos = CurCameraPos + (ActorPos - CurCameraPos) * m_SmoothingRatio;
+	float4 SmoothingPos = CurCameraPos + (ActorPos - CurCameraPos) * m_SmoothingRatio;
+	float4 CameraMovePos = SmoothingPos - CurCameraPos;
 
+	LockCamera(CameraMovePos, CurCameraPos);
 
-	m_MainCamera->Transform.SetLocalPosition(CameraPos);
+	m_MainCamera->Transform.AddLocalPosition(CameraMovePos);
 }
+
+
+void CameraControler::LockCamera(float4& _CameraMovePos, const float4& _CurCameraPos)
+{
+	float4 HalfWinScale = m_WinScale.Half();
+	float4 BackScale = m_BackScale;
+	BackScale.Y *= -1.0f;
+
+	float4 CameraLeftTopLimitPoint = float4{ HalfWinScale.X , -HalfWinScale.Y } + float4{ -100.0f , 100.f };
+	float4 CameraRightBottomLimitPoint = float4{ BackScale.X - HalfWinScale.X , BackScale.Y + HalfWinScale.Y } +float4{ 100.0f , -100.f };
+
+	if (_CurCameraPos.X + _CameraMovePos.X < CameraLeftTopLimitPoint.X)
+	{
+		_CameraMovePos.X = 0.0f;
+	}
+
+	if (_CurCameraPos.Y + _CameraMovePos.Y > CameraLeftTopLimitPoint.Y)
+	{
+		_CameraMovePos.Y = 0.0f;
+	}
+
+	if (_CurCameraPos.X + _CameraMovePos.X > CameraRightBottomLimitPoint.X)
+	{
+		_CameraMovePos.X = 0.0f;
+	}
+
+	if (_CurCameraPos.Y + _CameraMovePos.Y < CameraRightBottomLimitPoint.Y)
+	{
+		_CameraMovePos.Y = 0.0f;
+	}
+}
+
 
 
 void CameraControler::UpdateCameraEditorMode(float _Delta)

@@ -42,6 +42,7 @@ public:
 	void SetCameraMode(ECAMERAMODE _Mode);
 	void SetLocalPostion(const float4& _Position);
 	void SetFocusActor(GameEngineActor* _Actor);
+	void SetBackDropScale(const float4& _Scale);
 
 public:
 	void Reset();
@@ -51,8 +52,6 @@ public:
 	float4 GetCameraCurrentPostion() const;
 	bool IsCameraMove() const;
 
-private:
-	void RenewCameraPosition();
 
 private:
 	void UpdateCameraMode(float _Delta);
@@ -60,8 +59,14 @@ private:
 	void UpdateCameraEditorMode(float _Delta);
 
 
+	void LockCamera(float4& _CameraMovePos, const float4& _CurCameraPos);
+
+private:
+	void RenewCameraPosition();
+
 private:
 	float4 m_WinScale = float4::ZERO;	
+	float4 m_BackScale = float4::ZERO;
 	
 private:
 	struct CameraInfo
@@ -78,8 +83,7 @@ private:
 
 	float m_EditorModeSpeed = 500.0f;
 
-
-	const float m_SmoothingRatio = 0.04f;
+	const float m_SmoothingRatio = 0.035f;
 
 
 };

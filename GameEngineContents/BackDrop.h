@@ -33,7 +33,7 @@ protected:
 	std::vector<std::shared_ptr<Scenery>> vecScenery;
 	std::vector<std::shared_ptr<Prop>> vecProps;
 
-	float4 m_BackScale;
+	float4 m_BackScale = float4::ZERO;
 
 private:
 
