@@ -40,7 +40,7 @@ protected:
 
 public:
 	void SetCameraMode(ECAMERAMODE _Mode);
-	void SetWorldPostion(const float4& _Position);
+	void SetLocalPostion(const float4& _Position);
 	void SetFocusActor(GameEngineActor* _Actor);
 
 public:

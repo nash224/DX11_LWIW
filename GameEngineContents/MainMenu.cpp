@@ -60,7 +60,7 @@ void MainMenu::LevelStart(GameEngineLevel* _PrevLevel)
 		std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Find("Title_Train_Sky.png");
 		float4 HScale = Texture->GetScale().Half();
 		HScale.Y *= -1.0f;
-		GlobalValue::g_CameraControler->SetWorldPostion(HScale);
+		GlobalValue::g_CameraControler->SetLocalPostion(HScale);
 	}
 }
 

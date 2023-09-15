@@ -51,7 +51,7 @@ void CameraControler::SetCameraMode(ECAMERAMODE _Mode)
 	m_Mode = _Mode;
 }
 
-void CameraControler::SetWorldPostion(const float4& _Position)
+void CameraControler::SetLocalPostion(const float4& _Position)
 {
 	m_MainCamera->Transform.SetLocalPosition(_Position);
 	RenewCameraPosition();

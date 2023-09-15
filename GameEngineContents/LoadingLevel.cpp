@@ -65,7 +65,7 @@ void LoadingLevel::LevelStart(GameEngineLevel* _NextLevel)
 	float4 CameraPos = m_BackDrop->GetBackGroundScale();
 	CameraPos = CameraPos.Half();
 	CameraPos.Y *= -1.0f;
-	GlobalValue::g_CameraControler->SetWorldPostion(CameraPos);
+	GlobalValue::g_CameraControler->SetLocalPostion(CameraPos);
 	
 }
 
