@@ -148,7 +148,7 @@ private:
 
 
 	void CalculateMoveForce(float _Delta, float _MAXMoveForce, float _Acceleration_Time);
-	float LimitSpeed(float _CurSpeed, const float _MaxMoveForce);
+	bool IsOverSpeed(float _CurSpeed, const float _MaxMoveForce);
 	void DecelerateAtMidpoint(float _Delta, const float _MaxMoveForce, const float _Time);
 	void ApplyMovementToTransform(float _DElta);
 	
