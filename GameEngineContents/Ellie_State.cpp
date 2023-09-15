@@ -294,6 +294,8 @@ void Ellie::StartRiding_Idle()
 {
 	if (EELLIE_STATUS::Normal == m_Status)
 	{
+		m_MoveVector = float4::ZERO;
+		m_MoveForce = float4::ZERO;
 		// FX
 	}
 

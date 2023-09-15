@@ -252,18 +252,18 @@ void BackDrop_MainMenu::CreateProp(class GameEngineLevel* _CurLevel)
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	{
-		//std::shared_ptr<Prop> Object = _CurLevel->CreateActor<Prop>(EUPDATEORDER::Objects);
-		//if (nullptr == Object)
-		//{
-		//	MsgBoxAssert("액터 생성을 실패하였습니다.");
-		//	return;
-		//}
+		std::shared_ptr<Prop> Object = _CurLevel->CreateActor<Prop>(EUPDATEORDER::Objects);
+		if (nullptr == Object)
+		{
+			MsgBoxAssert("액터 생성을 실패하였습니다.");
+			return;
+		}
 
-		//Object->CreateRenderer(ETITLERENDERORDER::Shadow);
-		//Object->SetSprite("Background_Shadow-Title.png");
-		//Object->SetLocalPosition(float4::ZERO, PivotType::LeftTop);
-		//Object->SetAutoSpriteSize(0.5f);
-		//vecProps.push_back(Object);
+		Object->CreateRenderer(ETITLERENDERORDER::Shadow);
+		Object->SetSprite("Background_Shadow-Title.png");
+		Object->SetLocalPosition(float4::ZERO, PivotType::LeftTop);
+		Object->SetAutoSpriteSize(0.5f);
+		vecProps.push_back(Object);
 	}
 }
 
