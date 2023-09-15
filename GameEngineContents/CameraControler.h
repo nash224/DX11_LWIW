@@ -4,7 +4,7 @@ enum class ECAMERAMODE
 {
 	None,
 	Play,
-	Setting,
+	Fix,
 	Editor,
 };
 
@@ -49,7 +49,7 @@ public:
 public:
 	float4 GetCameraMoveDistance() const;
 	float4 GetCameraCurrentPostion() const;
-	bool IsCameraMove();
+	bool IsCameraMove() const;
 
 private:
 	void RenewCameraPosition();

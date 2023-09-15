@@ -490,6 +490,8 @@ bool Ellie::DetectHorizontalMovement()
 #pragma endregion 
 
 
+#pragma region 이동 및 방향 
+
 // 방향을 인자로 넣으면 방향 기저벡터를 뱉어 줍니다.
 float4 Ellie::CalulateDirectionVectorToDir(const EDIRECTION _Direction)
 {
@@ -533,14 +535,12 @@ float4 Ellie::CalulateDirectionVectorToDir(const EDIRECTION _Direction)
 }
 
 
-// 1. 각 방향의 최대값
-// 2. 
 
 // 가속도로 이동한다. 
 // 한계치를 넘기면 속도 제한이 걸린다.
 // 키가 정방향이면 속도가 가속한다.
 // 키가 Center면 속도가 줄어든다.
-// 키가 역방향이면 속도가 
+// 키가 역방향이면 속도가 빨리 줄어든다.
 void Ellie::CalculateMoveForce(float _Delta, float _MAXMoveForce, float _Acceleration_Time)
 {
 	float4 Dir = CalulateDirectionVectorToDir(m_Dir);
@@ -608,3 +608,5 @@ void Ellie::ApplyMovementToTransform(float _Delta)
 {
 	Transform.AddLocalPosition(m_MoveVector * _Delta);
 }
+
+#pragma endregion 

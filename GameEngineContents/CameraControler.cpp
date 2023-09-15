@@ -40,7 +40,8 @@ void CameraControler::LevelEnd(class GameEngineLevel* _NextLevel)
 
 
 
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -84,7 +85,7 @@ float4 CameraControler::GetCameraCurrentPostion() const
 	return m_CameraInfo.CurPosition;
 }
 
-bool CameraControler::IsCameraMove()
+bool CameraControler::IsCameraMove() const
 {
 	return float4::ZERO != m_CameraInfo.MoveDistance;
 }
@@ -104,7 +105,7 @@ void CameraControler::UpdateCameraMode(float _Delta)
 	case ECAMERAMODE::Play:
 		UpdateCameraPlayMode(_Delta);
 		break;
-	case ECAMERAMODE::Setting:
+	case ECAMERAMODE::Fix:
 		break;
 	case ECAMERAMODE::Editor:
 		UpdateCameraEditorMode(_Delta);
@@ -129,6 +130,9 @@ void CameraControler::UpdateCameraPlayMode(float _Delta)
 	}
 
 	float4 ActorPos = m_FocusActor->Transform.GetWorldPosition();
+
+
+
 	float4 CameraPos = float4::ZERO;
 	CameraPos.X = ActorPos.X + m_WinScale.X;
 	CameraPos.Y = ActorPos.Y - m_WinScale.Y;

@@ -174,6 +174,7 @@ private:
 	bool IsControl = true;
 
 private:
+	// ¿Ãµø
 	float4 m_MoveVector = float4::ZERO;
 
 	const float CONST_Ellie_NonRiding_Acceleration_Time = 0.1f;
