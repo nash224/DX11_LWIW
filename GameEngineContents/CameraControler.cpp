@@ -154,8 +154,8 @@ void CameraControler::LockCamera(float4& _CameraMovePos, const float4& _CurCamer
 	float4 BackScale = m_BackScale;
 	BackScale.Y *= -1.0f;
 
-	float4 CameraLeftTopLimitPoint = float4{ HalfWinScale.X , -HalfWinScale.Y } + float4{ -100.0f , 100.f };
-	float4 CameraRightBottomLimitPoint = float4{ BackScale.X - HalfWinScale.X , BackScale.Y + HalfWinScale.Y } +float4{ 100.0f , -100.f };
+	float4 CameraLeftTopLimitPoint = float4{ HalfWinScale.X , -HalfWinScale.Y } + float4{ -200.0f , 200.f };
+	float4 CameraRightBottomLimitPoint = float4{ BackScale.X - HalfWinScale.X , BackScale.Y + HalfWinScale.Y } + float4{ 200.0f , -200.f };
 
 	if (_CurCameraPos.X + _CameraMovePos.X < CameraLeftTopLimitPoint.X)
 	{
