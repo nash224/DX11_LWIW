@@ -125,13 +125,13 @@ void Ellie::UpdateSlowWalk(float _Delta)
 	{
 		if (true == GameEngineInput::IsFree(VK_LSHIFT))
 		{
-			ChangeState(EELLIE_STATE::Walk);
-			return;
-		}
+			if (true == GameEngineInput::IsPress(VK_SPACE))
+			{
+				ChangeState(EELLIE_STATE::Run);
+				return;
+			}
 
-		if (true == GameEngineInput::IsPress(VK_SPACE))
-		{
-			ChangeState(EELLIE_STATE::Run);
+			ChangeState(EELLIE_STATE::Walk);
 			return;
 		}
 	}
@@ -148,6 +148,8 @@ void Ellie::UpdateSlowWalk(float _Delta)
 
 	Transform.AddLocalPosition(Dir * CONST_Ellie_SlowWalk_Speed * _Delta);
 
+
+
 	if (m_Dir != m_RenderDir)
 	{
 		if (nullptr == m_Body)
@@ -159,7 +161,6 @@ void Ellie::UpdateSlowWalk(float _Delta)
 		unsigned int CurIndex = m_Body->GetCurIndex();
 		ChangeAnimationByDirection("SlowWalk", true, false, CurIndex);
 	}
-
 }
 
 
@@ -203,7 +204,8 @@ void Ellie::UpdateWalk(float _Delta)
 	// 방향을 넣으면 방향 기저벡터를 반환 해줍니다.
 	float4 Dir = CalulateDirectionVectorToDir(m_Dir);
 
-	Transform.AddLocalPosition(Dir * CONST_EllieWalkSpeed * _Delta);
+	Transform.AddLocalPosition(Dir * CONST_Ellie_Walk_Speed * _Delta);
+
 
 	if (m_Dir != m_RenderDir)
 	{
@@ -328,6 +330,10 @@ void Ellie::UpdateRiding_Idle(float _Delta)
 			return;
 		}
 	}
+
+
+	DecelerateAtMidpoint(_Delta, CONST_Ellie_Riding_Move_Speed, CONST_Ellie_Riding_Move_Acceleration_Time);
+	ApplyMovementToTransform(_Delta);
 }
 
 
@@ -366,11 +372,6 @@ void Ellie::UpdateRiding_Move(float _Delta)
 	}
 
 
-	// 방향을 넣으면 방향 기저벡터를 반환 해줍니다.
-	float4 Dir = CalulateDirectionVectorToDir(m_Dir);
-
-	Transform.AddLocalPosition(Dir * CONST_Ellie_Riding_Move_Speed * _Delta);
-
 	if (m_Dir != m_RenderDir)
 	{
 		if (nullptr == m_Body)
@@ -382,6 +383,12 @@ void Ellie::UpdateRiding_Move(float _Delta)
 		unsigned int CurIndex = m_Body->GetCurIndex();
 		ChangeAnimationByDirection("Riding_Move", true, false, CurIndex);
 	}
+
+
+	// 방향을 넣으면 방향 기저벡터를 반환 해줍니다.
+	CalculateMoveForce(_Delta, CONST_Ellie_Riding_Move_Speed, CONST_Ellie_Riding_Move_Acceleration_Time);
+	DecelerateAtMidpoint(_Delta, CONST_Ellie_Riding_Move_Speed, CONST_Ellie_Riding_Move_Acceleration_Time);
+	ApplyMovementToTransform(_Delta);
 }
 
 
@@ -419,13 +426,6 @@ void Ellie::UpdateRiding_Boost(float _Delta)
 		return;
 	}
 
-
-
-	// 방향을 넣으면 방향 기저벡터를 반환 해줍니다.
-	float4 Dir = CalulateDirectionVectorToDir(m_Dir);
-
-	Transform.AddLocalPosition(Dir * CONST_Ellie_Riding_Boost_Speed * _Delta);
-
 	if (m_Dir != m_RenderDir)
 	{
 		if (nullptr == m_Body)
@@ -437,6 +437,12 @@ void Ellie::UpdateRiding_Boost(float _Delta)
 		unsigned int CurIndex = m_Body->GetCurIndex();
 		ChangeAnimationByDirection("Riding_Boost", true, false, CurIndex);
 	}
+
+
+	// 방향을 넣으면 방향 기저벡터를 반환 해줍니다.
+	CalculateMoveForce(_Delta, CONST_Ellie_Riding_Boost_Speed, CONST_Ellie_Riding_Boosting_Acceleration_Time);
+	DecelerateAtMidpoint(_Delta, CONST_Ellie_Riding_Boost_Speed, CONST_Ellie_Riding_Boosting_Acceleration_Time);
+	ApplyMovementToTransform(_Delta);
 }
 
 

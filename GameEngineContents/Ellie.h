@@ -146,6 +146,13 @@ private:
 	// 방향 계산 함수
 	float4 CalulateDirectionVectorToDir(const EDIRECTION _Direction);
 
+
+	void CalculateMoveForce(float _Delta, float _MAXMoveForce, float _Acceleration_Time);
+	float LimitSpeed(float _CurSpeed, const float _MaxMoveForce);
+	void DecelerateAtMidpoint(float _Delta, const float _MaxMoveForce, const float _Time);
+	void ApplyMovementToTransform(float _DElta);
+	
+
 private:
 	// 렌더러
 	std::shared_ptr<GameEngineSpriteRenderer> m_Body = nullptr;
@@ -167,8 +174,15 @@ private:
 	bool IsControl = true;
 
 private:
+	float4 m_MoveVector = float4::ZERO;
+
+	const float CONST_Ellie_NonRiding_Acceleration_Time = 0.1f;
+	const float CONST_Ellie_Riding_Move_Acceleration_Time = 1.6f;
+	const float CONST_Ellie_Riding_Boosting_Acceleration_Time = 1.2f;
+
+private:
 	const float CONST_Ellie_SlowWalk_Speed = 120.0f;
-	const float CONST_EllieWalkSpeed = 200.0f;
+	const float CONST_Ellie_Walk_Speed = 200.0f;
 	const float CONST_Ellie_Run_Speed = 300.0f;
 
 	const float CONST_Ellie_Riding_Move_Speed = 500.0f;

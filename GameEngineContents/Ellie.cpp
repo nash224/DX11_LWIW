@@ -531,3 +531,80 @@ float4 Ellie::CalulateDirectionVectorToDir(const EDIRECTION _Direction)
 
 	return DirVector;
 }
+
+
+// 1. 각 방향의 최대값
+// 2. 
+
+// 가속도로 이동한다. 
+// 한계치를 넘기면 속도 제한이 걸린다.
+// 키가 정방향이면 속도가 가속한다.
+// 키가 Center면 속도가 줄어든다.
+// 키가 역방향이면 속도가 
+void Ellie::CalculateMoveForce(float _Delta, float _MAXMoveForce, float _Acceleration_Time)
+{
+	float4 Dir = CalulateDirectionVectorToDir(m_Dir);
+
+	float4 MaxSpeed = { Dir.X * _MAXMoveForce , Dir.Y * _MAXMoveForce };
+
+	m_MoveVector.X += (MaxSpeed.X / _Acceleration_Time) * _Delta;
+	m_MoveVector.Y += (MaxSpeed.Y / _Acceleration_Time) * _Delta;
+
+	if (0.0f != Dir.X)
+	{
+		m_MoveVector.X = LimitSpeed(m_MoveVector.X , MaxSpeed.X);
+	}
+
+	if (0.0f != Dir.Y)
+	{
+		m_MoveVector.Y = LimitSpeed(m_MoveVector.Y, MaxSpeed.Y);
+	}
+}
+
+float Ellie::LimitSpeed(float _CurSpeed, const float _MaxMoveForce)
+{
+	if (fabs(_CurSpeed) > fabs(_MaxMoveForce))
+	{
+		return _MaxMoveForce;
+	}
+
+	return _CurSpeed;
+}
+
+void Ellie::DecelerateAtMidpoint(float _Delta, const float _MaxMoveForce, const float _DecelerationTime)
+{
+	if (EHORIZONTAL_KEY_STATE::Center == m_HorizontalKey)
+	{
+		if (0.0f != m_MoveVector.X)
+		{
+			if (m_MoveVector.X > 0.0f)
+			{
+				m_MoveVector.X -= (_MaxMoveForce / _DecelerationTime) * _Delta;
+			}
+			else
+			{
+				m_MoveVector.X += (_MaxMoveForce / _DecelerationTime) * _Delta;
+			}
+		}
+	}
+
+	if (EVERTICAL_KEY_STATE::Center == m_VerticalKey)
+	{
+		if (0.0f != m_MoveVector.Y)
+		{
+			if (m_MoveVector.Y > 0.0f)
+			{
+				m_MoveVector.Y -= (_MaxMoveForce / _DecelerationTime) * _Delta;
+			}
+			else
+			{
+				m_MoveVector.Y += (_MaxMoveForce / _DecelerationTime) * _Delta;
+			}
+		}
+	}
+}
+
+void Ellie::ApplyMovementToTransform(float _Delta)
+{
+	Transform.AddLocalPosition(m_MoveVector * _Delta);
+}
