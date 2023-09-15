@@ -79,6 +79,8 @@ private:
 	float m_EditorModeSpeed = 500.0f;
 
 
+	const float m_SmoothingRatio = 0.04f;
+
 
 };
 

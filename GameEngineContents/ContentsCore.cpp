@@ -18,17 +18,14 @@ ContentsCore::~ContentsCore()
 
 void ContentsCore::Start()
 {
-
 	GlobalLoad::LoadGlobalResource();
+	GlobalValue::SetWindowScale(GetStartWindowSize());
 
 	GameEngineCore::CreateLevel<MainMenu>("MainMenu");
 	GameEngineCore::CreateLevel<LoadingLevel>("LoadingLevel");
 	GameEngineCore::CreateLevel<Field_Center>("Field_Center");
 	GameEngineCore::CreateLevel<PlayLevel>("PlayLevel");
 	GameEngineCore::ChangeLevel("MainMenu");
-
-	
-	GlobalValue::SetWindowScale(GetStartWindowSize());
 }
 
 void ContentsCore::Update(float _Delta)

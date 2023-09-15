@@ -129,13 +129,11 @@ void CameraControler::UpdateCameraPlayMode(float _Delta)
 		return;
 	}
 
+
 	float4 ActorPos = m_FocusActor->Transform.GetWorldPosition();
+	float4 CurCameraPos = m_MainCamera->Transform.GetWorldPosition();
 
-
-
-	float4 CameraPos = float4::ZERO;
-	CameraPos.X = ActorPos.X + m_WinScale.X;
-	CameraPos.Y = ActorPos.Y - m_WinScale.Y;
+	float4 CameraPos = CurCameraPos + (ActorPos - CurCameraPos) * m_SmoothingRatio;
 
 
 	m_MainCamera->Transform.SetLocalPosition(CameraPos);
