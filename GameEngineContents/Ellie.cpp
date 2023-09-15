@@ -550,12 +550,12 @@ void Ellie::CalculateMoveForce(float _Delta, float _MAXMoveForce, float _Acceler
 	m_MoveVector.X += (MaxSpeed.X / _Acceleration_Time) * _Delta;
 	m_MoveVector.Y += (MaxSpeed.Y / _Acceleration_Time) * _Delta;
 
-	if (0.0f != Dir.X)
+	if (EHORIZONTAL_KEY_STATE::Center != m_HorizontalKey)
 	{
 		m_MoveVector.X = LimitSpeed(m_MoveVector.X , MaxSpeed.X);
 	}
 
-	if (0.0f != Dir.Y)
+	if (EVERTICAL_KEY_STATE::Center != m_VerticalKey)
 	{
 		m_MoveVector.Y = LimitSpeed(m_MoveVector.Y, MaxSpeed.Y);
 	}
@@ -563,11 +563,22 @@ void Ellie::CalculateMoveForce(float _Delta, float _MAXMoveForce, float _Acceler
 
 float Ellie::LimitSpeed(float _CurSpeed, const float _MaxMoveForce)
 {
-	if (fabs(_CurSpeed) > fabs(_MaxMoveForce))
+	if (_CurSpeed > 0.0f && _MaxMoveForce > 0.0f)
 	{
-		return _MaxMoveForce;
+		if (_CurSpeed > _MaxMoveForce)
+		{
+			return _MaxMoveForce;
+		}
 	}
 
+	if (_CurSpeed < 0.0f && _MaxMoveForce < 0.0f)
+	{
+		if (_CurSpeed < _MaxMoveForce)
+		{
+			return _MaxMoveForce;
+		}
+	}
+	
 	return _CurSpeed;
 }
 

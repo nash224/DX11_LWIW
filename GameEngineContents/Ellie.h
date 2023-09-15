@@ -176,6 +176,7 @@ private:
 private:
 	// ¿Ãµø
 	float4 m_MoveVector = float4::ZERO;
+	float4 m_MoveForce = float4::ZERO;
 
 	const float CONST_Ellie_NonRiding_Acceleration_Time = 0.1f;
 	const float CONST_Ellie_Riding_Move_Acceleration_Time = 1.6f;
