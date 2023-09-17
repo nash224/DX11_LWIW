@@ -61,7 +61,7 @@ enum class EUI_RENDERORDER
 
 enum class ECOLLISION
 {
-
+	Potal,
 };
 
 

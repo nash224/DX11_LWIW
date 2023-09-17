@@ -250,6 +250,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="PlayLevel.cpp" />
+    <ClCompile Include="PotalObject.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="PreCompile.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -382,6 +386,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="PlayLevel.h" />
+    <ClInclude Include="PotalObject.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PreCompile.h" />
     <ClInclude Include="Prop.h">
       <SubType>

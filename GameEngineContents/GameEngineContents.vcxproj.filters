@@ -106,15 +106,6 @@
     <ClInclude Include="SequentialProp.h">
       <Filter>Object\Actor\NonInteractive\Prop</Filter>
     </ClInclude>
-    <ClInclude Include="TestActor2.h">
-      <Filter>Object\Actor\Interactive</Filter>
-    </ClInclude>
-    <ClInclude Include="TestActor.h">
-      <Filter>Object\Actor\Interactive</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Object\Actor\Interactive</Filter>
-    </ClInclude>
     <ClInclude Include="BackDrop_ElliesHouse.h">
       <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
     </ClInclude>
@@ -160,6 +151,18 @@
     <ClInclude Include="TestMap.h">
       <Filter>Z_Test</Filter>
     </ClInclude>
+    <ClInclude Include="TestActor2.h">
+      <Filter>Z_Test</Filter>
+    </ClInclude>
+    <ClInclude Include="TestActor.h">
+      <Filter>Z_Test</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Object\Level\2.Play</Filter>
+    </ClInclude>
+    <ClInclude Include="PotalObject.h">
+      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -204,15 +207,6 @@
     </ClCompile>
     <ClCompile Include="SequentialProp.cpp">
       <Filter>Object\Actor\NonInteractive\Prop</Filter>
-    </ClCompile>
-    <ClCompile Include="TestActor.cpp">
-      <Filter>Object\Actor\Interactive</Filter>
-    </ClCompile>
-    <ClCompile Include="TestActor2.cpp">
-      <Filter>Object\Actor\Interactive</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Object\Actor\Interactive</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_ElliesHouse.cpp">
       <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
@@ -261,6 +255,18 @@
     </ClCompile>
     <ClCompile Include="TestMap.cpp">
       <Filter>Z_Test</Filter>
+    </ClCompile>
+    <ClCompile Include="TestActor.cpp">
+      <Filter>Z_Test</Filter>
+    </ClCompile>
+    <ClCompile Include="TestActor2.cpp">
+      <Filter>Z_Test</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Object\Level\2.Play</Filter>
+    </ClCompile>
+    <ClCompile Include="PotalObject.cpp">
+      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
