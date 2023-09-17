@@ -21,6 +21,7 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
+	void UpdateCollision();
 
 public:
 	template<typename CollisionOrder>
@@ -34,6 +35,12 @@ public:
 	void SetLocalPosition(const float4& _Location);
 	void SetCollisionRange(const float4& _Scale);
 
+	template<typename ActorType>
+	void SetCallBackFunc(ActorType* _Actor, void(ActorType::* _Func)())
+	{
+		Func_ = std::bind(_Func, _Actor);
+	} 
+
 
 public:
 	void ActorRelease();
@@ -45,11 +52,7 @@ private:
 	float4 m_ColScale = float4::ZERO;
 
 
-	std::function <void()> _Func;
-
-
-
-
+	std::function <void()> Func_;
 
 };
 

@@ -17,16 +17,7 @@ void PotalObject::Start()
 
 void PotalObject::Update(float _Delta)
 {
-	if (nullptr == PotalCol)
-	{
-		MsgBoxAssert("충돌체를 존재하지 않는데 사용하려 했습니다.");
-		return;
-	}
-
-	if (true == PotalCol->Collision(EUPDATEORDER::Player))
-	{
-		_Func();
-	}
+	UpdateCollision();
 }
 
 void PotalObject::LevelStart(class GameEngineLevel* _NextLevel)
@@ -64,6 +55,24 @@ void PotalObject::SetCollisionRange(const float4& _Scale)
 {
 	m_ColScale = _Scale;
 }
+
+
+
+
+void PotalObject::UpdateCollision()
+{
+	if (nullptr == PotalCol)
+	{
+		MsgBoxAssert("충돌체가 존재하지 않는데 사용하려 했습니다.");
+		return;
+	}
+
+	if (true == PotalCol->Collision(EUPDATEORDER::Player))
+	{
+		Func_();
+	}
+}
+
 
 
 
