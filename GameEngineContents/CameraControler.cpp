@@ -251,7 +251,7 @@ void CameraControler::SetAutoInitialPosition(const float4& _Location)
 
 	if (4 == CornerCountWithinScreen)
 	{
-		return;
+
 	}
 
 	m_MainCamera->Transform.SetLocalPosition(CurCameraPos);
