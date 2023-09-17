@@ -201,10 +201,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="ContentsCore.cpp" />
-    <ClCompile Include="ContentsEvent.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="ContentsLevel.cpp">
       <SubType>
       </SubType>
@@ -238,10 +234,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="LoadingLevel.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="MainActorControl.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -304,6 +296,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorEnum.h" />
@@ -336,10 +332,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ContentsCore.h" />
-    <ClInclude Include="ContentsEvent.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="ContentsLevel.h">
       <SubType>
       </SubType>
@@ -374,10 +366,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="LoadingLevel.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="MainActorControl.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -432,6 +420,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="TrainPart.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UIManager.h">
       <SubType>
       </SubType>
     </ClInclude>

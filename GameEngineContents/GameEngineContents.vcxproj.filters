@@ -37,15 +37,30 @@
     <Filter Include="Object\Actor\Manager">
       <UniqueIdentifier>{b732b33f-6af9-4d40-9843-247a8b72b149}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Level\1.Title">
+      <UniqueIdentifier>{f79ab025-8b50-47fd-841a-094cf7f1a7c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Level\2.Play">
+      <UniqueIdentifier>{d0617ffd-092d-4dff-a017-0e13d99ea0c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Level\2.Play\0.Witch">
+      <UniqueIdentifier>{67796efb-dcac-4094-b207-3ec3be5f5e3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Level\2.Play\1.Field">
+      <UniqueIdentifier>{1a37cb28-ca1d-4d4b-8802-a9b71bc9a4d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Level\0.Loading">
+      <UniqueIdentifier>{41c7ab61-0131-4b20-8b45-0e495b6fcb65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Z_Test">
+      <UniqueIdentifier>{28c5e6b7-3d61-4e52-9da5-0792cbf15b56}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
       <Filter>PreCompile</Filter>
     </ClInclude>
     <ClInclude Include="ContentsCore.h" />
-    <ClInclude Include="PlayLevel.h">
-      <Filter>Object\Level</Filter>
-    </ClInclude>
     <ClInclude Include="GlobalUtils.h">
       <Filter>Global</Filter>
     </ClInclude>
@@ -61,12 +76,6 @@
     <ClInclude Include="ContentsLevel.h">
       <Filter>Object\Level</Filter>
     </ClInclude>
-    <ClInclude Include="MainActorControl.h">
-      <Filter>Global</Filter>
-    </ClInclude>
-    <ClInclude Include="MainMenu.h">
-      <Filter>Object\Level</Filter>
-    </ClInclude>
     <ClInclude Include="Scenery.h">
       <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
     </ClInclude>
@@ -76,10 +85,6 @@
     <ClInclude Include="BackDrop.h">
       <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
     </ClInclude>
-    <ClInclude Include="CameraControler.h">
-      <Filter>Global</Filter>
-    </ClInclude>
-    <ClInclude Include="ContentsEvent.h" />
     <ClInclude Include="TemplateA.h">
       <Filter>Global</Filter>
     </ClInclude>
@@ -110,14 +115,8 @@
     <ClInclude Include="Player.h">
       <Filter>Object\Actor\Interactive</Filter>
     </ClInclude>
-    <ClInclude Include="TestMap.h">
-      <Filter>Object\Actor\NonInteractive</Filter>
-    </ClInclude>
     <ClInclude Include="BackDrop_ElliesHouse.h">
       <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
-    </ClInclude>
-    <ClInclude Include="LoadingLevel.h">
-      <Filter>Object\Level</Filter>
     </ClInclude>
     <ClInclude Include="InteractiveActor.h">
       <Filter>Object\Actor\Interactive</Filter>
@@ -131,9 +130,6 @@
     <ClInclude Include="GlobalLoad.h">
       <Filter>Global</Filter>
     </ClInclude>
-    <ClInclude Include="Field_Center.h">
-      <Filter>Object\Level</Filter>
-    </ClInclude>
     <ClInclude Include="BackDrop_CenterField.h">
       <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
     </ClInclude>
@@ -143,15 +139,33 @@
     <ClInclude Include="EventManager.h">
       <Filter>Object\Actor\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>Object\Actor\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraControler.h">
+      <Filter>Object\Actor\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Field_Center.h">
+      <Filter>Object\Level\2.Play\1.Field</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayLevel.h">
+      <Filter>Object\Level\2.Play</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingLevel.h">
+      <Filter>Object\Level\0.Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenu.h">
+      <Filter>Object\Level\1.Title</Filter>
+    </ClInclude>
+    <ClInclude Include="TestMap.h">
+      <Filter>Z_Test</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
       <Filter>PreCompile</Filter>
     </ClCompile>
     <ClCompile Include="ContentsCore.cpp" />
-    <ClCompile Include="PlayLevel.cpp">
-      <Filter>Object\Level</Filter>
-    </ClCompile>
     <ClCompile Include="GlobalUtils.cpp">
       <Filter>Global</Filter>
     </ClCompile>
@@ -159,12 +173,6 @@
       <Filter>Global</Filter>
     </ClCompile>
     <ClCompile Include="ContentsLevel.cpp">
-      <Filter>Object\Level</Filter>
-    </ClCompile>
-    <ClCompile Include="MainActorControl.cpp">
-      <Filter>Global</Filter>
-    </ClCompile>
-    <ClCompile Include="MainMenu.cpp">
       <Filter>Object\Level</Filter>
     </ClCompile>
     <ClCompile Include="Scenery.cpp">
@@ -176,10 +184,6 @@
     <ClCompile Include="BackDrop.cpp">
       <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
     </ClCompile>
-    <ClCompile Include="CameraControler.cpp">
-      <Filter>Global</Filter>
-    </ClCompile>
-    <ClCompile Include="ContentsEvent.cpp" />
     <ClCompile Include="TemplateA.cpp">
       <Filter>Global</Filter>
     </ClCompile>
@@ -210,14 +214,8 @@
     <ClCompile Include="Player.cpp">
       <Filter>Object\Actor\Interactive</Filter>
     </ClCompile>
-    <ClCompile Include="TestMap.cpp">
-      <Filter>Object\Actor\NonInteractive</Filter>
-    </ClCompile>
     <ClCompile Include="BackDrop_ElliesHouse.cpp">
       <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
-    </ClCompile>
-    <ClCompile Include="LoadingLevel.cpp">
-      <Filter>Object\Level</Filter>
     </ClCompile>
     <ClCompile Include="InteractiveActor.cpp">
       <Filter>Object\Actor\Interactive</Filter>
@@ -231,9 +229,6 @@
     <ClCompile Include="GlobalLoad.cpp">
       <Filter>Global</Filter>
     </ClCompile>
-    <ClCompile Include="Field_Center.cpp">
-      <Filter>Object\Level</Filter>
-    </ClCompile>
     <ClCompile Include="BackDrop_CenterField.cpp">
       <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
     </ClCompile>
@@ -245,6 +240,27 @@
     </ClCompile>
     <ClCompile Include="EventManager.cpp">
       <Filter>Object\Actor\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>Object\Actor\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraControler.cpp">
+      <Filter>Object\Actor\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Field_Center.cpp">
+      <Filter>Object\Level\2.Play\1.Field</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayLevel.cpp">
+      <Filter>Object\Level\2.Play</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingLevel.cpp">
+      <Filter>Object\Level\0.Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>Object\Level\1.Title</Filter>
+    </ClCompile>
+    <ClCompile Include="TestMap.cpp">
+      <Filter>Z_Test</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
