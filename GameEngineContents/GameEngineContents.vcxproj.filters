@@ -34,6 +34,9 @@
     <Filter Include="Object\Actor\NonInteractive\Prop\Train">
       <UniqueIdentifier>{9bea090b-73fd-4f04-98b6-027d841b716f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\Manager">
+      <UniqueIdentifier>{b732b33f-6af9-4d40-9843-247a8b72b149}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -137,6 +140,9 @@
     <ClInclude Include="BackDrop_Loading.h">
       <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
     </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>Object\Actor\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -236,6 +242,9 @@
     </ClCompile>
     <ClCompile Include="Ellie_State.cpp">
       <Filter>Object\Actor\Interactive\Ellie</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>Object\Actor\Manager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

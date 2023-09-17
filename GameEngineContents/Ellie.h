@@ -179,8 +179,8 @@ private:
 	float4 m_MoveForce = float4::ZERO;
 
 	const float CONST_Ellie_NonRiding_Acceleration_Time = 0.1f;
-	const float CONST_Ellie_Riding_Move_Acceleration_Time = 1.6f;
-	const float CONST_Ellie_Riding_Boosting_Acceleration_Time = 1.2f;
+	const float CONST_Ellie_Riding_Move_Acceleration_Time = 1.2f;
+	const float CONST_Ellie_Riding_Boosting_Acceleration_Time = 1.0f;
 
 private:
 	const float CONST_Ellie_SlowWalk_Speed = 120.0f;

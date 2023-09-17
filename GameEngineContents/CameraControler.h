@@ -59,7 +59,7 @@ private:
 	void UpdateCameraEditorMode(float _Delta);
 
 
-	void LockCamera(float4& _CameraMovePos, const float4& _CurCameraPos);
+	void LockCamera(float4& _pCameraMovePos, const float4& _CurCameraPos);
 
 private:
 	void RenewCameraPosition();

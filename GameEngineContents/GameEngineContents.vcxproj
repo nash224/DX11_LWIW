@@ -192,6 +192,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Ellie_State.cpp" />
+    <ClCompile Include="EventManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Field_Center.cpp">
       <SubType>
       </SubType>
@@ -320,6 +324,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="BackDrop_MainMenu.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EventManager.h">
       <SubType>
       </SubType>
     </ClInclude>

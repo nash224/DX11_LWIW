@@ -148,7 +148,7 @@ void CameraControler::UpdateCameraPlayMode(float _Delta)
 }
 
 
-void CameraControler::LockCamera(float4& _CameraMovePos, const float4& _CurCameraPos)
+void CameraControler::LockCamera(float4& _pCameraMovePos, const float4& _CurCameraPos)
 {
 	float4 HalfWinScale = m_WinScale.Half();
 	float4 BackScale = m_BackScale;
@@ -157,24 +157,24 @@ void CameraControler::LockCamera(float4& _CameraMovePos, const float4& _CurCamer
 	float4 CameraLeftTopLimitPoint = float4{ HalfWinScale.X , -HalfWinScale.Y } + float4{ -200.0f , 200.f };
 	float4 CameraRightBottomLimitPoint = float4{ BackScale.X - HalfWinScale.X , BackScale.Y + HalfWinScale.Y } + float4{ 200.0f , -200.f };
 
-	if (_CurCameraPos.X + _CameraMovePos.X < CameraLeftTopLimitPoint.X)
+	if (_CurCameraPos.X + _pCameraMovePos.X < CameraLeftTopLimitPoint.X)
 	{
-		_CameraMovePos.X = 0.0f;
+		_pCameraMovePos.X = 0.0f;
 	}
 
-	if (_CurCameraPos.Y + _CameraMovePos.Y > CameraLeftTopLimitPoint.Y)
+	if (_CurCameraPos.Y + _pCameraMovePos.Y > CameraLeftTopLimitPoint.Y)
 	{
-		_CameraMovePos.Y = 0.0f;
+		_pCameraMovePos.Y = 0.0f;
 	}
 
-	if (_CurCameraPos.X + _CameraMovePos.X > CameraRightBottomLimitPoint.X)
+	if (_CurCameraPos.X + _pCameraMovePos.X > CameraRightBottomLimitPoint.X)
 	{
-		_CameraMovePos.X = 0.0f;
+		_pCameraMovePos.X = 0.0f;
 	}
 
-	if (_CurCameraPos.Y + _CameraMovePos.Y < CameraRightBottomLimitPoint.Y)
+	if (_CurCameraPos.Y + _pCameraMovePos.Y < CameraRightBottomLimitPoint.Y)
 	{
-		_CameraMovePos.Y = 0.0f;
+		_pCameraMovePos.Y = 0.0f;
 	}
 }
 
