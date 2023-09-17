@@ -81,6 +81,184 @@ void CameraControler::Reset()
 	m_CameraInfo.MoveDistance = float4::ZERO;
 }
 
+void CameraControler::SetAutoInitialPosition(const float4& _Location)
+{
+	if (float4::ZERO == m_BackScale)
+	{
+		MsgBoxAssert("배경 넓이을 지정해주지 않고 카메라 매니저를 사용하려 했습니다.");
+		return;
+	}
+
+	if (nullptr == m_MainCamera)
+	{
+		MsgBoxAssert("카메라 액터가 존재하지 않는데 사용하려고 했습니다.");
+		return;
+	}
+
+ 	float4 CurCameraPos = _Location;
+
+
+	float4 HWinScale = m_WinScale.Half();
+
+	float4 CameraLeftTopPoint = CurCameraPos + float4{ -HWinScale.X , HWinScale.Y };
+	float4 CameraRightBottomPoint = CurCameraPos + float4{ HWinScale.X , -HWinScale.Y };
+
+	bool IsLeftTopCornerInBackScale = true;
+	bool IsLeftBottomCornerInBackScale = true;
+	bool IsRightTopCornerInBackScale = true;
+	bool IsRightBottomCornerInBackScale = true;
+
+	int CornerCountWithinScreen = 0;
+
+	if (CameraLeftTopPoint.X < 0.0f)
+	{
+		IsLeftTopCornerInBackScale = false;
+		IsLeftBottomCornerInBackScale = false;
+	}
+
+	if (CameraLeftTopPoint.Y > 0.0f)
+	{
+		IsLeftTopCornerInBackScale = false;
+		IsRightTopCornerInBackScale = false;
+	}
+
+	if (CameraRightBottomPoint.X > m_BackScale.X)
+	{
+		IsRightTopCornerInBackScale = false;
+		IsRightBottomCornerInBackScale = false;
+	}
+
+	if (CameraRightBottomPoint.Y < -m_BackScale.Y)
+	{
+		IsLeftBottomCornerInBackScale = false;
+		IsRightBottomCornerInBackScale = false;
+	}
+
+
+	if (CameraLeftTopPoint.X > m_BackScale.X)
+	{
+		IsLeftTopCornerInBackScale = false;
+		IsLeftBottomCornerInBackScale = false;
+	}
+
+	if (CameraLeftTopPoint.Y < -m_BackScale.Y)
+	{
+		IsLeftTopCornerInBackScale = false;
+		IsRightTopCornerInBackScale = false;
+	}
+
+	if (CameraRightBottomPoint.X < 0.0f)
+	{
+		IsRightTopCornerInBackScale = false;
+		IsRightBottomCornerInBackScale = false;
+	}
+
+	if (CameraRightBottomPoint.Y > 0.0f)
+	{
+		IsLeftBottomCornerInBackScale = false;
+		IsRightBottomCornerInBackScale = false;
+	}
+
+
+
+	if (true == IsLeftTopCornerInBackScale)
+	{
+		++CornerCountWithinScreen;
+	}
+
+	if (true == IsLeftBottomCornerInBackScale)
+	{
+		++CornerCountWithinScreen;
+	}
+
+	if (true == IsRightTopCornerInBackScale)
+	{
+		++CornerCountWithinScreen;
+	}
+
+	if (true == IsRightBottomCornerInBackScale)
+	{
+		++CornerCountWithinScreen;
+	}
+
+	if (0 == CornerCountWithinScreen)
+	{
+		MsgBoxAssert("맵을 벗어난 위치에서 초기화할 수 없습니다.");
+		return;
+	}
+
+	if (1 == CornerCountWithinScreen)
+	{
+		// 왼쪽 위 모서리가 배경 스케일 안에 있으면
+		if (true == IsLeftTopCornerInBackScale)
+		{
+			CurCameraPos = float4{ m_BackScale.X - HWinScale.X  , -m_BackScale.Y + HWinScale.Y };
+		}
+
+		// 왼쪽 아래 모서리가 배경 스케일 안에 있으면
+		if (true == IsLeftBottomCornerInBackScale)
+		{
+			CurCameraPos = float4{ m_BackScale.X - HWinScale.X , -HWinScale.Y };
+		}
+
+		// 오른쪽 위 모서리가 배경 스케일 안에 있으면
+		if (true == IsRightTopCornerInBackScale)
+		{
+			CurCameraPos = float4{ HWinScale.X , -m_BackScale.Y + HWinScale.Y };
+		}
+
+		// 오른쪽 아래 모서리가 배경 스케일 안에 있으면
+		if (true == IsRightBottomCornerInBackScale)
+		{
+			CurCameraPos = float4{ HWinScale.X , -HWinScale.Y };
+		}
+	}
+
+	// 모서리가 배경 밖으로 2개 나갔을 때
+	if (2 == CornerCountWithinScreen)
+	{
+		// 왼쪽 면이 배경 스케일 안에 있으면
+		if (true == IsLeftTopCornerInBackScale && true == IsLeftBottomCornerInBackScale)
+		{
+			CurCameraPos.X = m_BackScale.X - HWinScale.X;
+		}
+
+		// 위쪽 면이 배경 스케일 안에 있으면
+		if (true == IsLeftTopCornerInBackScale && true == IsRightTopCornerInBackScale)
+		{
+			CurCameraPos.Y = -m_BackScale.Y + HWinScale.Y;
+		}
+
+		// 오른쪽 면이 배경 스케일 안에 있으면
+		if (true == IsRightTopCornerInBackScale && true == IsRightBottomCornerInBackScale)
+		{
+			CurCameraPos.X = HWinScale.X;
+		}
+
+		// 아래쪽 면이 배경 스케일 안에 있으면
+		if (true == IsLeftBottomCornerInBackScale && true == IsRightBottomCornerInBackScale)
+		{
+			CurCameraPos.Y = -HWinScale.Y;
+		}
+	}
+
+	// 있을 수 없는 일입니다. 만약 들어오면 터집니다.
+	if (3 == CornerCountWithinScreen)
+	{
+		MsgBoxAssert("있을 수 없는 버그입니다. 값을 확인해보세요.");
+		return;
+	}
+
+	if (4 == CornerCountWithinScreen)
+	{
+		return;
+	}
+
+	m_MainCamera->Transform.SetLocalPosition(CurCameraPos);
+}
+
+
+
 float4 CameraControler::GetCameraMoveDistance() const
 {
 	return m_CameraInfo.MoveDistance;
@@ -154,8 +332,8 @@ void CameraControler::LockCamera(float4& _pCameraMovePos, const float4& _CurCame
 	float4 BackScale = m_BackScale;
 	BackScale.Y *= -1.0f;
 
-	float4 CameraLeftTopLimitPoint = float4{ HalfWinScale.X , -HalfWinScale.Y } + float4{ -200.0f , 200.f };
-	float4 CameraRightBottomLimitPoint = float4{ BackScale.X - HalfWinScale.X , BackScale.Y + HalfWinScale.Y } + float4{ 200.0f , -200.f };
+	float4 CameraLeftTopLimitPoint = float4{ HalfWinScale.X , -HalfWinScale.Y } /*+ float4{ -200.0f , 200.f }*/;
+	float4 CameraRightBottomLimitPoint = float4{ BackScale.X - HalfWinScale.X , BackScale.Y + HalfWinScale.Y } /*+ float4{ 200.0f , -200.f }*/;
 
 	if (_CurCameraPos.X + _pCameraMovePos.X < CameraLeftTopLimitPoint.X)
 	{

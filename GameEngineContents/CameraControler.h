@@ -47,6 +47,8 @@ public:
 public:
 	void Reset();
 
+	void SetAutoInitialPosition(const float4& _Location);
+
 public:
 	float4 GetCameraMoveDistance() const;
 	float4 GetCameraCurrentPostion() const;

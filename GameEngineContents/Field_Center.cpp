@@ -38,6 +38,25 @@ void Field_Center::LevelStart(class GameEngineLevel* _NextLevel)
 	LoadTexture();
 	LoadSprite();
 	LoadActor();
+
+
+	if (nullptr != GlobalValue::g_CameraControler)
+	{
+		if (GlobalValue::g_CameraControler != m_LevelCameraControler)
+		{
+			MsgBoxAssert("현재 카메라 매니저가 아닙니다.");
+			return;
+		}
+
+		if (nullptr == m_Ellie)
+		{
+			MsgBoxAssert("플레이어가 존재하지 않습니다.");
+			return;
+		}
+
+		GlobalValue::g_CameraControler->SetFocusActor(m_Ellie.get());
+		GlobalValue::g_CameraControler->SetAutoInitialPosition(m_Ellie->Transform.GetWorldPosition());
+	}
 }
 
 void Field_Center::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -72,14 +91,6 @@ void Field_Center::LoadSprite()
 void Field_Center::LoadActor()
 {
 	LoadGlobalUnit();
-
-	if (nullptr == m_LevelCameraControler)
-	{
-		MsgBoxAssert("존재하지 않는 액터를 사용하려고 했습니다.");
-		return;
-	}
-
-	m_LevelCameraControler->SetFocusActor(m_Ellie.get());
 }
 
 // 각 레벨에서 한번 실행하면 두번 다신 들어오지 않습니다. 
@@ -103,15 +114,6 @@ void Field_Center::LoadGlobalUnit()
 
 	m_BackDrop->Init();
 
-	if (nullptr == m_LevelCameraControler)
-	{
-		MsgBoxAssert("카메라 컨트롤러를 생성하지 않고 사용하려고 했습니다.");
-		return;
-	}
-
-	m_LevelCameraControler->SetBackDropScale(m_BackDrop->GetBackGroundScale());
-	m_LevelCameraControler->SetLocalPostion(HWinScale);
-
 
 	m_Ellie = CreateActor<Ellie>(EUPDATEORDER::Player);
 	if (nullptr == m_Ellie)
@@ -122,6 +124,16 @@ void Field_Center::LoadGlobalUnit()
 
 	m_Ellie->Init();
 	m_Ellie->SetSpawnLocalPosition(HWinScale);
+
+
+	if (nullptr == m_LevelCameraControler)
+	{
+		MsgBoxAssert("카메라 컨트롤러를 생성하지 않고 사용하려고 했습니다.");
+		return;
+	}
+
+	m_LevelCameraControler->SetBackDropScale(m_BackDrop->GetBackGroundScale());
+
 
 	LevelInitCheck = true;
 }
