@@ -100,7 +100,6 @@ bool GameEngineCollisionGroup::Collision(std::shared_ptr<GameEngineCollision> _C
 	}
 
 	return false;
-
 }
 
 

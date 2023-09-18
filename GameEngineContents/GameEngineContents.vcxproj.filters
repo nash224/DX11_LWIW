@@ -163,6 +163,9 @@
     <ClInclude Include="PlayLevel.h">
       <Filter>Object\Level\2.Play</Filter>
     </ClInclude>
+    <ClInclude Include="PixelMap.h">
+      <Filter>Object\Actor\NonInteractive</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -267,6 +270,9 @@
     </ClCompile>
     <ClCompile Include="PlayLevel.cpp">
       <Filter>Object\Level\2.Play</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelMap.cpp">
+      <Filter>Object\Actor\NonInteractive</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
