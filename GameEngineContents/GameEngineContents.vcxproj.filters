@@ -139,9 +139,6 @@
     <ClInclude Include="Field_Center.h">
       <Filter>Object\Level\2.Play\1.Field</Filter>
     </ClInclude>
-    <ClInclude Include="PlayLevel.h">
-      <Filter>Object\Level\2.Play</Filter>
-    </ClInclude>
     <ClInclude Include="LoadingLevel.h">
       <Filter>Object\Level\0.Loading</Filter>
     </ClInclude>
@@ -157,11 +154,14 @@
     <ClInclude Include="TestActor.h">
       <Filter>Z_Test</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Object\Level\2.Play</Filter>
-    </ClInclude>
-    <ClInclude Include="PotalObject.h">
+    <ClInclude Include="PortalObject.h">
       <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Z_Test</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayLevel.h">
+      <Filter>Object\Level\2.Play</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -244,9 +244,6 @@
     <ClCompile Include="Field_Center.cpp">
       <Filter>Object\Level\2.Play\1.Field</Filter>
     </ClCompile>
-    <ClCompile Include="PlayLevel.cpp">
-      <Filter>Object\Level\2.Play</Filter>
-    </ClCompile>
     <ClCompile Include="LoadingLevel.cpp">
       <Filter>Object\Level\0.Loading</Filter>
     </ClCompile>
@@ -262,11 +259,14 @@
     <ClCompile Include="TestActor2.cpp">
       <Filter>Z_Test</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Object\Level\2.Play</Filter>
-    </ClCompile>
-    <ClCompile Include="PotalObject.cpp">
+    <ClCompile Include="PortalObject.cpp">
       <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Z_Test</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayLevel.cpp">
+      <Filter>Object\Level\2.Play</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -167,6 +167,8 @@ void BackDrop_MainMenu::CreateProp(class GameEngineLevel* _CurLevel)
 		vecProps.push_back(Object);
 	}
 
+	
+
 	{
 		std::shared_ptr<Prop> Object = _CurLevel->CreateActor<Prop>(EUPDATEORDER::Objects);
 		if (nullptr == Object)

@@ -1,6 +1,9 @@
 #include "PreCompile.h"
 #include "Ellie.h"
 
+
+#include "PortalObject.h"
+
 Ellie::Ellie() 
 {
 }
@@ -168,11 +171,23 @@ void Ellie::Start()
 	}
 
 	m_Body->AutoSpriteSizeOn();
+
+	EllieCol = CreateComponent<GameEngineCollision>(ECOLLISION::Player);
+	if (nullptr == EllieCol)
+	{
+		MsgBoxAssert("충돌체를 생성하지 못했습니다.");
+		return;
+	}
+
+
+	EllieCol->Transform.SetLocalScale(float4{ 100.0f , 100.0f });
+	EllieCol->SetCollisionType(ColType::AABBBOX2D);
 }
 
 void Ellie::Update(float _Delta)
 {
-	StateUpdate(_Delta);
+	UpdateState(_Delta);
+	UpdateCollision();
 }
 
 
@@ -217,7 +232,7 @@ void Ellie::TestCode()
 /////////////////////////////////////////////////////////////////////////////////////
 
 #pragma region State 함수
-void Ellie::StateUpdate(float _Delta)
+void Ellie::UpdateState(float _Delta)
 {
 	switch (m_State)
 	{
@@ -631,3 +646,30 @@ void Ellie::ApplyMovementToTransform(float _Delta)
 }
 
 #pragma endregion 
+
+
+
+void Ellie::UpdateCollision()
+{
+	EllieCol->Collision(ECOLLISION::Portal, [](std::vector<std::shared_ptr<GameEngineCollision>>& _Collision)
+		{
+			for (size_t i = 0; i < _Collision.size(); i++)
+			{
+				GameEngineActor* Object = _Collision[i]->GetActor();
+				if (nullptr == Object)
+				{
+					MsgBoxAssert("존재하지 않는 액터를 참조하려 했습니다.");
+					return;
+				}
+
+				PortalObject* PortalActor = dynamic_cast<PortalObject*>(Object);
+				if (nullptr == PortalActor)
+				{
+					MsgBoxAssert("다운캐스팅에 실패했습니다.");
+					return;
+				}
+				
+				PortalActor->SetCollisionFlag(true);
+			}
+		});
+}

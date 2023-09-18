@@ -249,6 +249,7 @@ void CameraControler::SetAutoInitialPosition(const float4& _Location)
 		return;
 	}
 
+	// 배경 안에 4점이 위치해있다는 것으로 아무것도 해주지 않습니다.
 	if (4 == CornerCountWithinScreen)
 	{
 
@@ -381,7 +382,6 @@ void CameraControler::UpdateCameraEditorMode(float _Delta)
 	if (true == GameEngineInput::IsPress('D'))
 	{
 		CameraMoveDistance = float4::RIGHT * CameraSpeed;
-
 	}
 
 	m_MainCamera->Transform.AddLocalPosition(CameraMoveDistance);

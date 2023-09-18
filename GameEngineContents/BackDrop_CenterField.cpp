@@ -3,6 +3,7 @@
 
 
 #include "Prop.h"
+#include "PortalObject.h"
 
 
 BackDrop_CenterField::BackDrop_CenterField() 
@@ -21,7 +22,7 @@ void BackDrop_CenterField::Start()
 
 void BackDrop_CenterField::Update(float _Delta)
 {
-
+	
 }
 
 void BackDrop_CenterField::LevelStart(class GameEngineLevel* _NextLevel)
@@ -79,7 +80,6 @@ void BackDrop_CenterField::CreateProp(GameEngineLevel* _Level)
 }
 
 
-
 void BackDrop_CenterField::ActorRelease()
 {
 	for (size_t i = 0; i < vecProps.size(); i++)
@@ -93,6 +93,8 @@ void BackDrop_CenterField::ActorRelease()
 
 		Object->ActorRelease();
 	}
+
+	vecProps.clear();
 
 	Death();
 }

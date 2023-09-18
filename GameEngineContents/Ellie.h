@@ -83,7 +83,7 @@ public:
 private:
 	// FSM
 	void ChangeState(EELLIE_STATE _State);
-	void StateUpdate(float _Delta);
+	void UpdateState(float _Delta);
 	void ChangeAnimationByDirection(const std::string& _StateName, bool _DirectionInfluence = true, bool _Force =  false, unsigned int _Index = 0);
 	
 
@@ -153,6 +153,11 @@ private:
 	void ApplyMovementToTransform(float _DElta);
 	
 
+
+private:
+	void UpdateCollision();
+
+
 private:
 	// ·»´õ·¯
 	std::shared_ptr<GameEngineSpriteRenderer> m_Body = nullptr;
@@ -189,5 +194,9 @@ private:
 
 	const float CONST_Ellie_Riding_Move_Speed = 500.0f;
 	const float CONST_Ellie_Riding_Boost_Speed = 700.0f;
+
+
+private:
+	std::shared_ptr<GameEngineCollision> EllieCol = nullptr;
 };
 

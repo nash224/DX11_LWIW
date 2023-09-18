@@ -9,6 +9,7 @@ enum class EUPDATEORDER
 	Enemy,
 	Projectile,
 	Objects,
+	Portal,
 	CameraControler,
 	UI,
 };
@@ -61,7 +62,8 @@ enum class EUI_RENDERORDER
 
 enum class ECOLLISION
 {
-	Potal,
+	Player,
+	Portal,
 };
 
 

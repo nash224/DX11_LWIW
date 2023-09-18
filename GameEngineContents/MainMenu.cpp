@@ -7,7 +7,6 @@
 
 #include "BackDrop_MainMenu.h"
 #include "CameraControler.h"
-#include "TestActor.h"
 
 MainMenu::MainMenu()
 	: m_BackDrop(nullptr)
@@ -121,8 +120,6 @@ void MainMenu::InitActor()
 
 	m_BackDrop->Init();
 }
-
-
 
 void MainMenu::ReleaseSprite()
 {

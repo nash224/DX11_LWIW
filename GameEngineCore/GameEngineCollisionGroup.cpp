@@ -90,7 +90,7 @@ bool GameEngineCollisionGroup::Collision(std::shared_ptr<GameEngineCollision> _C
 
 		if (true == GameEngineTransform::Collision({ _Collision->Transform.ColData , Collsion->Transform.ColData, _Collision->GetCollisionType(), Collsion->GetCollisionType() }))
 		{
-			ResultCollision.push_back(Collsion);
+  			ResultCollision.push_back(Collsion);
 		}
 	}
 

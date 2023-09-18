@@ -250,7 +250,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="PlayLevel.cpp" />
-    <ClCompile Include="PotalObject.cpp">
+    <ClCompile Include="PortalObject.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -386,7 +386,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="PlayLevel.h" />
-    <ClInclude Include="PotalObject.h">
+    <ClInclude Include="PortalObject.h">
       <SubType>
       </SubType>
     </ClInclude>

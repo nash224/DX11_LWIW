@@ -4,6 +4,7 @@
 // Ό³Έν :
 class BackDrop_CenterField;
 class Ellie;
+class PortalObject;
 class Field_Center : public PlayLevel
 {
 public:
@@ -31,9 +32,17 @@ private:
 	void LoadSprite();
 	void LoadActor();
 	void LoadGlobalUnit();
+	void LoadPortalActor();
+
+	void CameraSetting();
 
 private:
-	void ActorRelease();
+	void UpdateLevelChange();
+	void UpdatePortalObject();
+
+
+private:
+	void LevelActorRelease();
 	void ReleaseSprite();
 	void ReleaseTexture();
 
@@ -43,6 +52,7 @@ public:
 private:
 	std::shared_ptr<BackDrop_CenterField> m_BackDrop = nullptr;
 	std::shared_ptr<Ellie> m_Ellie = nullptr;
+	std::vector<std::shared_ptr<PortalObject>> vecPortalObject;
 
 };
 
