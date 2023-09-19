@@ -93,7 +93,7 @@ void BackDrop_MainMenu::CreateProp(class GameEngineLevel* _CurLevel)
 
 		Object->CreateRenderer(ETITLERENDERORDER::Back_);
 		Object->SetSprite("Title_Train_Sky.png");
-		Object->SetLocalPosition(float4::ZERO, PivotType::LeftTop);
+		Object->SetRendererLocalPosition(float4::ZERO, PivotType::LeftTop);
 		vecProps.push_back(Object);
 	}
 
@@ -107,7 +107,7 @@ void BackDrop_MainMenu::CreateProp(class GameEngineLevel* _CurLevel)
 
 		Object->CreateRenderer(ETITLERENDERORDER::Star);
 		Object->CreateAutomatedAnimation("StarAni", "Title_train_star");
-		Object->SetLocalPosition(float4{ 20.0f , -100.0f }, PivotType::Left);
+		Object->SetRendererLocalPosition(float4{ 20.0f , -100.0f }, PivotType::Left);
 		vecProps.push_back(Object);
 	}
 
@@ -121,7 +121,7 @@ void BackDrop_MainMenu::CreateProp(class GameEngineLevel* _CurLevel)
 
 		Object->CreateRenderer(ETITLERENDERORDER::Water);
 		Object->SetSprite("Title_Train_Water.png");
-		Object->SetLocalPosition(float4{ 0.0f , -398.0f }, PivotType::LeftTop);
+		Object->SetRendererLocalPosition(float4{ 0.0f , -398.0f }, PivotType::LeftTop);
 		vecProps.push_back(Object);
 	}
 
@@ -135,7 +135,7 @@ void BackDrop_MainMenu::CreateProp(class GameEngineLevel* _CurLevel)
 
 		Object->CreateRenderer(ETITLERENDERORDER::Bridge_blur);
 		Object->SetSprite("Title_Train_Bridge_Shadow.png");
-		Object->SetLocalPosition(float4{ 0.0f , -464.0f }, PivotType::LeftTop);
+		Object->SetRendererLocalPosition(float4{ 0.0f , -464.0f }, PivotType::LeftTop);
 		vecProps.push_back(Object);
 	}
 
@@ -149,7 +149,7 @@ void BackDrop_MainMenu::CreateProp(class GameEngineLevel* _CurLevel)
 
 		Object->CreateRenderer(ETITLERENDERORDER::Train_blur);
 		Object->SetSprite("Title_Train_TrainWater_blur.png");
-		Object->SetLocalPosition(float4{ 0.0f , -492.0f }, PivotType::LeftTop);
+		Object->SetRendererLocalPosition(float4{ 0.0f , -492.0f }, PivotType::LeftTop);
 		vecProps.push_back(Object);
 	}
 
@@ -163,7 +163,7 @@ void BackDrop_MainMenu::CreateProp(class GameEngineLevel* _CurLevel)
 
 		Object->CreateRenderer(ETITLERENDERORDER::Train_Light_blur);
 		Object->SetSprite("Title_Train_Light_Blur.png");
-		Object->SetLocalPosition(float4{ 26.0f , -500.0f }, PivotType::LeftTop);
+		Object->SetRendererLocalPosition(float4{ 26.0f , -500.0f }, PivotType::LeftTop);
 		vecProps.push_back(Object);
 	}
 
@@ -179,7 +179,7 @@ void BackDrop_MainMenu::CreateProp(class GameEngineLevel* _CurLevel)
 
 		Object->CreateRenderer(ETITLERENDERORDER::Train_Light_blur);
 		Object->SetSprite("Title_Train_WindowWater_blur.png");
-		Object->SetLocalPosition(float4{ 220.0f , -490.0f }, PivotType::LeftTop);
+		Object->SetRendererLocalPosition(float4{ 220.0f , -490.0f }, PivotType::LeftTop);
 		vecProps.push_back(Object);
 	}
 
@@ -197,7 +197,7 @@ void BackDrop_MainMenu::CreateProp(class GameEngineLevel* _CurLevel)
 
 		Object->CreateRenderer(ETITLERENDERORDER::Moon);
 		Object->SetSprite("Title_Train_Moon.png");
-		Object->SetLocalPosition(float4{ 176.0f , -50.0f }, PivotType::LeftTop);
+		Object->SetRendererLocalPosition(float4{ 176.0f , -50.0f }, PivotType::LeftTop);
 		vecProps.push_back(Object);
 	}
 
@@ -214,7 +214,7 @@ void BackDrop_MainMenu::CreateProp(class GameEngineLevel* _CurLevel)
 		}
 
 		Object->CreateRenderer(ETITLERENDERORDER::TrainSmoke_Big);
-		Object->SetLocalPosition(float4{ 437.0f , -284.0f });
+		Object->SetRendererLocalPosition(float4{ 437.0f , -284.0f });
 		Object->CreateAutomatedAnimation("Smoke_big", "trainsmoke_big.png", 0.1f);
 
 		vecProps.push_back(Object);
@@ -229,7 +229,7 @@ void BackDrop_MainMenu::CreateProp(class GameEngineLevel* _CurLevel)
 		}
 
 		Object->CreateRenderer(ETITLERENDERORDER::TrainSmoke_Mid);
-		Object->SetLocalPosition(float4{ 430.0f , -289.0f });
+		Object->SetRendererLocalPosition(float4{ 430.0f , -289.0f });
 		Object->CreateAutomatedAnimation("Smoke_big", "trainsmoke_mid.png", 0.1f);
 
 		vecProps.push_back(Object);
@@ -244,7 +244,7 @@ void BackDrop_MainMenu::CreateProp(class GameEngineLevel* _CurLevel)
 		}
 
 		Object->CreateRenderer(ETITLERENDERORDER::TrainSmoke_Small);
-		Object->SetLocalPosition(float4{ 434.0f , -289.0f });
+		Object->SetRendererLocalPosition(float4{ 434.0f , -289.0f });
 		Object->CreateAutomatedAnimation("Smoke_big", "trainsmoke_small.png", 0.1f);
 
 		vecProps.push_back(Object);
@@ -263,7 +263,7 @@ void BackDrop_MainMenu::CreateProp(class GameEngineLevel* _CurLevel)
 
 		Object->CreateRenderer(ETITLERENDERORDER::Shadow);
 		Object->SetSprite("Background_Shadow-Title.png");
-		Object->SetLocalPosition(float4::ZERO, PivotType::LeftTop);
+		Object->SetRendererLocalPosition(float4::ZERO, PivotType::LeftTop);
 		Object->SetAutoSpriteSize(0.5f);
 		vecProps.push_back(Object);
 	}

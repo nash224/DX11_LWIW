@@ -7,7 +7,11 @@
 #include "GlobalUtils.h"
 
 #include "CameraControler.h"
+#include "BackDrop.h"
 
+
+
+bool PlayLevel::PixelDebugMode = false;
 PlayLevel::PlayLevel()
 {
 }
@@ -24,6 +28,18 @@ void PlayLevel::Start()
 void PlayLevel::Update(float _Delta)
 {
 	ContentsLevel::Update(_Delta);
+
+	if (true == GameEngineInput::IsDown(VK_F1))
+	{
+		PixelDebugMode = !PixelDebugMode;
+		if (nullptr == BackDrop::MainBackDrop)
+		{
+			MsgBoxAssert("글로벌 액터가 존재하지 않습니다.");
+			return;
+		}
+		
+		BackDrop::MainBackDrop->EnableBackDropDebugMode(PixelDebugMode);
+	}
 }
 
 void PlayLevel::LevelStart(GameEngineLevel* _NextLevel)

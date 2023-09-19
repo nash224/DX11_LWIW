@@ -33,7 +33,6 @@ void Player::Start()
 	Transform.SetLocalPosition({ HalfWindowScale.X, -HalfWindowScale.Y, -500.0f });
 	
 	Transform.GetLocalScale();
-	
 }
 
 void Player::Update(float _Delta)

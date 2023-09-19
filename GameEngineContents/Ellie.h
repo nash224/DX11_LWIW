@@ -2,6 +2,7 @@
 #include "InteractiveActor.h"
 #include "ActorEnum.h"
 
+
 constexpr float EllieIdleInter = 0.2f;
 constexpr float Ellie_SlowWalk_Inter = 0.2f;
 
@@ -20,6 +21,11 @@ constexpr float Ellie_RootUp_Inter = 0.15f;
 constexpr float Ellie_Sit_Inter = 0.12f;
 
 constexpr float Ellie_MongSiri_Inter = 0.2f;
+
+
+// 체크 포인트 간격
+constexpr float CheckPointGap = 2.0f;
+
 
 enum class EELLIE_STATE
 {
@@ -75,6 +81,7 @@ public:
 	void Init();
 	void SetSpawnLocalPosition(const float4& _Position);
 	void SetMoveControl(bool _Value);
+	void SetPixelPointBaseOnCenter();
 	/*void TransferControl(bool _Value);*/
 
 
@@ -144,7 +151,10 @@ private:
 	bool DetectHorizontalMovement();
 
 	// 방향 계산 함수
-	float4 CalulateDirectionVectorToDir(const EDIRECTION _Direction);
+	float4 CalculateDirectionVectorToDir(const EDIRECTION _Direction);
+
+	void CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce);
+	EDIRECTION ReturnDirectionCheckBothSide(const float4& _LeftCheckPoint, const float4& _RightCheckPoint);
 
 
 	void CalculateMoveForce(float _Delta, float _MAXMoveForce, float _Acceleration_Time);
@@ -183,11 +193,12 @@ private:
 	float4 m_MoveVector = float4::ZERO;
 	float4 m_MoveForce = float4::ZERO;
 
-	const float CONST_Ellie_NonRiding_Acceleration_Time = 0.1f;
+
+
+	const float CONST_Ellie_NonRiding_Acceleration_Time = 1.0f;
 	const float CONST_Ellie_Riding_Move_Acceleration_Time = 1.2f;
 	const float CONST_Ellie_Riding_Boosting_Acceleration_Time = 1.0f;
 
-private:
 	const float CONST_Ellie_SlowWalk_Speed = 120.0f;
 	const float CONST_Ellie_Walk_Speed = 200.0f;
 	const float CONST_Ellie_Run_Speed = 300.0f;
@@ -195,6 +206,23 @@ private:
 	const float CONST_Ellie_Riding_Move_Speed = 500.0f;
 	const float CONST_Ellie_Riding_Boost_Speed = 700.0f;
 
+private:
+	// Pixel 충돌
+	const float4 m_PixelCheckScale = { 20.0f , 10.0f };
+	const float4 m_PixelCheckPosBaseOnCenter = { 0.0f , -27.0f };
+
+	// Pixel 충돌 체크 포인트
+	float4 m_PixelCheckTopLeft = float4::ZERO;
+	float4 m_PixelCheckTopRight = float4::ZERO;
+	float4 m_PixelCheckLeftTop = float4::ZERO;
+	float4 m_PixelCheckLeftBottom = float4::ZERO;
+	float4 m_PixelCheckRightTop = float4::ZERO;
+	float4 m_PixelCheckRightBottom = float4::ZERO;
+	float4 m_PixelCheckBottomLeft = float4::ZERO;
+	float4 m_PixelCheckBottomRight = float4::ZERO;
+
+	// 벽 마찰력
+	const float COSNT_FrictionForce = 0.4f;
 
 private:
 	std::shared_ptr<GameEngineCollision> EllieCol = nullptr;

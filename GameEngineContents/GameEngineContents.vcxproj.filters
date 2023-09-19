@@ -55,6 +55,9 @@
     <Filter Include="Z_Test">
       <UniqueIdentifier>{28c5e6b7-3d61-4e52-9da5-0792cbf15b56}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\NonInteractive\BackDrop\LevelBackDrop">
+      <UniqueIdentifier>{ab990094-0a41-46ab-8fd7-2d6165e2048a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -88,9 +91,6 @@
     <ClInclude Include="TemplateA.h">
       <Filter>Global</Filter>
     </ClInclude>
-    <ClInclude Include="BackDrop_MainMenu.h">
-      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
-    </ClInclude>
     <ClInclude Include="Prop.h">
       <Filter>Object\Actor\NonInteractive\Prop</Filter>
     </ClInclude>
@@ -106,9 +106,6 @@
     <ClInclude Include="SequentialProp.h">
       <Filter>Object\Actor\NonInteractive\Prop</Filter>
     </ClInclude>
-    <ClInclude Include="BackDrop_ElliesHouse.h">
-      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
-    </ClInclude>
     <ClInclude Include="InteractiveActor.h">
       <Filter>Object\Actor\Interactive</Filter>
     </ClInclude>
@@ -120,12 +117,6 @@
     </ClInclude>
     <ClInclude Include="GlobalLoad.h">
       <Filter>Global</Filter>
-    </ClInclude>
-    <ClInclude Include="BackDrop_CenterField.h">
-      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
-    </ClInclude>
-    <ClInclude Include="BackDrop_Loading.h">
-      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
     </ClInclude>
     <ClInclude Include="EventManager.h">
       <Filter>Object\Actor\Manager</Filter>
@@ -154,16 +145,25 @@
     <ClInclude Include="TestActor.h">
       <Filter>Z_Test</Filter>
     </ClInclude>
-    <ClInclude Include="PortalObject.h">
-      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Z_Test</Filter>
     </ClInclude>
     <ClInclude Include="PlayLevel.h">
       <Filter>Object\Level\2.Play</Filter>
     </ClInclude>
-    <ClInclude Include="PixelMap.h">
+    <ClInclude Include="BackDrop_MainMenu.h">
+      <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
+    </ClInclude>
+    <ClInclude Include="BackDrop_CenterField.h">
+      <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
+    </ClInclude>
+    <ClInclude Include="BackDrop_ElliesHouse.h">
+      <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
+    </ClInclude>
+    <ClInclude Include="BackDrop_Loading.h">
+      <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
+    </ClInclude>
+    <ClInclude Include="PortalObject.h">
       <Filter>Object\Actor\NonInteractive</Filter>
     </ClInclude>
   </ItemGroup>
@@ -193,9 +193,6 @@
     <ClCompile Include="TemplateA.cpp">
       <Filter>Global</Filter>
     </ClCompile>
-    <ClCompile Include="BackDrop_MainMenu.cpp">
-      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
-    </ClCompile>
     <ClCompile Include="Prop.cpp">
       <Filter>Object\Actor\NonInteractive\Prop</Filter>
     </ClCompile>
@@ -211,9 +208,6 @@
     <ClCompile Include="SequentialProp.cpp">
       <Filter>Object\Actor\NonInteractive\Prop</Filter>
     </ClCompile>
-    <ClCompile Include="BackDrop_ElliesHouse.cpp">
-      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
-    </ClCompile>
     <ClCompile Include="InteractiveActor.cpp">
       <Filter>Object\Actor\Interactive</Filter>
     </ClCompile>
@@ -225,12 +219,6 @@
     </ClCompile>
     <ClCompile Include="GlobalLoad.cpp">
       <Filter>Global</Filter>
-    </ClCompile>
-    <ClCompile Include="BackDrop_CenterField.cpp">
-      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
-    </ClCompile>
-    <ClCompile Include="BackDrop_Loading.cpp">
-      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
     </ClCompile>
     <ClCompile Include="Ellie_State.cpp">
       <Filter>Object\Actor\Interactive\Ellie</Filter>
@@ -262,16 +250,25 @@
     <ClCompile Include="TestActor2.cpp">
       <Filter>Z_Test</Filter>
     </ClCompile>
-    <ClCompile Include="PortalObject.cpp">
-      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
-    </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Z_Test</Filter>
     </ClCompile>
     <ClCompile Include="PlayLevel.cpp">
       <Filter>Object\Level\2.Play</Filter>
     </ClCompile>
-    <ClCompile Include="PixelMap.cpp">
+    <ClCompile Include="BackDrop_ElliesHouse.cpp">
+      <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
+    </ClCompile>
+    <ClCompile Include="BackDrop_Loading.cpp">
+      <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
+    </ClCompile>
+    <ClCompile Include="BackDrop_MainMenu.cpp">
+      <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
+    </ClCompile>
+    <ClCompile Include="BackDrop_CenterField.cpp">
+      <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
+    </ClCompile>
+    <ClCompile Include="PortalObject.cpp">
       <Filter>Object\Actor\NonInteractive</Filter>
     </ClCompile>
   </ItemGroup>

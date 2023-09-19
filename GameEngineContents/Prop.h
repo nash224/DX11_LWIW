@@ -1,10 +1,9 @@
 #pragma once
 
 
-// 상호작용이 가능한 Prop와 상호작용이 불가능한 Prop로 나뉜다.
-// 
 
-// 설명 : 
+// 설명 : 배경의 소품을 담당하는 클래스입니다.
+//		또는 픽셀 충돌을 담당하기도 합니다.
 class Prop : public GameEngineActor
 {
 public:
@@ -18,14 +17,6 @@ public:
 	Prop& operator=(const Prop& _Other) = delete;
 	Prop& operator=(Prop&& _Other) noexcept = delete;
 
-protected:
-	void Start() override;
-	void Update(float _Delta) override;
-	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
-	void LevelEnd(class GameEngineLevel* _NextLevel) override;
-
-
 public:
 	template<typename RenderOrder>
 	void CreateRenderer(RenderOrder _Order)
@@ -36,9 +27,10 @@ public:
 	virtual void CreateRenderer(int _Order);
 
 	void SetSprite(std::string_view _SpriteName);
-	void SetLocalPosition(const float4& _Position, PivotType _Direction = PivotType::Center);
+	void SetRendererLocalPosition(const float4& _Position, PivotType _Direction = PivotType::Center);
 
 public:
+	// 애니메이션 
 	void CreateAnimation(
 		std::string_view _AnimationName,
 		std::string_view _SpriteName,
@@ -60,19 +52,41 @@ public:
 		bool _Loop = true,
 		float _Raito = 1.0f
 	);
-	
+
+
 public:
-	std::shared_ptr<class GameEngineSpriteRenderer>& GetSpriteRenderer();
+	// 픽셀충돌
+	void CreatePixelCollisionRenderer();
+	void SetPixelSprite(std::string_view _FileName);
+
+	GameEngineColor GetColor(const float4& _Position, GameEngineColor _DefaultColor = { 255, 255, 255, 255 });
+
+public:
+	void EnableDebugMode(bool _Value);
 	
+
+protected:
+	void Start() override;
+	void Update(float _Delta) override;
+	void Release() override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override;
+	void LevelEnd(class GameEngineLevel* _NextLevel) override;
+
 public:
 	void ActorRelease();
 
+	
+
+public:
+	bool PixelRendererCheck = false;
 
 protected:
-	
-	std::shared_ptr<class GameEngineSpriteRenderer> m_Renderer;
+	std::shared_ptr<class GameEngineSpriteRenderer> m_Renderer = nullptr;
 	float4 m_TextureScale;
 	float4 m_Position;
 
+protected:
+	std::shared_ptr<class GameEngineSpriteRenderer> m_DebugRenderer = nullptr;
+	std::string m_PixelFileName = "";
 };
 

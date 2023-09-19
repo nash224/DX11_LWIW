@@ -3,6 +3,7 @@
 
 
 #include "PortalObject.h"
+#include "BackDrop.h"
 
 Ellie::Ellie() 
 {
@@ -205,21 +206,46 @@ void Ellie::LevelEnd(class GameEngineLevel* _NextLevel)
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-
+// Ellie를 생성하면 무조건 실행해야하는 함수입니다.
 void Ellie::Init()
 {
 	ChangeState(EELLIE_STATE::Idle);
+	SetPixelPointBaseOnCenter();
 	//TestCode();
 }
 
+// 앨리의 위치를 지정합니다.
 void Ellie::SetSpawnLocalPosition(const float4& _Position)
 {
 	Transform.SetLocalPosition(_Position);
 }
 
+// 이 캐릭터를 움직일지 움직이지 않을지 결정합니다.
 void Ellie::SetMoveControl(bool _Value)
 {
 	IsControl = _Value;
+
+	if (false == _Value)
+	{
+		ChangeState(EELLIE_STATE::Idle);
+	}
+}
+
+
+// 픽셀 충돌에 사용될 변수입니다.
+// 액터의 중앙기준으로 초기화 되며 각 방향에 필요한 체크포인트를 설정합니다.
+void Ellie::SetPixelPointBaseOnCenter()
+{
+	float4 HalfPixelCheckScale = m_PixelCheckScale.Half();
+
+	m_PixelCheckTopLeft = m_PixelCheckPosBaseOnCenter + float4{ -HalfPixelCheckScale.X + CheckPointGap , HalfPixelCheckScale.Y };
+	m_PixelCheckTopRight = m_PixelCheckPosBaseOnCenter + float4{ HalfPixelCheckScale.X - CheckPointGap , HalfPixelCheckScale.Y };
+	m_PixelCheckLeftTop = m_PixelCheckPosBaseOnCenter + float4{ -HalfPixelCheckScale.X , HalfPixelCheckScale.Y - CheckPointGap };
+	m_PixelCheckLeftBottom = m_PixelCheckPosBaseOnCenter + float4{ -HalfPixelCheckScale.X , -HalfPixelCheckScale.Y + CheckPointGap };
+	m_PixelCheckRightTop = m_PixelCheckPosBaseOnCenter + float4{ HalfPixelCheckScale.X , HalfPixelCheckScale.Y - CheckPointGap };
+	m_PixelCheckRightBottom = m_PixelCheckPosBaseOnCenter + float4{ HalfPixelCheckScale.X , -HalfPixelCheckScale.Y + CheckPointGap };
+	m_PixelCheckBottomLeft = m_PixelCheckPosBaseOnCenter + float4{ -HalfPixelCheckScale.X + CheckPointGap , -HalfPixelCheckScale.Y };
+	m_PixelCheckBottomRight = m_PixelCheckPosBaseOnCenter + float4{ HalfPixelCheckScale.X - CheckPointGap , -HalfPixelCheckScale.Y };
 }
 
 
@@ -507,8 +533,8 @@ bool Ellie::DetectHorizontalMovement()
 
 #pragma region 이동 및 방향 
 
-// 방향을 인자로 넣으면 방향 기저벡터를 뱉어 줍니다.
-float4 Ellie::CalulateDirectionVectorToDir(const EDIRECTION _Direction)
+// 방향을 인자로 넣으면 방향 기저벡터를 반환해줍니다.
+float4 Ellie::CalculateDirectionVectorToDir(const EDIRECTION _Direction)
 {
 	float4 DirVector = float4::ZERO;
 
@@ -549,6 +575,122 @@ float4 Ellie::CalulateDirectionVectorToDir(const EDIRECTION _Direction)
 	return DirVector;
 }
 
+// 노멀 모드일 때, 속력을 계산해줍니다.
+void Ellie::CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce)
+{
+	float4 DirVector = CalculateDirectionVectorToDir(m_Dir);
+
+	m_MoveVector = DirVector * _MAXMoveForce;
+	
+	float4 CurPos = Transform.GetWorldPosition();
+
+	float4 LeftCheckPoint = CurPos;
+	float4 RightCheckPoint = CurPos;
+	float4 MoveDirVector = float4::ZERO;
+	EDIRECTION CheckDir = EDIRECTION::CENTER;
+
+
+	switch (m_Dir)
+	{
+	case EDIRECTION::UP:
+		LeftCheckPoint += m_PixelCheckTopLeft;
+		RightCheckPoint += m_PixelCheckTopRight;
+		break;
+	case EDIRECTION::LEFTUP:
+		LeftCheckPoint += m_PixelCheckLeftTop;
+		RightCheckPoint += m_PixelCheckTopLeft;
+		break;
+	case EDIRECTION::LEFT:
+		LeftCheckPoint += m_PixelCheckLeftBottom;
+		RightCheckPoint += m_PixelCheckLeftTop;
+		break;
+	case EDIRECTION::LEFTDOWN:
+		LeftCheckPoint += m_PixelCheckBottomLeft;
+		RightCheckPoint += m_PixelCheckLeftBottom;
+		break;
+	case EDIRECTION::RIGHTUP:
+		LeftCheckPoint += m_PixelCheckTopRight;
+		RightCheckPoint += m_PixelCheckRightTop;
+		break;
+	case EDIRECTION::RIGHT:
+		LeftCheckPoint += m_PixelCheckRightTop;
+		RightCheckPoint += m_PixelCheckRightBottom;
+		break;
+	case EDIRECTION::RIGHTDOWN:
+		LeftCheckPoint += m_PixelCheckRightBottom;
+		RightCheckPoint += m_PixelCheckBottomRight;
+		break;
+	case EDIRECTION::DOWN:
+		LeftCheckPoint += m_PixelCheckBottomRight;
+		RightCheckPoint += m_PixelCheckBottomLeft;
+		break;
+	default:
+		break;
+	}
+
+	// 무조건 Left, Right 순으로 인자를 전달해야합니다.
+	CheckDir = ReturnDirectionCheckBothSide(LeftCheckPoint, RightCheckPoint);
+
+	// 위 함수에서 반환된 방향이 현재의 방향과 같으면 아무것도 하지 않습니다.
+	if (CheckDir == m_Dir)
+	{
+
+	}
+	// 만약 Center가 나왔다면 벽에 맞부딪혔다는 것으로 움직이지 않습니다.
+	else if (CheckDir == EDIRECTION::CENTER)
+	{
+		m_MoveVector = float4::ZERO;
+	}
+	// 진행 방향과 다르면 벽에 비벼 올라갈 수 있습니다. 하지만 일반 속도보다 상대적으로 느리기 때문에 마찰력 영향을 받습니다.
+	else
+	{
+		MoveDirVector = CalculateDirectionVectorToDir(CheckDir);
+		m_MoveVector = MoveDirVector * _MAXMoveForce * COSNT_FrictionForce;
+	}
+}
+
+// 왼쪽과 오른쪽 점을 검사해 픽셀 충돌을 검사합니다.
+// 한쪽만 부딪혔다면 벽을 타고 갈 수 있으며, 양쪽과 부딪힐 시 움직일 수 없는 상태로 간주합니다
+// (움직일 수는 없지만 렌더러는 움직입니다. 즉, 속도가 0으로 반환되게 할껍니다).
+EDIRECTION Ellie::ReturnDirectionCheckBothSide(const float4& _LeftCheckPoint, const float4& _RightCheckPoint)
+{
+	int DirNum = static_cast<int>(m_Dir);
+
+	bool LeftCheck = BackDrop::MainBackDrop->IsColorAtPosition(_LeftCheckPoint, GameEngineColor::RED);
+	bool RightCheck = BackDrop::MainBackDrop->IsColorAtPosition(_RightCheckPoint, GameEngineColor::RED);
+
+	if (true == LeftCheck && false == RightCheck)
+	{
+		if (8 == DirNum)
+		{
+			DirNum = 1;
+		}
+		else
+		{
+			++DirNum;
+		}
+	}
+
+	if (false == LeftCheck && true == RightCheck)
+	{
+		if (1 == DirNum)
+		{
+			DirNum = 8;
+		}
+		else
+		{
+			--DirNum;
+		}
+	}
+
+	if (true == LeftCheck && true == RightCheck)
+	{
+		DirNum = 0;
+	}
+
+	return static_cast<EDIRECTION>(DirNum);
+}
+
 
 
 // 가속도로 이동한다. 
@@ -558,7 +700,7 @@ float4 Ellie::CalulateDirectionVectorToDir(const EDIRECTION _Direction)
 // 키가 역방향이면 속도가 빨리 줄어든다.
 void Ellie::CalculateMoveForce(float _Delta, float _MAXMoveForce, float _Acceleration_Time)
 {
-	float4 Dir = CalulateDirectionVectorToDir(m_Dir);
+	float4 Dir = CalculateDirectionVectorToDir(m_Dir);
 
 	float4 MaxSpeed = { Dir.X * _MAXMoveForce , Dir.Y * _MAXMoveForce };
 
@@ -586,6 +728,7 @@ void Ellie::CalculateMoveForce(float _Delta, float _MAXMoveForce, float _Acceler
 	m_MoveVector += m_MoveForce;
 }
 
+// 만약 현재 속도가 과속했을 시, 최대 속도로 맞춰줍니다.
 bool Ellie::IsOverSpeed(float _CurSpeed, const float _MaxMoveForce)
 {
 	if (_CurSpeed > 0.0f && _MaxMoveForce > 0.0f)
@@ -607,6 +750,7 @@ bool Ellie::IsOverSpeed(float _CurSpeed, const float _MaxMoveForce)
 	return false;
 }
 
+// 만약 세로, 가로키가 Center로 있다면 속도를 줄여줍니다.
 void Ellie::DecelerateAtMidpoint(float _Delta, const float _MaxMoveForce, const float _DecelerationTime)
 {
 	if (EHORIZONTAL_KEY_STATE::Center == m_HorizontalKey)
@@ -640,6 +784,7 @@ void Ellie::DecelerateAtMidpoint(float _Delta, const float _MaxMoveForce, const 
 	}
 }
 
+// 최종속도를 적용하는 함수입니다.
 void Ellie::ApplyMovementToTransform(float _Delta)
 {
 	Transform.AddLocalPosition(m_MoveVector * _Delta);

@@ -71,6 +71,7 @@ void Field_Center::LoadTexture()
 void Field_Center::LoadSprite()
 {
 	GameEngineSprite::CreateSingle("TestFieldMap.png");
+	GameEngineSprite::CreateSingle("TestCenter_ColorMap.png");
 }
 
 

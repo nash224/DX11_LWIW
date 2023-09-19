@@ -8,6 +8,9 @@ class Prop;
 class BackDrop : public GameEngineActor
 {
 public:
+	static BackDrop* MainBackDrop;
+
+public:
 	// constrcuter destructer
 	BackDrop();
 	~BackDrop();
@@ -18,24 +21,30 @@ public:
 	BackDrop& operator=(const BackDrop& _Other) = delete;
 	BackDrop& operator=(BackDrop&& _Other) noexcept = delete;
 
+
+	const float4& GetBackGroundScale() const;
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
+
 public:
-	const float4& GetBackGroundScale() const;
+	bool IsColorAtPosition(const float4& _Position, GameEngineColor _CheckColor,  GameEngineColor _DefaultColor = { 255, 255, 255, 255 });
+	void EnableBackDropDebugMode(bool _Value);
 
 protected:
+	virtual void EnableBackDropElemnetDebugMode(bool _Value) {}
+
+public:
+	void ActorRelease();
 
 protected:
 	std::vector<std::shared_ptr<Scenery>> vecScenery;
 	std::vector<std::shared_ptr<Prop>> vecProps;
+	std::vector<std::shared_ptr<Prop>> vecPixelProps;
 
 	float4 m_BackScale = float4::ZERO;
-
-private:
-
 };
-

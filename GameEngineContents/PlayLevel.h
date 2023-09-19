@@ -6,6 +6,9 @@ class Ellie;
 class PlayLevel : public ContentsLevel
 {
 public:
+	static bool PixelDebugMode;
+
+public:
 	// constrcuter destructer
 	PlayLevel();
 	~PlayLevel();

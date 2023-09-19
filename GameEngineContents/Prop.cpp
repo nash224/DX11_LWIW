@@ -3,7 +3,6 @@
 
 Prop::Prop()
 	:
-	m_Renderer(nullptr),
 	m_Position(float4::ZERO),
 	m_TextureScale(float4::ZERO)
 {
@@ -73,7 +72,7 @@ void Prop::SetSprite(std::string_view _SpriteName)
 	m_TextureScale = Texture->GetScale();
 }
 
-void Prop::SetLocalPosition(const float4& _Position, PivotType _Direction/* = EDIRECTION::CENTER*/)
+void Prop::SetRendererLocalPosition(const float4& _Position, PivotType _Direction/* = EDIRECTION::CENTER*/)
 {
 	Transform.SetLocalPosition(_Position);
 
@@ -88,6 +87,10 @@ void Prop::SetLocalPosition(const float4& _Position, PivotType _Direction/* = ED
 	//float4 HScale = m_TextureScale.Half();
 	//Transform.SetLocalPosition(HScale);
 }
+
+
+
+#pragma region 애니메이션 생성
 
 void Prop::CreateAnimation(
 	std::string_view _AnimationName,
@@ -120,6 +123,7 @@ void Prop::ChangeAnimation(std::string_view _AnimationName)
 	m_Renderer->AutoSpriteSizeOn();
 }
 
+// 자동으로 AutoSize를 요청합니다.
 void Prop::SetAutoSpriteSize(float _Ratio, bool _Value /*= true*/)
 {
 	if (nullptr == m_Renderer)
@@ -131,7 +135,7 @@ void Prop::SetAutoSpriteSize(float _Ratio, bool _Value /*= true*/)
 	m_Renderer->SetAutoScaleRatio(_Ratio);
 }
 
-
+// 애니메이션을 만듭니다.
 void Prop::CreateAutomatedAnimation(
 	std::string_view _AnimationName,
 	std::string_view _SpriteName,
@@ -153,15 +157,87 @@ void Prop::CreateAutomatedAnimation(
 	m_Renderer->SetAutoScaleRatio(_Raito);
 }
 
+#pragma endregion
 
-std::shared_ptr<class GameEngineSpriteRenderer>& Prop::GetSpriteRenderer()
+#pragma region 픽셀충돌
+
+// 픽셀 충돌 맵을 만듭니다.
+void Prop::CreatePixelCollisionRenderer()
 {
-	if (nullptr == m_Renderer)
+	m_DebugRenderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::Back_);
+	if (nullptr == m_DebugRenderer)
 	{
-		MsgBoxAssert("렌더러를 생성하지 않았습니다.");
+		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
+		return;
 	}
 
-	return m_Renderer;
+	m_DebugRenderer->Off();
+
+	PixelRendererCheck = true;
+}
+
+void Prop::SetPixelSprite(std::string_view _FileName)
+{
+	if (nullptr == m_DebugRenderer)
+	{
+		MsgBoxAssert("렌더러를 생성하지 않고 스프라이트를 지정해줄 수 없습니다.");
+		return;
+	}
+
+	m_DebugRenderer->SetSprite(_FileName);
+
+	m_PixelFileName = _FileName;
+}
+
+GameEngineColor Prop::GetColor(const float4& _Position, GameEngineColor _DefaultColor /*= { 255, 255, 255, 255 }*/)
+{
+	GameEngineColor ReturnValue;
+
+	if ("" == m_PixelFileName)
+	{
+		MsgBoxAssert("지정해둔 파일이 없습니다.");
+		return ReturnValue;
+	}
+
+	std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Find(m_PixelFileName);
+	if (nullptr == Texture)
+	{
+		MsgBoxAssert("텍스처를 불러오지 못했습니다.");
+		return ReturnValue;
+	}
+
+	float4 Pos =  _Position;
+	Pos.Y *= -1.0f;
+
+	return Texture->GetColor(Pos, _DefaultColor);
+}
+
+#pragma endregion
+
+void Prop::EnableDebugMode(bool _Value)
+{
+	if (_Value)
+	{
+		if (nullptr != m_Renderer)
+		{
+			m_Renderer->Off();
+		}
+		if (nullptr != m_DebugRenderer)
+		{
+			m_DebugRenderer->On();
+		}
+	}
+	else
+	{
+		if (nullptr != m_Renderer)
+		{
+			m_Renderer->On();
+		}
+		if (nullptr != m_DebugRenderer)
+		{
+			m_DebugRenderer->Off();
+		}
+	}
 }
 
 
@@ -169,6 +245,7 @@ std::shared_ptr<class GameEngineSpriteRenderer>& Prop::GetSpriteRenderer()
 void Prop::ActorRelease()
 {
 	m_Renderer = nullptr;
+	m_DebugRenderer = nullptr;
 
 	Death();
 }

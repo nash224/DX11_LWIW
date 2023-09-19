@@ -29,6 +29,7 @@ public:
 	void Init();
 
 	void CreateProp(GameEngineLevel* _Level);
+	void CreatePixelMap(GameEngineLevel* _Level);
 
 public:
 	void ActorRelease();

@@ -1,6 +1,9 @@
 #include "PreCompile.h"
 #include "Ellie.h"
 
+#include "BackDrop.h"
+
+
 
 bool Ellie::InputTestPattern()
 {
@@ -104,7 +107,6 @@ void Ellie::UpdateIdle(float _Delta)
 		ChangeState(EELLIE_STATE::Riding_Idle);
 		return;
 	}
-
 }
 
 
@@ -143,13 +145,6 @@ void Ellie::UpdateSlowWalk(float _Delta)
 	}
 
 
-	// 방향을 넣으면 방향 기저벡터를 반환 해줍니다.
-	float4 Dir = CalulateDirectionVectorToDir(m_Dir);
-
-	Transform.AddLocalPosition(Dir * CONST_Ellie_SlowWalk_Speed * _Delta);
-
-
-
 	if (m_Dir != m_RenderDir)
 	{
 		if (nullptr == m_Body)
@@ -161,6 +156,10 @@ void Ellie::UpdateSlowWalk(float _Delta)
 		unsigned int CurIndex = m_Body->GetCurIndex();
 		ChangeAnimationByDirection("SlowWalk", true, false, CurIndex);
 	}
+
+
+	CalulationMoveForceToNormalStatus(_Delta, CONST_Ellie_SlowWalk_Speed);
+	ApplyMovementToTransform(_Delta);
 }
 
 
@@ -200,13 +199,6 @@ void Ellie::UpdateWalk(float _Delta)
 		return;
 	}
 
-
-	// 방향을 넣으면 방향 기저벡터를 반환 해줍니다.
-	float4 Dir = CalulateDirectionVectorToDir(m_Dir);
-
-	Transform.AddLocalPosition(Dir * CONST_Ellie_Walk_Speed * _Delta);
-
-
 	if (m_Dir != m_RenderDir)
 	{
 		if (nullptr == m_Body)
@@ -218,6 +210,10 @@ void Ellie::UpdateWalk(float _Delta)
 		unsigned int CurIndex = m_Body->GetCurIndex();
 		ChangeAnimationByDirection("Walk", true, false, CurIndex);
 	}
+
+
+	CalulationMoveForceToNormalStatus(_Delta, CONST_Ellie_Walk_Speed);
+	ApplyMovementToTransform(_Delta);
 }
 
 
@@ -256,10 +252,6 @@ void Ellie::UpdateRun(float _Delta)
 		return;
 	}
 
-	// 방향을 넣으면 방향 기저벡터를 반환 해줍니다.
-	float4 Dir = CalulateDirectionVectorToDir(m_Dir);
-
-	Transform.AddLocalPosition(Dir * CONST_Ellie_Run_Speed * _Delta);
 
 	if (m_Dir != m_RenderDir)
 	{
@@ -272,6 +264,10 @@ void Ellie::UpdateRun(float _Delta)
 		unsigned int CurIndex = m_Body->GetCurIndex();
 		ChangeAnimationByDirection("Run", true, false, CurIndex);
 	}
+
+
+	CalulationMoveForceToNormalStatus(_Delta, CONST_Ellie_Run_Speed);
+	ApplyMovementToTransform(_Delta);
 }
 
 
