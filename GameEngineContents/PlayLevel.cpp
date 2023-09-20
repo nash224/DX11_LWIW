@@ -60,8 +60,7 @@ void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
 
 void PlayLevel::InitPlayLevel()
 {
-	/*m_Ellie->Init();
-	m_Ellie->SetSpawnLocation();*/
+
 }
 
 

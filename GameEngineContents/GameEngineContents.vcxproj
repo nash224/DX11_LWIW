@@ -191,6 +191,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="BackDrop_WitchHouse_Yard.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Ellie_State.cpp" />
     <ClCompile Include="EventManager.cpp">
       <SubType>
@@ -304,6 +308,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="WitchHouse_Yard.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorEnum.h" />
@@ -324,6 +332,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="BackDrop_MainMenu.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BackDrop_WitchHouse_Yard.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -432,6 +444,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="UIManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="WitchHouse_Yard.h">
       <SubType>
       </SubType>
     </ClInclude>

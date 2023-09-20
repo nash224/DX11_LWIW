@@ -629,7 +629,7 @@ void Ellie::CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce)
 	}
 
 	// 무조건 Left, Right 순으로 인자를 전달해야합니다.
-	CheckDir = ReturnDirectionCheckBothSide(LeftCheckPoint, RightCheckPoint);
+	CheckDir = ReturnDirectionCheckBothSide(m_Dir, LeftCheckPoint, RightCheckPoint);
 
 	// 위 함수에서 반환된 방향이 현재의 방향과 같으면 아무것도 하지 않습니다.
 	if (CheckDir == m_Dir)
@@ -649,12 +649,64 @@ void Ellie::CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce)
 	}
 }
 
+
+EDIRECTION Ellie::ReturnPixelCollisionMoveDirectionToCurrentCheckPoint(EDIRECTION _Dir, const float4& _MoveVector)
+{
+	float4 CurPos = Transform.GetWorldPosition();
+
+	float4 LeftCheckPoint = CurPos;
+	float4 RightCheckPoint = CurPos;
+	float4 MoveDirVector = float4::ZERO;
+
+	switch (_Dir)
+	{
+	case EDIRECTION::UP:
+		LeftCheckPoint += m_PixelCheckTopLeft;
+		RightCheckPoint += m_PixelCheckTopRight;
+		break;
+	case EDIRECTION::LEFTUP:
+		LeftCheckPoint += m_PixelCheckLeftTop;
+		RightCheckPoint += m_PixelCheckTopLeft;
+		break;
+	case EDIRECTION::LEFT:
+		LeftCheckPoint += m_PixelCheckLeftBottom;
+		RightCheckPoint += m_PixelCheckLeftTop;
+		break;
+	case EDIRECTION::LEFTDOWN:
+		LeftCheckPoint += m_PixelCheckBottomLeft;
+		RightCheckPoint += m_PixelCheckLeftBottom;
+		break;
+	case EDIRECTION::RIGHTUP:
+		LeftCheckPoint += m_PixelCheckTopRight;
+		RightCheckPoint += m_PixelCheckRightTop;
+		break;
+	case EDIRECTION::RIGHT:
+		LeftCheckPoint += m_PixelCheckRightTop;
+		RightCheckPoint += m_PixelCheckRightBottom;
+		break;
+	case EDIRECTION::RIGHTDOWN:
+		LeftCheckPoint += m_PixelCheckRightBottom;
+		RightCheckPoint += m_PixelCheckBottomRight;
+		break;
+	case EDIRECTION::DOWN:
+		LeftCheckPoint += m_PixelCheckBottomRight;
+		RightCheckPoint += m_PixelCheckBottomLeft;
+		break;
+	default:
+		break;
+	}
+
+	// 무조건 Left, Right 순으로 인자를 전달해야합니다.
+	return ReturnDirectionCheckBothSide(_Dir, LeftCheckPoint, RightCheckPoint);
+}
+
+
 // 왼쪽과 오른쪽 점을 검사해 픽셀 충돌을 검사합니다.
 // 한쪽만 부딪혔다면 벽을 타고 갈 수 있으며, 양쪽과 부딪힐 시 움직일 수 없는 상태로 간주합니다
 // (움직일 수는 없지만 렌더러는 움직입니다. 즉, 속도가 0으로 반환되게 할껍니다).
-EDIRECTION Ellie::ReturnDirectionCheckBothSide(const float4& _LeftCheckPoint, const float4& _RightCheckPoint)
+EDIRECTION Ellie::ReturnDirectionCheckBothSide(EDIRECTION _Direction, const float4& _LeftCheckPoint, const float4& _RightCheckPoint)
 {
-	int DirNum = static_cast<int>(m_Dir);
+	int DirNum = static_cast<int>(_Direction);
 
 	bool LeftCheck = BackDrop::MainBackDrop->IsColorAtPosition(_LeftCheckPoint, GameEngineColor::RED);
 	bool RightCheck = BackDrop::MainBackDrop->IsColorAtPosition(_RightCheckPoint, GameEngineColor::RED);
@@ -698,7 +750,7 @@ EDIRECTION Ellie::ReturnDirectionCheckBothSide(const float4& _LeftCheckPoint, co
 // 키가 정방향이면 속도가 가속한다.
 // 키가 Center면 속도가 줄어든다.
 // 키가 역방향이면 속도가 빨리 줄어든다.
-void Ellie::CalculateMoveForce(float _Delta, float _MAXMoveForce, float _Acceleration_Time)
+float4 Ellie::ReturnPostMoveVector(float _Delta, float _MAXMoveForce, float _Acceleration_Time)
 {
 	float4 Dir = CalculateDirectionVectorToDir(m_Dir);
 
@@ -709,24 +761,66 @@ void Ellie::CalculateMoveForce(float _Delta, float _MAXMoveForce, float _Acceler
 
 	float4 MoveVector = m_MoveVector + m_MoveForce;
 
-	if (EHORIZONTAL_KEY_STATE::Center != m_HorizontalKey)
-	{
-		if (true == IsOverSpeed(MoveVector.X, MaxSpeed.X))
-		{
-			m_MoveForce.X = 0.0f;
-		}
-	}
-
-	if (EVERTICAL_KEY_STATE::Center != m_VerticalKey)
-	{
-		if (true == IsOverSpeed(MoveVector.Y, MaxSpeed.Y))
-		{
-			m_MoveForce.Y = 0.0f;
-		}
-	}
-
-	m_MoveVector += m_MoveForce;
+	return MoveVector;
 }
+
+EDIRECTION Ellie::ReturnCheckDirToMoveVector(const float4& _MoveVector)
+{
+	float4 MoveVector = _MoveVector;
+	float4 UnitVetor = MoveVector.NormalizeReturn();
+	float Degree = UnitVetor.Angle2DDeg();
+	if (UnitVetor.Y < 0)
+	{
+		Degree = 180.0f - Degree;
+		Degree += 180.0f;
+	}
+
+	float Cake16OnePieceDegree = 360.0f / 16.0f;
+
+	if (Degree <= Cake16OnePieceDegree || Degree >= Cake16OnePieceDegree * 15.0f)
+	{
+		return EDIRECTION::RIGHT;
+	}
+
+	if (Degree > Cake16OnePieceDegree * 1.0f && Degree <= Cake16OnePieceDegree * 3.0f)
+	{
+		return EDIRECTION::RIGHTUP;
+	}
+
+	if (Degree > Cake16OnePieceDegree * 3.0f && Degree <= Cake16OnePieceDegree * 5.0f)
+	{
+		return EDIRECTION::UP;
+	}
+
+	if (Degree > Cake16OnePieceDegree * 5.0f && Degree <= Cake16OnePieceDegree * 7.0f)
+	{
+		return EDIRECTION::LEFTUP;
+	}
+
+	if (Degree > Cake16OnePieceDegree * 7.0f && Degree <= Cake16OnePieceDegree * 9.0f)
+	{
+		return EDIRECTION::LEFT;
+	}
+
+	if (Degree > Cake16OnePieceDegree * 9.0f && Degree <= Cake16OnePieceDegree * 11.0f)
+	{
+		return EDIRECTION::LEFTDOWN;
+	}
+
+	if (Degree > Cake16OnePieceDegree * 11.0f && Degree <= Cake16OnePieceDegree * 13.0f)
+	{
+		return EDIRECTION::DOWN;
+	}
+
+	if (Degree > Cake16OnePieceDegree * 13.0f && Degree <= Cake16OnePieceDegree * 15.0f)
+	{
+		return EDIRECTION::RIGHTDOWN;
+	}
+
+	MsgBoxAssert("잘못된 반환입니다.");
+	return m_Dir;
+}
+
 
 // 만약 현재 속도가 과속했을 시, 최대 속도로 맞춰줍니다.
 bool Ellie::IsOverSpeed(float _CurSpeed, const float _MaxMoveForce)
@@ -749,6 +843,35 @@ bool Ellie::IsOverSpeed(float _CurSpeed, const float _MaxMoveForce)
 	
 	return false;
 }
+
+
+void Ellie::DecelerateMoveVector(float _Delta, const float _MaxMoveForce, const float _DecelerationTime)
+{
+	if (0.0f != m_MoveVector.X)
+	{
+		if (m_MoveVector.X > 0.0f)
+		{
+			m_MoveVector.X -= (_MaxMoveForce / _DecelerationTime) * _Delta;
+		}
+		else
+		{
+			m_MoveVector.X += (_MaxMoveForce / _DecelerationTime) * _Delta;
+		}
+	}
+
+	if (0.0f != m_MoveVector.Y)
+	{
+		if (m_MoveVector.Y > 0.0f)
+		{
+			m_MoveVector.Y -= (_MaxMoveForce / _DecelerationTime) * _Delta;
+		}
+		else
+		{
+			m_MoveVector.Y += (_MaxMoveForce / _DecelerationTime) * _Delta;
+		}
+	}
+}
+
 
 // 만약 세로, 가로키가 Center로 있다면 속도를 줄여줍니다.
 void Ellie::DecelerateAtMidpoint(float _Delta, const float _MaxMoveForce, const float _DecelerationTime)

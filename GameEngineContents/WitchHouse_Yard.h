@@ -2,21 +2,19 @@
 #include "PlayLevel.h"
 
 // Ό³Έν :
-class BackDrop_CenterField;
-class Ellie;
-class PortalObject;
-class Field_Center : public PlayLevel
+class BackDrop_WitchHouse_Yard;
+class WitchHouse_Yard : public PlayLevel
 {
 public:
 	// constrcuter destructer
-	Field_Center();
-	~Field_Center();
+	WitchHouse_Yard();
+	~WitchHouse_Yard();
 
 	// delete Function
-	Field_Center(const Field_Center& _Other) = delete;
-	Field_Center(Field_Center&& _Other) noexcept = delete;
-	Field_Center& operator=(const Field_Center& _Other) = delete;
-	Field_Center& operator=(Field_Center&& _Other) noexcept = delete;
+	WitchHouse_Yard(const WitchHouse_Yard& _Other) = delete;
+	WitchHouse_Yard(WitchHouse_Yard&& _Other) noexcept = delete;
+	WitchHouse_Yard& operator=(const WitchHouse_Yard& _Other) = delete;
+	WitchHouse_Yard& operator=(WitchHouse_Yard&& _Other) noexcept = delete;
 
 protected:
 	void Start() override;
@@ -26,8 +24,6 @@ protected:
 
 private:
 
-
-private:
 	void LoadTexture();
 	void LoadSprite();
 	void LoadActor();
@@ -47,11 +43,7 @@ private:
 	void ReleaseTexture();
 
 
-public:
-
 private:
-	std::shared_ptr<BackDrop_CenterField> m_BackDrop = nullptr;
-	std::shared_ptr<Ellie> m_Ellie = nullptr;
-
+	std::shared_ptr<BackDrop_WitchHouse_Yard> m_BackDrop = nullptr;
 };
 

@@ -1,23 +1,22 @@
 #include "PreCompile.h"
-#include "Field_Center.h"
+#include "WitchHouse_Yard.h"
 
-
+#include "BackDrop_WitchHouse_Yard.h"
 #include "CameraControler.h"
-#include "BackDrop_CenterField.h"
 #include "Ellie.h"
 #include "PortalObject.h"
 
 
-Field_Center::Field_Center() 
+WitchHouse_Yard::WitchHouse_Yard() 
 {
 }
 
-Field_Center::~Field_Center() 
+WitchHouse_Yard::~WitchHouse_Yard() 
 {
 }
 
 
-void Field_Center::Start()
+void WitchHouse_Yard::Start()
 {
 	PlayLevel::Start();
 
@@ -27,14 +26,12 @@ void Field_Center::Start()
 	}
 }
 
-void Field_Center::Update(float _Delta)
+void WitchHouse_Yard::Update(float _Delta)
 {
 	PlayLevel::Update(_Delta);
-
-	UpdateLevelChange();
 }
 
-void Field_Center::LevelStart(class GameEngineLevel* _NextLevel)
+void WitchHouse_Yard::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	PlayLevel::LevelStart(_NextLevel);
 
@@ -45,7 +42,7 @@ void Field_Center::LevelStart(class GameEngineLevel* _NextLevel)
 	CameraSetting();
 }
 
-void Field_Center::LevelEnd(class GameEngineLevel* _NextLevel)
+void WitchHouse_Yard::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	PlayLevel::LevelEnd(_NextLevel);
 }
@@ -55,7 +52,7 @@ void Field_Center::LevelEnd(class GameEngineLevel* _NextLevel)
 /////////////////////////////////////////////////////////////////////////////////////
 
 
-void Field_Center::LoadTexture()
+void WitchHouse_Yard::LoadTexture()
 {
 	GameEngineDirectory Dir;
 	Dir.MoveParentToExistsChild("Resources");
@@ -68,20 +65,20 @@ void Field_Center::LoadTexture()
 	}
 }
 
-void Field_Center::LoadSprite()
+void WitchHouse_Yard::LoadSprite()
 {
 	GameEngineSprite::CreateSingle("TestFieldMap.png");
 	GameEngineSprite::CreateSingle("TestCenter_ColorMap.png");
 }
 
 
-void Field_Center::LoadActor()
+void WitchHouse_Yard::LoadActor()
 {
 	LoadGlobalUnit();
 	LoadPortalActor();
 
 
-	m_BackDrop = CreateActor<BackDrop_CenterField>(EUPDATEORDER::Objects);
+	m_BackDrop = CreateActor<BackDrop_WitchHouse_Yard>(EUPDATEORDER::Objects);
 	if (nullptr == m_BackDrop)
 	{
 		MsgBoxAssert("액터를 생성하지 못했습니다.");
@@ -102,7 +99,7 @@ void Field_Center::LoadActor()
 
 // 각 레벨에서 한번 실행하면 두번 다신 들어오지 않습니다. 
 // 게임이 종료할때까지 함께 존재하는 메모리입니다.
-void Field_Center::LoadGlobalUnit()
+void WitchHouse_Yard::LoadGlobalUnit()
 {
 	if (true == LevelInitCheck)
 	{
@@ -129,9 +126,9 @@ void Field_Center::LoadGlobalUnit()
 
 
 
-void Field_Center::LoadPortalActor()
+void WitchHouse_Yard::LoadPortalActor()
 {
-	{
+	/*{
 		std::shared_ptr<PortalObject> Object = CreateActor<PortalObject>(EUPDATEORDER::Portal);
 		if (nullptr == Object)
 		{
@@ -141,17 +138,17 @@ void Field_Center::LoadPortalActor()
 
 		Object->CreatePortalCollision(ECOLLISION::Portal);
 		Object->SetChangeLevelName("WitchHouse_Yard");
-		Object->SetLevelChangeCallBack<Field_Center>(this, &Field_Center::LevelActorRelease);
+		Object->SetLevelChangeCallBack<WitchHouse_Yard>(this, &WitchHouse_Yard::LevelActorRelease);
 		Object->SetCollisionRange({ 100.0f , 400.0f });
 		Object->SetLocalPosition({ 1200.0f , -200.0f });
 		Object->SetCollisionType(ColType::AABBBOX2D);
 
 		vecPortalObject.push_back(Object);
-	}
+	}*/
 }
 
 
-void Field_Center::CameraSetting()
+void WitchHouse_Yard::CameraSetting()
 {
 	if (nullptr != GlobalValue::g_CameraControler)
 	{
@@ -175,12 +172,12 @@ void Field_Center::CameraSetting()
 
 
 
-void Field_Center::UpdateLevelChange()
+void WitchHouse_Yard::UpdateLevelChange()
 {
 	UpdatePortalObject();
 }
 
-void Field_Center::UpdatePortalObject()
+void WitchHouse_Yard::UpdatePortalObject()
 {
 	/*for (size_t i = 0; i < vecPortalObject.size(); i++)
 	{
@@ -201,7 +198,7 @@ void Field_Center::UpdatePortalObject()
 
 
 
-void Field_Center::LevelActorRelease()
+void WitchHouse_Yard::LevelActorRelease()
 {
 	// 배경 정리하고
 	if (nullptr != m_BackDrop)
@@ -227,12 +224,12 @@ void Field_Center::LevelActorRelease()
 	vecPortalObject.clear();
 }
 
-void Field_Center::ReleaseSprite()
+void WitchHouse_Yard::ReleaseSprite()
 {
 	GameEngineSprite::Release("TestFieldMap.png");
 }
 
-void Field_Center::ReleaseTexture()
+void WitchHouse_Yard::ReleaseTexture()
 {
 	GameEngineDirectory Dir;
 	Dir.MoveParentToExistsChild("Resources");

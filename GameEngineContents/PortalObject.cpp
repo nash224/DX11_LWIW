@@ -17,7 +17,11 @@ void PortalObject::Start()
 
 void PortalObject::Update(float _Delta)
 {
-
+	if (true == IsColliding)
+	{
+		m_CallBack();
+		GameEngineCore::ChangeLevel(m_ChangeLevelName);
+	}
 }
 
 void PortalObject::LevelStart(class GameEngineLevel* _NextLevel)

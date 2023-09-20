@@ -328,8 +328,7 @@ void Ellie::UpdateRiding_Idle(float _Delta)
 			return;
 		}
 	}
-
-
+	
 	DecelerateAtMidpoint(_Delta, CONST_Ellie_Riding_Move_Speed, CONST_Ellie_Riding_Move_Acceleration_Time);
 	ApplyMovementToTransform(_Delta);
 }
@@ -384,7 +383,28 @@ void Ellie::UpdateRiding_Move(float _Delta)
 
 
 	// 방향을 넣으면 방향 기저벡터를 반환 해줍니다.
-	CalculateMoveForce(_Delta, CONST_Ellie_Riding_Move_Speed, CONST_Ellie_Riding_Move_Acceleration_Time);
+	float4 MoveVector = ReturnPostMoveVector(_Delta, CONST_Ellie_Riding_Move_Speed, CONST_Ellie_Riding_Move_Acceleration_Time);
+	EDIRECTION Direction = ReturnCheckDirToMoveVector(MoveVector);
+	EDIRECTION MoveDirection = ReturnPixelCollisionMoveDirectionToCurrentCheckPoint(Direction, MoveVector);
+	if (Direction == MoveDirection)
+	{
+		CONST_Ellie_Riding_Move_Speed;
+		if (true == IsOverSpeed(MoveVector.X , CONST_Ellie_Riding_Move_Speed))
+		{
+			m_MoveForce.X = 0.0f;
+		}
+		if (true == IsOverSpeed(MoveVector.Y, CONST_Ellie_Riding_Move_Speed))
+		{
+			m_MoveForce.Y = 0.0f;
+		}
+
+		m_MoveVector += m_MoveForce;
+	}
+	else
+	{
+		m_MoveVector = float4::ZERO;
+	}
+
 	DecelerateAtMidpoint(_Delta, CONST_Ellie_Riding_Move_Speed, CONST_Ellie_Riding_Move_Acceleration_Time);
 	ApplyMovementToTransform(_Delta);
 }
@@ -436,9 +456,29 @@ void Ellie::UpdateRiding_Boost(float _Delta)
 		ChangeAnimationByDirection("Riding_Boost", true, false, CurIndex);
 	}
 
-
 	// 방향을 넣으면 방향 기저벡터를 반환 해줍니다.
-	CalculateMoveForce(_Delta, CONST_Ellie_Riding_Boost_Speed, CONST_Ellie_Riding_Boosting_Acceleration_Time);
+	float4 MoveVector = ReturnPostMoveVector(_Delta, CONST_Ellie_Riding_Boost_Speed, CONST_Ellie_Riding_Boosting_Acceleration_Time);
+	EDIRECTION Direction = ReturnCheckDirToMoveVector(MoveVector);
+	EDIRECTION MoveDirection = ReturnPixelCollisionMoveDirectionToCurrentCheckPoint(Direction, MoveVector);
+	if (Direction == MoveDirection)
+	{
+		CONST_Ellie_Riding_Boost_Speed;
+		if (true == IsOverSpeed(MoveVector.X, CONST_Ellie_Riding_Boost_Speed))
+		{
+			m_MoveForce.X = 0.0f;
+		}
+		if (true == IsOverSpeed(MoveVector.Y, CONST_Ellie_Riding_Boost_Speed))
+		{
+			m_MoveForce.Y = 0.0f;
+		}
+
+		m_MoveVector += m_MoveForce;
+	}
+	else
+	{
+		m_MoveVector = float4::ZERO;
+	}
+
 	DecelerateAtMidpoint(_Delta, CONST_Ellie_Riding_Boost_Speed, CONST_Ellie_Riding_Boosting_Acceleration_Time);
 	ApplyMovementToTransform(_Delta);
 }

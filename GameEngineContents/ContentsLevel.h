@@ -37,8 +37,6 @@ private:
 
 
 protected:
-	bool CurrentLevelSpriteCreateCheck;
-	
 	ELEVELTYPE LevelType;
 	EGAMEMODE Mode;
 	

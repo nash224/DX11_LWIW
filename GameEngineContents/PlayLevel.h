@@ -3,6 +3,7 @@
 
 // Ό³Έν :
 class Ellie;
+class PortalObject;
 class PlayLevel : public ContentsLevel
 {
 public:
@@ -38,4 +39,6 @@ protected:
 
 protected:
 	bool LevelInitCheck = false;
+
+	std::vector<std::shared_ptr<PortalObject> >vecPortalObject;
 };

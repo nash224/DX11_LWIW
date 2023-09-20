@@ -5,8 +5,9 @@
 
 #include "MainMenu.h"
 #include "LoadingLevel.h"
-#include "Field_Center.h"
 #include "PlayLevel.h"
+#include "Field_Center.h"
+#include "WitchHouse_Yard.h"
 
 ContentsCore::ContentsCore()
 {
@@ -24,7 +25,7 @@ void ContentsCore::Start()
 	GameEngineCore::CreateLevel<MainMenu>("MainMenu");
 	GameEngineCore::CreateLevel<LoadingLevel>("LoadingLevel");
 	GameEngineCore::CreateLevel<Field_Center>("Field_Center");
-	GameEngineCore::CreateLevel<PlayLevel>("PlayLevel");
+	GameEngineCore::CreateLevel<WitchHouse_Yard>("WitchHouse_Yard");
 	GameEngineCore::ChangeLevel("MainMenu");
 }
 

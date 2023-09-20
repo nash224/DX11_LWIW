@@ -39,6 +39,12 @@ public:
 
 	void SetChangeLevelName(std::string_view _LevelName);
 
+	template<typename ObjectType>
+	void SetLevelChangeCallBack(ObjectType* _Actor, void(ObjectType::* _Func)())
+	{
+		m_CallBack = std::bind(_Func, _Actor);
+	}
+
 
 
 public:
@@ -51,7 +57,7 @@ public:
 private:
 	std::shared_ptr<GameEngineCollision> PotalCol = nullptr;
 	float4 m_ColScale = float4::ZERO;
-	std::function <void()> Func_;
+	std::function <void()> m_CallBack;
 
 	std::string m_ChangeLevelName = "";
 

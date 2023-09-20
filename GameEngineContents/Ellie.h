@@ -154,11 +154,16 @@ private:
 	float4 CalculateDirectionVectorToDir(const EDIRECTION _Direction);
 
 	void CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce);
-	EDIRECTION ReturnDirectionCheckBothSide(const float4& _LeftCheckPoint, const float4& _RightCheckPoint);
+	EDIRECTION ReturnDirectionCheckBothSide(EDIRECTION _Direction , const float4& _LeftCheckPoint, const float4& _RightCheckPoint);
+	EDIRECTION ReturnPixelCollisionMoveDirectionToCurrentCheckPoint(EDIRECTION _Dir, const float4& _MoveVector);
 
 
-	void CalculateMoveForce(float _Delta, float _MAXMoveForce, float _Acceleration_Time);
+	float4 ReturnPostMoveVector(float _Delta, float _MAXMoveForce, float _Acceleration_Time);
+
+	EDIRECTION ReturnCheckDirToMoveVector(const float4& _MoveVector);
+	void LimitSpeed();
 	bool IsOverSpeed(float _CurSpeed, const float _MaxMoveForce);
+	void DecelerateMoveVector(float _Delta, const float _MaxMoveForce, const float _DecelerationTime);
 	void DecelerateAtMidpoint(float _Delta, const float _MaxMoveForce, const float _Time);
 	void ApplyMovementToTransform(float _DElta);
 	
@@ -222,7 +227,7 @@ private:
 	float4 m_PixelCheckBottomRight = float4::ZERO;
 
 	// º® ¸¶Âû·Â
-	const float COSNT_FrictionForce = 0.4f;
+	const float COSNT_FrictionForce = 0.5f;
 
 private:
 	std::shared_ptr<GameEngineCollision> EllieCol = nullptr;
