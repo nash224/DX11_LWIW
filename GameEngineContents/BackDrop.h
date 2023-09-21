@@ -36,6 +36,7 @@ public:
 	void EnableBackDropDebugMode(bool _Value);
 
 protected:
+	// Scenery, Prop 텍스처 외에 자식에서 해주고 싶은 작업이 있을때
 	virtual void EnableBackDropElemnetDebugMode(bool _Value) {}
 
 public:

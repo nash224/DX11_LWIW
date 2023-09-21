@@ -64,19 +64,7 @@ void BackDrop_CenterField::Init()
 
 void BackDrop_CenterField::CreateProp(GameEngineLevel* _Level)
 {
-	vecProps.reserve(30);
 
-	std::shared_ptr<Prop> Object = _Level->CreateActor<Prop>(EUPDATEORDER::Objects);
-	if (nullptr == Object)
-	{
-		MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-		return;
-	}
-
-	Object->CreateRenderer(ERENDERORDER::Back_);
-	Object->SetSprite("TestFieldMap.png");
-	Object->SetRendererLocalPosition(float4::ZERO, PivotType::LeftTop);
-	vecProps.push_back(Object);
 }
 
 

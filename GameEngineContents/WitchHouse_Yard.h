@@ -30,6 +30,7 @@ private:
 	void LoadGlobalUnit();
 	void LoadPortalActor();
 
+	void SetEllieLevelChangeLocation(class GameEngineLevel* _NextLevel);
 	void CameraSetting();
 
 private:

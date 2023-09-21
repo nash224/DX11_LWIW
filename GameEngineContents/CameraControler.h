@@ -58,6 +58,7 @@ public:
 private:
 	void UpdateCameraMode(float _Delta);
 	void UpdateCameraPlayMode(float _Delta);
+	void UpdateCameraFixMode();
 	void UpdateCameraEditorMode(float _Delta);
 
 

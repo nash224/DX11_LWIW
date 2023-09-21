@@ -191,6 +191,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="BackDrop_WitchHouse_DownFloor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="BackDrop_WitchHouse_UpFloor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="BackDrop_WitchHouse_Yard.cpp">
       <SubType>
       </SubType>
@@ -308,6 +316,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="WitchHouse_DownFloor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="WitchHouse_UpFloor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="WitchHouse_Yard.cpp">
       <SubType>
       </SubType>
@@ -332,6 +348,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="BackDrop_MainMenu.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BackDrop_WitchHouse_DownFloor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BackDrop_WitchHouse_UpFloor.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -444,6 +468,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="UIManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="WitchHouse_DownFloor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="WitchHouse_UpFloor.h">
       <SubType>
       </SubType>
     </ClInclude>

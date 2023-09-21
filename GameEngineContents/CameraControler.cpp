@@ -45,7 +45,7 @@ void CameraControler::LevelEnd(class GameEngineLevel* _NextLevel)
 
 
 
-
+// 카메라 모드
 void CameraControler::SetCameraMode(ECAMERAMODE _Mode)
 {
 	m_Mode = _Mode;
@@ -83,6 +83,11 @@ void CameraControler::Reset()
 
 void CameraControler::SetAutoInitialPosition(const float4& _Location)
 {
+	if (ECAMERAMODE::Play != m_Mode)
+	{
+		return;
+	}
+
 	if (float4::ZERO == m_BackScale)
 	{
 		MsgBoxAssert("배경 넓이을 지정해주지 않고 카메라 매니저를 사용하려 했습니다.");
@@ -291,6 +296,7 @@ void CameraControler::UpdateCameraMode(float _Delta)
 		UpdateCameraPlayMode(_Delta);
 		break;
 	case ECAMERAMODE::Fix:
+		UpdateCameraFixMode();
 		break;
 	case ECAMERAMODE::Editor:
 		UpdateCameraEditorMode(_Delta);
@@ -327,6 +333,43 @@ void CameraControler::UpdateCameraPlayMode(float _Delta)
 }
 
 
+
+
+void CameraControler::UpdateCameraFixMode()
+{
+
+}
+
+
+void CameraControler::UpdateCameraEditorMode(float _Delta)
+{
+	float CameraSpeed = m_EditorModeSpeed * _Delta;
+	float4 CameraMoveDistance = float4::ZERO;
+	
+	if (true == GameEngineInput::IsPress('W'))
+	{
+		CameraMoveDistance = float4::UP * CameraSpeed;
+	}
+
+	if (true == GameEngineInput::IsPress('S'))
+	{
+		CameraMoveDistance = float4::DOWN * CameraSpeed;
+	}
+
+	if (true == GameEngineInput::IsPress('A'))
+	{
+		CameraMoveDistance = float4::LEFT * CameraSpeed;
+	}
+
+	if (true == GameEngineInput::IsPress('D'))
+	{
+		CameraMoveDistance = float4::RIGHT * CameraSpeed;
+	}
+
+	m_MainCamera->Transform.AddLocalPosition(CameraMoveDistance);
+}
+
+
 void CameraControler::LockCamera(float4& _pCameraMovePos, const float4& _CurCameraPos)
 {
 	float4 HalfWinScale = m_WinScale.Half();
@@ -357,35 +400,6 @@ void CameraControler::LockCamera(float4& _pCameraMovePos, const float4& _CurCame
 	}
 }
 
-
-
-void CameraControler::UpdateCameraEditorMode(float _Delta)
-{
-	float CameraSpeed = m_EditorModeSpeed * _Delta;
-	float4 CameraMoveDistance = float4::ZERO;
-	
-	if (true == GameEngineInput::IsPress('W'))
-	{
-		CameraMoveDistance = float4::UP * CameraSpeed;
-	}
-
-	if (true == GameEngineInput::IsPress('S'))
-	{
-		CameraMoveDistance = float4::DOWN * CameraSpeed;
-	}
-
-	if (true == GameEngineInput::IsPress('A'))
-	{
-		CameraMoveDistance = float4::LEFT * CameraSpeed;
-	}
-
-	if (true == GameEngineInput::IsPress('D'))
-	{
-		CameraMoveDistance = float4::RIGHT * CameraSpeed;
-	}
-
-	m_MainCamera->Transform.AddLocalPosition(CameraMoveDistance);
-}
 
 
 #pragma endregion

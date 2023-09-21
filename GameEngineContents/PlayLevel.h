@@ -20,14 +20,13 @@ public:
 	PlayLevel& operator=(const PlayLevel& _Other) = delete;
 	PlayLevel& operator=(PlayLevel&& _Other) noexcept = delete;
 
+
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
-	
-
-private:
 
 
 protected:
@@ -35,10 +34,9 @@ protected:
 
 protected:
 	std::shared_ptr<Ellie> m_Ellie = nullptr;
-
+	std::vector<std::shared_ptr<PortalObject>> vecPortalObject;
 
 protected:
 	bool LevelInitCheck = false;
 
-	std::vector<std::shared_ptr<PortalObject> >vecPortalObject;
 };

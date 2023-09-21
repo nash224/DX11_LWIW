@@ -48,7 +48,8 @@ const float4& BackDrop::GetBackGroundScale() const
 }
 
 
-
+// 이 픽셀충돌 텍스처의 특정 지점에서의 픽셀은 무슨 색상이니? 
+// 만약 특정 색과 맞다면 true를 반환해줘
 bool BackDrop::IsColorAtPosition(const float4& _Position, GameEngineColor _CheckColor, GameEngineColor _DefaultColor /*= { 255, 255, 255, 255 }*/)
 {
 	for (size_t i = 0; i < vecPixelProps.size(); i++)
@@ -74,7 +75,7 @@ bool BackDrop::IsColorAtPosition(const float4& _Position, GameEngineColor _Check
 	return false;
 }
 
-
+// 배경의 디버깅 모드로 일반 텍스처와 픽셀 충돌 텍스처를 전환시켜줍니다.
 void BackDrop::EnableBackDropDebugMode(bool _Value)
 {
 	for (size_t i = 0; i < vecProps.size(); i++)

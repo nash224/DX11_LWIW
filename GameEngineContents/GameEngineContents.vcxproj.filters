@@ -172,6 +172,18 @@
     <ClInclude Include="BackDrop_WitchHouse_Yard.h">
       <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
     </ClInclude>
+    <ClInclude Include="WitchHouse_UpFloor.h">
+      <Filter>Object\Level\2.Play\0.Witch</Filter>
+    </ClInclude>
+    <ClInclude Include="BackDrop_WitchHouse_UpFloor.h">
+      <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
+    </ClInclude>
+    <ClInclude Include="WitchHouse_DownFloor.h">
+      <Filter>Object\Level\2.Play\0.Witch</Filter>
+    </ClInclude>
+    <ClInclude Include="BackDrop_WitchHouse_DownFloor.h">
+      <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -281,6 +293,18 @@
       <Filter>Object\Level\2.Play\0.Witch</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_WitchHouse_Yard.cpp">
+      <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
+    </ClCompile>
+    <ClCompile Include="WitchHouse_UpFloor.cpp">
+      <Filter>Object\Level\2.Play\0.Witch</Filter>
+    </ClCompile>
+    <ClCompile Include="BackDrop_WitchHouse_UpFloor.cpp">
+      <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
+    </ClCompile>
+    <ClCompile Include="WitchHouse_DownFloor.cpp">
+      <Filter>Object\Level\2.Play\0.Witch</Filter>
+    </ClCompile>
+    <ClCompile Include="BackDrop_WitchHouse_DownFloor.cpp">
       <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
     </ClCompile>
   </ItemGroup>

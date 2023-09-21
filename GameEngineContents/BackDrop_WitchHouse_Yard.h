@@ -25,5 +25,11 @@ protected:
 
 private:
 
+public:
+	void ActorRelease();
+
+private:
+	void CreateProp(GameEngineLevel* _Level);
+	void CreatePixelMap(GameEngineLevel* _Level);
 };
 

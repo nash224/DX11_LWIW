@@ -161,7 +161,6 @@ private:
 	float4 ReturnPostMoveVector(float _Delta, float _MAXMoveForce, float _Acceleration_Time);
 
 	EDIRECTION ReturnCheckDirToMoveVector(const float4& _MoveVector);
-	void LimitSpeed();
 	bool IsOverSpeed(float _CurSpeed, const float _MaxMoveForce);
 	void DecelerateMoveVector(float _Delta, const float _MaxMoveForce, const float _DecelerationTime);
 	void DecelerateAtMidpoint(float _Delta, const float _MaxMoveForce, const float _Time);

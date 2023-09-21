@@ -25,6 +25,8 @@ void Field_Center::Start()
 	{
 		m_LevelCameraControler->SetCameraMode(ECAMERAMODE::Play);
 	}
+
+	SetName("Field_Center");
 }
 
 void Field_Center::Update(float _Delta)
@@ -48,6 +50,9 @@ void Field_Center::LevelStart(class GameEngineLevel* _NextLevel)
 void Field_Center::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	PlayLevel::LevelEnd(_NextLevel);
+
+	ReleaseSprite();
+	ReleaseTexture();
 }
 
 
