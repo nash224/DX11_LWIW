@@ -22,7 +22,6 @@ void Player::Start()
 		MainSpriteRenderer->CreateAnimation("Run", "Ellie_Basic_ButterflyNet-sharedassets3.png", 0.1f);
 		MainSpriteRenderer->ChangeAnimation("Run");
 		MainSpriteRenderer->AutoSpriteSizeOn();
-		MainSpriteRenderer->SetSamplerState(SamplerOption::POINT);
 		MainSpriteRenderer->SetAutoScaleRatio(2.0f);
 		
 

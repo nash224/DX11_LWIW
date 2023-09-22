@@ -156,6 +156,13 @@ public:
 		return ReturnValue;
 	}
 
+	float4 EulerDegToQuaternion()
+	{
+		float4 Return = DirectXVector;
+		Return *= GameEngineMath::D2R;
+		Return = DirectX::XMQuaternionRotationRollPitchYawFromVector(Return.DirectXVector);
+		return Return;
+	}
 
 	float4 QuaternionToEulerDeg()
 	{
@@ -320,7 +327,7 @@ public:
 		DirectXVector = DirectX::XMVector3Normalize(DirectXVector);
 	}
 
-	inline float4 NormalizeReturn()
+	inline float4 NormalizeReturn() const
 	{
 		float4 Result = *this;
 		Result.Normalize();
@@ -344,6 +351,11 @@ public:
 	POINT WindowPOINT()
 	{
 		return POINT{ iX(), iY() };
+	}
+
+	std::string ToString(std::string_view _Next = "")
+	{
+		return "X : " + std::to_string(X) + " Y : " + std::to_string(Y) + " Z : " + std::to_string(Z) + _Next.data();
 	}
 
 
@@ -644,6 +656,22 @@ public:
 		DirectXMatrix = (X * Y * Z).DirectXMatrix;
 	}
 
+	void Compose(float4& _Scale, float4& _RotQuaternion, float4& _Pos)
+	{
+		// 우리가 알고 있는 크자이공부가
+		// 적용된 행렬을 worldMatrix => 정식용어로 아핀행렬이라고 합니다.
+
+		//float4x4 Scale;
+		//float4x4 Rot;
+		//float4x4 Pos;
+		//Scale.Scale(_Scale);
+		//Rot.RotationDeg(_RotQuaternion.QuaternionToEulerDeg());
+		//Pos.Position(_Pos);
+		//*this = Scale * Rot * Pos;
+
+		DirectXMatrix = DirectX::XMMatrixAffineTransformation(_Scale.DirectXVector, _RotQuaternion.DirectXVector, _RotQuaternion.DirectXVector, _Pos.DirectXVector);
+	}
+
 	void Decompose(float4& _Scale, float4& _RotQuaternion, float4& _Pos) const
 	{
 		// DirectX::XMVectorLerp
@@ -699,6 +727,13 @@ public:
 	void RotationZDeg(const float _Value)
 	{
 		RotationZRad(_Value * GameEngineMath::D2R);
+	}
+
+	float4x4 InverseReturn() const
+	{
+		float4x4 Result;
+		Result.DirectXMatrix = DirectX::XMMatrixInverse(nullptr, DirectXMatrix);
+		return Result;
 	}
 
 	void RotationZRad(const float _Value)
@@ -880,60 +915,6 @@ public:
 
 		//// 이동이 이 좀 들어가기는 했는데
 		//Arr2D[3][2] = -(_Near * _Far) / (_Far - _Near);
-	}
-
-	//      60도를 본다.                    200              100
-	// 수직
-	void PerspectiveFovLH(float _FovAngle, float _Width, float _Height, float _Far, float _Near)
-	{
-		PerspectiveFovLH(_FovAngle, _Width / _Height, _Far, _Near);
-	}
-
-	// 수직 시야각 
-	// 1000.0f 0.1f
-	void PerspectiveFovLH(float _FovAngle, float _AspectRatio, float _Far, float _Near)
-	{
-		Identity();
-
-		// DirectX::XMMatrixPerspectiveFovLH()
-
-		float YFOV = _FovAngle * GameEngineMath::D2R;
-
-		// 원근 투영행렬에서 특징적인 부분.
-		Arr2D[2][3] = 1.0f;
-		Arr2D[3][3] = 0.0f;
-
-		// 투영행렬의 규칙은
-		// 모든 오브젝트의 모든 점을 -1 사이의 공간에 넣는것이다.
-
-		// 요 2값은 제대로된 
-
-		// x와 곱해질 비율
-		Arr2D[0][0] = 1.0f / (tanf(YFOV / 2.0f) * _AspectRatio); // / 600
-
-
-		// y와 곱해질 비율
-		// 1나누기를 하는 이유는?
-		// -1 1사이의 값으로 만들려고.
-
-		// 근본적인 원근투영의 원리는
-		// z값이 클수록 y값이 줄어든다.
-		// 이 y * 
-		Arr2D[1][1] = 1.0f / tanf(YFOV / 2.0f);  // / 600
-
-		// 1000 
-
-		//     100    100   100 * 투영
-		//  * 0.5f          *0.5f
-		//                  50.0f
-
-		// 범위안에 있는 녀석들 다 0~1사이의 값으로 바꿉니다.
-		// 1000 * 0.9784123f
-		//           1000  / (1000 - 0.1f);
-		Arr2D[2][2] = _Far / (_Far - _Near);
-
-		// 이동이 이 좀 들어가기는 했는데
-		Arr2D[3][2] = -(_Near * _Far) / (_Far - _Near);
 	}
 
 

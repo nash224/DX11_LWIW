@@ -6,6 +6,9 @@
     <FxCompile Include="Transform.fx">
       <Filter>Header</Filter>
     </FxCompile>
+    <FxCompile Include="RenderBase.fx">
+      <Filter>Header</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">

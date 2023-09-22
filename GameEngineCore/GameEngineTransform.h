@@ -84,6 +84,7 @@ public:
 	float4 Quaternion = float4::ZERO;
 	float4 Position = float4::ZERO;
 
+	// 이걸 직접 수정하는 일은 없을겁니다.
 	float4 LocalScale;
 	float4 LocalRotation;
 	float4 LocalQuaternion;
@@ -188,7 +189,6 @@ public:
 		TransformUpdate();
 	}
 
-
 	void SetLocalRotation(const float4& _Value)
 	{
 		TransData.Rotation = _Value;
@@ -199,9 +199,7 @@ public:
 	{
 		TransData.Rotation += _Value;
 		TransformUpdate();
-
 	}
-
 
 	void SetLocalPosition(const float4& _Value)
 	{
@@ -215,16 +213,75 @@ public:
 		TransformUpdate();
 	}
 
+	bool AbsoluteScale = false;
+	bool AbsolutePosition = false;
+	bool AbsoluteRotation = false;
 
-	// Get
-	float4 GetWorldPosition()
+	void SetWorldScale(const float4& _Value)
 	{
-		return TransData.WorldMatrix.ArrVector[3];
+		AbsoluteScale = true;
+		TransData.Scale = _Value;
+		TransformUpdate();
 	}
 
-	float4 GetLocalScale()
+	void SetWorldRotation(const float4& _Value)
+	{
+		AbsoluteRotation = true;
+		TransData.Rotation = _Value;
+		TransformUpdate();
+	}
+
+	void SetWorldPosition(const float4& _Value)
+	{
+		AbsolutePosition = true;
+		TransData.Position = _Value;
+		TransformUpdate();
+	}
+
+
+	void AddWorldScale(const float4& _Value)
+	{
+		SetWorldScale(GetWorldScale() + _Value);
+	}
+
+	void AddWorldRotation(const float4& _Value)
+	{
+		SetWorldRotation(GetWorldRotationEuler() + _Value);
+	}
+
+	void AddWorldPosition(const float4& _Value)
+	{
+		SetWorldPosition(GetWorldPosition() + _Value);
+	}
+
+	float4 GetWorldScale() const
+	{
+		return TransData.WorldScale;
+	}
+
+	float4 GetWorldRotationEuler() const
+	{
+		return TransData.WorldRotation;
+	}
+
+	float4 GetWorldPosition() const
+	{
+		return TransData.WorldPosition;
+	}
+
+	float4 GetLocalScale() const
 	{
 		return TransData.LocalScale;
+	}
+
+	float4 GetLocalRotationEuler() const
+	{
+		return TransData.LocalRotation;
+	}
+
+	float4 GetLocalPosition() const
+	{
+		return TransData.LocalPosition;
 	}
 
 
@@ -234,33 +291,33 @@ public:
 	// [0][0][1][0] 앞
 	// [0][0][0][1]
 
-	float4 GetWorldForwardVector()
+	float4 GetWorldForwardVector() const
 	{
 		return TransData.WorldMatrix.ArrVector[2].NormalizeReturn();
 	}
 
-	float4 GetWorldBackVector()
+	float4 GetWorldBackVector() const
 	{
 		return -(TransData.WorldMatrix.ArrVector[2].NormalizeReturn());
 	}
 
 
-	float4 GetWorldRightVector()
+	float4 GetWorldRightVector() const
 	{
 		return TransData.WorldMatrix.ArrVector[0].NormalizeReturn();
 	}
 
-	float4 GetWorldLeftVector()
+	float4 GetWorldLeftVector() const
 	{
 		return -(TransData.WorldMatrix.ArrVector[0].NormalizeReturn());
 	}
 
-	float4 GetWorldUpVector()
+	float4 GetWorldUpVector() const
 	{
 		return TransData.WorldMatrix.ArrVector[1].NormalizeReturn();
 	}
 
-	float4 GetWorldDownVector()
+	float4 GetWorldDownVector() const
 	{
 		return TransData.WorldMatrix.ArrVector[1].NormalizeReturn();
 	}

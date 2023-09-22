@@ -40,6 +40,10 @@
     </ClInclude>
     <ClInclude Include="GameEngineCore.h" />
     <ClInclude Include="GameEngineCoreObject.h" />
+    <ClInclude Include="GameEngineDebugCore.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineDevice.h" />
     <ClInclude Include="GameEngineDirectBuffer.h">
       <SubType>
@@ -54,6 +58,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GameEngineLevel.h" />
+    <ClInclude Include="GameEngineMaterial.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEngineMesh.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineObject.h" />
     <ClInclude Include="GameEnginePixelShader.h">
       <SubType>
@@ -68,6 +80,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GameEngineShader.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEngineShaderResHelper.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -122,6 +138,10 @@
     </ClCompile>
     <ClCompile Include="GameEngineCore.cpp" />
     <ClCompile Include="GameEngineCoreObject.cpp" />
+    <ClCompile Include="GameEngineDebugCore.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameEngineDevice.cpp" />
     <ClCompile Include="GameEngineDevice_Resources.cpp" />
     <ClCompile Include="GameEngineDirectBuffer.cpp">
@@ -137,6 +157,14 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEngineLevel.cpp" />
+    <ClCompile Include="GameEngineMaterial.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineMesh.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameEngineObject.cpp" />
     <ClCompile Include="GameEnginePixelShader.cpp">
       <SubType>
@@ -151,6 +179,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEngineShader.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineShaderResHelper.cpp">
       <SubType>
       </SubType>
     </ClCompile>
