@@ -18,7 +18,7 @@ enum class EUPDATEORDER
 enum class ERENDERORDER
 {
 	Back_,
-	Ellie,
+	Ellie = 100,
 	Object,
 	UI,
 	FadeObject,
@@ -52,6 +52,19 @@ enum class ETITLERENDERORDER
 	Shadow,
 	Tree,
 	Logo,
+};
+
+enum class EWITCHHOUSEUPPERFLOOR
+{
+	BackPaint = 10,
+	HouseComposition,
+	HouseShadow,
+	FirstObjects,
+	SecondObjects,
+	ThirdObjects,
+	ForthObjects,
+	FifthObjects,
+	HouseFrame,
 };
 
 

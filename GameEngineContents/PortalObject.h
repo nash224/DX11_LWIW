@@ -1,5 +1,26 @@
 #pragma once
 
+
+class PortalCollisionParameter
+{
+public:
+	float4& Position;
+	float4& Scale;
+	ColType CollisionType;
+	
+	PortalCollisionParameter(float4 _Position, float4 _Scale, ColType _ColType = ColType::AABBBOX2D)
+		:
+		Position(_Position),
+		Scale(_Scale),
+		CollisionType(_ColType)
+	{
+		
+	}
+
+	~PortalCollisionParameter() {}
+};
+
+
 // Ό³Έν :
 class PortalObject : public GameEngineActor
 {
@@ -36,6 +57,7 @@ public:
 	void SetLocalPosition(const float4& _Location);
 	void SetCollisionRange(const float4& _Scale);
 	void SetCollisionType(ColType _Type);
+	void SetCollisionData(PortalCollisionParameter _ColParameter);
 
 	void SetChangeLevelName(std::string_view _LevelName);
 

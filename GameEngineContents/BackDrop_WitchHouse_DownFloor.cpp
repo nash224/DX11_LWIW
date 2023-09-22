@@ -71,7 +71,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 		Object->CreateRenderer(ERENDERORDER::Back_);
 		Object->SetSprite("DownFloor_Floor.png");
-		Object->SetRendererLocalPosition(RYWinScale);
+		Object->SetPosition(RYWinScale);
 		vecProps.push_back(Object);
 	}
 }

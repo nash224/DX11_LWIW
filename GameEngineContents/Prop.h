@@ -1,6 +1,23 @@
 #pragma once
 
 
+class PropParameter
+{
+public:
+	std::string_view FileName;
+	float4& TransformLocalPosition;
+	PivotType ImagePivotType = PivotType::Center;
+
+	PropParameter(std::string_view _FileName, float4& _TransformLocalPosition, PivotType _ImagePivotType = PivotType::Center)
+		:
+		FileName(_FileName),
+		TransformLocalPosition(_TransformLocalPosition),
+		ImagePivotType(_ImagePivotType)
+	{
+
+	}
+};
+
 
 // 설명 : 배경의 소품을 담당하는 클래스입니다.
 //		또는 픽셀 충돌을 담당하기도 합니다.
@@ -27,8 +44,16 @@ public:
 	virtual void CreateRenderer(int _Order);
 
 	void SetSprite(std::string_view _SpriteName);
-	void SetRendererLocalPosition(const float4& _Position, PivotType _Direction = PivotType::Center);
+	void SetPosition(const float4& _Position, PivotType _Direction = PivotType::Center);
+	void SetRendererImageScale(const float4& _Scale);
 
+
+	// std::string_view FileName;
+	// float4& TransformLocalPosition;
+	// PivotType ImagePivotType;
+	void SetSpriteRenderer(const PropParameter& _Parameter);
+	void SetSpriteRenderer(std::string_view _FileName, const float4& _Position = float4::ZERO, PivotType _Type = PivotType::Center);
+		
 public:
 	// 애니메이션 
 	void CreateAnimation(
@@ -82,11 +107,12 @@ public:
 
 protected:
 	std::shared_ptr<class GameEngineSpriteRenderer> m_Renderer = nullptr;
-	float4 m_TextureScale;
 	float4 m_Position;
 
 protected:
 	std::shared_ptr<class GameEngineSpriteRenderer> m_DebugRenderer = nullptr;
 	std::string m_PixelFileName = "";
-};
 
+public:
+	float4 m_PixelTextureScale = float4::ZERO;
+};

@@ -199,7 +199,7 @@ void ChainProp::RegenProp(const float4& _Position /*= float4::ZERO*/)
 	Object->SetSprite(m_SpriteFileName);
 	Object->SetTextureScale(m_TextureScale);
 	Object->SetSpeed(m_Speed);
-	Object->SetRendererLocalPosition(_Position);
+	Object->SetPosition(_Position);
 
 	listProps.push_back(Object);
 }

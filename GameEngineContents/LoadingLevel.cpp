@@ -38,7 +38,7 @@ void LoadingLevel::Update(float _Delta)
 	if (true == GameEngineInput::IsPress('T'))
 	{
 		ActorRelease();
-		GameEngineCore::ChangeLevel("Field_Center");
+		GameEngineCore::ChangeLevel("WitchHouse_UpFloor");
 	}
 }
 

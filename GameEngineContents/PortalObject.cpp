@@ -72,6 +72,22 @@ void PortalObject::SetCollisionType(ColType _Type)
 	PotalCol->SetCollisionType(_Type);
 }
 
+void PortalObject::SetCollisionData(PortalCollisionParameter _ColParameter)
+{
+	if (nullptr == PotalCol)
+	{
+		MsgBoxAssert("충돌체가 존재하지 않는데 타입을 변경하려 했습니다.");
+		return;
+	}
+
+	m_ColScale = _ColParameter.Scale;
+
+	Transform.SetLocalPosition(_ColParameter.Position);
+	Transform.SetLocalScale(_ColParameter.Scale);
+
+	PotalCol->SetCollisionType(_ColParameter.CollisionType);
+}
+
 void PortalObject::SetChangeLevelName(std::string_view _LevelName)
 {
 	m_ChangeLevelName = _LevelName.data();

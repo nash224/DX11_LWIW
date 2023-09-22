@@ -3,8 +3,7 @@
 
 Prop::Prop()
 	:
-	m_Position(float4::ZERO),
-	m_TextureScale(float4::ZERO)
+	m_Position(float4::ZERO)
 {
 }
 
@@ -61,18 +60,9 @@ void Prop::SetSprite(std::string_view _SpriteName)
 	}
 
 	m_Renderer->SetSprite(_SpriteName);
-
-	std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Find(_SpriteName);
-	if (nullptr == Texture)
-	{
-		MsgBoxAssert("텍스처를 불러오지 못했습니다.");
-		return;
-	}
-
-	m_TextureScale = Texture->GetScale();
 }
 
-void Prop::SetRendererLocalPosition(const float4& _Position, PivotType _Direction/* = EDIRECTION::CENTER*/)
+void Prop::SetPosition(const float4& _Position, PivotType _Direction/* = EDIRECTION::CENTER*/)
 {
 	Transform.SetLocalPosition(_Position);
 
@@ -86,6 +76,45 @@ void Prop::SetRendererLocalPosition(const float4& _Position, PivotType _Directio
 
 	//float4 HScale = m_TextureScale.Half();
 	//Transform.SetLocalPosition(HScale);
+}
+
+void Prop::SetRendererImageScale(const float4& _Scale)
+{
+	if (nullptr == m_Renderer)
+	{
+		MsgBoxAssert("렌더러를 생성하지 않고 애니메이션을 생성하려고 했습니다.");
+		return;
+	}
+
+	m_Renderer->SetImageScale(_Scale);
+}
+
+
+void Prop::SetSpriteRenderer(std::string_view _FileName, const float4& _Position /*= float4::ZERO*/, PivotType _Type /*= PivotType::Center*/)
+{
+	if (nullptr == m_Renderer)
+	{
+		MsgBoxAssert("렌더러를 생성하지 않고 스프라이트를 세팅할 수 없습니다.");
+		return;
+	}
+
+	m_Renderer->SetSprite(_FileName);
+	Transform.SetLocalPosition(_Position);
+	m_Renderer->SetPivotType(_Type);
+}
+
+
+void Prop::SetSpriteRenderer(const PropParameter& _Parameter)
+{
+	if (nullptr == m_Renderer)
+	{
+		MsgBoxAssert("렌더러를 생성하지 않고 스프라이트를 세팅할 수 없습니다.");
+		return;
+	}
+
+	m_Renderer->SetSprite(_Parameter.FileName);
+	Transform.SetLocalPosition(_Parameter.TransformLocalPosition);
+	m_Renderer->SetPivotType(_Parameter.ImagePivotType);
 }
 
 
@@ -187,8 +216,22 @@ void Prop::SetPixelSprite(std::string_view _FileName)
 	m_DebugRenderer->SetSprite(_FileName);
 
 	m_PixelFileName = _FileName;
+
+	std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Find(_FileName);
+	if (nullptr == Texture)
+	{
+		MsgBoxAssert("텍스처를 불러오지 못했습니다.");
+		return;
+	}
+
+	m_PixelTextureScale = Texture->GetScale();
 }
 
+
+// 조정된* 위치에 픽셀 데이터를 반환해줍니다.
+// * : GameEngineTexture::GetColor는 텍스처에게 내가 원하는 위치의 픽셀 데이터를 달라고 요구합니다.
+//		이러한 특성 때문에 텍스처를 사용하는 객체의 위치가 이동해도 GetColor에서 주는 데이터 위치는 항상 같습니다.
+//		따라서 객체가 이동한 거리만큼 빼줄 필요가 있습니다.
 GameEngineColor Prop::GetColor(const float4& _Position, GameEngineColor _DefaultColor /*= { 255, 255, 255, 255 }*/)
 {
 	GameEngineColor ReturnValue;
@@ -206,10 +249,18 @@ GameEngineColor Prop::GetColor(const float4& _Position, GameEngineColor _Default
 		return ReturnValue;
 	}
 
-	float4 Pos =  _Position;
-	Pos.Y *= -1.0f;
+	// 텍스처의 좌상단 원점과 NDC좌표의 원점의 거리를 구해야합니다.
+	// 그리고 구한 거리를 얻어오고 싶은 위치에 빼줍니다.
+	float4 HalfTexturePos = m_PixelTextureScale.Half();
+	HalfTexturePos.X *= -1.0f;
 
-	return Texture->GetColor(Pos, _DefaultColor);
+	float4 MoveCheckPos = Transform.GetWorldPosition() + HalfTexturePos;
+
+
+	float4 CheckPos =  _Position - MoveCheckPos;
+	CheckPos.Y *= -1.0f;
+
+	return Texture->GetColor(CheckPos, _DefaultColor);
 }
 
 #pragma endregion

@@ -32,5 +32,8 @@ public:
 private:
 	void CreateProp(GameEngineLevel* _Level);
 	void CreatePixelMap(GameEngineLevel* _Level);
+
+private:
+	float4 m_HouseLocation = float4::ZERO;
 };
 

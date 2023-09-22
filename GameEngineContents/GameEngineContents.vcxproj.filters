@@ -58,6 +58,9 @@
     <Filter Include="Object\Actor\NonInteractive\BackDrop\LevelBackDrop">
       <UniqueIdentifier>{ab990094-0a41-46ab-8fd7-2d6165e2048a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\Portal">
+      <UniqueIdentifier>{0b367fee-0d15-47ce-83bf-b9af5cab23d3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -157,14 +160,8 @@
     <ClInclude Include="BackDrop_CenterField.h">
       <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
     </ClInclude>
-    <ClInclude Include="BackDrop_ElliesHouse.h">
-      <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
-    </ClInclude>
     <ClInclude Include="BackDrop_Loading.h">
       <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
-    </ClInclude>
-    <ClInclude Include="PortalObject.h">
-      <Filter>Object\Actor\NonInteractive</Filter>
     </ClInclude>
     <ClInclude Include="WitchHouse_Yard.h">
       <Filter>Object\Level\2.Play\0.Witch</Filter>
@@ -183,6 +180,9 @@
     </ClInclude>
     <ClInclude Include="BackDrop_WitchHouse_DownFloor.h">
       <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
+    </ClInclude>
+    <ClInclude Include="PortalObject.h">
+      <Filter>Object\Actor\Portal</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -274,9 +274,6 @@
     <ClCompile Include="PlayLevel.cpp">
       <Filter>Object\Level\2.Play</Filter>
     </ClCompile>
-    <ClCompile Include="BackDrop_ElliesHouse.cpp">
-      <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
-    </ClCompile>
     <ClCompile Include="BackDrop_Loading.cpp">
       <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
     </ClCompile>
@@ -285,9 +282,6 @@
     </ClCompile>
     <ClCompile Include="BackDrop_CenterField.cpp">
       <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
-    </ClCompile>
-    <ClCompile Include="PortalObject.cpp">
-      <Filter>Object\Actor\NonInteractive</Filter>
     </ClCompile>
     <ClCompile Include="WitchHouse_Yard.cpp">
       <Filter>Object\Level\2.Play\0.Witch</Filter>
@@ -306,6 +300,9 @@
     </ClCompile>
     <ClCompile Include="BackDrop_WitchHouse_DownFloor.cpp">
       <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
+    </ClCompile>
+    <ClCompile Include="PortalObject.cpp">
+      <Filter>Object\Actor\Portal</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

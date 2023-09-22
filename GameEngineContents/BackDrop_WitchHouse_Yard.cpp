@@ -74,7 +74,7 @@ void BackDrop_WitchHouse_Yard::CreateProp(GameEngineLevel* _Level)
 
 	Object->CreateRenderer(ERENDERORDER::Back_);
 	Object->SetSprite("TestYardMap.png");
-	Object->SetRendererLocalPosition(float4::ZERO, PivotType::LeftTop);
+	Object->SetPosition(float4::ZERO, PivotType::LeftTop);
 	vecProps.push_back(Object);
 }
 
