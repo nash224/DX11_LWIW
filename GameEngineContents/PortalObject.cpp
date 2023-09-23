@@ -12,16 +12,12 @@ PortalObject::~PortalObject()
 
 void PortalObject::Start()
 {
-
+	m_PortalType = PortalType::Instant;
 }
 
 void PortalObject::Update(float _Delta)
 {
-	if (true == IsColliding)
-	{
-		m_CallBack();
-		GameEngineCore::ChangeLevel(m_ChangeLevelName);
-	}
+	PortalUpdate();
 }
 
 void PortalObject::LevelStart(class GameEngineLevel* _NextLevel)
@@ -104,6 +100,42 @@ bool PortalObject::GetCollisionFlag() const
 	return IsColliding;
 }
 
+
+
+
+
+void PortalObject::PortalUpdate()
+{
+	if (true == IsColliding)
+	{
+		switch (m_PortalType)
+		{
+		case PortalType::None:
+			break;
+		case PortalType::Instant:
+			UpdateInstantType();
+			break;
+		case PortalType::Event:
+			UpdateEventType();
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+
+void PortalObject::UpdateInstantType()
+{
+	m_LevelCallBack();
+	GameEngineCore::ChangeLevel(m_ChangeLevelName);
+}
+
+
+void PortalObject::UpdateEventType()
+{
+
+}
 
 
 void PortalObject::ActorRelease()

@@ -16,27 +16,6 @@
     <Filter Include="Global">
       <UniqueIdentifier>{ab10a2eb-9b67-4702-ba81-0ac60c48954b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\NonInteractive">
-      <UniqueIdentifier>{643315a5-9be1-4024-b277-618261d2e870}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\NonInteractive\BackDrop">
-      <UniqueIdentifier>{1b0dee99-207d-445b-aa25-16e8f1c21756}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\Interactive">
-      <UniqueIdentifier>{e2fea63f-3b07-4ea3-a0c6-8afed64b65e4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\Interactive\Ellie">
-      <UniqueIdentifier>{cbb55847-2201-4890-b2cb-4340bd12c511}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\NonInteractive\Prop">
-      <UniqueIdentifier>{bcf057dd-e7fe-4c0b-9aeb-089a080e4283}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\NonInteractive\Prop\Train">
-      <UniqueIdentifier>{9bea090b-73fd-4f04-98b6-027d841b716f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\Manager">
-      <UniqueIdentifier>{b732b33f-6af9-4d40-9843-247a8b72b149}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Level\1.Title">
       <UniqueIdentifier>{f79ab025-8b50-47fd-841a-094cf7f1a7c2}</UniqueIdentifier>
     </Filter>
@@ -55,10 +34,34 @@
     <Filter Include="Z_Test">
       <UniqueIdentifier>{28c5e6b7-3d61-4e52-9da5-0792cbf15b56}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\NonInteractive\BackDrop\LevelBackDrop">
+    <Filter Include="Object\Actor\0.Manager">
+      <UniqueIdentifier>{b732b33f-6af9-4d40-9843-247a8b72b149}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\1.BackDrop">
+      <UniqueIdentifier>{1b0dee99-207d-445b-aa25-16e8f1c21756}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\1.BackDrop\LevelBackDrop">
       <UniqueIdentifier>{ab990094-0a41-46ab-8fd7-2d6165e2048a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\Portal">
+    <Filter Include="Object\Actor\2.Interactive">
+      <UniqueIdentifier>{e2fea63f-3b07-4ea3-a0c6-8afed64b65e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\2.Interactive\Dynamic">
+      <UniqueIdentifier>{fc8d6363-d437-4520-b8e0-4457fcf0bd71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\2.Interactive\Dynamic\Ellie">
+      <UniqueIdentifier>{cbb55847-2201-4890-b2cb-4340bd12c511}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\2.Interactive\Static">
+      <UniqueIdentifier>{79b1724d-f04f-4846-87e0-60822123a1e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\3.Prop">
+      <UniqueIdentifier>{bcf057dd-e7fe-4c0b-9aeb-089a080e4283}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\3.Prop\Train">
+      <UniqueIdentifier>{9bea090b-73fd-4f04-98b6-027d841b716f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\4.Portal">
       <UniqueIdentifier>{0b367fee-0d15-47ce-83bf-b9af5cab23d3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -83,37 +86,37 @@
       <Filter>Object\Level</Filter>
     </ClInclude>
     <ClInclude Include="Scenery.h">
-      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
+      <Filter>Object\Actor\1.BackDrop</Filter>
     </ClInclude>
     <ClInclude Include="GroundLayer.h">
-      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
+      <Filter>Object\Actor\1.BackDrop</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop.h">
-      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
+      <Filter>Object\Actor\1.BackDrop</Filter>
     </ClInclude>
     <ClInclude Include="TemplateA.h">
       <Filter>Global</Filter>
     </ClInclude>
     <ClInclude Include="Prop.h">
-      <Filter>Object\Actor\NonInteractive\Prop</Filter>
+      <Filter>Object\Actor\3.Prop</Filter>
     </ClInclude>
     <ClInclude Include="ChainProp.h">
-      <Filter>Object\Actor\NonInteractive\Prop</Filter>
+      <Filter>Object\Actor\3.Prop</Filter>
     </ClInclude>
     <ClInclude Include="MainMenu_Trains.h">
-      <Filter>Object\Actor\NonInteractive\Prop\Train</Filter>
+      <Filter>Object\Actor\3.Prop\Train</Filter>
     </ClInclude>
     <ClInclude Include="TrainPart.h">
-      <Filter>Object\Actor\NonInteractive\Prop\Train</Filter>
+      <Filter>Object\Actor\3.Prop\Train</Filter>
     </ClInclude>
     <ClInclude Include="SequentialProp.h">
-      <Filter>Object\Actor\NonInteractive\Prop</Filter>
+      <Filter>Object\Actor\3.Prop</Filter>
     </ClInclude>
     <ClInclude Include="InteractiveActor.h">
-      <Filter>Object\Actor\Interactive</Filter>
+      <Filter>Object\Actor\2.Interactive</Filter>
     </ClInclude>
     <ClInclude Include="Ellie.h">
-      <Filter>Object\Actor\Interactive\Ellie</Filter>
+      <Filter>Object\Actor\2.Interactive\Dynamic\Ellie</Filter>
     </ClInclude>
     <ClInclude Include="FadeObject.h">
       <Filter>Global</Filter>
@@ -122,13 +125,13 @@
       <Filter>Global</Filter>
     </ClInclude>
     <ClInclude Include="EventManager.h">
-      <Filter>Object\Actor\Manager</Filter>
+      <Filter>Object\Actor\0.Manager</Filter>
     </ClInclude>
     <ClInclude Include="UIManager.h">
-      <Filter>Object\Actor\Manager</Filter>
+      <Filter>Object\Actor\0.Manager</Filter>
     </ClInclude>
     <ClInclude Include="CameraControler.h">
-      <Filter>Object\Actor\Manager</Filter>
+      <Filter>Object\Actor\0.Manager</Filter>
     </ClInclude>
     <ClInclude Include="Field_Center.h">
       <Filter>Object\Level\2.Play\1.Field</Filter>
@@ -155,37 +158,46 @@
       <Filter>Object\Level\2.Play</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_MainMenu.h">
-      <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
+      <Filter>Object\Actor\1.BackDrop\LevelBackDrop</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_CenterField.h">
-      <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
+      <Filter>Object\Actor\1.BackDrop\LevelBackDrop</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_Loading.h">
-      <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
+      <Filter>Object\Actor\1.BackDrop\LevelBackDrop</Filter>
     </ClInclude>
     <ClInclude Include="WitchHouse_Yard.h">
       <Filter>Object\Level\2.Play\0.Witch</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_WitchHouse_Yard.h">
-      <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
+      <Filter>Object\Actor\1.BackDrop\LevelBackDrop</Filter>
     </ClInclude>
     <ClInclude Include="WitchHouse_UpFloor.h">
       <Filter>Object\Level\2.Play\0.Witch</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_WitchHouse_UpFloor.h">
-      <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
+      <Filter>Object\Actor\1.BackDrop\LevelBackDrop</Filter>
     </ClInclude>
     <ClInclude Include="WitchHouse_DownFloor.h">
       <Filter>Object\Level\2.Play\0.Witch</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_WitchHouse_DownFloor.h">
-      <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
+      <Filter>Object\Actor\1.BackDrop\LevelBackDrop</Filter>
     </ClInclude>
     <ClInclude Include="PortalObject.h">
-      <Filter>Object\Actor\Portal</Filter>
+      <Filter>Object\Actor\4.Portal</Filter>
     </ClInclude>
     <ClInclude Include="ExProp.h">
-      <Filter>Object\Actor\NonInteractive\Prop</Filter>
+      <Filter>Object\Actor\3.Prop</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicEntity.h">
+      <Filter>Object\Actor\2.Interactive\Dynamic</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticEntity.h">
+      <Filter>Object\Actor\2.Interactive\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="AlchemyPot.h">
+      <Filter>Object\Actor\2.Interactive\Static</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -203,37 +215,37 @@
       <Filter>Object\Level</Filter>
     </ClCompile>
     <ClCompile Include="Scenery.cpp">
-      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
+      <Filter>Object\Actor\1.BackDrop</Filter>
     </ClCompile>
     <ClCompile Include="GroundLayer.cpp">
-      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
+      <Filter>Object\Actor\1.BackDrop</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop.cpp">
-      <Filter>Object\Actor\NonInteractive\BackDrop</Filter>
+      <Filter>Object\Actor\1.BackDrop</Filter>
     </ClCompile>
     <ClCompile Include="TemplateA.cpp">
       <Filter>Global</Filter>
     </ClCompile>
     <ClCompile Include="Prop.cpp">
-      <Filter>Object\Actor\NonInteractive\Prop</Filter>
+      <Filter>Object\Actor\3.Prop</Filter>
     </ClCompile>
     <ClCompile Include="ChainProp.cpp">
-      <Filter>Object\Actor\NonInteractive\Prop</Filter>
+      <Filter>Object\Actor\3.Prop</Filter>
     </ClCompile>
     <ClCompile Include="MainMenu_Trains.cpp">
-      <Filter>Object\Actor\NonInteractive\Prop\Train</Filter>
+      <Filter>Object\Actor\3.Prop\Train</Filter>
     </ClCompile>
     <ClCompile Include="TrainPart.cpp">
-      <Filter>Object\Actor\NonInteractive\Prop\Train</Filter>
+      <Filter>Object\Actor\3.Prop\Train</Filter>
     </ClCompile>
     <ClCompile Include="SequentialProp.cpp">
-      <Filter>Object\Actor\NonInteractive\Prop</Filter>
+      <Filter>Object\Actor\3.Prop</Filter>
     </ClCompile>
     <ClCompile Include="InteractiveActor.cpp">
-      <Filter>Object\Actor\Interactive</Filter>
+      <Filter>Object\Actor\2.Interactive</Filter>
     </ClCompile>
     <ClCompile Include="Ellie.cpp">
-      <Filter>Object\Actor\Interactive\Ellie</Filter>
+      <Filter>Object\Actor\2.Interactive\Dynamic\Ellie</Filter>
     </ClCompile>
     <ClCompile Include="FadeObject.cpp">
       <Filter>Global</Filter>
@@ -242,16 +254,16 @@
       <Filter>Global</Filter>
     </ClCompile>
     <ClCompile Include="Ellie_State.cpp">
-      <Filter>Object\Actor\Interactive\Ellie</Filter>
+      <Filter>Object\Actor\2.Interactive\Dynamic\Ellie</Filter>
     </ClCompile>
     <ClCompile Include="EventManager.cpp">
-      <Filter>Object\Actor\Manager</Filter>
+      <Filter>Object\Actor\0.Manager</Filter>
     </ClCompile>
     <ClCompile Include="UIManager.cpp">
-      <Filter>Object\Actor\Manager</Filter>
+      <Filter>Object\Actor\0.Manager</Filter>
     </ClCompile>
     <ClCompile Include="CameraControler.cpp">
-      <Filter>Object\Actor\Manager</Filter>
+      <Filter>Object\Actor\0.Manager</Filter>
     </ClCompile>
     <ClCompile Include="Field_Center.cpp">
       <Filter>Object\Level\2.Play\1.Field</Filter>
@@ -278,37 +290,46 @@
       <Filter>Object\Level\2.Play</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_Loading.cpp">
-      <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
+      <Filter>Object\Actor\1.BackDrop\LevelBackDrop</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_MainMenu.cpp">
-      <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
+      <Filter>Object\Actor\1.BackDrop\LevelBackDrop</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_CenterField.cpp">
-      <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
+      <Filter>Object\Actor\1.BackDrop\LevelBackDrop</Filter>
     </ClCompile>
     <ClCompile Include="WitchHouse_Yard.cpp">
       <Filter>Object\Level\2.Play\0.Witch</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_WitchHouse_Yard.cpp">
-      <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
+      <Filter>Object\Actor\1.BackDrop\LevelBackDrop</Filter>
     </ClCompile>
     <ClCompile Include="WitchHouse_UpFloor.cpp">
       <Filter>Object\Level\2.Play\0.Witch</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_WitchHouse_UpFloor.cpp">
-      <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
+      <Filter>Object\Actor\1.BackDrop\LevelBackDrop</Filter>
     </ClCompile>
     <ClCompile Include="WitchHouse_DownFloor.cpp">
       <Filter>Object\Level\2.Play\0.Witch</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_WitchHouse_DownFloor.cpp">
-      <Filter>Object\Actor\NonInteractive\BackDrop\LevelBackDrop</Filter>
+      <Filter>Object\Actor\1.BackDrop\LevelBackDrop</Filter>
     </ClCompile>
     <ClCompile Include="PortalObject.cpp">
-      <Filter>Object\Actor\Portal</Filter>
+      <Filter>Object\Actor\4.Portal</Filter>
     </ClCompile>
     <ClCompile Include="ExProp.cpp">
-      <Filter>Object\Actor\NonInteractive\Prop</Filter>
+      <Filter>Object\Actor\3.Prop</Filter>
+    </ClCompile>
+    <ClCompile Include="DynamicEntity.cpp">
+      <Filter>Object\Actor\2.Interactive\Dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticEntity.cpp">
+      <Filter>Object\Actor\2.Interactive\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="AlchemyPot.cpp">
+      <Filter>Object\Actor\2.Interactive\Static</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

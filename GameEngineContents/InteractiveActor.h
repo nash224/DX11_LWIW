@@ -1,14 +1,6 @@
 #pragma once
 
 
-struct InterativeParameter
-{
-public:
-	bool IsInteractive = true;					// 상호작용 가능한가?
-	std::shared_ptr<GameEngineCollision> InteractiveCol = nullptr;
-	float4 ColScale = float4::ZERO;
-};
-
 
 // 설명 :
 class InteractiveActor : public GameEngineActor
@@ -33,13 +25,7 @@ protected:
 
 
 protected:
-	InterativeParameter m_InteractiveParameter = {};
-
-
-protected:
-
-
-private:
+	std::shared_ptr<GameEngineCollision> m_InteractiveCol = nullptr;
 
 
 };

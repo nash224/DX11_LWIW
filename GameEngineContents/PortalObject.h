@@ -1,5 +1,12 @@
 #pragma once
 
+enum class PortalType
+{
+	None,
+	Instant,
+	Event,
+};
+
 
 class PortalCollisionParameter
 {
@@ -35,17 +42,7 @@ public:
 	PortalObject& operator=(const PortalObject& _Other) = delete;
 	PortalObject& operator=(PortalObject&& _Other) noexcept = delete;
 
-protected:
-	void Start() override;
-	void Update(float _Delta) override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
-	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
-private:
-
-
-
-public:
 	template<typename CollisionOrder>
 	void CreatePortalCollision(CollisionOrder _Order)
 	{
@@ -64,22 +61,34 @@ public:
 	template<typename ObjectType>
 	void SetLevelChangeCallBack(ObjectType* _Actor, void(ObjectType::* _Func)())
 	{
-		m_CallBack = std::bind(_Func, _Actor);
+		m_LevelCallBack = std::bind(_Func, _Actor);
 	}
 
 
+	void SetCollisionFlag(bool _Flag);
+	bool GetCollisionFlag() const;
+
+
+protected:
+	void Start() override;
+	void Update(float _Delta) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override;
+	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 public:
 	void ActorRelease();
 
-public:
-	void SetCollisionFlag(bool _Flag);
-	bool GetCollisionFlag() const;
+private:
+	void PortalUpdate();
+
+	void UpdateInstantType();
+	void UpdateEventType();
 
 private:
 	std::shared_ptr<GameEngineCollision> PotalCol = nullptr;
+	PortalType m_PortalType = PortalType::Instant;
 	float4 m_ColScale = float4::ZERO;
-	std::function <void()> m_CallBack;
+	std::function <void()> m_LevelCallBack;
 
 	std::string m_ChangeLevelName = "";
 

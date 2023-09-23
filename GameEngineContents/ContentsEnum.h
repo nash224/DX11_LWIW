@@ -86,6 +86,7 @@ enum class EUI_RENDERORDER
 enum class ECOLLISION
 {
 	Player,
+	Entity,
 	Portal,
 };
 
