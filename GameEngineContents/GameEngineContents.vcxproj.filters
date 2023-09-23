@@ -184,6 +184,9 @@
     <ClInclude Include="PortalObject.h">
       <Filter>Object\Actor\Portal</Filter>
     </ClInclude>
+    <ClInclude Include="ExProp.h">
+      <Filter>Object\Actor\NonInteractive\Prop</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -303,6 +306,9 @@
     </ClCompile>
     <ClCompile Include="PortalObject.cpp">
       <Filter>Object\Actor\Portal</Filter>
+    </ClCompile>
+    <ClCompile Include="ExProp.cpp">
+      <Filter>Object\Actor\NonInteractive\Prop</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -68,6 +68,16 @@ enum class EWITCHHOUSEUPPERFLOOR
 };
 
 
+enum class EDOWNFLOORRENDERORDER
+{
+	BackPaint = 10,
+	HouseComposition,
+	HouseShadow,
+	Objects,
+	HouseFrame,
+};
+
+
 enum class EUI_RENDERORDER
 {
 

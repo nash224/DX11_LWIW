@@ -48,7 +48,7 @@ void BackDrop_WitchHouse_DownFloor::Init()
 	}
 
 	CreateProp(CurLevel);
-	/*CreatePixelMap(CurLevel);*/
+	CreatePixelMap(CurLevel);
 
 	m_BackScale = GlobalValue::GetWindowScale();
 }
@@ -58,8 +58,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 {
 	vecProps.reserve(30);
 
-	float4 RYWinScale = GlobalValue::GetWindowScale().Half();
-	RYWinScale.Y *= -1.0f;
+#pragma region BackPaint
 
 	{
 		std::shared_ptr<Prop> Object = _Level->CreateActor<Prop>(EUPDATEORDER::Objects);
@@ -69,11 +68,81 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 			return;
 		}
 
-		Object->CreateRenderer(ERENDERORDER::Back_);
-		Object->SetSprite("DownFloor_Floor.png");
-		Object->SetPosition(RYWinScale);
+		Object->CreateRenderer(EDOWNFLOORRENDERORDER::BackPaint);
+		Object->SetSprite("DownFloor_Back.png");
+		Object->SetPosition(float4::ZERO, PivotType::LeftTop);
+		Object->SetRendererImageScale(GlobalValue::GetWindowScale());
 		vecProps.push_back(Object);
 	}
+
+#pragma endregion
+
+#pragma region HouseComposition
+
+	{
+		std::shared_ptr<Prop> Object = _Level->CreateActor<Prop>(EUPDATEORDER::Objects);
+		if (nullptr == Object)
+		{
+			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
+			return;
+		}
+
+		Object->CreateRenderer(EDOWNFLOORRENDERORDER::HouseComposition);
+		Object->SetSprite("DownFloor_Floor.png");
+		Object->SetPosition(m_DownFloorWholePosition + float4{ 337.0f + 12.0f , -181.0f -134.0f });
+		vecProps.push_back(Object);
+	}
+
+	{
+		std::shared_ptr<Prop> Object = _Level->CreateActor<Prop>(EUPDATEORDER::Objects);
+		if (nullptr == Object)
+		{
+			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
+			return;
+		}
+
+		Object->CreateRenderer(EDOWNFLOORRENDERORDER::HouseComposition);
+		Object->SetSprite("DownFloor_Wall.png");
+		Object->SetPosition(m_DownFloorWholePosition + float4{ 336.0f + 14.0f , -177.0f - 14.0f });
+		vecProps.push_back(Object);
+	}
+
+#pragma endregion 
+
+#pragma region Frame
+
+	{
+		std::shared_ptr<Prop> Object = _Level->CreateActor<Prop>(EUPDATEORDER::Objects);
+		if (nullptr == Object)
+		{
+			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
+			return;
+		}
+
+		Object->CreateRenderer(EDOWNFLOORRENDERORDER::HouseFrame);
+		Object->SetSprite("DownFloor_Frame.png");
+		Object->SetPosition(m_DownFloorWholePosition + float4{ 350.0f , -255.0f });
+		vecProps.push_back(Object);
+	}
+
+#pragma endregion 
+}
+
+
+void BackDrop_WitchHouse_DownFloor::CreatePixelMap(GameEngineLevel* _Level)
+{
+	std::shared_ptr<Prop> Object = _Level->CreateActor<Prop>(EUPDATEORDER::Objects);
+	if (nullptr == Object)
+	{
+		MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
+		return;
+	}
+
+	Object->CreatePixelCollisionRenderer();
+	Object->SetPixelSprite("DownFloor_PixelMap.png");
+	Object->Transform.SetLocalPosition(m_DownFloorWholePosition + float4{ 350.0f , -206.0f - 100.0f });
+
+	vecPixelProps.push_back(Object);
 }
 
 

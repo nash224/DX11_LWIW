@@ -35,6 +35,7 @@ public:
 	Prop& operator=(Prop&& _Other) noexcept = delete;
 
 public:
+	// SpriteRenderer Setting
 	template<typename RenderOrder>
 	void CreateRenderer(RenderOrder _Order)
 	{
@@ -80,6 +81,8 @@ public:
 
 
 public:
+
+public:
 	// ÇÈ¼¿Ãæµ¹
 	void CreatePixelCollisionRenderer();
 	void SetPixelSprite(std::string_view _FileName);
@@ -98,7 +101,7 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 public:
-	void ActorRelease();
+	virtual void ActorRelease();
 
 	
 

@@ -28,6 +28,11 @@ void BackDrop::Update(float _Delta)
 
 }
 
+void BackDrop::Release()
+{
+	MainBackDrop = nullptr;
+}
+
 void BackDrop::LevelStart(GameEngineLevel* _NextLevel)
 {
 

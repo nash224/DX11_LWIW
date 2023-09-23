@@ -31,5 +31,7 @@ private:
 	void CreatePixelMap(GameEngineLevel* _Level);
 
 
+private:
+	float4 m_DownFloorWholePosition = float4::ZERO;
 };
 

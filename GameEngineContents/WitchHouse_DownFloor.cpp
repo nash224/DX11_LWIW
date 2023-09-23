@@ -56,9 +56,10 @@ void WitchHouse_DownFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#pragma region ResourceLoad
 
 void WitchHouse_DownFloor::LoadTexture()
 {
@@ -75,9 +76,20 @@ void WitchHouse_DownFloor::LoadTexture()
 
 void WitchHouse_DownFloor::LoadSprite()
 {
-	GameEngineSprite::CreateSingle("DownFloor_Floor.png");
+	GameEngineDirectory Dir;
+	Dir.MoveParentToExistsChild("Resources");
+	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_DownFloor");
+	std::vector<GameEngineFile> Files = Dir.GetAllFile();
+	for (size_t i = 0; i < Files.size(); i++)
+	{
+		GameEngineFile File = Files[i];
+		GameEngineSprite::CreateSingle(File.GetFileName());
+	}
 }
 
+#pragma endregion
+
+#pragma region ActorLoad
 
 void WitchHouse_DownFloor::LoadActor()
 {
@@ -147,8 +159,10 @@ void WitchHouse_DownFloor::LoadPortalActor()
 	}
 }
 
+#pragma endregion 
 
 
+#pragma region Initial Setting
 
 // 레벨전환시 앨리의 시작위치를 지정해줍니다.
 void WitchHouse_DownFloor::SetEllieLevelChangeLocation(class GameEngineLevel* _NextLevel)
@@ -187,8 +201,9 @@ void WitchHouse_DownFloor::CameraSetting()
 	}
 }
 
+#pragma endregion 
 
-
+#pragma region Update
 
 void WitchHouse_DownFloor::UpdateLevelChange()
 {
@@ -214,7 +229,9 @@ void WitchHouse_DownFloor::UpdatePortalObject()
 }
 
 
+#pragma endregion 
 
+#pragma region Release
 
 void WitchHouse_DownFloor::LevelActorRelease()
 {
@@ -244,7 +261,15 @@ void WitchHouse_DownFloor::LevelActorRelease()
 
 void WitchHouse_DownFloor::ReleaseSprite()
 {
-	GameEngineSprite::Release("DownFloor_Floor.png");
+	GameEngineDirectory Dir;
+	Dir.MoveParentToExistsChild("Resources");
+	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_DownFloor");
+	std::vector<GameEngineFile> Files = Dir.GetAllFile();
+	for (size_t i = 0; i < Files.size(); i++)
+	{
+		GameEngineFile File = Files[i];
+		GameEngineSprite::Release(File.GetFileName());
+	}
 }
 
 void WitchHouse_DownFloor::ReleaseTexture()
@@ -259,3 +284,5 @@ void WitchHouse_DownFloor::ReleaseTexture()
 		GameEngineTexture::Release(File.GetFileName());
 	}
 }
+
+#pragma endregion 

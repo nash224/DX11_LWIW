@@ -204,6 +204,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ExProp.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Field_Center.cpp">
       <SubType>
       </SubType>
@@ -356,6 +360,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="EventManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ExProp.h">
       <SubType>
       </SubType>
     </ClInclude>

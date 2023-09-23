@@ -55,7 +55,7 @@ void BackDrop_WitchHouse_UpFloor::Init()
 
 void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 {
-	vecProps.reserve(39);
+	vecProps.reserve(50);
 
 	float4 RYWinScale = GlobalValue::GetWindowScale().Half();
 	RYWinScale.Y *= -1.0f;
