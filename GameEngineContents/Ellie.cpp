@@ -181,7 +181,7 @@ void Ellie::Start()
 	}
 
 
-	EllieCol->Transform.SetLocalScale(float4{ 100.0f , 100.0f });
+	EllieCol->Transform.SetLocalScale(float4{ 4.0f , 4.0f });
 	EllieCol->SetCollisionType(ColType::AABBBOX2D);
 }
 

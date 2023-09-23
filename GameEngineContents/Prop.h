@@ -107,9 +107,10 @@ public:
 
 protected:
 	std::shared_ptr<class GameEngineSpriteRenderer> m_Renderer = nullptr;
-	float4 m_Position;
+	float4 m_Position = float4::ZERO;
 
 protected:
+	// ÇÈ¼¿ Ãæµ¹
 	std::shared_ptr<class GameEngineSpriteRenderer> m_DebugRenderer = nullptr;
 	std::string m_PixelFileName = "";
 

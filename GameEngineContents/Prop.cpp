@@ -2,8 +2,6 @@
 #include "Prop.h"
 
 Prop::Prop()
-	:
-	m_Position(float4::ZERO)
 {
 }
 
