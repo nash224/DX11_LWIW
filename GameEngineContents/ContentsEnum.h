@@ -5,8 +5,7 @@
 enum class EUPDATEORDER
 {
 	Player,
-	Npc,
-	Enemy,
+	Entity,
 	Projectile,
 	Objects,
 	Portal,

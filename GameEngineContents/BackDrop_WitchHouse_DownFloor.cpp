@@ -3,6 +3,8 @@
 
 
 #include "AlchemyPot.h"
+#include "Roaster.h"
+#include "Juicer.h"
 
 #include "Prop.h"
 
@@ -158,6 +160,32 @@ void BackDrop_WitchHouse_DownFloor::CreateStaticActor(GameEngineLevel* _Level)
 		}
 
 		Object->Transform.SetLocalPosition(m_DownFloorWholePosition + float4{ 57.0f + 352.0f , -53.0f - 246.0f });
+
+		vecStaticEntity.push_back(Object);
+	}
+
+	{
+		std::shared_ptr<Roaster> Object = _Level->CreateActor<Roaster>(EUPDATEORDER::Objects);
+		if (nullptr == Object)
+		{
+			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
+			return;
+		}
+
+		Object->Transform.SetLocalPosition(m_DownFloorWholePosition + float4{ 47.0f + 183.0f , -47.0f - 313.0f });
+
+		vecStaticEntity.push_back(Object);
+	}
+
+	{
+		std::shared_ptr<Juicer> Object = _Level->CreateActor<Juicer>(EUPDATEORDER::Objects);
+		if (nullptr == Object)
+		{
+			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
+			return;
+		}
+
+		Object->Transform.SetLocalPosition(m_DownFloorWholePosition + float4{ 39.0f + 267.0f , -46.0f - 99.0f });
 
 		vecStaticEntity.push_back(Object);
 	}

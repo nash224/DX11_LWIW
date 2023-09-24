@@ -5,6 +5,7 @@
 // Ό³Έν :
 class InteractiveActor : public GameEngineActor
 {
+	friend class Ellie;
 public:
 	// constrcuter destructer
 	InteractiveActor();
@@ -26,7 +27,7 @@ protected:
 
 protected:
 	std::shared_ptr<GameEngineCollision> m_InteractiveCol = nullptr;
-
+	bool IsReach = false;
 
 };
 

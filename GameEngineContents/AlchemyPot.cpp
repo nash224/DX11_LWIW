@@ -17,7 +17,7 @@ void AlchemyPot::Start()
 
 void AlchemyPot::Update(float _Delta)
 {
-
+	UpdateState(_Delta);
 }
 
 void AlchemyPot::Release()
@@ -206,12 +206,15 @@ void AlchemyPot::StartIdle()
 
 void AlchemyPot::UpdateIdle(float _Delta)
 {
-	if (true == IsPotionCreationStart)
+	if (true == IsReach)
 	{
-		IsPotionCreationStart = false;
+		if (true == GameEngineInput::IsDown('Z'))
+		{
+			ChangeState(EPOTSTATE::Boil);
+			return; 
+		}
 
-		ChangeState(EPOTSTATE::Boil);
-		return;
+		IsPotionCreationStart = false;
 	}
 }
 

@@ -69,7 +69,7 @@ void Ellie::UpdateInteractionCollsiion()
 			// 가장 가까운 객체만 참조하겠습니다.
 			std::vector<float> vecDistance;
 
-			unsigned int Amount = _Collisions.size();
+			size_t Amount = _Collisions.size();
 			vecDistance.resize(Amount);
 
 			for (size_t i = 0; i < Amount; i++)
@@ -137,7 +137,7 @@ void Ellie::UpdateInteractionCollsiion()
 				float CurrentDistance = vecDistance[i];
 				if (0.0f != vecDistance[i] && MostLongestDistance < CurrentDistance)
 				{
-					MostLongestNumber = i;
+					MostLongestNumber = static_cast<int>(i);
 					MostLongestDistance = CurrentDistance;
 				}
 			}
@@ -159,6 +159,8 @@ void Ellie::UpdateInteractionCollsiion()
 					MsgBoxAssert("다운 캐스팅에 실패했습니다.");
 					return;
 				}
+
+				Entity->IsReach = true;
 			}
 		});
 }

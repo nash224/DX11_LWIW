@@ -199,6 +199,12 @@
     <ClInclude Include="AlchemyPot.h">
       <Filter>Object\Actor\2.Interactive\Static</Filter>
     </ClInclude>
+    <ClInclude Include="Roaster.h">
+      <Filter>Object\Actor\2.Interactive\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="Juicer.h">
+      <Filter>Object\Actor\2.Interactive\Static</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -333,6 +339,12 @@
     </ClCompile>
     <ClCompile Include="Ellie_Collision.cpp">
       <Filter>Object\Actor\2.Interactive\Dynamic\Ellie</Filter>
+    </ClCompile>
+    <ClCompile Include="Roaster.cpp">
+      <Filter>Object\Actor\2.Interactive\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="Juicer.cpp">
+      <Filter>Object\Actor\2.Interactive\Static</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -17,7 +17,10 @@ void InteractiveActor::Start()
 
 void InteractiveActor::Update(float _Delta)
 {
-
+	if (true == IsReach)
+	{
+		// UI
+	}
 }
 
 void InteractiveActor::Release()
