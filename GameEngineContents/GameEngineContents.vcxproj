@@ -207,6 +207,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Ellie_Collision.cpp" />
     <ClCompile Include="Ellie_State.cpp" />
     <ClCompile Include="EventManager.cpp">
       <SubType>

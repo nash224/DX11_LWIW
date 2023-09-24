@@ -169,7 +169,11 @@ private:
 
 
 private:
+	// 충돌 업데이트
 	void UpdateCollision();
+	void UpdatePortalCollsiion();
+	void UpdateInteractionCollsiion();
+
 
 
 private:

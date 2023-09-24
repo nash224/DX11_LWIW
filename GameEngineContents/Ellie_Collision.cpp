@@ -1,0 +1,165 @@
+#include "PreCompile.h"
+#include "Ellie.h"
+
+#include "InteractiveActor.h"
+#include "PortalObject.h"
+
+
+void Ellie::UpdateCollision()
+{
+	UpdatePortalCollsiion();
+	UpdateInteractionCollsiion();
+}
+
+void Ellie::UpdatePortalCollsiion()
+{
+	EllieCol->Collision(ECOLLISION::Portal, [](std::vector<std::shared_ptr<GameEngineCollision>>& _Collision)
+		{
+			for (size_t i = 0; i < _Collision.size(); i++)
+			{
+				GameEngineActor* Object = _Collision[i]->GetActor();
+				if (nullptr == Object)
+				{
+					MsgBoxAssert("존재하지 않는 액터를 참조하려 했습니다.");
+					return;
+				}
+
+				PortalObject* PortalActor = dynamic_cast<PortalObject*>(Object);
+				if (nullptr == PortalActor)
+				{
+					MsgBoxAssert("다운캐스팅에 실패했습니다.");
+					return;
+				}
+
+				PortalActor->SetCollisionFlag(true);
+			}
+		});
+}
+
+
+void Ellie::UpdateInteractionCollsiion()
+{
+	// 앨리가 바라보는 사물만 상호작용할 수 있습니다.
+	// 기준은 양옆으로 45도 각도입니다.
+	float4 ElliePosition = Transform.GetWorldPosition();
+
+	float4 DirectionVector = CalculateDirectionVectorToDir(m_Dir);
+
+	float EllieFOVAngle = DirectionVector.Angle2DDeg();
+	if (DirectionVector.Y < 0.0f)
+	{
+		EllieFOVAngle = 360.0f - EllieFOVAngle;
+	}
+
+	float EllieLeftFOVAngle = EllieFOVAngle + 45.0f;
+	float EllieRightFOVAngle = EllieFOVAngle - 45.0f;
+
+	if (EllieLeftFOVAngle >= 360.0f)
+	{
+		EllieLeftFOVAngle -= 360.0f;
+	}
+
+	if (EllieRightFOVAngle < 0.0f)
+	{
+		EllieRightFOVAngle += 360.0f;
+	}
+
+	EllieCol->Collision(ECOLLISION::Entity, [=](std::vector<std::shared_ptr<GameEngineCollision>>& _Collisions)
+		{
+			// 가장 가까운 객체만 참조하겠습니다.
+			std::vector<float> vecDistance;
+
+			unsigned int Amount = _Collisions.size();
+			vecDistance.resize(Amount);
+
+			for (size_t i = 0; i < Amount; i++)
+			{
+
+				std::shared_ptr<GameEngineCollision>& Collision = _Collisions[i];
+				if (nullptr == Collision)
+				{
+					MsgBoxAssert("충돌 정보를 불러오지 못했습니다.");
+					return;
+				}
+
+				bool IsAngle = false;
+
+				float4 OtherPosition = Collision->Transform.GetWorldPosition();
+				float4 EllieVectorTowardObject = OtherPosition - ElliePosition;
+				float ObjectAngle = EllieVectorTowardObject.NormalizeReturn().Angle2DDeg();
+				if (EllieVectorTowardObject.Y < 0.0f)
+				{
+					ObjectAngle = 360.0f - ObjectAngle;
+				}
+
+				// 왼쪽 각이 더 크다면
+				if (EllieLeftFOVAngle - EllieRightFOVAngle > 0.0f)
+				{
+					if (EllieLeftFOVAngle >= ObjectAngle && EllieRightFOVAngle <= ObjectAngle)
+					{
+						IsAngle = true;
+					}
+				}
+				// 오른쪽 각이 더 크다면
+				else
+				{
+					if (EllieLeftFOVAngle >= ObjectAngle && 0.0f <= ObjectAngle)
+					{
+						IsAngle = true;
+					}
+					else if (EllieRightFOVAngle <= ObjectAngle && 360.0f >= ObjectAngle)
+					{
+						IsAngle = true;
+					}
+				}
+				
+				// 주인공 앵글에 들어오지 않은 객체는 검사 대상에서 빼겠습니다.
+				if (false == IsAngle)
+				{
+					vecDistance[i] = 0.0f;
+				}
+				else
+				{
+					EllieVectorTowardObject.Size();
+
+					vecDistance[i] = EllieVectorTowardObject.Size();
+				}
+
+				// 1. 각도 캐릭터 기준 양 옆 45도
+				// 2. 거리 가까운 액터 기준
+			}
+
+			int MostLongestNumber = -1;
+			float MostLongestDistance = 0.0f;
+
+			for (size_t i = 0; i < Amount; i++)
+			{
+				float CurrentDistance = vecDistance[i];
+				if (0.0f != vecDistance[i] && MostLongestDistance < CurrentDistance)
+				{
+					MostLongestNumber = i;
+					MostLongestDistance = CurrentDistance;
+				}
+			}
+
+			if (-1 != MostLongestNumber)
+			{
+				std::shared_ptr<GameEngineCollision>& Collision = _Collisions[MostLongestNumber];
+
+				GameEngineActor* Object = Collision->GetActor();
+				if (nullptr == Object)
+				{
+					MsgBoxAssert("액터를 불러오지 못했습니다.");
+					return;
+				}
+
+				InteractiveActor* Entity = dynamic_cast<InteractiveActor*>(Object);
+				if (nullptr == Entity)
+				{
+					MsgBoxAssert("다운 캐스팅에 실패했습니다.");
+					return;
+				}
+			}
+		});
+}
+

@@ -331,5 +331,8 @@
     <ClCompile Include="AlchemyPot.cpp">
       <Filter>Object\Actor\2.Interactive\Static</Filter>
     </ClCompile>
+    <ClCompile Include="Ellie_Collision.cpp">
+      <Filter>Object\Actor\2.Interactive\Dynamic\Ellie</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -5,6 +5,7 @@
 #include "GlobalValue.h"
 #include "Prop.h"
 #include "Scenery.h"
+#include "StaticEntity.h"
 
 
 BackDrop* BackDrop::MainBackDrop = nullptr;
@@ -158,4 +159,20 @@ void BackDrop::ActorRelease()
 	}
 
 	vecScenery.clear();
-}
+
+
+	for (size_t i = 0; i < vecStaticEntity.size(); i++)
+	{
+		std::shared_ptr<StaticEntity> Object = vecStaticEntity[i];
+		if (nullptr == Object)
+		{
+			MsgBoxAssert("액터를 불러오지 못했습니다.");
+			return;
+		}
+
+		Object->Death();
+	}
+
+	vecStaticEntity.clear();
+	
+} 

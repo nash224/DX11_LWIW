@@ -5,6 +5,7 @@
 // Ό³Έν :
 class Scenery;
 class Prop;
+class StaticEntity;
 class BackDrop : public GameEngineActor
 {
 public:
@@ -47,6 +48,7 @@ protected:
 	std::vector<std::shared_ptr<Scenery>> vecScenery;
 	std::vector<std::shared_ptr<Prop>> vecProps;
 	std::vector<std::shared_ptr<Prop>> vecPixelProps;
+	std::vector<std::shared_ptr<StaticEntity>> vecStaticEntity;
 
 	float4 m_BackScale = float4::ZERO;
 };

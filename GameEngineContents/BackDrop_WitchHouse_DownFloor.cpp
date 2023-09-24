@@ -2,6 +2,8 @@
 #include "BackDrop_WitchHouse_DownFloor.h"
 
 
+#include "AlchemyPot.h"
+
 #include "Prop.h"
 
 
@@ -48,11 +50,11 @@ void BackDrop_WitchHouse_DownFloor::Init()
 	}
 
 	CreateProp(CurLevel);
+	CreateStaticActor(CurLevel);
 	CreatePixelMap(CurLevel);
 
 	m_BackScale = GlobalValue::GetWindowScale();
 }
-
 
 void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 {
@@ -143,6 +145,22 @@ void BackDrop_WitchHouse_DownFloor::CreatePixelMap(GameEngineLevel* _Level)
 	Object->Transform.SetLocalPosition(m_DownFloorWholePosition + float4{ 350.0f , -206.0f - 100.0f });
 
 	vecPixelProps.push_back(Object);
+}
+
+void BackDrop_WitchHouse_DownFloor::CreateStaticActor(GameEngineLevel* _Level)
+{
+	{
+		std::shared_ptr<AlchemyPot> Object = _Level->CreateActor<AlchemyPot>(EUPDATEORDER::Objects);
+		if (nullptr == Object)
+		{
+			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
+			return;
+		}
+
+		Object->Transform.SetLocalPosition(m_DownFloorWholePosition + float4{ 57.0f + 352.0f , -53.0f - 246.0f });
+
+		vecStaticEntity.push_back(Object);
+	}
 }
 
 

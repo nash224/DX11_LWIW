@@ -21,6 +21,10 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
+
+public:
+	virtual void ActorRelease() {}
+
 private:
 
 
