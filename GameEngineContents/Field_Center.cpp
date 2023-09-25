@@ -86,7 +86,11 @@ void Field_Center::LoadActor()
 	LoadPortalActor();
 
 
-	m_BackDrop = CreateActor<BackDrop_CenterField>(EUPDATEORDER::Objects);
+	if (nullptr == m_BackDrop)
+	{
+		m_BackDrop = CreateActor<BackDrop_CenterField>(EUPDATEORDER::Objects);
+	}
+
 	if (nullptr == m_BackDrop)
 	{
 		MsgBoxAssert("액터를 생성하지 못했습니다.");
@@ -101,6 +105,7 @@ void Field_Center::LoadActor()
 		return;
 	}
 
+	// 배경 크기를 알려줘야 카메라 기능을 사용할 수 있습니다.
 	m_LevelCameraControler->SetBackDropScale(m_BackDrop->GetBackGroundScale());
 }
 
@@ -212,7 +217,6 @@ void Field_Center::LevelActorRelease()
 	if (nullptr != m_BackDrop)
 	{
 		m_BackDrop->ActorRelease();
-		m_BackDrop = nullptr;
 	}
 
 

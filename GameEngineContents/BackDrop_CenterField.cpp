@@ -92,6 +92,4 @@ void BackDrop_CenterField::CreatePixelMap(GameEngineLevel* _Level)
 void BackDrop_CenterField::ActorRelease()
 {
 	BackDrop::ActorRelease();
-
-	Death();
 }

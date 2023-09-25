@@ -83,6 +83,4 @@ void BackDrop_WitchHouse_Yard::CreateProp(GameEngineLevel* _Level)
 void BackDrop_WitchHouse_Yard::ActorRelease()
 {
 	BackDrop::ActorRelease();
-
-	Death();
 }

@@ -174,5 +174,4 @@ void BackDrop::ActorRelease()
 	}
 
 	vecStaticEntity.clear();
-	
 } 

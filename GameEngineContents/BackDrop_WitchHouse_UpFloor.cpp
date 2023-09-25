@@ -542,6 +542,4 @@ void BackDrop_WitchHouse_UpFloor::CreatePixelMap(GameEngineLevel* _Level)
 void BackDrop_WitchHouse_UpFloor::ActorRelease()
 {
 	BackDrop::ActorRelease();
-
-	Death();
 }

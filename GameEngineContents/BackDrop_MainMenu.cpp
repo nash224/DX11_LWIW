@@ -509,7 +509,6 @@ void BackDrop_MainMenu::CreateChainProp(class GameEngineLevel* _CurLevel)
 		Object->SetFirstLocation(float4{ 900.0f , -418.0f });
 		Object->SetRegenLocation(float4{ COSNT_TreeSpawnDistance , -418.0f });
 		Object->SetAutoSpawnPoint();
-		
 
 		vecMainMenu_Chain.push_back(Object);
 	}

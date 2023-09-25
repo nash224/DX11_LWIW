@@ -74,6 +74,8 @@ void Ellie::UpdateInteractionCollsiion()
 
 			for (size_t i = 0; i < Amount; i++)
 			{
+				// 1. 각도 캐릭터 기준 양 옆 45도
+				// 2. 거리 가까운 액터 기준
 
 				std::shared_ptr<GameEngineCollision>& Collision = _Collisions[i];
 				if (nullptr == Collision)
@@ -124,9 +126,6 @@ void Ellie::UpdateInteractionCollsiion()
 
 					vecDistance[i] = EllieVectorTowardObject.Size();
 				}
-
-				// 1. 각도 캐릭터 기준 양 옆 45도
-				// 2. 거리 가까운 액터 기준
 			}
 
 			int MostLongestNumber = -1;

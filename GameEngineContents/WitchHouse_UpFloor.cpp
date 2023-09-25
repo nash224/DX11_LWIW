@@ -92,7 +92,12 @@ void WitchHouse_UpFloor::LoadActor()
 	LoadGlobalUnit();
 	LoadPortalActor();
 
-	m_BackDrop = CreateActor<BackDrop_WitchHouse_UpFloor>(EUPDATEORDER::Objects);
+
+	if (nullptr == m_BackDrop)
+	{
+		m_BackDrop = CreateActor<BackDrop_WitchHouse_UpFloor>(EUPDATEORDER::Objects);
+	}
+	
 	if (nullptr == m_BackDrop)
 	{
 		MsgBoxAssert("액터를 생성하지 못했습니다.");
@@ -100,12 +105,6 @@ void WitchHouse_UpFloor::LoadActor()
 	}
 
 	m_BackDrop->Init();
-
-	if (nullptr == m_LevelCameraControler)
-	{
-		MsgBoxAssert("카메라 컨트롤러를 생성하지 않고 사용하려고 했습니다.");
-		return;
-	}
 }
 
 
@@ -235,7 +234,6 @@ void WitchHouse_UpFloor::LevelActorRelease()
 	if (nullptr != m_BackDrop)
 	{
 		m_BackDrop->ActorRelease();
-		m_BackDrop = nullptr;
 	}
 
 

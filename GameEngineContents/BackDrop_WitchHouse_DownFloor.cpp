@@ -196,6 +196,4 @@ void BackDrop_WitchHouse_DownFloor::CreateStaticActor(GameEngineLevel* _Level)
 void BackDrop_WitchHouse_DownFloor::ActorRelease()
 {
 	BackDrop::ActorRelease();
-
-	Death();
 }

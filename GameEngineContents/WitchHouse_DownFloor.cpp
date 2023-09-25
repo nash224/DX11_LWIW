@@ -132,7 +132,11 @@ void WitchHouse_DownFloor::LoadActor()
 	LoadGlobalUnit();
 	LoadPortalActor();
 
-	m_BackDrop = CreateActor<BackDrop_WitchHouse_DownFloor>(EUPDATEORDER::Objects);
+	if (nullptr == m_BackDrop)
+	{
+		m_BackDrop = CreateActor<BackDrop_WitchHouse_DownFloor>(EUPDATEORDER::Objects);
+	}
+
 	if (nullptr == m_BackDrop)
 	{
 		MsgBoxAssert("액터를 생성하지 못했습니다.");
@@ -267,7 +271,6 @@ void WitchHouse_DownFloor::LevelActorRelease()
 	if (nullptr != m_BackDrop)
 	{
 		m_BackDrop->ActorRelease();
-		m_BackDrop = nullptr;
 	}
 
 

@@ -1,7 +1,8 @@
 #pragma once
+#include "GameEngineSpriteRenderer.h"
 
 // Ό³Έν :
-class GameEngineUIRenderer
+class GameEngineUIRenderer : public GameEngineSpriteRenderer
 {
 public:
 	// constrcuter destructer
@@ -15,8 +16,8 @@ public:
 	GameEngineUIRenderer& operator=(GameEngineUIRenderer&& _Other) noexcept = delete;
 
 protected:
+	void Start() override;
 
 private:
 
 };
-
