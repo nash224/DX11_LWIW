@@ -87,7 +87,24 @@ void LoadingLevel::LoadTexture()
 	if (false == GlobalTextureLoadCheck)
 	{
 		// 플레이 액터
-		GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\Ellie");
+		GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\Ellie");
+
+
+		//UI
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\PlayContents\\PlayResourecs\\UI");
+		std::vector<GameEngineDirectory> Directions = Dir.GetAllDirectory();
+		for (size_t i = 0; i < Directions.size(); i++)
+		{
+			GameEngineDirectory Direction = Directions[i];
+			std::vector<GameEngineFile> Files = Direction.GetAllFile();
+			for (size_t i = 0; i < Files.size(); i++)
+			{
+				GameEngineFile pFile = Files[i];
+				GameEngineTexture::Load(pFile.GetStringPath());
+			}
+		}
 
 		GlobalTextureLoadCheck = true;
 	}
@@ -123,6 +140,27 @@ void LoadingLevel::LoadSprite()
 		GameEngineSprite::CreateCut("Ellie_Basic_Cheer.png", 6, 6);
 		GameEngineSprite::CreateCut("Ellie_Basic_Fail.png", 6, 5);
 		GameEngineSprite::CreateCut("Ellie_Basic_Drink.png", 6, 5);
+
+		// UI
+		GameEngineSprite::CreateCut("Interaction_Arrow.png", 5, 1);
+
+
+		//UI
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\PlayContents\\PlayResourecs\\UI\\UI_Sprite");
+		std::vector<GameEngineDirectory> Directions = Dir.GetAllDirectory();
+		for (size_t i = 0; i < Directions.size(); i++)
+		{
+			GameEngineDirectory Direction = Directions[i];
+			std::vector<GameEngineFile> Files = Direction.GetAllFile();
+			for (size_t i = 0; i < Files.size(); i++)
+			{
+				GameEngineFile pFile = Files[i];
+				GameEngineSprite::CreateSingle(pFile.GetFileName());
+			}
+		}
+
 
 		GlobalSpriteLoadCheck = true;
 	}

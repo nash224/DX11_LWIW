@@ -4,10 +4,12 @@
 // Ό³Έν :
 class Ellie;
 class PortalObject;
+class UIManager;
 class PlayLevel : public ContentsLevel
 {
 public:
 	static bool PixelDebugMode;
+
 
 public:
 	// constrcuter destructer
@@ -29,11 +31,14 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 
-protected:
-	void InitPlayLevel();
+
+private:
+	void CreateUIManager();
+	void CreateEllie();
 
 protected:
 	std::shared_ptr<Ellie> m_Ellie = nullptr;
+	std::shared_ptr<UIManager> m_UIManager = nullptr;
 	std::vector<std::shared_ptr<PortalObject>> vecPortalObject;
 
 protected:

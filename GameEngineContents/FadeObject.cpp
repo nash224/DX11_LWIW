@@ -60,7 +60,7 @@ void FadeObject::CallFadeOut(std::shared_ptr<GameEngineLevel> _Level, std::funct
 		return;
 	}
 
-	std::shared_ptr<FadeObject> FadeOutObject = _Level->CreateActor<FadeObject>(EUPDATEORDER::UI);
+	std::shared_ptr<FadeObject> FadeOutObject = _Level->CreateActor<FadeObject>(EUPDATEORDER::Fade);
 	if (nullptr == FadeOutObject)
 	{
 		MsgBoxAssert("액터를 생성하지 못했습니다.");

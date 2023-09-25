@@ -10,7 +10,9 @@ enum class EUPDATEORDER
 	Objects,
 	Portal,
 	CameraControler,
-	UI,
+	UIMagnaer,
+	UIComponent,
+	Fade,
 };
 
 
@@ -79,7 +81,11 @@ enum class EDOWNFLOORRENDERORDER
 
 enum class EUI_RENDERORDER
 {
-
+	Base,
+	Frame,
+	Attachment,
+	Component,
+	Arrow,
 };
 
 enum class ECOLLISION
@@ -89,15 +95,6 @@ enum class ECOLLISION
 	Portal,
 };
 
-
-
-enum class ELEVELTYPE
-{
-	None,
-	MainMenu,
-	Misson0_Part1,
-	Max,
-};
 
 enum class EDIRECTION
 {

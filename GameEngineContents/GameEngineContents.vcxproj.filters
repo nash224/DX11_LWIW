@@ -64,6 +64,9 @@
     <Filter Include="Object\Actor\4.Portal">
       <UniqueIdentifier>{0b367fee-0d15-47ce-83bf-b9af5cab23d3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Actor\0.Manager\UI">
+      <UniqueIdentifier>{d2b381de-2a91-4ff0-aa8e-5f557243566d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -125,9 +128,6 @@
       <Filter>Global</Filter>
     </ClInclude>
     <ClInclude Include="EventManager.h">
-      <Filter>Object\Actor\0.Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="UIManager.h">
       <Filter>Object\Actor\0.Manager</Filter>
     </ClInclude>
     <ClInclude Include="CameraControler.h">
@@ -205,6 +205,21 @@
     <ClInclude Include="Juicer.h">
       <Filter>Object\Actor\2.Interactive\Static</Filter>
     </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>Object\Actor\0.Manager\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Ellie.h">
+      <Filter>Object\Actor\0.Manager\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Dictionary.h">
+      <Filter>Object\Actor\0.Manager\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Inventory.h">
+      <Filter>Object\Actor\0.Manager\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_ToggleActor.h">
+      <Filter>Object\Actor\0.Manager\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -263,9 +278,6 @@
       <Filter>Object\Actor\2.Interactive\Dynamic\Ellie</Filter>
     </ClCompile>
     <ClCompile Include="EventManager.cpp">
-      <Filter>Object\Actor\0.Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="UIManager.cpp">
       <Filter>Object\Actor\0.Manager</Filter>
     </ClCompile>
     <ClCompile Include="CameraControler.cpp">
@@ -345,6 +357,21 @@
     </ClCompile>
     <ClCompile Include="Juicer.cpp">
       <Filter>Object\Actor\2.Interactive\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>Object\Actor\0.Manager\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Ellie.cpp">
+      <Filter>Object\Actor\0.Manager\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Dictionary.cpp">
+      <Filter>Object\Actor\0.Manager\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Inventory.cpp">
+      <Filter>Object\Actor\0.Manager\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_ToggleActor.cpp">
+      <Filter>Object\Actor\0.Manager\UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -37,7 +37,6 @@ private:
 
 
 protected:
-	ELEVELTYPE LevelType;
 	EGAMEMODE Mode;
 	
 

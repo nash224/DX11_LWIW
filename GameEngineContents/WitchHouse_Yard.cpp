@@ -81,7 +81,6 @@ void WitchHouse_Yard::LoadSprite()
 
 void WitchHouse_Yard::LoadActor()
 {
-	LoadGlobalUnit();
 	LoadPortalActor();
 
 
@@ -99,27 +98,6 @@ void WitchHouse_Yard::LoadActor()
 	m_BackDrop->Init();
 }
 
-
-// 각 레벨에서 한번 실행하면 두번 다신 들어오지 않습니다. 
-// 게임이 종료할때까지 함께 존재하는 메모리입니다.
-void WitchHouse_Yard::LoadGlobalUnit()
-{
-	if (true == LevelInitCheck)
-	{
-		return;
-	}
-
-	m_Ellie = CreateActor<Ellie>(EUPDATEORDER::Player);
-	if (nullptr == m_Ellie)
-	{
-		MsgBoxAssert("액터를 생성하지 못했습니다.");
-		return;
-	}
-
-	m_Ellie->Init();
-
-	LevelInitCheck = true;
-}
 
 
 

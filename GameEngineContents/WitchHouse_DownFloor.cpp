@@ -129,7 +129,6 @@ void WitchHouse_DownFloor::LoadSprite()
 
 void WitchHouse_DownFloor::LoadActor()
 {
-	LoadGlobalUnit();
 	LoadPortalActor();
 
 	if (nullptr == m_BackDrop)
@@ -139,7 +138,7 @@ void WitchHouse_DownFloor::LoadActor()
 
 	if (nullptr == m_BackDrop)
 	{
-		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		MsgBoxAssert("액터가 존재하지 않습니다.");
 		return;
 	}
 
@@ -147,24 +146,6 @@ void WitchHouse_DownFloor::LoadActor()
 }
 
 
-// 각 레벨에서 한번 실행하면 두번 다신 들어오지 않습니다. 
-// 게임이 종료할때까지 함께 존재하는 메모리입니다.
-void WitchHouse_DownFloor::LoadGlobalUnit()
-{
-	if (false == LevelInitCheck)
-	{
-		m_Ellie = CreateActor<Ellie>(EUPDATEORDER::Player);
-		if (nullptr == m_Ellie)
-		{
-			MsgBoxAssert("액터를 생성하지 못했습니다.");
-			return;
-		}
-
-		m_Ellie->Init();
-
-		LevelInitCheck = true;
-	}
-}
 
 
 

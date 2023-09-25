@@ -23,8 +23,6 @@ void MainMenu::Start()
 {
 	ContentsLevel::Start();
 
-	LevelType = ELEVELTYPE::MainMenu;
-
 	if (nullptr != m_LevelCameraControler)
 	{
 		m_LevelCameraControler->SetCameraMode(ECAMERAMODE::Editor);

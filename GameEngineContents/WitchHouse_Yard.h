@@ -27,7 +27,6 @@ private:
 	void LoadTexture();
 	void LoadSprite();
 	void LoadActor();
-	void LoadGlobalUnit();
 	void LoadPortalActor();
 
 	void SetEllieLevelChangeLocation(class GameEngineLevel* _NextLevel);

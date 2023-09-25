@@ -31,7 +31,6 @@ private:
 	void LoadTexture();
 	void LoadSprite();
 	void LoadActor();
-	void LoadGlobalUnit();
 	void LoadPortalActor();
 
 	void CameraSetting();

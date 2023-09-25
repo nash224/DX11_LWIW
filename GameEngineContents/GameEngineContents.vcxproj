@@ -337,6 +337,22 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="UI_Dictionary.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UI_Ellie.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UI_Inventory.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UI_ToggleActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="WitchHouse_DownFloor.cpp">
       <SubType>
       </SubType>
@@ -509,6 +525,22 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="UIManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UI_Dictionary.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UI_Ellie.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UI_Inventory.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UI_ToggleActor.h">
       <SubType>
       </SubType>
     </ClInclude>

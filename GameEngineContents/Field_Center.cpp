@@ -82,7 +82,6 @@ void Field_Center::LoadSprite()
 
 void Field_Center::LoadActor()
 {
-	LoadGlobalUnit();
 	LoadPortalActor();
 
 
@@ -99,6 +98,7 @@ void Field_Center::LoadActor()
 
 	m_BackDrop->Init();
 
+
 	if (nullptr == m_LevelCameraControler)
 	{
 		MsgBoxAssert("카메라 컨트롤러를 생성하지 않고 사용하려고 했습니다.");
@@ -107,34 +107,6 @@ void Field_Center::LoadActor()
 
 	// 배경 크기를 알려줘야 카메라 기능을 사용할 수 있습니다.
 	m_LevelCameraControler->SetBackDropScale(m_BackDrop->GetBackGroundScale());
-}
-
-
-// 각 레벨에서 한번 실행하면 두번 다신 들어오지 않습니다. 
-// 게임이 종료할때까지 함께 존재하는 메모리입니다.
-void Field_Center::LoadGlobalUnit()
-{
-	if (true == LevelInitCheck)
-	{
-		return;
-	}
-
-	float4 HWinScale = GlobalValue::GetWindowScale().Half();
-	HWinScale.Y *= -1.0f;
-
-
-	m_Ellie = CreateActor<Ellie>(EUPDATEORDER::Player);
-	if (nullptr == m_Ellie)
-	{
-		MsgBoxAssert("액터를 생성하지 못했습니다.");
-		return;
-	}
-
-	m_Ellie->Init();
-	m_Ellie->SetSpawnLocalPosition(HWinScale);
-
-
-	LevelInitCheck = true;
 }
 
 

@@ -7,7 +7,6 @@
 
 ContentsLevel::ContentsLevel() 
 	:	
-	LevelType(ELEVELTYPE::None),
 	Mode(EGAMEMODE::None)
 {
 }
