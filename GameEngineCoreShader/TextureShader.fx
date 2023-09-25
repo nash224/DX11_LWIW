@@ -14,6 +14,21 @@ struct PixelOutPut
     float4 TEXCOORD : TEXCOORD;
 };
 
+// 상수버퍼를 만들때는 최대한
+// 16바이트 만드는게 좋다.
+// 그래픽카드라는것은 실수를 연산하기 위해서 만들어 졌어요.
+// hlsl에서는 bool같은건 사용하지 않는 것이 더 좋다.
+cbuffer SpriteRendererInfo : register(b3)
+{
+    int FlipLeft = 0;
+    int FlipUp = 0;
+    float Temp1;
+    float Temp2;
+};
+
+// 최적화는 
+// 횟수가 중요합니다.
+
 cbuffer SpriteData : register(b1)
 {
     float Pos2DX;
@@ -37,8 +52,26 @@ PixelOutPut TextureShader_VS(GameEngineVertex2D _Input)
     // Result.TEXCOORD = _Input.TEXCOORD;
     
     // 6의 버텍스가 들어올것이다.
-    Result.TEXCOORD.x = (_Input.TEXCOORD.x * Scale2DX) + Pos2DX;
-    Result.TEXCOORD.y = (_Input.TEXCOORD.y * Scale2DY) + Pos2DY;
+    
+    float4 CalUV = _Input.TEXCOORD;
+    
+    // hlsl은 사용하지 않은 녀석은 인식하지 못합니다.
+    // 결과에 유의미한 영향을 주는 리소스가 아니면 hlsl은 최적화를 통해서 그 리소스를 배제한다.
+    // 결과에 영향을 안주는 상수버퍼가 의미가 있어? 그런 상수버퍼는 내가 알아서 삭제할께.
+    if (0 != FlipLeft)
+    {
+        CalUV.x *= -1;
+        CalUV.x += 1;
+    }
+
+    if (0 != FlipUp)
+    {
+        CalUV.y *= -1;
+        CalUV.y += 1;
+    }
+    
+    Result.TEXCOORD.x = (CalUV.x * Scale2DX) + Pos2DX;
+    Result.TEXCOORD.y = (CalUV.y * Scale2DY) + Pos2DY;
     
     // 버텍스 들은 어떻게 되어있나?
     return Result;

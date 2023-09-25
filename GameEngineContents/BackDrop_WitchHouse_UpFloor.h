@@ -34,6 +34,6 @@ private:
 	void CreatePixelMap(GameEngineLevel* _Level);
 
 private:
-	float4 m_HouseLocation = float4::ZERO;
+	float4 m_HouseLocation = float4{300.0f , 0.0f };
 };
 

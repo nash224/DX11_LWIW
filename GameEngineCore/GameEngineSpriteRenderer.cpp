@@ -90,9 +90,10 @@ void GameEngineSpriteRenderer::Start()
 	SetMaterial("2DTexture");
 
 	const TransformData& Data = ImageTransform.GetConstTransformDataRef();
-	ShaderResHelper.ConstantBufferLink("TransformData", Data);
-	ShaderResHelper.ConstantBufferLink("SpriteData", CurSprite.SpritePivot);
+	ShaderResHelper.SetConstantBufferLink("TransformData", Data);
+	ShaderResHelper.SetConstantBufferLink("SpriteData", CurSprite.SpritePivot);
 	ShaderResHelper.SetTexture("DiffuseTex", "NSet.Png");
+	ShaderResHelper.SetConstantBufferLink("SpriteRendererInfo", SpriteRendererInfoValue);
 
 	//std::shared_ptr<GameEngineConstantBuffer> Buffer = GameEngineConstantBuffer::CreateAndFind(sizeof(float4), "SpriteData");
 	//if (nullptr != Buffer)
@@ -148,8 +149,6 @@ void GameEngineSpriteRenderer::Render(GameEngineCamera* _Camera, float _Delta)
 
 	ImageTransform.TransformUpdate();
 	ImageTransform.CalculationViewAndProjection(Transform.GetConstTransformDataRef());
-
-
 
 	ShaderResHelper.SetTexture("DiffuseTex", CurSprite.Texture);
 

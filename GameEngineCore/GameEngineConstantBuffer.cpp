@@ -52,7 +52,7 @@ void GameEngineConstantBuffer::ChangeData(const void* _Data, UINT _Size)
 {
 	if (nullptr == _Data)
 	{
-		std::string Name = Name;
+		std::string Name = GetName().data();
 		MsgBoxAssert(Name + "nullptr인 데이터를 세팅하려고 했습니다.");
 		return;
 	}
@@ -60,7 +60,7 @@ void GameEngineConstantBuffer::ChangeData(const void* _Data, UINT _Size)
 	// 크기가 다른
 	if (_Size != BufferInfo.ByteWidth)
 	{
-		std::string Name = Name;
+		std::string Name = GetName().data();
 		MsgBoxAssert(Name + "크기가 다른 데이터로 상수버퍼를 세팅하려고 했습니다.");
 		return;
 	}
