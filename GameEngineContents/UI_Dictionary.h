@@ -1,6 +1,19 @@
 #pragma once
 #include "UI_ToggleActor.h"
 
+constexpr float CategoryGap = 14.0f;
+
+
+struct CategoryRenderer
+{
+public:
+	std::shared_ptr<GameEngineSpriteRenderer> Creature = nullptr;
+	std::shared_ptr<GameEngineSpriteRenderer> Plant = nullptr;
+	std::shared_ptr<GameEngineSpriteRenderer> Potion = nullptr;
+	std::shared_ptr<GameEngineSpriteRenderer> Candy = nullptr;
+
+};
+
 
 // Ό³Έν :
 class UI_DictionaryPage;
@@ -37,10 +50,16 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
+	void CreateBase();
+	void CreateCategory();
 	void CreatePage(EDICTIONARYCATEGORY _Type, std::string_view Name);
+
 
 	void OpenChild() override;
 	void CloseChild() override;
+
+	void OpenCategoryPage(EDICTIONARYCATEGORY _Type);
+	void CloseCategoryPage(EDICTIONARYCATEGORY _Type);
 
 private:
 	void UpdateDictionary();
@@ -50,13 +69,14 @@ private:
 
 
 private:
-	std::shared_ptr<GameEngineSpriteRenderer> m_BaseRenderer = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> m_BaseRenderer = nullptr;
+	CategoryRenderer m_CategoryRenderer;
 	std::vector<std::shared_ptr<class UI_BiologyPage>> vecCreaturePage;
 	std::vector<std::shared_ptr<class UI_BiologyPage>> vecPlantPage;
 
 private:
 	bool IsTurnedPage = false;
-	int m_CurrentPage = 0;
+	int m_CurrentLeftPage = 0;
 
 
 

@@ -356,7 +356,9 @@ void GameEngineSpriteRenderer::SetPivotType(PivotType _Type)
 	case PivotType::LeftTop:
 		Pivot = { 1.0f, 0.0f };
 		break;
-
+	case PivotType::Right:
+		Pivot = { 0.0f, 0.5f };
+		break;
 	default:
 		break;
 	}

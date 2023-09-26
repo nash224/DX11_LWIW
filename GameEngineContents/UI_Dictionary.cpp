@@ -42,8 +42,38 @@ void UI_Dictionary::LevelEnd(class GameEngineLevel* _NextLevel)
 //
 // 이니셜
 
+#pragma region 이니셜
+
 // 사전의 페이지를 생성합니다.
 void UI_Dictionary::Init()
+{
+	// Base
+	CreateBase();
+
+	// Category
+	CreateCategory();
+
+	// CreaturePage
+	CreatePage(EDICTIONARYCATEGORY::CreaturePage, "Mongsiri");
+	CreatePage(EDICTIONARYCATEGORY::CreaturePage, "PumpkinTerrier");
+	CreatePage(EDICTIONARYCATEGORY::CreaturePage, "BushBug");
+	CreatePage(EDICTIONARYCATEGORY::CreaturePage, "FlowerBird");
+	CreatePage(EDICTIONARYCATEGORY::CreaturePage, "BubbleLizard");
+
+	// PlantPage
+	CreatePage(EDICTIONARYCATEGORY::PlantPage, "WitchFlower");
+	CreatePage(EDICTIONARYCATEGORY::PlantPage, "SilverStarFlower");
+	CreatePage(EDICTIONARYCATEGORY::PlantPage, "MapleHerb");
+
+
+
+	m_CurrentCategory = EDICTIONARYCATEGORY::CreaturePage;
+	m_CurrentLeftPage = 1;
+}
+
+
+// 책 생성
+void UI_Dictionary::CreateBase()
 {
 	// Base
 	m_BaseRenderer = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Base);
@@ -54,14 +84,108 @@ void UI_Dictionary::Init()
 	}
 
 	m_BaseRenderer->SetSprite("Base.png");
-
-	// CreaturePage
-	CreatePage(EDICTIONARYCATEGORY::CreaturePage, "Mongsiri");
-	CreatePage(EDICTIONARYCATEGORY::CreaturePage, "PumpkinTerrier");
-
-	m_CurrentCategory = EDICTIONARYCATEGORY::CreaturePage;
 }
 
+// 카테고리 생성
+void UI_Dictionary::CreateCategory()
+{
+	float4 SetLocalPos = float4{ -345.0f , 128.0f };
+
+	m_CategoryRenderer.Creature = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Attachment);
+	if (nullptr == m_CategoryRenderer.Creature)
+	{
+		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
+		return;
+	}
+
+	m_CategoryRenderer.Creature->SetSprite("Tag_Creature_Normal.png");
+	m_CategoryRenderer.Creature->SetPivotType(PivotType::Right);
+	m_CategoryRenderer.Creature->Transform.SetLocalPosition(SetLocalPos);
+
+	std::shared_ptr<GameEngineTexture> CreatureTexture = GameEngineTexture::Find("Tag_Creature_Normal.png");
+	if (nullptr == CreatureTexture)
+	{
+		MsgBoxAssert("텍스처를 불러오지 못했습니다.");
+		return;
+	}
+
+	float4 HTextureScale = CreatureTexture->GetScale().Half();
+	SetLocalPos.Y -= HTextureScale.Y + CategoryGap;
+
+
+	std::shared_ptr<GameEngineTexture> PlantTexture = GameEngineTexture::Find("Tag_Plant_Normal.png");
+	if (nullptr == PlantTexture)
+	{
+		MsgBoxAssert("텍스처를 불러오지 못했습니다.");
+		return;
+	}
+
+	HTextureScale = PlantTexture->GetScale().Half();
+	SetLocalPos.Y -= HTextureScale.Y;
+
+
+	m_CategoryRenderer.Plant = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Attachment);
+	if (nullptr == m_CategoryRenderer.Plant)
+	{
+		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
+		return;
+	}
+
+	m_CategoryRenderer.Plant->SetSprite("Tag_Plant_Normal.png");
+	m_CategoryRenderer.Plant->SetPivotType(PivotType::Right);
+	m_CategoryRenderer.Plant->Transform.SetLocalPosition(SetLocalPos);
+
+	SetLocalPos.Y -= HTextureScale.Y + CategoryGap;
+
+
+	std::shared_ptr<GameEngineTexture> PotionTexture = GameEngineTexture::Find("Tag_Potion_Normal.png");
+	if (nullptr == PotionTexture)
+	{
+		MsgBoxAssert("텍스처를 불러오지 못했습니다.");
+		return;
+	}
+
+	HTextureScale = PotionTexture->GetScale().Half();
+	SetLocalPos.Y -= HTextureScale.Y;
+
+
+	m_CategoryRenderer.Potion = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Attachment);
+	if (nullptr == m_CategoryRenderer.Potion)
+	{
+		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
+		return;
+	}
+
+	m_CategoryRenderer.Potion->SetSprite("Tag_Potion_Normal.png");
+	m_CategoryRenderer.Potion->SetPivotType(PivotType::Right);
+	m_CategoryRenderer.Potion->Transform.SetLocalPosition(SetLocalPos);
+
+	SetLocalPos.Y -= HTextureScale.Y + CategoryGap;
+
+
+
+	std::shared_ptr<GameEngineTexture> CandyTexture = GameEngineTexture::Find("Tag_Candy_Normal.png");
+	if (nullptr == CandyTexture)
+	{
+		MsgBoxAssert("텍스처를 불러오지 못했습니다.");
+		return;
+	}
+
+	HTextureScale = CandyTexture->GetScale().Half();
+	SetLocalPos.Y -= HTextureScale.Y;
+
+
+	m_CategoryRenderer.Candy = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Attachment);
+	if (nullptr == m_CategoryRenderer.Candy)
+	{
+		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
+		return;
+	}
+
+	m_CategoryRenderer.Candy->SetSprite("Tag_Candy_Normal.png");
+	m_CategoryRenderer.Candy->SetPivotType(PivotType::Right);
+	m_CategoryRenderer.Candy->Transform.SetLocalPosition(SetLocalPos);
+}
 
 // 카테고리 페이지를 추가합니다.
 void UI_Dictionary::CreatePage(EDICTIONARYCATEGORY _Type, std::string_view Name)
@@ -110,23 +234,45 @@ void UI_Dictionary::CreatePage(EDICTIONARYCATEGORY _Type, std::string_view Name)
 	default:
 		break;
 	}
-
 }
+
+#pragma endregion
+
+
 
 // 부모의 Open함수에 자식에서 해줘야할 행동을 선언합니다.
 void UI_Dictionary::OpenChild()
 {
-	if (-1 == m_CurrentPage)
+	OpenCategoryPage(m_CurrentCategory);
+}
+
+// 부모의 Close함수에 자식에서 해줘야할 행동을 선언합니다.
+void UI_Dictionary::CloseChild()
+{
+	CloseCategoryPage(m_CurrentCategory);
+}
+
+
+
+
+void UI_Dictionary::OpenCategoryPage(EDICTIONARYCATEGORY _Type)
+{
+	if (m_CurrentLeftPage < 1)
 	{
 		MsgBoxAssert("0페이지는 존재하지 않습니다.");
 		return;
 	}
 
-	int OpenPage = (m_CurrentPage - 1) / 2;
+	// 2가 나오면 3,4 페이지가 열립니다.
+	int OpenPage = m_CurrentLeftPage - 1;
 
 	switch (m_CurrentCategory)
 	{
 	case EDICTIONARYCATEGORY::None:
+	{
+		MsgBoxAssert("현재 카테고리로는 열람이 불가능합니다.");
+		return;
+	}
 		break;
 	case EDICTIONARYCATEGORY::CreaturePage:
 	{
@@ -139,8 +285,9 @@ void UI_Dictionary::OpenChild()
 
 		OddPage->On();
 
-		// 페이지가 짝수라면 양쪽페이지
-		if (0 == m_CreaturePageCount % 2)
+		// 현재 페이지는 무조건 홀수만 들어옵니다.
+		// 마지막 페이지가 현재 페이지와 같다면 한쪽이 비어있다는 뜻으로 밑 구문을 실행시키지 않습니다.
+		if (m_CurrentLeftPage != m_CreaturePageCount)
 		{
 			std::shared_ptr<UI_BiologyPage> EvenPage = vecCreaturePage[OpenPage];
 			if (nullptr == EvenPage)
@@ -152,7 +299,7 @@ void UI_Dictionary::OpenChild()
 			EvenPage->On();
 		}
 	}
-		break;
+	break;
 	case EDICTIONARYCATEGORY::PlantPage:
 	{
 		std::shared_ptr<UI_BiologyPage> OddPage = vecPlantPage[OpenPage++];
@@ -164,8 +311,9 @@ void UI_Dictionary::OpenChild()
 
 		OddPage->On();
 
-		// 페이지가 짝수라면 양쪽페이지
-		if (0 == m_PlantPageCount % 2)
+		// 현재 페이지는 무조건 홀수만 들어옵니다.
+		// 마지막 페이지가 현재 페이지와 같다면 한쪽이 비어있다는 뜻으로 밑 구문을 실행시키지 않습니다.
+		if (m_CurrentLeftPage != m_PlantPageCount)
 		{
 			std::shared_ptr<UI_BiologyPage> EvenPage = vecPlantPage[OpenPage];
 			if (nullptr == EvenPage)
@@ -177,7 +325,7 @@ void UI_Dictionary::OpenChild()
 			EvenPage->On();
 		}
 	}
-		break;
+	break;
 	case EDICTIONARYCATEGORY::PotionPage:
 		break;
 	case EDICTIONARYCATEGORY::CandyPage:
@@ -187,10 +335,10 @@ void UI_Dictionary::OpenChild()
 	}
 }
 
-// 부모의 Close함수에 자식에서 해줘야할 행동을 선언합니다.
-void UI_Dictionary::CloseChild()
+// 특정 카테고리 페이지를 끕니다.
+void UI_Dictionary::CloseCategoryPage(EDICTIONARYCATEGORY _Type)
 {
-	switch (m_CurrentCategory)
+	switch (_Type)
 	{
 	case EDICTIONARYCATEGORY::None:
 		break;
@@ -208,10 +356,10 @@ void UI_Dictionary::CloseChild()
 			Object->Off();
 		}
 	}
-		break;
+	break;
 	case EDICTIONARYCATEGORY::PlantPage:
 	{
-		for (size_t i = 0; i < vecCreaturePage.size(); i++)
+		for (size_t i = 0; i < vecPlantPage.size(); i++)
 		{
 			std::shared_ptr<UI_BiologyPage> Object = vecPlantPage[i];
 			if (nullptr == Object)
@@ -223,7 +371,7 @@ void UI_Dictionary::CloseChild()
 			Object->Off();
 		}
 	}
-		break;
+	break;
 	case EDICTIONARYCATEGORY::PotionPage:
 		break;
 	case EDICTIONARYCATEGORY::CandyPage:
@@ -272,6 +420,7 @@ bool UI_Dictionary::CheckOpenDictionary()
 	return false;
 }
 
+// 페이지가 넘거가는 것을 감지합니다.
 bool UI_Dictionary::CheckTurningPage()
 {
 	if (true == GameEngineInput::IsDown(VK_LEFT))
@@ -289,29 +438,75 @@ bool UI_Dictionary::CheckTurningPage()
 	return false;
 }
 
+// 페이지가 다음장으로 넘어갑니다.
 void UI_Dictionary::NextPage()
 {
+	// SFX
 
-}
+	int MaxPage = -1;
 
-void UI_Dictionary::PrevPage()
-{
-
-}
-
-
-
-bool UI_Dictionary::CheckMoveCategory()
-{
-	if (true == GameEngineInput::IsDown(VK_UP))
+	switch (m_CurrentCategory)
 	{
-		PrevCategory();
-		return true;
+	case EDICTIONARYCATEGORY::None:
+	{
+		MsgBoxAssert("None은 들어올 수 없습니다.");
+		return;
+	}
+	break;
+	case EDICTIONARYCATEGORY::CreaturePage:
+		MaxPage = m_CreaturePageCount;
+		break;
+	case EDICTIONARYCATEGORY::PlantPage:
+		MaxPage = m_PlantPageCount;
+		break;
+	case EDICTIONARYCATEGORY::PotionPage:
+		break;
+	case EDICTIONARYCATEGORY::CandyPage:
+		break;
+	default:
+		break;
 	}
 
+	if (m_CurrentLeftPage == MaxPage || m_CurrentLeftPage + 1 == MaxPage)
+	{
+		return;
+	}
+
+	m_CurrentLeftPage += 2;
+
+	CloseCategoryPage(m_CurrentCategory);
+	OpenCategoryPage(m_CurrentCategory);
+}
+
+// 페이지가 이전장으로 넘어갑니다.
+void UI_Dictionary::PrevPage()
+{
+	// SFX
+
+	if (m_CurrentLeftPage <= 2)
+	{
+		return;
+	}
+
+	m_CurrentLeftPage -= 2;
+
+	CloseCategoryPage(m_CurrentCategory);
+	OpenCategoryPage(m_CurrentCategory);
+}
+
+
+// 카테고리 전환을 감지합니다.
+bool UI_Dictionary::CheckMoveCategory()
+{
 	if (true == GameEngineInput::IsDown(VK_DOWN))
 	{
 		NextCategory();
+		return true;
+	}
+
+	if (true == GameEngineInput::IsDown(VK_UP))
+	{
+		PrevCategory();
 		return true;
 	}
 
@@ -320,12 +515,47 @@ bool UI_Dictionary::CheckMoveCategory()
 	return false;
 }
 
+
 void UI_Dictionary::PrevCategory()
 {
+	// 현재 카테고리 닫고
+	CloseCategoryPage(m_CurrentCategory);
 
+	// 변경 후
+	int CurCategory = static_cast<int>(m_CurrentCategory);
+	--CurCategory;
+	if (0 == CurCategory)
+	{
+		CurCategory = 4;
+	}
+
+	m_CurrentCategory = static_cast<EDICTIONARYCATEGORY>(CurCategory);
+
+	// 현재 페이지는 무조건 1로 초기화
+	m_CurrentLeftPage = 1;
+
+	// 연다.
+	OpenCategoryPage(m_CurrentCategory);
 }
 
 void UI_Dictionary::NextCategory()
 {
+	// 현재 카테고리 닫고
+	CloseCategoryPage(m_CurrentCategory);
 
-}
+	// 변경 후
+	int CurCategory = static_cast<int>(m_CurrentCategory);
+	++CurCategory;
+	if (5 == CurCategory)
+	{
+		CurCategory = 1;
+	}
+
+	m_CurrentCategory = static_cast<EDICTIONARYCATEGORY>(CurCategory);
+
+	// 현재 페이지는 무조건 1로 초기화
+	m_CurrentLeftPage = 1;
+
+	// 연다.
+	OpenCategoryPage(m_CurrentCategory);
+};
