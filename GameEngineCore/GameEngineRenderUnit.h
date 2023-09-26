@@ -12,12 +12,6 @@ public:
 	GameEngineRenderUnit();
 	~GameEngineRenderUnit();
 
-	// delete Function
-	GameEngineRenderUnit(const GameEngineRenderUnit& _Other) = delete;
-	GameEngineRenderUnit(GameEngineRenderUnit&& _Other) noexcept = delete;
-	GameEngineRenderUnit& operator=(const GameEngineRenderUnit& _Other) = delete;
-	GameEngineRenderUnit& operator=(GameEngineRenderUnit&& _Other) noexcept = delete;
-
 	void SetMesh(std::string_view _Name);
 	void SetMaterial(std::string_view _Name);
 

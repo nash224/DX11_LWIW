@@ -41,10 +41,10 @@ cbuffer SpriteData : register(b1)
 
 // 파일명과 함수명을 일치시키고 버텍스 쉐이더면 무조건 뒤에 _VS를 붙입니다.
 // 의미있는 버텍스 쉐이더이다.
-PixelOutPut TextureShader_VS(GameEngineVertex2D _Input)
+PixelOutPut TextureShader_VS(GameEngineVertex2D _Input) 
 {
     // 쉐이더 문법 모두 0인 자료형으로 초기화 하는것
-    PixelOutPut Result = (PixelOutPut) 0;
+    PixelOutPut Result = (PixelOutPut)0;
     
     // 내가 원하는 값을 이안에 넣어줄수 있어야 한다.
     

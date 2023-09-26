@@ -63,12 +63,6 @@ public:
 	GameEngineShaderResHelper();
 	~GameEngineShaderResHelper();
 
-	// delete Function
-	GameEngineShaderResHelper(const GameEngineShaderResHelper& _Other) = delete;
-	GameEngineShaderResHelper(GameEngineShaderResHelper&& _Other) noexcept = delete;
-	GameEngineShaderResHelper& operator=(const GameEngineShaderResHelper& _Other) = delete;
-	GameEngineShaderResHelper& operator=(GameEngineShaderResHelper&& _Other) noexcept = delete;
-
 	// 쉐이더의 컴파일된 코드 결과물
 	void ShaderResCheck(std::string _FunctionName, class GameEngineShader* _Shader, ID3DBlob* _CompileCode);
 

@@ -25,19 +25,18 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
+    <FxCompile Include="DebugColorShader.fx" />
     <FxCompile Include="RenderBase.fx" />
-    <FxCompile Include="TextureShader.fx">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
+    <FxCompile Include="TextureShader.fx" />
     <FxCompile Include="Transform.fx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="47기 쉐이더 규칙.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{cfdc6049-1073-4cc7-a606-75d8bd9915c6}</ProjectGuid>
+    <ProjectGuid>{CFDC6049-1073-4CC7-A606-75D8BD9915C6}</ProjectGuid>
     <RootNamespace>GameEngineCoreShader</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
