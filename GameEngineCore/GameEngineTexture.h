@@ -13,7 +13,7 @@ public:
 	unsigned char B = 0;
 	unsigned char A = 0;
 
-	bool operator==(const GameEngineColor& _Other) const
+	bool operator==(const GameEngineColor& _Other) const 
 	{
 		return memcmp(this, &_Other, sizeof(GameEngineColor)) == 0;
 	}
@@ -40,8 +40,8 @@ public:
 		return NewRes;
 	}
 
-	static std::shared_ptr<GameEngineTexture> Load(std::string_view _Path,
-		D3D11_FILTER _Filter = D3D11_FILTER::D3D11_FILTER_MIN_MAG_MIP_POINT,
+	static std::shared_ptr<GameEngineTexture> Load(std::string_view _Path, 
+		D3D11_FILTER _Filter = D3D11_FILTER::D3D11_FILTER_MIN_MAG_MIP_POINT, 
 		D3D11_TEXTURE_ADDRESS_MODE _Address = D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_CLAMP)
 	{
 		GameEnginePath Path = _Path;
@@ -68,10 +68,10 @@ public:
 
 	inline float4 GetScale()
 	{
-		return { static_cast<float>(Desc.Width), static_cast<float>(Desc.Height), 1.0f, 0.0f };
+		return { static_cast<float>(Desc.Width), static_cast<float>(Desc.Height), 1.0f, 0.0f};
 	}
 
-	inline ID3D11ShaderResourceView* GetSRV()
+	inline ID3D11ShaderResourceView* GetSRV() 
 	{
 		return SRV;
 	}

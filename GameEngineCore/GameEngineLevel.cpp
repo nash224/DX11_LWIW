@@ -6,7 +6,7 @@
 #include "GameEngineCollision.h"
 #include "GameEngineCollisionGroup.h"
 
-GameEngineLevel::GameEngineLevel()
+GameEngineLevel::GameEngineLevel() 
 {
 	// Main
 	{
@@ -28,7 +28,7 @@ std::shared_ptr<GameEngineCamera> GameEngineLevel::CreateCamera(int _Order, int 
 	return NewCamera;
 }
 
-GameEngineLevel::~GameEngineLevel()
+GameEngineLevel::~GameEngineLevel() 
 {
 }
 

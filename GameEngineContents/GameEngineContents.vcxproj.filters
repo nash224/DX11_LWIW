@@ -220,6 +220,18 @@
     <ClInclude Include="UI_ToggleActor.h">
       <Filter>Object\Actor\0.Manager\UI</Filter>
     </ClInclude>
+    <ClInclude Include="UI_AnimalPage.h">
+      <Filter>Object\Actor\0.Manager\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_DictionaryPage.h">
+      <Filter>Object\Actor\0.Manager\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIEnum.h">
+      <Filter>Object\Actor\0.Manager\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Item.h">
+      <Filter>Object\Actor\0.Manager\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -371,6 +383,15 @@
       <Filter>Object\Actor\0.Manager\UI</Filter>
     </ClCompile>
     <ClCompile Include="UI_ToggleActor.cpp">
+      <Filter>Object\Actor\0.Manager\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_AnimalPage.cpp">
+      <Filter>Object\Actor\0.Manager\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_DictionaryPage.cpp">
+      <Filter>Object\Actor\0.Manager\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Item.cpp">
       <Filter>Object\Actor\0.Manager\UI</Filter>
     </ClCompile>
   </ItemGroup>

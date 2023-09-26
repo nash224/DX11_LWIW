@@ -15,20 +15,20 @@ std::map<std::string, std::shared_ptr<GameEngineLevel>> GameEngineCore::AllLevel
 
 
 
-GameEngineCore::GameEngineCore()
+GameEngineCore::GameEngineCore() 
 {
 }
 
-GameEngineCore::~GameEngineCore()
+GameEngineCore::~GameEngineCore() 
 {
 }
 
-void GameEngineCore::Start()
+void GameEngineCore::Start() 
 {
 	CoreObject->Start();
 }
 
-void GameEngineCore::Update()
+void GameEngineCore::Update() 
 {
 
 	if (nullptr != NextLevel)
@@ -87,7 +87,7 @@ void GameEngineCore::Update()
 	CurLevel->AllReleaseCheck();
 }
 
-void GameEngineCore::Release()
+void GameEngineCore::Release() 
 {
 	CoreObject->Release();
 }

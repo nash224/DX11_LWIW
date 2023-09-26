@@ -4,7 +4,7 @@
 
 // Ό³Έν :
 template<typename ResourcesType>
-class GameEngineResources
+class GameEngineResources 
 {
 public:
 	// constrcuter destructer

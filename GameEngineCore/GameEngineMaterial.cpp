@@ -55,7 +55,7 @@ void GameEngineMaterial::Blend()
 	BlendStatePtr->Setting();
 }
 
-void GameEngineMaterial::SetVertexShader(const std::string_view& _Value)
+void GameEngineMaterial::SetVertexShader(const std::string_view& _Value) 
 {
 	VertexShaderPtr = GameEngineVertexShader::Find(_Value);
 
@@ -65,7 +65,7 @@ void GameEngineMaterial::SetVertexShader(const std::string_view& _Value)
 	}
 }
 
-void GameEngineMaterial::SetRasterizer(const std::string_view& _Value)
+void GameEngineMaterial::SetRasterizer(const std::string_view& _Value) 
 {
 	RasterizerPtr = GameEngineRasterizer::Find(_Value);
 
@@ -76,7 +76,7 @@ void GameEngineMaterial::SetRasterizer(const std::string_view& _Value)
 	}
 }
 
-void GameEngineMaterial::SetPixelShader(const std::string_view& _Value)
+void GameEngineMaterial::SetPixelShader(const std::string_view& _Value) 
 {
 	PixelShaderPtr = GameEnginePixelShader::Find(_Value);
 
@@ -87,7 +87,7 @@ void GameEngineMaterial::SetPixelShader(const std::string_view& _Value)
 	}
 }
 
-void GameEngineMaterial::SetBlendState(const std::string_view& _Value)
+void GameEngineMaterial::SetBlendState(const std::string_view& _Value) 
 {
 	BlendStatePtr = GameEngineBlend::Find(_Value);
 

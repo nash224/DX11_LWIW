@@ -8,13 +8,13 @@
 #pragma comment(lib, "..\\GameEngineCore\\ThirdParty\\DirectXTex\\lib\\Release\\DirectXTex.lib")
 #endif
 
-const GameEngineColor GameEngineColor::RED = { 255, 0, 0, 255 };
+const GameEngineColor GameEngineColor::RED = {255, 0, 0, 255 };
 
-GameEngineTexture::GameEngineTexture()
+GameEngineTexture::GameEngineTexture() 
 {
 }
 
-GameEngineTexture::~GameEngineTexture()
+GameEngineTexture::~GameEngineTexture() 
 {
 	if (nullptr != SRV)
 	{
@@ -86,9 +86,9 @@ void GameEngineTexture::ResLoad(std::string_view _Path)
 		{
 			MsgBoxAssert("텍스처 로드에 실패했습니다." + std::string(_Path.data()));
 		}
-
+		
 	}
-	else if (S_OK != DirectX::LoadFromWICFile(wPath.c_str(), DirectX::WIC_FLAGS_NONE, &Data, Image))
+	else if(S_OK != DirectX::LoadFromWICFile(wPath.c_str(), DirectX::WIC_FLAGS_NONE, &Data, Image))
 	{
 		MsgBoxAssert("텍스처 로드에 실패했습니다." + std::string(_Path.data()));
 	}

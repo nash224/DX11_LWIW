@@ -3,12 +3,13 @@
 #include "GameEngineLevel.h"
 #include "GameEngineRenderer.h"
 #include "GameEngineCore.h"
+#include "GameEngineRenderTarget.h"
 
-GameEngineCamera::GameEngineCamera()
+GameEngineCamera::GameEngineCamera() 
 {
 }
 
-GameEngineCamera::~GameEngineCamera()
+GameEngineCamera::~GameEngineCamera() 
 {
 }
 
@@ -82,6 +83,8 @@ void GameEngineCamera::Render(float _DeltaTime)
 		return;
 	}
 
+	GameEngineCore::GetBackBufferRenderTarget()->Setting();
+
 	//x + 1;
 	//y + 1;
 	//z + 1;
@@ -95,7 +98,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 	{
 		std::list<std::shared_ptr<class GameEngineRenderer>>& RendererList = RendererPair.second;
 
-		for (std::shared_ptr<class GameEngineRenderer>& Renderer : RendererList)
+		for (std::shared_ptr<class GameEngineRenderer> & Renderer : RendererList)
 		{
 			if (false == Renderer->IsUpdate())
 			{
@@ -141,7 +144,7 @@ float4 GameEngineCamera::GetWorldMousePos2D()
 {
 	// 월드라고 하는 세상은 화면과 관련이 없었다.
 	// 그런데 관련있게 됐다.
-
+	
 	// 나누기
 	// 로컬 => 월드(크자이공부) => 뷰 => 프로젝션 => 뷰포트(스크린좌표)
 

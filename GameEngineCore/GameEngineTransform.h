@@ -63,8 +63,8 @@ public:
 		CollisionData& _Right,
 		ColType _LeftType = ColType::AABBBOX2D,
 		ColType _RightType = ColType::AABBBOX2D
-	)
-		:
+	) 
+		: 
 		Left(_Left),
 		Right(_Right),
 		LeftType(_LeftType),
@@ -75,7 +75,7 @@ public:
 };
 
 // 왜 굳이. 
-class TransformData
+class TransformData 
 {
 public:
 	// w가 0일때와 1일때의 차이를 잘 기억해놓자.
@@ -84,7 +84,7 @@ public:
 	float4 Rotation = float4::ZERONULL;
 	float4 Quaternion = float4::ZERO;
 	float4 Position = float4::ZERO;
-
+	
 	// 이걸 직접 수정하는 일은 없을겁니다.
 	float4 LocalScale;
 	float4 LocalRotation;

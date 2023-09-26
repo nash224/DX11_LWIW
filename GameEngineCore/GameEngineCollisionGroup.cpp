@@ -2,11 +2,11 @@
 #include "GameEngineCollisionGroup.h"
 #include "GameEngineCollision.h"
 
-GameEngineCollisionGroup::GameEngineCollisionGroup()
+GameEngineCollisionGroup::GameEngineCollisionGroup() 
 {
 }
 
-GameEngineCollisionGroup::~GameEngineCollisionGroup()
+GameEngineCollisionGroup::~GameEngineCollisionGroup() 
 {
 }
 
@@ -17,7 +17,7 @@ void GameEngineCollisionGroup::AllReleaseCheck()
 	std::list<std::shared_ptr<class GameEngineCollision>>::iterator StartIter = Collisions.begin();
 	std::list<std::shared_ptr<class GameEngineCollision>>::iterator EndIter = Collisions.end();
 
-	for (; StartIter != EndIter; )
+	for ( ; StartIter != EndIter; )
 	{
 		if (false == (*StartIter)->IsDeath())
 		{
@@ -222,7 +222,7 @@ bool GameEngineCollisionGroup::CollisionEvent(std::shared_ptr<GameEngineCollisio
 	if (0 != ResultCollision.size())
 	{
 		// ResultCollision 나랑 충돌한 애들.
-
+		
 		for (size_t i = 0; i < ResultCollision.size(); i++)
 		{
 			std::shared_ptr<GameEngineCollision> Other = ResultCollision[i];
@@ -235,7 +235,7 @@ bool GameEngineCollisionGroup::CollisionEvent(std::shared_ptr<GameEngineCollisio
 
 				_Collision->Others.insert(Other);
 			}
-			else
+			else 
 			{
 				if (_Event.Stay)
 				{

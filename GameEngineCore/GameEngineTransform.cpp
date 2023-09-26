@@ -8,7 +8,7 @@ std::function<bool(const CollisionParameter& _Data)> ArrColFunction[static_cast<
 class InitColFunction
 {
 public:
-	InitColFunction()
+	InitColFunction() 
 	{
 		for (size_t Left = 0; Left < static_cast<size_t>(ColType::MAX); Left++)
 		{
@@ -32,88 +32,88 @@ public:
 		};
 
 		ArrColFunction[static_cast<int>(ColType::AABBBOX2D)][static_cast<int>(ColType::SPHERE2D)] = [](const CollisionParameter& _Data)
-		{
-			DirectX::BoundingBox Left = _Data.Left.AABB;
-			Left.Center.z = 0.0f;
-			DirectX::BoundingSphere Right = _Data.Right.SPHERE;
-			Right.Center.z = 0.0f;
-			return Left.Intersects(Right);
-		};
+			{
+				DirectX::BoundingBox Left = _Data.Left.AABB;
+				Left.Center.z = 0.0f;
+				DirectX::BoundingSphere Right = _Data.Right.SPHERE;
+				Right.Center.z = 0.0f;
+				return Left.Intersects(Right);
+			};
 
 		ArrColFunction[static_cast<int>(ColType::AABBBOX2D)][static_cast<int>(ColType::OBBBOX2D)] = [](const CollisionParameter& _Data)
-		{
-			DirectX::BoundingBox Left = _Data.Left.AABB;
-			Left.Center.z = 0.0f;
-			DirectX::BoundingOrientedBox Right = _Data.Right.OBB;
-			Right.Center.z = 0.0f;
-			return Left.Intersects(Right);
-		};
+			{
+				DirectX::BoundingBox Left = _Data.Left.AABB;
+				Left.Center.z = 0.0f;
+				DirectX::BoundingOrientedBox Right = _Data.Right.OBB;
+				Right.Center.z = 0.0f;
+				return Left.Intersects(Right);
+			};
 
 		ArrColFunction[static_cast<int>(ColType::SPHERE2D)][static_cast<int>(ColType::AABBBOX2D)] = [](const CollisionParameter& _Data)
-		{
-			DirectX::BoundingSphere Left = _Data.Left.SPHERE;
-			Left.Center.z = 0.0f;
-			DirectX::BoundingBox Right = _Data.Right.AABB;
-			Right.Center.z = 0.0f;
-			return Left.Intersects(Right);
-		};
+			{
+				DirectX::BoundingSphere Left = _Data.Left.SPHERE;
+				Left.Center.z = 0.0f;
+				DirectX::BoundingBox Right = _Data.Right.AABB;
+				Right.Center.z = 0.0f;
+				return Left.Intersects(Right);
+			};
 
 		ArrColFunction[static_cast<int>(ColType::SPHERE2D)][static_cast<int>(ColType::SPHERE2D)] = [](const CollisionParameter& _Data)
-		{
-			DirectX::BoundingSphere Left = _Data.Left.SPHERE;
-			Left.Center.z = 0.0f;
-			DirectX::BoundingSphere Right = _Data.Right.SPHERE;
-			Right.Center.z = 0.0f;
-			return Left.Intersects(Right);
-		};
+			{
+				DirectX::BoundingSphere Left = _Data.Left.SPHERE;
+				Left.Center.z = 0.0f;
+				DirectX::BoundingSphere Right = _Data.Right.SPHERE;
+				Right.Center.z = 0.0f;
+				return Left.Intersects(Right);
+			};
 
 		ArrColFunction[static_cast<int>(ColType::SPHERE2D)][static_cast<int>(ColType::OBBBOX2D)] = [](const CollisionParameter& _Data)
-		{
-			DirectX::BoundingSphere Left = _Data.Left.SPHERE;
-			Left.Center.z = 0.0f;
-			DirectX::BoundingOrientedBox Right = _Data.Right.OBB;
-			Right.Center.z = 0.0f;
-			return Left.Intersects(Right);
-		};
+			{
+				DirectX::BoundingSphere Left = _Data.Left.SPHERE;
+				Left.Center.z = 0.0f;
+				DirectX::BoundingOrientedBox Right = _Data.Right.OBB;
+				Right.Center.z = 0.0f;
+				return Left.Intersects(Right);
+			};
 
 
 		ArrColFunction[static_cast<int>(ColType::OBBBOX2D)][static_cast<int>(ColType::AABBBOX2D)] = [](const CollisionParameter& _Data)
-		{
-			DirectX::BoundingOrientedBox Left = _Data.Left.OBB;
-			Left.Center.z = 0.0f;
-			DirectX::BoundingBox Right = _Data.Right.AABB;
-			Right.Center.z = 0.0f;
-			return Left.Intersects(Right);
-		};
+			{
+				DirectX::BoundingOrientedBox Left = _Data.Left.OBB;
+				Left.Center.z = 0.0f;
+				DirectX::BoundingBox Right = _Data.Right.AABB;
+				Right.Center.z = 0.0f;
+				return Left.Intersects(Right);
+			};
 
 		ArrColFunction[static_cast<int>(ColType::OBBBOX2D)][static_cast<int>(ColType::SPHERE2D)] = [](const CollisionParameter& _Data)
-		{
-			DirectX::BoundingOrientedBox Left = _Data.Left.OBB;
-			Left.Center.z = 0.0f;
-			DirectX::BoundingSphere Right = _Data.Right.SPHERE;
-			Right.Center.z = 0.0f;
-			return Left.Intersects(Right);
-		};
+			{
+				DirectX::BoundingOrientedBox Left = _Data.Left.OBB;
+				Left.Center.z = 0.0f;
+				DirectX::BoundingSphere Right = _Data.Right.SPHERE;
+				Right.Center.z = 0.0f;
+				return Left.Intersects(Right);
+			};
 
 		ArrColFunction[static_cast<int>(ColType::OBBBOX2D)][static_cast<int>(ColType::OBBBOX2D)] = [](const CollisionParameter& _Data)
-		{
-			DirectX::BoundingOrientedBox Left = _Data.Left.OBB;
-			Left.Center.z = 0.0f;
-			DirectX::BoundingOrientedBox Right = _Data.Right.OBB;
-			Right.Center.z = 0.0f;
-			return Left.Intersects(Right);
-		};
+			{
+				DirectX::BoundingOrientedBox Left = _Data.Left.OBB;
+				Left.Center.z = 0.0f;
+				DirectX::BoundingOrientedBox Right = _Data.Right.OBB;
+				Right.Center.z = 0.0f;
+				return Left.Intersects(Right);
+			};
 
 	}
 };
 
 InitColFunction Inst;
 
-GameEngineTransform::GameEngineTransform()
+GameEngineTransform::GameEngineTransform() 
 {
 }
 
-GameEngineTransform::~GameEngineTransform()
+GameEngineTransform::~GameEngineTransform() 
 {
 }
 
@@ -135,7 +135,7 @@ void GameEngineTransform::TransformUpdate()
 	// 
 	// setworldpostion(300, 300) 지금 내가 어디에 있건.
 	// 나의 위치가 300, 300으로 고정된다는 것이네요?
-
+	
 	// 단순하게 생각해보면 부모의 위치에서 나의 위치를 빼면
 	// 회전하고 
 
@@ -157,12 +157,12 @@ void GameEngineTransform::TransformUpdate()
 
 			if (true == AbsoluteScale)
 			{
-				WScale = TransData.Scale;
+				WScale = TransData.Scale; 
 			}
 
 			if (true == AbsoluteRotation)
 			{
-				WRotation = TransData.Rotation.EulerDegToQuaternion();
+				WRotation = TransData.Rotation.EulerDegToQuaternion(); 
 			}
 
 			if (true == AbsolutePosition)

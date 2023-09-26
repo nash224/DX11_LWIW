@@ -337,7 +337,15 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="UI_AnimalPage.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="UI_Dictionary.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UI_DictionaryPage.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -346,6 +354,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="UI_Inventory.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UI_Item.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -524,11 +536,23 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="UIEnum.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="UIManager.h">
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="UI_AnimalPage.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="UI_Dictionary.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UI_DictionaryPage.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -537,6 +561,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="UI_Inventory.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UI_Item.h">
       <SubType>
       </SubType>
     </ClInclude>

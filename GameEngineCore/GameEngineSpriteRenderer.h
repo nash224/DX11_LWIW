@@ -48,7 +48,7 @@ enum class PivotType
 	LeftTop,
 };
 
-struct SpriteRendererInfo
+struct SpriteRendererInfo 
 {
 	int FlipLeft = 0;
 	int FlipUp = 0;
@@ -125,7 +125,7 @@ public:
 		SpriteRendererInfoValue.FlipUp = 0;
 	}
 
-	bool IsCurAnimationEnd()
+	bool IsCurAnimationEnd() 
 	{
 		return CurFrameAnimations->IsEnd;
 	}
@@ -201,7 +201,7 @@ private:
 	float4 AutoScaleRatio = { 1.0f,1.0f,1.0f };
 	bool IsPause = false;
 
-	float4 Pivot = { 0.5f, 0.5f };
+	float4 Pivot = {0.5f, 0.5f};
 
 	GameEngineTransform ImageTransform;
 };

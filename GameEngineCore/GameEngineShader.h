@@ -31,11 +31,11 @@ public:
 
 	GameEngineShaderResHelper ResHelper;
 
-	ShaderType GetShaderType()
+	ShaderType GetShaderType() 
 	{
 		return ShaderTypeValue;
 	}
-
+	
 protected:
 	void CreateVersion(ShaderType _Type, UINT _VersionHigh, UINT _VersionLow);
 	std::string Version;
