@@ -6,6 +6,7 @@
 
 #include "BackDrop_Loading.h"
 #include "CameraControler.h"
+#include "ItemInfo.h"
 
 
 
@@ -49,6 +50,7 @@ void LoadingLevel::LevelStart(GameEngineLevel* _NextLevel)
 	LoadTexture();
 	LoadSprite();
 	LoadActor();
+	LoadItemInfo();
 
 	if (nullptr == GlobalValue::g_CameraControler)
 	{
@@ -143,6 +145,9 @@ void LoadingLevel::LoadSprite()
 
 		// UI
 		GameEngineSprite::CreateCut("Interaction_Arrow.png", 5, 1);
+		GameEngineSprite::CreateCut("Inventory_Cursor.png", 2, 1);
+		GameEngineSprite::CreateCut("Inventory_SampleIcon.png", 3, 1);
+		GameEngineSprite::CreateCut("Tool_Icon.png", 4, 1);
 
 
 		//UI
@@ -179,6 +184,15 @@ void LoadingLevel::LoadActor()
 	}
 
 	m_BackDrop->Init();
+}
+
+void LoadingLevel::LoadItemInfo()
+{
+	ItemInfo::InsertItemInfo({"Mongsiri", "¸ù½Ã¸®", "¸ù½Ã¸®ÅÐ", ETOOLTYPE::Gloves, EECOLOGYTYPE::GreenForest ,EECOLOGYTYPE::ForestPlains, EECOLOGYTYPE::Day});
+	ItemInfo::InsertItemInfo({"PumpkinTerrier", "È£¹Ú °­¾ÆÁö", "È£¹Ú °­¾ÆÁöÀÇ ÅÐ Á¶°¢", ETOOLTYPE::Gloves, EECOLOGYTYPE::GreenForest, EECOLOGYTYPE::ForestPlains, EECOLOGYTYPE::AllDay});
+	ItemInfo::InsertItemInfo({"BushBug", "´ýºÒ ±úºñ", "´ýºÒ ±úºñ", ETOOLTYPE::FeaturePan, EECOLOGYTYPE::GreenForest, EECOLOGYTYPE::None, EECOLOGYTYPE::AllDay });
+	ItemInfo::InsertItemInfo({"FlowerBird", "»õ½Ï»õ", "»õ²É", ETOOLTYPE::Gloves, EECOLOGYTYPE::GreenForest, EECOLOGYTYPE::ForestPlateau, EECOLOGYTYPE::Day});
+	ItemInfo::InsertItemInfo({"BubbleLizard", "Çª¸¥ ¹æ¿ï µµ¸¶¹ì", "¿ôÀ½¹æ¿ï", ETOOLTYPE::Gloves, EECOLOGYTYPE::GreenForest, EECOLOGYTYPE::ForestWaterfall, EECOLOGYTYPE::Day});
 }
 
 

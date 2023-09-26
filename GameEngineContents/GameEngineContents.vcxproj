@@ -337,7 +337,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="UI_AnimalPage.cpp">
+    <ClCompile Include="UI_BiologyPage.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -357,7 +357,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="UI_Item.cpp">
+    <ClCompile Include="ItemInfo.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -544,7 +544,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="UI_AnimalPage.h">
+    <ClInclude Include="UI_BiologyPage.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -564,7 +564,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="UI_Item.h">
+    <ClInclude Include="ItemInfo.h">
       <SubType>
       </SubType>
     </ClInclude>

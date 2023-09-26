@@ -79,9 +79,9 @@ enum class EDOWNFLOORRENDERORDER
 };
 
 
-enum class EUI_RENDERORDER
+enum class EUI_RENDERORDERORDER
 {
-	Base,
+	Base = 100,
 	Frame,
 	Attachment,
 	Component,

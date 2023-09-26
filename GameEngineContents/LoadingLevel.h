@@ -32,6 +32,7 @@ private:
 	void LoadTexture();
 	void LoadSprite();
 	void LoadActor();
+	void LoadItemInfo();
 	
 private:
 	void ActorRelease();

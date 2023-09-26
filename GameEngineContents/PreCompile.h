@@ -21,4 +21,5 @@
 
 // Contents
 #include "ContentsEnum.h"
+#include "UIEnum.h"
 #include "GlobalValue.h"

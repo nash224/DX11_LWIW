@@ -46,13 +46,16 @@ void UI_ToggleActor::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void UI_ToggleActor::Open()
 {
+	OpenChild();
 	On();
 	IsOpen = true;
 	OpenCheck = true;
 }
 
+
 void UI_ToggleActor::Close()
 {
+	CloseChild();
 	Off();
 	IsOpen = false;
 }

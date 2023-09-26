@@ -3,10 +3,11 @@
 
 enum class ETOOLTYPE
 {
-	None,
 	Gloves,
+	Rod,
 	FeaturePan,
 	Dragonfly,
+	Max,
 };
 
 
@@ -14,9 +15,22 @@ enum class ETOOLTYPE
 enum class EECOLOGYTYPE
 {
 	None,
-	Field,
-	GrassLand,
+	GreenForest,
+	ForestPlains,
+	ForestPlateau,
+	ForestWaterfall,
+	TopTree,
 	Day,
 	Night,
-	DayNight,
+	AllDay,
+};
+
+
+enum class EDICTIONARYCATEGORY
+{
+	None,
+	CreaturePage,
+	PlantPage,
+	PotionPage,
+	CandyPage,
 };

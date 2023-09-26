@@ -27,6 +27,11 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 protected:
+	// Open 또는 Close 함수를 호출할 때 자식에서 끄고 싶은 기능을 추가해줍니다.
+	virtual void OpenChild() {}
+	virtual void CloseChild() {}
+
+protected:
 	bool IsOpen = false;
 	bool OpenCheck = false;
 

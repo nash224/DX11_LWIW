@@ -11,6 +11,9 @@
 #include "WitchHouse_UpFloor.h"
 #include "WitchHouse_DownFloor.h"
 
+
+#include "ItemInfo.h"
+
 ContentsCore::ContentsCore()
 {
 }
@@ -23,6 +26,7 @@ void ContentsCore::Start()
 {
 	GlobalLoad::LoadGlobalResource();
 	GlobalValue::SetWindowScale(GetStartWindowSize());
+	
 
 	GameEngineCore::CreateLevel<MainMenu>("MainMenu");
 	GameEngineCore::CreateLevel<LoadingLevel>("LoadingLevel");
