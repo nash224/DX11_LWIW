@@ -16,6 +16,7 @@ class UI_Dictionary;
 class UI_Ellie;
 class UIManager : public GameEngineActor
 {
+	static GameEngineActor* g_MainUIManager;
 public:
 	// constrcuter destructer
 	UIManager();
@@ -46,6 +47,7 @@ protected:
 private:
 	void CheckForOpenUIComponent();
 	void UpdateUIComponentOpenInput();
+
 
 private:
 	std::shared_ptr<UI_Inventory> m_Inventory = nullptr;

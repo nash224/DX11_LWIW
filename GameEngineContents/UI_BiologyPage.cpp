@@ -49,7 +49,7 @@ void UI_BiologyPage::CreatePage(std::string_view _BiologyName, int& PageCount)
 
 	Transform.AddLocalPosition(MovePage);
 
-	const BiologyItemData& _Data = ItemInfo::GetBiologyItemInfo(_BiologyName);
+	const BiologyData& _Data = ItemInfo::GetBiologyInfo(_BiologyName);
 
 	std::string Name = _Data.BiologyName;
 

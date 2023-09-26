@@ -8,7 +8,7 @@
 #include "UI_Ellie.h"
 
 
-
+GameEngineActor* UIManager::g_MainUIManager = nullptr;
 UIManager::UIManager() 
 {
 }
@@ -31,7 +31,7 @@ void UIManager::Update(float _Delta)
 
 void UIManager::LevelStart(class GameEngineLevel* _NextLevel)
 {
-
+	g_MainUIManager = this;
 }
 
 void UIManager::LevelEnd(class GameEngineLevel* _NextLevel)

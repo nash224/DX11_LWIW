@@ -1,7 +1,7 @@
 #include "PreCompile.h"
 #include "ItemInfo.h"
 
-std::map<std::string, BiologyItemData> ItemInfo::BiologyItemInfo;
+std::map<std::string, BiologyData> ItemInfo::BiologyInfo;
 ItemInfo::ItemInfo() 
 {
 }
@@ -17,27 +17,27 @@ ItemInfo::~ItemInfo()
 
 
 
-void ItemInfo::InsertItemInfo(const BiologyItemData& _Info)
+void ItemInfo::InsertItemInfo(const BiologyData& _Info)
 {
 	std::string UpperName = GameEngineString::ToUpperReturn(_Info.BiologyName);
 
-	BiologyItemInfo.insert(std::make_pair(UpperName, _Info));
+	BiologyInfo.insert(std::make_pair(UpperName, _Info));
 }
 
-const BiologyItemData& ItemInfo::GetBiologyItemInfo(std::string_view _BiologyName)
+const BiologyData& ItemInfo::GetBiologyInfo(std::string_view _BiologyName)
 {
 	return BiologyInfoFind(_BiologyName);
 }
 
-const BiologyItemData& ItemInfo::BiologyInfoFind(std::string_view _BiologyName)
+const BiologyData& ItemInfo::BiologyInfoFind(std::string_view _BiologyName)
 {
 	std::string UpperName = GameEngineString::ToUpperReturn(_BiologyName);
 
-	std::map<std::string, BiologyItemData>::iterator FindIter = BiologyItemInfo.find(UpperName);
-	if (FindIter == BiologyItemInfo.end())
+	std::map<std::string, BiologyData>::iterator FindIter = BiologyInfo.find(UpperName);
+	if (FindIter == BiologyInfo.end())
 	{
 		MsgBoxAssert("아이템 정보를 찾지 못했습니다. 값을 확인해주세요.");
-		static const BiologyItemData ReturnValue ;
+		static const BiologyData ReturnValue ;
 		return ReturnValue;
 	}
 

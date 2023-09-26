@@ -6,7 +6,7 @@
 
 
 
-struct BiologyItemData
+struct BiologyData
 {
 public:
 	std::string BiologyName;
@@ -17,9 +17,7 @@ public:
 	EECOLOGYTYPE Habitat = EECOLOGYTYPE::None;
 	EECOLOGYTYPE AppearanceTime = EECOLOGYTYPE::None;
 
-
-
-	BiologyItemData(
+	BiologyData(
 		std::string _BiologyName = "",
 		std::string _KoreanName = "",
 		std::string _ItemName ="",
@@ -39,7 +37,40 @@ public:
 	{
 
 	}
+};
 
+
+struct ProductData
+{
+public:
+	std::string BiologyName;
+	std::string KoreanName;
+	std::string ItemName;
+	ETOOLTYPE GatherTool;
+	EECOLOGYTYPE EcologicalGroup;
+	EECOLOGYTYPE Habitat = EECOLOGYTYPE::None;
+	EECOLOGYTYPE AppearanceTime = EECOLOGYTYPE::None;
+
+	ProductData(
+		std::string _BiologyName = "",
+		std::string _KoreanName = "",
+		std::string _ItemName = "",
+		ETOOLTYPE _GatherTool = ETOOLTYPE::Max,
+		EECOLOGYTYPE _EcologicalGroup = EECOLOGYTYPE::None,
+		EECOLOGYTYPE _Habitat = EECOLOGYTYPE::None,
+		EECOLOGYTYPE _AppearanceTime = EECOLOGYTYPE::None
+	)
+		:
+		BiologyName(_BiologyName),
+		KoreanName(_KoreanName),
+		ItemName(_ItemName),
+		GatherTool(_GatherTool),
+		EcologicalGroup(_EcologicalGroup),
+		Habitat(_Habitat),
+		AppearanceTime(_AppearanceTime)
+	{
+
+	}
 };
 
 
@@ -64,15 +95,16 @@ public:
 	//EECOLOGYTYPE EcologicalGroup = EECOLOGYTYPE::WitchPlace;
 	//EECOLOGYTYPE Habitat = EECOLOGYTYPE::None;
 	//EECOLOGYTYPE AppearanceTime = EECOLOGYTYPE::None;
-	static void InsertItemInfo(const BiologyItemData& _Info);
-	static const BiologyItemData& GetBiologyItemInfo(std::string_view _BiologyName);
+	static void InsertItemInfo(const BiologyData& _Info);
+	static const BiologyData& GetBiologyInfo(std::string_view _BiologyName);
 
 private:
-	static const BiologyItemData& BiologyInfoFind(std::string_view _BiologyName);
+	static const BiologyData& BiologyInfoFind(std::string_view _BiologyName);
 
 
 private:
-	static std::map<std::string , BiologyItemData> BiologyItemInfo;
+	static std::map<std::string, BiologyData> BiologyInfo;
+	static std::map<std::string, ProductData> ProductInfo;
 
 };
 

@@ -2,6 +2,7 @@
 #include "UI_Dictionary.h"
 
 #include "ItemInfo.h"
+#include "UIManager.h"
 #include "UI_BiologyPage.h"
 
 EDICTIONARYCATEGORY UI_Dictionary::g_CurrentCategory = EDICTIONARYCATEGORY::None;
@@ -30,11 +31,14 @@ void UI_Dictionary::Update(float _Delta)
 void UI_Dictionary::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	UI_ToggleActor::LevelStart(_NextLevel);
+
+	ChangeCategoryMark();
 }
 
 void UI_Dictionary::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	UI_ToggleActor::LevelEnd(_NextLevel);
+
 
 	OffCategoryMark();
 }
@@ -188,7 +192,7 @@ void UI_Dictionary::CreateCategory()
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
 		return;
 	}
-
+	 
 	m_CategoryRenderer.Candy->SetSprite("Tag_Candy_Normal.png");
 	m_CategoryRenderer.Candy->SetPivotType(PivotType::Right);
 	m_CategoryRenderer.Candy->Transform.SetLocalPosition(SetLocalPos);
