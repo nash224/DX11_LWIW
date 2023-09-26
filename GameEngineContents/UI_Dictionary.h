@@ -20,6 +20,7 @@ class UI_DictionaryPage;
 class UI_Dictionary : public UI_ToggleActor
 {
 private:
+	static int g_CurrentLeftPage;
 	static EDICTIONARYCATEGORY g_CurrentCategory;
 
 public:
@@ -80,7 +81,6 @@ private:
 
 private:
 	bool IsTurnedPage = false;
-	int m_CurrentLeftPage = 0;
 
 
 

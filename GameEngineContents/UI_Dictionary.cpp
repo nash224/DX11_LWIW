@@ -5,6 +5,7 @@
 #include "UI_BiologyPage.h"
 
 EDICTIONARYCATEGORY UI_Dictionary::g_CurrentCategory = EDICTIONARYCATEGORY::None;
+int UI_Dictionary::g_CurrentLeftPage = 0;
 UI_Dictionary::UI_Dictionary() 
 {
 }
@@ -34,6 +35,8 @@ void UI_Dictionary::LevelStart(class GameEngineLevel* _NextLevel)
 void UI_Dictionary::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	UI_ToggleActor::LevelEnd(_NextLevel);
+
+	OffCategoryMark();
 }
 
 
@@ -65,10 +68,14 @@ void UI_Dictionary::Init()
 	CreatePage(EDICTIONARYCATEGORY::PlantPage, "SilverStarFlower");
 	CreatePage(EDICTIONARYCATEGORY::PlantPage, "MapleHerb");
 
+	if (EDICTIONARYCATEGORY::None == g_CurrentCategory)
+	{
+		g_CurrentCategory = EDICTIONARYCATEGORY::CreaturePage;
 
+		g_CurrentLeftPage = 1;
+	}
 
-	g_CurrentCategory = EDICTIONARYCATEGORY::CreaturePage;
-	m_CurrentLeftPage = 1;
+	ChangeCategoryMark();
 }
 
 
@@ -257,14 +264,14 @@ void UI_Dictionary::CloseChild()
 
 void UI_Dictionary::OpenCategoryPage(EDICTIONARYCATEGORY _Type)
 {
-	if (m_CurrentLeftPage < 1)
+	if (g_CurrentLeftPage < 1)
 	{
 		MsgBoxAssert("0페이지는 존재하지 않습니다.");
 		return;
 	}
 
 	// 2가 나오면 3,4 페이지가 열립니다.
-	int OpenPage = m_CurrentLeftPage - 1;
+	int OpenPage = g_CurrentLeftPage - 1;
 
 	switch (g_CurrentCategory)
 	{
@@ -287,7 +294,7 @@ void UI_Dictionary::OpenCategoryPage(EDICTIONARYCATEGORY _Type)
 
 		// 현재 페이지는 무조건 홀수만 들어옵니다.
 		// 마지막 페이지가 현재 페이지와 같다면 한쪽이 비어있다는 뜻으로 밑 구문을 실행시키지 않습니다.
-		if (m_CurrentLeftPage != m_CreaturePageCount)
+		if (g_CurrentLeftPage != m_CreaturePageCount)
 		{
 			std::shared_ptr<UI_BiologyPage> EvenPage = vecCreaturePage[OpenPage];
 			if (nullptr == EvenPage)
@@ -313,7 +320,7 @@ void UI_Dictionary::OpenCategoryPage(EDICTIONARYCATEGORY _Type)
 
 		// 현재 페이지는 무조건 홀수만 들어옵니다.
 		// 마지막 페이지가 현재 페이지와 같다면 한쪽이 비어있다는 뜻으로 밑 구문을 실행시키지 않습니다.
-		if (m_CurrentLeftPage != m_PlantPageCount)
+		if (g_CurrentLeftPage != m_PlantPageCount)
 		{
 			std::shared_ptr<UI_BiologyPage> EvenPage = vecPlantPage[OpenPage];
 			if (nullptr == EvenPage)
@@ -467,12 +474,12 @@ void UI_Dictionary::NextPage()
 		break;
 	}
 
-	if (m_CurrentLeftPage == MaxPage || m_CurrentLeftPage + 1 == MaxPage)
+	if (g_CurrentLeftPage == MaxPage || g_CurrentLeftPage + 1 == MaxPage)
 	{
 		return;
 	}
 
-	m_CurrentLeftPage += 2;
+	g_CurrentLeftPage += 2;
 
 	CloseCategoryPage(g_CurrentCategory);
 	OpenCategoryPage(g_CurrentCategory);
@@ -483,12 +490,12 @@ void UI_Dictionary::PrevPage()
 {
 	// SFX
 
-	if (m_CurrentLeftPage <= 2)
+	if (g_CurrentLeftPage <= 2)
 	{
 		return;
 	}
 
-	m_CurrentLeftPage -= 2;
+	g_CurrentLeftPage -= 2;
 
 	CloseCategoryPage(g_CurrentCategory);
 	OpenCategoryPage(g_CurrentCategory);
@@ -533,7 +540,7 @@ void UI_Dictionary::PrevCategory()
 	g_CurrentCategory = static_cast<EDICTIONARYCATEGORY>(CurCategory);
 
 	// 현재 페이지는 무조건 1로 초기화
-	m_CurrentLeftPage = 1;
+	g_CurrentLeftPage = 1;
 
 	// 연다.
 	OpenCategoryPage(g_CurrentCategory);
@@ -557,7 +564,7 @@ void UI_Dictionary::NextCategory()
 	g_CurrentCategory = static_cast<EDICTIONARYCATEGORY>(CurCategory);
 
 	// 현재 페이지는 무조건 1로 초기화
-	m_CurrentLeftPage = 1;
+	g_CurrentLeftPage = 1;
 
 	// 연다.
 	OpenCategoryPage(g_CurrentCategory);
