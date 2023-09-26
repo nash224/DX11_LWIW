@@ -4,7 +4,7 @@
 #include "ItemInfo.h"
 #include "UI_BiologyPage.h"
 
-EDICTIONARYCATEGORY UI_Dictionary::m_CurrentCategory = EDICTIONARYCATEGORY::None;
+EDICTIONARYCATEGORY UI_Dictionary::g_CurrentCategory = EDICTIONARYCATEGORY::None;
 UI_Dictionary::UI_Dictionary() 
 {
 }
@@ -67,7 +67,7 @@ void UI_Dictionary::Init()
 
 
 
-	m_CurrentCategory = EDICTIONARYCATEGORY::CreaturePage;
+	g_CurrentCategory = EDICTIONARYCATEGORY::CreaturePage;
 	m_CurrentLeftPage = 1;
 }
 
@@ -243,13 +243,13 @@ void UI_Dictionary::CreatePage(EDICTIONARYCATEGORY _Type, std::string_view Name)
 // 부모의 Open함수에 자식에서 해줘야할 행동을 선언합니다.
 void UI_Dictionary::OpenChild()
 {
-	OpenCategoryPage(m_CurrentCategory);
+	OpenCategoryPage(g_CurrentCategory);
 }
 
 // 부모의 Close함수에 자식에서 해줘야할 행동을 선언합니다.
 void UI_Dictionary::CloseChild()
 {
-	CloseCategoryPage(m_CurrentCategory);
+	CloseCategoryPage(g_CurrentCategory);
 }
 
 
@@ -266,7 +266,7 @@ void UI_Dictionary::OpenCategoryPage(EDICTIONARYCATEGORY _Type)
 	// 2가 나오면 3,4 페이지가 열립니다.
 	int OpenPage = m_CurrentLeftPage - 1;
 
-	switch (m_CurrentCategory)
+	switch (g_CurrentCategory)
 	{
 	case EDICTIONARYCATEGORY::None:
 	{
@@ -445,7 +445,7 @@ void UI_Dictionary::NextPage()
 
 	int MaxPage = -1;
 
-	switch (m_CurrentCategory)
+	switch (g_CurrentCategory)
 	{
 	case EDICTIONARYCATEGORY::None:
 	{
@@ -474,8 +474,8 @@ void UI_Dictionary::NextPage()
 
 	m_CurrentLeftPage += 2;
 
-	CloseCategoryPage(m_CurrentCategory);
-	OpenCategoryPage(m_CurrentCategory);
+	CloseCategoryPage(g_CurrentCategory);
+	OpenCategoryPage(g_CurrentCategory);
 }
 
 // 페이지가 이전장으로 넘어갑니다.
@@ -490,8 +490,8 @@ void UI_Dictionary::PrevPage()
 
 	m_CurrentLeftPage -= 2;
 
-	CloseCategoryPage(m_CurrentCategory);
-	OpenCategoryPage(m_CurrentCategory);
+	CloseCategoryPage(g_CurrentCategory);
+	OpenCategoryPage(g_CurrentCategory);
 }
 
 
@@ -519,43 +519,142 @@ bool UI_Dictionary::CheckMoveCategory()
 void UI_Dictionary::PrevCategory()
 {
 	// 현재 카테고리 닫고
-	CloseCategoryPage(m_CurrentCategory);
+	OffCategoryMark();
+	CloseCategoryPage(g_CurrentCategory);
 
 	// 변경 후
-	int CurCategory = static_cast<int>(m_CurrentCategory);
+	int CurCategory = static_cast<int>(g_CurrentCategory);
 	--CurCategory;
 	if (0 == CurCategory)
 	{
 		CurCategory = 4;
 	}
 
-	m_CurrentCategory = static_cast<EDICTIONARYCATEGORY>(CurCategory);
+	g_CurrentCategory = static_cast<EDICTIONARYCATEGORY>(CurCategory);
 
 	// 현재 페이지는 무조건 1로 초기화
 	m_CurrentLeftPage = 1;
 
 	// 연다.
-	OpenCategoryPage(m_CurrentCategory);
+	OpenCategoryPage(g_CurrentCategory);
+	ChangeCategoryMark();
 }
 
 void UI_Dictionary::NextCategory()
 {
 	// 현재 카테고리 닫고
-	CloseCategoryPage(m_CurrentCategory);
+	OffCategoryMark();
+	CloseCategoryPage(g_CurrentCategory);
 
 	// 변경 후
-	int CurCategory = static_cast<int>(m_CurrentCategory);
+	int CurCategory = static_cast<int>(g_CurrentCategory);
 	++CurCategory;
 	if (5 == CurCategory)
 	{
 		CurCategory = 1;
 	}
 
-	m_CurrentCategory = static_cast<EDICTIONARYCATEGORY>(CurCategory);
+	g_CurrentCategory = static_cast<EDICTIONARYCATEGORY>(CurCategory);
 
 	// 현재 페이지는 무조건 1로 초기화
 	m_CurrentLeftPage = 1;
 
 	// 연다.
-	OpenCategoryPage(m_CurrentCategory);
+	OpenCategoryPage(g_CurrentCategory);
+	ChangeCategoryMark();
 };
+
+
+void UI_Dictionary::OffCategoryMark()
+{
+	switch (g_CurrentCategory)
+	{
+	case EDICTIONARYCATEGORY::None:
+		break;
+	case EDICTIONARYCATEGORY::CreaturePage:
+		if (nullptr == m_CategoryRenderer.Creature)
+		{
+			MsgBoxAssert("렌더러가 존재하지 않습니다");
+			return;
+		}
+
+		m_CategoryRenderer.Creature->SetSprite("Tag_Creature_Normal.png");
+		break;
+	case EDICTIONARYCATEGORY::PlantPage:
+		if (nullptr == m_CategoryRenderer.Plant)
+		{
+			MsgBoxAssert("렌더러가 존재하지 않습니다");
+			return;
+		}
+
+		m_CategoryRenderer.Plant->SetSprite("Tag_Plant_Normal.png");
+		break;
+	case EDICTIONARYCATEGORY::PotionPage:
+		if (nullptr == m_CategoryRenderer.Potion)
+		{
+			MsgBoxAssert("렌더러가 존재하지 않습니다");
+			return;
+		}
+
+		m_CategoryRenderer.Potion->SetSprite("Tag_Potion_Normal.png");
+		break;
+	case EDICTIONARYCATEGORY::CandyPage:
+		if (nullptr == m_CategoryRenderer.Candy)
+		{
+			MsgBoxAssert("렌더러가 존재하지 않습니다");
+			return;
+		}
+
+		m_CategoryRenderer.Candy->SetSprite("Tag_Candy_Normal.png");
+		break;
+	default:
+		break;
+	}
+}
+
+void UI_Dictionary::ChangeCategoryMark()
+{
+	switch (g_CurrentCategory)
+	{
+	case EDICTIONARYCATEGORY::None:
+		break;
+	case EDICTIONARYCATEGORY::CreaturePage:
+		if (nullptr == m_CategoryRenderer.Creature)
+		{
+			MsgBoxAssert("렌더러가 존재하지 않습니다");
+			return;
+		}
+
+		m_CategoryRenderer.Creature->SetSprite("Tag_Creature_Selected.png");
+		break;
+	case EDICTIONARYCATEGORY::PlantPage:
+		if (nullptr == m_CategoryRenderer.Plant)
+		{
+			MsgBoxAssert("렌더러가 존재하지 않습니다");
+			return;
+		}
+
+		m_CategoryRenderer.Plant->SetSprite("Tag_Plant_Selected.png");
+		break;
+	case EDICTIONARYCATEGORY::PotionPage:
+		if (nullptr == m_CategoryRenderer.Potion)
+		{
+			MsgBoxAssert("렌더러가 존재하지 않습니다");
+			return;
+		}
+
+		m_CategoryRenderer.Potion->SetSprite("Tag_Potion_Selected.png");
+		break;
+	case EDICTIONARYCATEGORY::CandyPage:
+		if (nullptr == m_CategoryRenderer.Candy)
+		{
+			MsgBoxAssert("렌더러가 존재하지 않습니다");
+			return;
+		}
+
+		m_CategoryRenderer.Candy->SetSprite("Tag_Candy_Selected.png");
+		break;
+	default:
+		break;
+	}
+}

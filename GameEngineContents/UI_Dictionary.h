@@ -20,7 +20,7 @@ class UI_DictionaryPage;
 class UI_Dictionary : public UI_ToggleActor
 {
 private:
-	static EDICTIONARYCATEGORY m_CurrentCategory;
+	static EDICTIONARYCATEGORY g_CurrentCategory;
 
 public:
 	// constrcuter destructer
@@ -35,12 +35,6 @@ public:
 
 	
 	void Init();
-
-	void NextPage();
-	void PrevPage();
-
-	void PrevCategory();
-	void NextCategory();
 
 
 protected:
@@ -66,6 +60,16 @@ private:
 	bool CheckOpenDictionary();
 	bool CheckMoveCategory();
 	bool CheckTurningPage();
+
+	void NextPage();
+	void PrevPage();
+
+	void PrevCategory();
+	void NextCategory();
+
+
+	void OffCategoryMark();
+	void ChangeCategoryMark();
 
 
 private:
