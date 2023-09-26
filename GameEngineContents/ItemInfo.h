@@ -95,15 +95,15 @@ public:
 	//EECOLOGYTYPE EcologicalGroup = EECOLOGYTYPE::WitchPlace;
 	//EECOLOGYTYPE Habitat = EECOLOGYTYPE::None;
 	//EECOLOGYTYPE AppearanceTime = EECOLOGYTYPE::None;
-	static void InsertItemInfo(const BiologyData& _Info);
-	static const BiologyData& GetBiologyInfo(std::string_view _BiologyName);
+	static void CreateData(const BiologyData& _Info);
+	static const std::shared_ptr<BiologyData>& GetBiologyInfo(std::string_view _BiologyName);
 
 private:
-	static const BiologyData& BiologyInfoFind(std::string_view _BiologyName);
+	static const std::shared_ptr<BiologyData>& FindBiologyInfo(std::string_view _BiologyName);
 
 
 private:
-	static std::map<std::string, BiologyData> BiologyInfo;
+	static std::map<std::string, std::shared_ptr<BiologyData>> BiologyInfo;
 	static std::map<std::string, ProductData> ProductInfo;
 
 };

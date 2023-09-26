@@ -49,9 +49,9 @@ void UI_BiologyPage::CreatePage(std::string_view _BiologyName, int& PageCount)
 
 	Transform.AddLocalPosition(MovePage);
 
-	const BiologyData& _Data = ItemInfo::GetBiologyInfo(_BiologyName);
+	const std::shared_ptr<BiologyData>& Data = ItemInfo::GetBiologyInfo(_BiologyName);
 
-	std::string Name = _Data.BiologyName;
+	std::string Name = Data->BiologyName;
 
 	m_BiologyPageComposition.NameTag = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Attachment);
 	m_BiologyPageComposition.NameTag->SetSprite("CreatureName.png");
@@ -70,19 +70,19 @@ void UI_BiologyPage::CreatePage(std::string_view _BiologyName, int& PageCount)
 	m_BiologyPageComposition.Illustration->Transform.SetLocalPosition({ -148.0f + 64.0f , 113.0f - 64.0f });
 
 	m_BiologyPageComposition.Slot1 = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Component);
-	m_BiologyPageComposition.Slot1->SetSprite(ReturnEcologyTypeFileName(_Data.EcologicalGroup));
+	m_BiologyPageComposition.Slot1->SetSprite(ReturnEcologyTypeFileName(Data->EcologicalGroup));
 	m_BiologyPageComposition.Slot1->Transform.SetLocalPosition({ -11.0f + 20.0f , 112.0f - 20.0f });
 
 	m_BiologyPageComposition.Slot2 = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Component);
-	m_BiologyPageComposition.Slot2->SetSprite(ReturnEcologyTypeFileName(_Data.Habitat));
+	m_BiologyPageComposition.Slot2->SetSprite(ReturnEcologyTypeFileName(Data->Habitat));
 	m_BiologyPageComposition.Slot2->Transform.SetLocalPosition({ 37.0f + 20.0f , 112.0f - 20.0f });
 
 	m_BiologyPageComposition.Slot3 = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Component);
-	m_BiologyPageComposition.Slot3->SetSprite(ReturnEcologyTypeFileName(_Data.AppearanceTime));
+	m_BiologyPageComposition.Slot3->SetSprite(ReturnEcologyTypeFileName(Data->AppearanceTime));
 	m_BiologyPageComposition.Slot3->Transform.SetLocalPosition({ 85.0f + 20.0f , 112.0f - 20.0f });
 
 	m_BiologyPageComposition.Tool = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Component);
-	m_BiologyPageComposition.Tool->SetSprite("Tool_Icon.png", static_cast<int>(_Data.GatherTool));
+	m_BiologyPageComposition.Tool->SetSprite("Tool_Icon.png", static_cast<int>(Data->GatherTool));
 	m_BiologyPageComposition.Tool->Transform.SetLocalPosition({ -10.0f + 20.0f , 60.0f - 20.0f });
 
 	m_BiologyPageComposition.ItemSpace = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Attachment);
@@ -90,7 +90,7 @@ void UI_BiologyPage::CreatePage(std::string_view _BiologyName, int& PageCount)
 	m_BiologyPageComposition.ItemSpace->Transform.SetLocalPosition({ -11.0f + 20.0f , 17.0f - 20.0f });
 
 	m_BiologyPageComposition.ItemImg = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Component);
-	m_BiologyPageComposition.ItemImg->SetSprite(_Data.BiologyName + "_Collect.png");
+	m_BiologyPageComposition.ItemImg->SetSprite(Data->BiologyName + "_Collect.png");
 	m_BiologyPageComposition.ItemImg->Transform.SetLocalPosition({ -11.0f + 20.0f , 17.0f - 20.0f });
 
 	Off();
