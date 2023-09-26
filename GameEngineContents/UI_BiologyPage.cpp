@@ -1,6 +1,9 @@
 #include "PreCompile.h"
 #include "UI_BiologyPage.h"
 
+
+#include "BiologyData.h"
+
 UI_BiologyPage::UI_BiologyPage()
 {
 }
@@ -49,7 +52,7 @@ void UI_BiologyPage::CreatePage(std::string_view _BiologyName, int& PageCount)
 
 	Transform.AddLocalPosition(MovePage);
 
-	const std::shared_ptr<BiologyData>& Data = ItemInfo::GetBiologyInfo(_BiologyName);
+	const std::shared_ptr<BiologyData>& Data = BiologyData::Find(_BiologyName);
 
 	std::string Name = Data->BiologyName;
 

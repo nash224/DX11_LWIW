@@ -223,7 +223,7 @@
     <ClInclude Include="UIEnum.h">
       <Filter>Object\Actor\0.Manager\UI</Filter>
     </ClInclude>
-    <ClInclude Include="ItemInfo.h">
+    <ClInclude Include="ContentsResource.h">
       <Filter>Object\Actor\0.Manager\UI\0.Item</Filter>
     </ClInclude>
     <ClInclude Include="UI_Inventory.h">
@@ -243,6 +243,9 @@
     </ClInclude>
     <ClInclude Include="UI_ToggleActor.h">
       <Filter>Object\Actor\0.Manager\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="BiologyData.h">
+      <Filter>Object\Actor\0.Manager\UI\0.Item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -385,7 +388,7 @@
     <ClCompile Include="UIManager.cpp">
       <Filter>Object\Actor\0.Manager\UI</Filter>
     </ClCompile>
-    <ClCompile Include="ItemInfo.cpp">
+    <ClCompile Include="ContentsResource.cpp">
       <Filter>Object\Actor\0.Manager\UI\0.Item</Filter>
     </ClCompile>
     <ClCompile Include="UI_Inventory.cpp">
@@ -405,6 +408,9 @@
     </ClCompile>
     <ClCompile Include="UI_ToggleActor.cpp">
       <Filter>Object\Actor\0.Manager\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="BiologyData.cpp">
+      <Filter>Object\Actor\0.Manager\UI\0.Item</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

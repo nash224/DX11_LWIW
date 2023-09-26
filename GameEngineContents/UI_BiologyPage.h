@@ -1,6 +1,5 @@
 #pragma once
 #include "UI_DictionaryPage.h"
-#include "ItemInfo.h"
 
 struct BiologyPageComposition
 {
