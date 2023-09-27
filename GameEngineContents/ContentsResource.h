@@ -8,39 +8,6 @@
 
 
 
-struct ProductData
-{
-public:
-	std::string BiologyName;
-	std::string KoreanName;
-	std::string ItemName;
-	ETOOLTYPE GatherTool;
-	EECOLOGYTYPE EcologicalGroup;
-	EECOLOGYTYPE Habitat = EECOLOGYTYPE::None;
-	EECOLOGYTYPE AppearanceTime = EECOLOGYTYPE::None;
-
-	ProductData(
-		std::string _BiologyName = "",
-		std::string _KoreanName = "",
-		std::string _ItemName = "",
-		ETOOLTYPE _GatherTool = ETOOLTYPE::Max,
-		EECOLOGYTYPE _EcologicalGroup = EECOLOGYTYPE::None,
-		EECOLOGYTYPE _Habitat = EECOLOGYTYPE::None,
-		EECOLOGYTYPE _AppearanceTime = EECOLOGYTYPE::None
-	)
-		:
-		BiologyName(_BiologyName),
-		KoreanName(_KoreanName),
-		ItemName(_ItemName),
-		GatherTool(_GatherTool),
-		EcologicalGroup(_EcologicalGroup),
-		Habitat(_Habitat),
-		AppearanceTime(_AppearanceTime)
-	{
-
-	}
-};
-
 
 // Ό³Έν :
 template <typename DataType>

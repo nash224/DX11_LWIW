@@ -7,6 +7,7 @@
 #include "BackDrop_Loading.h"
 #include "CameraControler.h"
 #include "BiologyData.h"
+#include "ProductRecipeData.h"
 
 
 
@@ -50,7 +51,7 @@ void LoadingLevel::LevelStart(GameEngineLevel* _NextLevel)
 	LoadTexture();
 	LoadSprite();
 	LoadActor();
-	LoadItemInfo();
+	LoadContentsData();
 
 	if (nullptr == GlobalValue::g_CameraControler)
 	{
@@ -149,6 +150,10 @@ void LoadingLevel::LoadSprite()
 		GameEngineSprite::CreateCut("Inventory_SampleIcon.png", 3, 1);
 		GameEngineSprite::CreateCut("Tool_Icon.png", 4, 1);
 
+		GameEngineSprite::CreateCut("IllustedBook_Icon_Star.png", 3, 1);
+		GameEngineSprite::CreateCut("IllustedBook_Icon_Fire.png", 5, 1);
+		GameEngineSprite::CreateCut("IllustedBook_Icon_Ladle.png", 3, 1);
+
 
 		//UI
 		GameEngineDirectory Dir;
@@ -186,18 +191,28 @@ void LoadingLevel::LoadActor()
 	m_BackDrop->Init();
 }
 
-void LoadingLevel::LoadItemInfo()
+void LoadingLevel::LoadContentsData()
 {
+	// µ¿¹°
 	BiologyData::CreateData("Mongsiri", {"Mongsiri", "¸ù½Ã¸®", "¸ù½Ã¸®ÅÐ", ETOOLTYPE::Gloves, EECOLOGYTYPE::GreenForest ,EECOLOGYTYPE::ForestPlains, EECOLOGYTYPE::Day});
 	BiologyData::CreateData("PumpkinTerrier", {"PumpkinTerrier", "È£¹Ú °­¾ÆÁö", "È£¹Ú °­¾ÆÁöÀÇ ÅÐ Á¶°¢", ETOOLTYPE::Gloves, EECOLOGYTYPE::GreenForest, EECOLOGYTYPE::ForestPlains, EECOLOGYTYPE::AllDay});
 	BiologyData::CreateData("BushBug", {"BushBug", "´ýºÒ ±úºñ", "´ýºÒ ±úºñ", ETOOLTYPE::FeaturePan, EECOLOGYTYPE::GreenForest, EECOLOGYTYPE::None, EECOLOGYTYPE::AllDay });
 	BiologyData::CreateData("FlowerBird", {"FlowerBird", "»õ½Ï»õ", "»õ²É", ETOOLTYPE::Gloves, EECOLOGYTYPE::GreenForest, EECOLOGYTYPE::ForestPlateau, EECOLOGYTYPE::Day});
 	BiologyData::CreateData("BubbleLizard", {"BubbleLizard", "Çª¸¥ ¹æ¿ï µµ¸¶¹ì", "¿ôÀ½¹æ¿ï", ETOOLTYPE::Gloves, EECOLOGYTYPE::GreenForest, EECOLOGYTYPE::ForestWaterfall, EECOLOGYTYPE::Day});
 
-
+	// ½Ä¹°
 	BiologyData::CreateData("WitchFlower", { "WitchFlower", "¸¶³à²É", "¸¶³à²É »Ñ¸®", ETOOLTYPE::Gloves, EECOLOGYTYPE::GreenForest, EECOLOGYTYPE::None, EECOLOGYTYPE::AllDay });
 	BiologyData::CreateData("SilverStarFlower", { "SilverStarFlower", "Àºº°¹æ¿ï²É", "Àºº°¹æ¿ï²É °¡·ç", ETOOLTYPE::Dragonfly, EECOLOGYTYPE::GreenForest, EECOLOGYTYPE::ForestWaterfall, EECOLOGYTYPE::Night });
 	BiologyData::CreateData("MapleHerb", {"MapleHerb", "´ÜÇ³ Çãºê", "´ÜÇ³ Çãºê", ETOOLTYPE::Gloves, EECOLOGYTYPE::GreenForest, EECOLOGYTYPE::ForestPlateau, EECOLOGYTYPE::AllDay});
+
+	// ¹°¾à
+	ProductRecipeData::CreateData("BadGrassPotion", {"BadGrassPotion", "³ª»Û Ç® Á¦°Å ¹°¾à", ESTARTYPE::Easy, ELADLETYPE::None, EFIRETYPE::Four, "Mongsiri_Water", 2, "WitchFlower_Water", 2});
+	ProductRecipeData::CreateData("NutritionPotion", {"NutritionPotion", "Ç® ¼ºÀå ¹°¾à", ESTARTYPE::Normal, ELADLETYPE::StirRight, EFIRETYPE::Three, "SilverStarFlower_Water", 2, "MapleHerb_Water", 2, "BushBug_Water", 2});
+	ProductRecipeData::CreateData("FirecrackerPotion", { "FirecrackerPotion", "ºÒ²É³îÀÌ ¹°¾à", ESTARTYPE::Hard, ELADLETYPE::StirRight, EFIRETYPE::Three, "PumpkinTerrier_Powder", 2, "FlowerBird_Water", 2, "MoonButterfly_Water", 2 });
+
+	// »çÅÁ
+	ProductRecipeData::CreateData("UncurseCandy", {"UncurseCandy", "´ÜÇ³ Çãºê", ESTARTYPE::Easy, ELADLETYPE::None, EFIRETYPE::Three, "Mongsiri_Water", 2, "MapleHerb_Water", 2});
+	ProductRecipeData::CreateData("HealingCandy", {"HealingCandy", "Ä¡·á »çÅÁ", ESTARTYPE::Easy, ELADLETYPE::StirRight, EFIRETYPE::Four, "WitchFlower_Water", 2, "MapleHerb_Water", 2});
 }
 
 

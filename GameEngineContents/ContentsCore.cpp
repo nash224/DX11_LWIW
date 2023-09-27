@@ -12,8 +12,6 @@
 #include "WitchHouse_DownFloor.h"
 
 
-#include "ItemInfo.h"
-
 ContentsCore::ContentsCore()
 {
 }

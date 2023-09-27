@@ -1,7 +1,6 @@
 #include "PreCompile.h"
 #include "UI_Dictionary.h"
 
-#include "ItemInfo.h"
 #include "UIManager.h"
 #include "UI_BiologyPage.h"
 

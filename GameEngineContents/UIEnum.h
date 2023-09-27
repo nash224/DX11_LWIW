@@ -34,3 +34,31 @@ enum class EDICTIONARYCATEGORY
 	PotionPage,
 	CandyPage,
 };
+
+
+enum class ESTARTYPE
+{
+	None,
+	Easy,
+	Normal,
+	Hard,
+};
+
+
+enum class ELADLETYPE
+{
+	None,
+	StirLeft,
+	StirRight,
+};
+
+
+enum class EFIRETYPE
+{
+	None,
+	One,
+	Two,
+	Three,
+	Four,
+	Five,
+};

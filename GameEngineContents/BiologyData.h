@@ -7,7 +7,7 @@
 
 
 // Ό³Έν :
-class BiologyData : public ContentsResource<BiologyData>
+class BiologyData final : public ContentsResource<BiologyData>
 {
 public:
 	// constrcuter destructer

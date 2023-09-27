@@ -289,6 +289,10 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ProductRecipeData.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Prop.cpp">
       <SubType>
       </SubType>
@@ -362,6 +366,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="ContentsResource.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UI_ProductPage.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -496,6 +504,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="PreCompile.h" />
+    <ClInclude Include="ProductRecipeData.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Prop.h">
       <SubType>
       </SubType>
@@ -573,6 +585,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ContentsResource.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UI_ProductPage.h">
       <SubType>
       </SubType>
     </ClInclude>

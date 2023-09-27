@@ -247,6 +247,12 @@
     <ClInclude Include="BiologyData.h">
       <Filter>Object\Actor\0.Manager\UI\0.Item</Filter>
     </ClInclude>
+    <ClInclude Include="UI_ProductPage.h">
+      <Filter>Object\Actor\0.Manager\UI\2.Dictionary</Filter>
+    </ClInclude>
+    <ClInclude Include="ProductRecipeData.h">
+      <Filter>Object\Actor\0.Manager\UI\0.Item</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -410,6 +416,12 @@
       <Filter>Object\Actor\0.Manager\UI</Filter>
     </ClCompile>
     <ClCompile Include="BiologyData.cpp">
+      <Filter>Object\Actor\0.Manager\UI\0.Item</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_ProductPage.cpp">
+      <Filter>Object\Actor\0.Manager\UI\2.Dictionary</Filter>
+    </ClCompile>
+    <ClCompile Include="ProductRecipeData.cpp">
       <Filter>Object\Actor\0.Manager\UI\0.Item</Filter>
     </ClCompile>
   </ItemGroup>
