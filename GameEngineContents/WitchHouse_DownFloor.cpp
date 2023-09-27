@@ -31,6 +31,11 @@ void WitchHouse_DownFloor::Start()
 void WitchHouse_DownFloor::Update(float _Delta)
 {
 	PlayLevel::Update(_Delta);
+
+	if (true == GameEngineInput::IsDown('T'))
+	{
+		m_Ellie->Transform.SetLocalPosition(float4::ZERO);
+	}
 }
 
 void WitchHouse_DownFloor::LevelStart(class GameEngineLevel* _NextLevel)
@@ -71,7 +76,7 @@ void WitchHouse_DownFloor::LoadTexture()
 		for (size_t i = 0; i < Files.size(); i++)
 		{
 			GameEngineFile File = Files[i];
-			GameEngineTexture::Load(File.GetStringPath());
+    			GameEngineTexture::Load(File.GetStringPath());
 		}
 	}
 
@@ -285,7 +290,6 @@ void WitchHouse_DownFloor::ReleaseSprite()
 		}
 	}
 
-
 	{
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExistsChild("Resources");
@@ -301,14 +305,28 @@ void WitchHouse_DownFloor::ReleaseSprite()
 
 void WitchHouse_DownFloor::ReleaseTexture()
 {
-	GameEngineDirectory Dir;
-	Dir.MoveParentToExistsChild("Resources");
-	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_DownFloor");
-	std::vector<GameEngineFile> Files = Dir.GetAllFile();
-	for (size_t i = 0; i < Files.size(); i++)
 	{
-		GameEngineFile pFile = Files[i];
-		GameEngineTexture::Release(pFile.GetFileName());
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\PlayContents\\WitchHouse_DownFloor");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (size_t i = 0; i < Files.size(); i++)
+		{
+			GameEngineFile pFile = Files[i];
+			GameEngineTexture::Release(pFile.GetFileName());
+		}
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\PlayContents\\WitchHouse_DownFloor\\Down_Sprite");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (size_t i = 0; i < Files.size(); i++)
+		{
+			GameEngineFile pFile = Files[i];
+			GameEngineTexture::Release(pFile.GetFileName());
+		}
 	}
 }
 
