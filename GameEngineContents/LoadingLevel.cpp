@@ -206,13 +206,13 @@ void LoadingLevel::LoadContentsData()
 	BiologyData::CreateData("MapleHerb", {"MapleHerb", "¥‹«≥ «„∫Í", "¥‹«≥ «„∫Í", ETOOLTYPE::Gloves, EECOLOGYTYPE::GreenForest, EECOLOGYTYPE::ForestPlateau, EECOLOGYTYPE::AllDay});
 
 	// π∞æ‡
-	ProductRecipeData::CreateData("BadGrassPotion", {"BadGrassPotion", "≥™ª€ «Æ ¡¶∞≈ π∞æ‡", ESTARTYPE::Easy, ELADLETYPE::None, EFIRETYPE::Four, "Mongsiri_Water", 2, "WitchFlower_Water", 2});
-	ProductRecipeData::CreateData("NutritionPotion", {"NutritionPotion", "«Æ º∫¿Â π∞æ‡", ESTARTYPE::Normal, ELADLETYPE::StirRight, EFIRETYPE::Three, "SilverStarFlower_Water", 2, "MapleHerb_Water", 2, "BushBug_Water", 2});
-	ProductRecipeData::CreateData("FirecrackerPotion", { "FirecrackerPotion", "∫“≤…≥Ó¿Ã π∞æ‡", ESTARTYPE::Hard, ELADLETYPE::StirRight, EFIRETYPE::Three, "PumpkinTerrier_Powder", 2, "FlowerBird_Water", 2, "MoonButterfly_Water", 2 });
+	ProductRecipeData::CreateData("BadGrassPotion", {"BadGrassPotion", "≥™ª€ «Æ ¡¶∞≈ π∞æ‡", EBREWINGOPTION::Easy, EBREWINGOPTION::StirNone, EBREWINGOPTION::Four, "Mongsiri_Water", 2, "WitchFlower_Water", 2});
+	ProductRecipeData::CreateData("NutritionPotion", {"NutritionPotion", "«Æ º∫¿Â π∞æ‡", EBREWINGOPTION::Normal, EBREWINGOPTION::StirRight, EBREWINGOPTION::Three, "SilverStarFlower_Water", 2, "MapleHerb_Water", 2, "BushBug_Water", 2});
+	ProductRecipeData::CreateData("FirecrackerPotion", { "FirecrackerPotion", "∫“≤…≥Ó¿Ã π∞æ‡", EBREWINGOPTION::Hard, EBREWINGOPTION::StirRight, EBREWINGOPTION::Three, "PumpkinTerrier_Powder", 2, "FlowerBird_Water", 2, "MoonButterfly_Water", 2 });
 
 	// ªÁ≈¡
-	ProductRecipeData::CreateData("UncurseCandy", {"UncurseCandy", "¥‹«≥ «„∫Í", ESTARTYPE::Easy, ELADLETYPE::None, EFIRETYPE::Three, "Mongsiri_Water", 2, "MapleHerb_Water", 2});
-	ProductRecipeData::CreateData("HealingCandy", {"HealingCandy", "ƒ°∑· ªÁ≈¡", ESTARTYPE::Easy, ELADLETYPE::StirRight, EFIRETYPE::Four, "WitchFlower_Water", 2, "MapleHerb_Water", 2});
+	ProductRecipeData::CreateData("UncurseCandy", {"UncurseCandy", "¥‹«≥ «„∫Í", EBREWINGOPTION::Easy, EBREWINGOPTION::StirNone, EBREWINGOPTION::Three, "Mongsiri_Water", 2, "MapleHerb_Water", 2});
+	ProductRecipeData::CreateData("HealingCandy", {"HealingCandy", "ƒ°∑· ªÁ≈¡", EBREWINGOPTION::Easy, EBREWINGOPTION::StirRight, EBREWINGOPTION::Four, "WitchFlower_Water", 2, "MapleHerb_Water", 2});
 }
 
 

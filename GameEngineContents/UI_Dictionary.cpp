@@ -3,6 +3,7 @@
 
 #include "UIManager.h"
 #include "UI_BiologyPage.h"
+#include "UI_ProductPage.h"
 
 EDICTIONARYCATEGORY UI_Dictionary::g_CurrentCategory = EDICTIONARYCATEGORY::None;
 int UI_Dictionary::g_CurrentLeftPage = 0;
@@ -70,6 +71,17 @@ void UI_Dictionary::Init()
 	CreatePage(EDICTIONARYCATEGORY::PlantPage, "WitchFlower");
 	CreatePage(EDICTIONARYCATEGORY::PlantPage, "SilverStarFlower");
 	CreatePage(EDICTIONARYCATEGORY::PlantPage, "MapleHerb");
+
+
+
+	// PotionPage
+	CreatePage(EDICTIONARYCATEGORY::PotionPage, "BadGrassPotion");
+	CreatePage(EDICTIONARYCATEGORY::PotionPage, "NutritionPotion");
+	CreatePage(EDICTIONARYCATEGORY::PotionPage, "FirecrackerPotion");
+
+	// CandyPage
+	CreatePage(EDICTIONARYCATEGORY::CandyPage, "UncurseCandy");
+	CreatePage(EDICTIONARYCATEGORY::CandyPage, "HealingCandy");
 
 	if (EDICTIONARYCATEGORY::None == g_CurrentCategory)
 	{
@@ -238,8 +250,30 @@ void UI_Dictionary::CreatePage(EDICTIONARYCATEGORY _Type, std::string_view Name)
 	}
 		break;
 	case EDICTIONARYCATEGORY::PotionPage:
+	{
+		std::shared_ptr<UI_ProductPage> Page = CurLevel->CreateActor<UI_ProductPage>(EUPDATEORDER::UIComponent);
+		if (nullptr == Page)
+		{
+			MsgBoxAssert("액터를 생성하지 못했습니다.");
+			return;
+		}
+
+		Page->CreatePage(Name, m_PotionPageCount);
+		vecPotionPage.push_back(Page);
+	}
 		break;
 	case EDICTIONARYCATEGORY::CandyPage:
+	{
+		std::shared_ptr<UI_ProductPage> Page = CurLevel->CreateActor<UI_ProductPage>(EUPDATEORDER::UIComponent);
+		if (nullptr == Page)
+		{
+			MsgBoxAssert("액터를 생성하지 못했습니다.");
+			return;
+		}
+
+		Page->CreatePage(Name, m_CandyPageCount);
+		vecCandyPage.push_back(Page);
+	}
 		break;
 	default:
 		break;
@@ -249,23 +283,22 @@ void UI_Dictionary::CreatePage(EDICTIONARYCATEGORY _Type, std::string_view Name)
 #pragma endregion
 
 
-
 // 부모의 Open함수에 자식에서 해줘야할 행동을 선언합니다.
 void UI_Dictionary::OpenChild()
 {
-	OpenCategoryPage(g_CurrentCategory);
+	OpenNextPage(g_CurrentCategory);
 }
 
 // 부모의 Close함수에 자식에서 해줘야할 행동을 선언합니다.
 void UI_Dictionary::CloseChild()
 {
-	CloseCategoryPage(g_CurrentCategory);
+	CloseCurrentPage(g_CurrentCategory);
 }
 
 
 
-
-void UI_Dictionary::OpenCategoryPage(EDICTIONARYCATEGORY _Type)
+// 현재 장을 펼칩니다.
+void UI_Dictionary::OpenNextPage(EDICTIONARYCATEGORY _Type)
 {
 	if (g_CurrentLeftPage < 1)
 	{
@@ -273,7 +306,7 @@ void UI_Dictionary::OpenCategoryPage(EDICTIONARYCATEGORY _Type)
 		return;
 	}
 
-	// 2가 나오면 3,4 페이지가 열립니다.
+	// OpenPage는 2가 나오면 3,4 페이지가 열립니다.
 	int OpenPage = g_CurrentLeftPage - 1;
 
 	switch (g_CurrentCategory)
@@ -337,8 +370,30 @@ void UI_Dictionary::OpenCategoryPage(EDICTIONARYCATEGORY _Type)
 	}
 	break;
 	case EDICTIONARYCATEGORY::PotionPage:
+	{
+		OpenPage /= 2;
+		std::shared_ptr<UI_ProductPage> Page = vecPotionPage[OpenPage];
+		if (nullptr == Page)
+		{
+			MsgBoxAssert("존재하지 않는 벡터를 참조했습니다.");
+			return;
+		}
+
+		Page->On();
+	}
 		break;
 	case EDICTIONARYCATEGORY::CandyPage:
+	{
+		OpenPage /= 2;
+		std::shared_ptr<UI_ProductPage> Page = vecCandyPage[OpenPage];
+		if (nullptr == Page)
+		{
+			MsgBoxAssert("존재하지 않는 벡터를 참조했습니다.");
+			return;
+		}
+
+		Page->On();
+	}
 		break;
 	default:
 		break;
@@ -346,7 +401,7 @@ void UI_Dictionary::OpenCategoryPage(EDICTIONARYCATEGORY _Type)
 }
 
 // 특정 카테고리 페이지를 끕니다.
-void UI_Dictionary::CloseCategoryPage(EDICTIONARYCATEGORY _Type)
+void UI_Dictionary::CloseCurrentPage(EDICTIONARYCATEGORY _Type)
 {
 	switch (_Type)
 	{
@@ -383,8 +438,34 @@ void UI_Dictionary::CloseCategoryPage(EDICTIONARYCATEGORY _Type)
 	}
 	break;
 	case EDICTIONARYCATEGORY::PotionPage:
+	{
+		for (size_t i = 0; i < vecPotionPage.size(); i++)
+		{
+			std::shared_ptr<UI_ProductPage> Object = vecPotionPage[i];
+			if (nullptr == Object)
+			{
+				MsgBoxAssert("벡터 배열에 존재하지 않는 액터가 있습니다.");
+				return;
+			}
+
+			Object->Off();
+		}
+	}
 		break;
 	case EDICTIONARYCATEGORY::CandyPage:
+	{
+		for (size_t i = 0; i < vecCandyPage.size(); i++)
+		{
+			std::shared_ptr<UI_ProductPage> Object = vecCandyPage[i];
+			if (nullptr == Object)
+			{
+				MsgBoxAssert("벡터 배열에 존재하지 않는 액터가 있습니다.");
+				return;
+			}
+
+			Object->Off();
+		}
+	}
 		break;
 	default:
 		break;
@@ -430,6 +511,25 @@ bool UI_Dictionary::CheckOpenDictionary()
 	return false;
 }
 
+
+// 카테고리 전환을 감지합니다.
+bool UI_Dictionary::CheckMoveCategory()
+{
+	if (true == GameEngineInput::IsDown(VK_DOWN))
+	{
+		NextCategory();
+		return true;
+	}
+
+	if (true == GameEngineInput::IsDown(VK_UP))
+	{
+		PrevCategory();
+		return true;
+	}
+
+	return false;
+}
+
 // 페이지가 넘거가는 것을 감지합니다.
 bool UI_Dictionary::CheckTurningPage()
 {
@@ -470,8 +570,10 @@ void UI_Dictionary::NextPage()
 		MaxPage = m_PlantPageCount;
 		break;
 	case EDICTIONARYCATEGORY::PotionPage:
+		MaxPage = m_PotionPageCount;
 		break;
 	case EDICTIONARYCATEGORY::CandyPage:
+		MaxPage = m_CandyPageCount;
 		break;
 	default:
 		break;
@@ -484,8 +586,8 @@ void UI_Dictionary::NextPage()
 
 	g_CurrentLeftPage += 2;
 
-	CloseCategoryPage(g_CurrentCategory);
-	OpenCategoryPage(g_CurrentCategory);
+	CloseCurrentPage(g_CurrentCategory);
+	OpenNextPage(g_CurrentCategory);
 }
 
 // 페이지가 이전장으로 넘어갑니다.
@@ -500,37 +602,18 @@ void UI_Dictionary::PrevPage()
 
 	g_CurrentLeftPage -= 2;
 
-	CloseCategoryPage(g_CurrentCategory);
-	OpenCategoryPage(g_CurrentCategory);
+	CloseCurrentPage(g_CurrentCategory);
+	OpenNextPage(g_CurrentCategory);
 }
 
 
-// 카테고리 전환을 감지합니다.
-bool UI_Dictionary::CheckMoveCategory()
-{
-	if (true == GameEngineInput::IsDown(VK_DOWN))
-	{
-		NextCategory();
-		return true;
-	}
 
-	if (true == GameEngineInput::IsDown(VK_UP))
-	{
-		PrevCategory();
-		return true;
-	}
-
-
-
-	return false;
-}
-
-
+// 이전 카테고리로 돌아갑니다.
 void UI_Dictionary::PrevCategory()
 {
 	// 현재 카테고리 닫고
 	OffCategoryMark();
-	CloseCategoryPage(g_CurrentCategory);
+	CloseCurrentPage(g_CurrentCategory);
 
 	// 변경 후
 	int CurCategory = static_cast<int>(g_CurrentCategory);
@@ -546,15 +629,16 @@ void UI_Dictionary::PrevCategory()
 	g_CurrentLeftPage = 1;
 
 	// 연다.
-	OpenCategoryPage(g_CurrentCategory);
+	OpenNextPage(g_CurrentCategory);
 	ChangeCategoryMark();
 }
 
+// 다음 카테고리로 이동합니다.
 void UI_Dictionary::NextCategory()
 {
 	// 현재 카테고리 닫고
 	OffCategoryMark();
-	CloseCategoryPage(g_CurrentCategory);
+	CloseCurrentPage(g_CurrentCategory);
 
 	// 변경 후
 	int CurCategory = static_cast<int>(g_CurrentCategory);
@@ -570,11 +654,11 @@ void UI_Dictionary::NextCategory()
 	g_CurrentLeftPage = 1;
 
 	// 연다.
-	OpenCategoryPage(g_CurrentCategory);
+	OpenNextPage(g_CurrentCategory);
 	ChangeCategoryMark();
 };
 
-
+// 카테고리 책꽂이를 해제합니다
 void UI_Dictionary::OffCategoryMark()
 {
 	switch (g_CurrentCategory)
@@ -622,6 +706,7 @@ void UI_Dictionary::OffCategoryMark()
 	}
 }
 
+// 카테고리 책꽂이를 선택합니다.
 void UI_Dictionary::ChangeCategoryMark()
 {
 	switch (g_CurrentCategory)

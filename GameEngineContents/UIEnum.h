@@ -36,26 +36,15 @@ enum class EDICTIONARYCATEGORY
 };
 
 
-enum class ESTARTYPE
+enum class EBREWINGOPTION
 {
 	None,
 	Easy,
 	Normal,
 	Hard,
-};
-
-
-enum class ELADLETYPE
-{
-	None,
-	StirLeft,
+	StirNone,
 	StirRight,
-};
-
-
-enum class EFIRETYPE
-{
-	None,
+	StirLeft,
 	One,
 	Two,
 	Three,

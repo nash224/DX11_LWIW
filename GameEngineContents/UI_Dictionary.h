@@ -45,18 +45,22 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
+	// »ý¼º
 	void CreateBase();
 	void CreateCategory();
 	void CreatePage(EDICTIONARYCATEGORY _Type, std::string_view Name);
 
 
+private:
+	// Open, Close
 	void OpenChild() override;
 	void CloseChild() override;
 
-	void OpenCategoryPage(EDICTIONARYCATEGORY _Type);
-	void CloseCategoryPage(EDICTIONARYCATEGORY _Type);
+	void OpenNextPage(EDICTIONARYCATEGORY _Type);
+	void CloseCurrentPage(EDICTIONARYCATEGORY _Type);
 
 private:
+	// Update
 	void UpdateDictionary();
 	bool CheckOpenDictionary();
 	bool CheckMoveCategory();
@@ -78,6 +82,8 @@ private:
 	CategoryRenderer m_CategoryRenderer;
 	std::vector<std::shared_ptr<class UI_BiologyPage>> vecCreaturePage;
 	std::vector<std::shared_ptr<class UI_BiologyPage>> vecPlantPage;
+	std::vector<std::shared_ptr<class UI_ProductPage>> vecPotionPage;
+	std::vector<std::shared_ptr<class UI_ProductPage>> vecCandyPage;
 
 private:
 	bool IsTurnedPage = false;
@@ -86,5 +92,7 @@ private:
 
 	int m_CreaturePageCount = 0;
 	int m_PlantPageCount = 0;
+	int m_PotionPageCount = 0;
+	int m_CandyPageCount = 0;
 };
 
