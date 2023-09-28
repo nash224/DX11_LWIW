@@ -64,20 +64,26 @@
     <Filter Include="Object\Actor\4.Portal">
       <UniqueIdentifier>{0b367fee-0d15-47ce-83bf-b9af5cab23d3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\0.Manager\UI">
+    <Filter Include="Data">
+      <UniqueIdentifier>{e68a091e-7f5d-44c8-ad73-3e6c5ed38130}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\0.Manager\CameraManager">
+      <UniqueIdentifier>{3da40812-f87f-42d4-a5dc-a3009049d1dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\0.Manager\UIManager">
       <UniqueIdentifier>{d2b381de-2a91-4ff0-aa8e-5f557243566d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\0.Manager\UI\1.Inventory">
+    <Filter Include="Object\Actor\0.Manager\UIManager\1.Inventory">
       <UniqueIdentifier>{1fd64459-b75a-45b6-b280-4dd714bded5e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\0.Manager\UI\0.Item">
-      <UniqueIdentifier>{43a5c18d-3e13-4a76-a35c-b5670b421e24}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Actor\0.Manager\UI\2.Dictionary">
+    <Filter Include="Object\Actor\0.Manager\UIManager\2.Dictionary">
       <UniqueIdentifier>{f24e5439-5690-4157-a820-1561f4c7bfe1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\0.Manager\UI\3.MainUI">
+    <Filter Include="Object\Actor\0.Manager\UIManager\3.MainUI">
       <UniqueIdentifier>{ed8f7f06-bf58-4ee8-9b5b-87e9ec76e89a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\0.Manager\EventManager">
+      <UniqueIdentifier>{657ff871-8102-49bc-aba3-415223d79dcd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -138,12 +144,6 @@
     </ClInclude>
     <ClInclude Include="GlobalLoad.h">
       <Filter>Global</Filter>
-    </ClInclude>
-    <ClInclude Include="EventManager.h">
-      <Filter>Object\Actor\0.Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="CameraControler.h">
-      <Filter>Object\Actor\0.Manager</Filter>
     </ClInclude>
     <ClInclude Include="Field_Center.h">
       <Filter>Object\Level\2.Play\1.Field</Filter>
@@ -218,40 +218,46 @@
       <Filter>Object\Actor\2.Interactive\Static</Filter>
     </ClInclude>
     <ClInclude Include="UIManager.h">
-      <Filter>Object\Actor\0.Manager\UI</Filter>
+      <Filter>Object\Actor\0.Manager\UIManager</Filter>
     </ClInclude>
     <ClInclude Include="UIEnum.h">
-      <Filter>Object\Actor\0.Manager\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="ContentsResource.h">
-      <Filter>Object\Actor\0.Manager\UI\0.Item</Filter>
+      <Filter>Object\Actor\0.Manager\UIManager</Filter>
     </ClInclude>
     <ClInclude Include="UI_Inventory.h">
-      <Filter>Object\Actor\0.Manager\UI\1.Inventory</Filter>
+      <Filter>Object\Actor\0.Manager\UIManager\1.Inventory</Filter>
     </ClInclude>
     <ClInclude Include="UI_Ellie.h">
-      <Filter>Object\Actor\0.Manager\UI\3.MainUI</Filter>
+      <Filter>Object\Actor\0.Manager\UIManager\3.MainUI</Filter>
     </ClInclude>
     <ClInclude Include="UI_DictionaryPage.h">
-      <Filter>Object\Actor\0.Manager\UI\2.Dictionary</Filter>
+      <Filter>Object\Actor\0.Manager\UIManager\2.Dictionary</Filter>
     </ClInclude>
     <ClInclude Include="UI_Dictionary.h">
-      <Filter>Object\Actor\0.Manager\UI\2.Dictionary</Filter>
+      <Filter>Object\Actor\0.Manager\UIManager\2.Dictionary</Filter>
     </ClInclude>
     <ClInclude Include="UI_BiologyPage.h">
-      <Filter>Object\Actor\0.Manager\UI\2.Dictionary</Filter>
+      <Filter>Object\Actor\0.Manager\UIManager\2.Dictionary</Filter>
     </ClInclude>
     <ClInclude Include="UI_ToggleActor.h">
-      <Filter>Object\Actor\0.Manager\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="BiologyData.h">
-      <Filter>Object\Actor\0.Manager\UI\0.Item</Filter>
+      <Filter>Object\Actor\0.Manager\UIManager</Filter>
     </ClInclude>
     <ClInclude Include="UI_ProductPage.h">
-      <Filter>Object\Actor\0.Manager\UI\2.Dictionary</Filter>
+      <Filter>Object\Actor\0.Manager\UIManager\2.Dictionary</Filter>
     </ClInclude>
     <ClInclude Include="ProductRecipeData.h">
-      <Filter>Object\Actor\0.Manager\UI\0.Item</Filter>
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="BiologyData.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsResource.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraControler.h">
+      <Filter>Object\Actor\0.Manager\CameraManager</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>Object\Actor\0.Manager\EventManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -309,12 +315,6 @@
     </ClCompile>
     <ClCompile Include="Ellie_State.cpp">
       <Filter>Object\Actor\2.Interactive\Dynamic\Ellie</Filter>
-    </ClCompile>
-    <ClCompile Include="EventManager.cpp">
-      <Filter>Object\Actor\0.Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="CameraControler.cpp">
-      <Filter>Object\Actor\0.Manager</Filter>
     </ClCompile>
     <ClCompile Include="Field_Center.cpp">
       <Filter>Object\Level\2.Play\1.Field</Filter>
@@ -392,37 +392,43 @@
       <Filter>Object\Actor\2.Interactive\Static</Filter>
     </ClCompile>
     <ClCompile Include="UIManager.cpp">
-      <Filter>Object\Actor\0.Manager\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="ContentsResource.cpp">
-      <Filter>Object\Actor\0.Manager\UI\0.Item</Filter>
+      <Filter>Object\Actor\0.Manager\UIManager</Filter>
     </ClCompile>
     <ClCompile Include="UI_Inventory.cpp">
-      <Filter>Object\Actor\0.Manager\UI\1.Inventory</Filter>
+      <Filter>Object\Actor\0.Manager\UIManager\1.Inventory</Filter>
     </ClCompile>
     <ClCompile Include="UI_Ellie.cpp">
-      <Filter>Object\Actor\0.Manager\UI\3.MainUI</Filter>
+      <Filter>Object\Actor\0.Manager\UIManager\3.MainUI</Filter>
     </ClCompile>
     <ClCompile Include="UI_Dictionary.cpp">
-      <Filter>Object\Actor\0.Manager\UI\2.Dictionary</Filter>
+      <Filter>Object\Actor\0.Manager\UIManager\2.Dictionary</Filter>
     </ClCompile>
     <ClCompile Include="UI_DictionaryPage.cpp">
-      <Filter>Object\Actor\0.Manager\UI\2.Dictionary</Filter>
+      <Filter>Object\Actor\0.Manager\UIManager\2.Dictionary</Filter>
     </ClCompile>
     <ClCompile Include="UI_BiologyPage.cpp">
-      <Filter>Object\Actor\0.Manager\UI\2.Dictionary</Filter>
+      <Filter>Object\Actor\0.Manager\UIManager\2.Dictionary</Filter>
     </ClCompile>
     <ClCompile Include="UI_ToggleActor.cpp">
-      <Filter>Object\Actor\0.Manager\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="BiologyData.cpp">
-      <Filter>Object\Actor\0.Manager\UI\0.Item</Filter>
+      <Filter>Object\Actor\0.Manager\UIManager</Filter>
     </ClCompile>
     <ClCompile Include="UI_ProductPage.cpp">
-      <Filter>Object\Actor\0.Manager\UI\2.Dictionary</Filter>
+      <Filter>Object\Actor\0.Manager\UIManager\2.Dictionary</Filter>
+    </ClCompile>
+    <ClCompile Include="BiologyData.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsResource.cpp">
+      <Filter>Data</Filter>
     </ClCompile>
     <ClCompile Include="ProductRecipeData.cpp">
-      <Filter>Object\Actor\0.Manager\UI\0.Item</Filter>
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraControler.cpp">
+      <Filter>Object\Actor\0.Manager\CameraManager</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>Object\Actor\0.Manager\EventManager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

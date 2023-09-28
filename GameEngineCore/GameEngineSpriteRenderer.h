@@ -43,10 +43,14 @@ public:
 enum class PivotType
 {
 	Center,
+	Top,
+	RightUp,
+	Right,
+	RightBottom,
 	Bottom,
+	LeftBottom,
 	Left,
 	LeftTop,
-	Right,
 };
 
 struct SpriteRendererInfo 
@@ -177,6 +181,11 @@ public:
 	inline unsigned int GetCurIndex() const
 	{
 		return CurFrameAnimations->CurIndex;
+	}
+
+	inline GameEngineTransform& GetImageTransform()
+	{
+		return ImageTransform;
 	}
 
 protected:

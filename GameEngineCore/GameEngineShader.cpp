@@ -23,6 +23,9 @@ void GameEngineShader::CreateVersion(ShaderType _Type, UINT _VersionHigh, UINT _
 	case ShaderType::Vertex:
 		Version = "vs";
 		break;
+	case ShaderType::Geometry:
+		Version = "gs";
+		break;
 	case ShaderType::Pixel:
 		Version = "ps";
 		break;
@@ -83,6 +86,21 @@ bool GameEngineShader::AutoCompile(GameEngineFile& _File)
 			GameEngineVertexShader::Load(_File.GetStringPath(), EntryName);
 
 			// ColorShader.fx 픽셀쉐이더가 있을수 있다.
+
+		}
+	}
+
+	{
+		// find 앞에서 부터 뒤져서 바이트 위치를 알려줍니다.
+		size_t EntryIndex = ShaderCode.find("_GS(");
+		// 못찾았을때 나옵니다.
+		if (EntryIndex != std::string::npos)
+		{
+			// 내가 지정한 위치에서부터 앞으로 찾기 아서 
+			size_t FirstIndex = ShaderCode.find_last_of(" ", EntryIndex);
+			std::string_view EntryName = ShaderCode.substr(FirstIndex + 1, EntryIndex - FirstIndex + 2);
+
+			// GameEngineVertexShader::Load(_File.GetStringPath(), EntryName);
 
 		}
 	}
