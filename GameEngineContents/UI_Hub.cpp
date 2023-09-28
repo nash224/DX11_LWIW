@@ -4,6 +4,8 @@
 
 #include "UI_Hub_Stamina.h"
 #include "UI_Hub_Tool.h"
+#include "UI_Hub_QuickSlot.h"
+#include "UI_Hub_Broom.h"
 
 
 UI_Hub::UI_Hub() 
@@ -57,6 +59,7 @@ void UI_Hub::Init()
 
 	m_Tool->Init();
 
+
 	m_Stamina = CurLevel->CreateActor<UI_Hub_Stamina>(EUPDATEORDER::UIComponent);
 	if (nullptr == m_Stamina)
 	{
@@ -65,6 +68,26 @@ void UI_Hub::Init()
 	}
 
 	m_Stamina->Init();
+
+
+	m_QuickSlot = CurLevel->CreateActor<UI_Hub_QuickSlot>(EUPDATEORDER::UIComponent);
+	if (nullptr == m_QuickSlot)
+	{
+		MsgBoxAssert("도구를 생성하지 못했습니다.");
+		return;
+	}
+
+	m_QuickSlot->Init();
+
+
+	m_Broom = CurLevel->CreateActor<UI_Hub_Broom>(EUPDATEORDER::UIComponent);
+	if (nullptr == m_Broom)
+	{
+		MsgBoxAssert("도구를 생성하지 못했습니다.");
+		return;
+	}
+
+	m_Broom->Init();
 
 	Reset();
 }
@@ -83,6 +106,16 @@ void UI_Hub::OpenChild()
 	{
 		m_Stamina->On();
 	}
+
+	if (nullptr != m_Stamina)
+	{
+		m_Stamina->On();
+	}
+
+	if (nullptr != m_Broom)
+	{
+		m_Broom->On();
+	}
 }
 
 void UI_Hub::CloseChild()
@@ -92,10 +125,19 @@ void UI_Hub::CloseChild()
 		m_Tool->Off();
 	}
 
-
 	if (nullptr != m_Stamina)
 	{
 		m_Stamina->Off();
+	}
+
+	if (nullptr != m_QuickSlot)
+	{
+		m_QuickSlot->Off();
+	}
+
+	if (nullptr != m_Broom)
+	{
+		m_Broom->Off();
 	}
 }
 
@@ -111,5 +153,15 @@ void UI_Hub::Reset()
 		m_Stamina->On();
 	}
 
+	if (nullptr != m_QuickSlot)
+	{
+		m_QuickSlot->On();
+	}
+
+	if (nullptr != m_Broom)
+	{
+		m_Broom->On();
+	}
+	
 	On();
 }

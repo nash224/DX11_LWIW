@@ -5,8 +5,8 @@ struct GaugeComposition
 {
 public:
 	std::shared_ptr<GameEngineUIRenderer> Frame = nullptr;
-	std::shared_ptr<GameEngineUIRenderer> Gauge1 = nullptr;
-	std::shared_ptr<GameEngineUIRenderer> Gauge2 = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> StaminaGauge = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> RecoverableGauge = nullptr;
 	std::shared_ptr<GameEngineUIRenderer> Indicator = nullptr;
 
 };
@@ -14,6 +14,9 @@ public:
 // Ό³Έν :
 class UI_Hub_Stamina : public UI_Hub_Actor
 {
+	static int CurrentStamina;
+	static int RecoverableStamina;
+
 public:
 	// constrcuter destructer
 	UI_Hub_Stamina();
@@ -39,7 +42,5 @@ private:
 	GaugeComposition m_GaugeComposition;
 
 	const int MaxStamina = 100;
-	int CurrentStamina = -1;
-	int RecoverableStamina = -1;
 };
 

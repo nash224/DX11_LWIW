@@ -34,5 +34,7 @@ private:
 private:
 	std::shared_ptr<class UI_Hub_Tool> m_Tool = nullptr;
 	std::shared_ptr<class UI_Hub_Stamina> m_Stamina = nullptr;
+	std::shared_ptr<class UI_Hub_QuickSlot> m_QuickSlot = nullptr;
+	std::shared_ptr<class UI_Hub_Broom> m_Broom = nullptr;
 };
 

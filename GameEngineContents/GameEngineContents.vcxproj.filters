@@ -259,7 +259,7 @@
     <ClInclude Include="EventManager.h">
       <Filter>Object\Actor\0.Manager\EventManager</Filter>
     </ClInclude>
-    <ClInclude Include="UI_Hub_Riding.h">
+    <ClInclude Include="UI_Hub_Broom.h">
       <Filter>Object\Actor\0.Manager\UIManager\3.Ellie</Filter>
     </ClInclude>
     <ClInclude Include="UI_Hub_QuickSlot.h">
@@ -451,7 +451,7 @@
     <ClCompile Include="EventManager.cpp">
       <Filter>Object\Actor\0.Manager\EventManager</Filter>
     </ClCompile>
-    <ClCompile Include="UI_Hub_Riding.cpp">
+    <ClCompile Include="UI_Hub_Broom.cpp">
       <Filter>Object\Actor\0.Manager\UIManager\3.Ellie</Filter>
     </ClCompile>
     <ClCompile Include="UI_Hub_QuickSlot.cpp">

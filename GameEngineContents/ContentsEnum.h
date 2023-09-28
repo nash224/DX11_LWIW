@@ -81,7 +81,10 @@ enum class EDOWNFLOORRENDERORDER
 
 enum class EUI_RENDERORDERORDER
 {
-
+	HUB_Frame,
+	HUB_Gauge1,
+	HUB_Gauge2,
+	HUB_Indicator,
 	Icon,
 	UIArrow,
 	Base = 100,
