@@ -96,6 +96,7 @@ void UIManager::Reset()
 
 /////////////////////////////////////////////////////////////////////////////////////
 
+// UI컴포넌트가 꺼지는 것을 감지하고, HUB가 켜집니다.
 void UIManager::CheckForOpenUIComponent()
 {
 	if (nullptr == m_Dictionary)
@@ -106,6 +107,13 @@ void UIManager::CheckForOpenUIComponent()
 
 	if (false == m_Dictionary->IsOpen)
 	{
+		if (nullptr == m_Hub)
+		{
+			MsgBoxAssert("존재하지 않는 액터를 사용하려 했습니다.")
+		}
+
+		m_Hub->Open();
+
 		m_IsActiveComponent = false;
 	}
 }

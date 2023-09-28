@@ -29,7 +29,10 @@ protected:
 private:
 	void NextTool();
 	void PrevTool();
-	void ChangeToolImg(ETOOLTYPE _Type);
+
+	
+	void ChangeToolImg();							// 이미지와 현재 변수가 다르면 변경
+	void ChangeToolImg(ETOOLTYPE _Type);			// 같던 다르던 변경
 
 private:
 	void DetectToolChange();
@@ -44,6 +47,8 @@ private:
 
 private:
 	bool IsChangeTool = false;
+
+	int m_CurrentToolRenderNumber = -1;
 	
 };
 

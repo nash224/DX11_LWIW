@@ -25,7 +25,7 @@ void UI_Hub_Tool::Update(float _Delta)
 
 void UI_Hub_Tool::LevelStart(class GameEngineLevel* _NextLevel)
 {
-
+	ChangeToolImg();
 }
 
 void UI_Hub_Tool::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -116,7 +116,7 @@ void UI_Hub_Tool::NextTool()
 		}
 	}
 
-	ChangeToolImg(m_CurrentTool);
+	ChangeToolImg();
 
 	IsChangeTool = true;
 }
@@ -162,11 +162,32 @@ void UI_Hub_Tool::PrevTool()
 		}
 	}
 
-	ChangeToolImg(m_CurrentTool);
+	ChangeToolImg();
 
 	IsChangeTool = true;
 }
 
+// 현재 도구 이미지와 다르면 변경합니다.
+
+void UI_Hub_Tool::ChangeToolImg()
+{
+	if (m_CurrentToolRenderNumber == static_cast<int>(m_CurrentTool))
+	{
+		return;
+	}
+
+	if (nullptr == m_Tool)
+	{
+		MsgBoxAssert("존재하지 않은 렌더러를 생성하려 했습니다.");
+		return;
+	}
+
+	m_Tool->SetSprite("Tool_Icon.png", static_cast<int>(m_CurrentTool));
+
+	m_CurrentToolRenderNumber = static_cast<int>(m_CurrentTool);
+}
+
+// 도구 이미지를 변경합니다.
 void UI_Hub_Tool::ChangeToolImg(ETOOLTYPE _Type)
 {
 	if (nullptr == m_Tool)
@@ -176,6 +197,8 @@ void UI_Hub_Tool::ChangeToolImg(ETOOLTYPE _Type)
 	}
 
 	m_Tool->SetSprite("Tool_Icon.png", static_cast<int>(_Type));
+
+	m_CurrentToolRenderNumber = static_cast<int>(_Type);
 }
 
 
