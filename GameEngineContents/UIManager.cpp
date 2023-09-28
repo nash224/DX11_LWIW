@@ -68,34 +68,14 @@ void UIManager::Init()
 }
 
 
-void UIManager::OpenInventory()
-{
-
-}
-
-void UIManager::OpenDictionary()
-{
-	if (nullptr == m_Dictionary)
-	{
-		MsgBoxAssert("매니저가 사전을 모릅니다.");
-		return;
-	}
-	m_Dictionary->Open();
-}
-
-void UIManager::OpenMainBoard()
-{
-
-}
-
-
-
 void UIManager::Reset()
 {
 	if (nullptr != m_Dictionary)
 	{
 		m_Dictionary->Close();
 	}
+
+	m_IsActiveComponent = false;
 }
 
 
@@ -103,27 +83,26 @@ void UIManager::Reset()
 
 void UIManager::CheckForOpenUIComponent()
 {
-	ActiveComponentChcek = false;
-
 	if (nullptr == m_Dictionary)
 	{
 		MsgBoxAssert("사전을 생성하지 않고 사용하려 했습니다.");
 		return;
 	}
 
-	if (true == m_Dictionary->IsOpen)
+	if (false == m_Dictionary->IsOpen)
 	{
-		ActiveComponentChcek = true;
+		m_IsActiveComponent = false;
 	}
 }
 
 void UIManager::UpdateUIComponentOpenInput()
 {
-	if (false == ActiveComponentChcek)
+	if (false == m_IsActiveComponent)
 	{
 		if (true == GameEngineInput::IsDown('D'))
 		{
 			m_Dictionary->Open();
+			m_IsActiveComponent = true;
 		}
 	}
 }

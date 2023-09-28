@@ -58,6 +58,6 @@ private:
 private:
 	EUI_TYPE m_State = EUI_TYPE::None;
 
-	bool ActiveComponentChcek = false;
+	bool m_IsActiveComponent = false;
 };
 

@@ -361,6 +361,30 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="UI_Ellie_Actor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UI_Ellie_Calendar.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UI_Ellie_QuickSlot.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UI_Ellie_Riding.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UI_Ellie_Stamina.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UI_Ellie_Tool.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="UI_Inventory.cpp">
       <SubType>
       </SubType>
@@ -577,6 +601,30 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="UI_Ellie.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UI_Ellie_Actor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UI_Ellie_Calendar.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UI_Ellie_QuickSlot.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UI_Ellie_Riding.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UI_Ellie_Stamina.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UI_Ellie_Tool.h">
       <SubType>
       </SubType>
     </ClInclude>

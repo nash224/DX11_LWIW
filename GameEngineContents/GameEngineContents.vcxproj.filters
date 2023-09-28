@@ -79,11 +79,14 @@
     <Filter Include="Object\Actor\0.Manager\UIManager\2.Dictionary">
       <UniqueIdentifier>{f24e5439-5690-4157-a820-1561f4c7bfe1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Actor\0.Manager\UIManager\3.MainUI">
-      <UniqueIdentifier>{ed8f7f06-bf58-4ee8-9b5b-87e9ec76e89a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Actor\0.Manager\EventManager">
       <UniqueIdentifier>{657ff871-8102-49bc-aba3-415223d79dcd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\0.Manager\UIManager\4.MainBoard">
+      <UniqueIdentifier>{610a2b47-4245-400e-aec0-f447dc115bb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\0.Manager\UIManager\3.Ellie">
+      <UniqueIdentifier>{ed8f7f06-bf58-4ee8-9b5b-87e9ec76e89a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -227,7 +230,7 @@
       <Filter>Object\Actor\0.Manager\UIManager\1.Inventory</Filter>
     </ClInclude>
     <ClInclude Include="UI_Ellie.h">
-      <Filter>Object\Actor\0.Manager\UIManager\3.MainUI</Filter>
+      <Filter>Object\Actor\0.Manager\UIManager\3.Ellie</Filter>
     </ClInclude>
     <ClInclude Include="UI_DictionaryPage.h">
       <Filter>Object\Actor\0.Manager\UIManager\2.Dictionary</Filter>
@@ -258,6 +261,24 @@
     </ClInclude>
     <ClInclude Include="EventManager.h">
       <Filter>Object\Actor\0.Manager\EventManager</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Ellie_Riding.h">
+      <Filter>Object\Actor\0.Manager\UIManager\3.Ellie</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Ellie_QuickSlot.h">
+      <Filter>Object\Actor\0.Manager\UIManager\3.Ellie</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Ellie_Tool.h">
+      <Filter>Object\Actor\0.Manager\UIManager\3.Ellie</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Ellie_Stamina.h">
+      <Filter>Object\Actor\0.Manager\UIManager\3.Ellie</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Ellie_Calendar.h">
+      <Filter>Object\Actor\0.Manager\UIManager\3.Ellie</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Ellie_Actor.h">
+      <Filter>Object\Actor\0.Manager\UIManager\3.Ellie</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -398,7 +419,7 @@
       <Filter>Object\Actor\0.Manager\UIManager\1.Inventory</Filter>
     </ClCompile>
     <ClCompile Include="UI_Ellie.cpp">
-      <Filter>Object\Actor\0.Manager\UIManager\3.MainUI</Filter>
+      <Filter>Object\Actor\0.Manager\UIManager\3.Ellie</Filter>
     </ClCompile>
     <ClCompile Include="UI_Dictionary.cpp">
       <Filter>Object\Actor\0.Manager\UIManager\2.Dictionary</Filter>
@@ -429,6 +450,24 @@
     </ClCompile>
     <ClCompile Include="EventManager.cpp">
       <Filter>Object\Actor\0.Manager\EventManager</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Ellie_Riding.cpp">
+      <Filter>Object\Actor\0.Manager\UIManager\3.Ellie</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Ellie_QuickSlot.cpp">
+      <Filter>Object\Actor\0.Manager\UIManager\3.Ellie</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Ellie_Tool.cpp">
+      <Filter>Object\Actor\0.Manager\UIManager\3.Ellie</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Ellie_Stamina.cpp">
+      <Filter>Object\Actor\0.Manager\UIManager\3.Ellie</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Ellie_Calendar.cpp">
+      <Filter>Object\Actor\0.Manager\UIManager\3.Ellie</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Ellie_Actor.cpp">
+      <Filter>Object\Actor\0.Manager\UIManager\3.Ellie</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

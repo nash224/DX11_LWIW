@@ -7,7 +7,7 @@ enum class ETOOLTYPE
 	Rod,
 	FeaturePan,
 	Dragonfly,
-	Max,
+	None,
 };
 
 

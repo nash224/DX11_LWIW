@@ -81,11 +81,13 @@ enum class EDOWNFLOORRENDERORDER
 
 enum class EUI_RENDERORDERORDER
 {
+
+	Icon,
+	UIArrow,
 	Base = 100,
 	Frame,
 	Attachment,
 	Component,
-	Arrow,
 };
 
 enum class ECOLLISION
