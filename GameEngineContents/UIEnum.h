@@ -4,7 +4,6 @@
 enum class ETOOLTYPE
 {
 	Gloves,
-	Rod,
 	FeaturePan,
 	Dragonfly,
 	None,

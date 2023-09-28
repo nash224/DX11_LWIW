@@ -18,7 +18,7 @@ public:
 		std::string _BiologyName = "",
 		std::string _KoreanName = "",
 		std::string _ItemName = "",
-		ETOOLTYPE _GatherTool = ETOOLTYPE::Max,
+		ETOOLTYPE _GatherTool = ETOOLTYPE::None,
 		EECOLOGYTYPE _EcologicalGroup = EECOLOGYTYPE::None,
 		EECOLOGYTYPE _Habitat = EECOLOGYTYPE::None,
 		EECOLOGYTYPE _AppearanceTime = EECOLOGYTYPE::None
@@ -52,8 +52,8 @@ public:
 	std::string ItemName;
 	ETOOLTYPE GatherTool;
 	EECOLOGYTYPE EcologicalGroup;
-	EECOLOGYTYPE Habitat = EECOLOGYTYPE::None;
-	EECOLOGYTYPE AppearanceTime = EECOLOGYTYPE::None;
+	EECOLOGYTYPE Habitat;
+	EECOLOGYTYPE AppearanceTime;
 
 };
 

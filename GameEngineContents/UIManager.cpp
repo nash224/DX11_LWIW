@@ -5,7 +5,7 @@
 
 #include "UI_Inventory.h"
 #include "UI_Dictionary.h"
-#include "UI_Ellie.h"
+#include "UI_Hub.h"
 
 
 GameEngineActor* UIManager::g_MainUIManager = nullptr;
@@ -54,6 +54,15 @@ void UIManager::Init()
 		return;
 	}
 
+	m_Hub = CurLevel->CreateActor<UI_Hub>(EUPDATEORDER::UIComponent);
+	if (nullptr == m_Hub)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	m_Hub->Init();
+
 	m_Dictionary = CurLevel->CreateActor<UI_Dictionary>(EUPDATEORDER::UIComponent);
 	if (nullptr == m_Dictionary)
 	{
@@ -64,12 +73,18 @@ void UIManager::Init()
 	m_Dictionary->Init();
 
 
+
 	Reset();
 }
 
 
 void UIManager::Reset()
 {
+	if (nullptr != m_Hub)
+	{
+		m_Hub->Open();
+	}
+
 	if (nullptr != m_Dictionary)
 	{
 		m_Dictionary->Close();
@@ -101,8 +116,25 @@ void UIManager::UpdateUIComponentOpenInput()
 	{
 		if (true == GameEngineInput::IsDown('D'))
 		{
+			if (nullptr == m_Dictionary)
+			{
+				MsgBoxAssert("존재하지 않는 액터를 사용하려 했습니다.");
+				return;
+			}
+
 			m_Dictionary->Open();
 			m_IsActiveComponent = true;
+		}
+
+		if (true == m_IsActiveComponent)
+		{
+			if (nullptr == m_Hub)
+			{
+				MsgBoxAssert("존재하지 않는 액터를 사용하려 했습니다.");
+				return;
+			}
+
+			m_Hub->Close();
 		}
 	}
 }

@@ -11,9 +11,6 @@ enum class EUI_TYPE
 
 
 // Ό³Έν :
-class UI_Inventory;
-class UI_Dictionary;
-class UI_Ellie;
 class UIManager : public GameEngineActor
 {
 	static GameEngineActor* g_MainUIManager;
@@ -50,9 +47,9 @@ private:
 
 
 private:
-	std::shared_ptr<UI_Inventory> m_Inventory = nullptr;
-	std::shared_ptr<UI_Inventory> m_MainActorUI = nullptr;
-	std::shared_ptr<UI_Dictionary> m_Dictionary = nullptr;
+	std::shared_ptr<class UI_Hub> m_Hub = nullptr;
+	std::shared_ptr<class UI_Inventory> m_Inventory = nullptr;
+	std::shared_ptr<class UI_Dictionary> m_Dictionary = nullptr;
 
 
 private:

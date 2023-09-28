@@ -20,6 +20,7 @@
 
 
 // Contents
-#include "ContentsEnum.h"
-#include "UIEnum.h"
 #include "GlobalValue.h"
+#include "ContentsEnum.h"
+#include "ContentsResource.h"
+#include "EventData.h"

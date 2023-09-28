@@ -88,6 +88,12 @@
     <Filter Include="Object\Actor\0.Manager\UIManager\3.Ellie">
       <UniqueIdentifier>{ed8f7f06-bf58-4ee8-9b5b-87e9ec76e89a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Data\Event">
+      <UniqueIdentifier>{d6185931-d786-41fd-aa66-607939952af7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Contents">
+      <UniqueIdentifier>{c36b20f2-db1b-4ff2-a7c5-f87a75e9af74}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -229,7 +235,7 @@
     <ClInclude Include="UI_Inventory.h">
       <Filter>Object\Actor\0.Manager\UIManager\1.Inventory</Filter>
     </ClInclude>
-    <ClInclude Include="UI_Ellie.h">
+    <ClInclude Include="UI_Hub.h">
       <Filter>Object\Actor\0.Manager\UIManager\3.Ellie</Filter>
     </ClInclude>
     <ClInclude Include="UI_DictionaryPage.h">
@@ -247,38 +253,41 @@
     <ClInclude Include="UI_ProductPage.h">
       <Filter>Object\Actor\0.Manager\UIManager\2.Dictionary</Filter>
     </ClInclude>
-    <ClInclude Include="ProductRecipeData.h">
-      <Filter>Data</Filter>
-    </ClInclude>
-    <ClInclude Include="BiologyData.h">
-      <Filter>Data</Filter>
-    </ClInclude>
-    <ClInclude Include="ContentsResource.h">
-      <Filter>Data</Filter>
-    </ClInclude>
     <ClInclude Include="CameraControler.h">
       <Filter>Object\Actor\0.Manager\CameraManager</Filter>
     </ClInclude>
     <ClInclude Include="EventManager.h">
       <Filter>Object\Actor\0.Manager\EventManager</Filter>
     </ClInclude>
-    <ClInclude Include="UI_Ellie_Riding.h">
+    <ClInclude Include="UI_Hub_Riding.h">
       <Filter>Object\Actor\0.Manager\UIManager\3.Ellie</Filter>
     </ClInclude>
-    <ClInclude Include="UI_Ellie_QuickSlot.h">
+    <ClInclude Include="UI_Hub_QuickSlot.h">
       <Filter>Object\Actor\0.Manager\UIManager\3.Ellie</Filter>
     </ClInclude>
-    <ClInclude Include="UI_Ellie_Tool.h">
+    <ClInclude Include="UI_Hub_Tool.h">
       <Filter>Object\Actor\0.Manager\UIManager\3.Ellie</Filter>
     </ClInclude>
-    <ClInclude Include="UI_Ellie_Stamina.h">
+    <ClInclude Include="UI_Hub_Stamina.h">
       <Filter>Object\Actor\0.Manager\UIManager\3.Ellie</Filter>
     </ClInclude>
-    <ClInclude Include="UI_Ellie_Calendar.h">
+    <ClInclude Include="UI_Hub_Calendar.h">
       <Filter>Object\Actor\0.Manager\UIManager\3.Ellie</Filter>
     </ClInclude>
-    <ClInclude Include="UI_Ellie_Actor.h">
+    <ClInclude Include="UI_Hub_Actor.h">
       <Filter>Object\Actor\0.Manager\UIManager\3.Ellie</Filter>
+    </ClInclude>
+    <ClInclude Include="EventData.h">
+      <Filter>Data\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="ProductRecipeData.h">
+      <Filter>Data\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="BiologyData.h">
+      <Filter>Data\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsResource.h">
+      <Filter>Data\Contents</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -418,7 +427,7 @@
     <ClCompile Include="UI_Inventory.cpp">
       <Filter>Object\Actor\0.Manager\UIManager\1.Inventory</Filter>
     </ClCompile>
-    <ClCompile Include="UI_Ellie.cpp">
+    <ClCompile Include="UI_Hub.cpp">
       <Filter>Object\Actor\0.Manager\UIManager\3.Ellie</Filter>
     </ClCompile>
     <ClCompile Include="UI_Dictionary.cpp">
@@ -436,38 +445,41 @@
     <ClCompile Include="UI_ProductPage.cpp">
       <Filter>Object\Actor\0.Manager\UIManager\2.Dictionary</Filter>
     </ClCompile>
-    <ClCompile Include="BiologyData.cpp">
-      <Filter>Data</Filter>
-    </ClCompile>
-    <ClCompile Include="ContentsResource.cpp">
-      <Filter>Data</Filter>
-    </ClCompile>
-    <ClCompile Include="ProductRecipeData.cpp">
-      <Filter>Data</Filter>
-    </ClCompile>
     <ClCompile Include="CameraControler.cpp">
       <Filter>Object\Actor\0.Manager\CameraManager</Filter>
     </ClCompile>
     <ClCompile Include="EventManager.cpp">
       <Filter>Object\Actor\0.Manager\EventManager</Filter>
     </ClCompile>
-    <ClCompile Include="UI_Ellie_Riding.cpp">
+    <ClCompile Include="UI_Hub_Riding.cpp">
       <Filter>Object\Actor\0.Manager\UIManager\3.Ellie</Filter>
     </ClCompile>
-    <ClCompile Include="UI_Ellie_QuickSlot.cpp">
+    <ClCompile Include="UI_Hub_QuickSlot.cpp">
       <Filter>Object\Actor\0.Manager\UIManager\3.Ellie</Filter>
     </ClCompile>
-    <ClCompile Include="UI_Ellie_Tool.cpp">
+    <ClCompile Include="UI_Hub_Tool.cpp">
       <Filter>Object\Actor\0.Manager\UIManager\3.Ellie</Filter>
     </ClCompile>
-    <ClCompile Include="UI_Ellie_Stamina.cpp">
+    <ClCompile Include="UI_Hub_Stamina.cpp">
       <Filter>Object\Actor\0.Manager\UIManager\3.Ellie</Filter>
     </ClCompile>
-    <ClCompile Include="UI_Ellie_Calendar.cpp">
+    <ClCompile Include="UI_Hub_Calendar.cpp">
       <Filter>Object\Actor\0.Manager\UIManager\3.Ellie</Filter>
     </ClCompile>
-    <ClCompile Include="UI_Ellie_Actor.cpp">
+    <ClCompile Include="UI_Hub_Actor.cpp">
       <Filter>Object\Actor\0.Manager\UIManager\3.Ellie</Filter>
+    </ClCompile>
+    <ClCompile Include="EventData.cpp">
+      <Filter>Data\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="BiologyData.cpp">
+      <Filter>Data\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsResource.cpp">
+      <Filter>Data\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="ProductRecipeData.cpp">
+      <Filter>Data\Contents</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

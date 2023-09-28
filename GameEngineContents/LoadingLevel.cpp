@@ -148,7 +148,7 @@ void LoadingLevel::LoadSprite()
 		GameEngineSprite::CreateCut("Interaction_Arrow.png", 5, 1);
 		GameEngineSprite::CreateCut("Inventory_Cursor.png", 2, 1);
 		GameEngineSprite::CreateCut("Inventory_SampleIcon.png", 3, 1);
-		GameEngineSprite::CreateCut("Tool_Icon.png", 4, 1);
+		GameEngineSprite::CreateCut("Tool_Icon.png", 3, 1);
 
 		GameEngineSprite::CreateCut("IllustedBook_Icon_Star.png", 3, 1);
 		GameEngineSprite::CreateCut("IllustedBook_Icon_Fire.png", 5, 1);
@@ -193,6 +193,8 @@ void LoadingLevel::LoadActor()
 
 void LoadingLevel::LoadContentsData()
 {
+	EventData::Init();
+
 	// 동물
 	BiologyData::CreateData("Mongsiri", {"Mongsiri", "몽시리", "몽시리털", ETOOLTYPE::Gloves, EECOLOGYTYPE::GreenForest ,EECOLOGYTYPE::ForestPlains, EECOLOGYTYPE::Day});
 	BiologyData::CreateData("PumpkinTerrier", {"PumpkinTerrier", "호박 강아지", "호박 강아지의 털 조각", ETOOLTYPE::Gloves, EECOLOGYTYPE::GreenForest, EECOLOGYTYPE::ForestPlains, EECOLOGYTYPE::AllDay});

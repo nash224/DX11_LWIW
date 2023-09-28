@@ -3,18 +3,18 @@
 
 
 // Ό³Έν :
-class UI_Ellie : public UI_ToggleActor
+class UI_Hub : public UI_ToggleActor
 {
 public:
 	// constrcuter destructer
-	UI_Ellie();
-	~UI_Ellie();
+	UI_Hub();
+	~UI_Hub();
 
 	// delete Function
-	UI_Ellie(const UI_Ellie& _Other) = delete;
-	UI_Ellie(UI_Ellie&& _Other) noexcept = delete;
-	UI_Ellie& operator=(const UI_Ellie& _Other) = delete;
-	UI_Ellie& operator=(UI_Ellie&& _Other) noexcept = delete;
+	UI_Hub(const UI_Hub& _Other) = delete;
+	UI_Hub(UI_Hub&& _Other) noexcept = delete;
+	UI_Hub& operator=(const UI_Hub& _Other) = delete;
+	UI_Hub& operator=(UI_Hub&& _Other) noexcept = delete;
 
 	void Init();
 
@@ -30,6 +30,6 @@ private:
 
 
 private:
-	std::shared_ptr<class UI_Ellie_Tool> m_Tool = nullptr;
+	std::shared_ptr<class UI_Hub_Tool> m_Tool = nullptr;
 };
 

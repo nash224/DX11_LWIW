@@ -213,6 +213,10 @@
     </ClCompile>
     <ClCompile Include="Ellie_Collision.cpp" />
     <ClCompile Include="Ellie_State.cpp" />
+    <ClCompile Include="EventData.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="EventManager.cpp">
       <SubType>
       </SubType>
@@ -357,31 +361,31 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="UI_Ellie.cpp">
+    <ClCompile Include="UI_Hub.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="UI_Ellie_Actor.cpp">
+    <ClCompile Include="UI_Hub_Actor.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="UI_Ellie_Calendar.cpp">
+    <ClCompile Include="UI_Hub_Calendar.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="UI_Ellie_QuickSlot.cpp">
+    <ClCompile Include="UI_Hub_QuickSlot.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="UI_Ellie_Riding.cpp">
+    <ClCompile Include="UI_Hub_Riding.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="UI_Ellie_Stamina.cpp">
+    <ClCompile Include="UI_Hub_Stamina.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="UI_Ellie_Tool.cpp">
+    <ClCompile Include="UI_Hub_Tool.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -453,6 +457,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="DynamicEntity.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EventData.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -600,31 +608,31 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="UI_Ellie.h">
+    <ClInclude Include="UI_Hub.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="UI_Ellie_Actor.h">
+    <ClInclude Include="UI_Hub_Actor.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="UI_Ellie_Calendar.h">
+    <ClInclude Include="UI_Hub_Calendar.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="UI_Ellie_QuickSlot.h">
+    <ClInclude Include="UI_Hub_QuickSlot.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="UI_Ellie_Riding.h">
+    <ClInclude Include="UI_Hub_Riding.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="UI_Ellie_Stamina.h">
+    <ClInclude Include="UI_Hub_Stamina.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="UI_Ellie_Tool.h">
+    <ClInclude Include="UI_Hub_Tool.h">
       <SubType>
       </SubType>
     </ClInclude>
