@@ -36,7 +36,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{CFDC6049-1073-4CC7-A606-75D8BD9915C6}</ProjectGuid>
+    <ProjectGuid>{02b63468-e569-4e56-aaa3-d398473baf95}</ProjectGuid>
     <RootNamespace>GameEngineCoreShader</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
