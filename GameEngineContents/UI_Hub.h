@@ -29,7 +29,10 @@ private:
 	void CloseChild() override;
 
 
+	void Reset();
+
 private:
 	std::shared_ptr<class UI_Hub_Tool> m_Tool = nullptr;
+	std::shared_ptr<class UI_Hub_Stamina> m_Stamina = nullptr;
 };
 

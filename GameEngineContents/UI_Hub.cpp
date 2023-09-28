@@ -2,6 +2,7 @@
 #include "UI_Hub.h"
 
 
+#include "UI_Hub_Stamina.h"
 #include "UI_Hub_Tool.h"
 
 
@@ -55,6 +56,17 @@ void UI_Hub::Init()
 	}
 
 	m_Tool->Init();
+
+	m_Stamina = CurLevel->CreateActor<UI_Hub_Stamina>(EUPDATEORDER::UIComponent);
+	if (nullptr == m_Stamina)
+	{
+		MsgBoxAssert("도구를 생성하지 못했습니다.");
+		return;
+	}
+
+	m_Stamina->Init();
+
+	Reset();
 }
 
 
@@ -66,6 +78,11 @@ void UI_Hub::OpenChild()
 	{
 		m_Tool->On();
 	}
+
+	if (nullptr != m_Stamina)
+	{
+		m_Stamina->On();
+	}
 }
 
 void UI_Hub::CloseChild()
@@ -74,4 +91,25 @@ void UI_Hub::CloseChild()
 	{
 		m_Tool->Off();
 	}
+
+
+	if (nullptr != m_Stamina)
+	{
+		m_Stamina->Off();
+	}
+}
+
+void UI_Hub::Reset()
+{
+	if (nullptr != m_Tool)
+	{
+		m_Tool->On();
+	}
+
+	if (nullptr != m_Stamina)
+	{
+		m_Stamina->On();
+	}
+
+	On();
 }
