@@ -17,14 +17,13 @@ void UI_ToggleActor::Start()
 
 void UI_ToggleActor::Update(float _Delta)
 {
-	if (true == IsOpen)
+	if (false == IsHub && true == IsOpen)
 	{
 		if (true == GameEngineInput::IsDown(VK_ESCAPE))
 		{
 			Close();
 		}
 	}
-	
 }
 
 void UI_ToggleActor::LevelStart(class GameEngineLevel* _NextLevel)

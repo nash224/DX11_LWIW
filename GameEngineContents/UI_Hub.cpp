@@ -43,6 +43,8 @@ void UI_Hub::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void UI_Hub::Init()
 {
+	IsHub = true;
+
 	GameEngineLevel* CurLevel = GetLevel();
 	if (nullptr == CurLevel)
 	{
@@ -116,6 +118,11 @@ void UI_Hub::OpenChild()
 	{
 		m_Broom->On();
 	}
+
+	if (nullptr != m_QuickSlot)
+	{
+		m_QuickSlot->On();
+	}
 }
 
 void UI_Hub::CloseChild()
@@ -138,6 +145,11 @@ void UI_Hub::CloseChild()
 	if (nullptr != m_Broom)
 	{
 		m_Broom->Off();
+	}
+
+	if (nullptr != m_QuickSlot)
+	{
+		m_QuickSlot->Off();
 	}
 }
 
@@ -162,6 +174,9 @@ void UI_Hub::Reset()
 	{
 		m_Broom->On();
 	}
-	
-	On();
+
+	if (nullptr != m_QuickSlot)
+	{
+		m_QuickSlot->On();
+	}
 }

@@ -32,6 +32,7 @@ protected:
 	virtual void CloseChild() {}
 
 protected:
+	bool IsHub = false;
 	bool IsOpen = false;
 	bool OpenCheck = false;
 

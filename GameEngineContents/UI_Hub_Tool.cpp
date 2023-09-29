@@ -42,7 +42,7 @@ void UI_Hub_Tool::Init()
 {
 	m_CurrentTool = ETOOLTYPE::Gloves;
 
-	m_Tool = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Icon);
+	m_Tool = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::HUB_Icon);
 	m_Tool->SetSprite("Tool_Icon.png", static_cast<int>(m_CurrentTool));
 
 	m_LeftArrow = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::UIArrow);

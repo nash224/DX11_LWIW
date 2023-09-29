@@ -73,6 +73,16 @@ void UIManager::Init()
 	m_Dictionary->Init();
 
 
+	m_Inventory = CurLevel->CreateActor<UI_Inventory>(EUPDATEORDER::UIComponent);
+	if (nullptr == m_Inventory)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	m_Inventory->Init();
+
+
 
 	Reset();
 }
@@ -90,34 +100,56 @@ void UIManager::Reset()
 		m_Dictionary->Close();
 	}
 
+	if (nullptr != m_Inventory)
+	{
+		m_Inventory->Close();
+	}
+
 	m_IsActiveComponent = false;
 }
 
 
 /////////////////////////////////////////////////////////////////////////////////////
 
-// UI컴포넌트가 꺼지는 것을 감지하고, HUB가 켜집니다.
+// UI컴포넌트가 꺼지는 것을 감지하고, 감지되면 HUB가 켜집니다.
 void UIManager::CheckForOpenUIComponent()
 {
-	if (nullptr == m_Dictionary)
+	if (true == m_IsActiveComponent)
 	{
-		MsgBoxAssert("사전을 생성하지 않고 사용하려 했습니다.");
-		return;
+		if (nullptr == m_Dictionary)
+		{
+			MsgBoxAssert("사전을 생성하지 않고 사용하려 했습니다.");
+			return;
+		}
+
+		if (nullptr == m_Inventory)
+		{
+			MsgBoxAssert("인벤토리을 생성하지 않고 사용하려 했습니다.");
+			return;
+		}
+
+		if (false == m_Dictionary->IsOpen && false == m_Inventory->IsOpen)
+		{
+			m_SwitchOpenHub = true;
+			m_IsActiveComponent = false;
+		}
 	}
 
-	if (false == m_Dictionary->IsOpen)
+	if (true == m_SwitchOpenHub)
 	{
 		if (nullptr == m_Hub)
 		{
-			MsgBoxAssert("존재하지 않는 액터를 사용하려 했습니다.")
+			MsgBoxAssert("존재하지 않는 액터를 사용하려 했습니다.");
+			return;
 		}
 
 		m_Hub->Open();
 
-		m_IsActiveComponent = false;
+		m_SwitchOpenHub = false;
 	}
 }
 
+// 특정 컴포넌트를 킵니다.
 void UIManager::UpdateUIComponentOpenInput()
 {
 	if (false == m_IsActiveComponent)
@@ -131,6 +163,18 @@ void UIManager::UpdateUIComponentOpenInput()
 			}
 
 			m_Dictionary->Open();
+			m_IsActiveComponent = true;
+		}
+
+		if (true == GameEngineInput::IsDown('S'))
+		{
+			if (nullptr == m_Inventory)
+			{
+				MsgBoxAssert("존재하지 않는 액터를 사용하려 했습니다.");
+				return;
+			}
+
+			m_Inventory->Open();
 			m_IsActiveComponent = true;
 		}
 

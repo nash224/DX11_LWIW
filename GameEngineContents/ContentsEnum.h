@@ -85,12 +85,13 @@ enum class EUI_RENDERORDERORDER
 	HUB_Gauge1,
 	HUB_Gauge2,
 	HUB_Indicator,
-	Icon,
+	HUB_Icon,
 	UIArrow,
 	Base = 100,
 	Frame,
 	Attachment,
 	Component,
+	Icon,
 };
 
 enum class ECOLLISION

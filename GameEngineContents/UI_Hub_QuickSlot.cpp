@@ -52,7 +52,7 @@ void UI_Hub_QuickSlot::Init()
 	m_ArrowRight->LeftFlip();
 	m_ArrowRight->Transform.AddLocalPosition({ CONST_ArrowDistanceToLocalZERO , 0.0f });
 
-	m_Item = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Icon);
+	m_Item = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::HUB_Icon);
 	m_Item->Off();
 
 	Off();
