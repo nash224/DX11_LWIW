@@ -27,7 +27,7 @@ void Inventory::PushItem(std::string_view _ItemName, unsigned int _Count)
 {
 	size_t LockNumber = InventoryParent->MaxSlotX * InventoryParent->UnlockSlotY;
 
-	size_t Value = IsContain(_ItemName);
+	int Value = IsContain(_ItemName);
 	// 데이터에 없으면
 	if (-1 == Value)
 	{
@@ -39,7 +39,7 @@ void Inventory::PushItem(std::string_view _ItemName, unsigned int _Count)
 			{
 				InventoryData[i].SourceName = _ItemName;
 				InventoryData[i].ItemCount += _Count;
-				Value = i;
+				Value = static_cast<int>(i);
 				break;
 			}
 
@@ -57,18 +57,32 @@ void Inventory::PushItem(std::string_view _ItemName, unsigned int _Count)
 		InventoryData[Value].ItemCount += _Count;
 	}
 
-	InventoryParent->DisplayItem(Value, _ItemName);
+	InventoryParent->DisplayItem(static_cast<size_t>(Value), _ItemName);
 }
 
 
 // 데이터에 동일한 이름을 가진 아이템이 있는지 검사합니다.
-size_t Inventory::IsContain(std::string_view _ItemName)
+int Inventory::IsContain(std::string_view _ItemName)
 {
 	for (size_t y = 0; y < InventoryData.size(); y++)
 	{
 		if (_ItemName.data() == InventoryData[y].SourceName)
 		{
-			return y;
+			return static_cast<int>(y);
+		}
+	}
+
+	return -1;
+}
+
+int Inventory::IsContain(unsigned int _X, unsigned int _Y)
+{
+	unsigned int Value  = _Y * _X;
+	for (size_t y = 0; y < InventoryData.size(); y++)
+	{
+		if ("" != InventoryData[y].SourceName)
+		{
+			return 1;
 		}
 	}
 
@@ -153,6 +167,7 @@ void UI_Inventory::Init()
 	// 렌더 배열 만들고
 	CreateBase();
 	CreateSlotArray();
+	CreateCursor();
 	LockSlot(UnlockSlotY);
 	Transform.AddLocalPosition({ -288.0f , 28.0f });
 
@@ -212,6 +227,27 @@ void UI_Inventory::CreateSlotArray()
 			InventorySlotArray[y][x].Slot = Slot;
 		}
 	}
+}
+
+void UI_Inventory::CreateCursor()
+{
+	std::shared_ptr<GameEngineUIRenderer> CurSor = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Cursor);
+	CurSor->CreateAnimation("Cursor", "Inventory_Cursor.png", CursorInter);
+	CurSor->ChangeAnimation("Cursor");
+	CurSor->AutoSpriteSizeOn();
+	m_CursorComposition.Cursor = CurSor;
+
+	std::shared_ptr<GameEngineUIRenderer> CurSorOutLine = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::CursorOutLine);
+	CurSorOutLine->SetSprite("Inventory_CursorOutline.png");
+	m_CursorComposition.CursorOutline = CurSorOutLine;
+
+	std::shared_ptr<GameEngineUIRenderer> NameTooltip = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Cursor);
+	NameTooltip->SetSprite("Inventory_NameTooltip.png");
+	NameTooltip->Off();
+	m_CursorComposition.NameTooltip = NameTooltip;
+	
+
+	SelectSlot(0, 0);
 }
 
 // 전역으로 한번만 실행됩니다.
@@ -385,6 +421,43 @@ float4 UI_Inventory::CalculateIndexToPos(const size_t _x, const size_t _y)
 }
 
 
+void UI_Inventory::SelectSlot(const unsigned int _X, const unsigned int _Y)
+{
+	if (nullptr == m_CursorComposition.Cursor)
+	{
+		MsgBoxAssert("커서를 생성하지 않고 사용하려 했습니다.");
+		return;
+	}
+
+	m_CursorComposition.Cursor->Transform.SetLocalPosition(CalculateIndexToPos(_X, _Y));
+	
+
+	if (nullptr == m_CursorComposition.CursorOutline)
+	{
+		MsgBoxAssert("커서를 생성하지 않고 사용하려 했습니다.");
+		return;
+	}
+
+	m_CursorComposition.CursorOutline->Transform.SetLocalPosition(CalculateIndexToPos(_X, _Y));
+
+	if (nullptr == m_CursorComposition.NameTooltip)
+	{
+		MsgBoxAssert("커서를 생성하지 않고 사용하려 했습니다.");
+		return;
+	}
+
+	if (-1 != Data->IsContain(_X, _Y))
+	{
+		m_CursorComposition.NameTooltip->Transform.SetLocalPosition(CalculateIndexToPos(_X, _Y) + NameTagPositionBaseOnSlotCenter);
+		m_CursorComposition.NameTooltip->On();
+	}
+	else
+	{
+		m_CursorComposition.NameTooltip->Off();
+	}
+}
+
+
 /////////////////////////////////////////////////////////////////////////////////////
 
 void UI_Inventory::UpdateInventory(float _Delta)
@@ -437,3 +510,4 @@ void UI_Inventory::UpdateInventory(float _Delta)
 
 	OpenCheck = false;
 }
+

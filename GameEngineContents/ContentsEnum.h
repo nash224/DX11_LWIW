@@ -92,6 +92,8 @@ enum class EUI_RENDERORDERORDER
 	Attachment,
 	Component,
 	Icon,
+	CursorOutLine,
+	Cursor,
 };
 
 enum class ECOLLISION
