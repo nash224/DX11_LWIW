@@ -47,7 +47,7 @@ void Inventory::PushItem(std::string_view _ItemName, unsigned int _Count)
 		InventoryData[Value].ItemCount += _Count;
 	}
 
-	Parent->RenewInventory(Value, _ItemName);
+	Parent->DisplayItem(Value, _ItemName);
 }
 
 
@@ -65,6 +65,24 @@ size_t Inventory::IsContain(std::string_view _ItemName)
 	return -1;
 }
 
+
+void Inventory::RenewInventory()
+{
+	if (nullptr == Parent)
+	{
+		MsgBoxAssert("부모를 설정하지 않고 이미지를 띄울 수 없습니다.");
+		return;
+	}
+
+	for (size_t i = 0; i < InventoryData.size(); i++)
+	{
+		std::string_view FileName = InventoryData[i].SourceName;
+		if ("" != FileName)
+		{
+			Parent->DisplayItem(i, FileName);
+		}
+	}
+}
 
 
 std::shared_ptr<Inventory> UI_Inventory::Data = nullptr;
@@ -94,6 +112,7 @@ void UI_Inventory::LevelStart(class GameEngineLevel* _NextLevel)
 	UI_ToggleActor::LevelStart(_NextLevel);
 
 	ChangeDataParent();
+	RenewInventory();
 }
 
 void UI_Inventory::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -112,11 +131,16 @@ void UI_Inventory::Init()
 		CreateData();
 	}
 
-	ChangeDataParent();
 
+	// 렌더 배열 만들고
 	CreateBase();
 	CreateSlotArray();
 	Transform.AddLocalPosition({ -288.0f , 28.0f });
+
+	// 부모 설정 후, 그려라
+	ChangeDataParent();
+	RenewInventory();
+
 
 	Off();
 }
@@ -170,7 +194,7 @@ void UI_Inventory::CreateSlotArray()
 // 전역으로 한번만 실행됩니다.
 void UI_Inventory::CreateData()
 {
-#ifdef DEBUG
+#ifdef _DEBUG
 	static bool InitCheck = false;
 	if (true == InitCheck)
 	{
@@ -220,11 +244,11 @@ void UI_Inventory::ChangeDataParent()
 	Data->Parent = this;
 }
 
-void UI_Inventory::RenewInventory(const size_t _SlotNumber, std::string_view _FileName)
+void UI_Inventory::DisplayItem(const size_t _SlotNumber, std::string_view _FileName)
 {
 	size_t Number = _SlotNumber;
 	size_t SlotX = Number % MaxSlotX;
-	size_t SlotY = Number / MaxSlotY;
+	size_t SlotY = Number / MaxSlotX;
 
 	std::shared_ptr<GameEngineUIRenderer> Slot = InventorySlotArray[SlotY][SlotX].Slot;
 	if (nullptr == Slot)
@@ -235,6 +259,17 @@ void UI_Inventory::RenewInventory(const size_t _SlotNumber, std::string_view _Fi
 
 	Slot->SetSprite(_FileName);
 	Slot->On();
+}
+
+void UI_Inventory::RenewInventory()
+{
+	if (nullptr == Data)
+	{
+		MsgBoxAssert("존재하지 않는 데이터에 접근하려 했습니다.");
+		return;
+	}
+
+	Data->RenewInventory();
 }
 
 
@@ -296,6 +331,12 @@ void UI_Inventory::UpdateInventory(float _Delta)
 	{
 		PushItem("MoonButterfly_Water.png");
 		PushItem("NutritionPotion_RecipePotionIcon.png");
+	}
+	if (true == GameEngineInput::IsDown('8'))
+	{
+		PushItem("WitchFlower_Water.png");
+		PushItem("WitchFlower_Collect.png");
+		PushItem("SilverStarFlower_Collect.png");
 	}
 
 	OpenCheck = false;

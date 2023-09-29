@@ -28,6 +28,8 @@ private:
 	void PushItem(std::string_view _ItemName, unsigned int _Count);
 	size_t IsContain(std::string_view _ItemName);
 
+	void RenewInventory();
+
 private:
 	UI_Inventory* Parent = nullptr;
 
@@ -92,7 +94,8 @@ private:
 private:
 	// ตฅภฬลอ
 	void ChangeDataParent();
-	void RenewInventory(const size_t _SlotNumber, std::string_view _FileName);
+	void DisplayItem(const size_t _SlotNumber, std::string_view _FileName);
+	void RenewInventory();
 
 private:
 	// Open, Close
