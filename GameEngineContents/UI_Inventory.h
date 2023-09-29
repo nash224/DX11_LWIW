@@ -1,6 +1,40 @@
 #pragma once
 #include "UI_ToggleActor.h"
 
+
+
+struct InventoryInfo
+{
+public:
+	bool IsSlotEnabled = false;
+	std::string SourceName = "";
+	unsigned int ItemCount = 0;
+
+};
+
+
+// 인벤토리 데이터를 관리하는 클래스입니다.
+// UI_Inventory에도 데이터를 관리하는 InventoryData를 전역으로 생성해서 관리할 수 있지만,
+// 
+class Inventory
+{
+	friend class UI_Inventory;
+public:
+	std::vector<InventoryInfo> InventoryData;
+
+private:
+	void Init();
+
+	void PushItem(std::string_view _ItemName, unsigned int _Count);
+	size_t IsContain(std::string_view _ItemName);
+
+private:
+	UI_Inventory* Parent = nullptr;
+
+};
+
+
+
 struct InventorySlotComposition
 {
 public:
@@ -8,17 +42,9 @@ public:
 	std::shared_ptr<GameEngineUIRenderer> Slot = nullptr;
 };
 
-struct InventoryInfo
-{
-public:
-	bool IsSlotEnabled = false;
-
-	std::string SourceName = "";
-	unsigned int ItemCount = 0;
-};
-
 struct InventoryCursorComposition
 {
+public:
 	std::shared_ptr<GameEngineUIRenderer> CursorOutline = nullptr;
 	std::shared_ptr<GameEngineUIRenderer> Cursor = nullptr;
 	std::shared_ptr<GameEngineUIRenderer> NameTooltip = nullptr;
@@ -29,8 +55,10 @@ struct InventoryCursorComposition
 // 설명 :
 class UI_Inventory : public UI_ToggleActor
 {
+	friend class Inventory;
+
 public:
-	static std::vector<std::vector<InventoryInfo>> InventoryData;
+	static std::shared_ptr<Inventory> Data;
 
 public:
 	// constrcuter destructer
@@ -44,7 +72,9 @@ public:
 	UI_Inventory& operator=(UI_Inventory&& _Other) noexcept = delete;
 
 	void Init();
+	void CreateData();
 
+	static void PushItem(std::string_view _ItemName, unsigned int _Count);
 
 protected:
 	void Start() override;
@@ -56,9 +86,13 @@ private:
 	// 생성
 	void CreateBase();
 	void CreateSlotArray();
-	void InitData();
 
 	void Reset();
+
+private:
+	// 데이터
+	void ChangeDataParent();
+	void RenewInventory(const size_t _SlotNumber, std::string_view _FileName);
 
 private:
 	// Open, Close
