@@ -15,7 +15,8 @@ public:
 
 // 인벤토리 데이터를 관리하는 클래스입니다.
 // UI_Inventory에도 데이터를 관리하는 InventoryData를 전역으로 생성해서 관리할 수 있지만,
-// 
+// 생각하는 형태가 위화감이 느껴져서 역할을 나눴습니다.
+// 예를 들어, 가방은 하나이고 레벨마다 인벤토리를 하나씩 가지고 있는 느낌이 들어서, 레벨마다 가방을 돌려쓰는 구조로 만들었습니다.
 class Inventory
 {
 	friend class UI_Inventory;
@@ -25,13 +26,14 @@ public:
 private:
 	void Init();
 
+private:
 	void PushItem(std::string_view _ItemName, unsigned int _Count);
 	size_t IsContain(std::string_view _ItemName);
 
 	void RenewInventory();
 
 private:
-	UI_Inventory* Parent = nullptr;
+	UI_Inventory* InventoryParent = nullptr;
 
 };
 
@@ -60,7 +62,11 @@ class UI_Inventory : public UI_ToggleActor
 	friend class Inventory;
 
 public:
+	static UI_Inventory* MainInventory;
+
+private:
 	static std::shared_ptr<Inventory> Data;
+	static unsigned int UnlockSlotY;
 
 public:
 	// constrcuter destructer
@@ -74,9 +80,9 @@ public:
 	UI_Inventory& operator=(UI_Inventory&& _Other) noexcept = delete;
 
 	void Init();
-	void CreateData();
 
 	static void PushItem(std::string_view _ItemName, unsigned int _Count);
+	void UnlockSlot(const unsigned int _Count = 1);
 
 protected:
 	void Start() override;
@@ -88,6 +94,9 @@ private:
 	// 생성
 	void CreateBase();
 	void CreateSlotArray();
+	void CreateData();
+
+	void LockSlot(const unsigned int _Y);
 
 	void Reset();
 
@@ -103,9 +112,6 @@ private:
 	void CloseChild() override;
 
 	float4 CalculateIndexToPos(const size_t _x, const size_t _y);
-
-	void LockSlot(const unsigned int _Y);
-	void UnlockSlot(const unsigned int _Y);
 
 	void ClearAllSlot();
 	void ClearSlot(const unsigned int _X, const unsigned int _Y);

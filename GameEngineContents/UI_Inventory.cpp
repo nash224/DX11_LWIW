@@ -5,13 +5,13 @@
 // 데이터 배열은 1차원 배열로 설정합니다.
 void Inventory::Init()
 {
-	if (nullptr == Parent)
+	if (nullptr == InventoryParent)
 	{
 		MsgBoxAssert("부모가 지정되지 않았습니다.");
 		return;
 	}
 
-	size_t Amount = Parent->MaxSlotX * Parent->MaxSlotY;
+	size_t Amount = InventoryParent->MaxSlotX * InventoryParent->MaxSlotY;
 
 	InventoryData.resize(Amount);
 	for (size_t y = 0; y < InventoryData.size(); y++)
@@ -25,20 +25,29 @@ void Inventory::Init()
 // 인벤토리에 동일한 이름의 아이템이 있으면 아이템의 수를 더하고, 아이템이 없으면 빈 슬롯에 넣습니다.
 void Inventory::PushItem(std::string_view _ItemName, unsigned int _Count)
 {
+	size_t LockNumber = InventoryParent->MaxSlotX * InventoryParent->UnlockSlotY;
+
 	size_t Value = IsContain(_ItemName);
-	// 없으면
+	// 데이터에 없으면
 	if (-1 == Value)
 	{
 		// 빈자리를 찾아서
-		for (size_t i = 0; i < InventoryData.size(); i++)
+		for (size_t i = 0; i < LockNumber; i++)
 		{
-			// 넣어달라
+			// 넣습니다.
 			if ("" == InventoryData[i].SourceName)
 			{
 				InventoryData[i].SourceName = _ItemName;
 				InventoryData[i].ItemCount += _Count;
 				Value = i;
 				break;
+			}
+
+			// 인벤토리가 다 찼다는 의미로 PopUp을 요청합니다.
+			if (i == LockNumber - 1)
+			{
+				// PopUp
+				return;
 			}
 		}
 	}
@@ -48,7 +57,7 @@ void Inventory::PushItem(std::string_view _ItemName, unsigned int _Count)
 		InventoryData[Value].ItemCount += _Count;
 	}
 
-	Parent->DisplayItem(Value, _ItemName);
+	InventoryParent->DisplayItem(Value, _ItemName);
 }
 
 
@@ -69,7 +78,7 @@ size_t Inventory::IsContain(std::string_view _ItemName)
 // 인벤토리를 갱신합니다.
 void Inventory::RenewInventory()
 {
-	if (nullptr == Parent)
+	if (nullptr == InventoryParent)
 	{
 		MsgBoxAssert("부모를 설정하지 않고 이미지를 띄울 수 없습니다.");
 		return;
@@ -80,13 +89,15 @@ void Inventory::RenewInventory()
 		std::string_view FileName = InventoryData[i].SourceName;
 		if ("" != FileName)
 		{
-			Parent->DisplayItem(i, FileName);
+			InventoryParent->DisplayItem(i, FileName);
 		}
 	}
 }
 
 
 std::shared_ptr<Inventory> UI_Inventory::Data = nullptr;
+UI_Inventory* UI_Inventory::MainInventory = nullptr;
+unsigned int UI_Inventory::UnlockSlotY = 0;
 UI_Inventory::UI_Inventory() 
 {
 }
@@ -115,6 +126,7 @@ void UI_Inventory::LevelStart(class GameEngineLevel* _NextLevel)
 	// 레벨이 바뀔때마다 갱신해줍니다.
 	ChangeDataParent();
 	RenewInventory();
+	MainInventory = this;
 }
 
 void UI_Inventory::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -133,17 +145,22 @@ void UI_Inventory::Init()
 	if (nullptr == Data)
 	{
 		CreateData();
+
+		UnlockSlotY = 2;
 	}
 
 
 	// 렌더 배열 만들고
 	CreateBase();
 	CreateSlotArray();
+	LockSlot(UnlockSlotY);
 	Transform.AddLocalPosition({ -288.0f , 28.0f });
 
-	// 부모 설정 후, 그려라
+	// 부모 설정 후, 그립니다.
 	ChangeDataParent();
 	RenewInventory();
+	MainInventory = this;
+
 
 
 	Off();
@@ -220,10 +237,31 @@ void UI_Inventory::CreateData()
 		return;
 	}
 
-	Data->Parent = this;
+	Data->InventoryParent = this;
 
 	Data->Init();
 }
+
+// UnlockSlot을 넣어주면 사용하지 못하는 슬롯에 잠금장치 이미지가 생성됩니다.
+void UI_Inventory::LockSlot(const unsigned int _Y)
+{
+	for (size_t y = _Y; y < InventorySlotArray.size(); y++)
+	{
+		for (size_t x = 0; x < InventorySlotArray[y].size(); x++)
+		{
+			std::shared_ptr<GameEngineUIRenderer> Slot = InventorySlotArray[y][x].Slot;
+			if (nullptr == Slot)
+			{
+				MsgBoxAssert("존재하지 않는 슬롯을 참조하려고 했습니다.");
+				return;
+			}
+
+			Slot->SetSprite("Inventory_SlotLock.png");
+			Slot->On();
+		}
+	}
+}
+
 
 
 // 아이템을 넣어달라고 UI를 통해 Data에 요청합니다.
@@ -238,6 +276,40 @@ void UI_Inventory::PushItem(std::string_view _ItemName, unsigned int _Count = 1)
 	Data->PushItem(_ItemName, _Count);
 }
 
+void UI_Inventory::UnlockSlot(const unsigned int _Count /*= 1*/)
+{
+	unsigned int PrevUnlockSlotY = UnlockSlotY;
+
+	UnlockSlotY += _Count;
+
+	if (UnlockSlotY > MaxSlotY)
+	{
+		UnlockSlotY = MaxSlotY;
+	}
+
+	if (PrevUnlockSlotY == UnlockSlotY)
+	{
+		return;
+	}
+
+	for (size_t y = PrevUnlockSlotY; y < UnlockSlotY; y++)
+	{
+		for (size_t x = 0; x < InventorySlotArray[y].size(); x++)
+		{
+			std::shared_ptr<GameEngineUIRenderer> Slot = InventorySlotArray[y][x].Slot;
+			if (nullptr == Slot)
+			{
+				MsgBoxAssert("존재하지 않는 슬롯에 접근하려 했습니다.");
+				return;
+			}
+
+			Slot->Off();
+		}
+	}
+}
+
+
+
 // 같은 부모로 설정해두면 이전레벨에 렌더링 될수있음으로 레벨이 바뀔때 부모를 바꿉니다. 
 void UI_Inventory::ChangeDataParent()
 {
@@ -247,7 +319,7 @@ void UI_Inventory::ChangeDataParent()
 		return;
 	}
 
-	Data->Parent = this;
+	Data->InventoryParent = this;
 }
 
 // 아이템을 띄웁니다.
@@ -313,8 +385,6 @@ float4 UI_Inventory::CalculateIndexToPos(const size_t _x, const size_t _y)
 }
 
 
-
-
 /////////////////////////////////////////////////////////////////////////////////////
 
 void UI_Inventory::UpdateInventory(float _Delta)
@@ -330,24 +400,39 @@ void UI_Inventory::UpdateInventory(float _Delta)
 
 
 	// 임시코드
-	if (true == GameEngineInput::IsDown('5'))
+	if (true == GameEngineInput::IsPress(VK_CONTROL))
 	{
-		PushItem("Mongsiri_Collect.png");
-	}
-	if (true == GameEngineInput::IsDown('6'))
-	{
-		PushItem("Mongsiri_EncyclopediaIcon.png");
-	}
-	if (true == GameEngineInput::IsDown('7'))
-	{
-		PushItem("MoonButterfly_Water.png");
-		PushItem("NutritionPotion_RecipePotionIcon.png");
-	}
-	if (true == GameEngineInput::IsDown('8'))
-	{
-		PushItem("WitchFlower_Water.png");
-		PushItem("WitchFlower_Collect.png");
-		PushItem("SilverStarFlower_Collect.png");
+		if (true == GameEngineInput::IsDown('4'))
+		{
+			PushItem("SilverStarFlower_Collect.png");
+			PushItem("MapleHerb_Collect.png");
+			PushItem("UncurseCandy.png");
+			PushItem("PumpkinTerrier_Powder.png");
+			PushItem("MapleHerb_Water.png");
+		}
+		if (true == GameEngineInput::IsDown('5'))
+		{
+			PushItem("Mongsiri_Collect.png");
+		}
+		if (true == GameEngineInput::IsDown('6'))
+		{
+			PushItem("Mongsiri_EncyclopediaIcon.png");
+		}
+		if (true == GameEngineInput::IsDown('7'))
+		{
+			PushItem("MoonButterfly_Water.png");
+			PushItem("NutritionPotion_RecipePotionIcon.png");
+		}
+		if (true == GameEngineInput::IsDown('8'))
+		{
+			PushItem("WitchFlower_Water.png");
+			PushItem("WitchFlower_Collect.png");
+			PushItem("SilverStarFlower_Collect.png");
+		}
+		if (true == GameEngineInput::IsDown('9'))
+		{
+			UnlockSlot();
+		}
 	}
 
 	OpenCheck = false;
