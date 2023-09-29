@@ -7,6 +7,7 @@
 #include "BackDrop_Loading.h"
 #include "CameraControler.h"
 #include "BiologyData.h"
+#include "IngredientData.h"
 #include "ProductRecipeData.h"
 
 
@@ -194,6 +195,17 @@ void LoadingLevel::LoadActor()
 void LoadingLevel::LoadContentsData()
 {
 	EventData::Init();
+
+	// Àç·á °¡°ø
+	IngredientData::CreateData("Mongsiri_Water", { "Mongsiri_Water", "¸ù½Ã¸®Áó", "Mongsiri", EBrewingMachineType::Extractor, 2 });
+	IngredientData::CreateData("PumpkinTerrier_Powder", { "PumpkinTerrier_Powder", "È£¹Ú °­¾ÆÁö ÅÐ ÆÄ¿ì´õ", "PumpkinTerrier", EBrewingMachineType::Roaster, 4 });
+	IngredientData::CreateData("BushBug", { "BushBug_Water", "´ýºÒ ±úºñÁó", "BushBug", EBrewingMachineType::Extractor, 2 });
+	IngredientData::CreateData("FlowerBird", { "FlowerBird_Water", "»õ²ÉÁó", "FlowerBird", EBrewingMachineType::Extractor, 2 });
+	IngredientData::CreateData("BubbleLizard_Water", { "BubbleLizard_Water", "¿ôÀ½¹æ¿ïÁó", "BubbleLizard", EBrewingMachineType::Extractor, 2 });
+
+	IngredientData::CreateData("WitchFlower_Water", { "WitchFlower_Water", "¸¶³à²ÉÁó", "WitchFlower", EBrewingMachineType::Extractor, 2 });
+	IngredientData::CreateData("SilverStarFlower_Water", { "SilverStarFlower_Water", "Àºº°¹æ¿ï²ÉÁó", "SilverStarFlower", EBrewingMachineType::Extractor, 2 });
+	IngredientData::CreateData("MapleHerb_Water", { "MapleHerb_Water", "´ÜÇ³ ÇãºêÁó", "MapleHerb", EBrewingMachineType::Extractor, 2 });
 
 	// µ¿¹°
 	BiologyData::CreateData("Mongsiri", {"Mongsiri", "¸ù½Ã¸®", "¸ù½Ã¸®ÅÐ", ETOOLTYPE::Gloves, EECOLOGYTYPE::GreenForest ,EECOLOGYTYPE::ForestPlains, EECOLOGYTYPE::Day});

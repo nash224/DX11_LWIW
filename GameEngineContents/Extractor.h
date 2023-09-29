@@ -12,18 +12,18 @@ enum class EJUICERSTATE
 
 
 // Ό³Έν :
-class Juicer : public StaticEntity
+class Extractor : public StaticEntity
 {
 public:
 	// constrcuter destructer
-	Juicer();
-	~Juicer();
+	Extractor();
+	~Extractor();
 
 	// delete Function
-	Juicer(const Juicer& _Other) = delete;
-	Juicer(Juicer&& _Other) noexcept = delete;
-	Juicer& operator=(const Juicer& _Other) = delete;
-	Juicer& operator=(Juicer&& _Other) noexcept = delete;
+	Extractor(const Extractor& _Other) = delete;
+	Extractor(Extractor&& _Other) noexcept = delete;
+	Extractor& operator=(const Extractor& _Other) = delete;
+	Extractor& operator=(Extractor&& _Other) noexcept = delete;
 
 protected:
 	void Start() override;
@@ -33,7 +33,7 @@ protected:
 
 
 private:
-	void InitJuicer();
+	void InitExtractor();
 
 	void CreateRendererAndAnimation();
 	void CreateInteractiveCollision();
@@ -42,7 +42,7 @@ private:
 private:
 	void UpdateState(float _Delta);
 	void ChangeState(EJUICERSTATE _State);
-	void ChangeJuicerCompositionAnimation(std::string_view _StateName);
+	void ChangeExtractorCompositionAnimation(std::string_view _StateName);
 
 
 	void StartBroken();
@@ -55,7 +55,7 @@ private:
 	void UpdateJuicy(float _Delta);
 
 private:
-	std::shared_ptr<GameEngineSpriteRenderer> m_Juicer;
+	std::shared_ptr<GameEngineSpriteRenderer> m_Extractor;
 
 private:
 	EJUICERSTATE m_State = EJUICERSTATE::None;

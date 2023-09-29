@@ -1,35 +1,35 @@
 #include "PreCompile.h"
-#include "Juicer.h"
+#include "Extractor.h"
 
-Juicer::Juicer() 
+Extractor::Extractor() 
 {
 }
 
-Juicer::~Juicer() 
+Extractor::~Extractor() 
 {
 }
 
 
-void Juicer::Start()
+void Extractor::Start()
 {
 	StaticEntity::Start();
 
-	InitJuicer();
+	InitExtractor();
 }
 
-void Juicer::Update(float _Delta)
+void Extractor::Update(float _Delta)
 {
 	StaticEntity::Update(_Delta);
 
 	UpdateState(_Delta);
 }
 
-void Juicer::LevelStart(class GameEngineLevel* _NextLevel)
+void Extractor::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	StaticEntity::LevelStart(_NextLevel);
 }
 
-void Juicer::LevelEnd(class GameEngineLevel* _NextLevel)
+void Extractor::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	StaticEntity::LevelEnd(_NextLevel);
 }
@@ -39,27 +39,27 @@ void Juicer::LevelEnd(class GameEngineLevel* _NextLevel)
 /////////////////////////////////////////////////////////////////////////////////////
 
 
-void Juicer::InitJuicer()
+void Extractor::InitExtractor()
 {
 	CreateRendererAndAnimation();
 	CreateInteractiveCollision();
 }
 
-void Juicer::CreateRendererAndAnimation()
+void Extractor::CreateRendererAndAnimation()
 {
-	m_Juicer = CreateComponent<GameEngineSpriteRenderer>(16);
-	if (nullptr == m_Juicer)
+	m_Extractor = CreateComponent<GameEngineSpriteRenderer>(16);
+	if (nullptr == m_Extractor)
 	{
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
 		return;
 	}
 
-	m_Juicer->CreateAnimation("Broken", "DownFloor_Juicer_Idle_Broken.png");
-	m_Juicer->CreateAnimation("Idle", "DownFloor_Juicer_0.png", 5.0f, 1, 1);
-	m_Juicer->CreateAnimation("Juicy", "DownFloor_Juicer_0.png", 0.1f, 2, 9);
-	m_Juicer->AutoSpriteSizeOn();
+	m_Extractor->CreateAnimation("Broken", "DownFloor_Extractor_Idle_Broken.png");
+	m_Extractor->CreateAnimation("Idle", "DownFloor_Extractor_0.png", 5.0f, 1, 1);
+	m_Extractor->CreateAnimation("Juicy", "DownFloor_Extractor_0.png", 0.1f, 2, 9);
+	m_Extractor->AutoSpriteSizeOn();
 
-	m_Juicer->ChangeAnimation("Juicy");
+	m_Extractor->ChangeAnimation("Juicy");
 
 
 
@@ -67,7 +67,7 @@ void Juicer::CreateRendererAndAnimation()
 }
 
 
-void Juicer::CreateInteractiveCollision()
+void Extractor::CreateInteractiveCollision()
 {
 	m_InteractiveCol = CreateComponent<GameEngineCollision>(ECOLLISION::Entity);
 	if (nullptr == m_InteractiveCol)
@@ -81,7 +81,7 @@ void Juicer::CreateInteractiveCollision()
 }
 
 
-void Juicer::UpdateState(float _Delta)
+void Extractor::UpdateState(float _Delta)
 {
 	switch (m_State)
 	{
@@ -102,7 +102,7 @@ void Juicer::UpdateState(float _Delta)
 	}
 }
 
-void Juicer::ChangeState(EJUICERSTATE _State)
+void Extractor::ChangeState(EJUICERSTATE _State)
 {
 	if (_State != m_State)
 	{
@@ -122,27 +122,27 @@ void Juicer::ChangeState(EJUICERSTATE _State)
 	}
 }
 
-void Juicer::ChangeJuicerCompositionAnimation(std::string_view _StateName)
+void Extractor::ChangeExtractorCompositionAnimation(std::string_view _StateName)
 {
 	std::string AnimationName = "";
 	AnimationName += _StateName.data();
 
-	if (nullptr == m_Juicer)
+	if (nullptr == m_Extractor)
 	{
 		MsgBoxAssert("믿기지 않겠지만 렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	m_Juicer->ChangeAnimation(AnimationName);
+	m_Extractor->ChangeAnimation(AnimationName);
 }
 
 
-void Juicer::StartIdle()
+void Extractor::StartIdle()
 {
-	ChangeJuicerCompositionAnimation("Idle");
+	ChangeExtractorCompositionAnimation("Idle");
 }
 
-void Juicer::UpdateIdle(float _Delta)
+void Extractor::UpdateIdle(float _Delta)
 {
 	if (true == IsReach)
 	{
@@ -154,12 +154,12 @@ void Juicer::UpdateIdle(float _Delta)
 	}
 }
 
-void Juicer::StartJuicy()
+void Extractor::StartJuicy()
 {
-	ChangeJuicerCompositionAnimation("Juicy");
+	ChangeExtractorCompositionAnimation("Juicy");
 }
 
-void Juicer::UpdateJuicy(float _Delta)
+void Extractor::UpdateJuicy(float _Delta)
 {
 
 }

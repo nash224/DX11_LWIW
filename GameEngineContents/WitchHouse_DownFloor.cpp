@@ -110,8 +110,8 @@ void WitchHouse_DownFloor::LoadSprite()
 	GameEngineSprite::CreateCut("DownFloor_dust_remove.png", 22, 1);
 	
 	// Jucier
-	GameEngineSprite::CreateCut("DownFloor_Juicer_0.png", 5, 4);
-	GameEngineSprite::CreateCut("DownFloor_Juicer_1.png", 5, 4);
+	GameEngineSprite::CreateCut("DownFloor_Extractor_0.png", 5, 4);
+	GameEngineSprite::CreateCut("DownFloor_Extractor_1.png", 5, 4);
 
 	// Pot
 	GameEngineSprite::CreateCut("Pot_Fire_Large.png", 5, 5);

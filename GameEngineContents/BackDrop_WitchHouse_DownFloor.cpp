@@ -4,7 +4,7 @@
 
 #include "AlchemyPot.h"
 #include "Roaster.h"
-#include "Juicer.h"
+#include "Extractor.h"
 
 #include "Prop.h"
 
@@ -178,7 +178,7 @@ void BackDrop_WitchHouse_DownFloor::CreateStaticActor(GameEngineLevel* _Level)
 	}
 
 	{
-		std::shared_ptr<Juicer> Object = _Level->CreateActor<Juicer>(EUPDATEORDER::Objects);
+		std::shared_ptr<Extractor> Object = _Level->CreateActor<Extractor>(EUPDATEORDER::Objects);
 		if (nullptr == Object)
 		{
 			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");

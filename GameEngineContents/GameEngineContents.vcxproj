@@ -258,11 +258,15 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="IngredientData.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="InteractiveActor.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Juicer.cpp">
+    <ClCompile Include="Extractor.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -506,11 +510,15 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="IngredientData.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="InteractiveActor.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Juicer.h">
+    <ClInclude Include="Extractor.h">
       <SubType>
       </SubType>
     </ClInclude>

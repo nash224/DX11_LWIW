@@ -223,7 +223,7 @@
     <ClInclude Include="Roaster.h">
       <Filter>Object\Actor\2.Interactive\Static</Filter>
     </ClInclude>
-    <ClInclude Include="Juicer.h">
+    <ClInclude Include="Extractor.h">
       <Filter>Object\Actor\2.Interactive\Static</Filter>
     </ClInclude>
     <ClInclude Include="UIManager.h">
@@ -287,6 +287,9 @@
       <Filter>Data\Contents</Filter>
     </ClInclude>
     <ClInclude Include="ContentsResource.h">
+      <Filter>Data\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="IngredientData.h">
       <Filter>Data\Contents</Filter>
     </ClInclude>
   </ItemGroup>
@@ -418,7 +421,7 @@
     <ClCompile Include="Roaster.cpp">
       <Filter>Object\Actor\2.Interactive\Static</Filter>
     </ClCompile>
-    <ClCompile Include="Juicer.cpp">
+    <ClCompile Include="Extractor.cpp">
       <Filter>Object\Actor\2.Interactive\Static</Filter>
     </ClCompile>
     <ClCompile Include="UIManager.cpp">
@@ -479,6 +482,9 @@
       <Filter>Data\Contents</Filter>
     </ClCompile>
     <ClCompile Include="ProductRecipeData.cpp">
+      <Filter>Data\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="IngredientData.cpp">
       <Filter>Data\Contents</Filter>
     </ClCompile>
   </ItemGroup>

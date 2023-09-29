@@ -1,7 +1,7 @@
 #pragma once
 
 
-enum class ETOOLTYPE
+enum class ETOOLTYPE						// 도구 타입
 {
 	Gloves,
 	FeaturePan,
@@ -10,8 +10,15 @@ enum class ETOOLTYPE
 };
 
 
+enum class EBrewingMachineType			// 추출기 타입
+{
+	Extractor,
+	Roaster,
+	Pot,
+	None,
+};
 
-enum class EECOLOGYTYPE
+enum class EECOLOGYTYPE						// 생태계타입
 {
 	None,
 	GreenForest,
@@ -25,7 +32,8 @@ enum class EECOLOGYTYPE
 };
 
 
-enum class EDICTIONARYCATEGORY
+
+enum class EDICTIONARYCATEGORY				// 사전
 {
 	None,
 	CreaturePage,
@@ -35,7 +43,7 @@ enum class EDICTIONARYCATEGORY
 };
 
 
-enum class EBREWINGOPTION
+enum class EBREWINGOPTION					// 레시피 옵션
 {
 	None,
 	Easy,
