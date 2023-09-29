@@ -56,6 +56,7 @@ private:
 	EUI_TYPE m_State = EUI_TYPE::None;
 
 	bool m_SwitchOpenHub = false;
+	bool m_IsHubPreServe = false;
 	bool m_IsActiveComponent = false;
 };
 

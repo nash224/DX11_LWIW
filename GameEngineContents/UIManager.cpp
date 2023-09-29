@@ -132,6 +132,7 @@ void UIManager::CheckForOpenUIComponent()
 		{
 			m_SwitchOpenHub = true;
 			m_IsActiveComponent = false;
+			m_IsHubPreServe = false;
 		}
 	}
 
@@ -175,10 +176,11 @@ void UIManager::UpdateUIComponentOpenInput()
 			}
 
 			m_Inventory->Open();
+			m_IsHubPreServe = true;
 			m_IsActiveComponent = true;
 		}
 
-		if (true == m_IsActiveComponent)
+		if (false == m_IsHubPreServe && true == m_IsActiveComponent)
 		{
 			if (nullptr == m_Hub)
 			{
