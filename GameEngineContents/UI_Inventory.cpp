@@ -2,6 +2,7 @@
 #include "UI_Inventory.h"
 
 
+// 데이터 배열은 1차원 배열로 설정합니다.
 void Inventory::Init()
 {
 	if (nullptr == Parent)
@@ -65,7 +66,7 @@ size_t Inventory::IsContain(std::string_view _ItemName)
 	return -1;
 }
 
-
+// 인벤토리를 갱신합니다.
 void Inventory::RenewInventory()
 {
 	if (nullptr == Parent)
@@ -111,6 +112,7 @@ void UI_Inventory::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	UI_ToggleActor::LevelStart(_NextLevel);
 
+	// 레벨이 바뀔때마다 갱신해줍니다.
 	ChangeDataParent();
 	RenewInventory();
 }
@@ -124,6 +126,8 @@ void UI_Inventory::LevelEnd(class GameEngineLevel* _NextLevel)
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
+// 인벤토리 배열과 데이터 배열을 생성합니다.
+// 단, 데이터 배열은 한번만 생성됩니다.
 void UI_Inventory::Init()
 {
 	if (nullptr == Data)
@@ -145,6 +149,7 @@ void UI_Inventory::Init()
 	Off();
 }
 
+// Base Create
 void UI_Inventory::CreateBase()
 {
 	m_InventoryBase = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Base);
@@ -157,6 +162,7 @@ void UI_Inventory::CreateBase()
 	m_InventoryBase->SetSprite("Inventory_Base.png");
 }
 
+// 렌더 2차원 배열을 생성합니다.
 void UI_Inventory::CreateSlotArray()
 {
 	std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Find("Inventory_Empty_Slot.png");
@@ -232,7 +238,7 @@ void UI_Inventory::PushItem(std::string_view _ItemName, unsigned int _Count = 1)
 	Data->PushItem(_ItemName, _Count);
 }
 
-
+// 같은 부모로 설정해두면 이전레벨에 렌더링 될수있음으로 레벨이 바뀔때 부모를 바꿉니다. 
 void UI_Inventory::ChangeDataParent()
 {
 	if (nullptr == Data)
@@ -244,6 +250,7 @@ void UI_Inventory::ChangeDataParent()
 	Data->Parent = this;
 }
 
+// 아이템을 띄웁니다.
 void UI_Inventory::DisplayItem(const size_t _SlotNumber, std::string_view _FileName)
 {
 	size_t Number = _SlotNumber;
@@ -261,6 +268,7 @@ void UI_Inventory::DisplayItem(const size_t _SlotNumber, std::string_view _FileN
 	Slot->On();
 }
 
+// 인벤토리를 갱신하라고 요청받습니다.
 void UI_Inventory::RenewInventory()
 {
 	if (nullptr == Data)
@@ -275,6 +283,7 @@ void UI_Inventory::RenewInventory()
 
 /////////////////////////////////////////////////////////////////////////////////////
 
+// 자식에서 해주고 싶은 행동을 수행합니다.
 void UI_Inventory::OpenChild()
 {
 
@@ -319,6 +328,8 @@ void UI_Inventory::UpdateInventory(float _Delta)
 		}
 	}
 
+
+	// 임시코드
 	if (true == GameEngineInput::IsDown('5'))
 	{
 		PushItem("Mongsiri_Collect.png");
