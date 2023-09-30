@@ -28,6 +28,7 @@ private:
 
 private:
 	void PushItem(std::string_view _ItemName, unsigned int _Count);
+	void ClearData(const unsigned int _X, const unsigned int _Y);
 	int IsContain(std::string_view _ItemName);
 	int IsContain(unsigned int _X, unsigned int _Y);
 
@@ -121,12 +122,9 @@ private:
 
 private:
 	void UpdateInventory(float _Delta);
-
-
-private:
-	// Update
-	void UpdateInventory();
-	bool MoveCursor();
+	void DectedCloseInventory();
+	void UpdateCursor();
+	void MoveCursor(const int _X, const int _Y);
 
 
 private:
@@ -135,7 +133,8 @@ private:
 	InventoryCursorComposition m_CursorComposition;
 
 	// ½½·Ô
-	unsigned int m_CurrentSlot = 0;
+	int m_CurrentSlotX = 0;
+	int m_CurrentSlotY = 0;
 	const unsigned int MaxSlotX = 4;
 	const unsigned int MaxSlotY = 6;
 

@@ -77,16 +77,27 @@ int Inventory::IsContain(std::string_view _ItemName)
 
 int Inventory::IsContain(unsigned int _X, unsigned int _Y)
 {
-	unsigned int Value  = _Y * _X;
-	for (size_t y = 0; y < InventoryData.size(); y++)
+	if (nullptr == InventoryParent)
 	{
-		if ("" != InventoryData[y].SourceName)
-		{
-			return 1;
-		}
+		MsgBoxAssert("인벤토리 부모를 정해주지 않았습니다.");
+		return -1;
+	}
+
+	int MaxSlot = InventoryParent->MaxSlotX;
+	unsigned int Value  = _Y * MaxSlot + _X;
+	if ("" != InventoryData[Value].SourceName)
+	{
+		return 1;
 	}
 
 	return -1;
+}
+
+
+
+void Inventory::ClearData(const unsigned int _X, const unsigned int _Y)
+{
+	
 }
 
 // 인벤토리를 갱신합니다.
@@ -107,6 +118,7 @@ void Inventory::RenewInventory()
 		}
 	}
 }
+
 
 
 std::shared_ptr<Inventory> UI_Inventory::Data = nullptr;
@@ -141,6 +153,8 @@ void UI_Inventory::LevelStart(class GameEngineLevel* _NextLevel)
 	ChangeDataParent();
 	RenewInventory();
 	MainInventory = this;
+	m_CurrentSlotX = 0;
+	m_CurrentSlotY = 0;
 }
 
 void UI_Inventory::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -458,19 +472,29 @@ void UI_Inventory::SelectSlot(const unsigned int _X, const unsigned int _Y)
 }
 
 
+void UI_Inventory::ClearAllSlot()
+{
+
+}
+
+void UI_Inventory::ClearSlot(const unsigned int _X, const unsigned int _Y)
+{
+	if (nullptr == Data)
+	{
+		MsgBoxAssert("데이터가 존재하지 않습니다.");
+		return;
+	}
+
+	Data->ClearData(_X, _Y);
+}
+
+
 /////////////////////////////////////////////////////////////////////////////////////
 
 void UI_Inventory::UpdateInventory(float _Delta)
 {
-	if (false == OpenCheck)
-	{
-		if (true == GameEngineInput::IsDown('S'))
-		{
-			Close();
-			return;
-		}
-	}
-
+	DectedCloseInventory();
+	UpdateCursor();
 
 	// 임시코드
 	if (true == GameEngineInput::IsPress(VK_CONTROL))
@@ -511,3 +535,73 @@ void UI_Inventory::UpdateInventory(float _Delta)
 	OpenCheck = false;
 }
 
+void UI_Inventory::DectedCloseInventory()
+{
+	if (false == OpenCheck)
+	{
+		if (true == GameEngineInput::IsDown('S'))
+		{
+			Close();
+			return;
+		}
+	}
+}
+
+void UI_Inventory::UpdateCursor()
+{
+	if (true == GameEngineInput::IsDown(VK_LEFT))
+	{
+		MoveCursor(-1, 0);
+		return;
+	}
+
+	if (true == GameEngineInput::IsDown(VK_RIGHT))
+	{
+		MoveCursor(1, 0);
+		return;
+	}
+
+	if (true == GameEngineInput::IsDown(VK_UP))
+	{
+		MoveCursor(0, -1);
+		return;
+	}
+
+	if (true == GameEngineInput::IsDown(VK_DOWN))
+	{
+		MoveCursor(0, 1);
+		return;
+	}
+}
+
+void UI_Inventory::MoveCursor(const int _X, const int _Y)
+{
+	if (nullptr == Data)
+	{
+		MsgBoxAssert("데이터가 존재하지 않습니다.");
+		return;
+	}
+
+	m_CurrentSlotX += _X;
+	m_CurrentSlotY += _Y;
+
+	if (-1 == m_CurrentSlotX)
+	{
+		m_CurrentSlotX = MaxSlotX - 1;
+	}
+	if (MaxSlotX == m_CurrentSlotX)
+	{
+		m_CurrentSlotX = 0;
+	}
+
+	if (-1 == m_CurrentSlotY)
+	{
+		m_CurrentSlotY = UnlockSlotY - 1;
+	}
+	if (UnlockSlotY == m_CurrentSlotY)
+	{
+		m_CurrentSlotY = 0;
+	}
+
+	SelectSlot(m_CurrentSlotX, m_CurrentSlotY);
+}
