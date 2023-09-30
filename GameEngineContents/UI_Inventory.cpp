@@ -14,10 +14,6 @@ void Inventory::Init()
 	size_t Amount = InventoryParent->MaxSlotX * InventoryParent->MaxSlotY;
 
 	InventoryData.resize(Amount);
-	for (size_t y = 0; y < InventoryData.size(); y++)
-	{
-		InventoryData[y].IsSlotEnabled = true;
-	}
 }
 
 
@@ -97,7 +93,32 @@ int Inventory::IsContain(unsigned int _X, unsigned int _Y)
 
 void Inventory::ClearData(const unsigned int _X, const unsigned int _Y)
 {
-	
+	if (-1 == IsContain(_X, _Y))
+	{
+		MsgBoxAssert("존재하지 않는 슬롯을 지울려고 했습니다.");
+		return;
+	}
+
+	if (true == InventoryData.empty())
+	{
+		MsgBoxAssert("데이터에 아무것도 들어있지 않습니다.");
+		return;
+	}
+
+	if (nullptr == InventoryParent)
+	{
+		MsgBoxAssert("부모를 모릅니다. 설정하세요");
+		return;
+	}
+
+	int MaxSlot = InventoryParent->MaxSlotX;
+
+	int Value = _Y * MaxSlot + _X;
+
+	InventoryData[Value].SourceName = "";
+	InventoryData[Value].ItemCount = 0;
+
+	InventoryParent->EraseSlotImg(_X, _Y);
 }
 
 // 인벤토리를 갱신합니다.
@@ -471,12 +492,6 @@ void UI_Inventory::SelectSlot(const unsigned int _X, const unsigned int _Y)
 	}
 }
 
-
-void UI_Inventory::ClearAllSlot()
-{
-
-}
-
 void UI_Inventory::ClearSlot(const unsigned int _X, const unsigned int _Y)
 {
 	if (nullptr == Data)
@@ -486,6 +501,18 @@ void UI_Inventory::ClearSlot(const unsigned int _X, const unsigned int _Y)
 	}
 
 	Data->ClearData(_X, _Y);
+}
+
+void UI_Inventory::EraseSlotImg(const int _X, const int _Y)
+{
+	if (nullptr == InventorySlotArray[_Y][_X].Slot)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
+
+	InventorySlotArray[_Y][_X].Slot->SetSprite("Inventory_None.png");
+	SelectSlot(_X, _Y);
 }
 
 
@@ -529,6 +556,10 @@ void UI_Inventory::UpdateInventory(float _Delta)
 		if (true == GameEngineInput::IsDown('9'))
 		{
 			UnlockSlot();
+		}
+		if (true == GameEngineInput::IsDown('3'))
+		{
+			ClearSlot(m_CurrentSlotX, m_CurrentSlotY);
 		}
 	}
 

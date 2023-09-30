@@ -6,7 +6,6 @@
 struct InventoryInfo
 {
 public:
-	bool IsSlotEnabled = false;
 	std::string SourceName = "";
 	unsigned int ItemCount = 0;
 
@@ -117,8 +116,8 @@ private:
 	float4 CalculateIndexToPos(const size_t _x, const size_t _y);
 	void SelectSlot(const unsigned int _X, const unsigned int _Y);
 
-	void ClearAllSlot();
 	void ClearSlot(const unsigned int _X, const unsigned int _Y);
+	void EraseSlotImg(const int _X, const int _Y);
 
 private:
 	void UpdateInventory(float _Delta);
