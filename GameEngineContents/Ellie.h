@@ -55,6 +55,21 @@ enum class EELLIE_STATUS
 };
 
 
+struct PixelCheckPoint
+{
+public:
+	float4 TopLeft = float4::ZERO;
+	float4 TopRight = float4::ZERO;
+	float4 LeftTop = float4::ZERO;
+	float4 LeftBottom = float4::ZERO;
+	float4 RightTop = float4::ZERO;
+	float4 RightBottom = float4::ZERO;
+	float4 BottomLeft = float4::ZERO;
+	float4 BottomRight = float4::ZERO;
+
+};
+
+
 // 설명 : 주인공 앨리입니다. 
 class Ellie : public InteractiveActor
 {
@@ -217,18 +232,11 @@ private:
 
 private:
 	// Pixel 충돌
-	const float4 m_PixelCheckScale = { 20.0f , 10.0f };
+	const float4 m_PixelCheckScale = { 10.0f , 10.0f };
 	const float4 m_PixelCheckPosBaseOnCenter = { 0.0f , -27.0f };
 
 	// Pixel 충돌 체크 포인트
-	float4 m_PixelCheckTopLeft = float4::ZERO;
-	float4 m_PixelCheckTopRight = float4::ZERO;
-	float4 m_PixelCheckLeftTop = float4::ZERO;
-	float4 m_PixelCheckLeftBottom = float4::ZERO;
-	float4 m_PixelCheckRightTop = float4::ZERO;
-	float4 m_PixelCheckRightBottom = float4::ZERO;
-	float4 m_PixelCheckBottomLeft = float4::ZERO;
-	float4 m_PixelCheckBottomRight = float4::ZERO;
+	PixelCheckPoint m_PixelCheckPoint;
 
 	// 벽 마찰력
 	const float COSNT_FrictionForce = 0.5f;

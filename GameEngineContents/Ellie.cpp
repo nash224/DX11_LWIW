@@ -238,14 +238,14 @@ void Ellie::SetPixelPointBaseOnCenter()
 {
 	float4 HalfPixelCheckScale = m_PixelCheckScale.Half();
 
-	m_PixelCheckTopLeft = m_PixelCheckPosBaseOnCenter + float4{ -HalfPixelCheckScale.X + CheckPointGap , HalfPixelCheckScale.Y };
-	m_PixelCheckTopRight = m_PixelCheckPosBaseOnCenter + float4{ HalfPixelCheckScale.X - CheckPointGap , HalfPixelCheckScale.Y };
-	m_PixelCheckLeftTop = m_PixelCheckPosBaseOnCenter + float4{ -HalfPixelCheckScale.X , HalfPixelCheckScale.Y - CheckPointGap };
-	m_PixelCheckLeftBottom = m_PixelCheckPosBaseOnCenter + float4{ -HalfPixelCheckScale.X , -HalfPixelCheckScale.Y + CheckPointGap };
-	m_PixelCheckRightTop = m_PixelCheckPosBaseOnCenter + float4{ HalfPixelCheckScale.X , HalfPixelCheckScale.Y - CheckPointGap };
-	m_PixelCheckRightBottom = m_PixelCheckPosBaseOnCenter + float4{ HalfPixelCheckScale.X , -HalfPixelCheckScale.Y + CheckPointGap };
-	m_PixelCheckBottomLeft = m_PixelCheckPosBaseOnCenter + float4{ -HalfPixelCheckScale.X + CheckPointGap , -HalfPixelCheckScale.Y };
-	m_PixelCheckBottomRight = m_PixelCheckPosBaseOnCenter + float4{ HalfPixelCheckScale.X - CheckPointGap , -HalfPixelCheckScale.Y };
+	m_PixelCheckPoint.TopLeft = m_PixelCheckPosBaseOnCenter + float4{ -HalfPixelCheckScale.X + CheckPointGap , HalfPixelCheckScale.Y };
+	m_PixelCheckPoint.TopRight = m_PixelCheckPosBaseOnCenter + float4{ HalfPixelCheckScale.X - CheckPointGap , HalfPixelCheckScale.Y };
+	m_PixelCheckPoint.LeftTop = m_PixelCheckPosBaseOnCenter + float4{ -HalfPixelCheckScale.X , HalfPixelCheckScale.Y - CheckPointGap };
+	m_PixelCheckPoint.LeftBottom = m_PixelCheckPosBaseOnCenter + float4{ -HalfPixelCheckScale.X , -HalfPixelCheckScale.Y + CheckPointGap };
+	m_PixelCheckPoint.RightTop = m_PixelCheckPosBaseOnCenter + float4{ HalfPixelCheckScale.X , HalfPixelCheckScale.Y - CheckPointGap };
+	m_PixelCheckPoint.RightBottom = m_PixelCheckPosBaseOnCenter + float4{ HalfPixelCheckScale.X , -HalfPixelCheckScale.Y + CheckPointGap };
+	m_PixelCheckPoint.BottomLeft = m_PixelCheckPosBaseOnCenter + float4{ -HalfPixelCheckScale.X + CheckPointGap , -HalfPixelCheckScale.Y };
+	m_PixelCheckPoint.BottomRight = m_PixelCheckPosBaseOnCenter + float4{ HalfPixelCheckScale.X - CheckPointGap , -HalfPixelCheckScale.Y };
 }
 
 
@@ -608,36 +608,36 @@ void Ellie::CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce)
 	switch (m_Dir)
 	{
 	case EDIRECTION::UP:
-		LeftCheckPoint += m_PixelCheckTopLeft;
-		RightCheckPoint += m_PixelCheckTopRight;
+		LeftCheckPoint += m_PixelCheckPoint.TopLeft;
+		RightCheckPoint += m_PixelCheckPoint.TopRight;
 		break;
 	case EDIRECTION::LEFTUP:
-		LeftCheckPoint += m_PixelCheckLeftTop;
-		RightCheckPoint += m_PixelCheckTopLeft;
+		LeftCheckPoint += m_PixelCheckPoint.LeftTop;
+		RightCheckPoint += m_PixelCheckPoint.TopLeft;
 		break;
 	case EDIRECTION::LEFT:
-		LeftCheckPoint += m_PixelCheckLeftBottom;
-		RightCheckPoint += m_PixelCheckLeftTop;
+		LeftCheckPoint += m_PixelCheckPoint.LeftBottom;
+		RightCheckPoint += m_PixelCheckPoint.LeftTop;
 		break;
 	case EDIRECTION::LEFTDOWN:
-		LeftCheckPoint += m_PixelCheckBottomLeft;
-		RightCheckPoint += m_PixelCheckLeftBottom;
-		break;
-	case EDIRECTION::RIGHTUP:
-		LeftCheckPoint += m_PixelCheckTopRight;
-		RightCheckPoint += m_PixelCheckRightTop;
-		break;
-	case EDIRECTION::RIGHT:
-		LeftCheckPoint += m_PixelCheckRightTop;
-		RightCheckPoint += m_PixelCheckRightBottom;
-		break;
-	case EDIRECTION::RIGHTDOWN:
-		LeftCheckPoint += m_PixelCheckRightBottom;
-		RightCheckPoint += m_PixelCheckBottomRight;
+		LeftCheckPoint += m_PixelCheckPoint.BottomLeft;
+		RightCheckPoint += m_PixelCheckPoint.LeftBottom;
 		break;
 	case EDIRECTION::DOWN:
-		LeftCheckPoint += m_PixelCheckBottomRight;
-		RightCheckPoint += m_PixelCheckBottomLeft;
+		LeftCheckPoint += m_PixelCheckPoint.BottomRight;
+		RightCheckPoint += m_PixelCheckPoint.BottomRight;
+		break;
+	case EDIRECTION::RIGHTDOWN:
+		LeftCheckPoint += m_PixelCheckPoint.RightBottom;
+		RightCheckPoint += m_PixelCheckPoint.BottomRight;
+		break;
+	case EDIRECTION::RIGHT:
+		LeftCheckPoint += m_PixelCheckPoint.RightTop;
+		RightCheckPoint += m_PixelCheckPoint.RightBottom;
+		break;
+	case EDIRECTION::RIGHTUP:
+		LeftCheckPoint += m_PixelCheckPoint.TopRight;
+		RightCheckPoint += m_PixelCheckPoint.RightTop;
 		break;
 	default:
 		break;
@@ -676,36 +676,36 @@ EDIRECTION Ellie::ReturnPixelCollisionMoveDirectionToCurrentCheckPoint(EDIRECTIO
 	switch (_Dir)
 	{
 	case EDIRECTION::UP:
-		LeftCheckPoint += m_PixelCheckTopLeft;
-		RightCheckPoint += m_PixelCheckTopRight;
+		LeftCheckPoint += m_PixelCheckPoint.TopLeft;
+		RightCheckPoint += m_PixelCheckPoint.TopRight;
 		break;
 	case EDIRECTION::LEFTUP:
-		LeftCheckPoint += m_PixelCheckLeftTop;
-		RightCheckPoint += m_PixelCheckTopLeft;
+		LeftCheckPoint += m_PixelCheckPoint.LeftTop;
+		RightCheckPoint += m_PixelCheckPoint.TopLeft;
 		break;
 	case EDIRECTION::LEFT:
-		LeftCheckPoint += m_PixelCheckLeftBottom;
-		RightCheckPoint += m_PixelCheckLeftTop;
+		LeftCheckPoint += m_PixelCheckPoint.LeftBottom;
+		RightCheckPoint += m_PixelCheckPoint.LeftTop;
 		break;
 	case EDIRECTION::LEFTDOWN:
-		LeftCheckPoint += m_PixelCheckBottomLeft;
-		RightCheckPoint += m_PixelCheckLeftBottom;
-		break;
-	case EDIRECTION::RIGHTUP:
-		LeftCheckPoint += m_PixelCheckTopRight;
-		RightCheckPoint += m_PixelCheckRightTop;
-		break;
-	case EDIRECTION::RIGHT:
-		LeftCheckPoint += m_PixelCheckRightTop;
-		RightCheckPoint += m_PixelCheckRightBottom;
-		break;
-	case EDIRECTION::RIGHTDOWN:
-		LeftCheckPoint += m_PixelCheckRightBottom;
-		RightCheckPoint += m_PixelCheckBottomRight;
+		LeftCheckPoint += m_PixelCheckPoint.BottomLeft;
+		RightCheckPoint += m_PixelCheckPoint.LeftBottom;
 		break;
 	case EDIRECTION::DOWN:
-		LeftCheckPoint += m_PixelCheckBottomRight;
-		RightCheckPoint += m_PixelCheckBottomLeft;
+		LeftCheckPoint += m_PixelCheckPoint.BottomRight;
+		RightCheckPoint += m_PixelCheckPoint.BottomLeft;
+		break;
+	case EDIRECTION::RIGHTDOWN:
+		LeftCheckPoint += m_PixelCheckPoint.RightBottom;
+		RightCheckPoint += m_PixelCheckPoint.BottomRight;
+		break;
+	case EDIRECTION::RIGHT:
+		LeftCheckPoint += m_PixelCheckPoint.RightTop;
+		RightCheckPoint += m_PixelCheckPoint.RightBottom;
+		break;
+	case EDIRECTION::RIGHTUP:
+		LeftCheckPoint += m_PixelCheckPoint.TopRight;
+		RightCheckPoint += m_PixelCheckPoint.RightTop;
 		break;
 	default:
 		break;
