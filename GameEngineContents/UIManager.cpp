@@ -5,6 +5,7 @@
 
 #include "UI_Inventory.h"
 #include "UI_Dictionary.h"
+#include "UI_InterativeMark.h"
 #include "UI_Hub.h"
 
 
@@ -82,6 +83,15 @@ void UIManager::Init()
 
 	m_Inventory->Init();
 
+
+	m_InteractiveMark = CurLevel->CreateActor<UI_InterativeMark>(EUPDATEORDER::UIComponent);
+	if (nullptr == m_InteractiveMark)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	m_InteractiveMark->Init();
 
 
 	Reset();

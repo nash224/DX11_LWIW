@@ -44,6 +44,8 @@ public:
 	void SetFocusActor(GameEngineActor* _Actor);
 	void SetBackDropScale(const float4& _Scale);
 
+	float4 GetCameraWorldPosition() const;
+
 public:
 	void Reset();
 

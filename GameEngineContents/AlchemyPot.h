@@ -27,7 +27,6 @@ public:
 	void StartAlchemyPot();
 
 	void CreateRendererAndAnimation();
-	void CreateInteractiveCollision();
 
 	void SetCreatePotion(const bool _Value);
 

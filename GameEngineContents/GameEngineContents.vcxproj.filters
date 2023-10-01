@@ -97,6 +97,9 @@
     <Filter Include="2.Object\2.Level\0.Loading">
       <UniqueIdentifier>{41c7ab61-0131-4b20-8b45-0e495b6fcb65}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2.Object\1.Actor\0.Manager\UIManager\5.Mark">
+      <UniqueIdentifier>{a63f72c0-aeac-45f3-8c3d-1b4e748e4631}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -295,6 +298,9 @@
     <ClInclude Include="Extractor.h">
       <Filter>2.Object\1.Actor\2.Interactive\Static\Machine</Filter>
     </ClInclude>
+    <ClInclude Include="UI_InterativeMark.h">
+      <Filter>2.Object\1.Actor\0.Manager\UIManager\5.Mark</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -489,6 +495,9 @@
     </ClCompile>
     <ClCompile Include="Roaster.cpp">
       <Filter>2.Object\1.Actor\2.Interactive\Static\Machine</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_InterativeMark.cpp">
+      <Filter>2.Object\1.Actor\0.Manager\UIManager\5.Mark</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

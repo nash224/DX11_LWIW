@@ -3,6 +3,7 @@
 
 #include "InteractiveActor.h"
 #include "PortalObject.h"
+#include "UI_InterativeMark.h"
 
 
 void Ellie::UpdateCollision()
@@ -159,7 +160,17 @@ void Ellie::UpdateInteractionCollsiion()
 					return;
 				}
 
+				// 닿았습니다.
 				Entity->IsReach = true;
+
+				// UI에게 이걸 띄워달라고 요청합니다.
+				if (nullptr == UI_InterativeMark::UI_Mark)
+				{
+					MsgBoxAssert("UI Mark가 생성되지 않았습니다.");
+					return;
+				}
+
+				UI_InterativeMark::UI_Mark->PointThis(Entity);
 			}
 		});
 }

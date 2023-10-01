@@ -36,7 +36,6 @@ private:
 	void InitExtractor();
 
 	void CreateRendererAndAnimation();
-	void CreateInteractiveCollision();
 
 
 private:

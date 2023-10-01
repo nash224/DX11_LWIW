@@ -42,7 +42,6 @@ void Roaster::LevelEnd(class GameEngineLevel* _NextLevel)
 void Roaster::InitRoaster()
 {
 	CreateRendererAndAnimation();
-	CreateInteractiveCollision();
 }
 
 void Roaster::CreateRendererAndAnimation()
@@ -87,20 +86,6 @@ void Roaster::CreateRendererAndAnimation()
 	m_RoasterFXSteam->ChangeAnimation("Roasting");
 
 	ChangeState(EROASTERSTATE::Idle);
-}
-
-
-void Roaster::CreateInteractiveCollision()
-{
-	m_InteractiveCol = CreateComponent<GameEngineCollision>(ECOLLISION::Entity);
-	if (nullptr == m_InteractiveCol)
-	{
-		MsgBoxAssert("충돌체를 생성하지 못했습니다.");
-		return;
-	}
-
-	m_InteractiveCol->SetCollisionType(ColType::SPHERE2D);
-	m_InteractiveCol->Transform.SetWorldScale({ 150.0f , 150.0f });
 }
 
 

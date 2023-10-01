@@ -393,6 +393,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="UI_InterativeMark.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="UI_Inventory.cpp">
       <SubType>
       </SubType>
@@ -641,6 +645,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="UI_Hub_Tool.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UI_InterativeMark.h">
       <SubType>
       </SubType>
     </ClInclude>

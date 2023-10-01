@@ -38,7 +38,6 @@ private:
 	void InitRoaster();
 
 	void CreateRendererAndAnimation();
-	void CreateInteractiveCollision();
 
 
 private:

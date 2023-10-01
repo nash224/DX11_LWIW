@@ -2,9 +2,19 @@
 
 
 
+
+
+enum class EINTERACTIONTYPE
+{
+	Gathering,
+	Gear,
+	None,
+};
+
 // Ό³Έν :
 class InteractiveActor : public GameEngineActor
 {
+	friend class UI_InteractiveMark;
 	friend class Ellie;
 public:
 	// constrcuter destructer
@@ -17,6 +27,16 @@ public:
 	InteractiveActor& operator=(const InteractiveActor& _Other) = delete;
 	InteractiveActor& operator=(InteractiveActor&& _Other) noexcept = delete;
 
+
+	//float4& Scale;
+	//float4& Position;
+	//ColType CollisionType;
+	void CreateAndSetCollision(ECOLLISION _Order, const float4& _Scale, const float4& _Position, ColType _Type);
+	void SetInteractionType(EINTERACTIONTYPE _Type);
+	EINTERACTIONTYPE GetInteractionType() const;
+
+
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -27,6 +47,8 @@ protected:
 
 protected:
 	std::shared_ptr<GameEngineCollision> m_InteractiveCol = nullptr;
+	EINTERACTIONTYPE m_InteractionType = EINTERACTIONTYPE::None;
+	
 	bool IsReach = false;
 
 };

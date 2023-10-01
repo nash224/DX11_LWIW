@@ -50,6 +50,7 @@ private:
 	std::shared_ptr<class UI_Hub> m_Hub = nullptr;
 	std::shared_ptr<class UI_Inventory> m_Inventory = nullptr;
 	std::shared_ptr<class UI_Dictionary> m_Dictionary = nullptr;
+	std::shared_ptr<class UI_InterativeMark> m_InteractiveMark = nullptr;
 
 
 private:

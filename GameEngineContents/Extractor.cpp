@@ -42,7 +42,6 @@ void Extractor::LevelEnd(class GameEngineLevel* _NextLevel)
 void Extractor::InitExtractor()
 {
 	CreateRendererAndAnimation();
-	CreateInteractiveCollision();
 }
 
 void Extractor::CreateRendererAndAnimation()
@@ -64,20 +63,6 @@ void Extractor::CreateRendererAndAnimation()
 
 
 	ChangeState(EJUICERSTATE::Idle);
-}
-
-
-void Extractor::CreateInteractiveCollision()
-{
-	m_InteractiveCol = CreateComponent<GameEngineCollision>(ECOLLISION::Entity);
-	if (nullptr == m_InteractiveCol)
-	{
-		MsgBoxAssert("충돌체를 생성하지 못했습니다.");
-		return;
-	}
-
-	m_InteractiveCol->SetCollisionType(ColType::SPHERE2D);
-	m_InteractiveCol->Transform.SetWorldScale({ 150.0f , 150.0f });
 }
 
 

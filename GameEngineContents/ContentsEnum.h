@@ -81,6 +81,7 @@ enum class EDOWNFLOORRENDERORDER
 
 enum class EUI_RENDERORDERORDER
 {
+	Mark,
 	HUB_Frame,
 	HUB_Gauge1,
 	HUB_Gauge2,

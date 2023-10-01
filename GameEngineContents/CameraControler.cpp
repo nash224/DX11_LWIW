@@ -74,6 +74,16 @@ void CameraControler::SetBackDropScale(const float4& _Scale)
 	m_BackScale = _Scale;
 }
 
+float4 CameraControler::GetCameraWorldPosition() const
+{
+	if (nullptr == m_MainCamera)
+	{
+		MsgBoxAssert("카메라를 연결하세요");
+		return float4::ZERO;
+	}
+
+	return m_MainCamera->Transform.GetWorldPosition();
+}
 
 void CameraControler::Reset()
 {

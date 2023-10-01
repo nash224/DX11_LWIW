@@ -176,6 +176,8 @@ void BackDrop_WitchHouse_DownFloor::CreateStaticActor(GameEngineLevel* _Level)
 			return;
 		}
 
+		Object->CreateAndSetCollision(ECOLLISION::Entity, { 100.0f , 100.0f }, float4::ZERO, ColType::SPHERE2D );
+		Object->SetInteractionType(EINTERACTIONTYPE::Gear);
 		Object->Transform.SetLocalPosition(m_DownFloorWholePosition + float4{ 57.0f + 352.0f , -53.0f - 246.0f });
 
 		vecStaticEntity.push_back(Object);
@@ -189,6 +191,8 @@ void BackDrop_WitchHouse_DownFloor::CreateStaticActor(GameEngineLevel* _Level)
 			return;
 		}
 
+		Object->CreateAndSetCollision(ECOLLISION::Entity, { 150.0f , 150.0f }, float4::ZERO, ColType::SPHERE2D);
+		Object->SetInteractionType(EINTERACTIONTYPE::Gear);
 		Object->Transform.SetLocalPosition(m_DownFloorWholePosition + float4{ 47.0f + 183.0f , -47.0f - 313.0f });
 
 		vecStaticEntity.push_back(Object);
@@ -202,6 +206,8 @@ void BackDrop_WitchHouse_DownFloor::CreateStaticActor(GameEngineLevel* _Level)
 			return;
 		}
 
+		Object->CreateAndSetCollision(ECOLLISION::Entity, { 150.0f , 150.0f }, float4::ZERO, ColType::SPHERE2D);
+		Object->SetInteractionType(EINTERACTIONTYPE::Gear);
 		Object->Transform.SetLocalPosition(m_DownFloorWholePosition + float4{ 39.0f + 267.0f , -46.0f - 99.0f });
 
 		vecStaticEntity.push_back(Object);
