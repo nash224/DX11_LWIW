@@ -31,13 +31,10 @@ private:
 	void LoadTexture();
 	void LoadSprite();
 	void LoadActor();
-	void LoadPortalActor();
 
 	void CameraSetting();
 
 private:
-	void UpdateLevelChange();
-	void UpdatePortalObject();
 
 
 private:

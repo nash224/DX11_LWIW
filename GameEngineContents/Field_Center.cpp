@@ -32,8 +32,6 @@ void Field_Center::Start()
 void Field_Center::Update(float _Delta)
 {
 	PlayLevel::Update(_Delta);
-
-	UpdateLevelChange();
 }
 
 void Field_Center::LevelStart(class GameEngineLevel* _NextLevel)
@@ -82,9 +80,6 @@ void Field_Center::LoadSprite()
 
 void Field_Center::LoadActor()
 {
-	LoadPortalActor();
-
-
 	if (nullptr == m_BackDrop)
 	{
 		m_BackDrop = CreateActor<BackDrop_CenterField>(EUPDATEORDER::Objects);
@@ -111,26 +106,6 @@ void Field_Center::LoadActor()
 
 
 
-void Field_Center::LoadPortalActor()
-{
-	{
-		std::shared_ptr<PortalObject> Object = CreateActor<PortalObject>(EUPDATEORDER::Portal);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("액터를 생성하지 못했습니다.");
-			return;
-		}
-
-		Object->CreatePortalCollision(ECOLLISION::Portal);
-		Object->SetChangeLevelName("WitchHouse_Yard");
-		Object->SetLevelChangeCallBack<Field_Center>(this, &Field_Center::LevelActorRelease);
-		Object->SetCollisionRange({ 100.0f , 400.0f });
-		Object->SetLocalPosition({ 1200.0f , -200.0f });
-		Object->SetCollisionType(ColType::AABBBOX2D);
-
-		vecPortalObject.push_back(Object);
-	}
-}
 
 
 void Field_Center::CameraSetting()
@@ -155,34 +130,6 @@ void Field_Center::CameraSetting()
 }
 
 
-
-
-void Field_Center::UpdateLevelChange()
-{
-	UpdatePortalObject();
-}
-
-void Field_Center::UpdatePortalObject()
-{
-	/*for (size_t i = 0; i < vecPortalObject.size(); i++)
-	{
-		std::shared_ptr<PortalObject> Object = vecPortalObject[i];
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("지워진 포탈 오브젝트를 참조하려고 했습니다.");
-			return;
-		}
-
-		if (true == Object->GetCollisionFlag())
-		{
-			LevelActorRelease();
-		}
-	}*/
-}
-
-
-
-
 void Field_Center::LevelActorRelease()
 {
 	// 배경 정리하고
@@ -190,22 +137,6 @@ void Field_Center::LevelActorRelease()
 	{
 		m_BackDrop->ActorRelease();
 	}
-
-
-	// 포탈 정리하고
-	for (size_t i = 0; i < vecPortalObject.size(); i++)
-	{
-		std::shared_ptr<PortalObject> Object = vecPortalObject[i];
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("도중에 지워진 객체가 존재합니다.");
-			return;
-		}
-
-		Object->ActorRelease();
-	}
-
-	vecPortalObject.clear();
 }
 
 void Field_Center::ReleaseSprite()

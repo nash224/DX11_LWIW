@@ -3,6 +3,7 @@
 
 
 #include "Prop.h"
+#include "PortalObject.h"
 
 
 BackDrop_CenterField::BackDrop_CenterField() 
@@ -50,6 +51,7 @@ void BackDrop_CenterField::Init()
 
 	CreateProp(CurLevel);
 	CreatePixelMap(CurLevel);
+	CreatePortalActor(CurLevel);
 
 
 	std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Find("TestFieldMap.png");
@@ -88,6 +90,27 @@ void BackDrop_CenterField::CreatePixelMap(GameEngineLevel* _Level)
 	vecPixelProps.push_back(Object);
 }
 
+
+void BackDrop_CenterField::CreatePortalActor(GameEngineLevel* _Level)
+{
+	{
+		std::shared_ptr<PortalObject> Object = _Level->CreateActor<PortalObject>(EUPDATEORDER::Portal);
+		if (nullptr == Object)
+		{
+			MsgBoxAssert("액터를 생성하지 못했습니다.");
+			return;
+		}
+
+		Object->CreatePortalCollision(ECOLLISION::Portal);
+		Object->SetChangeLevelName("WitchHouse_Yard");
+		Object->SetLevelChangeCallBack<BackDrop_CenterField>(this, &BackDrop_CenterField::ActorRelease);
+		Object->SetCollisionRange({ 100.0f , 400.0f });
+		Object->SetLocalPosition({ 1200.0f , -200.0f });
+		Object->SetCollisionType(ColType::AABBBOX2D);
+
+		vecPortalObject.push_back(Object);
+	}
+}
 
 void BackDrop_CenterField::ActorRelease()
 {

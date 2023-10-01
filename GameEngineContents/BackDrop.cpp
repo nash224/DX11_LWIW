@@ -3,9 +3,12 @@
 
 
 #include "GlobalValue.h"
-#include "Prop.h"
+
+
 #include "Scenery.h"
 #include "StaticEntity.h"
+#include "Prop.h"
+#include "PortalObject.h"
 
 
 BackDrop* BackDrop::MainBackDrop = nullptr;
@@ -174,4 +177,20 @@ void BackDrop::ActorRelease()
 	}
 
 	vecStaticEntity.clear();
+
+
+	// 포탈 정리하고
+	for (size_t i = 0; i < vecPortalObject.size(); i++)
+	{
+		std::shared_ptr<PortalObject> Object = vecPortalObject[i];
+		if (nullptr == Object)
+		{
+			MsgBoxAssert("도중에 지워진 객체가 존재합니다.");
+			return;
+		}
+
+		Object->ActorRelease();
+	}
+
+	vecPortalObject.clear();
 } 

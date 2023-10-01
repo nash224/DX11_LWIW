@@ -2,6 +2,7 @@
 #include "BackDrop_WitchHouse_Yard.h"
 
 #include "Prop.h"
+#include "PortalObject.h"
 
 BackDrop_WitchHouse_Yard::BackDrop_WitchHouse_Yard() 
 {
@@ -48,6 +49,7 @@ void BackDrop_WitchHouse_Yard::Init()
 
 	CreateProp(CurLevel);
 	/*CreatePixelMap(CurLevel);*/
+	CreatePortalActor(CurLevel);
 
 
 	std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Find("TestYardMap.png");
@@ -78,6 +80,29 @@ void BackDrop_WitchHouse_Yard::CreateProp(GameEngineLevel* _Level)
 	vecProps.push_back(Object);
 }
 
+
+void BackDrop_WitchHouse_Yard::CreatePortalActor(GameEngineLevel* _Level)
+{
+	{
+		std::shared_ptr<PortalObject> Object = _Level->CreateActor<PortalObject>(EUPDATEORDER::Portal);
+		if (nullptr == Object)
+		{
+			MsgBoxAssert("액터를 생성하지 못했습니다.");
+			return;
+		}
+
+		float4 HWinScale = GlobalValue::GetWindowScale().Half();
+
+		Object->CreatePortalCollision(ECOLLISION::Portal);
+		Object->SetChangeLevelName("WitchHouse_UpFloor");
+		Object->SetLevelChangeCallBack<BackDrop_WitchHouse_Yard>(this, &BackDrop_WitchHouse_Yard::ActorRelease);
+		Object->SetLocalPosition({ HWinScale.X , -25.0f });
+		Object->SetCollisionRange({ 200.0f , 50.0f });
+		Object->SetCollisionType(ColType::AABBBOX2D);
+
+		vecPortalObject.push_back(Object);
+	}
+}
 
 
 void BackDrop_WitchHouse_Yard::ActorRelease()

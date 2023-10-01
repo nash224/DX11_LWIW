@@ -2,7 +2,6 @@
 #include "BackDrop.h"
 
 // Ό³Έν :
-class PortalObject;
 class BackDrop_CenterField : public BackDrop
 {
 public:
@@ -30,6 +29,7 @@ public:
 
 	void CreateProp(GameEngineLevel* _Level);
 	void CreatePixelMap(GameEngineLevel* _Level);
+	void CreatePortalActor(GameEngineLevel* _Level);
 
 public:
 	void ActorRelease();

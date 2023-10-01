@@ -2,6 +2,7 @@
 #include "BackDrop_WitchHouse_UpFloor.h"
 
 #include "Prop.h"
+#include "PortalObject.h"
 
 BackDrop_WitchHouse_UpFloor::BackDrop_WitchHouse_UpFloor() 
 {
@@ -48,6 +49,7 @@ void BackDrop_WitchHouse_UpFloor::Init()
 
 	CreateProp(CurLevel);
 	CreatePixelMap(CurLevel);
+	LoadPortalActor(CurLevel);
 
 	m_BackScale = GlobalValue::GetWindowScale();
 }
@@ -535,6 +537,30 @@ void BackDrop_WitchHouse_UpFloor::CreatePixelMap(GameEngineLevel* _Level)
 	Object->Transform.SetLocalPosition(m_HouseLocation + float4{ 128.0f , -100.0f - 142.0f });
 
 	vecPixelProps.push_back(Object);
+}
+
+
+void BackDrop_WitchHouse_UpFloor::LoadPortalActor(GameEngineLevel* _Level)
+{
+	{
+		std::shared_ptr<PortalObject> Object = _Level->CreateActor<PortalObject>(EUPDATEORDER::Portal);
+		if (nullptr == Object)
+		{
+			MsgBoxAssert("액터를 생성하지 못했습니다.");
+			return;
+		}
+
+		float4 HWinScale = GlobalValue::GetWindowScale().Half();
+
+		Object->CreatePortalCollision(ECOLLISION::Portal);
+		Object->SetChangeLevelName("WitchHouse_DownFloor");
+		Object->SetLevelChangeCallBack<BackDrop_WitchHouse_UpFloor>(this, &BackDrop_WitchHouse_UpFloor::ActorRelease);
+		Object->SetCollisionRange({ 200.0f , 100.0f });
+		Object->SetLocalPosition({ HWinScale.X , -50.0f });
+		Object->SetCollisionType(ColType::AABBBOX2D);
+
+		vecPortalObject.push_back(Object);
+	}
 }
 
 

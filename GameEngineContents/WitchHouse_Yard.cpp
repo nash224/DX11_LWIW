@@ -81,9 +81,6 @@ void WitchHouse_Yard::LoadSprite()
 
 void WitchHouse_Yard::LoadActor()
 {
-	LoadPortalActor();
-
-
 	if (nullptr == m_BackDrop)
 	{
 		m_BackDrop = CreateActor<BackDrop_WitchHouse_Yard>(EUPDATEORDER::Objects);
@@ -97,34 +94,6 @@ void WitchHouse_Yard::LoadActor()
 
 	m_BackDrop->Init();
 }
-
-
-
-
-void WitchHouse_Yard::LoadPortalActor()
-{
-	{
-		std::shared_ptr<PortalObject> Object = CreateActor<PortalObject>(EUPDATEORDER::Portal);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("액터를 생성하지 못했습니다.");
-			return;
-		}
-
-		float4 HWinScale = GlobalValue::GetWindowScale().Half();
-
-		Object->CreatePortalCollision(ECOLLISION::Portal);
-		Object->SetChangeLevelName("WitchHouse_UpFloor");
-		Object->SetLevelChangeCallBack<WitchHouse_Yard>(this, &WitchHouse_Yard::LevelActorRelease);
-		Object->SetLocalPosition({ HWinScale.X , -25.0f });
-		Object->SetCollisionRange({ 200.0f , 50.0f });
-		Object->SetCollisionType(ColType::AABBBOX2D);
-
-		vecPortalObject.push_back(Object);
-	}
-}
-
-
 
 
 // 레벨전환시 앨리의 시작위치를 지정해줍니다.
@@ -166,34 +135,6 @@ void WitchHouse_Yard::CameraSetting()
 }
 
 
-
-
-void WitchHouse_Yard::UpdateLevelChange()
-{
-	UpdatePortalObject();
-}
-
-void WitchHouse_Yard::UpdatePortalObject()
-{
-	/*for (size_t i = 0; i < vecPortalObject.size(); i++)
-	{
-		std::shared_ptr<PortalObject> Object = vecPortalObject[i];
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("지워진 포탈 오브젝트를 참조하려고 했습니다.");
-			return;
-		}
-
-		if (true == Object->GetCollisionFlag())
-		{
-			LevelActorRelease();
-		}
-	}*/
-}
-
-
-
-
 void WitchHouse_Yard::LevelActorRelease()
 {
 	// 배경 정리하고
@@ -201,22 +142,6 @@ void WitchHouse_Yard::LevelActorRelease()
 	{
 		m_BackDrop->ActorRelease();
 	}
-
-
-	// 포탈 정리하고
-	for (size_t i = 0; i < vecPortalObject.size(); i++)
-	{
-		std::shared_ptr<PortalObject> Object = vecPortalObject[i];
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("도중에 지워진 객체가 존재합니다.");
-			return;
-		}
-
-		Object->ActorRelease();
-	}
-
-	vecPortalObject.clear();
 }
 
 void WitchHouse_Yard::ReleaseSprite()
