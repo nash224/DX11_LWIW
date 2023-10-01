@@ -60,9 +60,10 @@ void Inventory::PushItem(std::string_view _ItemName, unsigned int _Count)
 // 데이터에 동일한 이름을 가진 아이템이 있는지 검사합니다.
 int Inventory::IsContain(std::string_view _ItemName)
 {
+	std::string ItemName = _ItemName.data();
 	for (size_t y = 0; y < InventoryData.size(); y++)
 	{
-		if (_ItemName.data() == InventoryData[y].SourceName)
+		if (ItemName == InventoryData[y].SourceName)
 		{
 			return static_cast<int>(y);
 		}

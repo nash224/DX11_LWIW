@@ -7,7 +7,6 @@ public:
 	static void Init();
 	
 public:
-
 	static std::vector<bool> ToolData;
 
 

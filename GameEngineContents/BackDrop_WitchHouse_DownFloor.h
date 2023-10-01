@@ -2,7 +2,6 @@
 #include "BackDrop.h"
 
 // Ό³Έν :
-class AlchemyPot;
 class BackDrop_WitchHouse_DownFloor : public BackDrop
 {
 public:
@@ -29,8 +28,8 @@ public:
 
 private:
 	void CreateProp(GameEngineLevel* _Level);
-	void CreateStaticActor(GameEngineLevel* _Level);
 	void CreatePixelMap(GameEngineLevel* _Level);
+	void CreateStaticActor(GameEngineLevel* _Level);
 	void CreatePortalActor(GameEngineLevel* _Level);
 
 

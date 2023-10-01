@@ -400,8 +400,6 @@ void CameraControler::LockCamera(float4& _pCameraMovePos, const float4& _CurCame
 	}
 }
 
-
-
 #pragma endregion
 
 
