@@ -82,7 +82,7 @@ bool BackDrop::IsColorAtPosition(const float4& _Position, GameEngineColor _Check
 }
 
 // 배경의 디버깅 모드로 일반 텍스처와 픽셀 충돌 텍스처를 전환시켜줍니다.
-void BackDrop::EnableBackDropDebugMode(bool _Value)
+void BackDrop::EnableDebugMode(bool _Value)
 {
 	for (size_t i = 0; i < vecProps.size(); i++)
 	{

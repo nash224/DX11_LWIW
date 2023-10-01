@@ -29,17 +29,7 @@ void PlayLevel::Update(float _Delta)
 {
 	ContentsLevel::Update(_Delta);
 
-	if (true == GameEngineInput::IsDown(VK_F1))
-	{
-		PixelDebugMode = !PixelDebugMode;
-		if (nullptr == BackDrop::MainBackDrop)
-		{
-			MsgBoxAssert("글로벌 액터가 존재하지 않습니다.");
-			return;
-		}
-		
-		BackDrop::MainBackDrop->EnableBackDropDebugMode(PixelDebugMode);
-	}
+	ChangeDebugMode();
 }
 
 void PlayLevel::LevelStart(GameEngineLevel* _NextLevel)
@@ -50,7 +40,6 @@ void PlayLevel::LevelStart(GameEngineLevel* _NextLevel)
 	{
 		CreateEllie();
 		CreateUIManager();
-
 	}
 
 	LevelInitCheck = true;
@@ -90,4 +79,36 @@ void PlayLevel::CreateEllie()
 	}
 
 	m_Ellie->Init();
+}
+
+void PlayLevel::ChangeDebugMode()
+{
+	if (true == IsDebug)
+	{
+		if (true == GameEngineInput::IsDown(VK_F2))
+		{
+			PixelDebugMode = !PixelDebugMode;
+			if (nullptr == BackDrop::MainBackDrop)
+			{
+				MsgBoxAssert("글로벌 액터가 존재하지 않습니다.");
+				return;
+			}
+
+			BackDrop::MainBackDrop->EnableDebugMode(PixelDebugMode);
+		}
+	}
+	else
+	{
+		if (true == PixelDebugMode)
+		{
+			PixelDebugMode = false;
+
+			if (nullptr == BackDrop::MainBackDrop)
+			{
+				MsgBoxAssert("글로벌 액터가 존재하지 않습니다.");
+				return;
+			}
+			BackDrop::MainBackDrop->EnableDebugMode(PixelDebugMode);
+		}
+	}
 }

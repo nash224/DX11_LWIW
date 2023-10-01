@@ -35,7 +35,7 @@ protected:
 
 public:
 	bool IsColorAtPosition(const float4& _Position, GameEngineColor _CheckColor,  GameEngineColor _DefaultColor = { 255, 255, 255, 255 });
-	void EnableBackDropDebugMode(bool _Value);
+	void EnableDebugMode(bool _Value);
 
 protected:
 	// Scenery, Prop 텍스처 외에 자식에서 해주고 싶은 작업이 있을때

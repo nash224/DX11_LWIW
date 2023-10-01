@@ -36,6 +36,10 @@ private:
 	void CreateUIManager();
 	void CreateEllie();
 
+
+private:
+	void ChangeDebugMode();
+
 protected:
 	std::shared_ptr<Ellie> m_Ellie = nullptr;
 	std::shared_ptr<UIManager> m_UIManager = nullptr;

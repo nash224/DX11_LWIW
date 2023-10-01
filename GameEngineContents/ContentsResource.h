@@ -25,9 +25,7 @@ public:
 	static void CreateData(std::string_view _Name, const DataType& _Data)
 	{
 		std::string UpperName = GameEngineString::ToUpperReturn(_Name);
-
 		std::shared_ptr Data = std::make_shared<DataType>(_Data);
-
 		NameData.insert(std::make_pair(UpperName, Data));
 	}
 
@@ -39,7 +37,6 @@ public:
 	static const std::shared_ptr<DataType>& Find(std::string_view _Name)
 	{
 		std::string UpperName = GameEngineString::ToUpperReturn(_Name);
-
 		typename std::map<std::string, std::shared_ptr<DataType>>::iterator FindIter = NameData.find(UpperName);
 		if (FindIter == NameData.end())
 		{

@@ -30,7 +30,10 @@ void ContentsLevel::Start()
 
 void ContentsLevel::Update(float _Delta)
 {
-
+	if (true == GameEngineInput::IsDown(VK_F1))
+	{
+		IsDebug = !IsDebug;
+	}
 }
 
 void ContentsLevel::LevelStart(class GameEngineLevel* _NextLevel)
@@ -44,7 +47,7 @@ void ContentsLevel::LevelStart(class GameEngineLevel* _NextLevel)
 
 void ContentsLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-
+	
 }
 
 
