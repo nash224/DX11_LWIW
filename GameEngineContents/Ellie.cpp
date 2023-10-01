@@ -331,10 +331,10 @@ void Ellie::ChangeState(EELLIE_STATE _State)
 
 
 // 호출하면 방향에 따라 애니메이션 출력을 다르게 바꿔줍니다.
-void Ellie::ChangeAnimationByDirection(const std::string& _StateName, bool _DirectionInfluence /*= true*/, bool _Force /*= false*/, unsigned int _Index /*= 0*/)
+void Ellie::ChangeAnimationByDirection(std::string_view _StateName, bool _DirectionInfluence /*= true*/, bool _Force /*= false*/, unsigned int _Index /*= 0*/)
 {
 	std::string SpriteName = "";
-	SpriteName += _StateName;
+	SpriteName += _StateName.data();
 
 	if (true == _DirectionInfluence)
 	{
@@ -378,6 +378,21 @@ void Ellie::ChangeAnimationByDirection(const std::string& _StateName, bool _Dire
 	}
 
 	m_Body->ChangeAnimation(SpriteName, _Force, _Index);
+}
+
+void Ellie::ChangeDirectionAnimation(std::string_view _StateName)
+{
+	if (m_Dir != m_RenderDir)
+	{
+		if (nullptr == m_Body)
+		{
+			MsgBoxAssert("생성하지 않은 렌더러를 사용하려 했습니다.");
+			return;
+		}
+
+		unsigned int CurIndex = m_Body->GetCurIndex();
+		ChangeAnimationByDirection(_StateName, true, false, CurIndex);
+	}
 }
 
 #pragma endregion

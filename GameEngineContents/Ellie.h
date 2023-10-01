@@ -91,7 +91,8 @@ private:
 	// FSM
 	void ChangeState(EELLIE_STATE _State);
 	void UpdateState(float _Delta);
-	void ChangeAnimationByDirection(const std::string& _StateName, bool _DirectionInfluence = true, bool _Force =  false, unsigned int _Index = 0);
+	void ChangeAnimationByDirection(std::string_view  _StateName, bool _DirectionInfluence = true, bool _Force =  false, unsigned int _Index = 0);
+	void ChangeDirectionAnimation(std::string_view  _StateName);
 	
 
 	bool InputTestPattern();

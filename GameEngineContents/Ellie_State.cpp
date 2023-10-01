@@ -145,18 +145,7 @@ void Ellie::UpdateSlowWalk(float _Delta)
 	}
 
 
-	if (m_Dir != m_RenderDir)
-	{
-		if (nullptr == m_Body)
-		{
-			MsgBoxAssert("생성하지 않은 렌더러를 사용하려 했습니다.");
-			return;
-		}
-
-		unsigned int CurIndex = m_Body->GetCurIndex();
-		ChangeAnimationByDirection("SlowWalk", true, false, CurIndex);
-	}
-
+	ChangeDirectionAnimation("SlowWalk");
 
 	CalulationMoveForceToNormalStatus(_Delta, CONST_Ellie_SlowWalk_Speed);
 	ApplyMovementToTransform(_Delta);
@@ -199,18 +188,7 @@ void Ellie::UpdateWalk(float _Delta)
 		return;
 	}
 
-	if (m_Dir != m_RenderDir)
-	{
-		if (nullptr == m_Body)
-		{
-			MsgBoxAssert("생성하지 않은 렌더러를 사용하려 했습니다.");
-			return;
-		}
-
-		unsigned int CurIndex = m_Body->GetCurIndex();
-		ChangeAnimationByDirection("Walk", true, false, CurIndex);
-	}
-
+	ChangeDirectionAnimation("Walk");
 
 	CalulationMoveForceToNormalStatus(_Delta, CONST_Ellie_Walk_Speed);
 	ApplyMovementToTransform(_Delta);
@@ -252,18 +230,7 @@ void Ellie::UpdateRun(float _Delta)
 		return;
 	}
 
-
-	if (m_Dir != m_RenderDir)
-	{
-		if (nullptr == m_Body)
-		{
-			MsgBoxAssert("생성하지 않은 렌더러를 사용하려 했습니다.");
-			return;
-		}
-
-		unsigned int CurIndex = m_Body->GetCurIndex();
-		ChangeAnimationByDirection("Run", true, false, CurIndex);
-	}
+	ChangeDirectionAnimation("Run");
 
 
 	CalulationMoveForceToNormalStatus(_Delta, CONST_Ellie_Run_Speed);
@@ -368,19 +335,7 @@ void Ellie::UpdateRiding_Move(float _Delta)
 		return;
 	}
 
-
-	if (m_Dir != m_RenderDir)
-	{
-		if (nullptr == m_Body)
-		{
-			MsgBoxAssert("생성하지 않은 렌더러를 사용하려 했습니다.");
-			return;
-		}
-
-		unsigned int CurIndex = m_Body->GetCurIndex();
-		ChangeAnimationByDirection("Riding_Move", true, false, CurIndex);
-	}
-
+	ChangeDirectionAnimation("Riding_Move");
 
 	// 방향을 넣으면 방향 기저벡터를 반환 해줍니다.
 	float4 MoveVector = ReturnPostMoveVector(_Delta, CONST_Ellie_Riding_Move_Speed, CONST_Ellie_Riding_Move_Acceleration_Time);
@@ -444,17 +399,9 @@ void Ellie::UpdateRiding_Boost(float _Delta)
 		return;
 	}
 
-	if (m_Dir != m_RenderDir)
-	{
-		if (nullptr == m_Body)
-		{
-			MsgBoxAssert("생성하지 않은 렌더러를 사용하려 했습니다.");
-			return;
-		}
 
-		unsigned int CurIndex = m_Body->GetCurIndex();
-		ChangeAnimationByDirection("Riding_Boost", true, false, CurIndex);
-	}
+	ChangeDirectionAnimation("Riding_Boost");
+	
 
 	// 방향을 넣으면 방향 기저벡터를 반환 해줍니다.
 	float4 MoveVector = ReturnPostMoveVector(_Delta, CONST_Ellie_Riding_Boost_Speed, CONST_Ellie_Riding_Boosting_Acceleration_Time);
