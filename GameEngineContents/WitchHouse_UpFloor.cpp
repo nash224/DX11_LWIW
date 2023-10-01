@@ -59,7 +59,7 @@ void WitchHouse_UpFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-
+#pragma region LoadRes
 void WitchHouse_UpFloor::LoadTexture()
 {
 	GameEngineDirectory Dir;
@@ -146,6 +146,9 @@ void WitchHouse_UpFloor::CameraSetting()
 	}
 }
 
+#pragma endregion 
+
+#pragma region ReleaseRes
 
 void WitchHouse_UpFloor::LevelActorRelease()
 {
@@ -181,3 +184,5 @@ void WitchHouse_UpFloor::ReleaseTexture()
 		GameEngineTexture::Release(File.GetFileName());
 	}
 }
+
+#pragma endregion 

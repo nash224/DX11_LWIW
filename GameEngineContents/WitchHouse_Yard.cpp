@@ -59,7 +59,7 @@ void WitchHouse_Yard::LevelEnd(class GameEngineLevel* _NextLevel)
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-
+#pragma region LoadRes
 void WitchHouse_Yard::LoadTexture()
 {
 	GameEngineDirectory Dir;
@@ -134,7 +134,9 @@ void WitchHouse_Yard::CameraSetting()
 	}
 }
 
+#pragma endregion 
 
+#pragma region ReleaseRes
 void WitchHouse_Yard::LevelActorRelease()
 {
 	// 배경 정리하고
@@ -161,3 +163,5 @@ void WitchHouse_Yard::ReleaseTexture()
 		GameEngineTexture::Release(File.GetFileName());
 	}
 }
+
+#pragma endregion

@@ -62,7 +62,7 @@ void BackDrop_WitchHouse_Yard::Init()
 	m_BackScale = Texture->GetScale();
 }
 
-
+#pragma region CreateProp
 void BackDrop_WitchHouse_Yard::CreateProp(GameEngineLevel* _Level)
 {
 	vecProps.reserve(30);
@@ -80,6 +80,9 @@ void BackDrop_WitchHouse_Yard::CreateProp(GameEngineLevel* _Level)
 	vecProps.push_back(Object);
 }
 
+#pragma endregion 
+
+#pragma region CreatePortal
 
 void BackDrop_WitchHouse_Yard::CreatePortalActor(GameEngineLevel* _Level)
 {
@@ -104,8 +107,13 @@ void BackDrop_WitchHouse_Yard::CreatePortalActor(GameEngineLevel* _Level)
 	}
 }
 
+#pragma endregion 
+
+#pragma region Release
 
 void BackDrop_WitchHouse_Yard::ActorRelease()
 {
 	BackDrop::ActorRelease();
 }
+
+#pragma endregion 

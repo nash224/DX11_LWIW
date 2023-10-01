@@ -46,7 +46,6 @@ void WitchHouse_DownFloor::LevelStart(class GameEngineLevel* _NextLevel)
 	LoadSprite();
 	LoadActor();
 
-
 	SetEllieLevelChangeLocation(_NextLevel);
 
 	CameraSetting();
@@ -64,7 +63,7 @@ void WitchHouse_DownFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#pragma region ResourceLoad
+#pragma region LoadResource
 
 void WitchHouse_DownFloor::LoadTexture()
 {
@@ -128,10 +127,6 @@ void WitchHouse_DownFloor::LoadSprite()
 	GameEngineSprite::CreateCut("Roaster_0_Top.png", 7, 6);
 }
 
-#pragma endregion
-
-#pragma region ActorLoad
-
 void WitchHouse_DownFloor::LoadActor()
 {
 	if (nullptr == m_BackDrop)
@@ -150,7 +145,6 @@ void WitchHouse_DownFloor::LoadActor()
 
 
 #pragma endregion 
-
 
 #pragma region Initial Setting
 

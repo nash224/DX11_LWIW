@@ -57,7 +57,7 @@ void Field_Center::LevelEnd(class GameEngineLevel* _NextLevel)
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-
+#pragma region LoadAndInit
 void Field_Center::LoadTexture()
 {
 	GameEngineDirectory Dir;
@@ -93,7 +93,6 @@ void Field_Center::LoadActor()
 
 	m_BackDrop->Init();
 
-
 	if (nullptr == m_LevelCameraControler)
 	{
 		MsgBoxAssert("카메라 컨트롤러를 생성하지 않고 사용하려고 했습니다.");
@@ -103,9 +102,6 @@ void Field_Center::LoadActor()
 	// 배경 크기를 알려줘야 카메라 기능을 사용할 수 있습니다.
 	m_LevelCameraControler->SetBackDropScale(m_BackDrop->GetBackGroundScale());
 }
-
-
-
 
 
 void Field_Center::CameraSetting()
@@ -129,6 +125,9 @@ void Field_Center::CameraSetting()
 	}
 }
 
+#pragma endregion
+
+#pragma region ReleaseRes
 
 void Field_Center::LevelActorRelease()
 {
@@ -156,3 +155,5 @@ void Field_Center::ReleaseTexture()
 		GameEngineTexture::Release(File.GetFileName());
 	}
 }
+
+#pragma endregion

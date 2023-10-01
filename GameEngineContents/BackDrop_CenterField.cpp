@@ -64,11 +64,19 @@ void BackDrop_CenterField::Init()
 	m_BackScale = Texture->GetScale();
 }
 
+
+#pragma endregion 
+
+#pragma region CreateProp
+
 void BackDrop_CenterField::CreateProp(GameEngineLevel* _Level)
 {
 
 }
 
+#pragma endregion 
+
+#pragma region CreatePixelMap
 
 void BackDrop_CenterField::CreatePixelMap(GameEngineLevel* _Level)
 {
@@ -91,6 +99,10 @@ void BackDrop_CenterField::CreatePixelMap(GameEngineLevel* _Level)
 }
 
 
+#pragma endregion 
+
+#pragma region CreatePortal
+
 void BackDrop_CenterField::CreatePortalActor(GameEngineLevel* _Level)
 {
 	{
@@ -112,7 +124,13 @@ void BackDrop_CenterField::CreatePortalActor(GameEngineLevel* _Level)
 	}
 }
 
+#pragma endregion 
+
+#pragma region Release
+
 void BackDrop_CenterField::ActorRelease()
 {
 	BackDrop::ActorRelease();
 }
+
+#pragma endregion 

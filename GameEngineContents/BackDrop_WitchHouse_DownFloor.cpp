@@ -60,6 +60,11 @@ void BackDrop_WitchHouse_DownFloor::Init()
 	m_BackScale = GlobalValue::GetWindowScale();
 }
 
+
+#pragma endregion 
+
+#pragma region CreateProp
+
 void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 {
 	vecProps.reserve(30);
@@ -135,6 +140,11 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 }
 
 
+#pragma endregion 
+
+#pragma region CreatePixelMap
+
+
 void BackDrop_WitchHouse_DownFloor::CreatePixelMap(GameEngineLevel* _Level)
 {
 	std::shared_ptr<Prop> Object = _Level->CreateActor<Prop>(EUPDATEORDER::Objects);
@@ -150,6 +160,11 @@ void BackDrop_WitchHouse_DownFloor::CreatePixelMap(GameEngineLevel* _Level)
 
 	vecPixelProps.push_back(Object);
 }
+
+
+#pragma endregion 
+
+#pragma region CreateStaticActor
 
 void BackDrop_WitchHouse_DownFloor::CreateStaticActor(GameEngineLevel* _Level)
 {
@@ -194,6 +209,10 @@ void BackDrop_WitchHouse_DownFloor::CreateStaticActor(GameEngineLevel* _Level)
 }
 
 
+#pragma endregion 
+
+#pragma region CreatePortal
+
 void BackDrop_WitchHouse_DownFloor::CreatePortalActor(GameEngineLevel* _Level)
 {
 	{
@@ -219,8 +238,13 @@ void BackDrop_WitchHouse_DownFloor::CreatePortalActor(GameEngineLevel* _Level)
 
 
 
+#pragma endregion 
+
+#pragma region Release
 
 void BackDrop_WitchHouse_DownFloor::ActorRelease()
 {
 	BackDrop::ActorRelease();
 }
+
+#pragma endregion 
