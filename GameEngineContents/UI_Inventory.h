@@ -118,6 +118,9 @@ private:
 
 	void ClearSlot(const unsigned int _X, const unsigned int _Y);
 	void EraseSlotImg(const int _X, const int _Y);
+	void ClearAllSlotImg();
+
+	void OnLevelStart();
 
 private:
 	void UpdateInventory(float _Delta);

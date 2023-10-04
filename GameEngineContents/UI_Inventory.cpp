@@ -171,12 +171,7 @@ void UI_Inventory::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	UI_ToggleActor::LevelStart(_NextLevel);
 
-	// 레벨이 바뀔때마다 갱신해줍니다.
-	ChangeDataParent();
-	RenewInventory();
-	MainInventory = this;
-	m_CurrentSlotX = 0;
-	m_CurrentSlotY = 0;
+	OnLevelStart();
 }
 
 void UI_Inventory::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -208,13 +203,7 @@ void UI_Inventory::Init()
 	Transform.AddLocalPosition({ -288.0f , 28.0f });
 
 	// 부모 설정 후, 그립니다.
-	ChangeDataParent();
-	RenewInventory();
-	MainInventory = this;
-
-
-
-	Off();
+	OnLevelStart();
 }
 
 // Base Create
@@ -514,6 +503,31 @@ void UI_Inventory::EraseSlotImg(const int _X, const int _Y)
 
 	InventorySlotArray[_Y][_X].Slot->SetSprite("Inventory_None.png");
 	SelectSlot(_X, _Y);
+}
+
+void UI_Inventory::ClearAllSlotImg()
+{
+	for (size_t y = 0; y < UnlockSlotY; y++)
+	{
+		for (size_t x = 0; x < MaxSlotX; x++)
+		{
+			EraseSlotImg(static_cast<int>(x), static_cast<int>(y));
+		}
+	}
+}
+
+void UI_Inventory::OnLevelStart()
+{
+	// 레벨이 바뀔때마다 갱신해줍니다.
+	ChangeDataParent();
+	ClearAllSlotImg();
+	RenewInventory();
+	MainInventory = this;
+	m_CurrentSlotX = 0;
+	m_CurrentSlotY = 0;
+	SelectSlot(m_CurrentSlotX, m_CurrentSlotY);
+
+	Close();
 }
 
 
