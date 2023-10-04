@@ -160,8 +160,8 @@ private:
 
 private:
 	// 방향 키 감지
-	// 안될건 없지만 1프레임당 한번 업데이트 되는 것을 원칙으로 합니다.
-	// 어차피 한번 실행하나 두번 실행하다 똑같습니다.
+	// 가능한 1프레임당 한번 업데이트 되는 것을 원칙으로 합니다.
+	// 어차피 한번 실행하나 두번 실행하나 똑같습니다.
 	bool DetectMovement();
 	bool DetectVerticalMovement();
 	bool DetectHorizontalMovement();
@@ -243,5 +243,9 @@ private:
 
 private:
 	std::shared_ptr<GameEngineCollision> EllieCol = nullptr;
+
+	// 상호작용 Collision 시야각도 입니다.
+	const float FOVAngle = 60.0f;
+
 };
 

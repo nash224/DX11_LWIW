@@ -26,17 +26,17 @@ void BackDrop_WitchHouse_DownFloor::Start()
 
 void BackDrop_WitchHouse_DownFloor::Update(float _Delta)
 {
-
+	BackDrop::Update(_Delta);
 }
 
 void BackDrop_WitchHouse_DownFloor::LevelStart(class GameEngineLevel* _NextLevel)
 {
-
+	BackDrop::LevelStart(_NextLevel);
 }
 
 void BackDrop_WitchHouse_DownFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-
+	BackDrop::LevelEnd(_NextLevel);
 }
 
 
@@ -45,6 +45,8 @@ void BackDrop_WitchHouse_DownFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void BackDrop_WitchHouse_DownFloor::Init()
 {
+	BackDrop_PlayLevel::Init();
+
 	GameEngineLevel* CurLevel = GetLevel();
 	if (nullptr == CurLevel)
 	{
@@ -250,7 +252,7 @@ void BackDrop_WitchHouse_DownFloor::CreatePortalActor(GameEngineLevel* _Level)
 
 void BackDrop_WitchHouse_DownFloor::ActorRelease()
 {
-	BackDrop::ActorRelease();
+	BackDrop_PlayLevel::ActorRelease();
 }
 
 #pragma endregion 

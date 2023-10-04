@@ -3,7 +3,7 @@
 
 
 #include "PortalObject.h"
-#include "BackDrop.h"
+#include "BackDrop_PlayLevel.h"
 
 Ellie::Ellie() 
 {
@@ -723,8 +723,8 @@ EDIRECTION Ellie::ReturnDirectionCheckBothSide(EDIRECTION _Direction, const floa
 {
 	int DirNum = static_cast<int>(_Direction);
 
-	bool LeftCheck = BackDrop::MainBackDrop->IsColorAtPosition(_LeftCheckPoint, GameEngineColor::RED);
-	bool RightCheck = BackDrop::MainBackDrop->IsColorAtPosition(_RightCheckPoint, GameEngineColor::RED);
+	bool LeftCheck = BackDrop_PlayLevel::MainBackDrop->IsColorAtPosition(_LeftCheckPoint, GameEngineColor::RED);
+	bool RightCheck = BackDrop_PlayLevel::MainBackDrop->IsColorAtPosition(_RightCheckPoint, GameEngineColor::RED);
 
 	if (true == LeftCheck && false == RightCheck)
 	{

@@ -39,7 +39,7 @@ private:
 	std::shared_ptr<GameEngineUIRenderer> m_MarkRenderer = nullptr;
 	std::shared_ptr<GameEngineUIRenderer> m_ButtonRenderer = nullptr;
 
-	const float4 CONST_MarkPositionToActor = float4{ 0.0f , 40.0f };
+	const float4 CONST_MarkPositionToActor = float4{ 0.0f , 48.0f };
 
 	bool IsPointerInteracted = false;
 

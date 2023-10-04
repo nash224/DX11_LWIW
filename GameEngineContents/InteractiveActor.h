@@ -16,6 +16,8 @@ class InteractiveActor : public GameEngineActor
 {
 	friend class UI_InteractiveMark;
 	friend class Ellie;
+	friend class BackDrop;
+
 public:
 	// constrcuter destructer
 	InteractiveActor();

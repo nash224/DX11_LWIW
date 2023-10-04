@@ -1,8 +1,8 @@
 #pragma once
-#include "BackDrop.h"
+#include "BackDrop_PlayLevel.h"
 
 // Ό³Έν :
-class BackDrop_CenterField : public BackDrop
+class BackDrop_CenterField : public BackDrop_PlayLevel
 {
 public:
 	// constrcuter destructer

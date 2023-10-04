@@ -22,17 +22,17 @@ void BackDrop_CenterField::Start()
 
 void BackDrop_CenterField::Update(float _Delta)
 {
-	
+	BackDrop::Update(_Delta);
 }
 
 void BackDrop_CenterField::LevelStart(class GameEngineLevel* _NextLevel)
 {
-	
+	BackDrop::LevelStart(_NextLevel);
 }
 
 void BackDrop_CenterField::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-
+	BackDrop::LevelEnd(_NextLevel);
 }
 
 
@@ -42,6 +42,8 @@ void BackDrop_CenterField::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void BackDrop_CenterField::Init()
 {
+	BackDrop_PlayLevel::Init();
+
 	GameEngineLevel* CurLevel = GetLevel();
 	if (nullptr == CurLevel)
 	{
@@ -62,6 +64,8 @@ void BackDrop_CenterField::Init()
 	}
 
 	m_BackScale = Texture->GetScale();
+
+
 }
 
 
@@ -130,7 +134,7 @@ void BackDrop_CenterField::CreatePortalActor(GameEngineLevel* _Level)
 
 void BackDrop_CenterField::ActorRelease()
 {
-	BackDrop::ActorRelease();
+	BackDrop_PlayLevel::ActorRelease();
 }
 
 #pragma endregion 

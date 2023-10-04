@@ -40,6 +40,8 @@ void BackDrop_WitchHouse_Yard::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void BackDrop_WitchHouse_Yard::Init()
 {
+	BackDrop_PlayLevel::Init();
+
 	GameEngineLevel* CurLevel = GetLevel();
 	if (nullptr == CurLevel)
 	{
@@ -113,7 +115,7 @@ void BackDrop_WitchHouse_Yard::CreatePortalActor(GameEngineLevel* _Level)
 
 void BackDrop_WitchHouse_Yard::ActorRelease()
 {
-	BackDrop::ActorRelease();
+	BackDrop_PlayLevel::ActorRelease();
 }
 
 #pragma endregion 

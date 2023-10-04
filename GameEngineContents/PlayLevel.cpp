@@ -4,7 +4,7 @@
 #include "GlobalUtils.h"
 
 
-#include "BackDrop.h"
+#include "BackDrop_PlayLevel.h"
 #include "CameraControler.h"
 #include "Ellie.h"
 #include "UIManager.h"
@@ -88,13 +88,13 @@ void PlayLevel::ChangeDebugMode()
 		if (true == GameEngineInput::IsDown(VK_F2))
 		{
 			PixelDebugMode = !PixelDebugMode;
-			if (nullptr == BackDrop::MainBackDrop)
+			if (nullptr == BackDrop_PlayLevel::MainBackDrop)
 			{
 				MsgBoxAssert("글로벌 액터가 존재하지 않습니다.");
 				return;
 			}
 
-			BackDrop::MainBackDrop->EnableDebugMode(PixelDebugMode);
+			BackDrop_PlayLevel::MainBackDrop->EnableDebugMode(PixelDebugMode);
 		}
 	}
 	else
@@ -103,12 +103,12 @@ void PlayLevel::ChangeDebugMode()
 		{
 			PixelDebugMode = false;
 
-			if (nullptr == BackDrop::MainBackDrop)
+			if (nullptr == BackDrop_PlayLevel::MainBackDrop)
 			{
 				MsgBoxAssert("글로벌 액터가 존재하지 않습니다.");
 				return;
 			}
-			BackDrop::MainBackDrop->EnableDebugMode(PixelDebugMode);
+			BackDrop_PlayLevel::MainBackDrop->EnableDebugMode(PixelDebugMode);
 		}
 	}
 }

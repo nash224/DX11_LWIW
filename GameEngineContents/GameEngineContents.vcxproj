@@ -191,6 +191,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="BackDrop_PlayLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="BackDrop_WitchHouse_DownFloor.cpp">
       <SubType>
       </SubType>
@@ -445,6 +449,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="BackDrop_MainMenu.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BackDrop_PlayLevel.h">
       <SubType>
       </SubType>
     </ClInclude>

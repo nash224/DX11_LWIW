@@ -52,8 +52,8 @@ void Ellie::UpdateInteractionCollsiion()
 		EllieFOVAngle = 360.0f - EllieFOVAngle;
 	}
 
-	float EllieLeftFOVAngle = EllieFOVAngle + 45.0f;
-	float EllieRightFOVAngle = EllieFOVAngle - 45.0f;
+	float EllieLeftFOVAngle = EllieFOVAngle + FOVAngle;
+	float EllieRightFOVAngle = EllieFOVAngle - FOVAngle;
 
 	if (EllieLeftFOVAngle >= 360.0f)
 	{

@@ -1,8 +1,8 @@
 #pragma once
-#include "BackDrop.h"
+#include "BackDrop_PlayLevel.h"
 
 // Ό³Έν :
-class BackDrop_WitchHouse_UpFloor : public BackDrop
+class BackDrop_WitchHouse_UpFloor : public BackDrop_PlayLevel
 {
 public:
 	// constrcuter destructer
