@@ -17,7 +17,14 @@ void InteractiveActor::Start()
 
 void InteractiveActor::Update(float _Delta)
 {
+	IsEnalbeActive = false;
 
+	if (true == IsReach)
+	{
+		IsEnalbeActive = true;
+	}
+
+	IsReach = false;
 }
 
 void InteractiveActor::Release()

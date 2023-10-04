@@ -152,7 +152,7 @@ void Roaster::StartIdle()
 
 void Roaster::UpdateIdle(float _Delta)
 {
-	if (true == IsReach)
+	if (true == IsEnalbeActive)
 	{
 		if (true == GameEngineInput::IsDown('Z'))
 		{

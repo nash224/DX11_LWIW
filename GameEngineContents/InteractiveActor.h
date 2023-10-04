@@ -52,6 +52,6 @@ protected:
 	EINTERACTIONTYPE m_InteractionType = EINTERACTIONTYPE::None;
 	
 	bool IsReach = false;
-
+	bool IsEnalbeActive = false;
 };
 

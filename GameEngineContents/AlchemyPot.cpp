@@ -12,16 +12,22 @@ AlchemyPot::~AlchemyPot()
 
 void AlchemyPot::Start()
 {
+	InteractiveActor::Start();
+
 	StartAlchemyPot();
 }
 
 void AlchemyPot::Update(float _Delta)
 {
+	InteractiveActor::Update(_Delta);
+
 	UpdateState(_Delta);
 }
 
 void AlchemyPot::Release()
 {
+	InteractiveActor::Release();
+
 	m_PotRenderer = nullptr;
 	m_WaterRenderer = nullptr;
 	m_FireRenderer = nullptr;
@@ -31,12 +37,12 @@ void AlchemyPot::Release()
 
 void AlchemyPot::LevelStart(class GameEngineLevel* _NextLevel)
 {
-
+	InteractiveActor::LevelStart(_NextLevel);
 }
 
 void AlchemyPot::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-
+	InteractiveActor::LevelEnd(_NextLevel);
 }
 
 
@@ -191,7 +197,7 @@ void AlchemyPot::StartIdle()
 
 void AlchemyPot::UpdateIdle(float _Delta)
 {
-	if (true == IsReach)
+	if (true == IsEnalbeActive)
 	{
 		if (true == GameEngineInput::IsDown('Z'))
 		{
