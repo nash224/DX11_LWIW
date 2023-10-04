@@ -282,6 +282,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="LootedItem.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="MainMenu.cpp">
       <SubType>
       </SubType>
@@ -539,6 +543,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="CameraControler.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="LootedItem.h">
       <SubType>
       </SubType>
     </ClInclude>
