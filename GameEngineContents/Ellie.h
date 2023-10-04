@@ -73,6 +73,9 @@ public:
 // 설명 : 주인공 앨리입니다. 
 class Ellie : public InteractiveActor
 {
+public:
+	static Ellie* MainEllie;
+
 private:
 	static EELLIE_STATUS g_Status;
 	static bool FirstInitCheck;
@@ -104,7 +107,7 @@ protected:
 
 private:
 	void OnLevelStart();
-	void InitStatus();
+	void RenewStatus();
 	void ChangeStatus(const EELLIE_STATUS _Status);
 
 

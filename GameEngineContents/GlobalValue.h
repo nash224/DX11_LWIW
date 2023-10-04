@@ -9,7 +9,6 @@ class GlobalValue
 {
 public:
 	static std::shared_ptr<CameraControler> g_CameraControler;
-	static std::shared_ptr<Ellie> g_Ellie;
 
 private:
 	// constrcuter destructer

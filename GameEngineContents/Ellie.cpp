@@ -13,7 +13,7 @@ Ellie::~Ellie()
 {
 }
 
-
+Ellie* Ellie::MainEllie = nullptr;
 EELLIE_STATUS Ellie::g_Status = EELLIE_STATUS::None;
 bool Ellie::FirstInitCheck = false;
 void Ellie::Start()
@@ -229,6 +229,8 @@ void Ellie::Init()
 	}
 
 	SetPixelPointBaseOnCenter();
+
+	MainEllie = this;
 }
 
 // 앨리의 위치를 지정합니다.
@@ -241,10 +243,12 @@ void Ellie::SetSpawnLocalPosition(const float4& _Position)
 // 생성되거나 레벨이 바뀔때 호출되고 앨리의 상태를 초기화합니다.
 void Ellie::OnLevelStart()
 {
-	InitStatus();
+	RenewStatus();
+
+	MainEllie = this;
 }
 
-void Ellie::InitStatus()
+void Ellie::RenewStatus()
 {
 	if (EELLIE_STATUS::Normal == g_Status && EELLIE_STATE::Idle != m_State)
 	{
@@ -284,21 +288,7 @@ void Ellie::OffControl()
 {
 	IsControl = false;
 
-	if (EELLIE_STATUS::Normal == g_Status)
-	{
-		ChangeState(EELLIE_STATE::Idle);
-		return;
-	}
-	else if (EELLIE_STATUS::Riding == g_Status)
-	{
-		ChangeState(EELLIE_STATE::Riding_Idle);
-		return;
-	}
-	else
-	{
-		MsgBoxAssert("등록되지 않은 행동패턴입니다.");
-		return;
-	}
+	RenewStatus();
 }
 
 

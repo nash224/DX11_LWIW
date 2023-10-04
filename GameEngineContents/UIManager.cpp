@@ -8,6 +8,8 @@
 #include "UI_InterativeMark.h"
 #include "UI_Hub.h"
 
+#include "Ellie.h"
+
 
 GameEngineActor* UIManager::g_MainUIManager = nullptr;
 UIManager::UIManager() 
@@ -116,6 +118,8 @@ void UIManager::Reset()
 	}
 
 	m_IsActiveComponent = false;
+
+	SetEllieControl(true);
 }
 
 
@@ -140,9 +144,9 @@ void UIManager::CheckForOpenUIComponent()
 
 		if (false == m_Dictionary->IsOpen && false == m_Inventory->IsOpen)
 		{
-			m_SwitchOpenHub = true;
-			m_IsActiveComponent = false;
-			m_IsHubPreServe = false;
+			m_SwitchOpenHub = true;									// 허브를 열 수 있습니다.
+			m_IsActiveComponent = false;							// 현재 컴포넌트가 작동중인지 추적하는 변수입니다.
+			m_IsHubPreServe = false;								// 허브를 닫지 않고 컴포넌트를 열지 결정합니다.
 		}
 	}
 
@@ -155,6 +159,7 @@ void UIManager::CheckForOpenUIComponent()
 		}
 
 		m_Hub->Open();
+		SetEllieControl(true);
 
 		m_SwitchOpenHub = false;
 	}
@@ -174,6 +179,7 @@ void UIManager::UpdateUIComponentOpenInput()
 			}
 
 			m_Dictionary->Open();
+			SetEllieControl(false);
 			m_IsActiveComponent = true;
 		}
 
@@ -186,6 +192,7 @@ void UIManager::UpdateUIComponentOpenInput()
 			}
 
 			m_Inventory->Open();
+			SetEllieControl(false);
 			m_IsHubPreServe = true;
 			m_IsActiveComponent = true;
 		}
@@ -201,4 +208,20 @@ void UIManager::UpdateUIComponentOpenInput()
 			m_Hub->Close();
 		}
 	}
+}
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+
+void UIManager::SetEllieControl(bool _Value)
+{
+	if (nullptr == Ellie::MainEllie)
+	{
+		MsgBoxAssert("앨리가 어디있는지 모릅니다. 혹시 알고 계신가요?");
+		return;
+	}
+
+	_Value ? Ellie::MainEllie->OnControl() : Ellie::MainEllie->OffControl();
 }

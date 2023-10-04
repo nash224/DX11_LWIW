@@ -28,12 +28,6 @@ public:
 	void Init();
 
 
-	void OpenInventory();
-	void OpenDictionary();
-	void OpenMainBoard();
-
-	void Reset();
-
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -42,8 +36,12 @@ protected:
 
 
 private:
+	void Reset();
+
+private:
 	void CheckForOpenUIComponent();
 	void UpdateUIComponentOpenInput();
+
 
 
 private:
@@ -56,8 +54,13 @@ private:
 private:
 	EUI_TYPE m_State = EUI_TYPE::None;
 
-	bool m_SwitchOpenHub = false;
-	bool m_IsHubPreServe = false;
-	bool m_IsActiveComponent = false;
+	bool m_SwitchOpenHub = false;								// 허브를 열 수 있습니다.
+	bool m_IsHubPreServe = false;								// 현재 컴포넌트가 작동중인지 추적하는 변수입니다.
+	bool m_IsActiveComponent = false;							// 허브를 닫지 않고 컴포넌트를 열지 결정합니다.
+
+	
+private:
+	// this is Ellie Related Function
+	void SetEllieControl(bool _Value);
 };
 
