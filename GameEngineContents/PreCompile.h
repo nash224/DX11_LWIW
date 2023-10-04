@@ -24,3 +24,4 @@
 #include "ContentsEnum.h"
 #include "ContentsResource.h"
 #include "EventData.h"
+#include "ActorEnum.h"

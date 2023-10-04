@@ -6,6 +6,8 @@
 #include "StaticEntity.h"
 #include "PortalObject.h"
 
+#include "LootedItem.h"
+
 
 
 BackDrop_PlayLevel* BackDrop_PlayLevel::MainBackDrop = nullptr;
@@ -116,6 +118,29 @@ bool BackDrop_PlayLevel::IsColorAtPosition(const float4& _Position, GameEngineCo
 
 	return false;
 }
+
+void BackDrop_PlayLevel::CreateItem(std::string_view _ItemName, const int Stack)
+{
+	GameEngineLevel* CurLevel = GetLevel();
+	if (nullptr == CurLevel)
+	{
+		MsgBoxAssert("레벨을 불러오지 못했습니다.");
+		return;
+	}
+
+	std::shared_ptr<LootedItem> Item = CurLevel->CreateActor<LootedItem>(EUPDATEORDER::Objects);
+	if (nullptr == Item)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+
+
+	Item->Init()
+	Item->SetStack(Stack);
+}
+
 
 void BackDrop_PlayLevel::ActorRelease()
 {

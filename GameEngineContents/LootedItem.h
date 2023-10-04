@@ -15,6 +15,8 @@ public:
 	LootedItem& operator=(const LootedItem& _Other) = delete;
 	LootedItem& operator=(LootedItem&& _Other) noexcept = delete;
 
+	void SetItem();
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;

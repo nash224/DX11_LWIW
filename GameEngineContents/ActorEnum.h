@@ -1,5 +1,6 @@
 #pragma once
 
+// 방향키 및 조작
 enum class ERENDER_PIVOT_LOCATION
 {
 	LeftTop,
@@ -21,4 +22,26 @@ enum class EVERTICAL_KEY_STATE
 	Up,
 	Center,
 	Down,
+};
+
+
+
+enum class EENTITY_TYPE
+{
+	Entity,
+	Item,
+	None,
+};
+
+
+
+enum class EITEM_TYPE
+{
+	Ingredient,
+	RepairMaterial,
+	Potion,
+	Food,
+	None,
+	Recipe,
+	Quest,
 };

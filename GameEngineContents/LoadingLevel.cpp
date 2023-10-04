@@ -1,13 +1,14 @@
 #include "PreCompile.h"
 #include "LoadingLevel.h"
 
-
 #include "GlobalUtils.h"
 
 #include "BackDrop_Loading.h"
+
 #include "CameraControler.h"
 #include "BiologyData.h"
 #include "IngredientData.h"
+#include "ItemData.h"
 #include "ProductRecipeData.h"
 
 
@@ -195,6 +196,9 @@ void LoadingLevel::LoadActor()
 void LoadingLevel::LoadContentsData()
 {
 	EventData::Init();
+
+	// ¾ÆÀÌÅÛ
+	ItemData::CreateData("Mongsiri", { "Mongsiri", "¸ù½Ã¸®ÅÐ", EITEM_TYPE::Ingredient });
 
 	// Àç·á °¡°ø
 	IngredientData::CreateData("Mongsiri_Water", { "Mongsiri_Water", "¸ù½Ã¸®Áó", "Mongsiri", EBrewingMachineType::Extractor, 2 });

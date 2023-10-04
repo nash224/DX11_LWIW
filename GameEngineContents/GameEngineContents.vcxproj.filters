@@ -100,14 +100,14 @@
     <Filter Include="2.Object\1.Actor\0.Manager\UIManager\5.Mark">
       <UniqueIdentifier>{a63f72c0-aeac-45f3-8c3d-1b4e748e4631}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2.Object\1.Actor\1.BackDrop\LevelBackDrop\Loading">
-      <UniqueIdentifier>{21f50499-21ff-4011-95d0-3d89e05823d8}</UniqueIdentifier>
+    <Filter Include="2.Object\1.Actor\1.BackDrop\LevelBackDrop\1.MainMenu">
+      <UniqueIdentifier>{e95f5b82-f9b3-4125-9c6f-0af11164f6dc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2.Object\1.Actor\1.BackDrop\LevelBackDrop\Play">
+    <Filter Include="2.Object\1.Actor\1.BackDrop\LevelBackDrop\2.Play">
       <UniqueIdentifier>{7225245d-3e89-4098-9cfd-3cfb1d98b3d0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2.Object\1.Actor\1.BackDrop\LevelBackDrop\MainMenu">
-      <UniqueIdentifier>{e95f5b82-f9b3-4125-9c6f-0af11164f6dc}</UniqueIdentifier>
+    <Filter Include="2.Object\1.Actor\1.BackDrop\LevelBackDrop\0.Loading">
+      <UniqueIdentifier>{21f50499-21ff-4011-95d0-3d89e05823d8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -290,31 +290,34 @@
       <Filter>2.Object\1.Actor\0.Manager\UIManager\5.Mark</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_WitchHouse_DownFloor.h">
-      <Filter>2.Object\1.Actor\1.BackDrop\LevelBackDrop\Play</Filter>
+      <Filter>2.Object\1.Actor\1.BackDrop\LevelBackDrop\2.Play</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_WitchHouse_UpFloor.h">
-      <Filter>2.Object\1.Actor\1.BackDrop\LevelBackDrop\Play</Filter>
+      <Filter>2.Object\1.Actor\1.BackDrop\LevelBackDrop\2.Play</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_WitchHouse_Yard.h">
-      <Filter>2.Object\1.Actor\1.BackDrop\LevelBackDrop\Play</Filter>
+      <Filter>2.Object\1.Actor\1.BackDrop\LevelBackDrop\2.Play</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_CenterField.h">
-      <Filter>2.Object\1.Actor\1.BackDrop\LevelBackDrop\Play</Filter>
+      <Filter>2.Object\1.Actor\1.BackDrop\LevelBackDrop\2.Play</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_MainMenu.h">
-      <Filter>2.Object\1.Actor\1.BackDrop\LevelBackDrop\MainMenu</Filter>
+      <Filter>2.Object\1.Actor\1.BackDrop\LevelBackDrop\1.MainMenu</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_Loading.h">
-      <Filter>2.Object\1.Actor\1.BackDrop\LevelBackDrop\Loading</Filter>
+      <Filter>2.Object\1.Actor\1.BackDrop\LevelBackDrop\0.Loading</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_PlayLevel.h">
-      <Filter>2.Object\1.Actor\1.BackDrop\LevelBackDrop\Play</Filter>
+      <Filter>2.Object\1.Actor\1.BackDrop\LevelBackDrop\2.Play</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop.h">
       <Filter>2.Object\1.Actor\1.BackDrop\LevelBackDrop</Filter>
     </ClInclude>
     <ClInclude Include="LootedItem.h">
       <Filter>2.Object\1.Actor\2.Interactive\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemData.h">
+      <Filter>0.Data\Contents</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -494,31 +497,34 @@
       <Filter>2.Object\1.Actor\0.Manager\UIManager\5.Mark</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_WitchHouse_DownFloor.cpp">
-      <Filter>2.Object\1.Actor\1.BackDrop\LevelBackDrop\Play</Filter>
+      <Filter>2.Object\1.Actor\1.BackDrop\LevelBackDrop\2.Play</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_WitchHouse_UpFloor.cpp">
-      <Filter>2.Object\1.Actor\1.BackDrop\LevelBackDrop\Play</Filter>
+      <Filter>2.Object\1.Actor\1.BackDrop\LevelBackDrop\2.Play</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_WitchHouse_Yard.cpp">
-      <Filter>2.Object\1.Actor\1.BackDrop\LevelBackDrop\Play</Filter>
+      <Filter>2.Object\1.Actor\1.BackDrop\LevelBackDrop\2.Play</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_CenterField.cpp">
-      <Filter>2.Object\1.Actor\1.BackDrop\LevelBackDrop\Play</Filter>
+      <Filter>2.Object\1.Actor\1.BackDrop\LevelBackDrop\2.Play</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_MainMenu.cpp">
-      <Filter>2.Object\1.Actor\1.BackDrop\LevelBackDrop\MainMenu</Filter>
+      <Filter>2.Object\1.Actor\1.BackDrop\LevelBackDrop\1.MainMenu</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_Loading.cpp">
-      <Filter>2.Object\1.Actor\1.BackDrop\LevelBackDrop\Loading</Filter>
+      <Filter>2.Object\1.Actor\1.BackDrop\LevelBackDrop\0.Loading</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_PlayLevel.cpp">
-      <Filter>2.Object\1.Actor\1.BackDrop\LevelBackDrop\Play</Filter>
+      <Filter>2.Object\1.Actor\1.BackDrop\LevelBackDrop\2.Play</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop.cpp">
       <Filter>2.Object\1.Actor\1.BackDrop\LevelBackDrop</Filter>
     </ClCompile>
     <ClCompile Include="LootedItem.cpp">
       <Filter>2.Object\1.Actor\2.Interactive\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemData.cpp">
+      <Filter>0.Data\Contents</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
