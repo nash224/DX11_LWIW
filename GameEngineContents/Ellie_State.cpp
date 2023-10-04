@@ -62,50 +62,48 @@ bool Ellie::InputTestPattern()
 #pragma region 기본조작
 void Ellie::StartIdle()
 {
-	if (EELLIE_STATUS::Riding == m_Status)
+	if (EELLIE_STATUS::Riding == g_Status)
 	{
 		// FX
 	}
 
-	m_Status = EELLIE_STATUS::Normal;
+	g_Status = EELLIE_STATUS::Normal;
 
 	ChangeAnimationByDirection("Idle");
 }
 
 void Ellie::UpdateIdle(float _Delta)
 {
-	if (false == IsControl)
+	if (true == IsControl)
 	{
-		return;
-	}
-
-	if (true == InputTestPattern())
-	{
-		return;
-	}
-
-	if (true == DetectMovement())
-	{
-		if (true == GameEngineInput::IsPress(VK_LSHIFT))
+		if (true == InputTestPattern())
 		{
-			ChangeState(EELLIE_STATE::SlowWalk);
 			return;
 		}
 
-		if (true == GameEngineInput::IsPress(VK_SPACE))
+		if (true == DetectMovement())
 		{
-			ChangeState(EELLIE_STATE::Run);
+			if (true == GameEngineInput::IsPress(VK_LSHIFT))
+			{
+				ChangeState(EELLIE_STATE::SlowWalk);
+				return;
+			}
+
+			if (true == GameEngineInput::IsPress(VK_SPACE))
+			{
+				ChangeState(EELLIE_STATE::Run);
+				return;
+			}
+
+			ChangeState(EELLIE_STATE::Walk);
 			return;
 		}
 
-		ChangeState(EELLIE_STATE::Walk);
-		return;
-	}
-
-	if (true == GameEngineInput::IsDown(VK_CONTROL))
-	{
-		ChangeState(EELLIE_STATE::Riding_Idle);
-		return;
+		if (true == GameEngineInput::IsDown(VK_CONTROL))
+		{
+			ChangeState(EELLIE_STATE::Riding_Idle);
+			return;
+		}
 	}
 }
 
@@ -255,44 +253,47 @@ void Ellie::UpdateThrow(float _Delta)
 
 void Ellie::StartRiding_Idle()
 {
-	if (EELLIE_STATUS::Normal == m_Status)
+	if (EELLIE_STATUS::Normal == g_Status)
 	{
 		m_MoveVector = float4::ZERO;
 		m_MoveForce = float4::ZERO;
 		// FX
 	}
 
-	m_Status = EELLIE_STATUS::Riding;
+	g_Status = EELLIE_STATUS::Riding;
 
 	ChangeAnimationByDirection("Riding_Idle");
 }
 
 void Ellie::UpdateRiding_Idle(float _Delta)
 {
-	if (true == DetectMovement())
+	if (true == IsControl)
 	{
-		if (true == GameEngineInput::IsDown(VK_CONTROL))
+		if (true == DetectMovement())
 		{
-			ChangeState(EELLIE_STATE::Idle);
+			if (true == GameEngineInput::IsDown(VK_CONTROL))
+			{
+				ChangeState(EELLIE_STATE::Idle);
+				return;
+			}
+
+			if (true == GameEngineInput::IsPress(VK_SPACE))
+			{
+				ChangeState(EELLIE_STATE::Riding_Boost);
+				return;
+			}
+
+			ChangeState(EELLIE_STATE::Riding_Move);
 			return;
 		}
-
-		if (true == GameEngineInput::IsPress(VK_SPACE))
+		// 움직이지 않았다면
+		else
 		{
-			ChangeState(EELLIE_STATE::Riding_Boost);
-			return;
-		}
-
-		ChangeState(EELLIE_STATE::Riding_Move);
-		return;
-	}
-	// 움직이지 않았다면
-	else
-	{
-		if (true == GameEngineInput::IsDown(VK_CONTROL))
-		{
-			ChangeState(EELLIE_STATE::Idle);
-			return;
+			if (true == GameEngineInput::IsDown(VK_CONTROL))
+			{
+				ChangeState(EELLIE_STATE::Idle);
+				return;
+			}
 		}
 	}
 	

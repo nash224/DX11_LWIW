@@ -14,8 +14,38 @@ Ellie::~Ellie()
 }
 
 
-
+EELLIE_STATUS Ellie::g_Status = EELLIE_STATUS::None;
+bool Ellie::FirstInitCheck = false;
 void Ellie::Start()
+{
+	StartFSM();
+	StartCollision();
+}
+
+void Ellie::Update(float _Delta)
+{
+	UpdateState(_Delta);
+	UpdateCollision();
+}
+
+
+void Ellie::LevelStart(class GameEngineLevel* _NextLevel)
+{
+	OnLevelStart();
+}
+
+void Ellie::LevelEnd(class GameEngineLevel* _NextLevel)
+{
+
+}
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+
+
+
+void Ellie::StartFSM()
 {
 	m_Body = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::Ellie);
 	if (nullptr == m_Body)
@@ -172,7 +202,10 @@ void Ellie::Start()
 	}
 
 	m_Body->AutoSpriteSizeOn();
+}
 
+void Ellie::StartCollision()
+{
 	EllieCol = CreateComponent<GameEngineCollision>(ECOLLISION::Player);
 	if (nullptr == EllieCol)
 	{
@@ -185,33 +218,17 @@ void Ellie::Start()
 	EllieCol->SetCollisionType(ColType::AABBBOX2D);
 }
 
-void Ellie::Update(float _Delta)
-{
-	UpdateState(_Delta);
-	UpdateCollision();
-}
-
-
-void Ellie::LevelStart(class GameEngineLevel* _NextLevel)
-{
-
-}
-
-void Ellie::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-
-}
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 // Ellie를 생성하면 무조건 실행해야하는 함수입니다.
 void Ellie::Init()
 {
-	ChangeState(EELLIE_STATE::Idle);
+	if (false == FirstInitCheck)
+	{
+		ChangeStatus(EELLIE_STATUS::Normal);
+		FirstInitCheck = true;
+	}
+
 	SetPixelPointBaseOnCenter();
-	//TestCode();
 }
 
 // 앨리의 위치를 지정합니다.
@@ -220,16 +237,71 @@ void Ellie::SetSpawnLocalPosition(const float4& _Position)
 	Transform.SetLocalPosition(_Position);
 }
 
-// 이 캐릭터를 움직일지 움직이지 않을지 결정합니다.
-void Ellie::SetMoveControl(bool _Value)
-{
-	IsControl = _Value;
 
-	if (false == _Value)
+// 생성되거나 레벨이 바뀔때 호출되고 앨리의 상태를 초기화합니다.
+void Ellie::OnLevelStart()
+{
+	InitStatus();
+}
+
+void Ellie::InitStatus()
+{
+	if (EELLIE_STATUS::Normal == g_Status && EELLIE_STATE::Idle != m_State)
 	{
-		ChangeState(EELLIE_STATE::Idle);
+  		ChangeState(EELLIE_STATE::Idle);
+		return;
+	}
+
+	if (EELLIE_STATUS::Riding == g_Status && EELLIE_STATE::Riding_Idle != m_State)
+	{
+		ChangeState(EELLIE_STATE::Riding_Idle);
+		return;
+	}
+
+	if (EELLIE_STATE::None == m_State)
+	{
+		MsgBoxAssert("등록되지 않은 행동패턴입니다.");
+		return;
 	}
 }
+
+void Ellie::ChangeStatus(const EELLIE_STATUS _Status)
+{
+	if (_Status != g_Status)
+	{
+		g_Status = _Status;
+	}
+}
+
+// 움직일 수 있게 권한을 줍니다.
+void Ellie::OnControl()
+{
+	IsControl = true;
+}
+
+// 움직일 수 없게 권한을 뺐습니다.
+void Ellie::OffControl()
+{
+	IsControl = false;
+
+	if (EELLIE_STATUS::Normal == g_Status)
+	{
+		ChangeState(EELLIE_STATE::Idle);
+		return;
+	}
+	else if (EELLIE_STATUS::Riding == g_Status)
+	{
+		ChangeState(EELLIE_STATE::Riding_Idle);
+		return;
+	}
+	else
+	{
+		MsgBoxAssert("등록되지 않은 행동패턴입니다.");
+		return;
+	}
+}
+
+
 
 
 // 픽셀 충돌에 사용될 변수입니다.
@@ -249,11 +321,7 @@ void Ellie::SetPixelPointBaseOnCenter()
 }
 
 
-void Ellie::TestCode()
-{
-	std::shared_ptr<GameEngineSpriteRenderer> Renderer = CreateComponent<GameEngineSpriteRenderer>(0);
-	Renderer->Death();
-}
+
 
 /////////////////////////////////////////////////////////////////////////////////////
 

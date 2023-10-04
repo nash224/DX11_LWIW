@@ -73,6 +73,10 @@ public:
 // 설명 : 주인공 앨리입니다. 
 class Ellie : public InteractiveActor
 {
+private:
+	static EELLIE_STATUS g_Status;
+	static bool FirstInitCheck;
+
 public:
 	// constrcuter destructer
 	Ellie();
@@ -84,23 +88,31 @@ public:
 	Ellie& operator=(const Ellie& _Other) = delete;
 	Ellie& operator=(Ellie&& _Other) noexcept = delete;
 
+	// 이니셜
+	void Init();
+	void SetSpawnLocalPosition(const float4& _Position);
+	void OnControl();
+	void OffControl();
+	void SetPixelPointBaseOnCenter();
+
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
-
-public:
-	// 이니셜
-	void Init();
-	void SetSpawnLocalPosition(const float4& _Position);
-	void SetMoveControl(bool _Value);
-	void SetPixelPointBaseOnCenter();
-	/*void TransferControl(bool _Value);*/
+private:
+	void OnLevelStart();
+	void InitStatus();
+	void ChangeStatus(const EELLIE_STATUS _Status);
 
 
-	void TestCode();
+private:
+	void StartFSM();
+	void StartCollision();
+
+
 
 private:
 	// FSM
@@ -200,7 +212,6 @@ private:
 private:
 	// 행동
 	EELLIE_STATE m_State = EELLIE_STATE::None;
-	EELLIE_STATUS m_Status = EELLIE_STATUS::None;
 	float m_StateTime = 0.0f;
 
 
