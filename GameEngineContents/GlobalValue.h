@@ -21,11 +21,15 @@ private:
 	GlobalValue& operator=(const GlobalValue& _Other) = delete;
 	GlobalValue& operator=(GlobalValue&& _Other) noexcept = delete;
 
+	static void Init();
+
 public:
 	static void SetWindowScale(const float4& _Scale);
 	static float4 GetWindowScale();
+	static float4 GetItemScale();
 
 private:
 	static float4 WindowScale;
+	static float4 ItemScale;
 };
 

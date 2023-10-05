@@ -43,7 +43,7 @@ private:
 	bool IsColorAtPosition(const float4& _Position, GameEngineColor _CheckColor, GameEngineColor _DefaultColor = { 255, 255, 255, 255 });
 
 public:
-	void CreateItem(std::string_view _ItemName, const int Stack);
+	void CreateItem(std::string_view _ItemName, const int _Stack);
 
 
 public:
@@ -54,6 +54,7 @@ protected:
 	std::vector<std::shared_ptr<class Prop>> vecPixelProps;
 	std::vector<std::shared_ptr<class StaticEntity>> vecStaticEntity;
 	std::vector<std::shared_ptr<class PortalObject>> vecPortalObject;
+	std::list<std::shared_ptr<class LootedItem>> LootedItemList;
 
 };
 

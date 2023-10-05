@@ -51,7 +51,9 @@ protected:
 	std::shared_ptr<GameEngineCollision> m_InteractiveCol = nullptr;
 	EINTERACTIONTYPE m_InteractionType = EINTERACTIONTYPE::None;
 	
-	bool IsReach = false;
 	bool IsEnalbeActive = false;
+
+private:
+	bool IsReach = false;
 };
 

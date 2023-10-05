@@ -22,10 +22,10 @@ void GameEngineObject::AllLevelStart(class GameEngineLevel* _PrevLevel)
 		std::list<std::shared_ptr<GameEngineObject>>& Group = _Pair.second;
 		for (std::shared_ptr<GameEngineObject>& _Child : Group)
 		{
-			if (false == _Child->IsUpdate())
-			{
-				continue;
-			}
+			//if (false == _Child->IsUpdate())
+			//{
+			//	continue;
+			//}
 			_Child->LevelStart(_PrevLevel);
 		}
 	}
@@ -40,10 +40,10 @@ void GameEngineObject::AllLevelEnd(class GameEngineLevel* _NextLevel)
 		std::list<std::shared_ptr<GameEngineObject>>& Group = _Pair.second;
 		for (std::shared_ptr<GameEngineObject>& _Child : Group)
 		{
-			if (false == _Child->IsUpdate())
-			{
-				continue;
-			}
+			//if (false == _Child->IsUpdate())
+			//{
+			//	continue;
+			//}
 			_Child->LevelEnd(_NextLevel);
 		}
 	}

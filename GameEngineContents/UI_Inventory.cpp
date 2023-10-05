@@ -484,6 +484,12 @@ void UI_Inventory::SelectSlot(const unsigned int _X, const unsigned int _Y)
 
 void UI_Inventory::ClearSlot(const unsigned int _X, const unsigned int _Y)
 {
+	if (this != Data->InventoryParent)
+	{
+		MsgBoxAssert("지정된 부모가 아닙니다. 확인해세요");
+		return;
+	}
+
 	if (nullptr == Data)
 	{
 		MsgBoxAssert("데이터가 존재하지 않습니다.");

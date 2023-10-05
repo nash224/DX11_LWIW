@@ -119,7 +119,7 @@ bool BackDrop_PlayLevel::IsColorAtPosition(const float4& _Position, GameEngineCo
 	return false;
 }
 
-void BackDrop_PlayLevel::CreateItem(std::string_view _ItemName, const int Stack)
+void BackDrop_PlayLevel::CreateItem(std::string_view _ItemName, const int _Stack)
 {
 	GameEngineLevel* CurLevel = GetLevel();
 	if (nullptr == CurLevel)
@@ -136,9 +136,9 @@ void BackDrop_PlayLevel::CreateItem(std::string_view _ItemName, const int Stack)
 	}
 
 
-
-	Item->Init()
-	Item->SetStack(Stack);
+	Item->Init(_ItemName);
+	Item->SetStack(_Stack);
+	LootedItemList.push_back(Item);
 }
 
 
