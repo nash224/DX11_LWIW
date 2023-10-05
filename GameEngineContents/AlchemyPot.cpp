@@ -198,11 +198,8 @@ void AlchemyPot::UpdateIdle(float _Delta)
 {
 	if (true == IsEnalbeActive)
 	{
-		if (true == GameEngineInput::IsDown('Z'))
-		{
-			ChangeState(EPOTSTATE::Boil);
-			return; 
-		}
+		ChangeState(EPOTSTATE::Boil);
+		return; 
 
 		IsPotionCreationStart = false;
 	}

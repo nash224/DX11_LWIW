@@ -18,8 +18,6 @@ public:
 	void Init(std::string_view _ItemName);
 	void SetStack(const int _Value);
 
-	void ActorRelease();
-
 protected:
 	void Start() override;
 	void Update(float _Delta) override;

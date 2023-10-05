@@ -160,8 +160,20 @@ void Ellie::UpdateInteractionCollsiion()
 					return;
 				}
 
+				if (EINTERACTION_TYPE::Near == Entity->GetInteractionType())
+				{
+
+				}
+				else
+				{
+
+				}
+
 				// 닿았습니다.
-				Entity->IsReach = true;
+				if (true == GameEngineInput::IsDown('Z'))
+				{
+					ReachThis();
+				}
 
 				// UI에게 이걸 띄워달라고 요청합니다.
 				if (nullptr == UI_InterativeMark::UI_Mark)

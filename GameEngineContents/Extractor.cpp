@@ -139,11 +139,8 @@ void Extractor::UpdateIdle(float _Delta)
 {
 	if (true == IsEnalbeActive)
 	{
-		if (true == GameEngineInput::IsDown('Z'))
-		{
-			ChangeState(EJUICERSTATE::Juicy);
-			return;
-		}
+		ChangeState(EJUICERSTATE::Juicy);
+		return;
 	}
 }
 

@@ -119,7 +119,7 @@ bool BackDrop_PlayLevel::IsColorAtPosition(const float4& _Position, GameEngineCo
 	return false;
 }
 
-void BackDrop_PlayLevel::CreateItem(std::string_view _ItemName, const int _Stack)
+void BackDrop_PlayLevel::CreateItem(std::string_view _ItemName, const float4& _Position, const int _Stack /*= 1*/)
 {
 	GameEngineLevel* CurLevel = GetLevel();
 	if (nullptr == CurLevel)
@@ -135,9 +135,9 @@ void BackDrop_PlayLevel::CreateItem(std::string_view _ItemName, const int _Stack
 		return;
 	}
 
-
 	Item->Init(_ItemName);
 	Item->SetStack(_Stack);
+	Item->Transform.SetLocalPosition(_Position);
 	LootedItemList.push_back(Item);
 }
 
@@ -190,4 +190,15 @@ void BackDrop_PlayLevel::ActorRelease()
 	}
 
 	vecPortalObject.clear();
+
+	for (std::shared_ptr<LootedItem>& Item : LootedItemList)
+	{
+		if (nullptr == Item)
+		{
+			MsgBoxAssert("터진 액터를 참조했습니다.");
+			return;
+		}
+
+		Item->Death();
+	}
 }

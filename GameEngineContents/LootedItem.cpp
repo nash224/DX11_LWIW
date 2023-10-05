@@ -51,16 +51,13 @@ void LootedItem::Init(std::string_view _ItemName)
 {
 	CreateItemRenderer(_ItemName);
 	CreateItemCollision();
+	SetInteractionButtonType(EINTERACTION_BUTTONTYPE::Gathering);
+	SetInteractionType(EINTERACTION_TYPE::Near);
 }
 
 void LootedItem::SetStack(const int _Value)
 {
 	m_Stack = _Value;
-}
-
-void LootedItem::ActorRelease() 
-{
-	Death();
 }
 
 void LootedItem::CreateItemRenderer(std::string_view _ItemName)
@@ -81,7 +78,7 @@ void LootedItem::CreateItemRenderer(std::string_view _ItemName)
 
 void LootedItem::CreateItemCollision()
 {
-	m_ItemCollision = CreateComponent<GameEngineCollision>(ERENDERORDER::Object);
+	m_ItemCollision = CreateComponent<GameEngineCollision>(ECOLLISION::Entity);
 	if (nullptr == m_ItemCollision)
 	{
 		MsgBoxAssert("충돌체를 생성하지 못했습니다.");
@@ -106,15 +103,7 @@ void LootedItem::UpdateItemInteraction()
 			}
 
 			UI_Inventory::MainInventory->PushItem(ItemName, m_Stack);
-			ActorRelease();
+			Death();
 		}
 	}
 }
-
-
-
-
-
-
-
-

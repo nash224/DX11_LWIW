@@ -82,11 +82,11 @@ void UI_InterativeMark::PointThis(InteractiveActor* _ActorPtr)
 		UI_Mark->On();
 		Pointer = _ActorPtr;
 
-		if (EINTERACTIONTYPE::Gathering == Pointer->GetInteractionType())
+		if (EINTERACTION_BUTTONTYPE::Gathering == Pointer->GetInteractionButtonType())
 		{
 			UI_Mark->m_MarkRenderer->On();
 		}
-		else if (EINTERACTIONTYPE::Gear == Pointer->GetInteractionType())
+		else if (EINTERACTION_BUTTONTYPE::Gear == Pointer->GetInteractionButtonType())
 		{
 			UI_Mark->m_ButtonRenderer->On();
 		}

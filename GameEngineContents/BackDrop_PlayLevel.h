@@ -43,7 +43,7 @@ private:
 	bool IsColorAtPosition(const float4& _Position, GameEngineColor _CheckColor, GameEngineColor _DefaultColor = { 255, 255, 255, 255 });
 
 public:
-	void CreateItem(std::string_view _ItemName, const int _Stack);
+	void CreateItem(std::string_view _ItemName, const float4& _Position = float4::ZERO, const int _Stack = 1);
 
 
 public:

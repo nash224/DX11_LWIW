@@ -61,12 +61,22 @@ void InteractiveActor::CreateAndSetCollision(ECOLLISION _Order, const float4& _S
 	m_InteractiveCol->SetCollisionType(_Type);
 }
 
-void InteractiveActor::SetInteractionType(EINTERACTIONTYPE _Type)
+void InteractiveActor::SetInteractionButtonType(const EINTERACTION_BUTTONTYPE _Type)
+{
+	m_InteractionButtonType = _Type;
+}
+
+void InteractiveActor::SetInteractionType(const EINTERACTION_TYPE _Type)
 {
 	m_InteractionType = _Type;
 }
 
-EINTERACTIONTYPE InteractiveActor::GetInteractionType() const
+EINTERACTION_TYPE InteractiveActor::GetInteractionType() const
 {
 	return m_InteractionType;
+}
+
+EINTERACTION_BUTTONTYPE InteractiveActor::GetInteractionButtonType() const
+{
+	return m_InteractionButtonType;
 }

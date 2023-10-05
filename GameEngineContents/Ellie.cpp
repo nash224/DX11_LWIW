@@ -25,7 +25,16 @@ void Ellie::Start()
 void Ellie::Update(float _Delta)
 {
 	UpdateState(_Delta);
+	UpdateTestCode();
 	UpdateCollision();
+}
+
+void Ellie::UpdateTestCode()
+{
+	if (true == GameEngineInput::IsDown('1'))
+	{
+		BackDrop_PlayLevel::MainBackDrop->CreateItem("Mongsiri", Transform.GetLocalPosition());
+	}
 }
 
 

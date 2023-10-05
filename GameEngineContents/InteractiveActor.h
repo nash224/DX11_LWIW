@@ -2,9 +2,14 @@
 
 
 
+enum class EINTERACTION_TYPE
+{
+	Near,
+	Far,
+	None,
+};
 
-
-enum class EINTERACTIONTYPE
+enum class EINTERACTION_BUTTONTYPE
 {
 	Gathering,
 	Gear,
@@ -15,7 +20,6 @@ enum class EINTERACTIONTYPE
 class InteractiveActor : public GameEngineActor
 {
 	friend class UI_InteractiveMark;
-	friend class Ellie;
 	friend class BackDrop;
 
 public:
@@ -29,13 +33,16 @@ public:
 	InteractiveActor& operator=(const InteractiveActor& _Other) = delete;
 	InteractiveActor& operator=(InteractiveActor&& _Other) noexcept = delete;
 
-
-	//float4& Scale;
-	//float4& Position;
-	//ColType CollisionType;
 	void CreateAndSetCollision(ECOLLISION _Order, const float4& _Scale, const float4& _Position, ColType _Type);
-	void SetInteractionType(EINTERACTIONTYPE _Type);
-	EINTERACTIONTYPE GetInteractionType() const;
+	void SetInteractionButtonType(const EINTERACTION_BUTTONTYPE _Type);
+	void SetInteractionType(const EINTERACTION_TYPE _Type);
+	EINTERACTION_TYPE GetInteractionType() const;
+	EINTERACTION_BUTTONTYPE GetInteractionButtonType() const;
+
+	void ReachThis()
+	{
+		IsReach = true;
+	}
 
 protected:
 	void Start() override;
@@ -44,10 +51,10 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
-
 protected:
 	std::shared_ptr<GameEngineCollision> m_InteractiveCol = nullptr;
-	EINTERACTIONTYPE m_InteractionType = EINTERACTIONTYPE::None;
+	EINTERACTION_TYPE m_InteractionType = EINTERACTION_TYPE::None;
+	EINTERACTION_BUTTONTYPE m_InteractionButtonType = EINTERACTION_BUTTONTYPE::None;
 	
 	bool IsEnalbeActive = false;
 

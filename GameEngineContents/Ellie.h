@@ -118,6 +118,8 @@ private:
 
 
 private:
+	void UpdateTestCode();
+
 	// FSM
 	void ChangeState(EELLIE_STATE _State);
 	void UpdateState(float _Delta);

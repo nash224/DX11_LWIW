@@ -163,11 +163,8 @@ void Roaster::UpdateIdle(float _Delta)
 {
 	if (true == IsEnalbeActive)
 	{
-		if (true == GameEngineInput::IsDown('Z'))
-		{
-			ChangeState(EROASTERSTATE::Roasting);
-			return;
-		}
+		ChangeState(EROASTERSTATE::Roasting);
+		return;
 	}
 }
 
