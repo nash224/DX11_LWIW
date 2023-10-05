@@ -37,8 +37,6 @@ public:
 	void SetInteractionType(EINTERACTIONTYPE _Type);
 	EINTERACTIONTYPE GetInteractionType() const;
 
-
-
 protected:
 	void Start() override;
 	void Update(float _Delta) override;

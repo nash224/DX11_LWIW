@@ -24,6 +24,15 @@ void Roaster::Update(float _Delta)
 	UpdateState(_Delta);
 }
 
+void Roaster::Release()
+{
+	StaticEntity::Release();
+
+	m_Shadow = nullptr;
+	m_Roaster = nullptr;
+	m_RoasterFXSteam = nullptr;
+}
+
 void Roaster::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	StaticEntity::LevelStart(_NextLevel);

@@ -24,6 +24,14 @@ void LootedItem::Update(float _Delta)
 	UpdateItemInteraction();
 }
 
+void LootedItem::Release()
+{
+	StaticEntity::Release();
+
+	m_ItemRenderer = nullptr;
+	m_ItemCollision = nullptr;
+}
+
 void LootedItem::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	StaticEntity::LevelStart(_NextLevel);
@@ -52,7 +60,7 @@ void LootedItem::SetStack(const int _Value)
 
 void LootedItem::ActorRelease() 
 {
-
+	Death();
 }
 
 void LootedItem::CreateItemRenderer(std::string_view _ItemName)
@@ -98,6 +106,15 @@ void LootedItem::UpdateItemInteraction()
 			}
 
 			UI_Inventory::MainInventory->PushItem(ItemName, m_Stack);
-			Death();
+			ActorRelease();
 		}
 	}
+}
+
+
+
+
+
+
+
+

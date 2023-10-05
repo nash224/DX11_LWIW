@@ -32,7 +32,6 @@ void AlchemyPot::Release()
 	m_WaterRenderer = nullptr;
 	m_FireRenderer = nullptr;
 	m_PotFxSteam = nullptr;
-	m_InteractiveCol = nullptr;
 }
 
 void AlchemyPot::LevelStart(class GameEngineLevel* _NextLevel)

@@ -24,6 +24,14 @@ void Extractor::Update(float _Delta)
 	UpdateState(_Delta);
 }
 
+void Extractor::Release()
+{
+	StaticEntity::Release();
+
+	m_InteractiveCol = nullptr;
+	m_Extractor = nullptr;
+}
+
 void Extractor::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	StaticEntity::LevelStart(_NextLevel);

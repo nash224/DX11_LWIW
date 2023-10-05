@@ -29,7 +29,7 @@ void InteractiveActor::Update(float _Delta)
 
 void InteractiveActor::Release()
 {
-
+	m_InteractiveCol = nullptr;
 }
 
 void InteractiveActor::LevelStart(class GameEngineLevel* _NextLevel)
