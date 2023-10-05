@@ -39,5 +39,6 @@ private:
 	std::string ItemName = "";
 	int m_Stack = 0;
 
+	const float ItemInterativeRange = 10.0f;
 };
 

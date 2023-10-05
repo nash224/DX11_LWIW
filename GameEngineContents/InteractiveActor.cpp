@@ -80,3 +80,14 @@ EINTERACTION_BUTTONTYPE InteractiveActor::GetInteractionButtonType() const
 {
 	return m_InteractionButtonType;
 }
+
+ECOLLECTION_METHOD InteractiveActor::GetCollectionMethod() const
+{
+	return m_CollectionMethod;
+}
+
+void InteractiveActor::SetInteractivePositionAndRange(const float4& _InteractivePosition, float _Range)
+{
+	m_InteractiveLocalPosition = _InteractivePosition;
+	m_InteractiveRange = _Range;
+}

@@ -33,7 +33,7 @@ void Ellie::UpdateTestCode()
 {
 	if (true == GameEngineInput::IsDown('1'))
 	{
-		BackDrop_PlayLevel::MainBackDrop->CreateItem("Mongsiri", Transform.GetLocalPosition());
+		BackDrop_PlayLevel::MainBackDrop->CreateItem("Mongsiri_Collect.png", Transform.GetLocalPosition());
 	}
 }
 
@@ -211,20 +211,21 @@ void Ellie::StartFSM()
 	}
 
 	m_Body->AutoSpriteSizeOn();
+	m_Body->Transform.SetLocalPosition({ 0.0f , 30.0f });
 }
 
 void Ellie::StartCollision()
 {
-	EllieCol = CreateComponent<GameEngineCollision>(ECOLLISION::Player);
-	if (nullptr == EllieCol)
+	m_EllieCol = CreateComponent<GameEngineCollision>(ECOLLISION::Player);
+	if (nullptr == m_EllieCol)
 	{
 		MsgBoxAssert("충돌체를 생성하지 못했습니다.");
 		return;
 	}
 
 
-	EllieCol->Transform.SetLocalScale(float4{ 4.0f , 4.0f });
-	EllieCol->SetCollisionType(ColType::AABBBOX2D);
+	m_EllieCol->Transform.SetLocalScale(float4{ 4.0f , 4.0f });
+	m_EllieCol->SetCollisionType(ColType::AABBBOX2D);
 }
 
 
@@ -341,6 +342,7 @@ void Ellie::UpdateState(float _Delta)
 	case EELLIE_STATE::Riding_Idle:								UpdateRiding_Idle(_Delta);					break;
 	case EELLIE_STATE::Riding_Move:								UpdateRiding_Move(_Delta);					break;
 	case EELLIE_STATE::Riding_Boost:							UpdateRiding_Boost(_Delta);					break;
+	case EELLIE_STATE::Approach:								UpdateApproach(_Delta);						break;
 	case EELLIE_STATE::Net:										UpdateNet(_Delta);							break;
 	case EELLIE_STATE::RootUp:									UpdateRootUp(_Delta);						break;
 	case EELLIE_STATE::Sit:										UpdateSit(_Delta);							break;
@@ -358,6 +360,29 @@ void Ellie::ChangeState(EELLIE_STATE _State)
 {
 	if (_State != m_State)
 	{
+		switch (m_State)
+		{
+		case EELLIE_STATE::None:																	break;
+		case EELLIE_STATE::Idle:																	break;
+		case EELLIE_STATE::SlowWalk:																break;
+		case EELLIE_STATE::Walk:																	break;
+		case EELLIE_STATE::Run:																		break;
+		case EELLIE_STATE::Throw:																	break;
+		case EELLIE_STATE::Riding_Idle:																break;
+		case EELLIE_STATE::Riding_Move:																break;
+		case EELLIE_STATE::Riding_Boost:															break;
+		case EELLIE_STATE::Approach:								EndApproach();					break;
+		case EELLIE_STATE::Net:																		break;
+		case EELLIE_STATE::RootUp:									EndRootUp();					break;
+		case EELLIE_STATE::Sit:										EndSit();						break;
+		case EELLIE_STATE::MongSiri:								EndRootUp();					break;
+		case EELLIE_STATE::Cheer:																	break;
+		case EELLIE_STATE::Fail:																	break;
+		case EELLIE_STATE::Drink:																	break;
+		default:
+			break;
+		}
+
 		switch (_State)
 		{
 		case EELLIE_STATE::None:
@@ -374,6 +399,7 @@ void Ellie::ChangeState(EELLIE_STATE _State)
 		case EELLIE_STATE::Riding_Idle:							StartRiding_Idle();					break;
 		case EELLIE_STATE::Riding_Move:							StartRiding_Move();					break;
 		case EELLIE_STATE::Riding_Boost:						StartRiding_Boost();				break;
+		case EELLIE_STATE::Approach:							StartApproach();					break;
 		case EELLIE_STATE::Net:									StartNet();							break;
 		case EELLIE_STATE::RootUp:								StartRootUp();						break;
 		case EELLIE_STATE::Sit:									StartSit();							break;

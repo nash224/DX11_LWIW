@@ -38,6 +38,7 @@ enum class EELLIE_STATE
 	Riding_Idle,
 	Riding_Move,
 	Riding_Boost,
+	Approach,
 	Net,
 	RootUp,
 	Sit,
@@ -153,18 +154,24 @@ private:
 	void StartRiding_Boost();
 	void UpdateRiding_Boost(float _Delta);
 
+	void StartApproach();
+	void UpdateApproach(float _Delta);
+	void EndApproach();
 
 	void StartNet();
 	void UpdateNet(float _Delta);
 
 	void StartRootUp();
 	void UpdateRootUp(float _Delta);
+	void EndRootUp();
 
 	void StartSit();
 	void UpdateSit(float _Delta);
+	void EndSit();
 
 	void StartMongSiri();
 	void UpdateMongSiri(float _Delta);
+	void EndMongSiri();
 
 	void StartCheer();
 	void UpdateCheer(float _Delta);
@@ -211,6 +218,7 @@ private:
 
 private:
 	// 렌더러
+	// 발 끝이 기준점입니다.
 	std::shared_ptr<GameEngineSpriteRenderer> m_Body = nullptr;
 
 
@@ -239,9 +247,9 @@ private:
 	const float CONST_Ellie_Riding_Move_Acceleration_Time = 1.2f;
 	const float CONST_Ellie_Riding_Boosting_Acceleration_Time = 1.0f;
 
-	const float CONST_Ellie_SlowWalk_Speed = 120.0f;
-	const float CONST_Ellie_Walk_Speed = 200.0f;
-	const float CONST_Ellie_Run_Speed = 300.0f;
+	const float CONST_Ellie_SlowWalk_Speed = 100.0f;
+	const float CONST_Ellie_Walk_Speed = 160.0f;
+	const float CONST_Ellie_Run_Speed = 220.0f;
 
 	const float CONST_Ellie_Riding_Move_Speed = 500.0f;
 	const float CONST_Ellie_Riding_Boost_Speed = 700.0f;
@@ -258,7 +266,10 @@ private:
 	const float COSNT_FrictionForce = 0.5f;
 
 private:
-	std::shared_ptr<GameEngineCollision> EllieCol = nullptr;
+	std::shared_ptr<GameEngineCollision> m_EllieCol = nullptr;
+	InteractiveActor* OtherEntity = nullptr;
+	
+	bool IsCollected = false;
 
 	// 상호작용 Collision 시야각도 입니다.
 	const float FOVAngle = 60.0f;

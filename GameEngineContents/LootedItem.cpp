@@ -15,6 +15,8 @@ LootedItem::~LootedItem()
 void LootedItem::Start()
 {
 	StaticEntity::Start();
+
+	m_CollectionMethod = ECOLLECTION_METHOD::Sit;
 }
 
 void LootedItem::Update(float _Delta)
@@ -53,6 +55,8 @@ void LootedItem::Init(std::string_view _ItemName)
 	CreateItemCollision();
 	SetInteractionButtonType(EINTERACTION_BUTTONTYPE::Gathering);
 	SetInteractionType(EINTERACTION_TYPE::Near);
+	m_CollectionMethod = ECOLLECTION_METHOD::Sit;
+	m_InteractiveRange = ItemInterativeRange;
 }
 
 void LootedItem::SetStack(const int _Value)
@@ -69,11 +73,9 @@ void LootedItem::CreateItemRenderer(std::string_view _ItemName)
 		return;
 	}
 
-	ItemName = _ItemName.data();
-	std::string ItemSpriteName = _ItemName.data();
-	ItemSpriteName += "_Collect.png";
+	m_ItemRenderer->SetSprite(_ItemName);
 
-	m_ItemRenderer->SetSprite(ItemSpriteName);
+	ItemName = _ItemName;
 }
 
 void LootedItem::CreateItemCollision()
@@ -86,24 +88,14 @@ void LootedItem::CreateItemCollision()
 	}
 
 	m_ItemCollision->SetCollisionType(ColType::SPHERE2D);
-	m_ItemCollision->Transform.SetLocalScale(GlobalValue::GetItemScale());
+	m_ItemCollision->Transform.SetLocalScale({ 80.0f, 80.0f });
 }
 
 void LootedItem::UpdateItemInteraction()
 {
 	if (true == IsEnalbeActive)
 	{
-		std::vector<std::shared_ptr<GameEngineCollision>> OtherCol;
-		if (true == m_ItemCollision->Collision(ECOLLISION::Player))
-		{
-			if (m_Stack < 1)
-			{
-				MsgBoxAssert("개수가 없는 아이템을 인벤토리에 넣을 수 없습니다.");
-				return;
-			}
-
-			UI_Inventory::MainInventory->PushItem(ItemName, m_Stack);
-			Death();
-		}
+		UI_Inventory::PushItem(ItemName, m_Stack);
+		Death();
 	}
 }

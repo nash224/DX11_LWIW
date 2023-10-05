@@ -41,7 +41,16 @@ enum class EITEM_TYPE
 	RepairMaterial,
 	Potion,
 	Food,
-	None,
 	Recipe,
 	Quest,
+	None,
+};
+
+
+enum class ECOLLECTION_METHOD
+{
+	Sit,
+	RootUp,
+	MongSiri,
+	None,
 };

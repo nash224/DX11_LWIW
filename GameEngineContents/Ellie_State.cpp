@@ -435,10 +435,71 @@ void Ellie::UpdateRiding_Boost(float _Delta)
 #pragma endregion 
 
 
-
-
-
 #pragma region 수집 패턴
+
+// 접근해서 수집하는 행동입니다.
+void Ellie::StartApproach()
+{
+	if (nullptr == OtherEntity)
+	{
+		MsgBoxAssert("참조한 액터가 존재하지 않습니다.");
+		return;
+	}
+	IsControl = false;					// 다가가는 행동을 할땐 조작이 불가능합니다.
+	IsCollected = false;					// 해당 자원을 수집했는지 확인합니다.
+
+	// 상대방을 바라보는 방향을 구합니다.
+	float4 OtherPosition = OtherEntity->GetInteractiveLocalPositon();
+	float4 TargetDistance = OtherPosition - Transform.GetLocalPosition();
+	m_Dir = ReturnCheckDirToMoveVector(TargetDistance);
+
+	ChangeAnimationByDirection("Walk");
+}
+
+void Ellie::UpdateApproach(float _Delta)
+{
+	if (nullptr == OtherEntity)
+	{
+		MsgBoxAssert("참조한 액터가 존재하지 않습니다.");
+		return;
+	}
+
+	float4 OtherPosition = OtherEntity->GetInteractiveLocalPositon();
+	float4 TargetDistance = OtherPosition - Transform.GetLocalPosition();
+	
+	// 목표거리까지 이동합니다.
+	float4 TargetDircetion = TargetDistance.NormalizeReturn();
+	m_MoveVector = TargetDircetion * CONST_Ellie_Walk_Speed;
+	ApplyMovementToTransform(_Delta);
+
+	// 지정범위 안으로 들어가면 실행합니다.
+	if (fabs(TargetDistance.Size()) < OtherEntity->GetInteractiveRange())
+	{
+		if (ECOLLECTION_METHOD::Sit == OtherEntity->GetCollectionMethod())
+		{
+			ChangeState(EELLIE_STATE::Sit);
+			return;
+		}
+		
+		if (ECOLLECTION_METHOD::RootUp == OtherEntity->GetCollectionMethod())
+		{
+			ChangeState(EELLIE_STATE::RootUp);
+			return;
+		}
+		
+		if (ECOLLECTION_METHOD::MongSiri == OtherEntity->GetCollectionMethod())
+		{
+			ChangeState(EELLIE_STATE::MongSiri);
+			return;
+		}
+	}
+}
+
+void Ellie::EndApproach()
+{
+
+}
+
 void Ellie::StartNet()
 {
 	ChangeAnimationByDirection("Net");
@@ -468,7 +529,14 @@ void Ellie::UpdateRootUp(float _Delta)
 	}
 }
 
+void Ellie::EndRootUp()
+{
+	OtherEntity = nullptr;
+	IsControl = true;
+}
 
+
+// 아이템을 줍는 행동패턴입니다.
 void Ellie::StartSit()
 {
 	ChangeAnimationByDirection("Sit");
@@ -476,11 +544,35 @@ void Ellie::StartSit()
 
 void Ellie::UpdateSit(float _Delta)
 {
+	if (nullptr == m_Body)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
+
+	if (false == IsCollected && 4 == m_Body->GetCurIndex())
+	{
+		if (nullptr == OtherEntity)
+		{
+			MsgBoxAssert("존재하지 않는 객체를 수집하려 했습니다.");
+			return;
+		}
+
+		OtherEntity->IsReach = true;
+		IsCollected = true;
+	}
+
 	if (true == m_Body->IsCurAnimationEnd())
 	{
 		ChangeState(EELLIE_STATE::Idle);
 		return;
 	}
+}
+
+void Ellie::EndSit()
+{
+	OtherEntity = nullptr;
+	IsControl = true;
 }
 
 
@@ -498,6 +590,11 @@ void Ellie::UpdateMongSiri(float _Delta)
 	}
 }
 
+void Ellie::EndMongSiri()
+{
+	OtherEntity = nullptr;
+	IsControl = true;
+}
 
 #pragma endregion
 

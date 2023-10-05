@@ -14,7 +14,7 @@ void Ellie::UpdateCollision()
 
 void Ellie::UpdatePortalCollsiion()
 {
-	EllieCol->Collision(ECOLLISION::Portal, [](std::vector<std::shared_ptr<GameEngineCollision>>& _Collision)
+	m_EllieCol->Collision(ECOLLISION::Portal, [](std::vector<std::shared_ptr<GameEngineCollision>>& _Collision)
 		{
 			for (size_t i = 0; i < _Collision.size(); i++)
 			{
@@ -40,6 +40,11 @@ void Ellie::UpdatePortalCollsiion()
 
 void Ellie::UpdateInteractionCollsiion()
 {
+	if (false == IsControl || EELLIE_STATUS::Normal != g_Status)
+	{
+		return;
+	}
+
 	// 앨리가 바라보는 사물만 상호작용할 수 있습니다.
 	// 기준은 양옆으로 45도 각도입니다.
 	float4 ElliePosition = Transform.GetWorldPosition();
@@ -65,7 +70,7 @@ void Ellie::UpdateInteractionCollsiion()
 		EllieRightFOVAngle += 360.0f;
 	}
 
-	EllieCol->Collision(ECOLLISION::Entity, [=](std::vector<std::shared_ptr<GameEngineCollision>>& _Collisions)
+	m_EllieCol->Collision(ECOLLISION::Entity, [=](std::vector<std::shared_ptr<GameEngineCollision>>& _Collisions)
 		{
 			// 가장 가까운 객체만 참조하겠습니다.
 			std::vector<float> vecDistance;
@@ -160,19 +165,19 @@ void Ellie::UpdateInteractionCollsiion()
 					return;
 				}
 
-				if (EINTERACTION_TYPE::Near == Entity->GetInteractionType())
-				{
-
-				}
-				else
-				{
-
-				}
-
 				// 닿았습니다.
 				if (true == GameEngineInput::IsDown('Z'))
 				{
-					ReachThis();
+					if (EINTERACTION_TYPE::Near == Entity->GetInteractionType())
+					{
+						OtherEntity = Entity;
+						ChangeState(EELLIE_STATE::Approach);
+					}
+
+					if (EINTERACTION_TYPE::Far == Entity->GetInteractionType())
+					{
+						Entity->IsReach = true;
+					}
 				}
 
 				// UI에게 이걸 띄워달라고 요청합니다.
