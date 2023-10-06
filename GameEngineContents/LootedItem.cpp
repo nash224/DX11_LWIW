@@ -66,7 +66,7 @@ void LootedItem::SetStack(const int _Value)
 
 void LootedItem::CreateItemRenderer(std::string_view _ItemName)
 {
-	m_ItemRenderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::Object);
+	m_ItemRenderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::RootedItem);
 	if (nullptr == m_ItemRenderer)
 	{
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");

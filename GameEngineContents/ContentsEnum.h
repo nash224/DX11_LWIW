@@ -19,6 +19,7 @@ enum class EUPDATEORDER
 enum class ERENDERORDER
 {
 	Back_,
+	RootedItem = 90,
 	Ellie = 100,
 	Object,
 	UI,

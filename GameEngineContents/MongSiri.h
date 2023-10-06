@@ -1,18 +1,19 @@
 #pragma once
+#include "DynamicEntity.h"
 
 // Ό³Έν :
-class TemplateA : public GameEngineActor
+class MongSiri : public DynamicEntity
 {
 public:
 	// constrcuter destructer
-	TemplateA();
-	~TemplateA();
+	MongSiri();
+	~MongSiri();
 
 	// delete Function
-	TemplateA(const TemplateA& _Other) = delete;
-	TemplateA(TemplateA&& _Other) noexcept = delete;
-	TemplateA& operator=(const TemplateA& _Other) = delete;
-	TemplateA& operator=(TemplateA&& _Other) noexcept = delete;
+	MongSiri(const MongSiri& _Other) = delete;
+	MongSiri(MongSiri&& _Other) noexcept = delete;
+	MongSiri& operator=(const MongSiri& _Other) = delete;
+	MongSiri& operator=(MongSiri&& _Other) noexcept = delete;
 
 protected:
 	void Start() override;

@@ -257,7 +257,7 @@ private:
 private:
 	// Pixel 충돌
 	const float4 m_PixelCheckScale = { 10.0f , 10.0f };
-	const float4 m_PixelCheckPosBaseOnCenter = { 0.0f , -27.0f };
+	const float4 m_PixelCheckPosBaseOnCenter = float4::ZERO;
 
 	// Pixel 충돌 체크 포인트
 	PixelCheckPoint m_PixelCheckPoint;

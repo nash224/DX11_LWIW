@@ -319,6 +319,9 @@
     <ClInclude Include="ItemData.h">
       <Filter>0.Data\Contents</Filter>
     </ClInclude>
+    <ClInclude Include="MongSiri.h">
+      <Filter>2.Object\1.Actor\2.Interactive\Dynamic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -525,6 +528,9 @@
     </ClCompile>
     <ClCompile Include="ItemData.cpp">
       <Filter>0.Data\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="MongSiri.cpp">
+      <Filter>2.Object\1.Actor\2.Interactive\Dynamic</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
