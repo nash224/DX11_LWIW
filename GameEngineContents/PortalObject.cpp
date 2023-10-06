@@ -40,7 +40,7 @@ void PortalObject::CreatePortalCollision(int _Order)
 	PotalCol = CreateComponent<GameEngineCollision>(_Order);
 	if (nullptr == PotalCol)
 	{
-		MsgBoxAssert("ÄÄÆ÷³ÍÆ®¸¦ »ý¼ºÇÏÁö ¸øÇß½À´Ï´Ù.");
+		MsgBoxAssert("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.");
 		return;
 	}
 }
@@ -61,7 +61,7 @@ void PortalObject::SetCollisionType(ColType _Type)
 {
 	if (nullptr == PotalCol)
 	{
-		MsgBoxAssert("Ãæµ¹Ã¼°¡ Á¸ÀçÇÏÁö ¾Ê´Âµ¥ Å¸ÀÔÀ» º¯°æÇÏ·Á Çß½À´Ï´Ù.");
+		MsgBoxAssert("ï¿½æµ¹Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Âµï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ ï¿½ß½ï¿½ï¿½Ï´ï¿½.");
 		return;
 	}
 
@@ -72,7 +72,7 @@ void PortalObject::SetCollisionData(PortalCollisionParameter _ColParameter)
 {
 	if (nullptr == PotalCol)
 	{
-		MsgBoxAssert("Ãæµ¹Ã¼°¡ Á¸ÀçÇÏÁö ¾Ê´Âµ¥ Å¸ÀÔÀ» º¯°æÇÏ·Á Çß½À´Ï´Ù.");
+		MsgBoxAssert("ï¿½æµ¹Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Âµï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ ï¿½ß½ï¿½ï¿½Ï´ï¿½.");
 		return;
 	}
 
