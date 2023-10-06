@@ -5,7 +5,7 @@ Prop::Prop()
 {
 }
 
-Prop::~Prop() 
+Prop::~Prop()
 {
 }
 
@@ -44,7 +44,7 @@ void Prop::CreateRenderer(int _Order)
 	m_Renderer = CreateComponent<GameEngineSpriteRenderer>(_Order);
 	if (nullptr == m_Renderer)
 	{
-		MsgBoxAssert("Àß¸ø ¸¸µé¾îÁø ·»´õ·¯ÀÔ´Ï´Ù.");
+		MsgBoxAssert("ì˜ëª» ë§Œë“¤ì–´ì§„ ë Œë”ëŸ¬ì…ë‹ˆë‹¤.");
 		return;
 	}
 }
@@ -53,7 +53,7 @@ void Prop::SetSprite(std::string_view _SpriteName)
 {
 	if (nullptr == m_Renderer)
 	{
-		MsgBoxAssert("·»´õ·¯¸¦ »ı¼ºÇÏÁö ¾Ê°í ½ºÇÁ¶óÀÌÆ®¸¦ ¼¼ÆÃÇÒ ¼ö ¾ø½À´Ï´Ù.");
+		MsgBoxAssert("ë Œë”ëŸ¬ë¥¼ ìƒì„±í•˜ì§€ ì•Šê³  ìŠ¤í”„ë¼ì´íŠ¸ë¥¼ ì„¸íŒ…í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 		return;
 	}
 
@@ -66,7 +66,7 @@ void Prop::SetPosition(const float4& _Position, PivotType _Direction/* = EDIRECT
 
 	if (nullptr == m_Renderer)
 	{
-		MsgBoxAssert("·»´õ·¯¸¦ »ı¼ºÇÏÁö ¾Ê°í ¾Ö´Ï¸ŞÀÌ¼ÇÀ» »ı¼ºÇÏ·Á°í Çß½À´Ï´Ù.");
+		MsgBoxAssert("ë Œë”ëŸ¬ë¥¼ ìƒì„±í•˜ì§€ ì•Šê³  ì• ë‹ˆë©”ì´ì…˜ì„ ìƒì„±í•˜ë ¤ê³  í–ˆìŠµë‹ˆë‹¤.");
 		return;
 	}
 
@@ -80,7 +80,7 @@ void Prop::SetRendererImageScale(const float4& _Scale)
 {
 	if (nullptr == m_Renderer)
 	{
-		MsgBoxAssert("·»´õ·¯¸¦ »ı¼ºÇÏÁö ¾Ê°í ¾Ö´Ï¸ŞÀÌ¼ÇÀ» »ı¼ºÇÏ·Á°í Çß½À´Ï´Ù.");
+		MsgBoxAssert("ë Œë”ëŸ¬ë¥¼ ìƒì„±í•˜ì§€ ì•Šê³  ì• ë‹ˆë©”ì´ì…˜ì„ ìƒì„±í•˜ë ¤ê³  í–ˆìŠµë‹ˆë‹¤.");
 		return;
 	}
 
@@ -92,7 +92,7 @@ void Prop::SetSpriteRenderer(std::string_view _FileName, const float4& _Position
 {
 	if (nullptr == m_Renderer)
 	{
-		MsgBoxAssert("·»´õ·¯¸¦ »ı¼ºÇÏÁö ¾Ê°í ½ºÇÁ¶óÀÌÆ®¸¦ ¼¼ÆÃÇÒ ¼ö ¾ø½À´Ï´Ù.");
+		MsgBoxAssert("ë Œë”ëŸ¬ë¥¼ ìƒì„±í•˜ì§€ ì•Šê³  ìŠ¤í”„ë¼ì´íŠ¸ë¥¼ ì„¸íŒ…í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 		return;
 	}
 
@@ -106,7 +106,7 @@ void Prop::SetSpriteRenderer(const PropParameter& _Parameter)
 {
 	if (nullptr == m_Renderer)
 	{
-		MsgBoxAssert("·»´õ·¯¸¦ »ı¼ºÇÏÁö ¾Ê°í ½ºÇÁ¶óÀÌÆ®¸¦ ¼¼ÆÃÇÒ ¼ö ¾ø½À´Ï´Ù.");
+		MsgBoxAssert("ë Œë”ëŸ¬ë¥¼ ìƒì„±í•˜ì§€ ì•Šê³  ìŠ¤í”„ë¼ì´íŠ¸ë¥¼ ì„¸íŒ…í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 		return;
 	}
 
@@ -117,7 +117,7 @@ void Prop::SetSpriteRenderer(const PropParameter& _Parameter)
 
 
 
-#pragma region ¾Ö´Ï¸ŞÀÌ¼Ç »ı¼º
+#pragma region ì• ë‹ˆë©”ì´ì…˜ ìƒì„±
 
 void Prop::CreateAnimation(
 	std::string_view _AnimationName,
@@ -130,11 +130,11 @@ void Prop::CreateAnimation(
 {
 	if (nullptr == m_Renderer)
 	{
-		MsgBoxAssert("·»´õ·¯¸¦ »ı¼ºÇÏÁö ¾Ê°í ¾Ö´Ï¸ŞÀÌ¼ÇÀ» »ı¼ºÇÏ·Á°í Çß½À´Ï´Ù.");
+		MsgBoxAssert("ë Œë”ëŸ¬ë¥¼ ìƒì„±í•˜ì§€ ì•Šê³  ì• ë‹ˆë©”ì´ì…˜ì„ ìƒì„±í•˜ë ¤ê³  í–ˆìŠµë‹ˆë‹¤.");
 		return;
 	}
 
- 	m_Renderer->CreateAnimation(_AnimationName, _SpriteName, _Inter, _Start, _End, _Loop);
+	m_Renderer->CreateAnimation(_AnimationName, _SpriteName, _Inter, _Start, _End, _Loop);
 }
 
 
@@ -142,7 +142,7 @@ void Prop::ChangeAnimation(std::string_view _AnimationName)
 {
 	if (nullptr == m_Renderer)
 	{
-		MsgBoxAssert("·»´õ·¯¸¦ »ı¼ºÇÏÁö ¾Ê°í ¾Ö´Ï¸ŞÀÌ¼ÇÀ» »ı¼ºÇÏ·Á°í Çß½À´Ï´Ù.");
+		MsgBoxAssert("ë Œë”ëŸ¬ë¥¼ ìƒì„±í•˜ì§€ ì•Šê³  ì• ë‹ˆë©”ì´ì…˜ì„ ìƒì„±í•˜ë ¤ê³  í–ˆìŠµë‹ˆë‹¤.");
 		return;
 	}
 
@@ -150,19 +150,19 @@ void Prop::ChangeAnimation(std::string_view _AnimationName)
 	m_Renderer->AutoSpriteSizeOn();
 }
 
-// ÀÚµ¿À¸·Î AutoSize¸¦ ¿äÃ»ÇÕ´Ï´Ù.
+// ìë™ìœ¼ë¡œ AutoSizeë¥¼ ìš”ì²­í•©ë‹ˆë‹¤.
 void Prop::SetAutoSpriteSize(float _Ratio, bool _Value /*= true*/)
 {
 	if (nullptr == m_Renderer)
 	{
-		MsgBoxAssert("·»´õ·¯¸¦ »ı¼ºÇÏÁö ¾Ê°í »ç¿ëÇÒ ¼ö ¾ø½À´Ï´Ù.");
+		MsgBoxAssert("ë Œë”ëŸ¬ë¥¼ ìƒì„±í•˜ì§€ ì•Šê³  ì‚¬ìš©í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 	}
 
 	_Value ? m_Renderer->AutoSpriteSizeOn() : m_Renderer->AutoSpriteSizeOff();
 	m_Renderer->SetAutoScaleRatio(_Ratio);
 }
 
-// ¾Ö´Ï¸ŞÀÌ¼ÇÀ» ¸¸µì´Ï´Ù.
+// ì• ë‹ˆë©”ì´ì…˜ì„ ë§Œë“­ë‹ˆë‹¤.
 void Prop::CreateAutomatedAnimation(
 	std::string_view _AnimationName,
 	std::string_view _SpriteName,
@@ -175,7 +175,7 @@ void Prop::CreateAutomatedAnimation(
 {
 	if (nullptr == m_Renderer)
 	{
-		MsgBoxAssert("·»´õ·¯¸¦ »ı¼ºÇÏÁö ¾Ê°í »ç¿ëÇÒ ¼ö ¾ø½À´Ï´Ù.");
+		MsgBoxAssert("ë Œë”ëŸ¬ë¥¼ ìƒì„±í•˜ì§€ ì•Šê³  ì‚¬ìš©í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 	}
 
 	m_Renderer->CreateAnimation(_AnimationName, _SpriteName, _Inter, _Start, _End, _Loop);
@@ -186,15 +186,15 @@ void Prop::CreateAutomatedAnimation(
 
 #pragma endregion
 
-#pragma region ÇÈ¼¿Ãæµ¹
+#pragma region í”½ì…€ì¶©ëŒ
 
-// ÇÈ¼¿ Ãæµ¹ ¸ÊÀ» ¸¸µì´Ï´Ù.
+// í”½ì…€ ì¶©ëŒ ë§µì„ ë§Œë“­ë‹ˆë‹¤.
 void Prop::CreatePixelCollisionRenderer()
 {
 	m_DebugRenderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::Back_);
 	if (nullptr == m_DebugRenderer)
 	{
-		MsgBoxAssert("·»´õ·¯¸¦ »ı¼ºÇÏÁö ¸øÇß½À´Ï´Ù.");
+		MsgBoxAssert("ë Œë”ëŸ¬ë¥¼ ìƒì„±í•˜ì§€ ëª»í–ˆìŠµë‹ˆë‹¤.");
 		return;
 	}
 
@@ -207,7 +207,7 @@ void Prop::SetPixelSprite(std::string_view _FileName)
 {
 	if (nullptr == m_DebugRenderer)
 	{
-		MsgBoxAssert("·»´õ·¯¸¦ »ı¼ºÇÏÁö ¾Ê°í ½ºÇÁ¶óÀÌÆ®¸¦ ÁöÁ¤ÇØÁÙ ¼ö ¾ø½À´Ï´Ù.");
+		MsgBoxAssert("ë Œë”ëŸ¬ë¥¼ ìƒì„±í•˜ì§€ ì•Šê³  ìŠ¤í”„ë¼ì´íŠ¸ë¥¼ ì§€ì •í•´ì¤„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 		return;
 	}
 
@@ -218,7 +218,7 @@ void Prop::SetPixelSprite(std::string_view _FileName)
 	std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Find(_FileName);
 	if (nullptr == Texture)
 	{
-		MsgBoxAssert("ÅØ½ºÃ³¸¦ ºÒ·¯¿ÀÁö ¸øÇß½À´Ï´Ù.");
+		MsgBoxAssert("í…ìŠ¤ì²˜ë¥¼ ë¶ˆëŸ¬ì˜¤ì§€ ëª»í–ˆìŠµë‹ˆë‹¤.");
 		return;
 	}
 
@@ -226,36 +226,36 @@ void Prop::SetPixelSprite(std::string_view _FileName)
 }
 
 
-// Á¶Á¤µÈ* À§Ä¡¿¡ ÇÈ¼¿ µ¥ÀÌÅÍ¸¦ ¹İÈ¯ÇØÁİ´Ï´Ù.
-// * : GameEngineTexture::GetColor´Â ÅØ½ºÃ³¿¡°Ô ³»°¡ ¿øÇÏ´Â À§Ä¡ÀÇ ÇÈ¼¿ µ¥ÀÌÅÍ¸¦ ´Ş¶ó°í ¿ä±¸ÇÕ´Ï´Ù.
-//		ÀÌ·¯ÇÑ Æ¯¼º ¶§¹®¿¡ ÅØ½ºÃ³¸¦ »ç¿ëÇÏ´Â °´Ã¼ÀÇ À§Ä¡°¡ ÀÌµ¿ÇØµµ GetColor¿¡¼­ ÁÖ´Â µ¥ÀÌÅÍ À§Ä¡´Â Ç×»ó °°½À´Ï´Ù.
-//		µû¶ó¼­ °´Ã¼°¡ ÀÌµ¿ÇÑ °Å¸®¸¸Å­ »©ÁÙ ÇÊ¿ä°¡ ÀÖ½À´Ï´Ù.
+// ì¡°ì •ëœ* ìœ„ì¹˜ì— í”½ì…€ ë°ì´í„°ë¥¼ ë°˜í™˜í•´ì¤ë‹ˆë‹¤.
+// * : GameEngineTexture::GetColorëŠ” í…ìŠ¤ì²˜ì—ê²Œ ë‚´ê°€ ì›í•˜ëŠ” ìœ„ì¹˜ì˜ í”½ì…€ ë°ì´í„°ë¥¼ ë‹¬ë¼ê³  ìš”êµ¬í•©ë‹ˆë‹¤.
+//		ì´ëŸ¬í•œ íŠ¹ì„± ë•Œë¬¸ì— í…ìŠ¤ì²˜ë¥¼ ì‚¬ìš©í•˜ëŠ” ê°ì²´ì˜ ìœ„ì¹˜ê°€ ì´ë™í•´ë„ GetColorì—ì„œ ì£¼ëŠ” ë°ì´í„° ìœ„ì¹˜ëŠ” í•­ìƒ ê°™ìŠµë‹ˆë‹¤.
+//		ë”°ë¼ì„œ ê°ì²´ê°€ ì´ë™í•œ ê±°ë¦¬ë§Œí¼ ë¹¼ì¤„ í•„ìš”ê°€ ìˆìŠµë‹ˆë‹¤.
 GameEngineColor Prop::GetColor(const float4& _Position, GameEngineColor _DefaultColor /*= { 255, 255, 255, 255 }*/)
 {
 	GameEngineColor ReturnValue;
 
 	if ("" == m_PixelFileName)
 	{
-		MsgBoxAssert("ÁöÁ¤ÇØµĞ ÆÄÀÏÀÌ ¾ø½À´Ï´Ù.");
+		MsgBoxAssert("ì§€ì •í•´ë‘” íŒŒì¼ì´ ì—†ìŠµë‹ˆë‹¤.");
 		return ReturnValue;
 	}
 
 	std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Find(m_PixelFileName);
 	if (nullptr == Texture)
 	{
-		MsgBoxAssert("ÅØ½ºÃ³¸¦ ºÒ·¯¿ÀÁö ¸øÇß½À´Ï´Ù.");
+		MsgBoxAssert("í…ìŠ¤ì²˜ë¥¼ ë¶ˆëŸ¬ì˜¤ì§€ ëª»í–ˆìŠµë‹ˆë‹¤.");
 		return ReturnValue;
 	}
 
-	// ÅØ½ºÃ³ÀÇ ÁÂ»ó´Ü ¿øÁ¡°ú NDCÁÂÇ¥ÀÇ ¿øÁ¡ÀÇ °Å¸®¸¦ ±¸ÇØ¾ßÇÕ´Ï´Ù.
-	// ±×¸®°í ±¸ÇÑ °Å¸®¸¦ ¾ò¾î¿À°í ½ÍÀº À§Ä¡¿¡ »©Áİ´Ï´Ù.
+	// í…ìŠ¤ì²˜ì˜ ì¢Œìƒë‹¨ ì›ì ê³¼ NDCì¢Œí‘œì˜ ì›ì ì˜ ê±°ë¦¬ë¥¼ êµ¬í•´ì•¼í•©ë‹ˆë‹¤.
+	// ê·¸ë¦¬ê³  êµ¬í•œ ê±°ë¦¬ë¥¼ ì–»ì–´ì˜¤ê³  ì‹¶ì€ ìœ„ì¹˜ì— ë¹¼ì¤ë‹ˆë‹¤.
 	float4 HalfTexturePos = m_PixelTextureScale.Half();
 	HalfTexturePos.X *= -1.0f;
 
 	float4 MoveCheckPos = Transform.GetWorldPosition() + HalfTexturePos;
 
 
-	float4 CheckPos =  _Position - MoveCheckPos;
+	float4 CheckPos = _Position - MoveCheckPos;
 	CheckPos.Y *= -1.0f;
 
 	return Texture->GetColor(CheckPos, _DefaultColor);
