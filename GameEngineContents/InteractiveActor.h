@@ -69,10 +69,11 @@ protected:
 
 protected:
 	std::shared_ptr<GameEngineCollision> m_InteractiveCol = nullptr;
-	EINTERACTION_BUTTONTYPE m_InteractionButtonType = EINTERACTION_BUTTONTYPE::None;
-	EINTERACTION_TYPE m_InteractionType = EINTERACTION_TYPE::None;
-	ECOLLECTION_METHOD m_CollectionMethod = ECOLLECTION_METHOD::None;
-	float4 m_InteractiveLocalPosition = float4::ZERO;
+	EINTERACTION_BUTTONTYPE m_InteractionButtonType = EINTERACTION_BUTTONTYPE::None;				// UI 상호작용시 버튼 타입
+	EINTERACTION_TYPE m_InteractionType = EINTERACTION_TYPE::None;									// 상호작용시 접근 유무
+	ECOLLECTION_METHOD m_CollectionMethod = ECOLLECTION_METHOD::None;								// 수집 모션타입
+	ETOOLTYPE m_CollectionTool = ETOOLTYPE::None;													// 채집 도구 타입
+	float4 m_InteractiveLocalPosition = float4::ZERO;												//
 	float m_InteractiveRange = 1.0f;
 
 

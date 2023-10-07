@@ -1,18 +1,18 @@
 #pragma once
 
 // Ό³Έν :
-class TemplateA : public GameEngineActor
+class TemplateD : public GameEngineActor
 {
 public:
 	// constrcuter destructer
-	TemplateA();
-	~TemplateA();
+	TemplateD();
+	~TemplateD();
 
 	// delete Function
-	TemplateA(const TemplateA& _Other) = delete;
-	TemplateA(TemplateA&& _Other) noexcept = delete;
-	TemplateA& operator=(const TemplateA& _Other) = delete;
-	TemplateA& operator=(TemplateA&& _Other) noexcept = delete;
+	TemplateD(const TemplateD& _Other) = delete;
+	TemplateD(TemplateD&& _Other) noexcept = delete;
+	TemplateD& operator=(const TemplateD& _Other) = delete;
+	TemplateD& operator=(TemplateD&& _Other) noexcept = delete;
 
 protected:
 	void Start() override;

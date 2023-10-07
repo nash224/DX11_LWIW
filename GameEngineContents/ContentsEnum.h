@@ -21,6 +21,7 @@ enum class ERENDERORDER
 	Back_,
 	RootedItem = 90,
 	Ellie = 100,
+	ObjectShadow,
 	Object,
 	UI,
 	FadeObject,

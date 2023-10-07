@@ -4,6 +4,7 @@
 #include "InteractiveActor.h"
 #include "PortalObject.h"
 #include "UI_InterativeMark.h"
+#include "UI_Hub_Tool.h"
 
 
 void Ellie::UpdateCollision()
@@ -163,6 +164,18 @@ void Ellie::UpdateInteractionCollsiion()
 				{
 					MsgBoxAssert("다운 캐스팅에 실패했습니다.");
 					return;
+				}
+
+				if (EINTERACTION_BUTTONTYPE::Gathering == Entity->GetInteractionButtonType())
+				{
+					if (ETOOLTYPE::None == Entity->m_CollectionTool)
+					{
+						// Pass
+					}
+					else if (UI_Hub_Tool::m_CurrentTool != Entity->m_CollectionTool)
+					{
+						return;
+					}
 				}
 
 				// 닿았습니다.

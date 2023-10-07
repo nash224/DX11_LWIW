@@ -109,6 +109,15 @@
     <Filter Include="2.Object\1.Actor\1.BackDrop\LevelBackDrop\0.Loading">
       <UniqueIdentifier>{21f50499-21ff-4011-95d0-3d89e05823d8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="1.Global\Template">
+      <UniqueIdentifier>{21365257-f931-41e8-9e7d-9a94d22cdcb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2.Object\1.Actor\5.Population">
+      <UniqueIdentifier>{b0b918d1-638e-439e-a55e-6dceadad57d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2.Object\1.Actor\5.Population\MongSiri">
+      <UniqueIdentifier>{565f8434-0e98-421c-a949-187b994baac1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -135,9 +144,6 @@
     </ClInclude>
     <ClInclude Include="GroundLayer.h">
       <Filter>2.Object\1.Actor\1.BackDrop</Filter>
-    </ClInclude>
-    <ClInclude Include="TemplateA.h">
-      <Filter>1.Global</Filter>
     </ClInclude>
     <ClInclude Include="Prop.h">
       <Filter>2.Object\1.Actor\3.Prop</Filter>
@@ -322,6 +328,15 @@
     <ClInclude Include="MongSiri.h">
       <Filter>2.Object\1.Actor\2.Interactive\Dynamic</Filter>
     </ClInclude>
+    <ClInclude Include="TemplateD.h">
+      <Filter>1.Global\Template</Filter>
+    </ClInclude>
+    <ClInclude Include="MonSiri_Population.h">
+      <Filter>2.Object\1.Actor\5.Population\MongSiri</Filter>
+    </ClInclude>
+    <ClInclude Include="ChubHole.h">
+      <Filter>2.Object\1.Actor\5.Population\MongSiri</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -342,9 +357,6 @@
     </ClCompile>
     <ClCompile Include="GroundLayer.cpp">
       <Filter>2.Object\1.Actor\1.BackDrop</Filter>
-    </ClCompile>
-    <ClCompile Include="TemplateA.cpp">
-      <Filter>1.Global</Filter>
     </ClCompile>
     <ClCompile Include="Prop.cpp">
       <Filter>2.Object\1.Actor\3.Prop</Filter>
@@ -531,6 +543,15 @@
     </ClCompile>
     <ClCompile Include="MongSiri.cpp">
       <Filter>2.Object\1.Actor\2.Interactive\Dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="TemplateD.cpp">
+      <Filter>1.Global\Template</Filter>
+    </ClCompile>
+    <ClCompile Include="MonSiri_Population.cpp">
+      <Filter>2.Object\1.Actor\5.Population\MongSiri</Filter>
+    </ClCompile>
+    <ClCompile Include="ChubHole.cpp">
+      <Filter>2.Object\1.Actor\5.Population\MongSiri</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
