@@ -4,6 +4,8 @@
 #include "Prop.h"
 #include "PortalObject.h"
 
+#include "MongSiri_Population.h"
+
 BackDrop_WitchHouse_UpFloor::BackDrop_WitchHouse_UpFloor() 
 {
 }
@@ -52,6 +54,13 @@ void BackDrop_WitchHouse_UpFloor::Init()
 	CreateProp(CurLevel);
 	CreatePixelMap(CurLevel);
 	LoadPortalActor(CurLevel);
+
+	{
+		std::shared_ptr<MongSiri_Population> Object = CurLevel->CreateActor<MongSiri_Population>(EUPDATEORDER::Objects);
+		Object->Transform.SetLocalPosition({ 100.0f , -100.0f });
+		Object->SetPopulationSpawnLocation({ 150.0f , -150.0f });
+		Object->Init(2);
+	}
 
 	m_BackScale = GlobalValue::GetWindowScale();
 }

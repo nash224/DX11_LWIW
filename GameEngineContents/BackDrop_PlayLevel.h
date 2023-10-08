@@ -22,6 +22,11 @@ public:
 
 	void EnableDebugMode(bool _Value);
 
+	// 탐색
+	bool IsColorAtPosition(const float4& _Position, GameEngineColor _CheckColor);
+
+	void CreateItem(std::string_view _ItemName, const float4& _Position = float4::ZERO, const int _Stack = 1);
+
 
 protected:
 	void Start() override;
@@ -37,14 +42,6 @@ protected:
 protected:
 	// Scenery, Prop 텍스처 외에 자식에서 해주고 싶은 작업이 있을때
 	virtual void EnableBackDropElemnetDebugMode(bool _Value) {}
-
-private:
-	// 탐색
-	bool IsColorAtPosition(const float4& _Position, GameEngineColor _CheckColor, GameEngineColor _DefaultColor = { 255, 255, 255, 255 });
-
-public:
-	void CreateItem(std::string_view _ItemName, const float4& _Position = float4::ZERO, const int _Stack = 1);
-
 
 public:
 	// 초기화

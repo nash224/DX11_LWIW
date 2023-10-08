@@ -302,10 +302,11 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="MonSiri_Population.cpp">
+    <ClCompile Include="MongSiri_Population.cpp">
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="MongSiri_State.cpp" />
     <ClCompile Include="Player.cpp">
       <SubType>
       </SubType>
@@ -582,7 +583,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="MonSiri_Population.h">
+    <ClInclude Include="MongSiri_Population.h">
       <SubType>
       </SubType>
     </ClInclude>

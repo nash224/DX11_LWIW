@@ -94,7 +94,7 @@ void BackDrop_PlayLevel::EnableDebugMode(bool _Value)
 
 
 // 특정 위치에 픽셀데이터가 있는지 반환해줍니다.
-bool BackDrop_PlayLevel::IsColorAtPosition(const float4& _Position, GameEngineColor _CheckColor, GameEngineColor _DefaultColor /*= { 255, 255, 255, 255 }*/)
+bool BackDrop_PlayLevel::IsColorAtPosition(const float4& _Position, GameEngineColor _CheckColor)
 {
 	for (size_t i = 0; i < vecPixelProps.size(); i++)
 	{
@@ -110,7 +110,7 @@ bool BackDrop_PlayLevel::IsColorAtPosition(const float4& _Position, GameEngineCo
 			continue;
 		}
 
-		if (_CheckColor == Object->GetColor(_Position, _DefaultColor))
+		if (_CheckColor == Object->GetColor(_Position))
 		{
 			return true;
 		}

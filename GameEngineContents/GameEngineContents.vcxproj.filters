@@ -331,7 +331,7 @@
     <ClInclude Include="TemplateD.h">
       <Filter>1.Global\Template</Filter>
     </ClInclude>
-    <ClInclude Include="MonSiri_Population.h">
+    <ClInclude Include="MongSiri_Population.h">
       <Filter>2.Object\1.Actor\5.Population\MongSiri</Filter>
     </ClInclude>
     <ClInclude Include="ChubHole.h">
@@ -547,11 +547,14 @@
     <ClCompile Include="TemplateD.cpp">
       <Filter>1.Global\Template</Filter>
     </ClCompile>
-    <ClCompile Include="MonSiri_Population.cpp">
+    <ClCompile Include="MongSiri_Population.cpp">
       <Filter>2.Object\1.Actor\5.Population\MongSiri</Filter>
     </ClCompile>
     <ClCompile Include="ChubHole.cpp">
       <Filter>2.Object\1.Actor\5.Population\MongSiri</Filter>
+    </ClCompile>
+    <ClCompile Include="MongSiri_State.cpp">
+      <Filter>2.Object\1.Actor\2.Interactive\Dynamic</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -50,7 +50,7 @@ void UI_InterativeMark::Init()
 		return;
 	}
 
-	m_MarkRenderer->CreateAnimation("Mark", "Interaction_Arrow.png", 0.1f);
+	m_MarkRenderer->CreateAnimation("Mark", "PointArrow.png", 0.1f);
 	m_MarkRenderer->ChangeAnimation("Mark");
 	m_MarkRenderer->AutoSpriteSizeOn();
 

@@ -93,7 +93,8 @@ void LoadingLevel::LoadTexture()
 	{
 		// 플레이 액터
 		GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\Ellie");
-
+		GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\Ellie");
+		GlobalUtils::LoadAllDirFile("Resources\\PlayContents\\PlayResourecs\\Creature");
 
 		//UI
 		GameEngineDirectory Dir;
@@ -123,6 +124,7 @@ void LoadingLevel::LoadSprite()
 {
 	if (false == GlobalSpriteLoadCheck)
 	{
+#pragma region Ellie Sprite
 		// 기본조작
 		GameEngineSprite::CreateCut("Ellie_Basic_Idle.png", 7, 6);
 		GameEngineSprite::CreateCut("Ellie_Basic_Walk.png", 12, 11);
@@ -133,7 +135,6 @@ void LoadingLevel::LoadSprite()
 		GameEngineSprite::CreateCut("Ellie_Basic_Riding_Standing.png", 8, 7);
 		GameEngineSprite::CreateCut("Ellie_Basic_Riding_Moving.png", 8, 7);
 		GameEngineSprite::CreateCut("Ellie_Basic_Riding_Boosting.png", 8, 7);
-
 
 		// 수집 
 		GameEngineSprite::CreateCut("Ellie_Basic_ButterflyNet.png", 12, 11);
@@ -146,8 +147,25 @@ void LoadingLevel::LoadSprite()
 		GameEngineSprite::CreateCut("Ellie_Basic_Fail.png", 6, 5);
 		GameEngineSprite::CreateCut("Ellie_Basic_Drink.png", 6, 5);
 
+#pragma endregion 
+
+#pragma region Actor Sprite
+
+		// MongSiri
+		GameEngineSprite::CreateSingle("SquishychubHole.png");
+		GameEngineSprite::CreateCut("Mongsiri_Collected.png", 4, 3);
+		GameEngineSprite::CreateCut("Mongsiri_Disappear.png", 6, 6);
+		GameEngineSprite::CreateCut("Mongsiri_Escape.png", 4, 3);
+		GameEngineSprite::CreateCut("Mongsiri_Idle.png", 3, 3);
+		GameEngineSprite::CreateCut("Mongsiri_IdleA.png", 3, 3);
+		GameEngineSprite::CreateCut("Mongsiri_IdleB.png", 4, 3);
+		GameEngineSprite::CreateCut("Mongsiri_Jump.png", 5, 5);
+
+#pragma endregion 
+
+
 		// UI
-		GameEngineSprite::CreateCut("Interaction_Arrow.png", 5, 1);
+		GameEngineSprite::CreateCut("PointArrow.png", 3, 2);
 		GameEngineSprite::CreateCut("Inventory_Cursor.png", 2, 1);
 		GameEngineSprite::CreateCut("Inventory_SampleIcon.png", 3, 1);
 		GameEngineSprite::CreateCut("Tool_Icon.png", 3, 1);
