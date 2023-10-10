@@ -17,6 +17,7 @@ void LootedItem::Start()
 	StaticEntity::Start();
 
 	m_CollectionMethod = ECOLLECTION_METHOD::Sit;
+	m_CollectionTool = ETOOLTYPE::Nothing;
 }
 
 void LootedItem::Update(float _Delta)

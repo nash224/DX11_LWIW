@@ -168,7 +168,7 @@ void Ellie::UpdateInteractionCollsiion()
 
 				if (EINTERACTION_BUTTONTYPE::Gathering == Entity->GetInteractionButtonType())
 				{
-					if (ETOOLTYPE::None == Entity->m_CollectionTool)
+					if (ETOOLTYPE::Nothing == Entity->m_CollectionTool)
 					{
 						// Pass
 					}
@@ -183,6 +183,11 @@ void Ellie::UpdateInteractionCollsiion()
 				{
 					if (EINTERACTION_TYPE::Near == Entity->GetInteractionType())
 					{
+						if (ECOLLECTION_METHOD::MongSiri == Entity->GetCollectionMethod())
+						{
+							Entity->GetCaught();
+						}
+
 						OtherEntity = Entity;
 						ChangeState(EELLIE_STATE::Approach);
 					}

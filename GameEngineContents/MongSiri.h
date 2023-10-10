@@ -20,13 +20,16 @@ enum class EMONGSIRISTATE
 	Idle,
 	Jump,
 	Look,
+	Caught,
 	Collected,
+	Disappear,
 	None,
 };
 
 // Ό³Έν :
 class MongSiri : public DynamicEntity
 {
+	friend class Ellie;
 	friend class MongSiri_Population;
 
 private:
@@ -78,8 +81,18 @@ private:
 	void StartLook();
 	void UpdateLook(float _Delta);
 
+	void GetCaught() override;
+	void StartCaught();
+	void UpdateCaught(float _Delta);
+
+
 	void StartCollected();
 	void UpdateCollected(float _Delta);
+	void EndCollected();
+
+	void StartDisappear();
+	void UpdateDisappear(float _Delta);
+
 
 
 private:
@@ -94,6 +107,7 @@ private:
 	float4 m_TargetForce = float4::ZERO;
 	int m_IdleCount = 0;
 
+	bool IsOnTheHole = false;
 
 private:
 	const float MongSiri_FOVSize = 90.0f;

@@ -3,25 +3,29 @@
 
 #include "MongSiri_Population.h"
 #include "BackDrop_PlayLevel.h"
+#include "ChubHole.h"
 
 
 void MongSiri::StartIdle()
 {
-	GameEngineRandom RandomClass;
-	int SelectNumber = RandomClass.RandomInt(0, 4);
-	switch (SelectNumber)
+	if (EMONGSIRISTATUS::Normal == m_Status)
 	{
-	case 0:
-	case 1:
-	case 2:
-		m_IdleCount = 3;
-		break;
-	case 3:
-	case 4:
-		m_IdleCount = 1;
-		break;
-	default:
-		break;
+		GameEngineRandom RandomClass;
+		int SelectNumber = RandomClass.RandomInt(0, 4);
+		switch (SelectNumber)
+		{
+		case 0:
+		case 1:
+		case 2:
+			m_IdleCount = 3;
+			break;
+		case 3:
+		case 4:
+			m_IdleCount = 1;
+			break;
+		default:
+			break;
+		}
 	}
 
 	ChangeAnimationByDircetion("Idle");
@@ -29,12 +33,13 @@ void MongSiri::StartIdle()
 
 void MongSiri::UpdateIdle(float _Delta)
 {
-	if (true == IsPlayerAround())
+	if (true == IsPlayerAround() && EMONGSIRISTATUS::Escape != m_Status)
 	{
 		ChangeState(EMONGSIRISTATE::Look);
 		return;
-	}
 	
+	}
+
 	if (nullptr == m_Body)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
@@ -46,7 +51,7 @@ void MongSiri::UpdateIdle(float _Delta)
 		--m_IdleCount;
 	}
 
-	if (m_IdleCount <= 0)
+	if (m_IdleCount <= 0 || EMONGSIRISTATUS::Escape == m_Status)
 	{
 		ChangeState(EMONGSIRISTATE::Jump);
 		return;
@@ -67,49 +72,94 @@ void MongSiri::StartJump()
 // 뛸 장소를 찾아줍니다.
 void MongSiri::SearchJumpLocation()
 {
-	GameEngineRandom RandomClass;
-	if (nullptr == MongSiriParant)
+	if (EMONGSIRISTATUS::Normal == m_Status)
 	{
-		MsgBoxAssert("몽시리 개체군 매니저가 존재하지 않습니다.");
-		return;
-	}
-
-	float4 MyPosition = Transform.GetLocalPosition();
-	float4 PopulationSpawnPosition = MongSiriParant->m_PopulationLocation;
-	float PopulationMinCircle = MongSiriParant->m_PopulationMinCircle;
-	float PopulationMaxCircle = MongSiriParant->m_PopulationMaxCircle;
-
-	// 스폰위치와 내 거리
-	float SpawnToDistance = (MyPosition - PopulationSpawnPosition).Size();
-	float Degree = (PopulationSpawnPosition - MyPosition).NormalizeReturn().Angle2DDeg();
-
-	float JumpAngle = 0.0f;
-
-	if (SpawnToDistance < PopulationMinCircle)
-	{
-		JumpAngle = RandomClass.RandomFloat(0.0f, 360.0f);
-	}
-
-	// 스폰 위치 작은 원보다 멀면 구멍 근처로 점프합니다.
-	if (SpawnToDistance > PopulationMinCircle)
-	{
-		float JumpChangeRatio = RandomClass.RandomFloat(0.0f, 1.0f);
-		JumpChangeRatio = static_cast<float>(pow(JumpChangeRatio, 2));
-		JumpChangeRatio *= 180.f;
-		int MultiValue = RandomClass.RandomInt(0, 1);
-		if (1 == MultiValue)
+		GameEngineRandom RandomClass;
+		if (nullptr == MongSiriParant)
 		{
-			JumpChangeRatio *= -1.0f;
+			MsgBoxAssert("몽시리 개체군 매니저가 존재하지 않습니다.");
+			return;
 		}
 
-		JumpAngle = Degree + JumpChangeRatio;
-	}
-	
-	float MongSiriJumpPower = RandomClass.RandomFloat(0.0f, MongSiri_JumpMaxSpeed);
-	float4 TargetUnitVector = float4::GetUnitVectorFromDeg(JumpAngle);
+		float4 MyPosition = Transform.GetLocalPosition();
+		float4 PopulationSpawnPosition = MongSiriParant->m_PopulationLocation;
+		float PopulationMinCircle = MongSiriParant->m_PopulationMinCircle;
+		float PopulationMaxCircle = MongSiriParant->m_PopulationMaxCircle;
 
-	m_TargetForce = TargetUnitVector * MongSiriJumpPower;
-	m_Dir = GetDirectionFromVector(m_TargetForce);
+		
+		float4 TargetDistance = PopulationSpawnPosition - MyPosition;			// 스폰위치와 내 거리
+		float SpawnToDistance = TargetDistance.Size();
+		float Degree = TargetDistance.NormalizeReturn().Angle2DDeg();
+		if (TargetDistance.Y < 0.0f)
+		{
+			Degree += 180.0f;
+		}
+
+		float JumpAngle = 0.0f;
+
+		// 스폰 위치점 기준
+		// 작은원 안에 있다면 완전 랜덤
+		if (SpawnToDistance < PopulationMinCircle)
+		{
+			JumpAngle = RandomClass.RandomFloat(0.0f, 360.0f);
+		}
+
+		// 스폰 위치점 기준
+		// 작은 원보다 밖에 있다면
+		if (SpawnToDistance > PopulationMinCircle)
+		{
+			// 점프력 측정
+			float JumpChangeRatio = RandomClass.RandomFloat(0.0f, 1.0f);
+			// 높은 확률로
+			JumpChangeRatio = static_cast<float>(pow(JumpChangeRatio, 2));
+			JumpChangeRatio *= 180.f;
+			int MultiValue = RandomClass.RandomInt(0, 1);
+			if (1 == MultiValue)
+			{
+				JumpChangeRatio *= -1.0f;
+			}
+
+			// 이 각도로 뛰어라
+			JumpAngle = Degree + JumpChangeRatio;
+		}
+
+		float MongSiriJumpPower = RandomClass.RandomFloat(0.0f, MongSiri_JumpMaxSpeed);
+		float4 TargetUnitVector = float4::GetUnitVectorFromDeg(JumpAngle);
+
+		m_TargetForce = TargetUnitVector * MongSiriJumpPower;
+		m_Dir = GetDirectionFromVector(m_TargetForce);
+	}
+
+	if (EMONGSIRISTATUS::Escape == m_Status)
+	{
+		if (nullptr == MongSiriParant)
+		{
+			MsgBoxAssert("몽시리 개체군이 존재하지 않습니다.");
+			return;
+		}
+
+		if (nullptr == MongSiriParant->m_ChubHole)
+		{
+			MsgBoxAssert("몽시리 구덩이가 존재하지 않습니다.");
+			return;
+		}
+
+		float4 HolePosition = MongSiriParant->m_ChubHole->Transform.GetLocalPosition();
+		float4 TargetPosition = HolePosition - Transform.GetLocalPosition();
+		float TargetDistance = TargetPosition.Size();
+		
+		if (TargetDistance < MongSiri_JumpMaxSpeed)
+		{
+			IsOnTheHole = true;
+			m_TargetForce = TargetPosition.NormalizeReturn() * TargetDistance * 1.66f;
+		}
+		else
+		{
+			m_TargetForce = TargetPosition.NormalizeReturn() * MongSiri_JumpMaxSpeed;
+		}
+
+		m_Dir = GetDirectionFromVector(TargetPosition);
+	}
 }
 
 void MongSiri::UpdateJump(float _Delta)
@@ -122,6 +172,12 @@ void MongSiri::UpdateJump(float _Delta)
 
 	if (true == m_Body->IsCurAnimationEnd())
 	{
+		if (true == IsOnTheHole)
+		{
+			ChangeState(EMONGSIRISTATE::Disappear);
+			return;
+		}
+
 		ChangeState(EMONGSIRISTATE::Idle);
 		return;
 	}
@@ -151,13 +207,12 @@ void MongSiri::EndJump()
 
 void MongSiri::StartLook()
 {
-	m_Status = EMONGSIRISTATUS::Look;
 	ChangeAnimationByDircetion("Look");
 }
 
 void MongSiri::UpdateLook(float _Delta)
 {
-	if (false == IsPlayerAround())
+	if (false == IsPlayerAround() || EMONGSIRISTATUS::Escape == m_Status)
 	{
 		ChangeState(EMONGSIRISTATE::Idle);
 		return;
@@ -165,12 +220,84 @@ void MongSiri::UpdateLook(float _Delta)
 }
 
 
+void MongSiri::GetCaught()
+{
+	ChangeState(EMONGSIRISTATE::Caught);
+}
+
+void MongSiri::StartCaught()
+{
+	m_Dir = EDIRECTION::LEFTDOWN;
+	ChangeAnimationByDircetion("Idle");
+}
+
+void MongSiri::UpdateCaught(float _Delta)
+{
+	if (true == IsEnalbeActive)
+	{
+		ChangeState(EMONGSIRISTATE::Collected);
+		return;
+	}
+}
+
 void MongSiri::StartCollected()
 {
+	m_CollectionTool = ETOOLTYPE::None;
+
 	ChangeAnimation("Collected");
 }
 
 void MongSiri::UpdateCollected(float _Delta)
 {
+	if (nullptr == m_Body)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
 
+	if (true == m_Body->IsCurAnimationEnd() && true == m_Body->IsCurAnimation("CollectedA"))
+	{
+		if (nullptr == MongSiriParant)
+		{
+			MsgBoxAssert("몽시리 개체군이 존재하지 않습니다.");
+			return;
+		}
+
+		MongSiriParant->EscapeHole();
+
+		ChangeState(EMONGSIRISTATE::Idle);
+		return;
+	}
+}
+
+void MongSiri::EndCollected()
+{
+	m_Status = EMONGSIRISTATUS::Escape;
+}
+
+
+void MongSiri::StartDisappear()
+{
+	ChangeAnimation("Disappear");
+}
+
+void MongSiri::UpdateDisappear(float _Delta)
+{
+	if (nullptr == m_Body)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
+
+	if (true == m_Body->IsCurAnimationEnd())
+	{
+		if (nullptr == MongSiriParant)
+		{
+			MsgBoxAssert("몽시리 개체군이 존재하지 않습니다.");
+			return;
+		}
+
+		MongSiriParant->MongSiriEntityList.remove(GetDynamic_Cast_This<MongSiri>());
+		Death();
+	}
 }

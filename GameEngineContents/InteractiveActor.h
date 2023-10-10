@@ -60,6 +60,8 @@ public:
 		return m_InteractiveRange;
 	}
 
+	virtual void GetCaught() {}
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;

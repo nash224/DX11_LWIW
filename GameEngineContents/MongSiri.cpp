@@ -18,8 +18,10 @@ void MongSiri::Start()
 {
 	DynamicEntity::Start();
 
-	m_CollectionMethod = ECOLLECTION_METHOD::MongSiri;
-	m_CollectionTool = ETOOLTYPE::Gloves;
+	m_CollectionMethod = ECOLLECTION_METHOD::MongSiri;						// 채집방법
+	m_CollectionTool = ETOOLTYPE::Gloves;									// 채집툴
+	m_InteractionButtonType = EINTERACTION_BUTTONTYPE::Gathering;			// 버튼타입
+	m_InteractionType = EINTERACTION_TYPE::Near;							// 원격유무
 }
 
 void MongSiri::Update(float _Delta)
@@ -32,6 +34,8 @@ void MongSiri::Update(float _Delta)
 void MongSiri::Release()
 {
 	DynamicEntity::Release();
+
+	m_Shadow = nullptr;
 }
 
 void MongSiri::LevelStart(class GameEngineLevel* _NextLevel)
@@ -55,6 +59,7 @@ void MongSiri::Init()
 	CreateAndSetCollision(ECOLLISION::Entity, { 50, 50 }, float4::ZERO, ColType::SPHERE2D);
 	InitDirection();
 
+	m_Status = EMONGSIRISTATUS::Normal;
 	ChangeState(EMONGSIRISTATE::Idle);
 }
 
@@ -214,7 +219,9 @@ void MongSiri::UpdateState(float _Delta)
 	case EMONGSIRISTATE::Idle:								UpdateIdle(_Delta);				break;
 	case EMONGSIRISTATE::Jump:								UpdateJump(_Delta);				break;
 	case EMONGSIRISTATE::Look:								UpdateLook(_Delta);				break;
+	case EMONGSIRISTATE::Caught:							UpdateCaught(_Delta);			break;
 	case EMONGSIRISTATE::Collected:							UpdateCollected(_Delta);		break;
+	case EMONGSIRISTATE::Disappear:							UpdateDisappear(_Delta);		break;
 	case EMONGSIRISTATE::None:																break;
 		break;
 	default:
@@ -231,7 +238,8 @@ void MongSiri::ChangeState(EMONGSIRISTATE _State)
 		case EMONGSIRISTATE::Idle:							EndIdle();						break;
 		case EMONGSIRISTATE::Jump:							EndJump();						break;
 		case EMONGSIRISTATE::Look:															break;
-		case EMONGSIRISTATE::Collected:														break;
+		case EMONGSIRISTATE::Collected:						EndCollected();					break;
+		case EMONGSIRISTATE::Disappear:														break;
 		case EMONGSIRISTATE::None:															break;
 		default:
 			break;
@@ -242,7 +250,9 @@ void MongSiri::ChangeState(EMONGSIRISTATE _State)
 		case EMONGSIRISTATE::Idle:							StartIdle();					break;
 		case EMONGSIRISTATE::Jump:							StartJump();					break;
 		case EMONGSIRISTATE::Look:							StartLook();					break;
+		case EMONGSIRISTATE::Caught:						StartCaught();					break;
 		case EMONGSIRISTATE::Collected:						StartCollected();				break;
+		case EMONGSIRISTATE::Disappear:						StartDisappear();				break;
 		case EMONGSIRISTATE::None:
 		{
 			MsgBoxAssert("행동패턴을 지정해주세요.");

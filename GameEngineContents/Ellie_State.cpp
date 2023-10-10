@@ -583,8 +583,27 @@ void Ellie::StartMongSiri()
 
 void Ellie::UpdateMongSiri(float _Delta)
 {
+	if (nullptr == m_Body)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
+
+	if (false == IsCollected)
+	{
+		if (nullptr == OtherEntity)
+		{
+			MsgBoxAssert("존재하지 않는 객체를 수집하려 했습니다.");
+			return;
+		}
+
+		OtherEntity->IsReach = true;
+		IsCollected = true;
+	}
+
 	if (true == m_Body->IsCurAnimationEnd())
 	{
+
 		ChangeState(EELLIE_STATE::Idle);
 		return;
 	}

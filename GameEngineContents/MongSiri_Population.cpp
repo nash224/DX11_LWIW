@@ -195,6 +195,17 @@ void MongSiri_Population::UpdateEntityMiddlePoint()
 	m_MiddlePoint = MiddlePoint;
 }
 
+void MongSiri_Population::EscapeHole()
+{
+	std::list<std::shared_ptr<MongSiri>>::iterator StarIter = MongSiriEntityList.begin();
+	std::list<std::shared_ptr<MongSiri>>::iterator EndIter = MongSiriEntityList.end();
+
+	for (;StarIter != EndIter; ++StarIter)
+	{
+		(*StarIter)->m_Status = EMONGSIRISTATUS::Escape;
+	}
+}
+
 
 void MongSiri_Population::ActorRelaese()
 {

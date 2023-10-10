@@ -39,6 +39,8 @@ private:
 private:
 	void UpdateEntityMiddlePoint();
 
+	void EscapeHole();
+
 private:
 	std::list<std::shared_ptr<class MongSiri>> MongSiriEntityList;
 	std::shared_ptr<class ChubHole> m_ChubHole = nullptr;
