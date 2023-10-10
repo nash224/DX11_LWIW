@@ -200,6 +200,7 @@ void Prop::CreatePixelCollisionRenderer()
 
 	m_DebugRenderer->Off();
 
+
 	PixelRendererCheck = true;
 }
 

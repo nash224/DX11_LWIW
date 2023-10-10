@@ -42,3 +42,67 @@ void DynamicEntity::LevelEnd(class GameEngineLevel* _NextLevel)
 
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
+
+
+
+EDIRECTION DynamicEntity::GetDirectionFromVector(const float4& _MoveVector)
+{
+	float4 UnitVetor = _MoveVector.NormalizeReturn();
+	float Degree = UnitVetor.Angle2DDeg();
+	if (UnitVetor.Y < 0)
+	{
+		Degree = 180.0f - Degree;
+		Degree += 180.0f;
+	}
+
+	float Cake16OnePieceDegree = 360.0f / 16.0f;
+
+	if (Degree <= Cake16OnePieceDegree || Degree >= Cake16OnePieceDegree * 15.0f)
+	{
+		return EDIRECTION::RIGHT;
+	}
+
+	if (Degree > Cake16OnePieceDegree * 1.0f && Degree <= Cake16OnePieceDegree * 3.0f)
+	{
+		return EDIRECTION::RIGHTUP;
+	}
+
+	if (Degree > Cake16OnePieceDegree * 3.0f && Degree <= Cake16OnePieceDegree * 5.0f)
+	{
+		return EDIRECTION::UP;
+	}
+
+	if (Degree > Cake16OnePieceDegree * 5.0f && Degree <= Cake16OnePieceDegree * 7.0f)
+	{
+		return EDIRECTION::LEFTUP;
+	}
+
+	if (Degree > Cake16OnePieceDegree * 7.0f && Degree <= Cake16OnePieceDegree * 9.0f)
+	{
+		return EDIRECTION::LEFT;
+	}
+
+	if (Degree > Cake16OnePieceDegree * 9.0f && Degree <= Cake16OnePieceDegree * 11.0f)
+	{
+		return EDIRECTION::LEFTDOWN;
+	}
+
+	if (Degree > Cake16OnePieceDegree * 11.0f && Degree <= Cake16OnePieceDegree * 13.0f)
+	{
+		return EDIRECTION::DOWN;
+	}
+
+	if (Degree > Cake16OnePieceDegree * 13.0f && Degree <= Cake16OnePieceDegree * 15.0f)
+	{
+		return EDIRECTION::RIGHTDOWN;
+	}
+
+	MsgBoxAssert("잘못된 반환입니다.");
+	return m_Dir;
+}
+
+
+void DynamicEntity::ApplyMovement(float _Delta)
+{
+	Transform.AddLocalPosition(m_MoveVector * _Delta);
+}

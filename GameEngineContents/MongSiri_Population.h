@@ -47,8 +47,13 @@ private:
 
 private:
 	float4 m_HoleScale = float4::ZERO;
-	float4 m_PopulationLocation = float4::ZERO;
-
 	const float MonSiriSpawnRangeSize = 80.0f;			// 몽시리 설치범위
+
+
+public:
+	float4 m_PopulationLocation = float4::ZERO;
+	const float m_PopulationMinCircle = 40.0f;
+	const float m_PopulationMaxCircle = 80.0f;
+
 };
 

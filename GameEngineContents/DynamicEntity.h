@@ -22,8 +22,28 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
-private:
 
+protected:
+	EDIRECTION GetDirectionFromVector(const float4& _MoveVector);
+	void ApplyMovement(float _Delta);
+
+protected:
+	// 렌더러
+	// 발 끝이 기준점입니다.
+	std::shared_ptr<GameEngineSpriteRenderer> m_Body = nullptr;
+
+
+protected:
+	// 행동
+	float m_StateTime = 0.0f;
+
+	// 키 조작
+	EDIRECTION m_Dir = EDIRECTION::LEFT;
+	EDIRECTION m_RenderDir = EDIRECTION::CENTER;
+
+	// 이동
+	float4 m_MoveVector = float4::ZERO;
+	float4 m_MoveForce = float4::ZERO;
 
 };
 

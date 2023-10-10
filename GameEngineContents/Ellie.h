@@ -1,5 +1,5 @@
 #pragma once
-#include "InteractiveActor.h"
+#include "DynamicEntity.h"
 #include "ActorEnum.h"
 
 
@@ -72,7 +72,7 @@ public:
 
 
 // 설명 : 주인공 앨리입니다. 
-class Ellie : public InteractiveActor
+class Ellie : public DynamicEntity
 {
 public:
 	static Ellie* MainEllie;
@@ -200,7 +200,6 @@ private:
 
 	float4 ReturnPostMoveVector(float _Delta, float _MAXMoveForce, float _Acceleration_Time);
 
-	EDIRECTION ReturnCheckDirToMoveVector(const float4& _MoveVector);
 	bool IsOverSpeed(float _CurSpeed, const float _MaxMoveForce);
 	void DecelerateMoveVector(float _Delta, const float _MaxMoveForce, const float _DecelerationTime);
 	void DecelerateAtMidpoint(float _Delta, const float _MaxMoveForce, const float _Time);
@@ -215,32 +214,14 @@ private:
 	void UpdateInteractionCollsiion();
 
 
-
 private:
-	// 렌더러
-	// 발 끝이 기준점입니다.
-	std::shared_ptr<GameEngineSpriteRenderer> m_Body = nullptr;
-
-
-private:
-	// 행동
-	EELLIE_STATE m_State = EELLIE_STATE::None;
-	float m_StateTime = 0.0f;
-
-
-	// 키 조작
-	EDIRECTION m_Dir = EDIRECTION::LEFT;
-	EDIRECTION m_RenderDir = EDIRECTION::CENTER;
+	// 방향키
 	EHORIZONTAL_KEY_STATE m_HorizontalKey = EHORIZONTAL_KEY_STATE::Center;
 	EVERTICAL_KEY_STATE m_VerticalKey = EVERTICAL_KEY_STATE::Center;
 
+	// 행동
+	EELLIE_STATE m_State = EELLIE_STATE::None;
 	bool IsControl = true;
-
-private:
-	// 이동
-	float4 m_MoveVector = float4::ZERO;
-	float4 m_MoveForce = float4::ZERO;
-
 
 
 	const float CONST_Ellie_NonRiding_Acceleration_Time = 1.0f;

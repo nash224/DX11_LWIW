@@ -1,13 +1,26 @@
 #pragma once
 #include "DynamicEntity.h"
 
+constexpr float MongSiri_JumpMinSpeed = 0.0f;
+constexpr float MongSiri_JumpMaxSpeed = 60.0f;
+
+
+enum class EMONGSIRISTATUS
+{
+	Normal,
+	Escape,
+	Look,
+	None,
+};
+// 몽시리 상태 : 
+
 
 enum class EMONGSIRISTATE
 {
 	Idle,
 	Jump,
 	Look,
-	Escape,
+	Collected,
 	None,
 };
 
@@ -41,28 +54,49 @@ protected:
 
 private:
 	void CreateAndSetRenderer();
+	void InitDirection();
 
 private:
-	std::shared_ptr<GameEngineSpriteRenderer> m_Body = nullptr;
+	void ChangeAnimation(std::string_view _StateName);
+	void ChangeAnimationByDircetion(std::string_view _StateName);
+
+	bool IsPlayerAround();
+
+private:
+	void UpdateState(float _Delta);
+	void ChangeState(EMONGSIRISTATE _State);
+
+	void StartIdle();
+	void UpdateIdle(float _Delta);
+	void EndIdle();
+
+	void StartJump();
+	void SearchJumpLocation();
+	void UpdateJump(float _Delta);
+	void EndJump();
+
+	void StartLook();
+	void UpdateLook(float _Delta);
+
+	void StartCollected();
+	void UpdateCollected(float _Delta);
+
+
+private:
 	std::shared_ptr<GameEngineSpriteRenderer> m_Shadow = nullptr;
 
 private:
 	// 상태
 	EMONGSIRISTATE m_State = EMONGSIRISTATE::None;
+	EMONGSIRISTATUS m_Status = EMONGSIRISTATUS::None;
 
-	void UpdateState(float _Delta);
-	void ChangeState(EMONGSIRISTATE _State);
+private:
+	float4 m_TargetForce = float4::ZERO;
+	int m_IdleCount = 0;
 
-	void StartIdle();
-	void UpdateIdle();
 
-	void StartJump();
-	void UpdateJump();
-
-	void StartLook();
-	void UpdateLook();
-
-	void StartEscape();
-	void UpdateEscape();
+private:
+	const float MongSiri_FOVSize = 90.0f;
 };
+
 

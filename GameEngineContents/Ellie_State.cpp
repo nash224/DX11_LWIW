@@ -340,7 +340,7 @@ void Ellie::UpdateRiding_Move(float _Delta)
 
 	// 방향을 넣으면 방향 기저벡터를 반환 해줍니다.
 	float4 MoveVector = ReturnPostMoveVector(_Delta, CONST_Ellie_Riding_Move_Speed, CONST_Ellie_Riding_Move_Acceleration_Time);
-	EDIRECTION Direction = ReturnCheckDirToMoveVector(MoveVector);
+	EDIRECTION Direction = GetDirectionFromVector(MoveVector);
 	EDIRECTION MoveDirection = ReturnPixelCollisionMoveDirectionToCurrentCheckPoint(Direction, MoveVector);
 	if (Direction == MoveDirection)
 	{
@@ -406,7 +406,7 @@ void Ellie::UpdateRiding_Boost(float _Delta)
 
 	// 방향을 넣으면 방향 기저벡터를 반환 해줍니다.
 	float4 MoveVector = ReturnPostMoveVector(_Delta, CONST_Ellie_Riding_Boost_Speed, CONST_Ellie_Riding_Boosting_Acceleration_Time);
-	EDIRECTION Direction = ReturnCheckDirToMoveVector(MoveVector);
+	EDIRECTION Direction = GetDirectionFromVector(MoveVector);
 	EDIRECTION MoveDirection = ReturnPixelCollisionMoveDirectionToCurrentCheckPoint(Direction, MoveVector);
 	if (Direction == MoveDirection)
 	{
@@ -451,7 +451,7 @@ void Ellie::StartApproach()
 	// 상대방을 바라보는 방향을 구합니다.
 	float4 OtherPosition = OtherEntity->GetInteractiveLocalPositon();
 	float4 TargetDistance = OtherPosition - Transform.GetLocalPosition();
-	m_Dir = ReturnCheckDirToMoveVector(TargetDistance);
+	m_Dir = GetDirectionFromVector(TargetDistance);
 
 	ChangeAnimationByDirection("Walk");
 }
