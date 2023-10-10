@@ -118,6 +118,9 @@
     <Filter Include="2.Object\1.Actor\5.Population\MongSiri">
       <UniqueIdentifier>{565f8434-0e98-421c-a949-187b994baac1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2.Object\1.Actor\2.Interactive\Dynamic\MongSiri">
+      <UniqueIdentifier>{523ad1c7-d8ca-4084-bf97-71f810474987}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -325,9 +328,6 @@
     <ClInclude Include="ItemData.h">
       <Filter>0.Data\Contents</Filter>
     </ClInclude>
-    <ClInclude Include="MongSiri.h">
-      <Filter>2.Object\1.Actor\2.Interactive\Dynamic</Filter>
-    </ClInclude>
     <ClInclude Include="TemplateD.h">
       <Filter>1.Global\Template</Filter>
     </ClInclude>
@@ -336,6 +336,9 @@
     </ClInclude>
     <ClInclude Include="ChubHole.h">
       <Filter>2.Object\1.Actor\5.Population\MongSiri</Filter>
+    </ClInclude>
+    <ClInclude Include="MongSiri.h">
+      <Filter>2.Object\1.Actor\2.Interactive\Dynamic\MongSiri</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -541,9 +544,6 @@
     <ClCompile Include="ItemData.cpp">
       <Filter>0.Data\Contents</Filter>
     </ClCompile>
-    <ClCompile Include="MongSiri.cpp">
-      <Filter>2.Object\1.Actor\2.Interactive\Dynamic</Filter>
-    </ClCompile>
     <ClCompile Include="TemplateD.cpp">
       <Filter>1.Global\Template</Filter>
     </ClCompile>
@@ -554,7 +554,10 @@
       <Filter>2.Object\1.Actor\5.Population\MongSiri</Filter>
     </ClCompile>
     <ClCompile Include="MongSiri_State.cpp">
-      <Filter>2.Object\1.Actor\2.Interactive\Dynamic</Filter>
+      <Filter>2.Object\1.Actor\2.Interactive\Dynamic\MongSiri</Filter>
+    </ClCompile>
+    <ClCompile Include="MongSiri.cpp">
+      <Filter>2.Object\1.Actor\2.Interactive\Dynamic\MongSiri</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

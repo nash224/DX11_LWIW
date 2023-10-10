@@ -24,12 +24,19 @@ void UI_InterativeMark::Start()
 
 void UI_InterativeMark::Update(float _Delta)
 {
+	// UI_Mark가 현재 레벨에서 사용하고 있지 않다면 초기화
+	if (this != UI_Mark)
+	{
+		Reset();
+	}
+	
+
 	UpdateMark(_Delta);
 }
 
 void UI_InterativeMark::LevelStart(class GameEngineLevel* _NextLevel)
 {
-	Reset();
+	
 }
 
 void UI_InterativeMark::LevelEnd(class GameEngineLevel* _NextLevel)

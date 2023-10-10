@@ -61,6 +61,9 @@ private:
 
 private:
 	// Update
+	void OnLevelStart();
+	bool OnLevelStartCheck = false;
+
 	void UpdateDictionary();
 	bool CheckOpenDictionary();
 	bool CheckMoveCategory();

@@ -33,11 +33,15 @@ public:
 		ClearColor[_Index] = _Color;
 	}
 
+	void CreateDepthTexture(int _Index = 0);
+
 protected:
 
 private:
 	std::vector<std::shared_ptr<GameEngineTexture>> Textures;
 	std::vector<ID3D11RenderTargetView*> RTV; // <= 텍스처를 랜더타겟으로 삼을수 있게 만드는 권한
 	std::vector<float4> ClearColor; // <= 텍스처를 랜더타겟으로 삼을수 있게 만드는 권한
+
+	std::shared_ptr<GameEngineTexture> DepthTexture;
 };
 

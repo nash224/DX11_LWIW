@@ -162,6 +162,11 @@ void UI_Inventory::Start()
 
 void UI_Inventory::Update(float _Delta)
 {
+	if (this != MainInventory)
+	{
+		OnLevelStart();
+	}
+
 	UI_ToggleActor::Update(_Delta);
 
 	UpdateInventory(_Delta);
@@ -170,8 +175,6 @@ void UI_Inventory::Update(float _Delta)
 void UI_Inventory::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	UI_ToggleActor::LevelStart(_NextLevel);
-
-	OnLevelStart();
 }
 
 void UI_Inventory::LevelEnd(class GameEngineLevel* _NextLevel)

@@ -23,24 +23,31 @@ void UI_Dictionary::Start()
 
 void UI_Dictionary::Update(float _Delta)
 {
-	UI_ToggleActor::Update(_Delta);
+	if (false == OnLevelStartCheck)
+	{
+		OnLevelStart();
+		OnLevelStartCheck = true;
+	}
 
-	UpdateDictionary();
+	UI_ToggleActor::Update(_Delta);
+}
+
+void UI_Dictionary::OnLevelStart()
+{
+	ChangeCategoryMark();
 }
 
 void UI_Dictionary::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	UI_ToggleActor::LevelStart(_NextLevel);
-
-	ChangeCategoryMark();
 }
 
 void UI_Dictionary::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	UI_ToggleActor::LevelEnd(_NextLevel);
 
-
 	OffCategoryMark();
+	OnLevelStartCheck = false;
 }
 
 

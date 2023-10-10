@@ -71,6 +71,7 @@ public:
 protected:
 	void Start();
 	virtual void Render(class GameEngineCamera* _Camera, float _Delta);
+	virtual void SetMaterialEvent(std::string_view _Name, int _Index = 0);
 
 	//std::shared_ptr<class GameEngineInputLayOut> LayOut;
 	//std::shared_ptr<class GameEngineMesh> Mesh;

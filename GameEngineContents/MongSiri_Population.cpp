@@ -24,7 +24,7 @@ void MongSiri_Population::Start()
 
 void MongSiri_Population::Update(float _Delta)
 {
-	
+	UpdateEntityMiddlePoint();
 }
 
 void MongSiri_Population::Release()
@@ -176,6 +176,23 @@ void MongSiri_Population::CreateMongSiri(GameEngineLevel* _CurLevel, unsigned in
 		Object->Transform.SetLocalPosition(MonSiriPosition);
 		MongSiriEntityList.push_back(Object);
 	}
+}
+
+
+void MongSiri_Population::UpdateEntityMiddlePoint()
+{
+	m_MiddlePoint = float4::ZERO;
+
+	float4 MiddlePoint = float4::ZERO;
+
+	for (std::shared_ptr<MongSiri> Entity : MongSiriEntityList)
+	{
+		MiddlePoint += Entity->Transform.GetLocalPosition();
+	}
+
+	MiddlePoint /= static_cast<float>(MongSiriEntityList.size());
+
+	m_MiddlePoint = MiddlePoint;
 }
 
 

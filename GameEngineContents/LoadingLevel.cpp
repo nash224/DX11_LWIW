@@ -154,6 +154,7 @@ void LoadingLevel::LoadSprite()
 		// MongSiri
 		GameEngineSprite::CreateSingle("SquishychubHole.png");
 		GameEngineSprite::CreateCut("Mongsiri_Collected.png", 4, 3);
+		GameEngineSprite::CreateCut("Mongsiri_CollectedA.png", 4, 1);
 		GameEngineSprite::CreateCut("Mongsiri_Disappear.png", 6, 6);
 		GameEngineSprite::CreateCut("Mongsiri_Escape.png", 4, 3);
 		GameEngineSprite::CreateCut("Mongsiri_Idle.png", 3, 3);

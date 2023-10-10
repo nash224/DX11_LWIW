@@ -30,3 +30,22 @@ void GameEngineRenderTarget::Setting()
 
 	GameEngineCore::GetContext()->OMSetRenderTargets(static_cast<UINT>(RTV.size()), &RTV[0], nullptr);
 }
+
+
+void GameEngineRenderTarget::CreateDepthTexture(int _Index)
+{
+	// 텍스처를 직접 만드는 첫번째 작업
+	D3D11_TEXTURE2D_DESC Desc;
+
+	// 텍스처를 3차원으로 만들것이냐인데.
+	Desc.ArraySize = 1;
+
+	Desc.Width = Textures[_Index]->GetScale().uiX();
+	Desc.Height = Textures[_Index]->GetScale().uiY();
+
+	// 0~부터 1사이의 float이기 때문에. 
+	// 1바이트를 남기고 24비트 float을 만듭니다.
+	// 남은 8비트를 스텐실이라는 것으로 사용하는데 내일 설명드리겠습니다.
+	Desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+
+}

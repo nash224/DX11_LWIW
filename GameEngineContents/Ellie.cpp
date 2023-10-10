@@ -5,6 +5,9 @@
 #include "PortalObject.h"
 #include "BackDrop_PlayLevel.h"
 
+Ellie* Ellie::MainEllie = nullptr;
+EELLIE_STATUS Ellie::g_Status = EELLIE_STATUS::None;
+bool Ellie::FirstInitCheck = false;
 Ellie::Ellie() 
 {
 }
@@ -13,9 +16,6 @@ Ellie::~Ellie()
 {
 }
 
-Ellie* Ellie::MainEllie = nullptr;
-EELLIE_STATUS Ellie::g_Status = EELLIE_STATUS::None;
-bool Ellie::FirstInitCheck = false;
 void Ellie::Start()
 {
 	StartFSM();
@@ -37,7 +37,7 @@ void Ellie::UpdateTestCode()
 	}
 }
 
-
+// Ellie는 PlayLevel에서 Off할 수 있지만, Off한 채로 LevelStart 할 수는 없습니다.
 void Ellie::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	OnLevelStart();
