@@ -212,7 +212,7 @@ void UI_Inventory::Init()
 // Base Create
 void UI_Inventory::CreateBase()
 {
-	m_InventoryBase = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Base);
+	m_InventoryBase = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Base);
 	if (nullptr == m_InventoryBase)
 	{
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
@@ -220,6 +220,7 @@ void UI_Inventory::CreateBase()
 	}
 
 	m_InventoryBase->SetSprite("Inventory_Base.png");
+	m_InventoryBase->Transform.AddLocalPosition({ 0.0f, 0.0f, -1.0f });
 }
 
 // 렌더 2차원 배열을 생성합니다.
@@ -242,13 +243,13 @@ void UI_Inventory::CreateSlotArray()
 		{
 			float4 Pos = CalculateIndexToPos(x, y);
 
-			std::shared_ptr<GameEngineUIRenderer> Empty = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Attachment);
+			std::shared_ptr<GameEngineUIRenderer> Empty = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Attachment);
 			Empty->SetSprite("Inventory_Empty_Slot.png");
 			Empty->Transform.SetLocalPosition(Pos);
 
 			InventorySlotArray[y][x].SlotEmpty = Empty;
 
-			std::shared_ptr<GameEngineUIRenderer> Slot = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Icon);
+			std::shared_ptr<GameEngineUIRenderer> Slot = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Icon);
 			Slot->Transform.SetLocalPosition(Pos);
 			Slot->Off();
 
@@ -259,17 +260,17 @@ void UI_Inventory::CreateSlotArray()
 
 void UI_Inventory::CreateCursor()
 {
-	std::shared_ptr<GameEngineUIRenderer> CurSor = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Cursor);
+	std::shared_ptr<GameEngineUIRenderer> CurSor = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Cursor);
 	CurSor->CreateAnimation("Cursor", "Inventory_Cursor.png", CursorInter);
 	CurSor->ChangeAnimation("Cursor");
 	CurSor->AutoSpriteSizeOn();
 	m_CursorComposition.Cursor = CurSor;
 
-	std::shared_ptr<GameEngineUIRenderer> CurSorOutLine = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::CursorOutLine);
+	std::shared_ptr<GameEngineUIRenderer> CurSorOutLine = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::CursorOutLine);
 	CurSorOutLine->SetSprite("Inventory_CursorOutline.png");
 	m_CursorComposition.CursorOutline = CurSorOutLine;
 
-	std::shared_ptr<GameEngineUIRenderer> NameTooltip = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Cursor);
+	std::shared_ptr<GameEngineUIRenderer> NameTooltip = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Cursor);
 	NameTooltip->SetSprite("Inventory_NameTooltip.png");
 	NameTooltip->Off();
 	m_CursorComposition.NameTooltip = NameTooltip;

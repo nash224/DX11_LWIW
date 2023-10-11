@@ -253,7 +253,7 @@ private:
 	bool IsCollected = false;
 
 	// 상호작용 Collision 시야각도 입니다.
-	const float FOVAngle = 60.0f;
+	const float FOVAngle = 75.0f;
 
 };
 

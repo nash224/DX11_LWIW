@@ -25,26 +25,23 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
-private:
-
-
 public:
 	// Init
-	template<typename DataType>
-	void SetRenderOrder(DataType _Order)
-	{
-		SetRenderOrder(static_cast<int>(_Order));
-	}
-
-	void SetRenderOrder(int _Order);
-
 	void SetSprite(std::string_view _FileName);
 	void SetFirstLocation(const float4& _Position);
 	void SetRegenLocation(const float4& _Position);
 	void SetSpawnPoint(float _Value);
 	void SetAutoSpawnPoint();
 	void SetSpeed(float _Speed);
-	void CalculateAndSetRegenLocationInputFirstLocation(const float4& _Position);
+	void CalculateAndSetRegenLocation(const float4& _Position);
+
+	template<typename EnumType>
+	void SetDepth(EnumType _Depth)
+	{
+		SetDepth(static_cast<int>(_Depth));
+	}
+
+	void SetDepth(const int _Depth);
 
 private:
 
@@ -56,8 +53,6 @@ private:
 	void RegenProp(const float4& _Position = float4::ZERO);
 
 public:
-
-public:
 	// Release
 	void ActorRelease();
 
@@ -67,7 +62,7 @@ private:
 private:
 	std::string m_SpriteFileName = "";
 	float4 m_TextureScale = float4::ZERO;
-	int m_Order = 0;
+	int m_Depth = 0;
 
 
 	float4 m_FirstLocation = float4::ZERO;	

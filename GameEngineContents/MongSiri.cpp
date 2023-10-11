@@ -56,8 +56,9 @@ void MongSiri::LevelEnd(class GameEngineLevel* _NextLevel)
 void MongSiri::Init()
 {
 	CreateAndSetRenderer();
-	CreateAndSetCollision(ECOLLISION::Entity, { 50, 50 }, float4::ZERO, ColType::SPHERE2D);
+	CreateAndSetCollision(ECOLLISION::Entity, { 200, 200 }, float4::ZERO, ColType::SPHERE2D);
 	InitDirection();
+	InitialDepth();
 
 	m_Status = EMONGSIRISTATUS::Normal;
 	ChangeState(EMONGSIRISTATE::Idle);
@@ -65,14 +66,14 @@ void MongSiri::Init()
 
 void MongSiri::CreateAndSetRenderer()
 {
-	m_Shadow = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::ObjectShadow);
+	m_Shadow = CreateComponent<GameEngineSpriteRenderer>();
 	if (nullptr == m_Shadow)
 	{
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
 		return;
 	}
 
-	m_Body = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::Object);
+	m_Body = CreateComponent<GameEngineSpriteRenderer>();
 	if (nullptr == m_Body)
 	{
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
@@ -181,7 +182,7 @@ void MongSiri::CreateAndSetRenderer()
 	m_Body->CreateAnimation("CollectedA", "Mongsiri_CollectedA.png", 0.05f);
 
 
-	m_Body->CreateAnimation("Disappear", "Mongsiri_Disappear.png", 0.2f, 10, 33);
+	m_Body->CreateAnimation("Disappear", "Mongsiri_Disappear.png", 0.2f, 10, 33, false);
 
 	m_Body->ChangeAnimation("Collected");
 	m_Body->AutoSpriteSizeOn();

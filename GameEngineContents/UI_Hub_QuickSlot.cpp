@@ -40,19 +40,19 @@ void UI_Hub_QuickSlot::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void UI_Hub_QuickSlot::Init()
 {
-	m_Slot = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::HUB_Frame);
+	m_Slot = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::HUB_Frame);
 	m_Slot->SetSprite("HUD_Potion_Slot.png");
 
-	m_ArrowLeft = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::UIArrow);
+	m_ArrowLeft = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::UIArrow);
 	m_ArrowLeft->SetSprite("HUD_Arrow_Left.png");
 	m_ArrowLeft->Transform.AddLocalPosition({ -CONST_ArrowDistanceToLocalZERO , 0.0f });
 
-	m_ArrowRight = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::UIArrow);
+	m_ArrowRight = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::UIArrow);
 	m_ArrowRight->SetSprite("HUD_Arrow_Left.png");
 	m_ArrowRight->LeftFlip();
 	m_ArrowRight->Transform.AddLocalPosition({ CONST_ArrowDistanceToLocalZERO , 0.0f });
 
-	m_Item = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::HUB_Icon);
+	m_Item = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::HUB_Icon);
 	m_Item->Off();
 
 	Off();

@@ -42,7 +42,7 @@ void ChubHole::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void ChubHole::Init()
 {
-	m_HoleRenderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::ObjectShadow);
+	m_HoleRenderer = CreateComponent<GameEngineSpriteRenderer>();
 	if (nullptr == m_HoleRenderer)
 	{
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");

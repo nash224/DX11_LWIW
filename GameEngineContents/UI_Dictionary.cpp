@@ -30,6 +30,8 @@ void UI_Dictionary::Update(float _Delta)
 	}
 
 	UI_ToggleActor::Update(_Delta);
+
+	UpdateDictionary();
 }
 
 void UI_Dictionary::OnLevelStart()
@@ -105,7 +107,7 @@ void UI_Dictionary::Init()
 void UI_Dictionary::CreateBase()
 {
 	// Base
-	m_BaseRenderer = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Base);
+	m_BaseRenderer = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Base);
 	if (nullptr == m_BaseRenderer)
 	{
 		MsgBoxAssert("Base를 생성하지 못했습니다.");
@@ -120,7 +122,7 @@ void UI_Dictionary::CreateCategory()
 {
 	float4 SetLocalPos = float4{ -345.0f , 128.0f };
 
-	m_CategoryRenderer.Creature = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Attachment);
+	m_CategoryRenderer.Creature = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Attachment);
 	if (nullptr == m_CategoryRenderer.Creature)
 	{
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
@@ -153,7 +155,7 @@ void UI_Dictionary::CreateCategory()
 	SetLocalPos.Y -= HTextureScale.Y;
 
 
-	m_CategoryRenderer.Plant = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Attachment);
+	m_CategoryRenderer.Plant = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Attachment);
 	if (nullptr == m_CategoryRenderer.Plant)
 	{
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
@@ -178,7 +180,7 @@ void UI_Dictionary::CreateCategory()
 	SetLocalPos.Y -= HTextureScale.Y;
 
 
-	m_CategoryRenderer.Potion = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Attachment);
+	m_CategoryRenderer.Potion = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Attachment);
 	if (nullptr == m_CategoryRenderer.Potion)
 	{
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
@@ -204,7 +206,7 @@ void UI_Dictionary::CreateCategory()
 	SetLocalPos.Y -= HTextureScale.Y;
 
 
-	m_CategoryRenderer.Candy = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Attachment);
+	m_CategoryRenderer.Candy = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Attachment);
 	if (nullptr == m_CategoryRenderer.Candy)
 	{
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");

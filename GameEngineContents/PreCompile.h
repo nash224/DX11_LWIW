@@ -21,6 +21,7 @@
 
 // Contents
 #include "GlobalValue.h"
+#include "GlobalUtils.h"
 #include "ContentsEnum.h"
 #include "ContentsResource.h"
 #include "EventData.h"

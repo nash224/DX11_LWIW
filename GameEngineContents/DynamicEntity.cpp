@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "DynamicEntity.h"
 
+#include "BackDrop_PlayLevel.h"
+
 DynamicEntity::DynamicEntity() 
 {
 }
@@ -104,5 +106,32 @@ EDIRECTION DynamicEntity::GetDirectionFromVector(const float4& _MoveVector)
 
 void DynamicEntity::ApplyMovement(float _Delta)
 {
-	Transform.AddLocalPosition(m_MoveVector * _Delta);
+	float4 CurrentPosition = Transform.GetLocalPosition();
+	float4 MoveValue = m_MoveVector* _Delta;
+	float4 MovePosition = CurrentPosition + MoveValue;
+	if (nullptr == BackDrop_PlayLevel::MainBackDrop)
+	{
+		MsgBoxAssert("nullptr == BackDrop_PlayLevel::MainBackDrop");
+		return;
+	}
+
+	float ZSort = BackDrop_PlayLevel::MainBackDrop->ZSort(MovePosition.Y);
+	MovePosition.Z = ZSort;
+	
+	Transform.SetLocalPosition(MovePosition);
+}
+
+void DynamicEntity::InitialDepth()
+{
+	float4 CurrentPosition = Transform.GetLocalPosition();
+	if (nullptr == BackDrop_PlayLevel::MainBackDrop)
+	{
+		MsgBoxAssert("nullptr == BackDrop_PlayLevel::MainBackDrop");
+		return;
+	}
+
+	float ZSort = BackDrop_PlayLevel::MainBackDrop->ZSort(CurrentPosition.Y);
+	CurrentPosition.Z = ZSort;
+
+	Transform.SetLocalPosition(CurrentPosition);
 }

@@ -86,6 +86,9 @@ void BackDrop_CenterField::CreatePixelMap(GameEngineLevel* _Level)
 {
 	vecPixelProps.reserve(30);
 
+	float4 Position = GlobalValue::GetWindowScale().Half();
+	Position.Y *= -1.0f;
+
 	std::shared_ptr<Prop> Object = _Level->CreateActor<Prop>(EUPDATEORDER::Objects);
 	if (nullptr == Object)
 	{
@@ -93,11 +96,10 @@ void BackDrop_CenterField::CreatePixelMap(GameEngineLevel* _Level)
 		return;
 	}
 
-	Object->CreateRenderer(ERENDERORDER::Back_);
 	Object->SetSprite("TestFieldMap.png");
 	Object->CreatePixelCollisionRenderer();
 	Object->SetPixelSprite("TestCenter_ColorMap.png");
-	Object->Transform.SetLocalPosition({ 960.0f , -540.0f });
+	Object->SetPositionAndDepth(Position, ERENDERDEPTH::Back_);
 
 	vecPixelProps.push_back(Object);
 }

@@ -24,8 +24,11 @@ public:
 
 	// Å½»ö
 	bool IsColorAtPosition(const float4& _Position, GameEngineColor _CheckColor);
+	float ZSort(const float _PositionY) const;
 
 	void CreateItem(std::string_view _ItemName, const float4& _Position = float4::ZERO, const int _Stack = 1);
+
+	std::list<std::shared_ptr<class LootedItem>>& GetLootedItemList();
 
 
 protected:

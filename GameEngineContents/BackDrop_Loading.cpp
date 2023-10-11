@@ -68,9 +68,9 @@ void BackDrop_Loading::CreateProp(GameEngineLevel * _Level)
 		return;
 	}
 
-	Object->CreateRenderer(ERENDERORDER::Back_);
 	Object->SetSprite("Loading_Back.png");
-	Object->SetPosition(float4::ZERO, PivotType::LeftTop);
+	Object->SetRendererPivotType(PivotType::LeftTop);
+	Object->SetPositionAndDepth(float4::ZERO, ERENDERDEPTH::Back_);
 	vecProps.push_back(Object);
 }
 

@@ -27,6 +27,12 @@ public:
 	MainMenu_Trains& operator=(const MainMenu_Trains& _Other) = delete;
 	MainMenu_Trains& operator=(MainMenu_Trains&& _Other) noexcept = delete;
 
+	void SetRattleCycle(float _Value);
+	void SetDepth(float _Depth);
+	void Init();
+
+	void ActorRelease();
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -34,14 +40,6 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
-private:
-	void Init();
-
-
-public:
-	void ActorRelease();
-
-	void SetRattleCycle(float _Value);
 private:
 	void UpdateTrainFSM(float _Delta);
 	void ChangeState(TrainState _State);
@@ -53,17 +51,15 @@ private:
 	void StartRattleDown();
 	void UpdateRattleDown(float _Delta);
 
-
 	void StartWait();
 	void UpdateWait(float _Delta);
 
 
-public:
-	
 
 private:
-	const int CONST_TrainCount = 5;
 	std::vector<std::shared_ptr<class TrainPart>> vecTrain;
+
+	const int CONST_TrainCount = 5;
 
 private:
 	int m_TrainState;					// 진행중인 객차

@@ -5,6 +5,8 @@
 class GameEngineRenderTarget : public GameEngineResources<GameEngineRenderTarget>
 {
 public:
+	static bool IsDepth;
+
 	// constrcuter destructer
 	GameEngineRenderTarget();
 	~GameEngineRenderTarget();
@@ -20,7 +22,12 @@ public:
 		std::shared_ptr<GameEngineRenderTarget> NewRes = GameEngineResources::CreateRes();
 		NewRes->ClearColor.push_back(_Color);
 		NewRes->Textures.push_back(_Texture);
-		_Texture->CreateRenderTargetView();
+
+		if (nullptr == _Texture->GetRTV())
+		{
+			MsgBoxAssert("if (nullptr == _Texture->GetRTV())");
+		}
+
 		NewRes->RTV.push_back(_Texture->GetRTV());
 		return NewRes;
 	}

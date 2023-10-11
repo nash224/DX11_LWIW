@@ -43,57 +43,57 @@ void UI_ProductPage::CreatePage(std::string_view _ProduectName, int& PageCount)
 
 	const std::shared_ptr<ProductRecipeData>& Data = ProductRecipeData::Find(_ProduectName);
 
-	m_ProductPageComposition.ProductTag = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Attachment);
+	m_ProductPageComposition.ProductTag = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Attachment);
 	m_ProductPageComposition.ProductTag->SetSprite("Potion_Name.png");
 	m_ProductPageComposition.ProductTag->Transform.AddLocalPosition({ -176.0f , 129.0f });
 
-	m_ProductPageComposition.Photo = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Attachment);
+	m_ProductPageComposition.Photo = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Attachment);
 	m_ProductPageComposition.Photo->SetSprite("Photo.png");
 	m_ProductPageComposition.Photo->Transform.AddLocalPosition({ -176.0f , 25.0f });
 
-	m_ProductPageComposition.Illustration = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Component);
+	m_ProductPageComposition.Illustration = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Component);
 	m_ProductPageComposition.Illustration->SetSprite(Data->ProductName + "_Illustration.png");
 	m_ProductPageComposition.Illustration->Transform.AddLocalPosition({ -176.0f , 25.0f });
 
-	m_ProductPageComposition.Frame = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Frame);
+	m_ProductPageComposition.Frame = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Frame);
 	m_ProductPageComposition.Frame->SetSprite("Base_LayoutLine_1.png");
 	m_ProductPageComposition.Frame->Transform.AddLocalPosition({ -176.0f , -46.0f });
 
-	m_ProductPageComposition.Star = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Component);
+	m_ProductPageComposition.Star = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Component);
 	m_ProductPageComposition.Star->SetSprite(ReturnIllustedBookFileName(Data->Star), ReturnIllustedBookIndex(Data->Star));
 	m_ProductPageComposition.Star->Transform.AddLocalPosition({ 79.0f , 129.0f });
 
-	m_ProductPageComposition.Fire = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Component);
+	m_ProductPageComposition.Fire = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Component);
 	m_ProductPageComposition.Fire->SetSprite(ReturnIllustedBookFileName(Data->Fire), ReturnIllustedBookIndex(Data->Fire));
 	m_ProductPageComposition.Fire->Transform.AddLocalPosition({ 79.0f + CONST_OptionGap , 129.0f });
 
-	m_ProductPageComposition.Ladle = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Component);
+	m_ProductPageComposition.Ladle = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Component);
 	m_ProductPageComposition.Ladle->SetSprite(ReturnIllustedBookFileName(Data->Ladle), ReturnIllustedBookIndex(Data->Ladle));
 	m_ProductPageComposition.Ladle->Transform.AddLocalPosition({ 79.0f + CONST_OptionGap * 2.0f, 129.0f });
 
-	m_ProductPageComposition.ItemSpace1 = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Attachment);
+	m_ProductPageComposition.ItemSpace1 = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Attachment);
 	m_ProductPageComposition.ItemSpace1->SetSprite("Inventory_Empty_Slot.png");
 	m_ProductPageComposition.ItemSpace1->Transform.AddLocalPosition({ 79.0f , 45.0f });
 
-	m_ProductPageComposition.ItemSlot1 = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Component);
+	m_ProductPageComposition.ItemSlot1 = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Component);
 	m_ProductPageComposition.ItemSlot1->SetSprite(Data->Material1 + ".png");
 	m_ProductPageComposition.ItemSlot1->Transform.AddLocalPosition({ 79.0f , 45.0f });
 
-	m_ProductPageComposition.ItemSpace2 = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Attachment);
+	m_ProductPageComposition.ItemSpace2 = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Attachment);
 	m_ProductPageComposition.ItemSpace2->SetSprite("Inventory_Empty_Slot.png");
 	m_ProductPageComposition.ItemSpace2->Transform.AddLocalPosition({ 79.0f , 45.0f - CONST_ItemSpaceGap });
 
-	m_ProductPageComposition.ItemSlot2 = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Component);
+	m_ProductPageComposition.ItemSlot2 = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Component);
 	m_ProductPageComposition.ItemSlot2->SetSprite(Data->Material2 + ".png");
 	m_ProductPageComposition.ItemSlot2->Transform.AddLocalPosition({ 79.0f , 45.0f - CONST_ItemSpaceGap });
 
 	if ("" != Data->Material3)
 	{
-		m_ProductPageComposition.ItemSpace3 = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Attachment);
+		m_ProductPageComposition.ItemSpace3 = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Attachment);
 		m_ProductPageComposition.ItemSpace3->SetSprite("Inventory_Empty_Slot.png"); 
 		m_ProductPageComposition.ItemSpace3->Transform.AddLocalPosition({ 79.0f , 45.0f - CONST_ItemSpaceGap * 2.0f });
 
-		m_ProductPageComposition.ItemSlot3 = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Component);
+		m_ProductPageComposition.ItemSlot3 = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Component);
 		m_ProductPageComposition.ItemSlot3->SetSprite(Data->Material3 + ".png");
 		m_ProductPageComposition.ItemSlot3->Transform.AddLocalPosition({ 79.0f , 45.0f - CONST_ItemSpaceGap * 2.0f });
 	}

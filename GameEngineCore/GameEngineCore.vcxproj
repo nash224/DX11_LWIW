@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{b1e3c61a-c8fc-4963-9f8c-24d509ee580c}</ProjectGuid>
+    <ProjectGuid>{89000BA0-0841-49A6-9BD9-A650244B1402}</ProjectGuid>
     <RootNamespace>GameEngineCore</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -204,6 +204,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineDepthStencil.h" />
     <ClInclude Include="GameEngineDevice.h" />
     <ClInclude Include="GameEngineDirectBuffer.h">
       <SubType>
@@ -344,6 +345,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GameEngineDepthStencil.cpp" />
     <ClCompile Include="GameEngineDevice.cpp" />
     <ClCompile Include="GameEngineDevice_Resources.cpp" />
     <ClCompile Include="GameEngineDirectBuffer.cpp">

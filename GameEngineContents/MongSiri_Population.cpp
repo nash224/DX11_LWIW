@@ -72,7 +72,16 @@ void MongSiri_Population::SetUpChubHole(GameEngineLevel* _CurLevel)
 		return;
 	}
 
-	m_ChubHole->Transform.SetLocalPosition(Transform.GetLocalPosition());
+	if (nullptr == BackDrop_PlayLevel::MainBackDrop)
+	{
+		MsgBoxAssert("nullptr == BackDrop_PlayLevel::MainBackDrop");
+		return;
+	}
+
+
+	float4 CurrentPosition = Transform.GetLocalPosition();
+	float ZSort = BackDrop_PlayLevel::MainBackDrop->ZSort(CurrentPosition.Y);
+	m_ChubHole->Transform.SetLocalPosition({ CurrentPosition.X , CurrentPosition.Y, ZSort });
 	m_ChubHole->Init();
 }
 

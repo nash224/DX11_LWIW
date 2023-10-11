@@ -2,6 +2,7 @@
 #include "LootedItem.h"
 
 #include "UI_Inventory.h"
+#include "BackDrop_PlayLevel.h"
 
 LootedItem::LootedItem() 
 {
@@ -67,7 +68,7 @@ void LootedItem::SetStack(const int _Value)
 
 void LootedItem::CreateItemRenderer(std::string_view _ItemName)
 {
-	m_ItemRenderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::RootedItem);
+	m_ItemRenderer = CreateComponent<GameEngineSpriteRenderer>();
 	if (nullptr == m_ItemRenderer)
 	{
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
@@ -94,9 +95,17 @@ void LootedItem::CreateItemCollision()
 
 void LootedItem::UpdateItemInteraction()
 {
+	// 플레이어가 주으면
 	if (true == IsEnalbeActive)
 	{
+		// 아이템 넣고
 		UI_Inventory::PushItem(ItemName, m_Stack);
+
+		// 리스트에서 제거하고
+		std::list<std::shared_ptr<LootedItem>>& ItemList = BackManager->GetLootedItemList();
+		ItemList.remove(GetDynamic_Cast_This<LootedItem>());
+
+		// 삭제
 		Death();
 	}
 }

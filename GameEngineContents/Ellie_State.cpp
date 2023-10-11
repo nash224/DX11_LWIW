@@ -146,7 +146,7 @@ void Ellie::UpdateSlowWalk(float _Delta)
 	ChangeDirectionAnimation("SlowWalk");
 
 	CalulationMoveForceToNormalStatus(_Delta, CONST_Ellie_SlowWalk_Speed);
-	ApplyMovementToTransform(_Delta);
+	ApplyMovement(_Delta);
 }
 
 
@@ -189,7 +189,7 @@ void Ellie::UpdateWalk(float _Delta)
 	ChangeDirectionAnimation("Walk");
 
 	CalulationMoveForceToNormalStatus(_Delta, CONST_Ellie_Walk_Speed);
-	ApplyMovementToTransform(_Delta);
+	ApplyMovement(_Delta);
 }
 
 
@@ -232,7 +232,7 @@ void Ellie::UpdateRun(float _Delta)
 
 
 	CalulationMoveForceToNormalStatus(_Delta, CONST_Ellie_Run_Speed);
-	ApplyMovementToTransform(_Delta);
+	ApplyMovement(_Delta);
 }
 
 
@@ -298,7 +298,7 @@ void Ellie::UpdateRiding_Idle(float _Delta)
 	}
 	
 	DecelerateAtMidpoint(_Delta, CONST_Ellie_Riding_Move_Speed, CONST_Ellie_Riding_Move_Acceleration_Time);
-	ApplyMovementToTransform(_Delta);
+	ApplyMovement(_Delta);
 }
 
 
@@ -362,7 +362,7 @@ void Ellie::UpdateRiding_Move(float _Delta)
 	}
 
 	DecelerateAtMidpoint(_Delta, CONST_Ellie_Riding_Move_Speed, CONST_Ellie_Riding_Move_Acceleration_Time);
-	ApplyMovementToTransform(_Delta);
+	ApplyMovement(_Delta);
 }
 
 
@@ -428,7 +428,7 @@ void Ellie::UpdateRiding_Boost(float _Delta)
 	}
 
 	DecelerateAtMidpoint(_Delta, CONST_Ellie_Riding_Boost_Speed, CONST_Ellie_Riding_Boosting_Acceleration_Time);
-	ApplyMovementToTransform(_Delta);
+	ApplyMovement(_Delta);
 }
 
 
@@ -470,7 +470,7 @@ void Ellie::UpdateApproach(float _Delta)
 	// 목표거리까지 이동합니다.
 	float4 TargetDircetion = TargetDistance.NormalizeReturn();
 	m_MoveVector = TargetDircetion * CONST_Ellie_Walk_Speed;
-	ApplyMovementToTransform(_Delta);
+	ApplyMovement(_Delta);
 
 	// 지정범위 안으로 들어가면 실행합니다.
 	if (fabs(TargetDistance.Size()) < OtherEntity->GetInteractiveRange())

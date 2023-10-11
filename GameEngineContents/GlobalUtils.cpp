@@ -91,6 +91,10 @@ std::string GlobalUtils::GetParentString(std::string_view _ChildPath)
 	return ChildPath;
 }
 
+float GlobalUtils::CalculateDepth(const float _Value)
+{
+	return _Value / 1000.0f;
+}
 
 float4 GlobalUtils::CalculateActorPivot(const float4& _Scale, ERENDERPIVOTPOS _Pivot)
 {

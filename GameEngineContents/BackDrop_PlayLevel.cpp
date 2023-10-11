@@ -119,6 +119,20 @@ bool BackDrop_PlayLevel::IsColorAtPosition(const float4& _Position, GameEngineCo
 	return false;
 }
 
+// 깊이버퍼 계산
+float BackDrop_PlayLevel::ZSort(const float _PositionY) const
+{
+	float4 BackGroundScale = GetBackGroundScale();
+	if (float4::ZERO == BackGroundScale)
+	{
+		BackGroundScale = GlobalValue::GetWindowScale();
+	}
+
+	float Depth = (BackGroundScale.Y + _PositionY) / BackGroundScale.Y;
+	return Depth;
+}
+
+
 void BackDrop_PlayLevel::CreateItem(std::string_view _ItemName, const float4& _Position, const int _Stack /*= 1*/)
 {
 	GameEngineLevel* CurLevel = GetLevel();
@@ -138,7 +152,14 @@ void BackDrop_PlayLevel::CreateItem(std::string_view _ItemName, const float4& _P
 	Item->Init(_ItemName);
 	Item->SetStack(_Stack);
 	Item->Transform.SetLocalPosition(_Position);
+	Item->BackManager = this;
 	LootedItemList.push_back(Item);
+}
+
+// 아이템 전용
+std::list<std::shared_ptr<class LootedItem>>& BackDrop_PlayLevel::GetLootedItemList() 
+{
+	return LootedItemList;
 }
 
 
@@ -155,7 +176,7 @@ void BackDrop_PlayLevel::ActorRelease()
 			return;
 		}
 
-		Object->ActorRelease();
+		Object->Death();
 	}
 
 	vecPixelProps.clear();
@@ -190,15 +211,4 @@ void BackDrop_PlayLevel::ActorRelease()
 	}
 
 	vecPortalObject.clear();
-
-	for (std::shared_ptr<LootedItem>& Item : LootedItemList)
-	{
-		if (nullptr == Item)
-		{
-			MsgBoxAssert("터진 액터를 참조했습니다.");
-			return;
-		}
-
-		Item->Death();
-	}
 }

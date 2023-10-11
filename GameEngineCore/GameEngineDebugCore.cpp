@@ -50,6 +50,7 @@ void GameEngineDebug::DrawSphere2D(const GameEngineTransform& _Trans, float4 _Co
 }
 void GameEngineDebug::DrawSphere2D(float4 _Scale, float4 _Rot, float4 _Pos, float4 _Color /*= float4::RED*/, class GameEngineCamera* _Camera /*= nullptr*/)
 {
+	_Scale.Y = _Scale.Z = _Scale.X;
 	GameEngineDebug::DrawMesh("Sphere", _Scale, _Rot, _Pos, _Color, _Camera);
 }
 
@@ -60,7 +61,6 @@ void GameEngineDebug::DrawMesh(const std::string_view& _Mesh, float4 _Scale, flo
 		_Camera = GameEngineDebug::GameEngineDebugCore::CurLevel->GetMainCamera().get();
 	}
 
-	_Scale.Y = _Scale.Z = _Scale.X;
 
 
 	GameEngineDebugInfo& Value = DebugUnit.emplace_back();

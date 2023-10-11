@@ -56,7 +56,7 @@ void Ellie::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void Ellie::StartFSM()
 {
-	m_Body = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::Ellie);
+	m_Body = CreateComponent<GameEngineSpriteRenderer>();
 	if (nullptr == m_Body)
 	{
 		MsgBoxAssert("컴포넌트를 생성하지 못했습니다.");

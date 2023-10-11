@@ -33,10 +33,19 @@ public:
 	GameEngineTexture& operator=(const GameEngineTexture& _Other) = delete;
 	GameEngineTexture& operator=(GameEngineTexture&& _Other) noexcept = delete;
 
+	// 스왑체인에서 얻어온 백버퍼를 우리 리소스로 등록시켜서 사용할때 썼음
 	static std::shared_ptr<GameEngineTexture> Create(ID3D11Texture2D* _Res)
 	{
 		std::shared_ptr<GameEngineTexture> NewRes = CreateRes();
-		NewRes->Texture2D = _Res;
+		NewRes->ResCreate(_Res);
+		return NewRes;
+	}
+
+	// 내가 아무것도 없는 특정 포맷의 텍스처를 직접 만들고 싶을때.
+	static std::shared_ptr<GameEngineTexture> Create(const D3D11_TEXTURE2D_DESC& _Desc)
+	{
+		std::shared_ptr<GameEngineTexture> NewRes = CreateRes();
+		NewRes->ResCreate(_Desc);
 		return NewRes;
 	}
 
@@ -64,7 +73,11 @@ public:
 		return RTV;
 	}
 
-	void CreateRenderTargetView();
+	inline ID3D11DepthStencilView* GetDSV()
+	{
+		return DSV;
+	}
+
 
 	inline float4 GetScale()
 	{
@@ -91,6 +104,13 @@ public:
 		return Sampler;
 	}
 
+	// 랜더타겟 세팅용
+	void CreateRenderTargetView();
+	// 쉐이더 세팅용
+	void CreateShaderResourceView();
+	// 깊버거 세팅용
+	void CreateDepthStencilView();
+
 protected:
 
 private:
@@ -100,6 +120,7 @@ private:
 
 	ID3D11RenderTargetView* RTV = nullptr; // 이 텍스처를 수정대상으로 삼거나 수정할수 있는 권한.
 	ID3D11ShaderResourceView* SRV = nullptr; // 쉐이더에 세팅해줄수 있는 권한다.
+	ID3D11DepthStencilView* DSV = nullptr; // 쉐이더에 세팅해줄수 있는 권한다.
 
 	DirectX::TexMetadata Data;
 	DirectX::ScratchImage Image;
@@ -107,5 +128,7 @@ private:
 	std::shared_ptr<GameEngineSampler> Sampler;
 
 	void ResLoad(std::string_view _Path);
+	void ResCreate(const D3D11_TEXTURE2D_DESC& Desc);
+	void ResCreate(ID3D11Texture2D* _Res);
 };
 

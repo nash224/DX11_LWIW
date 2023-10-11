@@ -22,8 +22,6 @@ public:
 
 
 // 설명 : 하나의 렌더러를 사용하는 Prop는 제약이 많아서 생성했습니다.
-//		다수의 렌더러로 Prop를 구성할 수 있습니다. 
-//		하지만 넣는 키값은 전부 달라야합니다.
 class ExProp : public Prop
 {
 public:

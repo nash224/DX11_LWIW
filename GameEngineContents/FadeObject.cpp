@@ -14,7 +14,7 @@ FadeObject::~FadeObject()
 
 void FadeObject::Start()
 {
-	m_FadeRenderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::FadeObject);
+	m_FadeRenderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERDEPTH::FadeObject);
 	if (nullptr == m_FadeRenderer)
 	{
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");

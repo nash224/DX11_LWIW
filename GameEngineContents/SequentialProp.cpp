@@ -12,13 +12,17 @@ SequentialProp::~SequentialProp()
 
 void SequentialProp::Start()
 {
-
+	Prop::Start();
 }
 
 void SequentialProp::Update(float _Delta)
 {
 	UpdateSequential(_Delta);
+}
 
+void SequentialProp::Release()
+{
+	Prop::Release();
 }
 
 void SequentialProp::LevelStart(class GameEngineLevel* _NextLevel)
@@ -50,7 +54,7 @@ void SequentialProp::UpdateSequential(float _Delta)
 {
 	float Speed = m_Speed * _Delta;
 
-	Transform.AddLocalPosition(Speed);
+	Transform.AddLocalPosition({ Speed });
 
 	float4 CurPosition = Transform.GetWorldPosition();
 	float DeleteDistance = -m_TextureScale.Half().X;

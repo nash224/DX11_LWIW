@@ -81,10 +81,10 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 			return;
 		}
 
-		Object->CreateRenderer(EDOWNFLOORRENDERORDER::BackPaint);
 		Object->SetSprite("DownFloor_Back.png");
-		Object->SetPosition(float4::ZERO, PivotType::LeftTop);
+		Object->SetRendererPivotType(PivotType::LeftTop);
 		Object->SetRendererImageScale(GlobalValue::GetWindowScale());
+		Object->SetPositionAndDepth(float4::ZERO, EHOUSEDEPTH::BackPaint);
 		vecProps.push_back(Object);
 	}
 
@@ -100,9 +100,8 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 			return;
 		}
 
-		Object->CreateRenderer(EDOWNFLOORRENDERORDER::HouseComposition);
 		Object->SetSprite("DownFloor_Floor.png");
-		Object->SetPosition(m_DownFloorWholePosition + float4{ 337.0f + 12.0f , -181.0f -134.0f });
+		Object->SetPositionAndDepth(m_DownFloorWholePosition + float4{ 337.0f + 12.0f , -181.0f - 134.0f }, EHOUSEDEPTH::HouseComposition);
 		vecProps.push_back(Object);
 	}
 
@@ -114,9 +113,8 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 			return;
 		}
 
-		Object->CreateRenderer(EDOWNFLOORRENDERORDER::HouseComposition);
 		Object->SetSprite("DownFloor_Wall.png");
-		Object->SetPosition(m_DownFloorWholePosition + float4{ 336.0f + 14.0f , -177.0f - 14.0f });
+		Object->SetPositionAndDepth(m_DownFloorWholePosition + float4{ 336.0f + 14.0f , -177.0f - 14.0f }, EHOUSEDEPTH::HouseComposition);
 		vecProps.push_back(Object);
 	}
 
@@ -132,9 +130,8 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 			return;
 		}
 
-		Object->CreateRenderer(EDOWNFLOORRENDERORDER::HouseFrame);
 		Object->SetSprite("DownFloor_Frame.png");
-		Object->SetPosition(m_DownFloorWholePosition + float4{ 350.0f , -255.0f });
+		Object->SetPositionAndDepth(m_DownFloorWholePosition + float4{ 350.0f , -255.0f }, EHOUSEDEPTH::FRAME);
 		vecProps.push_back(Object);
 	}
 
@@ -156,6 +153,7 @@ void BackDrop_WitchHouse_DownFloor::CreatePixelMap(GameEngineLevel* _Level)
 		return;
 	}
 
+	Object->OnlyPixelProp();
 	Object->CreatePixelCollisionRenderer();
 	Object->SetPixelSprite("DownFloor_PixelMap.png");
 	Object->Transform.SetLocalPosition(m_DownFloorWholePosition + float4{ 350.0f , -206.0f - 100.0f });

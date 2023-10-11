@@ -27,6 +27,10 @@ void MongSiri::StartIdle()
 			break;
 		}
 	}
+	if (EMONGSIRISTATUS::Escape == m_Status)
+	{
+		m_IdleCount = 1;
+	}
 
 	ChangeAnimationByDircetion("Idle");
 }
@@ -190,7 +194,7 @@ void MongSiri::UpdateJump(float _Delta)
 			return;
 		}
 
-		if (false == BackDrop_PlayLevel::MainBackDrop->IsColorAtPosition(m_TargetForce * _Delta, GameEngineColor::RED))
+		if (false == BackDrop_PlayLevel::MainBackDrop->IsColorAtPosition(Transform.GetLocalPosition() + m_TargetForce * _Delta, GameEngineColor::RED))
 		{
 			m_MoveVector = m_TargetForce;
 			ApplyMovement(_Delta);
@@ -278,6 +282,7 @@ void MongSiri::EndCollected()
 
 void MongSiri::StartDisappear()
 {
+	m_CollectionTool = ETOOLTYPE::None;
 	ChangeAnimation("Disappear");
 }
 

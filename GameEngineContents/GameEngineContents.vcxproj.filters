@@ -145,9 +145,6 @@
     <ClInclude Include="GroundLayer.h">
       <Filter>2.Object\1.Actor\1.BackDrop</Filter>
     </ClInclude>
-    <ClInclude Include="Prop.h">
-      <Filter>2.Object\1.Actor\3.Prop</Filter>
-    </ClInclude>
     <ClInclude Include="ChainProp.h">
       <Filter>2.Object\1.Actor\3.Prop</Filter>
     </ClInclude>
@@ -334,6 +331,9 @@
     <ClInclude Include="MongSiri.h">
       <Filter>2.Object\1.Actor\2.Interactive\Dynamic\MongSiri</Filter>
     </ClInclude>
+    <ClInclude Include="Prop.h">
+      <Filter>2.Object\1.Actor\3.Prop</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -354,9 +354,6 @@
     </ClCompile>
     <ClCompile Include="GroundLayer.cpp">
       <Filter>2.Object\1.Actor\1.BackDrop</Filter>
-    </ClCompile>
-    <ClCompile Include="Prop.cpp">
-      <Filter>2.Object\1.Actor\3.Prop</Filter>
     </ClCompile>
     <ClCompile Include="ChainProp.cpp">
       <Filter>2.Object\1.Actor\3.Prop</Filter>
@@ -549,6 +546,9 @@
     </ClCompile>
     <ClCompile Include="MongSiri.cpp">
       <Filter>2.Object\1.Actor\2.Interactive\Dynamic\MongSiri</Filter>
+    </ClCompile>
+    <ClCompile Include="Prop.cpp">
+      <Filter>2.Object\1.Actor\3.Prop</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

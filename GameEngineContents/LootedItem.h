@@ -4,6 +4,11 @@
 // Ό³Έν :
 class LootedItem : public StaticEntity
 {
+	friend class BackDrop_PlayLevel;
+
+private:
+	class BackDrop_PlayLevel* BackManager = nullptr;
+
 public:
 	// constrcuter destructer
 	LootedItem();

@@ -50,7 +50,7 @@ void UI_InterativeMark::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void UI_InterativeMark::Init()
 {
-	m_MarkRenderer = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Mark);
+	m_MarkRenderer = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Mark);
 	if (nullptr == m_MarkRenderer)
 	{
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
@@ -62,7 +62,7 @@ void UI_InterativeMark::Init()
 	m_MarkRenderer->AutoSpriteSizeOn();
 
 
-	m_ButtonRenderer = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Mark);
+	m_ButtonRenderer = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Mark);
 	if (nullptr == m_MarkRenderer)
 	{
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");

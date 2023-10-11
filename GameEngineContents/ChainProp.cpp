@@ -49,11 +49,6 @@ void ChainProp::LevelEnd(class GameEngineLevel* _NextLevel)
 // 배치가 되고
 // 시간이 되면 소품을 생성한다
 
-void ChainProp::SetRenderOrder(int _Order)
-{
-	m_Order = _Order;
-}
-
 void ChainProp::SetSprite(std::string_view _FileName)
 {
 	m_SpriteFileName = _FileName.data();
@@ -92,7 +87,7 @@ void ChainProp::SetAutoSpawnPoint()
 
 // 첫 위치를 넣으면 알아서 리젠 위치를 정해줍니다. 
 // 기준은 텍스처 크기가 화면 크기보다 크면 빈틈없이 이어서 출력해줍니다.
-void ChainProp::CalculateAndSetRegenLocationInputFirstLocation(const float4& _Position)
+void ChainProp::CalculateAndSetRegenLocation(const float4& _Position)
 {
 	if ("" == m_SpriteFileName)
 	{
@@ -116,6 +111,11 @@ void ChainProp::CalculateAndSetRegenLocationInputFirstLocation(const float4& _Po
 
 	m_FirstLocation = _Position;
 	m_RegenLocation = RegenPos;
+}
+
+void ChainProp::SetDepth(const int _Depth)
+{
+	m_Depth = _Depth;
 }
 
 void ChainProp::SetSpeed(float _Speed)
@@ -195,11 +195,10 @@ void ChainProp::RegenProp(const float4& _Position /*= float4::ZERO*/)
 		return;
 	}
 
-	Object->CreateRenderer(m_Order);
 	Object->SetSprite(m_SpriteFileName);
 	Object->SetTextureScale(m_TextureScale);
 	Object->SetSpeed(m_Speed);
-	Object->SetPosition(_Position);
+	Object->SetPositionAndDepth(_Position, m_Depth);
 
 	listProps.push_back(Object);
 }

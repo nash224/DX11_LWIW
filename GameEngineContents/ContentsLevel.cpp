@@ -9,6 +9,8 @@ ContentsLevel::ContentsLevel()
 	:	
 	Mode(EGAMEMODE::None)
 {
+	GetMainCamera()->Transform.SetLocalPosition({ 0.0f, 0.0f, -500.0f });
+	GetCamera(static_cast<int>(ECAMERAORDER::UI))->Transform.SetLocalPosition({ 0.0f, 0.0f, -500.0f });
 }
 
 ContentsLevel::~ContentsLevel() 

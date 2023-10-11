@@ -53,7 +53,10 @@ void CameraControler::SetCameraMode(ECAMERAMODE _Mode)
 
 void CameraControler::SetLocalPostion(const float4& _Position)
 {
-	m_MainCamera->Transform.SetLocalPosition(_Position);
+	float4 Position = _Position;
+	Position.Z = -500.0f;
+
+	m_MainCamera->Transform.SetLocalPosition(Position);
 	RenewCameraPosition();
 	m_CameraInfo.MoveDistance = 0.0f;
 }

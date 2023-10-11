@@ -16,45 +16,53 @@ enum class EUPDATEORDER
 };
 
 
-enum class ERENDERORDER
+enum class ERENDERDEPTH
 {
-	Back_,
-	RootedItem = 90,
-	Ellie = 100,
+	FadeObject = -1000,
+	Object = 0,
+	RootedItem = 1000,
 	ObjectShadow,
-	Object,
-	UI,
-	FadeObject,
+	Back_,
 };
 
-enum class ETITLERENDERORDER
+enum class ETITLERENDERDEPTH
 {
-	Back_,
-	Star,
-	Moon,
-	Water,
-	Mountain_blur,
-	Bridge_Down,
-	Bridge_blur,
-	Train_blur,
-	Train_Light_blur,
-	Water_blur,
-	Cloud_0,
-	Cloud_1,
-	Cloud_2,
-	Cloud_3,
-	Cloud_4,
+	Logo,
+	Tree,
+	Shadow,
+	Bridge,
+	Trains_Light,
+	Trains,
+	TrainSmoke_Small,
+	TrainSmoke_Mid,
+	TrainSmoke_Big,
 	Props_0,
 	Props_1,
-	TrainSmoke_Big,
-	TrainSmoke_Mid,
-	TrainSmoke_Small,
-	Trains,
-	Trains_Light,
-	Bridge,
-	Shadow,
-	Tree,
-	Logo,
+	Cloud_4,
+	Cloud_3,
+	Cloud_2,
+	Cloud_1,
+	Cloud_0,
+	Water_blur,
+	Train_Light_blur,
+	Train_blur,
+	Bridge_blur,
+	Bridge_Down,
+	Mountain_blur,
+	Water,
+	Moon,
+	Star,
+	Back_,
+};
+
+enum class EHOUSEDEPTH
+{
+	FRAME,
+	Object,
+	Shadow = 1000,
+	Rug,
+	HouseComposition,
+	BackPaint,
 };
 
 enum class EWITCHHOUSEUPPERFLOOR
@@ -81,22 +89,22 @@ enum class EDOWNFLOORRENDERORDER
 };
 
 
-enum class EUI_RENDERORDERORDER
+enum class EUI_RENDERORDERDEPTH
 {
+	Frame = -100,
+	Attachment,
+	Component,
+	Icon,
+	CursorOutLine,
+	Cursor,
+	Base,
 	Mark,
 	HUB_Frame,
 	HUB_Gauge1,
 	HUB_Gauge2,
 	HUB_Indicator,
 	HUB_Icon,
-	UIArrow,
-	Base = 100,
-	Frame,
-	Attachment,
-	Component,
-	Icon,
-	CursorOutLine,
-	Cursor,
+	UIArrow = -1,
 };
 
 enum class ECOLLISION

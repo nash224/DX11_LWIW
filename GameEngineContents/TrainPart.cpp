@@ -25,7 +25,8 @@ void TrainPart::Update(float _Delta)
 
 void TrainPart::Release()
 {
-
+	m_TrainRenderer = nullptr;
+	m_LightRenderer = nullptr;
 }
 
 void TrainPart::LevelStart(class GameEngineLevel* _NextLevel)
@@ -45,7 +46,7 @@ void TrainPart::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void TrainPart::CreateLastTrainRenderer()
 {
-	m_TrainRenderer = CreateComponent<GameEngineSpriteRenderer>(ETITLERENDERORDER::Trains);
+	m_TrainRenderer = CreateComponent<GameEngineSpriteRenderer>();
 	if (nullptr == m_TrainRenderer)
 	{
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
@@ -56,14 +57,14 @@ void TrainPart::CreateLastTrainRenderer()
 
 void TrainPart::CreateRenderer()
 {
-	m_TrainRenderer = CreateComponent<GameEngineSpriteRenderer>(ETITLERENDERORDER::Trains);
+	m_TrainRenderer = CreateComponent<GameEngineSpriteRenderer>();
 	if (nullptr == m_TrainRenderer)
 	{
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
 		return;
 	}
 
-	m_LightRenderer = CreateComponent<GameEngineSpriteRenderer>(ETITLERENDERORDER::Trains_Light);
+	m_LightRenderer = CreateComponent<GameEngineSpriteRenderer>();
 	if (nullptr == m_LightRenderer)
 	{
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
@@ -106,7 +107,7 @@ void TrainPart::SetLocalPosition(const float4& _TrainPosition, const float4& _Li
 	}
 }
 
-void TrainPart::AddLocalPosition(const float4 & _float4)
+void TrainPart::AddLocalPosition(const float4& _float4)
 {
 	Transform.AddLocalPosition(_float4);
 }
@@ -114,8 +115,5 @@ void TrainPart::AddLocalPosition(const float4 & _float4)
 
 void TrainPart::ActorRelease()
 {
-	m_TrainRenderer = nullptr;
-	m_LightRenderer = nullptr;
-
 	Death();
 }

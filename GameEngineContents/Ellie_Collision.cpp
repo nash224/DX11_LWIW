@@ -47,7 +47,7 @@ void Ellie::UpdateInteractionCollsiion()
 	}
 
 	// 앨리가 바라보는 사물만 상호작용할 수 있습니다.
-	// 기준은 양옆으로 45도 각도입니다.
+	// 기준은 양옆으로 FOVAngle 각도입니다.
 	float4 ElliePosition = Transform.GetWorldPosition();
 
 	float4 DirectionVector = CalculateDirectionVectorToDir(m_Dir);
@@ -129,28 +129,31 @@ void Ellie::UpdateInteractionCollsiion()
 				}
 				else
 				{
+					// 아니면 거리저장
 					EllieVectorTowardObject.Size();
 
 					vecDistance[i] = EllieVectorTowardObject.Size();
 				}
 			}
 
-			int MostLongestNumber = -1;
-			float MostLongestDistance = 0.0f;
+			int ShortestNumber = -1;
+			float ShortestDistance = 1000.0f;
 
+			// 플레이어와 거리가 가장 짧은 객체 선별
 			for (size_t i = 0; i < Amount; i++)
 			{
-				float CurrentDistance = vecDistance[i];
-				if (0.0f != vecDistance[i] && MostLongestDistance < CurrentDistance)
+				float EntitySize = vecDistance[i];
+
+				if (0.0f != vecDistance[i] && ShortestDistance > EntitySize)
 				{
-					MostLongestNumber = static_cast<int>(i);
-					MostLongestDistance = CurrentDistance;
+					ShortestNumber = static_cast<int>(i);
+					ShortestDistance = EntitySize;
 				}
 			}
 
-			if (-1 != MostLongestNumber)
+			if (-1 != ShortestNumber)
 			{
-				std::shared_ptr<GameEngineCollision>& Collision = _Collisions[MostLongestNumber];
+				std::shared_ptr<GameEngineCollision>& Collision = _Collisions[ShortestNumber];
 
 				GameEngineActor* Object = Collision->GetActor();
 				if (nullptr == Object)

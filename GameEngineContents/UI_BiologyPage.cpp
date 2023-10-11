@@ -56,43 +56,43 @@ void UI_BiologyPage::CreatePage(std::string_view _BiologyName, int& PageCount)
 
 	std::string Name = Data->BiologyName;
 
-	m_BiologyPageComposition.NameTag = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Attachment);
+	m_BiologyPageComposition.NameTag = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Attachment);
 	m_BiologyPageComposition.NameTag->SetSprite("CreatureName.png");
 	m_BiologyPageComposition.NameTag->Transform.SetLocalPosition({ -70.0f + 71.0f , 154.0f - 13.0f });
 
-	m_BiologyPageComposition.Photo = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Attachment);
+	m_BiologyPageComposition.Photo = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Attachment);
 	m_BiologyPageComposition.Photo->SetSprite("Photo.png");
 	m_BiologyPageComposition.Photo->Transform.SetLocalPosition({ -148.0f + 64.0f , 113.0f - 64.0f });
 
-	m_BiologyPageComposition.Frame = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Frame);
+	m_BiologyPageComposition.Frame = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Frame);
 	m_BiologyPageComposition.Frame->SetSprite("Base_LayoutLine_1.png");
 	m_BiologyPageComposition.Frame->Transform.SetLocalPosition({ -138.0f + 138.0f , -28.0f - 1.0f });
 
-	m_BiologyPageComposition.Illustration = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Component);
+	m_BiologyPageComposition.Illustration = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Component);
 	m_BiologyPageComposition.Illustration->SetSprite(Name + "_Illustration.png");
 	m_BiologyPageComposition.Illustration->Transform.SetLocalPosition({ -148.0f + 64.0f , 113.0f - 64.0f });
 
-	m_BiologyPageComposition.Slot1 = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Component);
+	m_BiologyPageComposition.Slot1 = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Component);
 	m_BiologyPageComposition.Slot1->SetSprite(ReturnEcologyTypeFileName(Data->EcologicalGroup));
 	m_BiologyPageComposition.Slot1->Transform.SetLocalPosition({ -11.0f + 20.0f , 112.0f - 20.0f });
 
-	m_BiologyPageComposition.Slot2 = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Component);
+	m_BiologyPageComposition.Slot2 = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Component);
 	m_BiologyPageComposition.Slot2->SetSprite(ReturnEcologyTypeFileName(Data->Habitat));
 	m_BiologyPageComposition.Slot2->Transform.SetLocalPosition({ 37.0f + 20.0f , 112.0f - 20.0f });
 
-	m_BiologyPageComposition.Slot3 = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Component);
+	m_BiologyPageComposition.Slot3 = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Component);
 	m_BiologyPageComposition.Slot3->SetSprite(ReturnEcologyTypeFileName(Data->AppearanceTime));
 	m_BiologyPageComposition.Slot3->Transform.SetLocalPosition({ 85.0f + 20.0f , 112.0f - 20.0f });
 
-	m_BiologyPageComposition.Tool = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Component);
+	m_BiologyPageComposition.Tool = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Component);
 	m_BiologyPageComposition.Tool->SetSprite("Tool_Icon.png", static_cast<int>(Data->GatherTool));
 	m_BiologyPageComposition.Tool->Transform.SetLocalPosition({ -10.0f + 20.0f , 60.0f - 20.0f });
 
-	m_BiologyPageComposition.ItemSpace = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Attachment);
+	m_BiologyPageComposition.ItemSpace = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Attachment);
 	m_BiologyPageComposition.ItemSpace->SetSprite("Inventory_Empty_Slot.png");
 	m_BiologyPageComposition.ItemSpace->Transform.SetLocalPosition({ -11.0f + 20.0f , 17.0f - 20.0f });
 
-	m_BiologyPageComposition.ItemImg = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERORDER::Component);
+	m_BiologyPageComposition.ItemImg = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Component);
 	m_BiologyPageComposition.ItemImg->SetSprite(Data->BiologyName + "_Collect.png");
 	m_BiologyPageComposition.ItemImg->Transform.SetLocalPosition({ -11.0f + 20.0f , 17.0f - 20.0f });
 
