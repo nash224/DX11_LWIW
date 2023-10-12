@@ -18,6 +18,7 @@ Ellie::~Ellie()
 
 void Ellie::Start()
 {
+	GameEngineInput::AddInputObject(this);
 	StartFSM();
 	StartCollision();
 }
@@ -31,7 +32,7 @@ void Ellie::Update(float _Delta)
 
 void Ellie::UpdateTestCode()
 {
-	if (true == GameEngineInput::IsDown('1'))
+	if (true == GameEngineInput::IsDown('1', this))
 	{
 		BackDrop_PlayLevel::MainBackDrop->CreateItem("Mongsiri_Collect.png", Transform.GetLocalPosition());
 	}
@@ -558,13 +559,13 @@ bool Ellie::DetectVerticalMovement()
 
 	bool isMoveVertical = false;
 
-	if (true == GameEngineInput::IsPress(VK_UP))
+	if (true == GameEngineInput::IsPress(VK_UP, this))
 	{
 		isPressUp = true;
 		isMoveVertical = true;
 	}
 
-	if (true == GameEngineInput::IsPress(VK_DOWN))
+	if (true == GameEngineInput::IsPress(VK_DOWN, this))
 	{
 		isPressDown = true;
 		isMoveVertical = true;
@@ -601,13 +602,13 @@ bool Ellie::DetectHorizontalMovement()
 
 	bool isMoveHorizontal = false;
 
-	if (true == GameEngineInput::IsPress(VK_LEFT))
+	if (true == GameEngineInput::IsPress(VK_LEFT, this))
 	{
 		isPressLeft = true;
 		isMoveHorizontal = true;
 	}
 
-	if (true == GameEngineInput::IsPress(VK_RIGHT))
+	if (true == GameEngineInput::IsPress(VK_RIGHT, this))
 	{
 		isPressRight = true;
 		isMoveHorizontal = true;

@@ -20,16 +20,16 @@
   </ItemGroup>
   <ItemGroup>
     <Filter Include="FMOD">
-      <UniqueIdentifier>{c0b53f9f-56bf-48c4-9b7b-1df69c5b5491}</UniqueIdentifier>
+      <UniqueIdentifier>{0dd05aeb-cd6c-4683-9011-4cac5527c17b}</UniqueIdentifier>
     </Filter>
     <Filter Include="FMOD\Debug">
-      <UniqueIdentifier>{cce7ac3d-adba-40bf-b74b-6e9ecebc09a4}</UniqueIdentifier>
+      <UniqueIdentifier>{df82a61b-90ca-4e4f-809e-873e38ca25fb}</UniqueIdentifier>
     </Filter>
     <Filter Include="FMOD\Release">
-      <UniqueIdentifier>{dce83105-6ab2-474f-a9e5-b3088db8382a}</UniqueIdentifier>
+      <UniqueIdentifier>{816f61c6-13b6-4797-b8b9-f1ac9cad937d}</UniqueIdentifier>
     </Filter>
     <Filter Include="PreCompile">
-      <UniqueIdentifier>{4761710f-38c2-4856-9c5b-accfe9369e82}</UniqueIdentifier>
+      <UniqueIdentifier>{ad59ffef-d4c7-4915-ba5a-f84b99a3a51a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

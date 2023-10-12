@@ -55,18 +55,11 @@ void Roaster::InitRoaster()
 
 void Roaster::CreateRendererAndAnimation()
 {
-	m_Shadow = CreateComponent<GameEngineSpriteRenderer>(15);
-	if (nullptr == m_Shadow)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
-
-	m_Shadow->SetSprite("Roaster_0.png", 1);
+	
 
 
 
-	m_Roaster = CreateComponent<GameEngineSpriteRenderer>(16);
+	m_Roaster = CreateComponent<GameEngineSpriteRenderer>(0);
 	if (nullptr == m_Roaster)
 	{
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
@@ -82,7 +75,7 @@ void Roaster::CreateRendererAndAnimation()
 
 
 
-	m_RoasterFXSteam = CreateComponent<GameEngineSpriteRenderer>(17);
+	m_RoasterFXSteam = CreateComponent<GameEngineSpriteRenderer>(0);
 	if (nullptr == m_RoasterFXSteam)
 	{
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
@@ -93,6 +86,16 @@ void Roaster::CreateRendererAndAnimation()
 	m_RoasterFXSteam->AutoSpriteSizeOn();
 
 	m_RoasterFXSteam->ChangeAnimation("Roasting");
+
+	m_Shadow = CreateComponent<GameEngineSpriteRenderer>(0);
+	if (nullptr == m_Shadow)
+	{
+		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
+		return;
+	}
+
+	/*m_Shadow->Off();*/
+	m_Shadow->SetSprite("Roaster_0.png", 1);
 
 	ChangeState(EROASTERSTATE::Idle);
 }

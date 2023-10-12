@@ -12,7 +12,7 @@ UI_Hub_Actor::~UI_Hub_Actor()
 
 void UI_Hub_Actor::Start()
 {
-
+	GameEngineInput::AddInputObject(this);
 }
 
 void UI_Hub_Actor::Update(float _Delta)

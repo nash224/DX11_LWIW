@@ -107,13 +107,15 @@ void UI_Dictionary::Init()
 void UI_Dictionary::CreateBase()
 {
 	// Base
-	m_BaseRenderer = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Base);
+	m_BaseRenderer = CreateComponent<GameEngineUIRenderer>();
 	if (nullptr == m_BaseRenderer)
 	{
 		MsgBoxAssert("Base를 생성하지 못했습니다.");
 		return;
 	}
 
+	float ZOrder = GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Base);
+	m_BaseRenderer->Transform.SetLocalPosition({ 0.0f , 0.0f, ZOrder });
 	m_BaseRenderer->SetSprite("Base.png");
 }
 
@@ -122,7 +124,7 @@ void UI_Dictionary::CreateCategory()
 {
 	float4 SetLocalPos = float4{ -345.0f , 128.0f };
 
-	m_CategoryRenderer.Creature = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Attachment);
+	m_CategoryRenderer.Creature = CreateComponent<GameEngineUIRenderer>();
 	if (nullptr == m_CategoryRenderer.Creature)
 	{
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
@@ -131,6 +133,8 @@ void UI_Dictionary::CreateCategory()
 
 	m_CategoryRenderer.Creature->SetSprite("Tag_Creature_Normal.png");
 	m_CategoryRenderer.Creature->SetPivotType(PivotType::Right);
+
+	SetLocalPos.Z = GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Attachment);
 	m_CategoryRenderer.Creature->Transform.SetLocalPosition(SetLocalPos);
 
 	std::shared_ptr<GameEngineTexture> CreatureTexture = GameEngineTexture::Find("Tag_Creature_Normal.png");
@@ -155,7 +159,7 @@ void UI_Dictionary::CreateCategory()
 	SetLocalPos.Y -= HTextureScale.Y;
 
 
-	m_CategoryRenderer.Plant = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Attachment);
+	m_CategoryRenderer.Plant = CreateComponent<GameEngineUIRenderer>();
 	if (nullptr == m_CategoryRenderer.Plant)
 	{
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
@@ -164,6 +168,8 @@ void UI_Dictionary::CreateCategory()
 
 	m_CategoryRenderer.Plant->SetSprite("Tag_Plant_Normal.png");
 	m_CategoryRenderer.Plant->SetPivotType(PivotType::Right);
+
+	SetLocalPos.Z = GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Attachment);
 	m_CategoryRenderer.Plant->Transform.SetLocalPosition(SetLocalPos);
 
 	SetLocalPos.Y -= HTextureScale.Y + CategoryGap;
@@ -180,7 +186,7 @@ void UI_Dictionary::CreateCategory()
 	SetLocalPos.Y -= HTextureScale.Y;
 
 
-	m_CategoryRenderer.Potion = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Attachment);
+	m_CategoryRenderer.Potion = CreateComponent<GameEngineUIRenderer>();
 	if (nullptr == m_CategoryRenderer.Potion)
 	{
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
@@ -189,6 +195,8 @@ void UI_Dictionary::CreateCategory()
 
 	m_CategoryRenderer.Potion->SetSprite("Tag_Potion_Normal.png");
 	m_CategoryRenderer.Potion->SetPivotType(PivotType::Right);
+
+	SetLocalPos.Z = GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Attachment);
 	m_CategoryRenderer.Potion->Transform.SetLocalPosition(SetLocalPos);
 
 	SetLocalPos.Y -= HTextureScale.Y + CategoryGap;
@@ -206,7 +214,7 @@ void UI_Dictionary::CreateCategory()
 	SetLocalPos.Y -= HTextureScale.Y;
 
 
-	m_CategoryRenderer.Candy = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Attachment);
+	m_CategoryRenderer.Candy = CreateComponent<GameEngineUIRenderer>();
 	if (nullptr == m_CategoryRenderer.Candy)
 	{
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
@@ -215,6 +223,8 @@ void UI_Dictionary::CreateCategory()
 	 
 	m_CategoryRenderer.Candy->SetSprite("Tag_Candy_Normal.png");
 	m_CategoryRenderer.Candy->SetPivotType(PivotType::Right);
+
+	SetLocalPos.Z = GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Attachment);
 	m_CategoryRenderer.Candy->Transform.SetLocalPosition(SetLocalPos);
 }
 
@@ -509,7 +519,7 @@ bool UI_Dictionary::CheckOpenDictionary()
 {
 	if (false == OpenCheck)
 	{
-		if (true == GameEngineInput::IsDown('D'))
+		if (true == GameEngineInput::IsDown('D', this))
 		{
 			Close();
 			return true;
@@ -524,13 +534,13 @@ bool UI_Dictionary::CheckOpenDictionary()
 // 카테고리 전환을 감지합니다.
 bool UI_Dictionary::CheckMoveCategory()
 {
-	if (true == GameEngineInput::IsDown(VK_DOWN))
+	if (true == GameEngineInput::IsDown(VK_DOWN, this))
 	{
 		NextCategory();
 		return true;
 	}
 
-	if (true == GameEngineInput::IsDown(VK_UP))
+	if (true == GameEngineInput::IsDown(VK_UP, this))
 	{
 		PrevCategory();
 		return true;
@@ -542,13 +552,13 @@ bool UI_Dictionary::CheckMoveCategory()
 // 페이지가 넘거가는 것을 감지합니다.
 bool UI_Dictionary::CheckTurningPage()
 {
-	if (true == GameEngineInput::IsDown(VK_LEFT))
+	if (true == GameEngineInput::IsDown(VK_LEFT, this))
 	{
 		PrevPage();
 		return true;
 	}
 
-	if (true == GameEngineInput::IsDown(VK_RIGHT))
+	if (true == GameEngineInput::IsDown(VK_RIGHT, this))
 	{
 		NextPage();
 		return true;

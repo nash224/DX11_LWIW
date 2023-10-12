@@ -23,7 +23,7 @@ UIManager::~UIManager()
 
 void UIManager::Start()
 {
-
+	GameEngineInput::AddInputObject(this);
 }
 
 void UIManager::Update(float _Delta)
@@ -170,7 +170,7 @@ void UIManager::UpdateUIComponentOpenInput()
 {
 	if (false == m_IsActiveComponent)
 	{
-		if (true == GameEngineInput::IsDown('D'))
+		if (true == GameEngineInput::IsDown('D', this))
 		{
 			if (nullptr == m_Dictionary)
 			{
@@ -183,7 +183,7 @@ void UIManager::UpdateUIComponentOpenInput()
 			m_IsActiveComponent = true;
 		}
 
-		if (true == GameEngineInput::IsDown('S'))
+		if (true == GameEngineInput::IsDown('S', this))
 		{
 			if (nullptr == m_Inventory)
 			{

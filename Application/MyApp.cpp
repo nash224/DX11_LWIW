@@ -3,7 +3,7 @@
 
 #pragma comment(lib, "GameEngineBase.lib")
 #pragma comment(lib, "GameEnginePlatform.lib")
-#pragma comment(lib, "GameEngineCore.lib")
+#pragma comment(lib, "GameEngineCore.lib") 
 #pragma comment(lib, "GameEngineContents.lib")
 
 #include <iostream>

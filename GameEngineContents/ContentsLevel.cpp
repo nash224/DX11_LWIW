@@ -19,6 +19,8 @@ ContentsLevel::~ContentsLevel()
 
 void ContentsLevel::Start()
 {
+	GameEngineInput::AddInputObject(this);
+
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Orthographic);
 
 	// 카메라 컨트롤러 생성
@@ -32,7 +34,7 @@ void ContentsLevel::Start()
 
 void ContentsLevel::Update(float _Delta)
 {
-	if (true == GameEngineInput::IsDown(VK_F1))
+	if (true == GameEngineInput::IsDown(VK_F1, this))
 	{
 		IsDebug = !IsDebug;
 	}

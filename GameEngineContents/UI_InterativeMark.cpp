@@ -50,7 +50,7 @@ void UI_InterativeMark::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void UI_InterativeMark::Init()
 {
-	m_MarkRenderer = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Mark);
+	m_MarkRenderer = CreateComponent<GameEngineUIRenderer>();
 	if (nullptr == m_MarkRenderer)
 	{
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
@@ -62,7 +62,7 @@ void UI_InterativeMark::Init()
 	m_MarkRenderer->AutoSpriteSizeOn();
 
 
-	m_ButtonRenderer = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Mark);
+	m_ButtonRenderer = CreateComponent<GameEngineUIRenderer>();
 	if (nullptr == m_MarkRenderer)
 	{
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
@@ -149,6 +149,7 @@ void UI_InterativeMark::UpdateMark(float _Delta)
 		
 		float4 ActorWorldPos = Pointer->Transform.GetWorldPosition();
 		float4 Position = ActorWorldPos - MainCameraPos + CONST_MarkPositionToActor;
+		Position.Z = GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Mark);
 		Transform.SetLocalPosition(Position);
 	}
 	else

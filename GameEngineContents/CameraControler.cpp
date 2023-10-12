@@ -17,6 +17,8 @@ CameraControler::~CameraControler()
 
 void CameraControler::Start()
 {
+	GameEngineInput::AddInputObject(this);
+
 	m_Mode = ECAMERAMODE::None;
 
 	m_WinScale = GlobalValue::GetWindowScale();
@@ -359,22 +361,22 @@ void CameraControler::UpdateCameraEditorMode(float _Delta)
 	float CameraSpeed = m_EditorModeSpeed * _Delta;
 	float4 CameraMoveDistance = float4::ZERO;
 	
-	if (true == GameEngineInput::IsPress('W'))
+	if (true == GameEngineInput::IsPress('W', this))
 	{
 		CameraMoveDistance = float4::UP * CameraSpeed;
 	}
 
-	if (true == GameEngineInput::IsPress('S'))
+	if (true == GameEngineInput::IsPress('S', this))
 	{
 		CameraMoveDistance = float4::DOWN * CameraSpeed;
 	}
 
-	if (true == GameEngineInput::IsPress('A'))
+	if (true == GameEngineInput::IsPress('A', this))
 	{
 		CameraMoveDistance = float4::LEFT * CameraSpeed;
 	}
 
-	if (true == GameEngineInput::IsPress('D'))
+	if (true == GameEngineInput::IsPress('D', this))
 	{
 		CameraMoveDistance = float4::RIGHT * CameraSpeed;
 	}

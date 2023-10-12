@@ -12,14 +12,14 @@ UI_ToggleActor::~UI_ToggleActor()
 
 void UI_ToggleActor::Start()
 {
-
+	GameEngineInput::AddInputObject(this);
 }
 
 void UI_ToggleActor::Update(float _Delta)
 {
 	if (false == IsHub && true == IsOpen)
 	{
-		if (true == GameEngineInput::IsDown(VK_ESCAPE))
+		if (true == GameEngineInput::IsDown(VK_ESCAPE, this))
 		{
 			Close();
 		}

@@ -32,7 +32,7 @@ void WitchHouse_DownFloor::Update(float _Delta)
 {
 	PlayLevel::Update(_Delta);
 
-	if (true == GameEngineInput::IsDown('T'))
+	if (true == GameEngineInput::IsDown('T', this))
 	{
 		m_Ellie->Transform.SetLocalPosition(float4::ZERO);
 	}

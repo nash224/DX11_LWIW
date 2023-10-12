@@ -307,10 +307,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="MongSiri_State.cpp" />
-    <ClCompile Include="Player.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="PlayLevel.cpp" />
     <ClCompile Include="PortalObject.cpp">
       <SubType>
@@ -351,18 +347,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="StaticEntity.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="TestActor.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="TestActor2.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="TestMap.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -583,10 +567,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="PlayLevel.h" />
     <ClInclude Include="PortalObject.h">
       <SubType>
@@ -622,18 +602,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="StaticEntity.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="TestActor.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="TestActor2.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="TestMap.h">
       <SubType>
       </SubType>
     </ClInclude>

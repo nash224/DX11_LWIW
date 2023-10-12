@@ -10,10 +10,10 @@
 ULONG_PTR GameEngineWindowTexture::Token;
 Gdiplus::GdiplusStartupInput GameEngineWindowTexture::Input;
 
-class GDIPlusInit
+class GDIPlusInit 
 {
 public:
-	GDIPlusInit()
+	GDIPlusInit() 
 	{
 		Gdiplus::Status Result = Gdiplus::GdiplusStartup(&GameEngineWindowTexture::Token, &GameEngineWindowTexture::Input, nullptr);
 
@@ -22,7 +22,7 @@ public:
 			int a = 0;
 		}
 	}
-	~GDIPlusInit()
+	~GDIPlusInit() 
 	{
 		Gdiplus::GdiplusShutdown(GameEngineWindowTexture::Token);
 	}
@@ -33,11 +33,11 @@ GDIPlusInit InitInstance;
 /////////////////////// GIDPLUSInit
 
 
-GameEngineWindowTexture::GameEngineWindowTexture()
+GameEngineWindowTexture::GameEngineWindowTexture() 
 {
 }
 
-GameEngineWindowTexture::~GameEngineWindowTexture()
+GameEngineWindowTexture::~GameEngineWindowTexture() 
 {
 }
 
@@ -116,7 +116,7 @@ void GameEngineWindowTexture::ScaleCheck()
 
 float4 GameEngineWindowTexture::GetScale()
 {
-
+	
 	return { static_cast<float>(Info.bmWidth), static_cast<float>(Info.bmHeight) };
 }
 
@@ -128,22 +128,22 @@ void GameEngineWindowTexture::BitCopy(GameEngineWindowTexture* _CopyTexture, con
 }
 
 void GameEngineWindowTexture::BitCopy(
-	GameEngineWindowTexture* _CopyTexture,
-	const float4& _Pos,
+	GameEngineWindowTexture* _CopyTexture, 
+	const float4& _Pos, 
 	const float4& _Scale)
 {
 	HDC CopyImageDC = _CopyTexture->GetImageDC();
 
 	//// 특정 DC에 연결된 색상을
 	//// 특정 DC에 고속복사하는 함수입니다.
-	BitBlt(ImageDC,
+	BitBlt(ImageDC, 
 		_Pos.iX() - _Scale.ihX(),
 		_Pos.iY() - _Scale.ihY(),
 		_Scale.iX(),
 		_Scale.iY(),
 		CopyImageDC,
-		0,
-		0,
+		0, 
+		0, 
 		SRCCOPY);
 
 }
@@ -162,8 +162,8 @@ void GameEngineWindowTexture::TransCopy(GameEngineWindowTexture* _CopyTexture, c
 	TransparentBlt(ImageDC,
 		_Pos.iX() - _Scale.ihX(),
 		_Pos.iY() - _Scale.ihY(),
-		_Scale.iX(),
-		_Scale.iY(),
+		_Scale.iX(), 
+		_Scale.iY(), 
 		CopyImageDC,
 		_OtherPos.iX(), // 카피하려는 이미지의 왼쪽위 x
 		_OtherPos.iY(), // 카피하려는 이미지의 왼쪽위 y
@@ -176,7 +176,7 @@ void GameEngineWindowTexture::TransCopy(GameEngineWindowTexture* _CopyTexture, c
 
 unsigned int GameEngineWindowTexture::GetColor(unsigned int _DefaultColor, float4 _Pos)
 {
-	if (0 > _Pos.iX())
+	if (0 > _Pos.iX() )
 	{
 		return _DefaultColor;
 	}
@@ -201,7 +201,7 @@ unsigned int GameEngineWindowTexture::GetColor(unsigned int _DefaultColor, float
 
 void GameEngineWindowTexture::FillTexture(unsigned int _Color)
 {
-	RECT Rc;
+	RECT Rc; 
 	Rc.left = 0;
 	Rc.top = 0;
 	Rc.right = GetScale().iX();

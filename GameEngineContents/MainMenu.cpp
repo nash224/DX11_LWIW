@@ -31,7 +31,7 @@ void MainMenu::Start()
 
 void MainMenu::Update(float _Delta)
 {
-	if (true == GameEngineInput::IsDown('T'))
+	if (true == GameEngineInput::IsDown('T', this))
 	{
 		ActorRelease();
 

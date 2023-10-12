@@ -85,7 +85,7 @@ void PlayLevel::ChangeDebugMode()
 {
 	if (true == IsDebug)
 	{
-		if (true == GameEngineInput::IsDown(VK_F2))
+		if (true == GameEngineInput::IsDown(VK_F2, this))
 		{
 			PixelDebugMode = !PixelDebugMode;
 			if (nullptr == BackDrop_PlayLevel::MainBackDrop)

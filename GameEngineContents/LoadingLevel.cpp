@@ -39,7 +39,7 @@ void LoadingLevel::Update(float _Delta)
 {
 	ContentsLevel::Update(_Delta);
 
-	if (true == GameEngineInput::IsPress('T'))
+	if (true == GameEngineInput::IsPress('T', this))
 	{
 		ActorRelease();
 		GameEngineCore::ChangeLevel("WitchHouse_UpFloor");

@@ -38,20 +38,26 @@ void UI_Hub_Broom::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void UI_Hub_Broom::Init()
 {
-	m_Frame = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::HUB_Frame);
+	Transform.AddLocalPosition({ -419.0f , -156.0f });
+
+	float4 UIPosition = float4::ZERO;
+
+	m_Frame = CreateComponent<GameEngineUIRenderer>();
+	UIPosition = { 0.0f , 0.0f, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::HUB_Frame) };
+	m_Frame->Transform.SetLocalPosition(UIPosition);
 	m_Frame->SetSprite("HUD_Broom_Gauge_Frame.png");
 
-	m_Gauge = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::HUB_Gauge1);
+	m_Gauge = CreateComponent<GameEngineUIRenderer>();
 	m_Gauge->SetSprite("HUD_Broom_Gauge_1.png");
 	m_Gauge->SetPivotType(PivotType::Left);
-	m_Gauge->Transform.AddLocalPosition({ -26.0f , 0.0f });
+	UIPosition = { -26.0f  , 0.0f, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::HUB_Gauge1) };
+	m_Gauge->Transform.AddLocalPosition(UIPosition);
 	
-	m_Icon = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::HUB_Frame);
+	m_Icon = CreateComponent<GameEngineUIRenderer>();
 	m_Icon->SetSprite("Tool_BroomA.png");
 	m_Icon->LeftFlip();
-	m_Icon->Transform.AddLocalPosition({ 0.0f , 32.0f });
-
-	Transform.AddLocalPosition({ -419.0f , -156.0f });
+	UIPosition = { 0.0f  , 32.0f, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::HUB_Frame) };
+	m_Icon->Transform.AddLocalPosition(UIPosition);
 
 	Off();
 }

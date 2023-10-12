@@ -20,7 +20,7 @@ enum class ERENDERDEPTH
 {
 	FadeObject = -1000,
 	Object = 0,
-	RootedItem = 1000,
+	RootedItem = 100,
 	ObjectShadow,
 	Back_,
 };
@@ -52,60 +52,52 @@ enum class ETITLERENDERDEPTH
 	Water,
 	Moon,
 	Star,
+	dsa,
 	Back_,
 };
 
 enum class EHOUSEDEPTH
 {
-	FRAME,
+	FRAME = -1,
 	Object,
-	Shadow = 1000,
+	Shadow = 100,
 	Rug,
 	HouseComposition,
 	BackPaint,
 };
 
-enum class EWITCHHOUSEUPPERFLOOR
-{
-	BackPaint = 10,
-	HouseComposition,
-	HouseShadow,
-	FirstObjects,
-	SecondObjects,
-	ThirdObjects,
-	ForthObjects,
-	FifthObjects,
-	HouseFrame,
-};
-
-
-enum class EDOWNFLOORRENDERORDER
-{
-	BackPaint = 10,
-	HouseComposition,
-	HouseShadow,
-	Objects,
-	HouseFrame,
-};
-
-
 enum class EUI_RENDERORDERDEPTH
 {
-	Frame = -100,
-	Attachment,
-	Component,
-	Icon,
+	Cursor = -100,
 	CursorOutLine,
-	Cursor,
+	Icon,
+	Component,
+	Attachment,
+	Frame,
 	Base,
-	Mark,
-	HUB_Frame,
-	HUB_Gauge1,
-	HUB_Gauge2,
-	HUB_Indicator,
+	UIArrow,
 	HUB_Icon,
-	UIArrow = -1,
+	HUB_Indicator,
+	HUB_Gauge2,
+	HUB_Gauge1,
+	HUB_Frame,
+	Mark,
 };
+//Mark,
+//HUB_Frame,
+//HUB_Gauge1,
+//HUB_Gauge2,
+//HUB_Indicator,
+//HUB_Icon,
+//UIArrow,
+//Base,
+//Frame,
+//Attachment,
+//Component,
+//Icon,
+//CursorOutLine,
+//Cursor,
+
 
 enum class ECOLLISION
 {

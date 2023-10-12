@@ -178,18 +178,6 @@
     <ClInclude Include="MainMenu.h">
       <Filter>2.Object\2.Level\1.Title</Filter>
     </ClInclude>
-    <ClInclude Include="TestMap.h">
-      <Filter>100.Z_Test</Filter>
-    </ClInclude>
-    <ClInclude Include="TestActor2.h">
-      <Filter>100.Z_Test</Filter>
-    </ClInclude>
-    <ClInclude Include="TestActor.h">
-      <Filter>100.Z_Test</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>100.Z_Test</Filter>
-    </ClInclude>
     <ClInclude Include="PlayLevel.h">
       <Filter>2.Object\2.Level\2.Play</Filter>
     </ClInclude>
@@ -390,18 +378,6 @@
     </ClCompile>
     <ClCompile Include="MainMenu.cpp">
       <Filter>2.Object\2.Level\1.Title</Filter>
-    </ClCompile>
-    <ClCompile Include="TestMap.cpp">
-      <Filter>100.Z_Test</Filter>
-    </ClCompile>
-    <ClCompile Include="TestActor.cpp">
-      <Filter>100.Z_Test</Filter>
-    </ClCompile>
-    <ClCompile Include="TestActor2.cpp">
-      <Filter>100.Z_Test</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>100.Z_Test</Filter>
     </ClCompile>
     <ClCompile Include="PlayLevel.cpp">
       <Filter>2.Object\2.Level\2.Play</Filter>

@@ -182,7 +182,7 @@ void Ellie::UpdateInteractionCollsiion()
 				}
 
 				// ´ê¾Ò½À´Ï´Ù.
-				if (true == GameEngineInput::IsDown('Z'))
+				if (true == GameEngineInput::IsDown('Z', this))
 				{
 					if (EINTERACTION_TYPE::Near == Entity->GetInteractionType())
 					{

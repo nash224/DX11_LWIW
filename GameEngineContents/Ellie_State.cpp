@@ -7,49 +7,49 @@
 
 bool Ellie::InputTestPattern()
 {
-	if (true == GameEngineInput::IsDown('1'))
+	if (true == GameEngineInput::IsDown('1', this))
 	{
 		ChangeState(EELLIE_STATE::Net);
 		return true;
 	}
 
-	if (true == GameEngineInput::IsDown('2'))
+	if (true == GameEngineInput::IsDown('2', this))
 	{
 		ChangeState(EELLIE_STATE::RootUp);
 		return true;
 	}
 
-	if (true == GameEngineInput::IsDown('3'))
+	if (true == GameEngineInput::IsDown('3', this))
 	{
 		ChangeState(EELLIE_STATE::Sit);
 		return true;
 	}
 
-	if (true == GameEngineInput::IsDown('4'))
+	if (true == GameEngineInput::IsDown('4', this))
 	{
 		ChangeState(EELLIE_STATE::MongSiri);
 		return true;
 	}
 
-	if (true == GameEngineInput::IsDown('5'))
+	if (true == GameEngineInput::IsDown('5', this))
 	{
 		ChangeState(EELLIE_STATE::Cheer);
 		return true;
 	}
 
-	if (true == GameEngineInput::IsDown('6')) 
+	if (true == GameEngineInput::IsDown('6', this))
 	{
 		ChangeState(EELLIE_STATE::Fail);
 		return true;
 	}
 
-	if (true == GameEngineInput::IsDown('7'))
+	if (true == GameEngineInput::IsDown('7', this))
 	{
 		ChangeState(EELLIE_STATE::Drink);
 		return true;
 	}
 
-	if (true == GameEngineInput::IsDown('8'))
+	if (true == GameEngineInput::IsDown('8', this))
 	{
 		ChangeState(EELLIE_STATE::Throw);
 		return true;
@@ -83,13 +83,13 @@ void Ellie::UpdateIdle(float _Delta)
 
 		if (true == DetectMovement())
 		{
-			if (true == GameEngineInput::IsPress(VK_LSHIFT))
+			if (true == GameEngineInput::IsPress(VK_LSHIFT, this))
 			{
 				ChangeState(EELLIE_STATE::SlowWalk);
 				return;
 			}
 
-			if (true == GameEngineInput::IsPress(VK_SPACE))
+			if (true == GameEngineInput::IsPress(VK_SPACE, this))
 			{
 				ChangeState(EELLIE_STATE::Run);
 				return;
@@ -99,7 +99,7 @@ void Ellie::UpdateIdle(float _Delta)
 			return;
 		}
 
-		if (true == GameEngineInput::IsDown(VK_CONTROL))
+		if (true == GameEngineInput::IsDown(VK_CONTROL, this))
 		{
 			ChangeState(EELLIE_STATE::Riding_Idle);
 			return;
@@ -123,9 +123,9 @@ void Ellie::UpdateSlowWalk(float _Delta)
 	}
 	else
 	{
-		if (true == GameEngineInput::IsFree(VK_LSHIFT))
+		if (true == GameEngineInput::IsFree(VK_LSHIFT, this))
 		{
-			if (true == GameEngineInput::IsPress(VK_SPACE))
+			if (true == GameEngineInput::IsPress(VK_SPACE, this))
 			{
 				ChangeState(EELLIE_STATE::Run);
 				return;
@@ -136,7 +136,7 @@ void Ellie::UpdateSlowWalk(float _Delta)
 		}
 	}
 
-	if (true == GameEngineInput::IsDown(VK_CONTROL))
+	if (true == GameEngineInput::IsDown(VK_CONTROL, this))
 	{
 		ChangeState(EELLIE_STATE::Riding_Idle);
 		return;
@@ -167,20 +167,20 @@ void Ellie::UpdateWalk(float _Delta)
 	}
 	else
 	{
-		if (true == GameEngineInput::IsPress(VK_LSHIFT))
+		if (true == GameEngineInput::IsPress(VK_LSHIFT, this))
 		{
 			ChangeState(EELLIE_STATE::SlowWalk);
 			return;
 		}
 
-		if (true == GameEngineInput::IsPress(VK_SPACE))
+		if (true == GameEngineInput::IsPress(VK_SPACE, this))
 		{
 			ChangeState(EELLIE_STATE::Run);
 			return;
 		}
 	}
 
-	if (true == GameEngineInput::IsDown(VK_CONTROL))
+	if (true == GameEngineInput::IsDown(VK_CONTROL, this))
 	{
 		ChangeState(EELLIE_STATE::Riding_Idle);
 		return;
@@ -209,20 +209,20 @@ void Ellie::UpdateRun(float _Delta)
 	}
 	else
 	{
-		if (true == GameEngineInput::IsPress(VK_LSHIFT))
+		if (true == GameEngineInput::IsPress(VK_LSHIFT, this))
 		{
 			ChangeState(EELLIE_STATE::SlowWalk);
 			return;
 		}
 
-		if (true == GameEngineInput::IsFree(VK_SPACE))
+		if (true == GameEngineInput::IsFree(VK_SPACE, this))
 		{
 			ChangeState(EELLIE_STATE::Walk);
 			return;
 		}
 	}
 
-	if (true == GameEngineInput::IsDown(VK_CONTROL))
+	if (true == GameEngineInput::IsDown(VK_CONTROL, this))
 	{
 		ChangeState(EELLIE_STATE::Riding_Idle);
 		return;
@@ -271,13 +271,13 @@ void Ellie::UpdateRiding_Idle(float _Delta)
 	{
 		if (true == DetectMovement())
 		{
-			if (true == GameEngineInput::IsDown(VK_CONTROL))
+			if (true == GameEngineInput::IsDown(VK_CONTROL, this))
 			{
 				ChangeState(EELLIE_STATE::Idle);
 				return;
 			}
 
-			if (true == GameEngineInput::IsPress(VK_SPACE))
+			if (true == GameEngineInput::IsPress(VK_SPACE, this))
 			{
 				ChangeState(EELLIE_STATE::Riding_Boost);
 				return;
@@ -289,7 +289,7 @@ void Ellie::UpdateRiding_Idle(float _Delta)
 		// 움직이지 않았다면
 		else
 		{
-			if (true == GameEngineInput::IsDown(VK_CONTROL))
+			if (true == GameEngineInput::IsDown(VK_CONTROL, this))
 			{
 				ChangeState(EELLIE_STATE::Idle);
 				return;
@@ -311,13 +311,13 @@ void Ellie::UpdateRiding_Move(float _Delta)
 {
 	if (true == DetectMovement())
 	{
-		if (true == GameEngineInput::IsDown(VK_CONTROL))
+		if (true == GameEngineInput::IsDown(VK_CONTROL, this))
 		{
 			ChangeState(EELLIE_STATE::Idle);
 			return;
 		}
 
-		if (true == GameEngineInput::IsPress(VK_SPACE))
+		if (true == GameEngineInput::IsPress(VK_SPACE, this))
 		{
 			ChangeState(EELLIE_STATE::Riding_Boost);
 			return;
@@ -326,7 +326,7 @@ void Ellie::UpdateRiding_Move(float _Delta)
 	// 움직이지 않았다면
 	else
 	{
-		if (true == GameEngineInput::IsDown(VK_CONTROL))
+		if (true == GameEngineInput::IsDown(VK_CONTROL, this))
 		{
 			ChangeState(EELLIE_STATE::Idle);
 			return;
@@ -375,13 +375,13 @@ void Ellie::UpdateRiding_Boost(float _Delta)
 {
 	if (true == DetectMovement())
 	{
-		if (true == GameEngineInput::IsDown(VK_CONTROL))
+		if (true == GameEngineInput::IsDown(VK_CONTROL, this))
 		{
 			ChangeState(EELLIE_STATE::Idle);
 			return;
 		}
 
-		if (true == GameEngineInput::IsFree(VK_SPACE))
+		if (true == GameEngineInput::IsFree(VK_SPACE, this))
 		{
 			ChangeState(EELLIE_STATE::Riding_Move);
 			return;
@@ -390,7 +390,7 @@ void Ellie::UpdateRiding_Boost(float _Delta)
 	// 움직이지 않았다면
 	else
 	{
-		if (true == GameEngineInput::IsDown(VK_CONTROL))
+		if (true == GameEngineInput::IsDown(VK_CONTROL, this))
 		{
 			ChangeState(EELLIE_STATE::Idle);
 			return;

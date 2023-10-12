@@ -220,7 +220,8 @@ void UI_Inventory::CreateBase()
 	}
 
 	m_InventoryBase->SetSprite("Inventory_Base.png");
-	m_InventoryBase->Transform.AddLocalPosition({ 0.0f, 0.0f, -1.0f });
+	float4 BasePosition = { 0.0f , 0.0f , GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Base) };
+	m_InventoryBase->Transform.AddLocalPosition(BasePosition);
 }
 
 // 렌더 2차원 배열을 생성합니다.
@@ -243,13 +244,16 @@ void UI_Inventory::CreateSlotArray()
 		{
 			float4 Pos = CalculateIndexToPos(x, y);
 
-			std::shared_ptr<GameEngineUIRenderer> Empty = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Attachment);
+			std::shared_ptr<GameEngineUIRenderer> Empty = CreateComponent<GameEngineUIRenderer>();
 			Empty->SetSprite("Inventory_Empty_Slot.png");
+			Pos.Z = GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Attachment);
 			Empty->Transform.SetLocalPosition(Pos);
+
 
 			InventorySlotArray[y][x].SlotEmpty = Empty;
 
-			std::shared_ptr<GameEngineUIRenderer> Slot = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Icon);
+			std::shared_ptr<GameEngineUIRenderer> Slot = CreateComponent<GameEngineUIRenderer>();
+			Pos.Z = GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Icon);
 			Slot->Transform.SetLocalPosition(Pos);
 			Slot->Off();
 
@@ -260,17 +264,17 @@ void UI_Inventory::CreateSlotArray()
 
 void UI_Inventory::CreateCursor()
 {
-	std::shared_ptr<GameEngineUIRenderer> CurSor = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Cursor);
+	std::shared_ptr<GameEngineUIRenderer> CurSor = CreateComponent<GameEngineUIRenderer>();
 	CurSor->CreateAnimation("Cursor", "Inventory_Cursor.png", CursorInter);
 	CurSor->ChangeAnimation("Cursor");
 	CurSor->AutoSpriteSizeOn();
 	m_CursorComposition.Cursor = CurSor;
 
-	std::shared_ptr<GameEngineUIRenderer> CurSorOutLine = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::CursorOutLine);
+	std::shared_ptr<GameEngineUIRenderer> CurSorOutLine = CreateComponent<GameEngineUIRenderer>();
 	CurSorOutLine->SetSprite("Inventory_CursorOutline.png");
 	m_CursorComposition.CursorOutline = CurSorOutLine;
 
-	std::shared_ptr<GameEngineUIRenderer> NameTooltip = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Cursor);
+	std::shared_ptr<GameEngineUIRenderer> NameTooltip = CreateComponent<GameEngineUIRenderer>();
 	NameTooltip->SetSprite("Inventory_NameTooltip.png");
 	NameTooltip->Off();
 	m_CursorComposition.NameTooltip = NameTooltip;
@@ -458,7 +462,11 @@ void UI_Inventory::SelectSlot(const unsigned int _X, const unsigned int _Y)
 		return;
 	}
 
-	m_CursorComposition.Cursor->Transform.SetLocalPosition(CalculateIndexToPos(_X, _Y));
+	float4 CursorPosition = CalculateIndexToPos(_X, _Y);
+	CursorPosition = { CursorPosition.X , CursorPosition.Y, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Cursor) };
+	
+
+	m_CursorComposition.Cursor->Transform.SetLocalPosition(CursorPosition);
 	
 
 	if (nullptr == m_CursorComposition.CursorOutline)
@@ -467,6 +475,7 @@ void UI_Inventory::SelectSlot(const unsigned int _X, const unsigned int _Y)
 		return;
 	}
 
+	CursorPosition = { CursorPosition.X , CursorPosition.Y, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::CursorOutLine) };
 	m_CursorComposition.CursorOutline->Transform.SetLocalPosition(CalculateIndexToPos(_X, _Y));
 
 	if (nullptr == m_CursorComposition.NameTooltip)
@@ -477,7 +486,9 @@ void UI_Inventory::SelectSlot(const unsigned int _X, const unsigned int _Y)
 
 	if (-1 != Data->IsContain(_X, _Y))
 	{
-		m_CursorComposition.NameTooltip->Transform.SetLocalPosition(CalculateIndexToPos(_X, _Y) + NameTagPositionBaseOnSlotCenter);
+		CursorPosition = CalculateIndexToPos(_X, _Y) + NameTagPositionBaseOnSlotCenter;
+		CursorPosition = { CursorPosition.X , CursorPosition.Y, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Cursor) };
+		m_CursorComposition.NameTooltip->Transform.SetLocalPosition(CursorPosition);
 		m_CursorComposition.NameTooltip->On();
 	}
 	else
@@ -549,9 +560,9 @@ void UI_Inventory::UpdateInventory(float _Delta)
 	UpdateCursor();
 
 	// 임시코드
-	if (true == GameEngineInput::IsPress(VK_CONTROL))
+	if (true == GameEngineInput::IsPress(VK_CONTROL, this))
 	{
-		if (true == GameEngineInput::IsDown('4'))
+		if (true == GameEngineInput::IsDown('4', this))
 		{
 			PushItem("SilverStarFlower_Collect.png");
 			PushItem("MapleHerb_Collect.png");
@@ -559,30 +570,30 @@ void UI_Inventory::UpdateInventory(float _Delta)
 			PushItem("PumpkinTerrier_Powder.png");
 			PushItem("MapleHerb_Water.png");
 		}
-		if (true == GameEngineInput::IsDown('5'))
+		if (true == GameEngineInput::IsDown('5', this))
 		{
 			PushItem("Mongsiri_Collect.png");
 		}
-		if (true == GameEngineInput::IsDown('6'))
+		if (true == GameEngineInput::IsDown('6', this))
 		{
 			PushItem("Mongsiri_EncyclopediaIcon.png");
 		}
-		if (true == GameEngineInput::IsDown('7'))
+		if (true == GameEngineInput::IsDown('7', this))
 		{
 			PushItem("MoonButterfly_Water.png");
 			PushItem("NutritionPotion_RecipePotionIcon.png");
 		}
-		if (true == GameEngineInput::IsDown('8'))
+		if (true == GameEngineInput::IsDown('8', this))
 		{
 			PushItem("WitchFlower_Water.png");
 			PushItem("WitchFlower_Collect.png");
 			PushItem("SilverStarFlower_Collect.png");
 		}
-		if (true == GameEngineInput::IsDown('9'))
+		if (true == GameEngineInput::IsDown('9', this))
 		{
 			UnlockSlot();
 		}
-		if (true == GameEngineInput::IsDown('3'))
+		if (true == GameEngineInput::IsDown('3', this))
 		{
 			ClearSlot(m_CurrentSlotX, m_CurrentSlotY);
 		}
@@ -595,7 +606,7 @@ void UI_Inventory::DectedCloseInventory()
 {
 	if (false == OpenCheck)
 	{
-		if (true == GameEngineInput::IsDown('S'))
+		if (true == GameEngineInput::IsDown('S', this))
 		{
 			Close();
 			return;
@@ -605,25 +616,25 @@ void UI_Inventory::DectedCloseInventory()
 
 void UI_Inventory::UpdateCursor()
 {
-	if (true == GameEngineInput::IsDown(VK_LEFT))
+	if (true == GameEngineInput::IsDown(VK_LEFT, this))
 	{
 		MoveCursor(-1, 0);
 		return;
 	}
 
-	if (true == GameEngineInput::IsDown(VK_RIGHT))
+	if (true == GameEngineInput::IsDown(VK_RIGHT, this))
 	{
 		MoveCursor(1, 0);
 		return;
 	}
 
-	if (true == GameEngineInput::IsDown(VK_UP))
+	if (true == GameEngineInput::IsDown(VK_UP, this))
 	{
 		MoveCursor(0, -1);
 		return;
 	}
 
-	if (true == GameEngineInput::IsDown(VK_DOWN))
+	if (true == GameEngineInput::IsDown(VK_DOWN, this))
 	{
 		MoveCursor(0, 1);
 		return;
