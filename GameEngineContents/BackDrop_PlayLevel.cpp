@@ -150,10 +150,10 @@ void BackDrop_PlayLevel::CreateItem(std::string_view _ItemName, const float4& _P
 		return;
 	}
 
-	Item->Init(_ItemName);
+	Item->BackManager = this;
 	Item->SetStack(_Stack);
 	Item->Transform.SetLocalPosition(_Position);
-	Item->BackManager = this;
+	Item->Init(_ItemName);
 	LootedItemList.push_back(Item);
 }
 

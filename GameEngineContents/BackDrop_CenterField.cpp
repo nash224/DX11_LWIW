@@ -6,6 +6,7 @@
 #include "PortalObject.h"
 
 #include "MongSiri_Population.h"
+#include "Bush.h"
 
 
 BackDrop_CenterField::BackDrop_CenterField() 
@@ -177,15 +178,42 @@ void BackDrop_CenterField::CreatePortalActor(GameEngineLevel* _Level)
 // 날이 바뀌면 생성됩니다.
 void BackDrop_CenterField::CreateCreature(GameEngineLevel* _Level)
 {
+	CreateDayNightTimeCreature(_Level);
 	CreateDayTimeCreature(_Level);
 	CreateNightCreature(_Level);
 }
 
+void BackDrop_CenterField::CreateDayNightTimeCreature(GameEngineLevel* _Level)
+{
+	CreateBush(_Level);
+}
 
 
 void BackDrop_CenterField::CreateDayTimeCreature(GameEngineLevel* _Level)
 {
 	CreateMongSiriPopulation(_Level);
+}
+
+
+
+void BackDrop_CenterField::CreateBush(GameEngineLevel* _Level)
+{
+	vecStaticEntity.reserve(30);
+
+	{
+		std::shared_ptr<Bush> Bush1 = _Level->CreateActor<Bush>(EUPDATEORDER::Entity);
+		if (nullptr == Bush1)
+		{
+			MsgBoxAssert("덤풀을 생성하지 못했습니다.");
+			return;
+		}
+
+		Bush1->Transform.SetLocalPosition({ 300.0f , -150.0f});
+		Bush1->SetBushType(EBUSHTYPE::BushApple);
+		Bush1->Init();
+
+		vecStaticEntity.push_back(Bush1);
+	}
 }
 
 void BackDrop_CenterField::CreateMongSiriPopulation(GameEngineLevel* _Level)

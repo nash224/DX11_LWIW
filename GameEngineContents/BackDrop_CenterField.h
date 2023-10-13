@@ -33,8 +33,11 @@ public:
 	void CreatePortalActor(GameEngineLevel* _Level);
 
 	void CreateCreature(GameEngineLevel* _Level);
+	void CreateDayNightTimeCreature(GameEngineLevel* _Level);
 	void CreateDayTimeCreature(GameEngineLevel* _Level);
 	void CreateNightCreature(GameEngineLevel* _Level);
+
+	void CreateBush(GameEngineLevel* _Level);
 	void CreateMongSiriPopulation(GameEngineLevel* _Level);
 
 public:

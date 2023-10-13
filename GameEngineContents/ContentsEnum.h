@@ -20,6 +20,7 @@ enum class ERENDERORDER
 	NonAlphaBlend,
 	AlphaBlend,
 	Shadow,
+	Effect,
 };
 
 

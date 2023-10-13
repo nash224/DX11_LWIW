@@ -1,11 +1,22 @@
 #pragma once
 #include "StaticEntity.h"
 
-enum class BushType
+enum class EBUSHTYPE
 {
 	Bush,
 	BushBug,
 	BushApple,
+	None,
+};
+
+
+enum class EBUSHSTATE
+{
+	Normal,				// 평상시
+	Apple,				// 사과
+	Shake,				// 사과 흔들기
+	Rustle,				// 부시럭거림
+	AppearBug,			// 벌레 등장
 	None,
 };
 
@@ -26,7 +37,7 @@ public:
 	Bush& operator=(Bush&& _Other) noexcept = delete;
 
 
-	void SetBushType(BushType _Type);
+	void SetBushType(EBUSHTYPE _Type);
 	void Init();
 
 
@@ -39,14 +50,38 @@ protected:
 
 private:
 	void CreateBushAnimation();
+	void InteractiveOptionSetting();
+	void BushStateSetting();
+
+private:
+	void UpdateState(float _Delta);
+	void ChangeState(EBUSHSTATE _State);
+	void ChangeBushAnimation(std::string_view _Name);
+
+	void StartNormal();
+	void UpdateNormal(float _Delta);
+
+	void StartApple();
+	void UpdateApple(float _Delta);
+
+	void StartShake();
+	void UpdateShake(float _Delta);
+
+	void StartRustle();
+	void UpdateRustle(float _Delta);
+
+	void StartAppearBug();
+	void UpdateAppearBug(float _Delta);
+
 
 
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> m_Bush = nullptr;
+	std::shared_ptr<GameEngineSpriteRenderer> m_Bush_FX = nullptr;
 
 private:
-	BushType m_BushType = BushType::None;
-
-	float DepthBias = 0.0f;
+	EBUSHTYPE m_BushType = EBUSHTYPE::None;
+	EBUSHSTATE m_State = EBUSHSTATE::None;
+	
 };
 

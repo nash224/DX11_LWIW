@@ -86,8 +86,14 @@ void UI_InterativeMark::PointThis(InteractiveActor* _ActorPtr)
 
 	if (_ActorPtr != Pointer)
 	{
+		UI_Mark->Reset();
+
 		UI_Mark->On();
+		UI_Mark->IsPointerInteracted = true;
+
 		Pointer = _ActorPtr;
+
+		UI_Mark->m_MarkRenderer->Off();
 
 		if (EINTERACTION_BUTTONTYPE::Gathering == Pointer->GetInteractionButtonType())
 		{
@@ -96,6 +102,12 @@ void UI_InterativeMark::PointThis(InteractiveActor* _ActorPtr)
 		else if (EINTERACTION_BUTTONTYPE::Gear == Pointer->GetInteractionButtonType())
 		{
 			UI_Mark->m_ButtonRenderer->On();
+		}
+
+		if (true == UI_Mark->m_MarkRenderer->IsUpdate() && true == UI_Mark->m_ButtonRenderer->IsUpdate())
+		{
+			MsgBoxAssert("버튼이 2개들어올리가 없어..");
+			return;
 		}
 	}
 }

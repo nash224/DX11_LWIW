@@ -215,6 +215,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Bush_State.cpp" />
     <ClCompile Include="ChubHole.cpp">
       <SubType>
       </SubType>

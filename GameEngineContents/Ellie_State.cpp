@@ -466,6 +466,7 @@ void Ellie::UpdateApproach(float _Delta)
 
 	float4 OtherPosition = OtherEntity->GetInteractiveLocalPositon();
 	float4 TargetDistance = OtherPosition - Transform.GetLocalPosition();
+	TargetDistance.Z = 0.0f;
 	
 	// 목표거리까지 이동합니다.
 	float4 TargetDircetion = TargetDistance.NormalizeReturn();

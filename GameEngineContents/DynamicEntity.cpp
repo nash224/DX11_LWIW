@@ -44,10 +44,12 @@ void DynamicEntity::LevelEnd(class GameEngineLevel* _NextLevel)
 /////////////////////////////////////////////////////////////////////////////////////
 
 
-
+// 8방향 반환
 EDIRECTION DynamicEntity::GetDirectionFromVector(const float4& _MoveVector)
 {
-	float4 UnitVetor = _MoveVector.NormalizeReturn();
+	float4 UnitVetor = _MoveVector;
+	UnitVetor.Z = 0.0f;
+	UnitVetor = UnitVetor.NormalizeReturn();
 	float Degree = UnitVetor.Angle2DDeg();
 	if (UnitVetor.Y < 0)
 	{
@@ -101,9 +103,12 @@ EDIRECTION DynamicEntity::GetDirectionFromVector(const float4& _MoveVector)
 	return m_Dir;
 }
 
+// 대각선 방향 반환
 EDIRECTION DynamicEntity::GetDiagonalDirectionFromVector(const float4& _MoveVector)
 {
-	float4 UnitVetor = _MoveVector.NormalizeReturn();
+	float4 UnitVetor = _MoveVector;
+	UnitVetor.Z = 0.0f;
+	UnitVetor = UnitVetor.NormalizeReturn();
 	float Degree = UnitVetor.Angle2DDeg();
 	if (UnitVetor.Y < 0)
 	{
@@ -133,19 +138,23 @@ EDIRECTION DynamicEntity::GetDiagonalDirectionFromVector(const float4& _MoveVect
 }
 
 
+
+
+// 위치 적용 (깊이 적용)
 void DynamicEntity::ApplyMovement(float _Delta)
 {
-	float4 CurrentPosition = Transform.GetLocalPosition();
-	float4 MoveValue = m_MoveVector* _Delta;
-	float4 MovePosition = CurrentPosition + MoveValue;
+	float4 CurrentPosition = Transform.GetLocalPosition();					// 현재위치
+	m_MoveVector.Z = 0.0f;
+	float4 MoveValue = m_MoveVector* _Delta;								// 이동값
+	float4 MovePosition = CurrentPosition + MoveValue;						// 미래 위치
 	if (nullptr == BackDrop_PlayLevel::MainBackDrop)
 	{
 		MsgBoxAssert("nullptr == BackDrop_PlayLevel::MainBackDrop");
 		return;
 	}
 
-	float ZSort = BackDrop_PlayLevel::MainBackDrop->ZSort(MovePosition.Y);
-	MovePosition.Z = ZSort;
+	float ZSort = BackDrop_PlayLevel::MainBackDrop->ZSort(MovePosition.Y + m_DepthBias);	// Z소팅
+	MovePosition.Z = ZSort;							
 	
 	Transform.SetLocalPosition(MovePosition);
 }

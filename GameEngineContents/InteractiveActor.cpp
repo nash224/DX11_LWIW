@@ -47,7 +47,7 @@ void InteractiveActor::LevelEnd(class GameEngineLevel* _NextLevel)
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-
+// 상호작용 감지 범위, 위치 설정
 void InteractiveActor::CreateAndSetCollision(ECOLLISION _Order, const float4& _Scale, const float4& _Position, ColType _Type)
 {
 	m_InteractiveCol = CreateComponent<GameEngineCollision>(_Order);
@@ -62,6 +62,13 @@ void InteractiveActor::CreateAndSetCollision(ECOLLISION _Order, const float4& _S
 	m_InteractiveCol->SetCollisionType(_Type);
 }
 
+// 근접 상호작용 범위
+void InteractiveActor::SetInteractivePositionAndRange(const float4& _InteractivePosition, float _Range)
+{
+	m_InteractiveLocalPosition = _InteractivePosition;
+	m_InteractiveRange = _Range;
+}
+
 void InteractiveActor::SetInteractionButtonType(const EINTERACTION_BUTTONTYPE _Type)
 {
 	m_InteractionButtonType = _Type;
@@ -70,6 +77,24 @@ void InteractiveActor::SetInteractionButtonType(const EINTERACTION_BUTTONTYPE _T
 void InteractiveActor::SetInteractionType(const EINTERACTION_TYPE _Type)
 {
 	m_InteractionType = _Type;
+}
+
+
+// EINTERACTION_BUTTONTYPE  : 버튼
+// EINTERACTION_TYPE,		: 상호작용 거리 (근접이냐, 원거리냐)
+// ECOLLECTION_METHOD,		: 채집 모션(Ellie)
+// ETOOLTYPE				: 도구
+void InteractiveActor::SetInteractionOption(
+	const EINTERACTION_BUTTONTYPE _BUTTONTYPE,
+	const EINTERACTION_TYPE _Type,
+	const ECOLLECTION_METHOD _METHODType,
+	const ETOOLTYPE _TOOLType
+)
+{
+	m_InteractionButtonType = _BUTTONTYPE;
+	m_InteractionType = _Type;
+	m_CollectionMethod = _METHODType;
+	m_CollectionTool = _TOOLType;
 }
 
 EINTERACTION_TYPE InteractiveActor::GetInteractionType() const
@@ -87,8 +112,8 @@ ECOLLECTION_METHOD InteractiveActor::GetCollectionMethod() const
 	return m_CollectionMethod;
 }
 
-
-void InteractiveActor::InitialDepth(const float4& _Position)
+// 보정계수가 포함된 깊이 적용 
+void InteractiveActor::ApplyDepth(const float4& _Position)
 {
 	float4 Position = _Position;
 	if (nullptr == BackDrop_PlayLevel::MainBackDrop)
@@ -97,15 +122,8 @@ void InteractiveActor::InitialDepth(const float4& _Position)
 		return;
 	}
 
-	float ZSort = BackDrop_PlayLevel::MainBackDrop->ZSort(Position.Y);
+	float ZSort = BackDrop_PlayLevel::MainBackDrop->ZSort(Position.Y + m_DepthBias);
 	Position.Z = ZSort;
 
 	Transform.SetLocalPosition(Position);
-}
-
-
-void InteractiveActor::SetInteractivePositionAndRange(const float4& _InteractivePosition, float _Range)
-{
-	m_InteractiveLocalPosition = _InteractivePosition;
-	m_InteractiveRange = _Range;
 }

@@ -95,6 +95,7 @@ void Ellie::UpdateInteractionCollsiion()
 
 				float4 OtherPosition = Collision->Transform.GetWorldPosition();
 				float4 EllieVectorTowardObject = OtherPosition - ElliePosition;
+				EllieVectorTowardObject.Z = 0.0f;
 				float ObjectAngle = EllieVectorTowardObject.NormalizeReturn().Angle2DDeg();
 				if (EllieVectorTowardObject.Y < 0.0f)
 				{
@@ -169,12 +170,20 @@ void Ellie::UpdateInteractionCollsiion()
 					return;
 				}
 
-				if (EINTERACTION_BUTTONTYPE::Gathering == Entity->GetInteractionButtonType())
+				// 버튼 타입이 없으면 상호작용 X
+				if (EINTERACTION_BUTTONTYPE::None == Entity->GetInteractionButtonType())
 				{
+					return;
+				}
+				// 화살타입이고
+				else if (EINTERACTION_BUTTONTYPE::Gathering == Entity->GetInteractionButtonType())
+				{
+					// 도구가 없으면 패스
 					if (ETOOLTYPE::Nothing == Entity->m_CollectionTool)
 					{
 						// Pass
 					}
+					// 도구 타입이 다르면 리턴
 					else if (UI_Hub_Tool::m_CurrentTool != Entity->m_CollectionTool)
 					{
 						return;
@@ -184,10 +193,13 @@ void Ellie::UpdateInteractionCollsiion()
 				// 닿았습니다.
 				if (true == GameEngineInput::IsDown('Z', this))
 				{
+					// 상호작용이 가까이면 
 					if (EINTERACTION_TYPE::Near == Entity->GetInteractionType())
 					{
+						// 수집타입이 몽시리일때
 						if (ECOLLECTION_METHOD::MongSiri == Entity->GetCollectionMethod())
 						{
+							// 멈추게 함
 							Entity->GetCaught();
 						}
 
@@ -195,6 +207,7 @@ void Ellie::UpdateInteractionCollsiion()
 						ChangeState(EELLIE_STATE::Approach);
 					}
 
+					// 멀리있으면 무조건 통과
 					if (EINTERACTION_TYPE::Far == Entity->GetInteractionType())
 					{
 						Entity->IsReach = true;

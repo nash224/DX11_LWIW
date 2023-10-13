@@ -118,6 +118,9 @@
     <Filter Include="2.Object\1.Actor\2.Interactive\Dynamic\MongSiri">
       <UniqueIdentifier>{523ad1c7-d8ca-4084-bf97-71f810474987}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2.Object\1.Actor\2.Interactive\Static\Bush">
+      <UniqueIdentifier>{9958f0f4-d110-480b-9a2d-e3753ed5311f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -323,7 +326,7 @@
       <Filter>2.Object\1.Actor\3.Prop</Filter>
     </ClInclude>
     <ClInclude Include="Bush.h">
-      <Filter>2.Object\1.Actor\2.Interactive\Static</Filter>
+      <Filter>2.Object\1.Actor\2.Interactive\Static\Bush</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -530,7 +533,10 @@
       <Filter>2.Object\1.Actor\3.Prop</Filter>
     </ClCompile>
     <ClCompile Include="Bush.cpp">
-      <Filter>2.Object\1.Actor\2.Interactive\Static</Filter>
+      <Filter>2.Object\1.Actor\2.Interactive\Static\Bush</Filter>
+    </ClCompile>
+    <ClCompile Include="Bush_State.cpp">
+      <Filter>2.Object\1.Actor\2.Interactive\Static\Bush</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
