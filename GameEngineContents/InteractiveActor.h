@@ -41,6 +41,7 @@ public:
 	EINTERACTION_BUTTONTYPE GetInteractionButtonType() const;
 	ECOLLECTION_METHOD GetCollectionMethod() const;
 	
+	void InitialDepth(const float4& _Position);
 
 	void ReachThis()
 	{

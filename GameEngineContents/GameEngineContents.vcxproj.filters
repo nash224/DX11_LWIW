@@ -322,6 +322,9 @@
     <ClInclude Include="Prop.h">
       <Filter>2.Object\1.Actor\3.Prop</Filter>
     </ClInclude>
+    <ClInclude Include="Bush.h">
+      <Filter>2.Object\1.Actor\2.Interactive\Static</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -525,6 +528,9 @@
     </ClCompile>
     <ClCompile Include="Prop.cpp">
       <Filter>2.Object\1.Actor\3.Prop</Filter>
+    </ClCompile>
+    <ClCompile Include="Bush.cpp">
+      <Filter>2.Object\1.Actor\2.Interactive\Static</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

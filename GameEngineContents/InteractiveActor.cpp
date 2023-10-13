@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "InteractiveActor.h"
+#include "BackDrop_PlayLevel.h"
 
 InteractiveActor::InteractiveActor() 
 {
@@ -85,6 +86,23 @@ ECOLLECTION_METHOD InteractiveActor::GetCollectionMethod() const
 {
 	return m_CollectionMethod;
 }
+
+
+void InteractiveActor::InitialDepth(const float4& _Position)
+{
+	float4 Position = _Position;
+	if (nullptr == BackDrop_PlayLevel::MainBackDrop)
+	{
+		MsgBoxAssert("nullptr == BackDrop_PlayLevel::MainBackDrop");
+		return;
+	}
+
+	float ZSort = BackDrop_PlayLevel::MainBackDrop->ZSort(Position.Y);
+	Position.Z = ZSort;
+
+	Transform.SetLocalPosition(Position);
+}
+
 
 void InteractiveActor::SetInteractivePositionAndRange(const float4& _InteractivePosition, float _Range)
 {

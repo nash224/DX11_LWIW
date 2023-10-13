@@ -58,7 +58,6 @@ void MongSiri::Init()
 	CreateAndSetRenderer();
 	CreateAndSetCollision(ECOLLISION::Entity, { 200, 200 }, float4::ZERO, ColType::SPHERE2D);
 	InitDirection();
-	InitialDepth();
 
 	m_Status = EMONGSIRISTATUS::Normal;
 	ChangeState(EMONGSIRISTATE::Idle);

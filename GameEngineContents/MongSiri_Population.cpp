@@ -182,7 +182,7 @@ void MongSiri_Population::CreateMongSiri(GameEngineLevel* _CurLevel, unsigned in
 		float4 MongSiriSpawnUnitVector = float4::GetUnitVectorFromDeg(MongSiriSpawnAngle);			// 각도 단위 백터
 		float4 MonSiriPosition = m_PopulationLocation + MongSiriSpawnUnitVector * MongSiriSpawnDistance;		// 스폰 위치 = 개체군 위치 + 스폰각도 * 랜덤 거리
 
-		Object->Transform.SetLocalPosition(MonSiriPosition);
+		Object->InitialDepth(MonSiriPosition);
 		MongSiriEntityList.push_back(Object);
 	}
 }

@@ -92,9 +92,9 @@ void LoadingLevel::LoadTexture()
 	if (false == GlobalTextureLoadCheck)
 	{
 		// 플레이 액터
-		GlobalUtils::LoadAllDirFile("Resources\\PlayContents\\PlayResourecs\\Creature");
-		GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\Ellie");
-		GlobalUtils::LoadAllDirFile("Resources\\PlayContents\\PlayResourecs\\Map");
+		GlobalUtils::LoadAllDirFile("Resources\\PlayContents\\PlayResourecs\\Creature");	// 크리처 폴더
+		GlobalUtils::LoadAllDirFile("Resources\\PlayContents\\PlayResourecs\\Map");			// 맵 폴더
+		GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\Ellie");	// 앨리 폴더
 
 		//UI
 		GameEngineDirectory Dir;
@@ -161,6 +161,15 @@ void LoadingLevel::LoadSprite()
 		GameEngineSprite::CreateCut("Mongsiri_IdleA.png", 3, 3);
 		GameEngineSprite::CreateCut("Mongsiri_IdleB.png", 4, 3);
 		GameEngineSprite::CreateCut("Mongsiri_Jump.png", 5, 5);
+
+		// BushBug
+		GameEngineSprite::CreateCut("Bush_0.png", 4, 3);
+		GameEngineSprite::CreateCut("Bush_0_Mask.png", 4, 3);
+		GameEngineSprite::CreateCut("Bush_2_Shaking.png", 4, 3);
+		GameEngineSprite::CreateCut("Bush_2_Shaking_Mask.png", 4, 3);
+		GameEngineSprite::CreateCut("Bush_Animation_1.png", 4, 4);
+		GameEngineSprite::CreateCut("BushBug_Appearing.png", 5, 5);
+		GameEngineSprite::CreateCut("Bushbug_Standing.png", 4, 3);
 
 #pragma endregion 
 

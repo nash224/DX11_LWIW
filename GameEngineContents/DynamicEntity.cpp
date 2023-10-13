@@ -149,18 +149,3 @@ void DynamicEntity::ApplyMovement(float _Delta)
 	
 	Transform.SetLocalPosition(MovePosition);
 }
-
-void DynamicEntity::InitialDepth()
-{
-	float4 CurrentPosition = Transform.GetLocalPosition();
-	if (nullptr == BackDrop_PlayLevel::MainBackDrop)
-	{
-		MsgBoxAssert("nullptr == BackDrop_PlayLevel::MainBackDrop");
-		return;
-	}
-
-	float ZSort = BackDrop_PlayLevel::MainBackDrop->ZSort(CurrentPosition.Y);
-	CurrentPosition.Z = ZSort;
-
-	Transform.SetLocalPosition(CurrentPosition);
-}

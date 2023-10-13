@@ -1,6 +1,7 @@
 #pragma once
 #include "InteractiveActor.h"
 
+
 // Ό³Έν :
 class StaticEntity : public InteractiveActor
 {
@@ -15,6 +16,7 @@ public:
 	StaticEntity& operator=(const StaticEntity& _Other) = delete;
 	StaticEntity& operator=(StaticEntity&& _Other) noexcept = delete;
 
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -25,7 +27,6 @@ protected:
 
 
 private:
-
 
 };
 
