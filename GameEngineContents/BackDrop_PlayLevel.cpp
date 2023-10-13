@@ -11,6 +11,7 @@
 
 
 BackDrop_PlayLevel* BackDrop_PlayLevel::MainBackDrop = nullptr;
+DayStatus  BackDrop_PlayLevel::TimeOfDay = DayStatus::None;
 BackDrop_PlayLevel::BackDrop_PlayLevel() 
 {
 }

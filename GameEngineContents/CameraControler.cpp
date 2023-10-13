@@ -26,6 +26,17 @@ void CameraControler::Start()
 
 void CameraControler::Update(float _Delta)
 {
+	if (nullptr == m_MainCamera)
+	{
+		MsgBoxAssert("메인카메라를 참조하지 않았습니다.");
+		return;
+	}
+
+	if (true == m_MainCamera->IsFreeCamera())
+	{
+		return;
+	}
+
 	UpdateCameraMode(_Delta);
 	RenewCameraPosition();
 }
@@ -56,7 +67,7 @@ void CameraControler::SetCameraMode(ECAMERAMODE _Mode)
 void CameraControler::SetLocalPostion(const float4& _Position)
 {
 	float4 Position = _Position;
-	Position.Z = -500.0f;
+	Position.Z = CameraDepth;
 
 	m_MainCamera->Transform.SetLocalPosition(Position);
 	RenewCameraPosition();
@@ -344,7 +355,9 @@ void CameraControler::UpdateCameraPlayMode(float _Delta)
 
 	LockCamera(CameraMovePos, CurCameraPos);
 
-	m_MainCamera->Transform.AddLocalPosition(CameraMovePos);
+	CameraMovePos = CurCameraPos + CameraMovePos;
+	CameraMovePos.Z = CameraDepth;
+	m_MainCamera->Transform.SetLocalPosition(CameraMovePos);
 }
 
 

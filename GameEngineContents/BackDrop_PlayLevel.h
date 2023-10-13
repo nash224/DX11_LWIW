@@ -1,6 +1,14 @@
 #pragma once
 #include "BackDrop.h"
 
+enum class DayStatus
+{
+	Day,
+	Night,
+	None,
+};
+
+
 // Ό³Έν :
 class BackDrop_PlayLevel : public BackDrop
 {
@@ -8,6 +16,9 @@ class BackDrop_PlayLevel : public BackDrop
 
 public:
 	static BackDrop_PlayLevel* MainBackDrop;
+
+protected:
+	static DayStatus  TimeOfDay;
 
 public:
 	// constrcuter destructer
@@ -56,6 +67,9 @@ protected:
 	std::vector<std::shared_ptr<class StaticEntity>> vecStaticEntity;
 	std::vector<std::shared_ptr<class PortalObject>> vecPortalObject;
 	std::list<std::shared_ptr<class LootedItem>> LootedItemList;
+
+protected:
+	DayStatus  m_UpdateDayTime = DayStatus::None;
 
 };
 

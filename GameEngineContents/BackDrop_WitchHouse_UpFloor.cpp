@@ -55,13 +55,6 @@ void BackDrop_WitchHouse_UpFloor::Init()
 	CreatePixelMap(CurLevel);
 	LoadPortalActor(CurLevel);
 
-	{
-		std::shared_ptr<MongSiri_Population> Object = CurLevel->CreateActor<MongSiri_Population>(EUPDATEORDER::Objects);
-		Object->Transform.SetLocalPosition({ 100.0f , -100.0f });
-		Object->SetPopulationSpawnLocation({ 150.0f , -150.0f });
-		Object->Init(3);
-	}
-
 	m_BackScale = GlobalValue::GetWindowScale();
 }
 

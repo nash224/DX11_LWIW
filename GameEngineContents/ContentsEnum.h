@@ -17,7 +17,7 @@ enum class EUPDATEORDER
 
 enum class ERENDERORDER
 {
-	Model,
+	NonAlphaBlend,
 	AlphaBlend,
 	Shadow,
 };

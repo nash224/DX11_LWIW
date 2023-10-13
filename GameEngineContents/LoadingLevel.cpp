@@ -92,9 +92,9 @@ void LoadingLevel::LoadTexture()
 	if (false == GlobalTextureLoadCheck)
 	{
 		// 플레이 액터
-		GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\Ellie");
-		GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\Ellie");
 		GlobalUtils::LoadAllDirFile("Resources\\PlayContents\\PlayResourecs\\Creature");
+		GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\Ellie");
+		GlobalUtils::LoadAllDirFile("Resources\\PlayContents\\PlayResourecs\\Map");
 
 		//UI
 		GameEngineDirectory Dir;
@@ -165,6 +165,24 @@ void LoadingLevel::LoadSprite()
 #pragma endregion 
 
 
+		{
+			// Map
+			GameEngineDirectory Dir;
+			Dir.MoveParentToExistsChild("Resources");
+			Dir.MoveChild("Resources\\PlayContents\\PlayResourecs\\Map\\");
+			std::vector<GameEngineDirectory> Directions = Dir.GetAllDirectory();
+			for (size_t i = 0; i < Directions.size(); i++)
+			{
+				GameEngineDirectory Direction = Directions[i];
+				std::vector<GameEngineFile> Files = Direction.GetAllFile();
+				for (size_t i = 0; i < Files.size(); i++)
+				{
+					GameEngineFile pFile = Files[i];
+					GameEngineSprite::CreateSingle(pFile.GetFileName());
+				}
+			}
+		}
+
 		// UI
 		GameEngineSprite::CreateCut("PointArrow.png", 3, 2);
 		GameEngineSprite::CreateCut("Inventory_Cursor.png", 2, 1);
@@ -176,19 +194,21 @@ void LoadingLevel::LoadSprite()
 		GameEngineSprite::CreateCut("IllustedBook_Icon_Ladle.png", 3, 1);
 
 
-		//UI
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExistsChild("Resources");
-		Dir.MoveChild("Resources\\PlayContents\\PlayResourecs\\UI\\UI_Sprite");
-		std::vector<GameEngineDirectory> Directions = Dir.GetAllDirectory();
-		for (size_t i = 0; i < Directions.size(); i++)
 		{
-			GameEngineDirectory Direction = Directions[i];
-			std::vector<GameEngineFile> Files = Direction.GetAllFile();
-			for (size_t i = 0; i < Files.size(); i++)
+			//UI
+			GameEngineDirectory Dir;
+			Dir.MoveParentToExistsChild("Resources");
+			Dir.MoveChild("Resources\\PlayContents\\PlayResourecs\\UI\\UI_Sprite");
+			std::vector<GameEngineDirectory> Directions = Dir.GetAllDirectory();
+			for (size_t i = 0; i < Directions.size(); i++)
 			{
-				GameEngineFile pFile = Files[i];
-				GameEngineSprite::CreateSingle(pFile.GetFileName());
+				GameEngineDirectory Direction = Directions[i];
+				std::vector<GameEngineFile> Files = Direction.GetAllFile();
+				for (size_t i = 0; i < Files.size(); i++)
+				{
+					GameEngineFile pFile = Files[i];
+					GameEngineSprite::CreateSingle(pFile.GetFileName());
+				}
 			}
 		}
 
@@ -264,6 +284,7 @@ void LoadingLevel::ActorRelease()
 
 void LoadingLevel::ReleaseSprite()
 {
+	// LoadingLevel Resources
 	GameEngineDirectory Dir;
 	Dir.MoveParentToExistsChild("Resources");
 	Dir.MoveChild("Resources\\LoadingLevel");
