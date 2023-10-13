@@ -112,12 +112,12 @@ void WitchHouse_UpFloor::SetEllieLevelChangeLocation(class GameEngineLevel* _Nex
 	std::string NextLevelName = _NextLevel->GetName();
 	if (NextLevelName == "WitchHouse_Yard")
 	{
-		SpawnPosition = { 480.0f , -400.0f };
+		SpawnPosition = { 480.0f , -364.0f };
 	}
 
 	if (NextLevelName == "WitchHouse_DownFloor")
 	{
-		SpawnPosition = { 100.0f , -400.0f };
+		SpawnPosition = { 510.0f , -273.0f };
 	}
 	
 

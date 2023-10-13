@@ -215,6 +215,11 @@ private:
 
 
 private:
+	// 디버그
+	void UpdateOutPutDebug(float _Delta);
+
+
+private:
 	// 방향키
 	EHORIZONTAL_KEY_STATE m_HorizontalKey = EHORIZONTAL_KEY_STATE::Center;
 	EVERTICAL_KEY_STATE m_VerticalKey = EVERTICAL_KEY_STATE::Center;
@@ -253,7 +258,7 @@ private:
 	bool IsCollected = false;
 
 	// 상호작용 Collision 시야각도 입니다.
-	const float FOVAngle = 75.0f;
+	const float FOVAngle = 60.0f;
 
 };
 

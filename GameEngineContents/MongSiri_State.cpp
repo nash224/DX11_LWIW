@@ -11,10 +11,12 @@ void MongSiri::StartIdle()
 	if (EMONGSIRISTATUS::Normal == m_Status)
 	{
 		GameEngineRandom RandomClass;
+		RandomClass.SetSeed(reinterpret_cast<__int64>(this));
 		int SelectNumber = RandomClass.RandomInt(0, 4);
 		switch (SelectNumber)
 		{
 		case 0:
+			m_IdleCount = 2;
 		case 1:
 		case 2:
 			m_IdleCount = 3;
@@ -79,6 +81,9 @@ void MongSiri::SearchJumpLocation()
 	if (EMONGSIRISTATUS::Normal == m_Status)
 	{
 		GameEngineRandom RandomClass;
+		RandomClass.SetSeed(reinterpret_cast<__int64>(this));
+
+
 		if (nullptr == MongSiriParant)
 		{
 			MsgBoxAssert("몽시리 개체군 매니저가 존재하지 않습니다.");
@@ -86,7 +91,9 @@ void MongSiri::SearchJumpLocation()
 		}
 
 		float4 MyPosition = Transform.GetLocalPosition();
+		MyPosition.Z = 0.0f;
 		float4 PopulationSpawnPosition = MongSiriParant->m_PopulationLocation;
+		PopulationSpawnPosition.Z = 0.0f;
 		float PopulationMinCircle = MongSiriParant->m_PopulationMinCircle;
 		float PopulationMaxCircle = MongSiriParant->m_PopulationMaxCircle;
 
@@ -96,21 +103,26 @@ void MongSiri::SearchJumpLocation()
 		float Degree = TargetDistance.NormalizeReturn().Angle2DDeg();
 		if (TargetDistance.Y < 0.0f)
 		{
+			Degree = 180.0f - Degree;
 			Degree += 180.0f;
 		}
 
 		float JumpAngle = 0.0f;
 
+		// 만약 최대 범위면 구멍으로 뛰어라
+		if (SpawnToDistance > PopulationMaxCircle)
+		{
+			JumpAngle = Degree;
+		}
 		// 스폰 위치점 기준
-		// 작은원 안에 있다면 완전 랜덤
-		if (SpawnToDistance < PopulationMinCircle)
+		// 작은원 안에 있다면 완전 랜덤 
+		else if (SpawnToDistance < PopulationMinCircle)
 		{
 			JumpAngle = RandomClass.RandomFloat(0.0f, 360.0f);
 		}
-
 		// 스폰 위치점 기준
 		// 작은 원보다 밖에 있다면
-		if (SpawnToDistance > PopulationMinCircle)
+		else if (SpawnToDistance > PopulationMinCircle)
 		{
 			// 점프력 측정
 			float JumpChangeRatio = RandomClass.RandomFloat(0.0f, 1.0f);
@@ -125,13 +137,22 @@ void MongSiri::SearchJumpLocation()
 
 			// 이 각도로 뛰어라
 			JumpAngle = Degree + JumpChangeRatio;
+
+			if (JumpAngle > 360.0f)
+			{
+				JumpAngle -= 360.0f;
+			}
+
+			if (JumpAngle < 0.0f)
+			{
+				JumpAngle += 360.0f;
+			}
 		}
 
 		float MongSiriJumpPower = RandomClass.RandomFloat(0.0f, MongSiri_JumpMaxSpeed);
 		float4 TargetUnitVector = float4::GetUnitVectorFromDeg(JumpAngle);
 
 		m_TargetForce = TargetUnitVector * MongSiriJumpPower;
-		m_Dir = GetDirectionFromVector(m_TargetForce);
 	}
 
 	if (EMONGSIRISTATUS::Escape == m_Status)
@@ -161,9 +182,9 @@ void MongSiri::SearchJumpLocation()
 		{
 			m_TargetForce = TargetPosition.NormalizeReturn() * MongSiri_JumpMaxSpeed;
 		}
-
-		m_Dir = GetDirectionFromVector(TargetPosition);
 	}
+
+	m_Dir = GetDiagonalDirectionFromVector(m_TargetForce);
 }
 
 void MongSiri::UpdateJump(float _Delta)

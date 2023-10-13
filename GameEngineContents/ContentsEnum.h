@@ -15,6 +15,13 @@ enum class EUPDATEORDER
 	Fade,
 };
 
+enum class ERENDERORDER
+{
+	Model,
+	AlphaBlend,
+	Shadow,
+};
+
 
 enum class ERENDERDEPTH
 {
@@ -23,14 +30,15 @@ enum class ERENDERDEPTH
 	RootedItem = 100,
 	ObjectShadow,
 	Back_,
+	Back_Paint,
 };
 
 enum class ETITLERENDERDEPTH
 {
 	Logo,
-	Tree,
 	Shadow,
-	Bridge,
+	Tree = 100,
+	Bridge = 200,
 	Trains_Light,
 	Trains,
 	TrainSmoke_Small,
@@ -38,11 +46,6 @@ enum class ETITLERENDERDEPTH
 	TrainSmoke_Big,
 	Props_0,
 	Props_1,
-	Cloud_4,
-	Cloud_3,
-	Cloud_2,
-	Cloud_1,
-	Cloud_0,
 	Water_blur,
 	Train_Light_blur,
 	Train_blur,
@@ -50,10 +53,14 @@ enum class ETITLERENDERDEPTH
 	Bridge_Down,
 	Mountain_blur,
 	Water,
-	Moon,
-	Star,
-	dsa,
-	Back_,
+	Cloud_4 = 400,
+	Cloud_3,
+	Cloud_2,
+	Cloud_1,
+	Cloud_0,
+	Moon = 500,
+	Star = 600,
+	Back_ = 700,
 };
 
 enum class EHOUSEDEPTH

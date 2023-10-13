@@ -42,7 +42,7 @@ void LoadingLevel::Update(float _Delta)
 	if (true == GameEngineInput::IsPress('T', this))
 	{
 		ActorRelease();
-		GameEngineCore::ChangeLevel("WitchHouse_UpFloor");
+		GameEngineCore::ChangeLevel("WitchHouse_Yard");
 	}
 }
 

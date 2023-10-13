@@ -81,6 +81,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 			return;
 		}
 
+		Object->CreateRenderer();
 		Object->SetSprite("DownFloor_Back.png");
 		Object->SetRendererPivotType(PivotType::LeftTop);
 		Object->SetRendererImageScale(GlobalValue::GetWindowScale());
@@ -100,6 +101,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 			return;
 		}
 
+		Object->CreateRenderer();
 		Object->SetSprite("DownFloor_Floor.png");
 		Object->SetPositionAndDepth(m_DownFloorWholePosition + float4{ 337.0f + 12.0f , -181.0f - 134.0f }, EHOUSEDEPTH::HouseComposition);
 		vecProps.push_back(Object);
@@ -113,6 +115,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 			return;
 		}
 
+		Object->CreateRenderer();
 		Object->SetSprite("DownFloor_Wall.png");
 		Object->SetPositionAndDepth(m_DownFloorWholePosition + float4{ 336.0f + 14.0f , -177.0f - 14.0f }, EHOUSEDEPTH::HouseComposition);
 		vecProps.push_back(Object);
@@ -130,6 +133,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 			return;
 		}
 
+		Object->CreateRenderer();
 		Object->SetSprite("DownFloor_Frame.png");
 		Object->SetPositionAndDepth(m_DownFloorWholePosition + float4{ 350.0f , -255.0f }, EHOUSEDEPTH::FRAME);
 		vecProps.push_back(Object);
@@ -153,7 +157,6 @@ void BackDrop_WitchHouse_DownFloor::CreatePixelMap(GameEngineLevel* _Level)
 		return;
 	}
 
-	Object->OnlyPixelProp();
 	Object->CreatePixelCollisionRenderer();
 	Object->SetPixelSprite("DownFloor_PixelMap.png");
 	Object->Transform.SetLocalPosition(m_DownFloorWholePosition + float4{ 350.0f , -206.0f - 100.0f });
@@ -237,8 +240,8 @@ void BackDrop_WitchHouse_DownFloor::CreatePortalActor(GameEngineLevel* _Level)
 		Object->CreatePortalCollision(ECOLLISION::Portal);
 		Object->SetChangeLevelName("WitchHouse_UpFloor");
 		Object->SetLevelChangeCallBack<BackDrop_WitchHouse_DownFloor>(this, &BackDrop_WitchHouse_DownFloor::ActorRelease);
-		Object->SetCollisionRange({ 200.0f , 100.0f });
-		Object->SetLocalPosition({ HWinScale.X , -50.0f });
+		Object->SetCollisionRange({ 64.0f , 22.0f });
+		Object->SetLocalPosition({ 548.0f , -172.0f });
 		Object->SetCollisionType(ColType::AABBBOX2D);
 
 		vecPortalObject.push_back(Object);

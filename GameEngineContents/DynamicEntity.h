@@ -25,6 +25,7 @@ protected:
 
 protected:
 	EDIRECTION GetDirectionFromVector(const float4& _MoveVector);
+	EDIRECTION GetDiagonalDirectionFromVector(const float4& _MoveVector);
 	void ApplyMovement(float _Delta);
 	void InitialDepth();
 

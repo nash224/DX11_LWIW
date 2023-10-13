@@ -102,6 +102,7 @@ void GameEngineSpriteRenderer::Update(float _Delta)
 {
 	if (nullptr != CurFrameAnimations)
 	{
+		Sprite = CurFrameAnimations->Sprite;
 		CurSprite = CurFrameAnimations->Update(_Delta);
 	}
 
@@ -257,6 +258,7 @@ void GameEngineSpriteRenderer::ChangeAnimation(std::string_view _AnimationName, 
 	CurFrameAnimations = FrameAnimations[UpperName];
 	CurFrameAnimations->Reset();
 	CurFrameAnimations->CurIndex = _FrameIndex;
+	Sprite = CurFrameAnimations->Sprite;
 	CurSprite = CurFrameAnimations->Sprite->GetSpriteData(CurFrameAnimations->CurIndex);
 }
 

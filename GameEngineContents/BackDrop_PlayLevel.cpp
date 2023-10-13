@@ -167,6 +167,21 @@ void BackDrop_PlayLevel::ActorRelease()
 {
 	BackDrop::ActorRelease();
 
+	for (size_t i = 0; i < FlooringVec.size(); i++)
+	{
+		std::shared_ptr<GameEngineSpriteRenderer> Flooring = FlooringVec[i];
+		if (nullptr == Flooring)
+		{
+			MsgBoxAssert("nullptr == Flooring");
+			return;
+		}
+
+		Flooring = nullptr;
+	}
+
+	FlooringVec.clear();
+
+
 	for (size_t i = 0; i < vecPixelProps.size(); i++)
 	{
 		std::shared_ptr<Prop> Object = vecPixelProps[i];

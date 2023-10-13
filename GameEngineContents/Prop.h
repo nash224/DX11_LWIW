@@ -18,6 +18,14 @@ public:
 
 
 	// SpriteRenderer Setting
+	template<typename OrderType>
+	void CreateRenderer(OrderType _Order)
+	{
+		CreateRenderer(static_cast<int>(_Order));
+	}
+
+	void CreateRenderer(int _Order = 0);
+
 	void SetSprite(std::string_view _SpriteName);
 	void SetRendererPivotType(PivotType _Direction = PivotType::Center);
 	void SetRendererImageScale(const float4& _Scale);
@@ -42,7 +50,6 @@ public:
 
 
 	// ÇÈ¼¿Ãæµ¹
-	void OnlyPixelProp();
 	void CreatePixelCollisionRenderer();
 	void SetPixelSprite(std::string_view _FileName);
 
@@ -67,7 +74,7 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 
-protected:
+public:
 	std::shared_ptr<class GameEngineSpriteRenderer> m_Renderer = nullptr;
 	float4 m_Position = float4::ZERO;
 
@@ -77,7 +84,6 @@ protected:
 	std::string m_PixelFileName = "";
 
 public:
-	bool IsOnlyPixelProp = false;
 	bool PixelRendererCheck = false;
 	float4 m_PixelTextureScale = float4::ZERO;
 

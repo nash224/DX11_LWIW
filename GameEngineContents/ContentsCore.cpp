@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "ContentsCore.h"
 
+#include <GameEngineCore/GameEngineBlend.h>
+
 #include "GlobalLoad.h"
 
 #include "MainMenu.h"

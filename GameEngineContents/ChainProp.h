@@ -43,6 +43,12 @@ public:
 
 	void SetDepth(const int _Depth);
 
+	template<typename EnumType>
+	void SetRenderOrder(EnumType _Order)
+	{
+		m_Order = static_cast<int>(_Order);
+	}
+
 private:
 
 private:
@@ -63,6 +69,7 @@ private:
 	std::string m_SpriteFileName = "";
 	float4 m_TextureScale = float4::ZERO;
 	int m_Depth = 0;
+	int m_Order = 0;
 
 
 	float4 m_FirstLocation = float4::ZERO;	

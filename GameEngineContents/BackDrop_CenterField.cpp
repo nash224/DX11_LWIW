@@ -86,7 +86,14 @@ void BackDrop_CenterField::CreatePixelMap(GameEngineLevel* _Level)
 {
 	vecPixelProps.reserve(30);
 
-	float4 Position = GlobalValue::GetWindowScale().Half();
+	std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Find("TestFieldMap.png");
+	if (nullptr == Texture)
+	{
+		MsgBoxAssert("텍스처를 불러오지 못했습니다.");
+		return;
+	}
+
+	float4 Position = Texture->GetScale().Half();
 	Position.Y *= -1.0f;
 
 	std::shared_ptr<Prop> Object = _Level->CreateActor<Prop>(EUPDATEORDER::Objects);
@@ -96,6 +103,7 @@ void BackDrop_CenterField::CreatePixelMap(GameEngineLevel* _Level)
 		return;
 	}
 
+	Object->CreateRenderer();
 	Object->SetSprite("TestFieldMap.png");
 	Object->CreatePixelCollisionRenderer();
 	Object->SetPixelSprite("TestCenter_ColorMap.png");

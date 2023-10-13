@@ -51,6 +51,7 @@ public:
 	void ActorRelease() override;
 
 protected:
+	std::vector<std::shared_ptr<GameEngineSpriteRenderer>> FlooringVec;
 	std::vector<std::shared_ptr<class Prop>> vecPixelProps;
 	std::vector<std::shared_ptr<class StaticEntity>> vecStaticEntity;
 	std::vector<std::shared_ptr<class PortalObject>> vecPortalObject;

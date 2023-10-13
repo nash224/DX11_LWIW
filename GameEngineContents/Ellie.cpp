@@ -28,6 +28,8 @@ void Ellie::Update(float _Delta)
 	UpdateState(_Delta);
 	UpdateTestCode();
 	UpdateCollision();
+	UpdateOutPutDebug(_Delta);
+
 }
 
 void Ellie::UpdateTestCode()
@@ -36,6 +38,22 @@ void Ellie::UpdateTestCode()
 	{
 		BackDrop_PlayLevel::MainBackDrop->CreateItem("Mongsiri_Collect.png", Transform.GetLocalPosition());
 	}
+}
+
+void Ellie::UpdateOutPutDebug(float _Delta)
+{
+#ifdef _DEBUG
+	static float OUTPUTDEBUGTIME = 0.0f;
+	OUTPUTDEBUGTIME += _Delta;
+	if (OUTPUTDEBUGTIME > 0.1f)
+	{
+		OUTPUTDEBUGTIME = 0.0f;
+
+		float4 MyPos = Transform.GetLocalPosition();
+		OutputDebugStringA(MyPos.ToString("\n").c_str());
+	}
+
+#endif
 }
 
 // Ellie는 PlayLevel에서 Off할 수 있지만, Off한 채로 LevelStart 할 수는 없습니다.

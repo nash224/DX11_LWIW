@@ -47,7 +47,6 @@ public:
 
 private:
 	std::shared_ptr<BackDrop_CenterField> m_BackDrop = nullptr;
-	std::shared_ptr<Ellie> m_Ellie = nullptr;
 
 };
 

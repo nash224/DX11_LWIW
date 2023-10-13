@@ -101,6 +101,37 @@ EDIRECTION DynamicEntity::GetDirectionFromVector(const float4& _MoveVector)
 	return m_Dir;
 }
 
+EDIRECTION DynamicEntity::GetDiagonalDirectionFromVector(const float4& _MoveVector)
+{
+	float4 UnitVetor = _MoveVector.NormalizeReturn();
+	float Degree = UnitVetor.Angle2DDeg();
+	if (UnitVetor.Y < 0)
+	{
+		Degree = 180.0f - Degree;
+		Degree += 180.0f;
+	}
+
+	if (Degree >= 0.0f && Degree < 90.0f)
+	{
+		return EDIRECTION::RIGHTUP;
+	}
+	else if (Degree >= 90.0f && Degree < 180.0f)
+	{
+		return EDIRECTION::LEFTUP;
+	}
+	else if (Degree >= 180.0f && Degree < 270.0f)
+	{
+		return EDIRECTION::LEFTDOWN;
+	}
+	else 
+	{
+		return EDIRECTION::RIGHTDOWN;
+	}
+
+	MsgBoxAssert("잘못된 반환입니다.");
+	return m_Dir;
+}
+
 
 void DynamicEntity::ApplyMovement(float _Delta)
 {

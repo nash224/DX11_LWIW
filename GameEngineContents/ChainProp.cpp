@@ -195,6 +195,7 @@ void ChainProp::RegenProp(const float4& _Position /*= float4::ZERO*/)
 		return;
 	}
 
+	Object->CreateRenderer(m_Order);
 	Object->SetSprite(m_SpriteFileName);
 	Object->SetTextureScale(m_TextureScale);
 	Object->SetSpeed(m_Speed);
@@ -229,11 +230,6 @@ void ChainProp::EraseOverScreenProp()
 
 void ChainProp::ActorRelease()
 {
-	if (true == listProps.empty())
-	{
-		return;
-	}
-
 	for (std::shared_ptr<SequentialProp> Object : listProps)
 	{
 		Object->ActorRelease();

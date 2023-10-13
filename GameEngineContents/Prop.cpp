@@ -14,12 +14,7 @@ Prop::~Prop()
 
 void Prop::Start()
 {
-	m_Renderer = CreateComponent<GameEngineSpriteRenderer>();
-	if (nullptr == m_Renderer)
-	{
-		MsgBoxAssert("잘못 만들어진 렌더러입니다.");
-		return;
-	}
+
 }
 
 void Prop::Update(float _Delta)
@@ -46,6 +41,17 @@ void Prop::LevelEnd(class GameEngineLevel* _NextLevel)
 
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
+
+void Prop::CreateRenderer(int _Order /*= 0*/)
+{
+	m_Renderer = CreateComponent<GameEngineSpriteRenderer>(_Order);
+	if (nullptr == m_Renderer)
+	{
+		MsgBoxAssert("잘못 만들어진 렌더러입니다.");
+		return;
+	}
+}
+
 
 void Prop::SetSprite(std::string_view _SpriteName)
 {
@@ -128,18 +134,6 @@ void Prop::SetAutoSpriteSize(float _Ratio, bool _Value /*= true*/)
 #pragma endregion
 
 #pragma region 픽셀충돌
-
-void Prop::OnlyPixelProp()
-{
-	if (nullptr == m_Renderer)
-	{
-		MsgBoxAssert("렌더러가 존재하지 않습니다.");
-		return;
-	}
-
-	m_Renderer->Off();
-	IsOnlyPixelProp = true;
-}
 
 // 픽셀 충돌 맵을 만듭니다.
 void Prop::CreatePixelCollisionRenderer()
@@ -231,7 +225,7 @@ void Prop::EnableDebugMode(bool _Value)
 	}
 	else
 	{
-		if (nullptr != m_Renderer && false == IsOnlyPixelProp)
+		if (nullptr != m_Renderer)
 		{
 			m_Renderer->On();
 		}

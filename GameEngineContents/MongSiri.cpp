@@ -66,7 +66,7 @@ void MongSiri::Init()
 
 void MongSiri::CreateAndSetRenderer()
 {
-	m_Shadow = CreateComponent<GameEngineSpriteRenderer>();
+	m_Shadow = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::Shadow);
 	if (nullptr == m_Shadow)
 	{
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");

@@ -35,6 +35,6 @@ private:
 	void LoadPortalActor(GameEngineLevel* _Level);
 
 private:
-	float4 m_HouseLocation = float4{300.0f , 0.0f };
+	float4 m_HouseLocation = float4{340.0f , -50.0f };
 };
 
