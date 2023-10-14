@@ -163,6 +163,11 @@ std::list<std::shared_ptr<class LootedItem>>& BackDrop_PlayLevel::GetLootedItemL
 	return LootedItemList;
 }
 
+std::list<std::shared_ptr<StaticEntity>>& BackDrop_PlayLevel::GetStaticEntityList()
+{
+	return StaticEntityList;
+}
+
 
 void BackDrop_PlayLevel::ActorRelease()
 {
@@ -198,9 +203,8 @@ void BackDrop_PlayLevel::ActorRelease()
 	vecPixelProps.clear();
 
 
-	for (size_t i = 0; i < vecStaticEntity.size(); i++)
+	for (std::shared_ptr<StaticEntity> Object :StaticEntityList)
 	{
-		std::shared_ptr<StaticEntity> Object = vecStaticEntity[i];
 		if (nullptr == Object)
 		{
 			MsgBoxAssert("액터를 불러오지 못했습니다.");
@@ -210,7 +214,7 @@ void BackDrop_PlayLevel::ActorRelease()
 		Object->Death();
 	}
 
-	vecStaticEntity.clear();
+	StaticEntityList.clear();
 
 
 	// 포탈 정리하고

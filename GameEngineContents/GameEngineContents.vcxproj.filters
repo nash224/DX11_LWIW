@@ -121,6 +121,9 @@
     <Filter Include="2.Object\1.Actor\2.Interactive\Static\Bush">
       <UniqueIdentifier>{9958f0f4-d110-480b-9a2d-e3753ed5311f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2.Object\1.Actor\2.Interactive\Static\Plant">
+      <UniqueIdentifier>{aabcb491-481d-4380-a119-aabdaa014822}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -327,6 +330,12 @@
     </ClInclude>
     <ClInclude Include="Bush.h">
       <Filter>2.Object\1.Actor\2.Interactive\Static\Bush</Filter>
+    </ClInclude>
+    <ClInclude Include="WitchFlower.h">
+      <Filter>2.Object\1.Actor\2.Interactive\Static\Plant</Filter>
+    </ClInclude>
+    <ClInclude Include="Plant.h">
+      <Filter>2.Object\1.Actor\2.Interactive\Static\Plant</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -537,6 +546,12 @@
     </ClCompile>
     <ClCompile Include="Bush_State.cpp">
       <Filter>2.Object\1.Actor\2.Interactive\Static\Bush</Filter>
+    </ClCompile>
+    <ClCompile Include="Plant.cpp">
+      <Filter>2.Object\1.Actor\2.Interactive\Static\Plant</Filter>
+    </ClCompile>
+    <ClCompile Include="WitchFlower.cpp">
+      <Filter>2.Object\1.Actor\2.Interactive\Static\Plant</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

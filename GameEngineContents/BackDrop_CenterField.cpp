@@ -7,6 +7,7 @@
 
 #include "MongSiri_Population.h"
 #include "Bush.h"
+#include "WitchFlower.h"
 
 
 BackDrop_CenterField::BackDrop_CenterField() 
@@ -186,6 +187,7 @@ void BackDrop_CenterField::CreateCreature(GameEngineLevel* _Level)
 void BackDrop_CenterField::CreateDayNightTimeCreature(GameEngineLevel* _Level)
 {
 	CreateBush(_Level);
+	CreateWitchFlower(_Level);
 }
 
 
@@ -198,8 +200,6 @@ void BackDrop_CenterField::CreateDayTimeCreature(GameEngineLevel* _Level)
 
 void BackDrop_CenterField::CreateBush(GameEngineLevel* _Level)
 {
-	vecStaticEntity.reserve(30);
-
 	{
 		std::shared_ptr<Bush> BushObject = _Level->CreateActor<Bush>(EUPDATEORDER::Entity);
 		if (nullptr == BushObject)
@@ -212,7 +212,7 @@ void BackDrop_CenterField::CreateBush(GameEngineLevel* _Level)
 		BushObject->SetBushType(EBUSHTYPE::Bush);
 		BushObject->Init();
 
-		vecStaticEntity.push_back(BushObject);
+		StaticEntityList.push_back(BushObject);
 	}
 
 	{
@@ -227,7 +227,7 @@ void BackDrop_CenterField::CreateBush(GameEngineLevel* _Level)
 		BushObject->SetBushType(EBUSHTYPE::BushApple);
 		BushObject->Init();
 
-		vecStaticEntity.push_back(BushObject);
+		StaticEntityList.push_back(BushObject);
 	}
 
 	{
@@ -242,9 +242,27 @@ void BackDrop_CenterField::CreateBush(GameEngineLevel* _Level)
 		BushObject->SetBushType(EBUSHTYPE::BushBug);
 		BushObject->Init();
 
-		vecStaticEntity.push_back(BushObject);
+		StaticEntityList.push_back(BushObject);
 	}
 }
+
+void BackDrop_CenterField::CreateWitchFlower(GameEngineLevel* _Level)
+{
+	{
+		std::shared_ptr<WitchFlower> Object = _Level->CreateActor<WitchFlower>(EUPDATEORDER::Entity);
+		if (nullptr == Object)
+		{
+			MsgBoxAssert("덤풀을 생성하지 못했습니다.");
+			return;
+		}
+
+		Object->Transform.SetLocalPosition({ 300.0f , -350.0f });
+		Object->Init();
+
+		StaticEntityList.push_back(Object);
+	}
+}
+
 
 void BackDrop_CenterField::CreateMongSiriPopulation(GameEngineLevel* _Level)
 {

@@ -518,6 +518,8 @@ void Ellie::UpdateNet(float _Delta)
 
 void Ellie::StartRootUp()
 {
+	OtherEntity->IsReach = true;
+
 	ChangeAnimationByDirection("RootUp");
 }
 

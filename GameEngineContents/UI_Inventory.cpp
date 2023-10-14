@@ -334,7 +334,7 @@ void UI_Inventory::LockSlot(const unsigned int _Y)
 
 
 // 아이템을 넣어달라고 UI를 통해 Data에 요청합니다.
-void UI_Inventory::PushItem(std::string_view _ItemName, unsigned int _Count = 1)
+void UI_Inventory::PushItem(std::string_view _ItemName, unsigned int _Count/* = 1*/)
 {
 	if (nullptr == Data)
 	{

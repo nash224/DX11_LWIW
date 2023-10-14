@@ -38,6 +38,7 @@ public:
 	void CreateNightCreature(GameEngineLevel* _Level);
 
 	void CreateBush(GameEngineLevel* _Level);
+	void CreateWitchFlower(GameEngineLevel* _Level);
 	void CreateMongSiriPopulation(GameEngineLevel* _Level);
 
 public:

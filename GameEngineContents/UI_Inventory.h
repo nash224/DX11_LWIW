@@ -82,7 +82,7 @@ public:
 
 	void Init();
 
-	static void PushItem(std::string_view _ItemName, unsigned int _Count);
+	static void PushItem(std::string_view _ItemName, unsigned int _Count = 1);
 	void UnlockSlot(const unsigned int _Count = 1);
 
 protected:

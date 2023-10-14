@@ -171,6 +171,14 @@ void LoadingLevel::LoadSprite()
 		GameEngineSprite::CreateCut("BushBug_Appearing.png", 5, 5);
 		GameEngineSprite::CreateCut("Bushbug_Standing.png", 4, 3);
 
+		// Plant
+		GameEngineSprite::CreateCut("Village_Weed_0.png", 5, 5);
+		GameEngineSprite::CreateCut("Village_Weed_0_Mask.png", 5, 5);
+		GameEngineSprite::CreateCut("Village_Weed_1.png", 5, 4);
+		GameEngineSprite::CreateCut("Village_Weed_1_Mask.png", 5, 4);
+		GameEngineSprite::CreateCut("WitchFlower.png", 4, 4);
+
+
 #pragma endregion 
 
 

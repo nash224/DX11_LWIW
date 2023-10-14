@@ -40,6 +40,7 @@ public:
 	void CreateItem(std::string_view _ItemName, const float4& _Position = float4::ZERO, const int _Stack = 1);
 
 	std::list<std::shared_ptr<class LootedItem>>& GetLootedItemList();
+	std::list<std::shared_ptr<class StaticEntity>>& GetStaticEntityList();
 
 
 protected:
@@ -64,8 +65,8 @@ public:
 protected:
 	std::vector<std::shared_ptr<GameEngineSpriteRenderer>> FlooringVec;
 	std::vector<std::shared_ptr<class Prop>> vecPixelProps;
-	std::vector<std::shared_ptr<class StaticEntity>> vecStaticEntity;
 	std::vector<std::shared_ptr<class PortalObject>> vecPortalObject;
+	std::list<std::shared_ptr<class StaticEntity>> StaticEntityList;
 	std::list<std::shared_ptr<class LootedItem>> LootedItemList;
 
 protected:

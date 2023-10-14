@@ -65,6 +65,11 @@ void InteractiveActor::CreateAndSetCollision(ECOLLISION _Order, const float4& _S
 // 근접 상호작용 범위
 void InteractiveActor::SetNearInteractivePositionAndRange(const float4& _InteractivePosition, float _Range)
 {
+	if (EINTERACTION_TYPE::Near != m_InteractionType)
+	{
+		m_InteractionType = EINTERACTION_TYPE::Near;
+	}
+
 	m_InteractiveLocalPosition = _InteractivePosition;
 
 	if (_Range < 0.0f)
