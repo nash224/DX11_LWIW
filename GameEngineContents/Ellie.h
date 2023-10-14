@@ -256,6 +256,7 @@ private:
 	InteractiveActor* OtherEntity = nullptr;
 	
 	bool IsCollected = false;
+	bool IsHolding = false;
 
 	// 상호작용 Collision 시야각도 입니다.
 	const float FOVAngle = 60.0f;

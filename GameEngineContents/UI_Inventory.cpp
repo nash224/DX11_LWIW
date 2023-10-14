@@ -427,7 +427,7 @@ void UI_Inventory::RenewInventory()
 // 자식에서 해주고 싶은 행동을 수행합니다.
 void UI_Inventory::OpenChild()
 {
-
+	SelectSlot(0, 0);
 }
 
 void UI_Inventory::CloseChild()

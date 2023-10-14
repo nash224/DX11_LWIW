@@ -55,8 +55,8 @@ private:
 
 public:
 	float4 m_PopulationLocation = float4::ZERO;
-	const float m_PopulationMinCircle = 40.0f;
-	const float m_PopulationMaxCircle = 80.0f;
+	const float m_PopulationMinCircle = 60.0f;
+	const float m_PopulationMaxCircle = 120.0f;
 
 };
 

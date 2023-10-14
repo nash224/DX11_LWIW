@@ -178,6 +178,12 @@ void LoadingLevel::LoadSprite()
 		GameEngineSprite::CreateCut("Village_Weed_1_Mask.png", 5, 4);
 		GameEngineSprite::CreateCut("WitchFlower.png", 4, 4);
 
+		// branchTree
+		GameEngineSprite::CreateCut("Tree_Branch.png", 3, 2);
+		GameEngineSprite::CreateCut("Tree_Branch_Mask.png", 3, 2);
+
+		GameEngineSprite::CreateSingle("Branch.png");
+		GameEngineSprite::CreateSingle("Branch_1.png");
 
 #pragma endregion 
 

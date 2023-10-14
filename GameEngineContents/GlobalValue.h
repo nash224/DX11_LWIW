@@ -27,9 +27,11 @@ public:
 	static void SetWindowScale(const float4& _Scale);
 	static float4 GetWindowScale();
 	static float4 GetItemScale();
+	static int GetSeedValue();
 
 private:
 	static float4 WindowScale;
 	static float4 ItemScale;
+	static int RandomSeed;
 };
 

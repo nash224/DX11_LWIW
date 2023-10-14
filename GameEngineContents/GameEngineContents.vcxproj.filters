@@ -337,6 +337,12 @@
     <ClInclude Include="Plant.h">
       <Filter>2.Object\1.Actor\2.Interactive\Static\Plant</Filter>
     </ClInclude>
+    <ClInclude Include="PumpkinTerrier.h">
+      <Filter>2.Object\1.Actor\2.Interactive\Dynamic</Filter>
+    </ClInclude>
+    <ClInclude Include="BranchTree.h">
+      <Filter>2.Object\1.Actor\2.Interactive\Static</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -552,6 +558,12 @@
     </ClCompile>
     <ClCompile Include="WitchFlower.cpp">
       <Filter>2.Object\1.Actor\2.Interactive\Static\Plant</Filter>
+    </ClCompile>
+    <ClCompile Include="PumpkinTerrier.cpp">
+      <Filter>2.Object\1.Actor\2.Interactive\Dynamic</Filter>
+    </ClCompile>
+    <ClCompile Include="BranchTree.cpp">
+      <Filter>2.Object\1.Actor\2.Interactive\Static</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

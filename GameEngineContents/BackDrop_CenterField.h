@@ -39,6 +39,7 @@ public:
 
 	void CreateBush(GameEngineLevel* _Level);
 	void CreateWitchFlower(GameEngineLevel* _Level);
+	void CreateBranchTree(GameEngineLevel* _Level);
 	void CreateMongSiriPopulation(GameEngineLevel* _Level);
 
 public:

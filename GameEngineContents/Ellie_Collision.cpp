@@ -41,6 +41,9 @@ void Ellie::UpdatePortalCollsiion()
 
 void Ellie::UpdateInteractionCollsiion()
 {
+	// 앨리가 지속타입 상호작용 객체와 작업을하고 있을때 
+	IsHolding = false;
+
 	if (false == IsControl || EELLIE_STATUS::Normal != g_Status)
 	{
 		return;
@@ -191,27 +194,44 @@ void Ellie::UpdateInteractionCollsiion()
 					}
 				}
 
-				// 닿았습니다.
-				if (true == GameEngineInput::IsDown('Z', this))
+				// 한번 누르면 되는 타입
+				if (EINTERACTION_PRESSTYPE::Down == Entity->GetInteractionPressType())
 				{
-					// 상호작용이 가까이면 
-					if (EINTERACTION_TYPE::Near == Entity->GetInteractionType())
+					// 닿았습니다.
+					if (true == GameEngineInput::IsDown('Z', this))
 					{
-						// 수집타입이 몽시리일때
-						if (ECOLLECTION_METHOD::MongSiri == Entity->GetCollectionMethod())
+						// 상호작용이 가까이면 
+						if (EINTERACTION_TYPE::Near == Entity->GetInteractionType())
 						{
-							// 멈추게 함
-							Entity->GetCaught();
+							// 수집타입이 몽시리일때
+							if (ECOLLECTION_METHOD::MongSiri == Entity->GetCollectionMethod())
+							{
+								// 멈추게 함
+								Entity->GetCaught();
+							}
+
+							OtherEntity = Entity;
+							ChangeState(EELLIE_STATE::Approach);
 						}
 
-						OtherEntity = Entity;
-						ChangeState(EELLIE_STATE::Approach);
+						// 멀리있으면 무조건 통과
+						if (EINTERACTION_TYPE::Far == Entity->GetInteractionType())
+						{
+							Entity->IsReach = true;
+						}
 					}
-
-					// 멀리있으면 무조건 통과
-					if (EINTERACTION_TYPE::Far == Entity->GetInteractionType())
+				}
+				else if (EINTERACTION_PRESSTYPE::Press == Entity->GetInteractionPressType())
+				{
+					if (true == GameEngineInput::IsPress('Z', this))
 					{
+						if (EELLIE_STATE::Idle != m_State)
+						{
+							ChangeState(EELLIE_STATE::Idle);
+						}
+						
 						Entity->IsReach = true;
+						IsHolding = true;
 					}
 				}
 

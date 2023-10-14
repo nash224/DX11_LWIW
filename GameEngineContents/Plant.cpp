@@ -126,6 +126,8 @@ void Plant::UpdateIdle(float _Delta)
 
 void Plant::StartUpRoot()
 {
+	m_InteractionButtonType = EINTERACTION_BUTTONTYPE::None;
+	m_InteractiveCol->Off();
 	ChangePlantAnimation("UpRoot");
 }
 

@@ -74,7 +74,7 @@ void Ellie::StartIdle()
 
 void Ellie::UpdateIdle(float _Delta)
 {
-	if (true == IsControl)
+	if (true == IsControl && false == IsHolding)
 	{
 		if (true == InputTestPattern())
 		{

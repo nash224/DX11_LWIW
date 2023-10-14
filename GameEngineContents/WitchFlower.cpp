@@ -131,7 +131,7 @@ void WitchFlower::CreateAndSetWitchFlowerRenderer()
 				MsgBoxAssert("그림자 렌더러가 존재하지 않습니다.");
 				return;
 			}
-			0
+			
 			m_Shadow->Off();
 		});
 }

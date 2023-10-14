@@ -81,7 +81,7 @@ void MongSiri::SearchJumpLocation()
 	if (EMONGSIRISTATUS::Normal == m_Status)
 	{
 		GameEngineRandom RandomClass;
-		RandomClass.SetSeed(reinterpret_cast<__int64>(this));
+		RandomClass.SetSeed(reinterpret_cast<__int64>(this) + GlobalValue::GetSeedValue());
 
 
 		if (nullptr == MongSiriParant)

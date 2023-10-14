@@ -26,6 +26,8 @@ void DynamicEntity::Update(float _Delta)
 void DynamicEntity::Release()
 {
 	InteractiveActor::Release();
+
+	m_Body = nullptr;
 }
 
 

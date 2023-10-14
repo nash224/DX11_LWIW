@@ -16,6 +16,13 @@ enum class EINTERACTION_BUTTONTYPE
 	None,
 };
 
+enum class EINTERACTION_PRESSTYPE
+{
+	Down,
+	Press,
+	None,
+};
+
 // 설명 :
 class InteractiveActor : public GameEngineActor
 {
@@ -72,6 +79,7 @@ public:
 	EINTERACTION_TYPE GetInteractionType() const;
 	EINTERACTION_BUTTONTYPE GetInteractionButtonType() const;
 	ECOLLECTION_METHOD GetCollectionMethod() const;
+	EINTERACTION_PRESSTYPE GetInteractionPressType() const;
 
 
 	// 앨리전용 : 동적 대상을 정지시킨다.
@@ -106,7 +114,8 @@ protected:
 	EINTERACTION_TYPE m_InteractionType = EINTERACTION_TYPE::None;									// 상호작용시 접근 유무
 	ECOLLECTION_METHOD m_CollectionMethod = ECOLLECTION_METHOD::None;								// 수집 모션타입
 	ETOOLTYPE m_CollectionTool = ETOOLTYPE::None;													// 채집 도구 타입
-	float4 m_InteractiveLocalPosition = float4::ZERO;												//
+	EINTERACTION_PRESSTYPE m_PressType = EINTERACTION_PRESSTYPE::Down;
+	float4 m_InteractiveLocalPosition = float4::ZERO;											
 	float m_InteractiveRange = 1.0f;
 
 

@@ -8,6 +8,7 @@
 #include "MongSiri_Population.h"
 #include "Bush.h"
 #include "WitchFlower.h"
+#include "BranchTree.h"
 
 
 BackDrop_CenterField::BackDrop_CenterField() 
@@ -188,6 +189,7 @@ void BackDrop_CenterField::CreateDayNightTimeCreature(GameEngineLevel* _Level)
 {
 	CreateBush(_Level);
 	CreateWitchFlower(_Level);
+	CreateBranchTree(_Level);
 }
 
 
@@ -257,6 +259,23 @@ void BackDrop_CenterField::CreateWitchFlower(GameEngineLevel* _Level)
 		}
 
 		Object->Transform.SetLocalPosition({ 300.0f , -350.0f });
+		Object->Init();
+
+		StaticEntityList.push_back(Object);
+	}
+}
+
+void BackDrop_CenterField::CreateBranchTree(GameEngineLevel* _Level)
+{
+	{
+		std::shared_ptr<BranchTree> Object = _Level->CreateActor<BranchTree>(EUPDATEORDER::Entity);
+		if (nullptr == Object)
+		{
+			MsgBoxAssert("가지 나무를 생성하지 못했습니다.");
+			return;
+		}
+
+		Object->Transform.SetLocalPosition({ 500.0f , -550.0f });
 		Object->Init();
 
 		StaticEntityList.push_back(Object);
