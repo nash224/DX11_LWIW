@@ -60,18 +60,19 @@ public:
 private:
 	void UpdateCameraMode(float _Delta);
 	void UpdateCameraPlayMode(float _Delta);
+	void LockCamera(float4& _pCameraMovePos, const float4& _CurCameraPos);
+
 	void UpdateCameraFixMode();
 	void UpdateCameraEditorMode(float _Delta);
 
 
-	void LockCamera(float4& _pCameraMovePos, const float4& _CurCameraPos);
 
 private:
 	void RenewCameraPosition();
 
 private:
-	float4 m_WinScale = float4::ZERO;	
-	float4 m_BackScale = float4::ZERO;
+	float4 m_WinScale = float4::ZERO;				// 디폴트 값
+	float4 m_BackScale = float4::ZERO;				// 카메라 이동 배경 값
 	
 private:
 	struct CameraInfo

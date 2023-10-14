@@ -43,14 +43,17 @@ void Ellie::UpdateTestCode()
 void Ellie::UpdateOutPutDebug(float _Delta)
 {
 #ifdef _DEBUG
-	static float OUTPUTDEBUGTIME = 0.0f;
-	OUTPUTDEBUGTIME += _Delta;
-	if (OUTPUTDEBUGTIME > 0.1f)
+	if (true == GameEngineInput::IsPress(VK_F6, this))
 	{
-		OUTPUTDEBUGTIME = 0.0f;
+		static float OUTPUTDEBUGTIME = 0.0f;
+		OUTPUTDEBUGTIME += _Delta;
+		if (OUTPUTDEBUGTIME > 0.1f)
+		{
+			OUTPUTDEBUGTIME = 0.0f;
 
-		float4 MyPos = Transform.GetLocalPosition();
-		OutputDebugStringA(MyPos.ToString("\n").c_str());
+			float4 MyPos = Transform.GetLocalPosition();
+			OutputDebugStringA(MyPos.ToString("\n").c_str());
+		}
 	}
 
 #endif

@@ -19,6 +19,7 @@ ContentsLevel::~ContentsLevel()
 
 void ContentsLevel::Start()
 {
+	// 입력 등록함
 	GameEngineInput::AddInputObject(this);
 
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Orthographic);
@@ -44,7 +45,7 @@ void ContentsLevel::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	if (nullptr != m_LevelCameraControler)
 	{
-		m_LevelCameraControler->m_MainCamera = GetMainCamera().get();
+		m_LevelCameraControler->m_MainCamera = this->GetMainCamera().get();
 		GlobalValue::g_CameraControler = m_LevelCameraControler;
 	}
 }

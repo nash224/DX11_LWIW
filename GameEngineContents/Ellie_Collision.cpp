@@ -152,6 +152,7 @@ void Ellie::UpdateInteractionCollsiion()
 				}
 			}
 
+			// 콜리전이 켜져있지만 버튼이 없는 경우 상호작용할 수 없는 버그가 생김
 			if (-1 != ShortestNumber)
 			{
 				std::shared_ptr<GameEngineCollision>& Collision = _Collisions[ShortestNumber];

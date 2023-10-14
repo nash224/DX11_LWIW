@@ -38,7 +38,7 @@ public:
 	void CreateAndSetCollision(ECOLLISION _Order, const float4& _Scale, const float4& _Position, ColType _Type);
 
 	// 근접 상호작용 설정
-	void SetInteractivePositionAndRange(const float4& _InteractivePosition, float _Range);
+	void SetNearInteractivePositionAndRange(const float4& _InteractivePosition, float _Range);
 
 	float4 GetInteractiveLocalPositon() const
 	{

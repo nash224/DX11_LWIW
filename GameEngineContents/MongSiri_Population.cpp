@@ -173,18 +173,24 @@ void MongSiri_Population::CreateMongSiri(GameEngineLevel* _CurLevel, unsigned in
 		}
 
 		Object->MongSiriParant = this;
+		SetMongSiriSeed(Object, RandomClass);
 		Object->Init();
-
-		RandomClass.SetSeed(reinterpret_cast<__int64>(Object.get()));
-
-		float MongSiriSpawnDistance = RandomClass.RandomFloat(0.0f , MonSiriSpawnRangeSize);		// 스폰 랜덤 거리 : 0 ~ 120.0f 
-		float MongSiriSpawnAngle = RandomClass.RandomFloat(0.0f , 360.0f);							// 스폰 랜덤 각도
-		float4 MongSiriSpawnUnitVector = float4::GetUnitVectorFromDeg(MongSiriSpawnAngle);			// 각도 단위 백터
-		float4 MonSiriPosition = m_PopulationLocation + MongSiriSpawnUnitVector * MongSiriSpawnDistance;		// 스폰 위치 = 개체군 위치 + 스폰각도 * 랜덤 거리
-
-		Object->ApplyDepth(MonSiriPosition);
 		MongSiriEntityList.push_back(Object);
 	}
+}
+
+void MongSiri_Population::SetMongSiriSeed(std::shared_ptr<MongSiri> _Actor, GameEngineRandom& _RandomClass)
+{
+	// 시드설정 
+	_RandomClass.SetSeed(reinterpret_cast<__int64>(_Actor.get()));
+
+	float MongSiriSpawnDistance = _RandomClass.RandomFloat(0.0f, MonSiriSpawnRangeSize);		// 스폰 랜덤 거리 : 0 ~ 120.0f 
+	float MongSiriSpawnAngle = _RandomClass.RandomFloat(0.0f, 360.0f);							// 스폰 랜덤 각도
+	float4 MongSiriSpawnUnitVector = float4::GetUnitVectorFromDeg(MongSiriSpawnAngle);			// 각도 단위 백터
+	float4 MonSiriPosition = m_PopulationLocation + MongSiriSpawnUnitVector * MongSiriSpawnDistance;		// 스폰 위치 = 개체군 위치 + 스폰각도 * 랜덤 거리
+
+	// 적용
+	_Actor->ApplyDepth(MonSiriPosition);
 }
 
 

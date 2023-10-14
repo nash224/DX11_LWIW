@@ -33,14 +33,8 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 	
 
-private:
-
-
 protected:
 	EGAMEMODE Mode;
 	
-
-
-protected:
 };
 

@@ -16,9 +16,6 @@ LootedItem::~LootedItem()
 void LootedItem::Start()
 {
 	StaticEntity::Start();
-
-	m_CollectionMethod = ECOLLECTION_METHOD::Sit;
-	m_CollectionTool = ETOOLTYPE::Nothing;
 }
 
 void LootedItem::Update(float _Delta)
@@ -55,9 +52,7 @@ void LootedItem::Init(std::string_view _ItemName)
 {
 	CreateItemRenderer(_ItemName);
 	CreateItemCollision();
-	SetInteractionButtonType(EINTERACTION_BUTTONTYPE::Gathering);
-	SetInteractionType(EINTERACTION_TYPE::Near);
-	m_CollectionMethod = ECOLLECTION_METHOD::Sit;
+	SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::Near, ECOLLECTION_METHOD::Sit, ETOOLTYPE::Nothing);
 	m_InteractiveRange = ItemInterativeRange;
 }
 
@@ -66,6 +61,7 @@ void LootedItem::SetStack(const int _Value)
 	m_Stack = _Value;
 }
 
+// 아이템 렌더러 생성
 void LootedItem::CreateItemRenderer(std::string_view _ItemName)
 {
 	m_ItemRenderer = CreateComponent<GameEngineSpriteRenderer>();
@@ -80,6 +76,7 @@ void LootedItem::CreateItemRenderer(std::string_view _ItemName)
 	ItemName = _ItemName;
 }
 
+// 아이템 상호작용 충돌체 생성
 void LootedItem::CreateItemCollision()
 {
 	m_ItemCollision = CreateComponent<GameEngineCollision>(ECOLLISION::Entity);

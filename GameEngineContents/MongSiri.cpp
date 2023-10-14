@@ -18,10 +18,11 @@ void MongSiri::Start()
 {
 	DynamicEntity::Start();
 
+	m_InteractionButtonType = EINTERACTION_BUTTONTYPE::Gathering;			// 버튼타입
+	m_InteractionType = EINTERACTION_TYPE::Near;							// 원격
 	m_CollectionMethod = ECOLLECTION_METHOD::MongSiri;						// 채집방법
 	m_CollectionTool = ETOOLTYPE::Gloves;									// 채집툴
-	m_InteractionButtonType = EINTERACTION_BUTTONTYPE::Gathering;			// 버튼타입
-	m_InteractionType = EINTERACTION_TYPE::Near;							// 원격유무
+	m_Status = EMONGSIRISTATUS::Normal;
 }
 
 void MongSiri::Update(float _Delta)
@@ -55,11 +56,10 @@ void MongSiri::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void MongSiri::Init()
 {
-	CreateAndSetRenderer();
 	CreateAndSetCollision(ECOLLISION::Entity, { 200, 200 }, float4::ZERO, ColType::SPHERE2D);
+	SetNearInteractivePositionAndRange(float4::ZERO, 1.0f);
+	CreateAndSetRenderer();
 	InitDirection();
-
-	m_Status = EMONGSIRISTATUS::Normal;
 	ChangeState(EMONGSIRISTATE::Idle);
 }
 

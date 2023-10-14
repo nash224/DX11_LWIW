@@ -36,7 +36,7 @@ void Field_Center::Update(float _Delta)
 
 void Field_Center::LevelStart(class GameEngineLevel* _NextLevel)
 {
-	PlayLevel::LevelStart(_NextLevel);
+	PlayLevel::LevelStart(_NextLevel); 
 
 	LoadTexture();
 	LoadSprite();

@@ -201,18 +201,48 @@ void BackDrop_CenterField::CreateBush(GameEngineLevel* _Level)
 	vecStaticEntity.reserve(30);
 
 	{
-		std::shared_ptr<Bush> Bush1 = _Level->CreateActor<Bush>(EUPDATEORDER::Entity);
-		if (nullptr == Bush1)
+		std::shared_ptr<Bush> BushObject = _Level->CreateActor<Bush>(EUPDATEORDER::Entity);
+		if (nullptr == BushObject)
 		{
 			MsgBoxAssert("덤풀을 생성하지 못했습니다.");
 			return;
 		}
 
-		Bush1->Transform.SetLocalPosition({ 300.0f , -150.0f});
-		Bush1->SetBushType(EBUSHTYPE::BushApple);
-		Bush1->Init();
+		BushObject->Transform.SetLocalPosition({ 300.0f , -150.0f });
+		BushObject->SetBushType(EBUSHTYPE::Bush);
+		BushObject->Init();
 
-		vecStaticEntity.push_back(Bush1);
+		vecStaticEntity.push_back(BushObject);
+	}
+
+	{
+		std::shared_ptr<Bush> BushObject = _Level->CreateActor<Bush>(EUPDATEORDER::Entity);
+		if (nullptr == BushObject)
+		{
+			MsgBoxAssert("덤풀을 생성하지 못했습니다.");
+			return;
+		}
+
+		BushObject->Transform.SetLocalPosition({ 400.0f , -150.0f });
+		BushObject->SetBushType(EBUSHTYPE::BushApple);
+		BushObject->Init();
+
+		vecStaticEntity.push_back(BushObject);
+	}
+
+	{
+		std::shared_ptr<Bush> BushObject = _Level->CreateActor<Bush>(EUPDATEORDER::Entity);
+		if (nullptr == BushObject)
+		{
+			MsgBoxAssert("덤풀을 생성하지 못했습니다.");
+			return;
+		}
+
+		BushObject->Transform.SetLocalPosition({ 500.0f , -150.0f });
+		BushObject->SetBushType(EBUSHTYPE::BushBug);
+		BushObject->Init();
+
+		vecStaticEntity.push_back(BushObject);
 	}
 }
 

@@ -63,12 +63,22 @@ void InteractiveActor::CreateAndSetCollision(ECOLLISION _Order, const float4& _S
 }
 
 // 근접 상호작용 범위
-void InteractiveActor::SetInteractivePositionAndRange(const float4& _InteractivePosition, float _Range)
+void InteractiveActor::SetNearInteractivePositionAndRange(const float4& _InteractivePosition, float _Range)
 {
 	m_InteractiveLocalPosition = _InteractivePosition;
-	m_InteractiveRange = _Range;
+
+	if (_Range < 0.0f)
+	{
+		m_InteractiveRange *= -_Range;
+	}
+	else
+	{
+		m_InteractiveRange = _Range;
+	}
 }
 
+
+// 상호작용 옵션
 void InteractiveActor::SetInteractionButtonType(const EINTERACTION_BUTTONTYPE _Type)
 {
 	m_InteractionButtonType = _Type;
@@ -78,7 +88,6 @@ void InteractiveActor::SetInteractionType(const EINTERACTION_TYPE _Type)
 {
 	m_InteractionType = _Type;
 }
-
 
 // EINTERACTION_BUTTONTYPE  : 버튼
 // EINTERACTION_TYPE,		: 상호작용 거리 (근접이냐, 원거리냐)

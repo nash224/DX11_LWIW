@@ -107,6 +107,8 @@ void CameraControler::Reset()
 	m_CameraInfo.MoveDistance = float4::ZERO;
 }
 
+// 플레이 모드 전용
+// 카메라 첫위치 조정
 void CameraControler::SetAutoInitialPosition(const float4& _Location)
 {
 	if (ECAMERAMODE::Play != m_Mode)
@@ -116,7 +118,7 @@ void CameraControler::SetAutoInitialPosition(const float4& _Location)
 
 	if (float4::ZERO == m_BackScale)
 	{
-		MsgBoxAssert("배경 넓이을 지정해주지 않고 카메라 매니저를 사용하려 했습니다.");
+		MsgBoxAssert("배경 넓이을 지정해주지 않고 카메라 플레이 모드를 사용하려 했습니다.");
 		return;
 	}
 
@@ -343,61 +345,29 @@ void CameraControler::UpdateCameraPlayMode(float _Delta)
 
 	if (nullptr == m_FocusActor)
 	{
+		// 카메라의 포커싱액터가 존재하지 않을때 고정모드
+		m_Mode = ECAMERAMODE::Fix;
 		return;
 	}
 
 
 	float4 ActorPos = m_FocusActor->Transform.GetWorldPosition();
 	float4 CurCameraPos = m_MainCamera->Transform.GetWorldPosition();
-
-	float4 SmoothingPos = CurCameraPos + (ActorPos - CurCameraPos) * m_SmoothingRatio;
+	
+	float4 SmoothingPos = CurCameraPos + (ActorPos - CurCameraPos) * m_SmoothingRatio;		// 매프레임마다 일정비율로 조정
 	float4 CameraMovePos = SmoothingPos - CurCameraPos;
 
 	LockCamera(CameraMovePos, CurCameraPos);
 
 	CameraMovePos = CurCameraPos + CameraMovePos;
-	CameraMovePos.Z = CameraDepth;
+	CameraMovePos.Z = CameraDepth;					// 카메라 깊이 고정
 	m_MainCamera->Transform.SetLocalPosition(CameraMovePos);
 }
 
 
 
-
-void CameraControler::UpdateCameraFixMode()
-{
-
-}
-
-
-void CameraControler::UpdateCameraEditorMode(float _Delta)
-{
-	float CameraSpeed = m_EditorModeSpeed * _Delta;
-	float4 CameraMoveDistance = float4::ZERO;
-	
-	if (true == GameEngineInput::IsPress('W', this))
-	{
-		CameraMoveDistance = float4::UP * CameraSpeed;
-	}
-
-	if (true == GameEngineInput::IsPress('S', this))
-	{
-		CameraMoveDistance = float4::DOWN * CameraSpeed;
-	}
-
-	if (true == GameEngineInput::IsPress('A', this))
-	{
-		CameraMoveDistance = float4::LEFT * CameraSpeed;
-	}
-
-	if (true == GameEngineInput::IsPress('D', this))
-	{
-		CameraMoveDistance = float4::RIGHT * CameraSpeed;
-	}
-
-	m_MainCamera->Transform.AddLocalPosition(CameraMoveDistance);
-}
-
-
+// PlayMode 기능
+// 카메라 잠금
 void CameraControler::LockCamera(float4& _pCameraMovePos, const float4& _CurCameraPos)
 {
 	float4 HalfWinScale = m_WinScale.Half();
@@ -428,9 +398,47 @@ void CameraControler::LockCamera(float4& _pCameraMovePos, const float4& _CurCame
 	}
 }
 
+
+void CameraControler::UpdateCameraFixMode()
+{
+
+}
+
+// 카메라 에디터 모드
+void CameraControler::UpdateCameraEditorMode(float _Delta)
+{
+	float CameraSpeed = m_EditorModeSpeed * _Delta;
+	float4 CameraMoveDistance = float4::ZERO;
+	
+	if (true == GameEngineInput::IsPress('W', this))
+	{
+		CameraMoveDistance = float4::UP * CameraSpeed;
+	}
+
+	if (true == GameEngineInput::IsPress('S', this))
+	{
+		CameraMoveDistance = float4::DOWN * CameraSpeed;
+	}
+
+	if (true == GameEngineInput::IsPress('A', this))
+	{
+		CameraMoveDistance = float4::LEFT * CameraSpeed;
+	}
+
+	if (true == GameEngineInput::IsPress('D', this))
+	{
+		CameraMoveDistance = float4::RIGHT * CameraSpeed;
+	}
+
+	m_MainCamera->Transform.AddLocalPosition(CameraMoveDistance);
+}
+
+
 #pragma endregion
 
 
+// 카메라 위치, 이동값 갱신 : 
+// 목적) 원근감 표현
 void CameraControler::RenewCameraPosition()
 {
 	m_CameraInfo.CurPosition = m_MainCamera->Transform.GetWorldPosition();

@@ -29,6 +29,7 @@ void PlayLevel::Update(float _Delta)
 {
 	ContentsLevel::Update(_Delta);
 
+	// 디버그 전환
 	ChangeDebugMode();
 }
 
@@ -38,8 +39,8 @@ void PlayLevel::LevelStart(GameEngineLevel* _NextLevel)
 
 	if (false == LevelInitCheck)
 	{
-		CreateEllie();
-		CreateUIManager();
+		CreateEllie();			// 플레이어 생성
+		CreateUIManager();		// UI 생성
 	}
 
 	LevelInitCheck = true;
@@ -56,7 +57,7 @@ void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
 
 
 
-
+// UI
 void PlayLevel::CreateUIManager()
 {
 	m_UIManager = CreateActor<UIManager>(EUPDATEORDER::UIMagnaer);
@@ -69,6 +70,7 @@ void PlayLevel::CreateUIManager()
 	m_UIManager->Init();
 }
 
+// 플레이어 
 void PlayLevel::CreateEllie()
 {
 	m_Ellie = CreateActor<Ellie>(EUPDATEORDER::Player);
@@ -81,6 +83,7 @@ void PlayLevel::CreateEllie()
 	m_Ellie->Init();
 }
 
+// 디버그 모드 전환
 void PlayLevel::ChangeDebugMode()
 {
 	if (true == IsDebug)

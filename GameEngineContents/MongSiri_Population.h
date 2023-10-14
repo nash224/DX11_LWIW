@@ -35,6 +35,7 @@ private:
 	void CheckInstallationHoleSpace();
 	void SetUpChubHole(GameEngineLevel* _CurLevel);
 	void CreateMongSiri(GameEngineLevel* _CurLevel, unsigned int _Population);
+	void SetMongSiriSeed(std::shared_ptr<MongSiri> _Actor, GameEngineRandom& _RandomClass);
 
 private:
 	void UpdateEntityMiddlePoint();
