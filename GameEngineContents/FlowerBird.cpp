@@ -39,6 +39,8 @@ void FlowerBird::Start()
 void FlowerBird::Update(float _Delta)
 {
 	DynamicEntity::Update(_Delta);
+
+	UpdateState(_Delta);
 }
 
 void FlowerBird::Release()
@@ -67,8 +69,10 @@ void FlowerBird::Init()
 {
 	SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Gloves);
 	ApplyDepth(Transform.GetLocalPosition());
+	CreateAndSetCollision(ECOLLISION::Entity, { 300.0f }, float4::ZERO, ColType::SPHERE2D);
 	AnimationSetting();
 	DirectionSetting();
+	ChangeState(EFLOWERBIRDSTATE::Idle);
 }
 
 void FlowerBird::AnimationSetting()
@@ -80,15 +84,21 @@ void FlowerBird::AnimationSetting()
 		return;
 	}
 
-	m_Body->CreateAnimation("Idle", "FlowerBird_Standing.png");
-	m_Body->CreateAnimation("Turn", "FlowerBird_IdleA.png", 0.06f, 3, 5, false);
-	m_Body->CreateAnimation("Pick", "FlowerBird_IdleC.png", 0.06f, 4, 5, true);
+	m_Body->CreateAnimation("Idle", "FlowerBird_Standing.png", 5.0f, 2, 2, false);
+	m_Body->CreateAnimation("Turn", "FlowerBird_IdleA.png", 0.03f, 3, 5, false);
+	m_Body->CreateAnimation("Pick", "FlowerBird_IdleC.png", 0.08f, 4, 5, false);
 
-	m_Body->CreateAnimation("Bloom", "FlowerBird_Bloom.png", 0.06f, 2, 10, false);
-	m_Body->CreateAnimation("BloomFake", "FlowerBird_BloomC.png", 0.06f, 2, 10, false);
+	m_Body->CreateAnimation("Bloom", "FlowerBird_Bloom.png", FlowerBirdBloomInter, 2, 10, false);
+	m_Body->FindAnimation("Bloom")->Inter[2] = FlowerBirdPeaksInter;
+	m_Body->FindAnimation("Bloom")->Inter[8] = FlowerBirdBlossomInter;
+
+	m_Body->CreateAnimation("BloomFake", "FlowerBird_BloomC.png", FlowerBirdBloomInter, 2, 10, false);
+	m_Body->FindAnimation("BloomFake")->Inter[2] = FlowerBirdPeaksInter;
 
 	m_Body->CreateAnimation("Fly", "FlowerBird_Fly.png", 0.06f, 1, 4, true);
 	m_Body->CreateAnimation("Fly_Bloom", "FlowerBird_FlyB.png", 0.06f, 1, 4, true);
+	m_Body->Transform.AddLocalPosition({ 0.0f,30.0f });
+	m_Body->AutoSpriteSizeOn();
 
 
 	m_Shadow = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::Shadow);
@@ -99,12 +109,12 @@ void FlowerBird::AnimationSetting()
 	}
 
 	m_Shadow->SetSprite("FlowerBird_Standing.png", 1);
+	m_Shadow->Transform.AddLocalPosition({ 0.0f,30.0f });
 
 
 	m_Body->SetFrameEvent("Pick", 4, [=](GameEngineSpriteRenderer* _Renderer)
 		{
 			m_Shadow->SetSprite("FlowerBird_IdleC.png", 2);
-			++m_PickCount;
 		});
 
 
@@ -171,18 +181,14 @@ void FlowerBird::ChangeState(EFLOWERBIRDSTATE _State)
 		switch (m_State)
 		{
 		case EFLOWERBIRDSTATE::Idle:					EndIdle(); 												break;
-		case EFLOWERBIRDSTATE::Turn:					 														break;
-		case EFLOWERBIRDSTATE::Pick:					 														break;
-		case EFLOWERBIRDSTATE::Bloom:					 														break;
-		case EFLOWERBIRDSTATE::BloomFake:				 														break;
-		case EFLOWERBIRDSTATE::BloomFlowers:			 														break;
+		case EFLOWERBIRDSTATE::Turn:					EndTurn(); 												break;
+		case EFLOWERBIRDSTATE::Pick:					EndPick();												break;
+		case EFLOWERBIRDSTATE::Bloom:					EndBloom(); 											break;
+		case EFLOWERBIRDSTATE::BloomFake:				EndBloomFake(); 										break;
+		case EFLOWERBIRDSTATE::BloomFlowers:			EndBloomFlowers(); 										break;
 		case EFLOWERBIRDSTATE::Fly:							 													break;
 		case EFLOWERBIRDSTATE::None:
-		{
-			MsgBoxAssert("해당 행동으로 변환할 수 없습니다.");
-			return;
-		}
-		break;
+			break;
 		default:
 			break;
 		}
@@ -216,6 +222,24 @@ void FlowerBird::ChangeFlowerBirdAnimation(std::string_view _AnimationName)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
+	}
+
+	if (nullptr == m_Shadow)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
+
+	if (EDIRECTION::LEFT == m_Dir)
+	{
+		m_Shadow->LeftFlip();
+		m_Body->LeftFlip();
+	}
+
+	if (EDIRECTION::RIGHT == m_Dir)
+	{
+		m_Shadow->RightFlip();
+		m_Body->RightFlip();
 	}
 
 	m_Body->ChangeAnimation(_AnimationName);

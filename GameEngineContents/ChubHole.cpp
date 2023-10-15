@@ -50,4 +50,5 @@ void ChubHole::Init()
 	}
 
 	m_HoleRenderer->SetSprite("SquishychubHole.png");
+	m_HoleRenderer->Transform.AddLocalPosition({0.0f, 6.0f});
 }

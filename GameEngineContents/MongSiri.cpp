@@ -182,6 +182,26 @@ void MongSiri::CreateAndSetRenderer()
 
 
 	m_Body->CreateAnimation("Disappear", "Mongsiri_Disappear.png", 0.2f, 10, 33, false);
+	m_Body->SetStartEvent("Disappear", [=](GameEngineSpriteRenderer*)
+		{
+			m_Shadow->SetSprite("Mongsiri_Disappear.png", 1);
+		});
+	m_Body->SetFrameEvent("Disappear", 11, [=](GameEngineSpriteRenderer*)
+		{
+			m_Shadow->SetSprite("Mongsiri_Disappear.png", 2);
+		});
+	m_Body->SetFrameEvent("Disappear", 12, [=](GameEngineSpriteRenderer*)
+		{
+			m_Shadow->SetSprite("Mongsiri_Disappear.png", 3);
+		});
+	m_Body->SetFrameEvent("Disappear", 13, [=](GameEngineSpriteRenderer*)
+		{
+			m_Shadow->SetSprite("Mongsiri_Disappear.png", 4);
+		});
+	m_Body->SetFrameEvent("Disappear", 13, [=](GameEngineSpriteRenderer*)
+		{
+			m_Shadow->SetSprite("Mongsiri_Disappear.png", 4);
+		});
 
 	m_Body->ChangeAnimation("Collected");
 	m_Body->AutoSpriteSizeOn();

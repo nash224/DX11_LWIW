@@ -11,12 +11,13 @@ void MongSiri::StartIdle()
 	if (EMONGSIRISTATUS::Normal == m_Status)
 	{
 		GameEngineRandom RandomClass;
-		RandomClass.SetSeed(reinterpret_cast<__int64>(this));
+		RandomClass.SetSeed(reinterpret_cast<__int64>(this) + GlobalValue::GetSeedValue());
 		int SelectNumber = RandomClass.RandomInt(0, 4);
 		switch (SelectNumber)
 		{
 		case 0:
 			m_IdleCount = 2;
+			break;
 		case 1:
 		case 2:
 			m_IdleCount = 3;
@@ -57,7 +58,7 @@ void MongSiri::UpdateIdle(float _Delta)
 		--m_IdleCount;
 	}
 
-	if (m_IdleCount <= 0 || EMONGSIRISTATUS::Escape == m_Status)
+	if (m_IdleCount <= 0)
 	{
 		ChangeState(EMONGSIRISTATE::Jump);
 		return;
@@ -171,6 +172,7 @@ void MongSiri::SearchJumpLocation()
 
 		float4 HolePosition = MongSiriParant->m_ChubHole->Transform.GetLocalPosition();
 		float4 TargetPosition = HolePosition - Transform.GetLocalPosition();
+		TargetPosition.Z = 0.0f;
 		float TargetDistance = TargetPosition.Size();
 		
 		if (TargetDistance < MongSiri_JumpMaxSpeed)
@@ -183,6 +185,8 @@ void MongSiri::SearchJumpLocation()
 			m_TargetForce = TargetPosition.NormalizeReturn() * MongSiri_JumpMaxSpeed;
 		}
 	}
+
+	m_TargetForce.Z = 0.0f;
 
 	m_Dir = GetDiagonalDirectionFromVector(m_TargetForce);
 }

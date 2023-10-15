@@ -147,8 +147,8 @@ void DynamicEntity::ApplyMovement(float _Delta)
 {
 	float4 CurrentPosition = Transform.GetLocalPosition();					// 현재위치
 	m_MoveVector.Z = 0.0f;
-	float4 MoveValue = m_MoveVector* _Delta;								// 이동값
-	float4 MovePosition = CurrentPosition + MoveValue;						// 미래 위치
+	float4 MoveVector = m_MoveVector* _Delta;								// 이동값
+	float4 MovePosition = CurrentPosition + MoveVector;						// 미래 위치
 	if (nullptr == BackDrop_PlayLevel::MainBackDrop)
 	{
 		MsgBoxAssert("nullptr == BackDrop_PlayLevel::MainBackDrop");

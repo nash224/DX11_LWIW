@@ -31,6 +31,7 @@ enum class ERENDERDEPTH
 	Object = 0,
 	RootedItem = 3000,
 	ObjectShadow,
+	Hole,
 	Back_,
 	Back_Paint,
 };

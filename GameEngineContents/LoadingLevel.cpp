@@ -162,7 +162,19 @@ void LoadingLevel::LoadSprite()
 		GameEngineSprite::CreateCut("Mongsiri_IdleB.png", 4, 3);
 		GameEngineSprite::CreateCut("Mongsiri_Jump.png", 5, 5);
 
-		// BushBug
+		// FlowerBird
+		GameEngineSprite::CreateCut("FlowerBird_Bloom.png", 4, 3);
+		GameEngineSprite::CreateCut("FlowerBird_BloomB.png", 5, 5);
+		GameEngineSprite::CreateCut("FlowerBird_BloomC.png", 4, 3);
+		GameEngineSprite::CreateCut("FlowerBird_Fly.png", 3, 2);
+		GameEngineSprite::CreateCut("FlowerBird_FlyB.png", 3, 2);
+		GameEngineSprite::CreateCut("FlowerBird_IdleA.png", 3, 2);
+		GameEngineSprite::CreateCut("FlowerBird_IdleB.png", 4, 3);
+		GameEngineSprite::CreateCut("FlowerBird_IdleC.png", 3, 2);
+		GameEngineSprite::CreateCut("FlowerBird_Standing.png", 2, 2);
+
+
+		// Bush & Bug
 		GameEngineSprite::CreateCut("Bush_0.png", 4, 3);
 		GameEngineSprite::CreateCut("Bush_0_Mask.png", 4, 3);
 		GameEngineSprite::CreateCut("Bush_2_Shaking.png", 4, 3);

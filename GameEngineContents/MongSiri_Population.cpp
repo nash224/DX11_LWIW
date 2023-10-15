@@ -80,8 +80,8 @@ void MongSiri_Population::SetUpChubHole(GameEngineLevel* _CurLevel)
 
 
 	float4 CurrentPosition = Transform.GetLocalPosition();
-	float ZSort = BackDrop_PlayLevel::MainBackDrop->ZSort(CurrentPosition.Y);
-	m_ChubHole->Transform.SetLocalPosition({ CurrentPosition.X , CurrentPosition.Y, ZSort });
+	CurrentPosition.Z = GlobalUtils::CalculateDepth(ERENDERDEPTH::Hole);
+	m_ChubHole->Transform.SetLocalPosition(CurrentPosition);
 	m_ChubHole->Init();
 }
 

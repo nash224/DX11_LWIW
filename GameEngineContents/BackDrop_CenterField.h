@@ -41,6 +41,7 @@ public:
 	void CreateWitchFlower(GameEngineLevel* _Level);
 	void CreateBranchTree(GameEngineLevel* _Level);
 	void CreateMongSiriPopulation(GameEngineLevel* _Level);
+	void CreateFlowerBird(GameEngineLevel* _Level);
 
 public:
 	void ActorRelease();
