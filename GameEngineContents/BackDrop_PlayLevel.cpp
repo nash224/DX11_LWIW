@@ -133,8 +133,8 @@ float BackDrop_PlayLevel::ZSort(const float _PositionY) const
 	return Depth;
 }
 
-
-void BackDrop_PlayLevel::CreateItem(std::string_view _ItemName, const float4& _Position, const int _Stack /*= 1*/)
+// 아이템생성
+void BackDrop_PlayLevel::CreateItem(std::string_view _ItemName, const float4& _Position, const int _Stack /*= 1*/, const float _FallYPosition /*= 0.0f*/)
 {
 	GameEngineLevel* CurLevel = GetLevel();
 	if (nullptr == CurLevel)
@@ -151,11 +151,19 @@ void BackDrop_PlayLevel::CreateItem(std::string_view _ItemName, const float4& _P
 	}
 
 	Item->BackManager = this;
+	float4 Position = _Position;
+	Position.Z = GlobalUtils::CalculateDepth(ERENDERDEPTH::RootedItem);
+	Item->Transform.SetLocalPosition(Position);
 	Item->SetStack(_Stack);
-	Item->Transform.SetLocalPosition(_Position);
+	if (0.0f != _FallYPosition)
+	{
+		Item->SetFallingTargetPosition(_FallYPosition);
+	}
 	Item->Init(_ItemName);
 	LootedItemList.push_back(Item);
 }
+
+
 
 // 아이템 전용
 std::list<std::shared_ptr<class LootedItem>>& BackDrop_PlayLevel::GetLootedItemList() 

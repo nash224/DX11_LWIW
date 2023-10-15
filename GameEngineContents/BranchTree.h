@@ -3,6 +3,10 @@
 
 
 
+constexpr float FallingPositionBranchMinRange = 5.0f;
+constexpr float FallingPositionBranchMaxRange = 25.0f;
+
+
 enum class EBRANCHFALLORDER
 {
 	Third,
@@ -79,6 +83,7 @@ private:
 private:
 	EBRANCHTREESTATE m_State = EBRANCHTREESTATE::None;
 
+	bool IsShaked = false;
 
 private:
 	int m_BranchCount = 3;

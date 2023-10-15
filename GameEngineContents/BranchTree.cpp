@@ -1,6 +1,9 @@
 #include "PreCompile.h"
 #include "BranchTree.h"
 
+
+#include "BackDrop_PlayLevel.h"
+
 BranchTree::BranchTree() 
 {
 }
@@ -21,7 +24,6 @@ void BranchTree::Start()
 void BranchTree::Update(float _Delta)
 {
 	StaticEntity::Update(_Delta);
-
 	UpdateState(_Delta);
 	UpdateBranch(_Delta);
 }
@@ -52,7 +54,7 @@ void BranchTree::LevelEnd(class GameEngineLevel* _NextLevel)
 void BranchTree::Init()
 {
 	ApplyDepth(Transform.GetLocalPosition());
-	CreateAndSetCollision(ECOLLISION::Entity, { 32.0f , 32.0f }, float4::ZERO, ColType::SPHERE2D);
+	CreateAndSetCollision(ECOLLISION::Entity, { 64.0f , 32.0f }, float4::ZERO, ColType::SPHERE2D);
 	CreateBranchTreehAnimation();
 	CreateBranchRenderer();
 	SetBranchInter();
@@ -69,7 +71,7 @@ void BranchTree::CreateBranchTreehAnimation()
 	}
 
 	m_Tree->CreateAnimation("Idle", "Tree_Branch.png", 5.0f, 0, 0, false);
-	m_Tree->CreateAnimation("Shake", "Tree_Branch.png", 0.1f, 3, 5, false);
+	m_Tree->CreateAnimation("Shake", "Tree_Branch.png", 0.1f, 2, 4, false);
 	m_Tree->AutoSpriteSizeOn();
 	m_Tree->Transform.AddLocalPosition({0.0f , TreeRenderBias , 0.0f});
 }
@@ -166,6 +168,7 @@ void BranchTree::ChangeState(EBRANCHTREESTATE _State)
 			StartIdle();
 			break;
 		case EBRANCHTREESTATE::Shake:
+			StartShake();
 			break;
 		case EBRANCHTREESTATE::None:
 		{
@@ -203,19 +206,18 @@ void BranchTree::StartIdle()
 
 void BranchTree::UpdateIdle(float _Delta)
 {
-	if (true == IsEnalbeActive)
+	if (true == IsShaked)
 	{
-		if (0 != m_BranchCount)
-		{
-			ChangeState(EBRANCHTREESTATE::Shake);
-			return;
-		}
+		ChangeState(EBRANCHTREESTATE::Shake);
+		return;
 	}
 }
 
 
 void BranchTree::StartShake()
 {
+	IsShaked = false;
+
 	ChangeBranchTreeAnimation("Shake");
 }
 
@@ -223,7 +225,7 @@ void BranchTree::UpdateShake(float _Delta)
 {
 	if (nullptr == m_Tree)
 	{
-		MsgBoxAssert("렌더러가 조냊하지 않습니다.");
+		MsgBoxAssert("렌더러가 하지 않습니다.");
 		return;
 	}
 
@@ -239,24 +241,34 @@ void BranchTree::UpdateShake(float _Delta)
 
 void BranchTree::UpdateBranch(float _Delta)
 {
+	// 상호작용이 되면
 	if (true == IsEnalbeActive)
 	{
+		// 시간 더 해줘서
 		m_BranchStateTime += _Delta;
 
+		// 일정시간이 넘을경우
 		if (m_BranchStateTime > BranchFallInter)
 		{
+			// 그 시만만큼 빼주고
 			BranchTotalInter -= BranchFallInter;
 			m_BranchStateTime -= BranchFallInter;
 
+			// 나뭇가지를 떨어트린다.
 			FallBranch();
+			IsShaked = true;
 
+			// 대신 떨어지고 남은 나뭇가지 수가 1일때는
 			if (1 == m_BranchCount)
 			{
+				// 다음 떨어지는 시간은 남은 시간으로 대체한다.
 				BranchFallInter = BranchTotalInter;
 			}
 
+			// 만약 남은 나뭇가지수가 0이면
 			if (0 == m_BranchCount)
 			{
+				 //충돌체는 필요없음으로 끈다.
 				if (nullptr == m_InteractiveCol)
 				{
 					MsgBoxAssert("충돌체가 존재하지 않습니다.");
@@ -267,14 +279,19 @@ void BranchTree::UpdateBranch(float _Delta)
 			}
 		}
 	}
+	// 만약 상호작용을 안하고 있을때
 	else
 	{
+		// 나뭇가지 업데이트 시간이 있다면
 		if (m_BranchStateTime > 0.0f)
 		{
+			// 시간만큼 뺴준다
 			m_BranchStateTime -= _Delta;
 			
+			// 뺸값이 0보다 작게 넘어갔다면
 			if (m_BranchStateTime < 0.0f)
 			{
+				// 0으로 맞춤
 				m_BranchStateTime = 0.0f;
 			}
 		}
@@ -289,6 +306,7 @@ void BranchTree::FallBranch()
 	--m_BranchCount;
 }
 
+// 나뭇가지 지우고
 void BranchTree::EraseBranch()
 {
 	int FallOrder = m_BranchCount - 1;
@@ -302,7 +320,22 @@ void BranchTree::EraseBranch()
 	BrachRenderer->Off();
 }
 
+// 아이템 생성시키고
 void BranchTree::CreateBranchItem()
 {
+	if (nullptr == BackDrop_PlayLevel::MainBackDrop)
+	{
+		MsgBoxAssert("배경 매니저 포인터가 NUll을 가리킵니다.");
+		return;
+	}
 
+	// 떨어지는 위치를 나무 중심으로부터 오른쪽 위로 정하고
+	// 떨어지는 시작점을 오른쪽 위로 올림
+	// 떨어지는 목표 거리는 60.0f로 고정
+
+	GameEngineRandom RandomClass;
+	RandomClass.SetSeed(reinterpret_cast<__int64>(this) + GlobalValue::GetSeedValue());
+	float4 FallingPosition = RandomClass.RandomVectorBox2D(FallingPositionBranchMinRange, FallingPositionBranchMaxRange, FallingPositionBranchMinRange, FallingPositionBranchMaxRange);
+	FallingPosition += Transform.GetLocalPosition() + float4{ 60.0f, 40.0f };
+	BackDrop_PlayLevel::MainBackDrop->CreateItem("Branch_Collect.png", FallingPosition, 1, 60.0f);
 }

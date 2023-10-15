@@ -20,8 +20,11 @@ public:
 	LootedItem& operator=(const LootedItem& _Other) = delete;
 	LootedItem& operator=(LootedItem&& _Other) noexcept = delete;
 
-	void Init(std::string_view _ItemName);
 	void SetStack(const int _Value);
+	void SetFallingTargetPosition(const float _YPosition);
+
+
+	void Init(std::string_view _ItemName);
 
 protected:
 	void Start() override;
@@ -32,18 +35,26 @@ protected:
 
 private:
 	void CreateItemRenderer(std::string_view _ItemName);
-	void CreateItemCollision();
+
+
 
 private:
+	void UpdateFallingItem(float _Delta);
 	void UpdateItemInteraction();
 
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> m_ItemRenderer = nullptr;
-	std::shared_ptr<GameEngineCollision> m_ItemCollision = nullptr;
 
 	std::string ItemName = "";
 	int m_Stack = 0;
 
 	const float ItemInterativeRange = 10.0f;
+
+
+private:
+	bool IsFalling = false;
+	float m_FallingYPosition = 0.0f;
+	const float FallingSpeed = 200.0f;
+
 };
 

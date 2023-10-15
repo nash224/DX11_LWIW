@@ -34,7 +34,7 @@ float4 GlobalValue::GetItemScale()
 
 int GlobalValue::GetSeedValue()
 {
-	if (100 == ++RandomSeed)
+	if (100000 == ++RandomSeed)
 	{
 		RandomSeed = 0;
 	}

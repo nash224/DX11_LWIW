@@ -29,7 +29,7 @@ enum class ERENDERDEPTH
 	FadeObject = -1000,
 	Roof = -1,
 	Object = 0,
-	RootedItem = 5000,
+	RootedItem = 3000,
 	ObjectShadow,
 	Back_,
 	Back_Paint,

@@ -124,6 +124,9 @@
     <Filter Include="2.Object\1.Actor\2.Interactive\Static\Plant">
       <UniqueIdentifier>{aabcb491-481d-4380-a119-aabdaa014822}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2.Object\1.Actor\2.Interactive\Dynamic\FlowerBird">
+      <UniqueIdentifier>{ad4ce8be-aa5d-44c8-a8ab-c71dd46a39f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -342,6 +345,9 @@
     </ClInclude>
     <ClInclude Include="BranchTree.h">
       <Filter>2.Object\1.Actor\2.Interactive\Static</Filter>
+    </ClInclude>
+    <ClInclude Include="FlowerBird.h">
+      <Filter>2.Object\1.Actor\2.Interactive\Dynamic\FlowerBird</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -564,6 +570,12 @@
     </ClCompile>
     <ClCompile Include="BranchTree.cpp">
       <Filter>2.Object\1.Actor\2.Interactive\Static</Filter>
+    </ClCompile>
+    <ClCompile Include="FlowerBird.cpp">
+      <Filter>2.Object\1.Actor\2.Interactive\Dynamic\FlowerBird</Filter>
+    </ClCompile>
+    <ClCompile Include="FlowerBirdState.cpp">
+      <Filter>2.Object\1.Actor\2.Interactive\Dynamic\FlowerBird</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -10,7 +10,6 @@ void Bush::StartNormal()
 {
 	m_BushType = EBUSHTYPE::Bush;
 	m_InteractionButtonType = EINTERACTION_BUTTONTYPE::None;
-	m_InteractiveCol->Off();
 	ChangeBushAnimation("Normal");
 }
 
@@ -47,6 +46,14 @@ void Bush::UpdateApple(float _Delta)
 
 void Bush::StartShake()
 {
+	if (nullptr == m_InteractiveCol)
+	{
+		MsgBoxAssert("존재하지않는 충돌체를 바꾸려고 했습니다.");
+		return;
+	}
+
+	m_InteractiveCol->Off();
+
 	ChangeBushAnimation("Shake");
 }
 
@@ -83,6 +90,14 @@ void Bush::UpdateRustle(float _Delta)
 
 void Bush::StartAppearBug()
 {
+	if (nullptr == m_InteractiveCol)
+	{
+		MsgBoxAssert("존재하지않는 충돌체를 바꾸려고 했습니다.");
+		return;
+	}
+
+	m_InteractiveCol->Off();
+
 	ChangeBushAnimation("AppearBug");
 }
 

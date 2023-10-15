@@ -37,7 +37,7 @@ public:
 	bool IsColorAtPosition(const float4& _Position, GameEngineColor _CheckColor);
 	float ZSort(const float _PositionY) const;
 
-	void CreateItem(std::string_view _ItemName, const float4& _Position = float4::ZERO, const int _Stack = 1);
+	void CreateItem(std::string_view _ItemName, const float4& _Position = float4::ZERO, const int _Stack = 1, const float _FallYPosition = 0.0f);
 
 	std::list<std::shared_ptr<class LootedItem>>& GetLootedItemList();
 	std::list<std::shared_ptr<class StaticEntity>>& GetStaticEntityList();
