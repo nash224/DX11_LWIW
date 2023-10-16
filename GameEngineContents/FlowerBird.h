@@ -20,6 +20,16 @@ constexpr float FlowerBirdMinWitherInter = 0.4f;
 constexpr float FlowerBirdMaxWitherInter = 1.6f;
 
 
+constexpr float FlowerBirdEllieWalkDetectionRange = 80.0f;
+constexpr float FlowerBirdEllieDetectionRange = 40.0f;
+
+
+constexpr float FlowerBirdFlySpeed = 600.0f;
+
+
+constexpr float FlowerBirdExitCameraBias = 50.0f;
+
+
 enum class EFLOWERBIRDSTATE
 {
 	Idle,
@@ -96,8 +106,13 @@ private:
 	void EndBloomFlowers();
 
 	void StartFly();
+	void DecideFlyDirection();
 	void UpdateFly(float _Delta);
 
+	bool GetReadyToFly();
+	bool FeelThreatened();
+	bool RecognizeWalkingEllie();
+	bool RecognizeEllie();
 
 
 private:
@@ -118,5 +133,8 @@ private:
 
 	int m_PickCount = 0;
 	const int MaxPickCount = 8;
+
+	float4 m_BirdFlyDirection = float4::ZERO;
+	const float m_FlyDegree = 30.0f;
 };
 

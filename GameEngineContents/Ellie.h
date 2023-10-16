@@ -100,6 +100,11 @@ public:
 	void SetPixelPointBaseOnCenter();
 
 
+	EELLIE_STATE GetState() const
+	{
+		return m_State;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
