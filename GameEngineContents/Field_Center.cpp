@@ -42,6 +42,8 @@ void Field_Center::LevelStart(class GameEngineLevel* _NextLevel)
 	LoadSprite();
 	LoadActor();
 
+	SetEllieLevelChangeLocation(_NextLevel);
+
 	CameraSetting();
 }
 
@@ -102,6 +104,26 @@ void Field_Center::LoadActor()
 	// 배경 크기를 알려줘야 카메라 기능을 사용할 수 있습니다.
 	m_LevelCameraControler->SetBackDropScale(m_BackDrop->GetBackGroundScale());
 }
+
+void Field_Center::SetEllieLevelChangeLocation(class GameEngineLevel* _NextLevel)
+{
+	float4 SpawnPosition = float4::ZERO;
+
+	std::string NextLevelName = _NextLevel->GetName();
+	if (NextLevelName == "WitchHouse_Yard")
+	{
+		SpawnPosition = { 200.0f , -200.0f };
+	}
+
+	if (nullptr == m_Ellie)
+	{
+		MsgBoxAssert("앨리를 생성하지 않았습니다.");
+		return;
+	}
+
+	m_Ellie->SetSpawnLocalPosition(SpawnPosition);
+}
+
 
 
 void Field_Center::CameraSetting()

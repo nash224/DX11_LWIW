@@ -21,6 +21,7 @@ enum class ERENDERORDER
 	AlphaBlend,
 	Shadow,
 	Effect,
+	UI_AlphaBlend,
 };
 
 

@@ -127,6 +127,9 @@
     <Filter Include="2.Object\1.Actor\2.Interactive\Dynamic\FlowerBird">
       <UniqueIdentifier>{ad4ce8be-aa5d-44c8-a8ab-c71dd46a39f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2.Object\1.Actor\2.Interactive\Dynamic\BushBug">
+      <UniqueIdentifier>{890513e6-3068-46f2-b365-e4e5f838e0e6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -348,6 +351,12 @@
     </ClInclude>
     <ClInclude Include="FlowerBird.h">
       <Filter>2.Object\1.Actor\2.Interactive\Dynamic\FlowerBird</Filter>
+    </ClInclude>
+    <ClInclude Include="BushBug.h">
+      <Filter>2.Object\1.Actor\2.Interactive\Dynamic\BushBug</Filter>
+    </ClInclude>
+    <ClInclude Include="Ellie_Ride_Fx.h">
+      <Filter>2.Object\1.Actor\2.Interactive\Dynamic\Ellie</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -576,6 +585,12 @@
     </ClCompile>
     <ClCompile Include="FlowerBirdState.cpp">
       <Filter>2.Object\1.Actor\2.Interactive\Dynamic\FlowerBird</Filter>
+    </ClCompile>
+    <ClCompile Include="BushBug.cpp">
+      <Filter>2.Object\1.Actor\2.Interactive\Dynamic\BushBug</Filter>
+    </ClCompile>
+    <ClCompile Include="Ellie_Ride_Fx.cpp">
+      <Filter>2.Object\1.Actor\2.Interactive\Dynamic\Ellie</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

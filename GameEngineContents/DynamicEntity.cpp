@@ -117,7 +117,7 @@ EDIRECTION DynamicEntity::GetDiagonalDirectionFromVector(const float4& _MoveVect
 		Degree = 180.0f - Degree;
 		Degree += 180.0f;
 	}
-
+	
 	if (Degree >= 0.0f && Degree < 90.0f)
 	{
 		return EDIRECTION::RIGHTUP;

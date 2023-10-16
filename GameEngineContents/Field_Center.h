@@ -25,16 +25,12 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
-
-
-private:
 	void LoadTexture();
 	void LoadSprite();
 	void LoadActor();
 
+	void SetEllieLevelChangeLocation(class GameEngineLevel* _NextLevel);
 	void CameraSetting();
-
-private:
 
 
 private:
