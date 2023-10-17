@@ -23,7 +23,7 @@ void Ellie_Ride_Fx::Update(float _Delta)
 }
 
 void Ellie_Ride_Fx::Release()
-{
+{ 
 	m_FxRenderer = nullptr;
 }
 
