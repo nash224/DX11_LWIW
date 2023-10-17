@@ -64,6 +64,9 @@
     <Filter Include="Global">
       <UniqueIdentifier>{9bf3d133-8ff4-4514-a4ae-d2ddbb969447}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{3cc39641-7fa5-4b9f-a667-016cdf3682d1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngineActor.h">
@@ -187,6 +190,33 @@
     <ClInclude Include="GameEngineDepthStencil.h">
       <Filter>Resources\RenderingSetting</Filter>
     </ClInclude>
+    <ClInclude Include="imconfig.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_dx11.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_win32.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_internal.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_rectpack.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_textedit.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_truetype.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineGUI.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineActor.cpp">
@@ -306,6 +336,27 @@
     </ClCompile>
     <ClCompile Include="GameEngineDepthStencil.cpp">
       <Filter>Resources\RenderingSetting</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_draw.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_dx11.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_win32.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_tables.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_widgets.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineGUI.cpp">
+      <Filter>GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

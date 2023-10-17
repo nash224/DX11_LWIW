@@ -2,6 +2,8 @@
 #include "DynamicEntity.h"
 #include "ActorEnum.h"
 
+constexpr float Ellie_Bias = 30.0f;
+
 
 constexpr float EllieIdleInter = 0.2f;
 constexpr float Ellie_SlowWalk_Inter = 0.2f;
@@ -108,6 +110,7 @@ public:
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
+	void Release() override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
@@ -118,7 +121,10 @@ private:
 
 
 private:
-	void StartFSM();
+	void RendererSetting();
+	void RideFxSetting();
+	
+
 	void StartCollision();
 
 
@@ -151,6 +157,7 @@ private:
 	void UpdateThrow(float _Delta);
 
 	void StartRiding_Idle();
+	void OnRideFx();
 	void UpdateRiding_Idle(float _Delta);
 
 	void StartRiding_Move();
@@ -225,6 +232,10 @@ private:
 
 
 private:
+	std::shared_ptr<GameEngineSpriteRenderer> m_Fx = nullptr; 
+
+
+private:
 	// 방향키
 	EHORIZONTAL_KEY_STATE m_HorizontalKey = EHORIZONTAL_KEY_STATE::Center;
 	EVERTICAL_KEY_STATE m_VerticalKey = EVERTICAL_KEY_STATE::Center;
@@ -266,5 +277,6 @@ private:
 	// 상호작용 Collision 시야각도 입니다.
 	const float FOVAngle = 60.0f;
 
+	
 };
 

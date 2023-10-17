@@ -81,23 +81,13 @@ void GameEngineSpriteRenderer::Start()
 {
 	GameEngineRenderer::Start();
 
-	// DataTransform = &ImageTransform;
-
 	ImageTransform.SetParent(Transform);
 
 	GameEngineRenderer::SetMesh("Rect");
 	GameEngineRenderer::SetMaterial("2DTexture");
-
-	//std::shared_ptr<GameEngineConstantBuffer> Buffer = GameEngineConstantBuffer::CreateAndFind(sizeof(float4), "SpriteData");
-	//if (nullptr != Buffer)
-	//{
-	//	Buffer->ChangeData(CurSprite.SpritePivot);
-	//	Buffer->Setting(1);
-	//}
-	// CurSprite.Texture->PSSetting(0);
-
 }
 
+// Update Order에 영향을 받는다.
 void GameEngineSpriteRenderer::Update(float _Delta)
 {
 	if (nullptr != CurFrameAnimations)
@@ -376,8 +366,15 @@ void GameEngineSpriteRenderer::SetMaterialEvent(std::string_view _Name, int _Ind
 	const TransformData& Data = ImageTransform.GetConstTransformDataRef();
 	GetShaderResHelper().SetConstantBufferLink("TransformData", Data);
 	GetShaderResHelper().SetConstantBufferLink("SpriteData", CurSprite.SpritePivot);
-	// ShaderResHelper.SetTexture("DiffuseTex", "NSet.Png");
 	GetShaderResHelper().SetConstantBufferLink("SpriteRendererInfo", SpriteRendererInfoValue);
-
 	SetSprite("NSet.png");
+}
+
+
+void GameEngineSpriteRenderer::SetMaskTexture(std::string_view _Texture)
+{
+	// 이녀석한테 있는
+	GameEngineRenderer::SetMaterial("2DTextureMask");
+
+	GetShaderResHelper().SetTexture("MaskTex", _Texture);
 }

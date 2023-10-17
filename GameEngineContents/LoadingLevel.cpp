@@ -95,6 +95,7 @@ void LoadingLevel::LoadTexture()
 		GlobalUtils::LoadAllDirFile("Resources\\PlayContents\\PlayResourecs\\Creature");	// Å©¸®Ã³ Æú´õ
 		GlobalUtils::LoadAllDirFile("Resources\\PlayContents\\PlayResourecs\\Map");			// ¸Ê Æú´õ
 		GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\Ellie");	// ¾Ù¸® Æú´õ
+		GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\Ellie\\Broom");	// ¾Ù¸® Æú´õ
 
 		//UI
 		GameEngineDirectory Dir;
@@ -146,6 +147,12 @@ void LoadingLevel::LoadSprite()
 		GameEngineSprite::CreateCut("Ellie_Basic_Cheer.png", 6, 6);
 		GameEngineSprite::CreateCut("Ellie_Basic_Fail.png", 6, 5);
 		GameEngineSprite::CreateCut("Ellie_Basic_Drink.png", 6, 5);
+
+		// Ride Fx
+		GameEngineSprite::CreateCut("Broom_Ride_Fx_Sample.png", 3, 3);
+
+
+
 
 #pragma endregion 
 

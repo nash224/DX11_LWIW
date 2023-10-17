@@ -478,6 +478,13 @@ void GameEngineDevice::ResourcesInit()
 	}
 
 	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("2DTextureMask");
+		Mat->SetVertexShader("TextureShaderMask_VS");
+		Mat->SetPixelShader("TextureShaderMask_PS");
+	}
+
+
+	{
 		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("2DTextureWire");
 		Mat->SetVertexShader("DebugColor_VS");
 		Mat->SetPixelShader("DebugColor_PS");

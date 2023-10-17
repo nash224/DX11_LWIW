@@ -1,20 +1,20 @@
 #include "PreCompile.h"
-#include "Ellie_Ride_Fx.h"
+#include "Ellie_Ride_Particle.h"
 
-Ellie_Ride_Fx::Ellie_Ride_Fx() 
+Ellie_Ride_Particle::Ellie_Ride_Particle() 
 {
 }
 
-Ellie_Ride_Fx::~Ellie_Ride_Fx() 
+Ellie_Ride_Particle::~Ellie_Ride_Particle() 
 {
 }
 
 
-void Ellie_Ride_Fx::Start()
+void Ellie_Ride_Particle::Start()
 {
 }
 
-void Ellie_Ride_Fx::Update(float _Delta)
+void Ellie_Ride_Particle::Update(float _Delta)
 {
 	if (GetLiveTime() > BroomFxLiveTime)
 	{
@@ -22,16 +22,16 @@ void Ellie_Ride_Fx::Update(float _Delta)
 	}
 }
 
-void Ellie_Ride_Fx::Release()
+void Ellie_Ride_Particle::Release()
 { 
 	m_FxRenderer = nullptr;
 }
 
-void Ellie_Ride_Fx::LevelStart(class GameEngineLevel* _NextLevel)
+void Ellie_Ride_Particle::LevelStart(class GameEngineLevel* _NextLevel)
 {
 }
 
-void Ellie_Ride_Fx::LevelEnd(class GameEngineLevel* _NextLevel)
+void Ellie_Ride_Particle::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	Death();
 }
@@ -40,13 +40,13 @@ void Ellie_Ride_Fx::LevelEnd(class GameEngineLevel* _NextLevel)
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-void Ellie_Ride_Fx::Init()
+void Ellie_Ride_Particle::Init()
 {
 	// ±Ì¿Ã¿˚øÎ
 	RendererSetting();
 }
 
-void Ellie_Ride_Fx::RendererSetting()
+void Ellie_Ride_Particle::RendererSetting()
 {
 	m_FxRenderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
 	if (nullptr == m_FxRenderer)

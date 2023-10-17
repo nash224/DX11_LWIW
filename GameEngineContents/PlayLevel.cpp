@@ -10,6 +10,67 @@
 #include "UIManager.h"
 
 
+void PlayGUIWindow::Start()
+{
+
+}
+
+void PlayGUIWindow::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
+{
+	if (ImGui::Button("Field_Center"))
+	{
+		GameEngineCore::ChangeLevel("Field_Center");
+		return;
+	}
+
+	if (ImGui::Button("WitchHouse_Yard"))
+	{
+		GameEngineCore::ChangeLevel("WitchHouse_Yard");
+		return;
+	}
+
+	if (ImGui::Button("WitchHouse_UpFloor"))
+	{
+		GameEngineCore::ChangeLevel("WitchHouse_UpFloor");
+		return;
+	}
+
+
+	if (ImGui::Button("CreateActor"))
+	{
+		GameEngineCore::ChangeLevel("WitchHouse_UpFloor");
+		return;
+	}
+
+
+	if (ImGui::Button("Play"))
+	{
+		int a = 0;
+	}
+
+	if (ImGui::Checkbox("CheckBox", &IsCheckBox))
+	{
+
+	}
+
+	if (ImGui::SliderFloat("Slider", &SliderAmount, 0.0f, 100.0f, "%.2f"))
+	{
+
+	}
+
+
+
+	static float GUI_UpdateTime = 0.0f;
+
+	GUI_UpdateTime += _DeltaTime;
+	if (GUI_UpdateTime > 1.0f)
+	{
+		GUI_UpdateTime -= 1.0f;
+		iFPS = static_cast<int>(1.0f / _DeltaTime);
+	}
+
+	ImGui::Text(std::to_string(iFPS).c_str());
+}
 
 bool PlayLevel::PixelDebugMode = false;
 PlayLevel::PlayLevel()
@@ -22,6 +83,8 @@ PlayLevel::~PlayLevel()
 
 void PlayLevel::Start()
 {
+	GameEngineGUI::CreateGUIWindow<PlayGUIWindow>("PlayLevel");
+
 	ContentsLevel::Start();
 }
 

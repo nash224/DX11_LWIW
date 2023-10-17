@@ -30,7 +30,7 @@
   </ItemGroup>
   <ItemGroup>
     <Filter Include="PreCompile">
-      <UniqueIdentifier>{a0fa4fbc-23a1-4c16-9739-17f4685a1408}</UniqueIdentifier>
+      <UniqueIdentifier>{ddb4fe43-a346-43ef-84f6-27740125d03c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -2,7 +2,7 @@
 #include "GameEngineRandom.h"
 #include <iostream>
 
-GameEngineRandom::GameEngineRandom()
+GameEngineRandom::GameEngineRandom() 
 {
 }
 
@@ -22,7 +22,7 @@ float GameEngineRandom::RandomFloat(float _Min, float _Max)
 	return RandomCreator(MtGen);
 }
 
-GameEngineRandom::~GameEngineRandom()
+GameEngineRandom::~GameEngineRandom() 
 {
 }
 

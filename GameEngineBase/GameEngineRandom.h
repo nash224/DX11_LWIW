@@ -46,7 +46,7 @@ public:
 
 	float4 RandomVectorBox2D(float _MinX, float _MaxX, float _MinY, float _MaxY);
 
-	void SetSeed(__int64 _Seed)
+	void SetSeed(__int64 _Seed) 
 	{
 		MtGen = std::mt19937_64(_Seed);
 	}

@@ -2,7 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <FxCompile Include="ColorShader.fx" />
-    <FxCompile Include="TextureShader.fx" />
     <FxCompile Include="Transform.fx">
       <Filter>Header</Filter>
     </FxCompile>
@@ -10,10 +9,19 @@
       <Filter>Header</Filter>
     </FxCompile>
     <FxCompile Include="DebugColorShader.fx" />
+    <FxCompile Include="TextureMaskShader.fx">
+      <Filter>2D</Filter>
+    </FxCompile>
+    <FxCompile Include="TextureShader.fx">
+      <Filter>2D</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
       <UniqueIdentifier>{806f3772-18af-4880-9af2-25ccec71527d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2D">
+      <UniqueIdentifier>{d6e2eb2a-2117-40bb-86a2-11e222bd0694}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

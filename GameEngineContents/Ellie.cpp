@@ -19,7 +19,7 @@ Ellie::~Ellie()
 void Ellie::Start()
 {
 	GameEngineInput::AddInputObject(this);
-	StartFSM();
+	RendererSetting();
 	StartCollision();
 }
 
@@ -59,6 +59,14 @@ void Ellie::UpdateOutPutDebug(float _Delta)
 #endif
 }
 
+void Ellie::Release()
+{
+	DynamicEntity::Release();
+
+	m_Fx = nullptr;
+}
+
+
 // Ellie는 PlayLevel에서 Off할 수 있지만, Off한 채로 LevelStart 할 수는 없습니다.
 void Ellie::LevelStart(class GameEngineLevel* _NextLevel)
 {
@@ -76,7 +84,7 @@ void Ellie::LevelEnd(class GameEngineLevel* _NextLevel)
 
 
 
-void Ellie::StartFSM()
+void Ellie::RendererSetting()
 {
 	m_Body = CreateComponent<GameEngineSpriteRenderer>();
 	if (nullptr == m_Body)
@@ -234,6 +242,39 @@ void Ellie::StartFSM()
 
 	m_Body->AutoSpriteSizeOn();
 	m_Body->Transform.SetLocalPosition({ 0.0f , 30.0f });
+
+
+	RideFxSetting();
+}
+
+
+void Ellie::RideFxSetting()
+{
+	m_Fx = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::Effect);
+	if (nullptr == m_Fx)
+	{
+		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
+		return;
+	}
+
+
+	float4 Renderer = Transform.GetLocalPosition();
+	Renderer.Y += Ellie_Bias;
+	Renderer.Z = GlobalUtils::CalculateDepth(ERENDERDEPTH::FX);
+
+	m_Fx->Transform.SetLocalPosition(Renderer);
+	m_Fx->CreateAnimation("FX", "Broom_Ride_Fx_Sample.png", 0.12f, 0, 8, false);
+	m_Fx->AutoSpriteSizeOn();
+	m_Fx->SetStartEvent("FX", [=](GameEngineSpriteRenderer* _Renderer)
+		{
+			m_Fx->On();
+		});
+	m_Fx->SetEndEvent("FX", [=](GameEngineSpriteRenderer* _Renderer)
+		{
+			m_Fx->Off();
+		});
+	
+	m_Fx->Off();
 }
 
 void Ellie::StartCollision()

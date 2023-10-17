@@ -130,6 +130,12 @@
     <Filter Include="2.Object\1.Actor\2.Interactive\Dynamic\BushBug">
       <UniqueIdentifier>{890513e6-3068-46f2-b365-e4e5f838e0e6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2.Object\1.Actor\2.Interactive\Dynamic\Ellie\Ride_Particle">
+      <UniqueIdentifier>{989c26f1-1f17-4d7e-8449-823531de4c78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2.Object\1.Actor\2.Interactive\Dynamic\Ellie\Ride_Fx">
+      <UniqueIdentifier>{2f14f9c3-c420-477c-99e0-bf1cc2395e0b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -355,8 +361,8 @@
     <ClInclude Include="BushBug.h">
       <Filter>2.Object\1.Actor\2.Interactive\Dynamic\BushBug</Filter>
     </ClInclude>
-    <ClInclude Include="Ellie_Ride_Fx.h">
-      <Filter>2.Object\1.Actor\2.Interactive\Dynamic\Ellie</Filter>
+    <ClInclude Include="Ellie_Ride_Particle.h">
+      <Filter>2.Object\1.Actor\2.Interactive\Dynamic\Ellie\Ride_Particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -589,8 +595,8 @@
     <ClCompile Include="BushBug.cpp">
       <Filter>2.Object\1.Actor\2.Interactive\Dynamic\BushBug</Filter>
     </ClCompile>
-    <ClCompile Include="Ellie_Ride_Fx.cpp">
-      <Filter>2.Object\1.Actor\2.Interactive\Dynamic\Ellie</Filter>
+    <ClCompile Include="Ellie_Ride_Particle.cpp">
+      <Filter>2.Object\1.Actor\2.Interactive\Dynamic\Ellie\Ride_Particle</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

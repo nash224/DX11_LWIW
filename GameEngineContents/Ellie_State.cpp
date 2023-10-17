@@ -64,7 +64,7 @@ void Ellie::StartIdle()
 {
 	if (EELLIE_STATUS::Riding == g_Status)
 	{
-		// FX
+		OnRideFx();
 	}
 
 	g_Status = EELLIE_STATUS::Normal;
@@ -257,13 +257,26 @@ void Ellie::StartRiding_Idle()
 	{
 		m_MoveVector = float4::ZERO;
 		m_MoveForce = float4::ZERO;
-		// FX
+		OnRideFx();
 	}
 
 	g_Status = EELLIE_STATUS::Riding;
 
 	ChangeAnimationByDirection("Riding_Idle");
 }
+
+void Ellie::OnRideFx()
+{
+	if (nullptr == m_Fx)
+	{
+		MsgBoxAssert("효과 렌더러가 존재하지 않습니다.");
+		return;
+	}
+	
+	m_Fx->ChangeAnimation("FX", true);
+	m_Fx->On();
+}
+
 
 void Ellie::UpdateRiding_Idle(float _Delta)
 {

@@ -1,5 +1,23 @@
 #pragma once
 #include "ContentsLevel.h"
+#include <GameEngineCore/GameEngineGUI.h>
+
+
+class PlayGUIWindow : public GameEngineGUIWindow
+{
+public:
+	void Start() override;
+	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
+
+private:
+	bool IsCheckBox = false;
+
+	float SliderAmount = 0.0f;
+	float ColorEdit3Value = 0.2f;
+	int iFPS = 0;
+
+};
+
 
 // Ό³Έν :
 class Ellie;
