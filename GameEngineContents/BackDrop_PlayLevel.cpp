@@ -34,8 +34,6 @@ void BackDrop_PlayLevel::Update(float _Delta)
 void BackDrop_PlayLevel::Release()
 {
 	BackDrop::Release();
-
-	MainBackDrop = nullptr;
 }
 
 void BackDrop_PlayLevel::LevelStart(class GameEngineLevel* _NextLevel)

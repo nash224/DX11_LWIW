@@ -31,14 +31,15 @@ void BackDrop::Update(float _Delta)
 
 void BackDrop::Release()
 {
+	
 }
 
-void BackDrop::LevelStart(GameEngineLevel* _NextLevel)
+void BackDrop::LevelStart(class GameEngineLevel* _NextLevel)
 {
 
 }
 
-void BackDrop::LevelEnd(GameEngineLevel* _NextLevel)
+void BackDrop::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	vecProps.clear();
 }

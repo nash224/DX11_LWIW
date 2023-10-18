@@ -29,7 +29,7 @@ void MainMenu_Trains::Update(float _Delta)
 
 void MainMenu_Trains::Release()
 {
-
+	vecTrain.clear();
 }
 
 void MainMenu_Trains::LevelStart(class GameEngineLevel* _NextLevel)
@@ -40,8 +40,6 @@ void MainMenu_Trains::LevelStart(class GameEngineLevel* _NextLevel)
 void MainMenu_Trains::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	Death();
-
-	vecTrain.clear();
 }
 
 

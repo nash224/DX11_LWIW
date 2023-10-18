@@ -12,7 +12,7 @@ SequentialProp::~SequentialProp()
 
 void SequentialProp::Start()
 {
-	Prop::Start();
+
 }
 
 void SequentialProp::Update(float _Delta)

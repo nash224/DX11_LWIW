@@ -35,6 +35,8 @@ void ExProp::LevelStart(class GameEngineLevel* _NextLevel)
 void ExProp::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	Prop::LevelEnd(_NextLevel);
+
+	Death();
 }
 
 

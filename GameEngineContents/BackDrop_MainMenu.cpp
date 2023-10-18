@@ -19,30 +19,32 @@ BackDrop_MainMenu::~BackDrop_MainMenu()
 
 void BackDrop_MainMenu::Start()
 {
-
+	BackDrop::Start();
 }
 
 void BackDrop_MainMenu::Update(float _Delta)
 {
-	
+	BackDrop::Update(_Delta);
 }
 
 void BackDrop_MainMenu::Release()
 {
-	vecProps.clear();
-	m_MainMenu_Train = nullptr;
-	vecMainMenu_Chain.clear();
-	Ren = nullptr;
+	BackDrop::Release();
 }
 
 void BackDrop_MainMenu::LevelStart(class GameEngineLevel* _NextLevel)
 {
-
+	BackDrop::LevelStart(_NextLevel);
 }
 
 void BackDrop_MainMenu::LevelEnd(class GameEngineLevel* _NextLevel)
 {
+	BackDrop::LevelEnd(_NextLevel);
+
 	Death();
+	vecProps.clear();
+	vecMainMenu_Chain.clear();
+	m_MainMenu_Train = nullptr;
 }
 
 

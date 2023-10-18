@@ -38,7 +38,6 @@ private:
 private:
 	std::shared_ptr<MainMenu_Trains> m_MainMenu_Train;
 	std::vector<std::shared_ptr<ChainProp>> vecMainMenu_Chain;
-	std::shared_ptr<GameEngineSpriteRenderer> Ren;
 
 private:
 
