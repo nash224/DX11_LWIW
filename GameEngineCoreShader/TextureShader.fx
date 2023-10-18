@@ -88,18 +88,31 @@ PixelOutPut TextureShader_VS(GameEngineVertex2D _Input)
 
 // 우리 규칙
 
+cbuffer ColorData : register(b1)
+{
+    float4 PlusColor; // 최종색상에 더한다.
+    float4 MulColor; // 최종색상에 곱한다.
+};
+
 Texture2D DiffuseTex : register(t0);
 SamplerState DiffuseTexSampler : register(s0);
 
 float4 TextureShader_PS(PixelOutPut _Input) : SV_Target0
 {
-   
     float4 Color = DiffuseTex.Sample(DiffuseTexSampler, _Input.TEXCOORD.xy);
     // 블랜드라는 작업을 해줘야 한다.
     
     if (0.0f >= Color.a)
     {
         clip(-1);
+    }
+    
+    Color += PlusColor;
+    Color *= MulColor;
+    
+    if (0 >= Color.a)
+    {
+        Color.a = 0.0f;
     }
     
     return Color;

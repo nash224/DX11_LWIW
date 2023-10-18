@@ -35,7 +35,7 @@ void Prop::LevelStart(class GameEngineLevel* _NextLevel)
 
 void Prop::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-
+	Death();
 }
 
 

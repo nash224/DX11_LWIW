@@ -334,6 +334,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="PlayLevel.cpp" />
+    <ClCompile Include="PlayLevel_ImGui.cpp" />
     <ClCompile Include="PortalObject.cpp">
       <SubType>
       </SubType>

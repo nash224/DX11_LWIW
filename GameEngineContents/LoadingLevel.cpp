@@ -41,7 +41,6 @@ void LoadingLevel::Update(float _Delta)
 
 	if (true == GameEngineInput::IsPress('T', this))
 	{
-		ActorRelease();
 		GameEngineCore::ChangeLevel("WitchHouse_Yard");
 	}
 }
@@ -78,7 +77,6 @@ void LoadingLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	ContentsLevel::LevelEnd(_NextLevel);
 
-	ActorRelease();
 	ReleaseSprite();
 	ReleaseTexture();
 }
@@ -312,16 +310,6 @@ void LoadingLevel::LoadContentsData()
 	// »çÅÁ
 	ProductRecipeData::CreateData("UncurseCandy", {"UncurseCandy", "´ÜÇ³ Çãºê", EBREWINGOPTION::Easy, EBREWINGOPTION::StirNone, EBREWINGOPTION::Three, "Mongsiri_Water", 2, "MapleHerb_Water", 2});
 	ProductRecipeData::CreateData("HealingCandy", {"HealingCandy", "Ä¡·á »çÅÁ", EBREWINGOPTION::Easy, EBREWINGOPTION::StirRight, EBREWINGOPTION::Four, "WitchFlower_Water", 2, "MapleHerb_Water", 2});
-}
-
-
-void LoadingLevel::ActorRelease()
-{
-	if (nullptr != m_BackDrop)
-	{
-		m_BackDrop->ActorRelease();
-		m_BackDrop = nullptr;
-	}
 }
 
 void LoadingLevel::ReleaseSprite()

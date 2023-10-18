@@ -18,6 +18,7 @@ public:
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
+	void Release() override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
@@ -26,6 +27,7 @@ private:
 
 public:
 	void Init();
+	void TestPorp();
 
 	void CreateFlooring();
 	void CreateProp(GameEngineLevel* _Level);
@@ -44,7 +46,6 @@ public:
 	void CreateFlowerBird(GameEngineLevel* _Level);
 
 public:
-	void ActorRelease();
 	void PopulationRelease();
 
 private:

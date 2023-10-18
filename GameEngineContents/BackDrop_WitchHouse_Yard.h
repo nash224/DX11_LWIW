@@ -24,11 +24,6 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
-
-public:
-	void ActorRelease();
-
-private:
 	void CreateFlooring();
 	void CreateProp(GameEngineLevel* _Level);
 	void CreatePixelMap(GameEngineLevel* _Level);

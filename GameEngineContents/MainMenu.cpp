@@ -33,8 +33,6 @@ void MainMenu::Update(float _Delta)
 {
 	if (true == GameEngineInput::IsDown('T', this))
 	{
-		ActorRelease();
-
 		GameEngineCore::ChangeLevel("LoadingLevel");
 	}
 }
@@ -182,13 +180,3 @@ void MainMenu::ReleaseTexture()
 	}
 }
 
-
-
-void MainMenu::ActorRelease()
-{
-	if (nullptr != m_BackDrop)
-	{
-		m_BackDrop->ActorRelease();
-		m_BackDrop = nullptr;
-	}
-}

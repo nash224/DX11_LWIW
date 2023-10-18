@@ -36,7 +36,7 @@ void TrainPart::LevelStart(class GameEngineLevel* _NextLevel)
 
 void TrainPart::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-
+	Death();
 }
 
 
@@ -110,10 +110,4 @@ void TrainPart::SetLocalPosition(const float4& _TrainPosition, const float4& _Li
 void TrainPart::AddLocalPosition(const float4& _float4)
 {
 	Transform.AddLocalPosition(_float4);
-}
-
-
-void TrainPart::ActorRelease()
-{
-	Death();
 }

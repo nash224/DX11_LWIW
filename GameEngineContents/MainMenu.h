@@ -36,8 +36,6 @@ private:
 	void InitActor();
 
 
-	void ActorRelease();
-
 	void ReleaseSprite();
 	void ReleaseTexture();
 

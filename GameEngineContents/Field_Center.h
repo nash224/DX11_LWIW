@@ -34,7 +34,6 @@ private:
 
 
 private:
-	void LevelActorRelease();
 	void ReleaseSprite();
 	void ReleaseTexture();
 

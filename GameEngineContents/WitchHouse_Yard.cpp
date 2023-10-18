@@ -20,7 +20,8 @@ void WitchHouse_Yard::Start()
 {
 	PlayLevel::Start();
 
-	SetName("WitchHouse_Yard");
+	std::string Name = "WitchHouse_Yard";
+	SetName(Name);
 
 	if (nullptr != m_LevelCameraControler)
 	{
@@ -149,14 +150,6 @@ void WitchHouse_Yard::CameraSetting()
 #pragma endregion 
 
 #pragma region ReleaseRes
-void WitchHouse_Yard::LevelActorRelease()
-{
-	// 배경 정리하고
-	if (nullptr != m_BackDrop)
-	{
-		m_BackDrop->ActorRelease();
-	}
-}
 
 void WitchHouse_Yard::ReleaseSprite()
 {

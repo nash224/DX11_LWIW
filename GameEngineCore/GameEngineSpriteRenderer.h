@@ -62,6 +62,12 @@ struct SpriteRendererInfo
 	float Temp2;
 };
 
+struct ColorData 
+{
+	float4 PlusColor = float4::ZERONULL; // 최종색상에 더한다.
+	float4 MulColor = float4::ONE; // 최종색상에 곱한다.
+};
+
 // 설명 :
 class GameEngineSpriteRenderer : public GameEngineRenderer
 {
@@ -200,6 +206,11 @@ public:
 		return ImageTransform;
 	}
 
+	inline ColorData& GetColorData()
+	{
+		return ColorDataValue;
+	}
+
 	void SetMaskTexture(std::string_view _Texture);
 
 protected:
@@ -228,6 +239,8 @@ private:
 	bool IsPause = false;
 
 	float4 Pivot = {0.5f, 0.5f};
+
+	ColorData ColorDataValue;
 
 	GameEngineTransform ImageTransform;
 };

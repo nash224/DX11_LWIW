@@ -67,6 +67,9 @@
     <Filter Include="GUI">
       <UniqueIdentifier>{3cc39641-7fa5-4b9f-a667-016cdf3682d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Contents">
+      <UniqueIdentifier>{c338eb2a-945c-4c1a-b259-5c815524a0cd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngineActor.h">
@@ -217,6 +220,9 @@
     <ClInclude Include="GameEngineGUI.h">
       <Filter>GUI</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineState.h">
+      <Filter>Contents</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineActor.cpp">
@@ -357,6 +363,9 @@
     </ClCompile>
     <ClCompile Include="GameEngineGUI.cpp">
       <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineState.cpp">
+      <Filter>Contents</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

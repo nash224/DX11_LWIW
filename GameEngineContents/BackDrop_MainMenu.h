@@ -31,13 +31,9 @@ public:
 	void Init();
 
 private:
-	void CreateScenery(class GameEngineLevel* _CurLevel);
 	void CreateProp(class GameEngineLevel* _CurLevel);
 	void CreateTrain(class GameEngineLevel* _CurLevel);
 	void CreateChainProp(class GameEngineLevel* _CurLevel);
-
-public:
-	void ActorRelease();
 
 private:
 	std::shared_ptr<MainMenu_Trains> m_MainMenu_Train;

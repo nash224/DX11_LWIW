@@ -25,11 +25,8 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
-public:
-	virtual void ActorRelease();
 
 protected:
-	std::vector<std::shared_ptr<class Scenery>> vecScenery;
 	std::vector<std::shared_ptr<class Prop>> vecProps;
 
 	float4 m_BackScale = float4::ZERO;

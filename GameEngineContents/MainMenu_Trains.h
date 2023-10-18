@@ -28,7 +28,6 @@ public:
 	MainMenu_Trains& operator=(MainMenu_Trains&& _Other) noexcept = delete;
 
 	void SetRattleCycle(float _Value);
-	void SetDepth(float _Depth);
 	void Init();
 
 	void ActorRelease();

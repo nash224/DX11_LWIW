@@ -32,7 +32,7 @@ void SequentialProp::LevelStart(class GameEngineLevel* _NextLevel)
 
 void SequentialProp::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-
+	Death();
 }
 
 

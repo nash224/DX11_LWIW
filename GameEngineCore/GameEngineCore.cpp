@@ -39,6 +39,7 @@ void GameEngineCore::Update()
 		if (nullptr != CurLevel)
 		{
 			CurLevel->AllLevelEnd(NextLevel.get());
+			CurLevel->AllReleaseCheck();
 		}
 
 		// NextLevel->OverCheck(CurLevel);

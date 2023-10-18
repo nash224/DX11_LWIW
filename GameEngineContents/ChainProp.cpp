@@ -28,7 +28,7 @@ void ChainProp::Update(float _Delta)
 
 void ChainProp::Release()
 {
-
+	listProps.clear();
 }
 
 void ChainProp::LevelStart(class GameEngineLevel* _NextLevel)
@@ -38,7 +38,8 @@ void ChainProp::LevelStart(class GameEngineLevel* _NextLevel)
 
 void ChainProp::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-
+	Death();
+	listProps.clear();
 }
 
 

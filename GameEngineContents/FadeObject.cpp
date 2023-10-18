@@ -36,6 +36,11 @@ void FadeObject::Update(float _Delta)
 
 }
 
+void FadeObject::Release()
+{
+	m_FadeRenderer = nullptr;
+}
+
 void FadeObject::LevelStart(class GameEngineLevel* _NextLevel)
 {
 
@@ -43,7 +48,7 @@ void FadeObject::LevelStart(class GameEngineLevel* _NextLevel)
 
 void FadeObject::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-
+	Death();
 }
 
 
@@ -52,7 +57,7 @@ void FadeObject::LevelEnd(class GameEngineLevel* _NextLevel)
 
 
 
-void FadeObject::CallFadeOut(std::shared_ptr<GameEngineLevel> _Level, std::function<void()> _Func, float _FadeOutDuration /*= 1.0f*/)
+void FadeObject::CallFadeOut(std::shared_ptr<GameEngineLevel> _Level, float _FadeOutDuration /*= 1.0f*/)
 {
 	if (nullptr == _Level)
 	{
@@ -69,7 +74,6 @@ void FadeObject::CallFadeOut(std::shared_ptr<GameEngineLevel> _Level, std::funct
 
 
 	FadeOutObject->m_FadeType = CallFadeType::FadeOut;
-	FadeOutObject->m_Func = _Func;
 
 	FadeOutObject->m_FadeDuration = _FadeOutDuration;
 

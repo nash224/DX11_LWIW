@@ -40,7 +40,7 @@ void BackDrop_WitchHouse_Yard::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void BackDrop_WitchHouse_Yard::Init()
 {
-	BackDrop_PlayLevel::Init();
+	MainBackDrop = this;
 
 	GameEngineLevel* CurLevel = GetLevel();
 	if (nullptr == CurLevel)
@@ -61,7 +61,7 @@ void BackDrop_WitchHouse_Yard::Init()
 
 void BackDrop_WitchHouse_Yard::CreateFlooring()
 {
-	FlooringVec.reserve(100);
+	m_BackProp.reserve(100);
 
 	{
 		float4 CenterPosition = GlobalValue::GetWindowScale().Half();
@@ -121,7 +121,6 @@ void BackDrop_WitchHouse_Yard::CreatePortalActor(GameEngineLevel* _Level)
 
 			Object->CreatePortalCollision(ECOLLISION::Portal);
 			Object->SetChangeLevelName("WitchHouse_UpFloor");
-			Object->SetLevelChangeCallBack<BackDrop_WitchHouse_Yard>(this, &BackDrop_WitchHouse_Yard::ActorRelease);
 			Object->SetLocalPosition({ HWinScale.X , -25.0f });
 			Object->SetCollisionRange({ 200.0f , 50.0f });
 			Object->SetCollisionType(ColType::AABBBOX2D);
@@ -139,7 +138,6 @@ void BackDrop_WitchHouse_Yard::CreatePortalActor(GameEngineLevel* _Level)
 
 			Object->CreatePortalCollision(ECOLLISION::Portal);
 			Object->SetChangeLevelName("Field_Center");
-			Object->SetLevelChangeCallBack<BackDrop_WitchHouse_Yard>(this, &BackDrop_WitchHouse_Yard::ActorRelease);
 			Object->SetLocalPosition({ HWinScale.X , -GlobalValue::GetWindowScale().Y });
 			Object->SetCollisionRange({ 200.0f , 100.0f });
 			Object->SetCollisionType(ColType::AABBBOX2D);
@@ -152,10 +150,5 @@ void BackDrop_WitchHouse_Yard::CreatePortalActor(GameEngineLevel* _Level)
 #pragma endregion 
 
 #pragma region Release
-
-void BackDrop_WitchHouse_Yard::ActorRelease()
-{
-	BackDrop_PlayLevel::ActorRelease();
-}
 
 #pragma endregion 

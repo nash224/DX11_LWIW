@@ -31,6 +31,11 @@ void BackDrop_CenterField::Update(float _Delta)
 	BackDrop::Update(_Delta);
 }
 
+void BackDrop_CenterField::Release()
+{
+	BackDrop::Release();
+}
+
 void BackDrop_CenterField::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	BackDrop::LevelStart(_NextLevel);
@@ -48,8 +53,6 @@ void BackDrop_CenterField::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void BackDrop_CenterField::Init()
 {
-	BackDrop_PlayLevel::Init();
-
 	GameEngineLevel* CurLevel = GetLevel();
 	if (nullptr == CurLevel)
 	{
@@ -79,15 +82,26 @@ void BackDrop_CenterField::Init()
 
 		IsCreatedCreature = true;
 	}
-}
 
+}
 
 #pragma endregion 
 
 
+void BackDrop_CenterField::TestPorp()
+{
+	// std::shared_ptr<GameEngineSpriteRenderer> Renderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
+	// Position, Rotation
+	// Depth => (RenderDepth, ZOrder)
+	// Renderer->SetSprite
+	/*Renderer->Transform.SetLocalPosition();*/
+	// pushback
+}
+
+
 void BackDrop_CenterField::CreateFlooring()
 {
-	FlooringVec.reserve(100);
+	m_BackProp.reserve(100);
 
 	{
 		float4 BaseScale = { 1920.0f, 1080.0f };
@@ -105,7 +119,7 @@ void BackDrop_CenterField::CreateFlooring()
 		Renderer->SetSprite("GroundBase.png");
 		Renderer->SetImageScale(BaseScale);
 		Renderer->Transform.SetLocalPosition(BasePosition);
-		FlooringVec.push_back(Renderer);
+		m_BackProp.push_back(Renderer);
 	}
 
 }
@@ -167,7 +181,6 @@ void BackDrop_CenterField::CreatePortalActor(GameEngineLevel* _Level)
 
 		Object->CreatePortalCollision(ECOLLISION::Portal);
 		Object->SetChangeLevelName("WitchHouse_Yard");
-		Object->SetLevelChangeCallBack<BackDrop_CenterField>(this, &BackDrop_CenterField::ActorRelease);
 		Object->SetCollisionRange({ 100.0f , 400.0f });
 		Object->SetLocalPosition({ 1200.0f , -200.0f });
 		Object->SetCollisionType(ColType::AABBBOX2D);
@@ -324,10 +337,6 @@ void BackDrop_CenterField::CreateNightCreature(GameEngineLevel* _Level)
 
 #pragma region Release
 
-void BackDrop_CenterField::ActorRelease()
-{
-	BackDrop_PlayLevel::ActorRelease();
-}
 
 void BackDrop_CenterField::PopulationRelease()
 {

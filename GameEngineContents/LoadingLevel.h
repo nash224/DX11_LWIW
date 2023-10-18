@@ -35,7 +35,6 @@ private:
 	void LoadContentsData();
 	
 private:
-	void ActorRelease();
 	void ReleaseSprite();
 	void ReleaseTexture();
 

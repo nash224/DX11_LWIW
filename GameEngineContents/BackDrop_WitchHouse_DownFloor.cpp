@@ -45,7 +45,7 @@ void BackDrop_WitchHouse_DownFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void BackDrop_WitchHouse_DownFloor::Init()
 {
-	BackDrop_PlayLevel::Init();
+	MainBackDrop = this;
 
 	GameEngineLevel* CurLevel = GetLevel();
 	if (nullptr == CurLevel)
@@ -239,7 +239,6 @@ void BackDrop_WitchHouse_DownFloor::CreatePortalActor(GameEngineLevel* _Level)
 
 		Object->CreatePortalCollision(ECOLLISION::Portal);
 		Object->SetChangeLevelName("WitchHouse_UpFloor");
-		Object->SetLevelChangeCallBack<BackDrop_WitchHouse_DownFloor>(this, &BackDrop_WitchHouse_DownFloor::ActorRelease);
 		Object->SetCollisionRange({ 64.0f , 22.0f });
 		Object->SetLocalPosition({ 548.0f , -172.0f });
 		Object->SetCollisionType(ColType::AABBBOX2D);
@@ -253,10 +252,5 @@ void BackDrop_WitchHouse_DownFloor::CreatePortalActor(GameEngineLevel* _Level)
 #pragma endregion 
 
 #pragma region Release
-
-void BackDrop_WitchHouse_DownFloor::ActorRelease()
-{
-	BackDrop_PlayLevel::ActorRelease();
-}
 
 #pragma endregion 

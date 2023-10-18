@@ -29,7 +29,10 @@ void BackDrop_MainMenu::Update(float _Delta)
 
 void BackDrop_MainMenu::Release()
 {
+	vecProps.clear();
 	m_MainMenu_Train = nullptr;
+	vecMainMenu_Chain.clear();
+	Ren = nullptr;
 }
 
 void BackDrop_MainMenu::LevelStart(class GameEngineLevel* _NextLevel)
@@ -39,7 +42,7 @@ void BackDrop_MainMenu::LevelStart(class GameEngineLevel* _NextLevel)
 
 void BackDrop_MainMenu::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-
+	Death();
 }
 
 
@@ -56,7 +59,6 @@ void BackDrop_MainMenu::Init()
 		return;
 	}
 
-	CreateScenery(CurLevel);
 	CreateProp(CurLevel);
 	CreateTrain(CurLevel);
 	CreateChainProp(CurLevel);
@@ -71,11 +73,6 @@ void BackDrop_MainMenu::Init()
 	m_BackScale = Texture->GetScale();
 }
 
-
-void BackDrop_MainMenu::CreateScenery(class GameEngineLevel* _CurLevel)
-{
-
-}
 
 #pragma region Prop 생성
 
@@ -514,56 +511,3 @@ void BackDrop_MainMenu::CreateChainProp(class GameEngineLevel* _CurLevel)
 
 #pragma endregion 
 
-
-
-void BackDrop_MainMenu::ActorRelease()
-{
-	for (size_t i = 0; i < vecProps.size(); i++)
-	{
-		std::shared_ptr<Prop> Object = vecProps[i];
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("존재하지 않는 액터를 차조하려고 했습니다.");
-			return;
-		}
-
-		Object->ActorRelease();
-	}
-
-	vecProps.clear();
-
-	for (size_t i = 0; i < vecScenery.size(); i++)
-	{
-		std::shared_ptr<Scenery> Object = vecScenery[i];
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("존재하지 않는 액터를 차조하려고 했습니다.");
-			return;
-		}
-
-		Object->ActorRelease();
-	}
-
-	vecScenery.clear();
-
-	for (size_t i = 0; i < vecMainMenu_Chain.size(); i++)
-	{
-		std::shared_ptr<ChainProp> Object = vecMainMenu_Chain[i];
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("존재하지 않는 액터를 참조하려고 했습니다.");
-			return;
-		}
-
-		Object->ActorRelease();
-	}
-
-	vecMainMenu_Chain.clear();
-
-	if (nullptr != m_MainMenu_Train)
-	{
-		m_MainMenu_Train->ActorRelease();
-	}
-
-	Death();
-}

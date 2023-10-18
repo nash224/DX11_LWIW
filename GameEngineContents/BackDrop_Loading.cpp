@@ -23,6 +23,11 @@ void BackDrop_Loading::Update(float _Delta)
 
 }
 
+void BackDrop_Loading::Release()
+{
+	
+}
+
 void BackDrop_Loading::LevelStart(class GameEngineLevel* _NextLevel)
 {
 
@@ -30,7 +35,7 @@ void BackDrop_Loading::LevelStart(class GameEngineLevel* _NextLevel)
 
 void BackDrop_Loading::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-
+	Death();
 }
 
 

@@ -20,7 +20,9 @@ void WitchHouse_DownFloor::Start()
 {
 	PlayLevel::Start();
 
-	SetName("WitchHouse_DownFloor");
+	std::string Name = "WitchHouse_DownFloor";
+	SetName(Name);
+
 
 	if (nullptr != m_LevelCameraControler)
 	{
@@ -195,14 +197,6 @@ void WitchHouse_DownFloor::CameraSetting()
 
 #pragma region Release
 
-void WitchHouse_DownFloor::LevelActorRelease()
-{
-	// 배경 정리하고
-	if (nullptr != m_BackDrop)
-	{
-		m_BackDrop->ActorRelease();
-	}
-}
 
 void WitchHouse_DownFloor::ReleaseSprite()
 {

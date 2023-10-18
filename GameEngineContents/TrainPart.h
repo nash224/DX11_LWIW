@@ -36,9 +36,6 @@ private:
 	void AddLocalPosition(const float4& _float4);
 
 
-public:
-	void ActorRelease();
-
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> m_TrainRenderer;
 	std::shared_ptr<GameEngineSpriteRenderer> m_LightRenderer;

@@ -42,7 +42,7 @@ void BackDrop_WitchHouse_UpFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void BackDrop_WitchHouse_UpFloor::Init()
 {
-	BackDrop_PlayLevel::Init();
+	MainBackDrop = this;
 
 	GameEngineLevel* CurLevel = GetLevel();
 	if (nullptr == CurLevel)
@@ -602,7 +602,6 @@ void BackDrop_WitchHouse_UpFloor::LoadPortalActor(GameEngineLevel* _Level)
 
 		Object->CreatePortalCollision(ECOLLISION::Portal);
 		Object->SetChangeLevelName("WitchHouse_DownFloor");
-		Object->SetLevelChangeCallBack<BackDrop_WitchHouse_UpFloor>(this, &BackDrop_WitchHouse_UpFloor::ActorRelease);
 		Object->SetCollisionRange({ 44.0f , 20.0f });
 		Object->SetLocalPosition(m_HouseLocation + float4{ 174.0f , -184.0f });
 		Object->SetCollisionType(ColType::AABBBOX2D);
@@ -622,7 +621,6 @@ void BackDrop_WitchHouse_UpFloor::LoadPortalActor(GameEngineLevel* _Level)
 
 		Object->CreatePortalCollision(ECOLLISION::Portal);
 		Object->SetChangeLevelName("WitchHouse_Yard");
-		Object->SetLevelChangeCallBack<BackDrop_WitchHouse_UpFloor>(this, &BackDrop_WitchHouse_UpFloor::ActorRelease);
 		Object->SetCollisionRange({ 60.0f , 10.0f });
 		Object->SetLocalPosition(m_HouseLocation + float4{ 126.0f , -336.0f });
 		Object->SetCollisionType(ColType::AABBBOX2D);
@@ -634,11 +632,5 @@ void BackDrop_WitchHouse_UpFloor::LoadPortalActor(GameEngineLevel* _Level)
 #pragma endregion 
 
 #pragma region Release
-
-
-void BackDrop_WitchHouse_UpFloor::ActorRelease()
-{
-	BackDrop_PlayLevel::ActorRelease();
-}
 
 #pragma endregion 

@@ -26,6 +26,7 @@ public:
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
+	void Release() override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
@@ -33,7 +34,7 @@ private:
 
 
 public:
-	static void CallFadeOut(std::shared_ptr<GameEngineLevel> _Level, std::function<void()> _Func, float _FadeOutDuration = 1.0f);
+	static void CallFadeOut(std::shared_ptr<GameEngineLevel> _Level, float _FadeOutDuration = 1.0f);
 	static void CallFadeIn(std::shared_ptr<GameEngineLevel> _Level, float _FadeOutDuration = 1.0f);
 
 
@@ -41,8 +42,6 @@ private:
 	std::shared_ptr<GameEngineSpriteRenderer> m_FadeRenderer = nullptr;
 
 	CallFadeType m_FadeType = CallFadeType::None;
-
-	std::function<void()> m_Func;
 
 	bool IsQuit = false;
 	const float QuitTime = 5.0f;

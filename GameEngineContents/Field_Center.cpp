@@ -26,7 +26,8 @@ void Field_Center::Start()
 		m_LevelCameraControler->SetCameraMode(ECAMERAMODE::Play);
 	}
 
-	SetName("Field_Center");
+	std::string Name = "Field_Center";
+	SetName(Name);
 }
 
 void Field_Center::Update(float _Delta)
@@ -150,15 +151,6 @@ void Field_Center::CameraSetting()
 #pragma endregion
 
 #pragma region ReleaseRes
-
-void Field_Center::LevelActorRelease()
-{
-	// 배경 정리하고
-	if (nullptr != m_BackDrop)
-	{
-		m_BackDrop->ActorRelease();
-	}
-}
 
 void Field_Center::ReleaseSprite()
 {

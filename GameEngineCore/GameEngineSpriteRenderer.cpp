@@ -367,14 +367,22 @@ void GameEngineSpriteRenderer::SetMaterialEvent(std::string_view _Name, int _Ind
 	GetShaderResHelper().SetConstantBufferLink("TransformData", Data);
 	GetShaderResHelper().SetConstantBufferLink("SpriteData", CurSprite.SpritePivot);
 	GetShaderResHelper().SetConstantBufferLink("SpriteRendererInfo", SpriteRendererInfoValue);
+	GetShaderResHelper().SetConstantBufferLink("ColorData", ColorDataValue);
 	SetSprite("NSet.png");
 }
 
 
 void GameEngineSpriteRenderer::SetMaskTexture(std::string_view _Texture)
 {
+	// 바뀌기 전에 
+	// 스프라이트 이름이나 애니메이션이나 이런것들을 저장했다가
+	
 	// 이녀석한테 있는
 	GameEngineRenderer::SetMaterial("2DTextureMask");
+
+	// 다시 세팅해주면 
+	// SetSprite("NSet.png");
+
 
 	GetShaderResHelper().SetTexture("MaskTex", _Texture);
 }

@@ -31,12 +31,19 @@ public:
 	BackDrop_PlayLevel& operator=(const BackDrop_PlayLevel& _Other) = delete;
 	BackDrop_PlayLevel& operator=(BackDrop_PlayLevel&& _Other) noexcept = delete;
 
+	// 객체 생성
+	void CreatePropInCurBackDrop(ERENDERDEPTH _RenderDepth, std::string_view _SpriteName, const float4& _Position, const float _Depth = 0.0f);
+
+	// 디버그
 	void EnableDebugMode(bool _Value);
 
 	// 탐색
 	bool IsColorAtPosition(const float4& _Position, GameEngineColor _CheckColor);
+
+	// ZOrder
 	float ZSort(const float _PositionY) const;
 
+	// 아이템
 	void CreateItem(std::string_view _ItemName, const float4& _Position = float4::ZERO, const int _Stack = 1, const float _FallYPosition = 0.0f);
 
 	std::list<std::shared_ptr<class LootedItem>>& GetLootedItemList();
@@ -50,20 +57,12 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
-
-protected:
-	void Init();
-
 protected:
 	// Scenery, Prop 텍스처 외에 자식에서 해주고 싶은 작업이 있을때
 	virtual void EnableBackDropElemnetDebugMode(bool _Value) {}
 
-public:
-	// 초기화
-	void ActorRelease() override;
-
 protected:
-	std::vector<std::shared_ptr<GameEngineSpriteRenderer>> FlooringVec;
+	std::vector<std::shared_ptr<GameEngineSpriteRenderer>> m_BackProp;
 	std::vector<std::shared_ptr<class Prop>> vecPixelProps;
 	std::vector<std::shared_ptr<class PortalObject>> vecPortalObject;
 	std::list<std::shared_ptr<class StaticEntity>> StaticEntityList;

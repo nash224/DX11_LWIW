@@ -39,7 +39,9 @@ void MainMenu_Trains::LevelStart(class GameEngineLevel* _NextLevel)
 
 void MainMenu_Trains::LevelEnd(class GameEngineLevel* _NextLevel)
 {
+	Death();
 
+	vecTrain.clear();
 }
 
 
@@ -292,26 +294,3 @@ void MainMenu_Trains::UpdateWait(float _Delta)
 }
 
 #pragma endregion 
-
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-
-void MainMenu_Trains::ActorRelease()
-{
-	for (size_t i = 0; i < vecTrain.size(); i++)
-	{
-		std::shared_ptr<TrainPart> Train = vecTrain[i];
-		if (nullptr == Train)
-		{
-			MsgBoxAssert("존재하지 않는 액터를 참조하려고 했습니다.");
-			return;
-		}
-
-		Train->Death();
-	}
-
-	vecTrain.clear();
-
-	Death();
-}

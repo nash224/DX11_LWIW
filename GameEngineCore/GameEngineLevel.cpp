@@ -131,8 +131,6 @@ void GameEngineLevel::AllReleaseCheck()
 			Start = Group.erase(Start);
 		}
 	}
-
-
 }
 
 void GameEngineLevel::ActorInit(std::shared_ptr<class GameEngineActor> _Actor, int _Order)

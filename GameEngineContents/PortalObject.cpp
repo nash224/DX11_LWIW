@@ -20,6 +20,13 @@ void PortalObject::Update(float _Delta)
 	PortalUpdate();
 }
 
+
+void PortalObject::Release()
+{
+	PotalCol = nullptr;
+}
+
+
 void PortalObject::LevelStart(class GameEngineLevel* _NextLevel)
 {
 
@@ -27,7 +34,7 @@ void PortalObject::LevelStart(class GameEngineLevel* _NextLevel)
 
 void PortalObject::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-
+	Death();
 }
 
 
@@ -40,7 +47,7 @@ void PortalObject::CreatePortalCollision(int _Order)
 	PotalCol = CreateComponent<GameEngineCollision>(_Order);
 	if (nullptr == PotalCol)
 	{
-		MsgBoxAssert("������Ʈ�� �������� ���߽��ϴ�.");
+		MsgBoxAssert("충돌체가 존재하지 않습니다..");
 		return;
 	}
 }
@@ -61,7 +68,7 @@ void PortalObject::SetCollisionType(ColType _Type)
 {
 	if (nullptr == PotalCol)
 	{
-		MsgBoxAssert("�浹ü�� �������� �ʴµ� Ÿ���� �����Ϸ� �߽��ϴ�.");
+		MsgBoxAssert("충돌체가 존재하지 않습니다.");
 		return;
 	}
 
@@ -72,7 +79,7 @@ void PortalObject::SetCollisionData(PortalCollisionParameter _ColParameter)
 {
 	if (nullptr == PotalCol)
 	{
-		MsgBoxAssert("�浹ü�� �������� �ʴµ� Ÿ���� �����Ϸ� �߽��ϴ�.");
+		MsgBoxAssert("충돌체가 존재하지 않습니다.");
 		return;
 	}
 
@@ -127,7 +134,6 @@ void PortalObject::PortalUpdate()
 
 void PortalObject::UpdateInstantType()
 {
-	m_LevelCallBack();
 	GameEngineCore::ChangeLevel(m_ChangeLevelName);
 }
 

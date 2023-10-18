@@ -3,16 +3,25 @@
 #include <GameEngineCore/GameEngineGUI.h>
 
 
-class PlayGUIWindow : public GameEngineGUIWindow
+class ContentsGUIWindow : public GameEngineGUIWindow
 {
 public:
 	void Start() override;
 	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
 
+
+private:
+	void MapEditorMode();
+
+private:
+	std::vector<std::string> SpriteNameVector;
+
 private:
 	bool IsCheckBox = false;
 
-	float SliderAmount = 0.0f;
+	std::string SpriteName = "";
+
+	int SliderAmount = 0;
 	float ColorEdit3Value = 0.2f;
 	int iFPS = 0;
 
@@ -57,6 +66,7 @@ private:
 
 private:
 	void ChangeDebugMode();
+
 
 protected:
 	std::shared_ptr<Ellie> m_Ellie = nullptr;
