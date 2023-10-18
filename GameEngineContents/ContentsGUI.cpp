@@ -76,8 +76,10 @@ void ManualTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
 	ImGui::Text("Left Arrow : Move Left ");
 	ImGui::Text("Right Arrow  : Move Right ");
-	ImGui::Text("Up Arrow  : Move Up ");
-	ImGui::Text("Donw Arrow  : Move Down ");
+	ImGui::Text("Up Arrow  : Move Up & Front ");
+	ImGui::Text("Donw Arrow  : Move Down & Back ");
+	ImGui::Text("Shift + Arrow : Slow Move ");
+	ImGui::Text("Ctrl : Ride Broom ");
 	ImGui::Text("Z : Interaction with Entity");
 	ImGui::Text("S : Open&Close Inventory");
 	ImGui::Text("D : Open&Close Dictionary");

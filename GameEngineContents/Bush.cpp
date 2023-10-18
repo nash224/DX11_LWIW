@@ -53,7 +53,7 @@ void Bush::SetBushType(EBUSHTYPE _Type)
 // Ω√¿€
 void Bush::Init()
 {
-	SetDepthBias(-20.0f);
+	SetDepthBias(-30.0f);
 	ApplyDepth(Transform.GetLocalPosition());
 	CreateAndSetCollision(ECOLLISION::Entity, {96.0f , 96.0f }, float4::ZERO,ColType::AABBBOX2D);
 	CreateBushAnimation();

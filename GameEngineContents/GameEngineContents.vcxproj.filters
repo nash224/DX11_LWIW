@@ -145,6 +145,9 @@
     <Filter Include="2.Object\1.Actor\2.Interactive\Static\NPC">
       <UniqueIdentifier>{c1a15aa1-75f1-4523-8683-9d4e21a1ffb7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2.Object\1.Actor\2.Interactive\Dynamic\PumpkinTerrier">
+      <UniqueIdentifier>{d8a4f972-b663-4186-8e67-0b79a54b9061}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -352,9 +355,6 @@
     <ClInclude Include="Plant.h">
       <Filter>2.Object\1.Actor\2.Interactive\Static\Plant</Filter>
     </ClInclude>
-    <ClInclude Include="PumpkinTerrier.h">
-      <Filter>2.Object\1.Actor\2.Interactive\Dynamic</Filter>
-    </ClInclude>
     <ClInclude Include="BranchTree.h">
       <Filter>2.Object\1.Actor\2.Interactive\Static</Filter>
     </ClInclude>
@@ -384,6 +384,9 @@
     </ClInclude>
     <ClInclude Include="SilverStarFlower.h">
       <Filter>2.Object\1.Actor\2.Interactive\Static\Plant</Filter>
+    </ClInclude>
+    <ClInclude Include="PumpkinTerrier.h">
+      <Filter>2.Object\1.Actor\2.Interactive\Dynamic\PumpkinTerrier</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -595,9 +598,6 @@
     <ClCompile Include="WitchFlower.cpp">
       <Filter>2.Object\1.Actor\2.Interactive\Static\Plant</Filter>
     </ClCompile>
-    <ClCompile Include="PumpkinTerrier.cpp">
-      <Filter>2.Object\1.Actor\2.Interactive\Dynamic</Filter>
-    </ClCompile>
     <ClCompile Include="BranchTree.cpp">
       <Filter>2.Object\1.Actor\2.Interactive\Static</Filter>
     </ClCompile>
@@ -630,6 +630,9 @@
     </ClCompile>
     <ClCompile Include="SilverStarFlower.cpp">
       <Filter>2.Object\1.Actor\2.Interactive\Static\Plant</Filter>
+    </ClCompile>
+    <ClCompile Include="PumpkinTerrier.cpp">
+      <Filter>2.Object\1.Actor\2.Interactive\Dynamic\PumpkinTerrier</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

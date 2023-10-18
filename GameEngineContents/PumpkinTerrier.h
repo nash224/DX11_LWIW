@@ -30,6 +30,9 @@ public:
 	PumpkinTerrier& operator=(const PumpkinTerrier& _Other) = delete;
 	PumpkinTerrier& operator=(PumpkinTerrier&& _Other) noexcept = delete;
 
+	void Init();
+	void RendererSetting();
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -40,9 +43,8 @@ protected:
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> m_Shadow = nullptr;
 
-
-private:
 	
+	const float RendererBias = 60.0f;
 
 };
 

@@ -46,6 +46,7 @@ public:
 	void CreateBranchTree(GameEngineLevel* _Level);
 	void CreateMongSiriPopulation(GameEngineLevel* _Level);
 	void CreateFlowerBird(GameEngineLevel* _Level);
+	void CreatePumpkinTerrier(GameEngineLevel* _Level);
 
 public:
 	void PopulationRelease();

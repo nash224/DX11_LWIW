@@ -12,6 +12,7 @@
 #include "FlowerBird.h"
 #include "BranchTree.h"
 #include "Aurea.h"
+#include "PumpkinTerrier.h"
 
 
 BackDrop_CenterField::BackDrop_CenterField() 
@@ -183,7 +184,7 @@ void BackDrop_CenterField::CreateAurea(GameEngineLevel* _Level)
 		return;
 	}
 
-	Object->Transform.SetLocalPosition({ 500.0f , -300.0f });
+	Object->Transform.SetLocalPosition({ 700.0f , -300.0f });
 	Object->Init();
 }
 
@@ -203,6 +204,7 @@ void BackDrop_CenterField::CreateDayNightTimeCreature(GameEngineLevel* _Level)
 	CreateSilverStarFlower(_Level);
 	CreateBranchTree(_Level);
 	CreateFlowerBird(_Level);
+	CreatePumpkinTerrier(_Level);
 }
 
 
@@ -337,6 +339,33 @@ void BackDrop_CenterField::CreateFlowerBird(GameEngineLevel* _Level)
 		}
 
 		Object->Transform.SetLocalPosition({ 400.0f , -200.0f });
+		Object->Init();
+	}
+
+	{
+		std::shared_ptr<FlowerBird> Object = _Level->CreateActor<FlowerBird>(EUPDATEORDER::Entity);
+		if (nullptr == Object)
+		{
+			MsgBoxAssert("가지 나무를 생성하지 못했습니다.");
+			return;
+		}
+
+		Object->Transform.SetLocalPosition({ 440.0f , -200.0f });
+		Object->Init();
+	}
+}
+
+void BackDrop_CenterField::CreatePumpkinTerrier(GameEngineLevel* _Level)
+{
+	{
+		std::shared_ptr<PumpkinTerrier> Object = _Level->CreateActor<PumpkinTerrier>(EUPDATEORDER::Entity);
+		if (nullptr == Object)
+		{
+			MsgBoxAssert("가지 나무를 생성하지 못했습니다.");
+			return;
+		}
+
+		Object->Transform.SetLocalPosition({ 360.0f , -400.0f });
 		Object->Init();
 
 	}

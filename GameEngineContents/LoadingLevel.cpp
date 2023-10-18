@@ -188,6 +188,16 @@ void LoadingLevel::LoadSprite()
 		GameEngineSprite::CreateCut("FlowerBird_IdleC.png", 3, 2);
 		GameEngineSprite::CreateCut("FlowerBird_Standing.png", 2, 2);
 
+		// PumpkinTerrier
+		GameEngineSprite::CreateCut("PumpkinTerrier_Vine_GaspA.png", 5, 4);
+		GameEngineSprite::CreateCut("PumpkinTerrier_Vine_GaspB.png", 5, 4);
+		GameEngineSprite::CreateCut("PumpkinTerrier_Vine_IdleA.png", 4, 3);
+		GameEngineSprite::CreateCut("PumpkinTerrier_Vine_IdleB.png", 4, 3);
+		GameEngineSprite::CreateCut("PumpkinTerrier_Vine_PawA.png", 4, 4);
+		GameEngineSprite::CreateCut("PumpkinTerrier_Vine_PawB.png", 4, 4);
+		GameEngineSprite::CreateCut("PumpkinTerrier_Vine_RunA.png", 3, 3);
+		GameEngineSprite::CreateCut("PumpkinTerrier_Vine_RunB.png", 3, 3);
+
 
 		// Bush & Bug
 		GameEngineSprite::CreateCut("Bush_0.png", 4, 3);
