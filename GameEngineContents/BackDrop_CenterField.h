@@ -33,6 +33,7 @@ public:
 	void CreateProp(GameEngineLevel* _Level);
 	void CreatePixelMap(GameEngineLevel* _Level);
 	void CreatePortalActor(GameEngineLevel* _Level);
+	void CreateAurea(GameEngineLevel* _Level);
 
 	void CreateCreature(GameEngineLevel* _Level);
 	void CreateDayNightTimeCreature(GameEngineLevel* _Level);
@@ -41,6 +42,7 @@ public:
 
 	void CreateBush(GameEngineLevel* _Level);
 	void CreateWitchFlower(GameEngineLevel* _Level);
+	void CreateSilverStarFlower(GameEngineLevel* _Level);
 	void CreateBranchTree(GameEngineLevel* _Level);
 	void CreateMongSiriPopulation(GameEngineLevel* _Level);
 	void CreateFlowerBird(GameEngineLevel* _Level);

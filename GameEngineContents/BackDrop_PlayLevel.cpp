@@ -157,7 +157,7 @@ float BackDrop_PlayLevel::ZSort(const float _PositionY) const
 		BackGroundScale = GlobalValue::GetWindowScale();
 	}
 
-	float Depth = (BackGroundScale.Y + _PositionY) / BackGroundScale.Y;
+	float Depth = (BackGroundScale.Y + _PositionY) ;
 	return Depth;
 }
 
@@ -168,6 +168,12 @@ void BackDrop_PlayLevel::CreateItem(std::string_view _ItemName, const float4& _P
 	if (nullptr == CurLevel)
 	{
 		MsgBoxAssert("레벨을 불러오지 못했습니다.");
+		return;
+	}
+
+	if (this != MainBackDrop)
+	{
+		MsgBoxAssert("현재 배경매니저가 아닙니다.");
 		return;
 	}
 

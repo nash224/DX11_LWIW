@@ -18,6 +18,7 @@ enum class EUPDATEORDER
 enum class ERENDERORDER
 {
 	NonAlphaBlend,
+	Object,
 	AlphaBlend,
 	Shadow,
 	Effect,
@@ -103,7 +104,7 @@ enum class EHOUSEDEPTH
 {
 	FRAME = -1,
 	Object,
-	Shadow = 100,
+	Shadow = 3000,
 	Rug,
 	HouseComposition,
 	BackPaint,

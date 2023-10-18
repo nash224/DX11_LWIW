@@ -90,10 +90,11 @@ void LoadingLevel::LoadTexture()
 	if (false == GlobalTextureLoadCheck)
 	{
 		// ÇÃ·¹ÀÌ ¾×ÅÍ
-		GlobalUtils::LoadAllDirFile("Resources\\PlayContents\\PlayResourecs\\Creature");	// Å©¸®Ã³ Æú´õ
-		GlobalUtils::LoadAllDirFile("Resources\\PlayContents\\PlayResourecs\\Map");			// ¸Ê Æú´õ
-		GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\Ellie");	// ¾Ù¸® Æú´õ
-		GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\Ellie\\Broom");	// ¾Ù¸® Æú´õ
+		GlobalUtils::LoadAllDirFile("Resources\\PlayContents\\PlayResourecs\\Creature");	// Å©¸®Ã³
+		GlobalUtils::LoadAllDirFile("Resources\\PlayContents\\PlayResourecs\\Map");			// ¸Ê
+		GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\Ellie");	// ¾Ù¸®
+		GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\Ellie\\Broom");	// ºøÀÚ·ç
+		GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\NPC");		// NPC 
 
 		//UI
 		GameEngineDirectory Dir;
@@ -156,6 +157,15 @@ void LoadingLevel::LoadSprite()
 
 #pragma region Actor Sprite
 
+		// Dian
+		GameEngineSprite::CreateCut("Dian_idle.png", 3, 3);
+
+		// Aurea
+		GameEngineSprite::CreateCut("Aurea_Idle.png", 3, 2);
+		GameEngineSprite::CreateCut("merchant_creature.png", 7, 1);
+
+
+		
 		// MongSiri
 		GameEngineSprite::CreateSingle("SquishychubHole.png");
 		GameEngineSprite::CreateCut("Mongsiri_Collected.png", 4, 3);
@@ -194,6 +204,7 @@ void LoadingLevel::LoadSprite()
 		GameEngineSprite::CreateCut("Village_Weed_1.png", 5, 4);
 		GameEngineSprite::CreateCut("Village_Weed_1_Mask.png", 5, 4);
 		GameEngineSprite::CreateCut("WitchFlower.png", 4, 4);
+		GameEngineSprite::CreateCut("SilverStarFlower.png", 4, 3);
 
 		// branchTree
 		GameEngineSprite::CreateCut("Tree_Branch.png", 3, 2);

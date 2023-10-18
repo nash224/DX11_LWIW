@@ -17,22 +17,27 @@ BackDrop_WitchHouse_UpFloor::~BackDrop_WitchHouse_UpFloor()
 
 void BackDrop_WitchHouse_UpFloor::Start()
 {
-	BackDrop::Start();
+	BackDrop_PlayLevel::Start();
 }
 
 void BackDrop_WitchHouse_UpFloor::Update(float _Delta)
 {
-	BackDrop::Update(_Delta);
+	BackDrop_PlayLevel::Update(_Delta);
+}
+
+void BackDrop_WitchHouse_UpFloor::Release()
+{
+	BackDrop_PlayLevel::Release();
 }
 
 void BackDrop_WitchHouse_UpFloor::LevelStart(class GameEngineLevel* _NextLevel)
 {
-	BackDrop::LevelStart(_NextLevel);
+	BackDrop_PlayLevel::LevelStart(_NextLevel);
 }
 
 void BackDrop_WitchHouse_UpFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-	BackDrop::LevelEnd(_NextLevel);
+	BackDrop_PlayLevel::LevelEnd(_NextLevel);
 }
 
 

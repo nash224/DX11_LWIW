@@ -8,8 +8,10 @@
 #include "MongSiri_Population.h"
 #include "Bush.h"
 #include "WitchFlower.h"
+#include "SilverStarFlower.h"
 #include "FlowerBird.h"
 #include "BranchTree.h"
+#include "Aurea.h"
 
 
 BackDrop_CenterField::BackDrop_CenterField() 
@@ -23,27 +25,27 @@ BackDrop_CenterField::~BackDrop_CenterField()
 
 void BackDrop_CenterField::Start()
 {
-	BackDrop::Start();
+	BackDrop_PlayLevel::Start();
 }
 
 void BackDrop_CenterField::Update(float _Delta)
 {
-	BackDrop::Update(_Delta);
+	BackDrop_PlayLevel::Update(_Delta);
 }
 
 void BackDrop_CenterField::Release()
 {
-	BackDrop::Release();
+	BackDrop_PlayLevel::Release();
 }
 
 void BackDrop_CenterField::LevelStart(class GameEngineLevel* _NextLevel)
 {
-	BackDrop::LevelStart(_NextLevel);
+	BackDrop_PlayLevel::LevelStart(_NextLevel);
 }
 
 void BackDrop_CenterField::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-	BackDrop::LevelEnd(_NextLevel);
+	BackDrop_PlayLevel::LevelEnd(_NextLevel);
 }
 
 
@@ -53,6 +55,19 @@ void BackDrop_CenterField::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void BackDrop_CenterField::Init()
 {
+	MainBackDrop = this;
+
+	std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Find("TestFieldMap.png");
+	if (nullptr == Texture)
+	{
+		MsgBoxAssert("존재하지 않는 텍스처입니다.");
+		return;
+	}
+
+
+	m_BackScale = Texture->GetScale();
+
+
 	GameEngineLevel* CurLevel = GetLevel();
 	if (nullptr == CurLevel)
 	{
@@ -64,15 +79,7 @@ void BackDrop_CenterField::Init()
 	CreateProp(CurLevel);
 	CreatePixelMap(CurLevel);
 	CreatePortalActor(CurLevel);
-
-	std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Find("TestFieldMap.png");
-	if (nullptr == Texture)
-	{
-		MsgBoxAssert("존재하지 않는 텍스처입니다.");
-		return;
-	}
-
-	m_BackScale = Texture->GetScale();
+	CreateAurea(CurLevel);
 
 
 	static bool IsCreatedCreature = false;
@@ -136,32 +143,7 @@ void BackDrop_CenterField::CreateProp(GameEngineLevel* _Level)
 
 void BackDrop_CenterField::CreatePixelMap(GameEngineLevel* _Level)
 {
-	//vecPixelProps.reserve(30);
 
-	//std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Find("TestFieldMap.png");
-	//if (nullptr == Texture)
-	//{
-	//	MsgBoxAssert("텍스처를 불러오지 못했습니다.");
-	//	return;
-	//}
-
-	//float4 Position = Texture->GetScale().Half();
-	//Position.Y *= -1.0f;
-
-	//std::shared_ptr<Prop> Object = _Level->CreateActor<Prop>(EUPDATEORDER::Objects);
-	//if (nullptr == Object)
-	//{
-	//	MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-	//	return;
-	//}
-
-	//Object->CreateRenderer();
-	//Object->SetSprite("TestFieldMap.png");
-	//Object->CreatePixelCollisionRenderer();
-	//Object->SetPixelSprite("TestCenter_ColorMap.png");
-	//Object->SetPositionAndDepth(Position, ERENDERDEPTH::Back_);
-
-	//vecPixelProps.push_back(Object);
 }
 
 
@@ -191,6 +173,21 @@ void BackDrop_CenterField::CreatePortalActor(GameEngineLevel* _Level)
 
 #pragma endregion 
 
+
+void BackDrop_CenterField::CreateAurea(GameEngineLevel* _Level)
+{
+	std::shared_ptr<Aurea> Object = _Level->CreateActor<Aurea>(EUPDATEORDER::Entity);
+	if (nullptr == Object)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	Object->Transform.SetLocalPosition({ 500.0f , -300.0f });
+	Object->Init();
+}
+
+
 // 날이 바뀌면 생성됩니다.
 void BackDrop_CenterField::CreateCreature(GameEngineLevel* _Level)
 {
@@ -203,6 +200,7 @@ void BackDrop_CenterField::CreateDayNightTimeCreature(GameEngineLevel* _Level)
 {
 	CreateBush(_Level);
 	CreateWitchFlower(_Level);
+	CreateSilverStarFlower(_Level);
 	CreateBranchTree(_Level);
 	CreateFlowerBird(_Level);
 }
@@ -280,6 +278,23 @@ void BackDrop_CenterField::CreateWitchFlower(GameEngineLevel* _Level)
 	}
 }
 
+void BackDrop_CenterField::CreateSilverStarFlower(GameEngineLevel* _Level)
+{
+	{
+		std::shared_ptr<SilverStarFlower> Object = _Level->CreateActor<SilverStarFlower>(EUPDATEORDER::Entity);
+		if (nullptr == Object)
+		{
+			MsgBoxAssert("덤풀을 생성하지 못했습니다.");
+			return;
+		}
+
+		Object->Transform.SetLocalPosition({ 100.0f , -450.0f });
+		Object->Init();
+
+		StaticEntityList.push_back(Object);
+	}
+}
+
 void BackDrop_CenterField::CreateBranchTree(GameEngineLevel* _Level)
 {
 	{
@@ -325,7 +340,6 @@ void BackDrop_CenterField::CreateFlowerBird(GameEngineLevel* _Level)
 		Object->Init();
 
 	}
-
 }
 
 

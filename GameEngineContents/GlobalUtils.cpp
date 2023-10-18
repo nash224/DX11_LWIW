@@ -9,7 +9,7 @@ GlobalUtils::~GlobalUtils()
 {
 }
 
-
+// 경로의 모든 파일을 로드합니다.
 void GlobalUtils::LoadAllFileInPath(std::string_view _Path)
 {
 	GameEngineDirectory Dir;
@@ -26,6 +26,7 @@ void GlobalUtils::LoadAllFileInPath(std::string_view _Path)
 	}
 }
 
+// 모든 경로의 파일을 로드합니다.
 void GlobalUtils::LoadAllDirFile(std::string_view _Path)
 {
 	GameEngineDirectory Dir;
@@ -93,7 +94,7 @@ std::string GlobalUtils::GetParentString(std::string_view _ChildPath)
 
 float GlobalUtils::CalculateDepth(const float _Value)
 {
-	return _Value / 10.0f;
+	return _Value;
 }
 
 float4 GlobalUtils::CalculateActorPivot(const float4& _Scale, ERENDERPIVOTPOS _Pivot)

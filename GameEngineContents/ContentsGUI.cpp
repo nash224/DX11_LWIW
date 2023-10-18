@@ -10,6 +10,7 @@ void ContentsGUI::Start()
 	CurTab = AllTabs[0];
 	AllTabs.push_back(std::make_shared<Field_CenterTab>("Field_Center"));
 	AllTabs.push_back(std::make_shared<MapEditorTab>("MapEditor"));
+	AllTabs.push_back(std::make_shared<DebugTab>("Debug"));
 }
 
 
@@ -117,9 +118,8 @@ void MapEditorTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 	}
 
-	ImGui::SameLine();
-
 	OnFPSTime(_DeltaTime);
+	MousePos();
 }
 
 
@@ -133,8 +133,15 @@ void MapEditorTab::OnFPSTime(float _DeltaTime)
 		GUI_UpdateTime -= 1.0f;
 		iFPS = static_cast<int>(1.0f / _DeltaTime);
 	}
+	std::string FPS_String = "FPS : " + std::to_string(iFPS);
 
-	ImGui::Text(std::to_string(iFPS).c_str());
+	ImGui::Text(FPS_String.c_str());
+}
+
+void MapEditorTab::MousePos()
+{
+	std::string MousePos = GameEngineCore::MainWindow.GetMousePos().ToString();
+	ImGui::Text(MousePos.c_str());
 }
 
 
@@ -147,4 +154,9 @@ void MapEditorTab::MapEditorMode()
 void Field_CenterTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
 
+}
+
+void DebugTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
+{
+	ImGui::Checkbox("On Collision", &GameEngineLevel::IsDebug); 
 }

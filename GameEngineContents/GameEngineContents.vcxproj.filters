@@ -142,6 +142,9 @@
     <Filter Include="3.GUI">
       <UniqueIdentifier>{e46d9387-1ff9-4b37-8619-99bd369e6432}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2.Object\1.Actor\2.Interactive\Static\NPC">
+      <UniqueIdentifier>{c1a15aa1-75f1-4523-8683-9d4e21a1ffb7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -372,6 +375,15 @@
     </ClInclude>
     <ClInclude Include="ContentsGUI.h">
       <Filter>3.GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Dian.h">
+      <Filter>2.Object\1.Actor\2.Interactive\Static\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="Aurea.h">
+      <Filter>2.Object\1.Actor\2.Interactive\Static\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="SilverStarFlower.h">
+      <Filter>2.Object\1.Actor\2.Interactive\Static\Plant</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -609,6 +621,15 @@
     </ClCompile>
     <ClCompile Include="ContentsGUI.cpp">
       <Filter>3.GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Dian.cpp">
+      <Filter>2.Object\1.Actor\2.Interactive\Static\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="Aurea.cpp">
+      <Filter>2.Object\1.Actor\2.Interactive\Static\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="SilverStarFlower.cpp">
+      <Filter>2.Object\1.Actor\2.Interactive\Static\Plant</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

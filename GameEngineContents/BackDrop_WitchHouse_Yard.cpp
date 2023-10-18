@@ -3,6 +3,7 @@
 
 #include "Prop.h"
 #include "PortalObject.h"
+#include "Dian.h"
 
 BackDrop_WitchHouse_Yard::BackDrop_WitchHouse_Yard() 
 {
@@ -15,22 +16,27 @@ BackDrop_WitchHouse_Yard::~BackDrop_WitchHouse_Yard()
 
 void BackDrop_WitchHouse_Yard::Start()
 {
-	BackDrop::Start();
+	BackDrop_PlayLevel::Start();
 }
 
 void BackDrop_WitchHouse_Yard::Update(float _Delta)
 {
-	BackDrop::Update(_Delta);
+	BackDrop_PlayLevel::Update(_Delta);
+}
+
+void BackDrop_WitchHouse_Yard::Release()
+{
+	BackDrop_PlayLevel::Release();
 }
 
 void BackDrop_WitchHouse_Yard::LevelStart(class GameEngineLevel* _NextLevel)
 {
-	BackDrop::LevelStart(_NextLevel);
+	BackDrop_PlayLevel::LevelStart(_NextLevel);
 }
 
 void BackDrop_WitchHouse_Yard::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-	BackDrop::LevelEnd(_NextLevel);
+	BackDrop_PlayLevel::LevelEnd(_NextLevel);
 }
 
 
@@ -53,8 +59,7 @@ void BackDrop_WitchHouse_Yard::Init()
 	CreateProp(CurLevel);
 	/*CreatePixelMap(CurLevel);*/
 	CreatePortalActor(CurLevel);
-
-
+	CreateDian(CurLevel);
 	
 	m_BackScale = GlobalValue::GetWindowScale();
 }
@@ -148,6 +153,21 @@ void BackDrop_WitchHouse_Yard::CreatePortalActor(GameEngineLevel* _Level)
 }
 
 #pragma endregion 
+
+
+void BackDrop_WitchHouse_Yard::CreateDian(GameEngineLevel* _Level)
+{
+	std::shared_ptr<Dian> Object = _Level->CreateActor<Dian>(EUPDATEORDER::Entity);
+	if (nullptr == Object)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	Object->Transform.SetLocalPosition({ 700.0f , -400.0f });
+	Object->Init();
+}
+
 
 #pragma region Release
 

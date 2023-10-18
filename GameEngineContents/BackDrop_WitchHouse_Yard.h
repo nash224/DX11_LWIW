@@ -20,6 +20,7 @@ public:
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
+	void Release() override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
@@ -28,5 +29,6 @@ private:
 	void CreateProp(GameEngineLevel* _Level);
 	void CreatePixelMap(GameEngineLevel* _Level);
 	void CreatePortalActor(GameEngineLevel* _Level);
+	void CreateDian(GameEngineLevel* _Level);
 };
 

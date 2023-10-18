@@ -100,6 +100,7 @@ public:
 
 	// ±íÀÌ Àû¿ë
 	void ApplyDepth(const float4& _Position);
+	float ReturnZOrder(float _YPosition);
 
 protected:
 	void Start() override;

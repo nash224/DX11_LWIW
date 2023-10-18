@@ -69,7 +69,7 @@ protected:
 	std::list<std::shared_ptr<class LootedItem>> LootedItemList;
 
 protected:
-	DayStatus  m_UpdateDayTime = DayStatus::None;
+	DayStatus m_UpdateDayTime = DayStatus::None;
 
 };
 

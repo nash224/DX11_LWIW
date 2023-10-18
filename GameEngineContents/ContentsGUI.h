@@ -32,13 +32,28 @@ public:
 };
 
 
+class DebugTab : public UITab
+{
+	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
+
+
+public:
+	DebugTab(std::string_view _Name)
+		: UITab(_Name)
+	{
+
+	}
+};
+
+
 class MapEditorTab : public UITab
 {
 	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
 
 public:
-	void MapEditorMode();
 	void OnFPSTime(float _DeltaTime);
+	void MousePos();
+	void MapEditorMode();
 
 
 public:
