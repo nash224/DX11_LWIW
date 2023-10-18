@@ -1,11 +1,11 @@
 #include "PreCompile.h"
 #include "PortalObject.h"
 
-PortalObject::PortalObject() 
+PortalObject::PortalObject()
 {
 }
 
-PortalObject::~PortalObject() 
+PortalObject::~PortalObject()
 {
 }
 
@@ -47,7 +47,7 @@ void PortalObject::CreatePortalCollision(int _Order)
 	PotalCol = CreateComponent<GameEngineCollision>(_Order);
 	if (nullptr == PotalCol)
 	{
-		MsgBoxAssert("ì¶©ëŒì²´ê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤..");
+		MsgBoxAssert("Ãæµ¹Ã¼°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù..");
 		return;
 	}
 }
@@ -68,7 +68,7 @@ void PortalObject::SetCollisionType(ColType _Type)
 {
 	if (nullptr == PotalCol)
 	{
-		MsgBoxAssert("ì¶©ëŒì²´ê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
+		MsgBoxAssert("Ãæµ¹Ã¼°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
 		return;
 	}
 
@@ -79,7 +79,7 @@ void PortalObject::SetCollisionData(PortalCollisionParameter _ColParameter)
 {
 	if (nullptr == PotalCol)
 	{
-		MsgBoxAssert("ì¶©ëŒì²´ê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
+		MsgBoxAssert("Ãæµ¹Ã¼°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
 		return;
 	}
 

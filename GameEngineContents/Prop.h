@@ -61,11 +61,6 @@ public:
 	void EnableDebugMode(bool _Value);
 
 
-
-	// ∏±∏Æ¡Ó
-	virtual void ActorRelease();
-
-
 protected:
 	void Start() override;
 	void Update(float _Delta) override;

@@ -15,26 +15,28 @@ BackDrop_Loading::~BackDrop_Loading()
 
 void BackDrop_Loading::Start()
 {
-
+	BackDrop::Start();
 }
 
 void BackDrop_Loading::Update(float _Delta)
 {
-
+	BackDrop::Update(_Delta);
 }
 
 void BackDrop_Loading::Release()
 {
-	
+	BackDrop::Release();
 }
 
 void BackDrop_Loading::LevelStart(class GameEngineLevel* _NextLevel)
 {
-
+	BackDrop::LevelStart(_NextLevel);
 }
 
 void BackDrop_Loading::LevelEnd(class GameEngineLevel* _NextLevel)
 {
+	BackDrop::LevelEnd(_NextLevel);
+
 	Death();
 }
 
@@ -78,23 +80,4 @@ void BackDrop_Loading::CreateProp(GameEngineLevel * _Level)
 	Object->SetRendererPivotType(PivotType::LeftTop);
 	Object->SetPositionAndDepth(float4::ZERO, ERENDERDEPTH::Back_);
 	vecProps.push_back(Object);
-}
-
-
-
-void BackDrop_Loading::ActorRelease()
-{
-	for (size_t i = 0; i < vecProps.size(); i++)
-	{
-		std::shared_ptr<Prop> Object = vecProps[i];
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("액터를 불러오지 못했습니다.");
-			return;
-		}
-
-		Object->ActorRelease();
-	}
-
-	Death();
 }

@@ -20,6 +20,13 @@ void ExProp::Update(float _Delta)
 	Prop::Update(_Delta);
 }
 
+void ExProp::Release()
+{
+	Prop::Release();
+
+	vecRenderer.clear();
+}
+
 void ExProp::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	Prop::LevelStart(_NextLevel);
@@ -62,10 +69,3 @@ void ExProp::ChangeExPropImageScale(unsigned int _Order, const float4& _ImageSca
 	vecRenderer[_Order]->SetImageScale(_ImageScale);
 }
 
-
-void ExProp::ActorRelease()
-{
-	Prop::ActorRelease();
-
-	vecRenderer.clear();
-}

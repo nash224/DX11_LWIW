@@ -237,8 +237,3 @@ void Prop::EnableDebugMode(bool _Value)
 }
 
 
-
-void Prop::ActorRelease()
-{
-	Death();
-}

@@ -29,11 +29,5 @@ public:
 private:
 	void CreateProp(GameEngineLevel* _Level);
 
-
-public:
-	void ActorRelease();
-
-
-
 };
 

@@ -208,9 +208,6 @@
     <ClInclude Include="WitchHouse_DownFloor.h">
       <Filter>2.Object\2.Level\2.Play\1.Witch</Filter>
     </ClInclude>
-    <ClInclude Include="PortalObject.h">
-      <Filter>2.Object\1.Actor\4.Portal</Filter>
-    </ClInclude>
     <ClInclude Include="ExProp.h">
       <Filter>2.Object\1.Actor\3.Prop</Filter>
     </ClInclude>
@@ -367,6 +364,9 @@
     <ClInclude Include="PlayLevel.h">
       <Filter>2.Object\2.Level\2.Play\0.PlayLevel</Filter>
     </ClInclude>
+    <ClInclude Include="PortalObject.h">
+      <Filter>2.Object\1.Actor\4.Portal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -432,9 +432,6 @@
     </ClCompile>
     <ClCompile Include="WitchHouse_DownFloor.cpp">
       <Filter>2.Object\2.Level\2.Play\1.Witch</Filter>
-    </ClCompile>
-    <ClCompile Include="PortalObject.cpp">
-      <Filter>2.Object\1.Actor\4.Portal</Filter>
     </ClCompile>
     <ClCompile Include="ExProp.cpp">
       <Filter>2.Object\1.Actor\3.Prop</Filter>
@@ -603,6 +600,9 @@
     </ClCompile>
     <ClCompile Include="PlayLevel.cpp">
       <Filter>2.Object\2.Level\2.Play\0.PlayLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="PortalObject.cpp">
+      <Filter>2.Object\1.Actor\4.Portal</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

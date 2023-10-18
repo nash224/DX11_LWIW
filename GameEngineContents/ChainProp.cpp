@@ -39,7 +39,6 @@ void ChainProp::LevelStart(class GameEngineLevel* _NextLevel)
 void ChainProp::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	Death();
-	listProps.clear();
 }
 
 
@@ -222,22 +221,7 @@ void ChainProp::EraseOverScreenProp()
 			continue;
 		}
 
-		(*StartIter)->ActorRelease();
+		(*StartIter)->Death();
 		StartIter = listProps.erase(StartIter);
 	}
 }
-
-
-
-void ChainProp::ActorRelease()
-{
-	for (std::shared_ptr<SequentialProp> Object : listProps)
-	{
-		Object->ActorRelease();
-	}
-
-	listProps.clear();
-
-	Death();
-}
-

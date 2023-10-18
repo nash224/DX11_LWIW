@@ -58,9 +58,6 @@ private:
 
 	void RegenProp(const float4& _Position = float4::ZERO);
 
-public:
-	// Release
-	void ActorRelease();
 
 private:
 	std::list<std::shared_ptr<SequentialProp>> listProps;

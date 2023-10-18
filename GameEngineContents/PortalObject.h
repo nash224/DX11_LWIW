@@ -14,14 +14,14 @@ public:
 	float4& Position;
 	float4& Scale;
 	ColType CollisionType;
-	
+
 	PortalCollisionParameter(float4 _Position, float4 _Scale, ColType _ColType = ColType::AABBBOX2D)
 		:
 		Position(_Position),
 		Scale(_Scale),
 		CollisionType(_ColType)
 	{
-		
+
 	}
 
 	~PortalCollisionParameter() {}
