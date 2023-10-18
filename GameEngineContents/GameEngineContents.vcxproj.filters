@@ -139,6 +139,9 @@
     <Filter Include="2.Object\2.Level\2.Play\2.Field">
       <UniqueIdentifier>{1a37cb28-ca1d-4d4b-8802-a9b71bc9a4d4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3.GUI">
+      <UniqueIdentifier>{e46d9387-1ff9-4b37-8619-99bd369e6432}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -366,6 +369,9 @@
     </ClInclude>
     <ClInclude Include="PortalObject.h">
       <Filter>2.Object\1.Actor\4.Portal</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsGUI.h">
+      <Filter>3.GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -595,14 +601,14 @@
     <ClCompile Include="Ellie_Ride_Particle.cpp">
       <Filter>2.Object\1.Actor\2.Interactive\Dynamic\Ellie\Ride_Particle</Filter>
     </ClCompile>
-    <ClCompile Include="PlayLevel_ImGui.cpp">
-      <Filter>2.Object\2.Level\2.Play\0.PlayLevel</Filter>
-    </ClCompile>
     <ClCompile Include="PlayLevel.cpp">
       <Filter>2.Object\2.Level\2.Play\0.PlayLevel</Filter>
     </ClCompile>
     <ClCompile Include="PortalObject.cpp">
       <Filter>2.Object\1.Actor\4.Portal</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsGUI.cpp">
+      <Filter>3.GUI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

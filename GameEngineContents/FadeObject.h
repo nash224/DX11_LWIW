@@ -1,6 +1,9 @@
 #pragma once
 
 
+constexpr float MaxAlphaValue = 1.0f;
+constexpr float MinAlphaValue = 0.0f;
+
 enum class CallFadeType
 {
 	None,
@@ -23,6 +26,12 @@ public:
 	FadeObject& operator=(const FadeObject& _Other) = delete;
 	FadeObject& operator=(FadeObject&& _Other) noexcept = delete;
 
+	void Init();
+
+	static void CallFadeOut(GameEngineLevel* _Level, std::string_view _NextLevelName, float _FadeOutDuration = 1.0f);
+	static void CallFadeIn(GameEngineLevel* _Level, float _FadeOutDuration = 1.0f);
+
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -31,29 +40,24 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
+	void RendererSetting();
+	void PositionSetting();
 
 
-public:
-	static void CallFadeOut(std::shared_ptr<GameEngineLevel> _Level, float _FadeOutDuration = 1.0f);
-	static void CallFadeIn(std::shared_ptr<GameEngineLevel> _Level, float _FadeOutDuration = 1.0f);
-
+private:
+	void UpdateFade(float _Delta);
 
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> m_FadeRenderer = nullptr;
 
+private:
 	CallFadeType m_FadeType = CallFadeType::None;
-
-	bool IsQuit = false;
-	const float QuitTime = 5.0f;
-
-	int m_RequestAlphaValue = 0;
+	std::string m_NextLevelName = "";
 
 	float m_FadeDuration = 1.0f;
 	float m_FadeTime = 0.0f;
-	int m_DebugAlphaValue = 0;
+	float m_AlphaValue = 0.0f;
 
 
-	const int MinAlphaValue = 0;
-	const int MaxAlphaValue = 255;
 };
 

@@ -14,26 +14,13 @@ FadeObject::~FadeObject()
 
 void FadeObject::Start()
 {
-	m_FadeRenderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERDEPTH::FadeObject);
-	if (nullptr == m_FadeRenderer)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
-
-	float4 WinScale = GlobalValue::GetWindowScale();
-
-	m_FadeRenderer->SetSprite("Fade_Texture.png");
-	m_FadeRenderer->Transform.SetLocalScale(WinScale);
-
-
-	float4 CameraPos = GlobalValue::g_CameraControler->GetCameraCurrentPostion();
-	m_FadeRenderer->Transform.SetLocalPosition(CameraPos);
+	
 }
+
 
 void FadeObject::Update(float _Delta)
 {
-
+	UpdateFade(_Delta);
 }
 
 void FadeObject::Release()
@@ -57,7 +44,7 @@ void FadeObject::LevelEnd(class GameEngineLevel* _NextLevel)
 
 
 
-void FadeObject::CallFadeOut(std::shared_ptr<GameEngineLevel> _Level, float _FadeOutDuration /*= 1.0f*/)
+void FadeObject::CallFadeOut(GameEngineLevel* _Level, std::string_view _NextLevelName ,float _FadeOutDuration /*= 1.0f*/)
 {
 	if (nullptr == _Level)
 	{
@@ -72,19 +59,13 @@ void FadeObject::CallFadeOut(std::shared_ptr<GameEngineLevel> _Level, float _Fad
 		return;
 	}
 
-
-	FadeOutObject->m_FadeType = CallFadeType::FadeOut;
-
 	FadeOutObject->m_FadeDuration = _FadeOutDuration;
-
-
-	//if (nullptr != FadeOutObject->m_FadeRenderer)
-	//{
-	//	FadeOutObject->m_FadeRenderer->;
-	//}
+	FadeOutObject->m_FadeType = CallFadeType::FadeOut;
+	FadeOutObject->m_NextLevelName = _NextLevelName;
+	FadeOutObject->Init();
 }
 
-void FadeObject::CallFadeIn(std::shared_ptr<GameEngineLevel> _Level, float _FadeOutDuration /*= 1.0f*/)
+void FadeObject::CallFadeIn(GameEngineLevel* _Level, float _FadeOutDuration /*= 1.0f*/)
 {
 	if (nullptr == _Level)
 	{
@@ -92,22 +73,123 @@ void FadeObject::CallFadeIn(std::shared_ptr<GameEngineLevel> _Level, float _Fade
 		return;
 	}
 
-	/*FadeObject* FadeIn = _Level->CreateActor<FadeObject>(UpdateOrder::UI);
-	if (nullptr == FadeIn)
+	std::shared_ptr<FadeObject> FadeInObject = _Level->CreateActor<FadeObject>(EUPDATEORDER::Fade);
+	if (nullptr == FadeInObject)
 	{
 		MsgBoxAssert("액터를 생성하지 못했습니다.");
 		return;
 	}
 
-	FadeIn->m_Alpha = _Alpha;
+	FadeInObject->m_FadeDuration = _FadeOutDuration;
+	FadeInObject->m_FadeType = CallFadeType::FadeIn;
+	FadeInObject->Init();
+}
 
-	FadeIn->m_FadeDuration = _FadeOutDuration;
-	FadeIn->m_RequestAlphaValue = _Alpha;
 
-	FadeIn->m_FadeType = CallFadeType::FadeIn;
 
-	if (FadeIn->Renderer)
+void FadeObject::Init()
+{
+	RendererSetting();
+
+	if (nullptr == m_FadeRenderer)
 	{
-		FadeIn->Renderer->SetAlpha(_Alpha);
-	}*/
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
+
+	if (CallFadeType::FadeOut == m_FadeType)
+	{
+		m_AlphaValue = 0.0f;
+		m_FadeRenderer->GetColorData().MulColor.A = 0.0f;
+	}
+	else
+	{
+		m_AlphaValue = 1.0f;
+	}
+}
+
+void FadeObject::RendererSetting()
+{
+	m_FadeRenderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::Fade);
+	if (nullptr == m_FadeRenderer)
+	{
+		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
+		return;
+	}
+
+	float4 WinScale = GlobalValue::GetWindowScale();
+
+	// 크기
+	m_FadeRenderer->SetSprite("Fade_Texture.png");
+	m_FadeRenderer->Transform.SetLocalScale(WinScale);
+}
+
+
+void FadeObject::UpdateFade(float _Delta) 
+{
+	PositionSetting();
+
+	if (CallFadeType::FadeOut == m_FadeType)
+	{
+		m_AlphaValue += _Delta / m_FadeDuration;
+
+
+		if (nullptr == m_FadeRenderer)
+		{
+			MsgBoxAssert("렌더러가 존재하지 않습니다.");
+			return;
+		}
+
+		bool IsOver = false;
+		if (m_AlphaValue > 1.0f)
+		{
+			m_AlphaValue = 1.0f;
+			IsOver = true;
+		}
+
+		m_FadeRenderer->GetColorData().MulColor.A = m_AlphaValue;
+
+		if (true == IsOver)
+		{
+			m_FadeType = CallFadeType::None;
+			GameEngineCore::ChangeLevel(m_NextLevelName);
+		}
+
+	}
+	
+	if (CallFadeType::FadeIn == m_FadeType)
+	{
+		m_AlphaValue -= _Delta / m_FadeDuration;
+
+
+		if (nullptr == m_FadeRenderer)
+		{
+			MsgBoxAssert("렌더러가 존재하지 않습니다.");
+			return;
+		}
+
+		bool IsOver = false;
+		if (m_AlphaValue <= 0.0f)
+		{
+			m_AlphaValue = 0.0f;
+			Death();
+			return;
+		}
+
+		m_FadeRenderer->GetColorData().MulColor.A = m_AlphaValue;
+	}
+}
+
+
+void FadeObject::PositionSetting()
+{
+	if (nullptr == GlobalValue::g_CameraControler)
+	{
+		MsgBoxAssert("메인 카메라가 존재하지 않습니다.");
+		return;
+	}
+
+	float4 CameraPos = GlobalValue::g_CameraControler->GetCameraCurrentPostion();
+	CameraPos.Z = GlobalUtils::CalculateDepth(ERENDERDEPTH::FadeObject);
+	m_FadeRenderer->Transform.SetLocalPosition(CameraPos);
 }

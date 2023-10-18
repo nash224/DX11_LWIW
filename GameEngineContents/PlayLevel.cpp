@@ -21,8 +21,6 @@ PlayLevel::~PlayLevel()
 
 void PlayLevel::Start()
 {
-	GameEngineGUI::CreateGUIWindow<ContentsGUIWindow>("PlayLevel");
-
 	ContentsLevel::Start();
 }
 

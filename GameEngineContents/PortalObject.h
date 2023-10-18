@@ -70,14 +70,10 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
-public:
-	void ActorRelease();
-
 private:
 	void PortalUpdate();
 
-	void UpdateInstantType();
-	void UpdateEventType();
+	void CallFadeOut();
 
 private:
 	std::shared_ptr<GameEngineCollision> PotalCol = nullptr;

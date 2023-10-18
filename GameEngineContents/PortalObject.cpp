@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "PortalObject.h"
 
+#include "FadeObject.h"
+
 PortalObject::PortalObject()
 {
 }
@@ -115,38 +117,28 @@ void PortalObject::PortalUpdate()
 {
 	if (true == IsColliding)
 	{
-		switch (m_PortalType)
+		CallFadeOut();
+		IsColliding = false;
+
+		if (nullptr == PotalCol)
 		{
-		case PortalType::None:
-			break;
-		case PortalType::Instant:
-			UpdateInstantType();
-			break;
-		case PortalType::Event:
-			UpdateEventType();
-			break;
-		default:
-			break;
+			MsgBoxAssert("충돌체가 존재하지 않습니다.");
+			return;
 		}
+
+		PotalCol->Off();
 	}
 }
 
 
-void PortalObject::UpdateInstantType()
+void PortalObject::CallFadeOut()
 {
-	GameEngineCore::ChangeLevel(m_ChangeLevelName);
-}
+	GameEngineLevel* CurLevel = GetLevel();
+	if (nullptr == CurLevel)
+	{
+		MsgBoxAssert("레벨을 불러오지 못했습니다.");
+		return;
+	}
 
-
-void PortalObject::UpdateEventType()
-{
-
-}
-
-
-void PortalObject::ActorRelease()
-{
-	PotalCol = nullptr;
-
-	Death();
+	FadeObject::CallFadeOut(CurLevel, m_ChangeLevelName);
 }
