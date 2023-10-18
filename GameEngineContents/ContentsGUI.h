@@ -1,5 +1,7 @@
 #pragma once
 
+
+
 class UITab
 {
 public:
@@ -16,6 +18,34 @@ public:
 	int Index = 0;
 
 };
+
+
+// 설명 :
+class ContentsGUI : public GameEngineGUIWindow
+{
+public:
+	void Start() override;
+	void OnGUI(GameEngineLevel* _Level, float _Delta) override;
+
+
+	std::shared_ptr<UITab> CurTab = nullptr;
+	std::vector<std::shared_ptr<UITab>> AllTabs;
+
+};
+
+
+class LevelChangeTab : public UITab
+{
+	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
+
+public:
+	LevelChangeTab(std::string_view _Name)
+		: UITab(_Name)
+	{
+	}
+};
+
+
 
 
 class Field_CenterTab : public UITab
@@ -39,6 +69,20 @@ class DebugTab : public UITab
 
 public:
 	DebugTab(std::string_view _Name)
+		: UITab(_Name)
+	{
+
+	}
+};
+
+
+class ManualTab : public UITab
+{
+	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
+
+
+public:
+	ManualTab(std::string_view _Name)
 		: UITab(_Name)
 	{
 
@@ -74,32 +118,6 @@ private:
 	float ColorEdit3Value = 0.2f;
 	int iFPS = 0;
 
-
-};
-
-
-
-class LevelChangeTab : public UITab
-{
-	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
-
-public:
-	LevelChangeTab(std::string_view _Name)
-		: UITab(_Name)
-	{
-	}
-};
-
-// 설명 :
-class ContentsGUI : public GameEngineGUIWindow
-{
-public:
-	void Start() override;
-	void OnGUI(GameEngineLevel* _Level, float _Delta) override;
-
-	
-	std::shared_ptr<UITab> CurTab = nullptr;
-	std::vector<std::shared_ptr<UITab>> AllTabs;
 
 };
 

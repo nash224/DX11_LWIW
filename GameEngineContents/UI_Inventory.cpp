@@ -484,6 +484,7 @@ void UI_Inventory::SelectSlot(const unsigned int _X, const unsigned int _Y)
 		return;
 	}
 
+	// 데이터가 있으면
 	if (-1 != Data->IsContain(_X, _Y))
 	{
 		CursorPosition = CalculateIndexToPos(_X, _Y) + NameTagPositionBaseOnSlotCenter;
@@ -495,6 +496,10 @@ void UI_Inventory::SelectSlot(const unsigned int _X, const unsigned int _Y)
 	{
 		m_CursorComposition.NameTooltip->Off();
 	}
+
+
+	m_CurrentSlotX = _X;
+	m_CurrentSlotY = _Y;
 }
 
 void UI_Inventory::ClearSlot(const unsigned int _X, const unsigned int _Y)

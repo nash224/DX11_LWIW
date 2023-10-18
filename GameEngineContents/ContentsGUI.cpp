@@ -11,6 +11,7 @@ void ContentsGUI::Start()
 	AllTabs.push_back(std::make_shared<Field_CenterTab>("Field_Center"));
 	AllTabs.push_back(std::make_shared<MapEditorTab>("MapEditor"));
 	AllTabs.push_back(std::make_shared<DebugTab>("Debug"));
+	AllTabs.push_back(std::make_shared<ManualTab>("Manual"));
 }
 
 
@@ -57,6 +58,39 @@ void LevelChangeTab::OnGUI(GameEngineLevel* _Level, float _Delta)
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
+
+
+
+void Field_CenterTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
+{
+
+}
+
+void DebugTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
+{
+	ImGui::Checkbox("On Collision", &GameEngineLevel::IsDebug); 
+}
+
+
+void ManualTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
+{
+	ImGui::Text("Left Arrow : Move Left ");
+	ImGui::Text("Right Arrow  : Move Right ");
+	ImGui::Text("Up Arrow  : Move Up ");
+	ImGui::Text("Donw Arrow  : Move Down ");
+	ImGui::Text("Z : Interaction with Entity");
+	ImGui::Text("S : Open&Close Inventory");
+	ImGui::Text("D : Open&Close Dictionary");
+	ImGui::Text("Q : Select PrevTool");
+	ImGui::Text("E : Select NextTool");
+	ImGui::Text("1 : Create Item");
+	ImGui::Text("Ctrl + 3 : Delete Item");
+	ImGui::SameLine();
+	ImGui::Text("(Alert!!! Do not use on empty inventory slots.)");
+	ImGui::Text("Ctrl + 4 ~ 7 : Add Item");
+	ImGui::Text("Ctrl + 8 : Unlock Inventory");
+
+}
 
 
 void MapEditorTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
@@ -148,15 +182,4 @@ void MapEditorTab::MousePos()
 void MapEditorTab::MapEditorMode()
 {
 
-}
-
-
-void Field_CenterTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
-{
-
-}
-
-void DebugTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
-{
-	ImGui::Checkbox("On Collision", &GameEngineLevel::IsDebug); 
 }
