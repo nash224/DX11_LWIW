@@ -25,8 +25,13 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
+	void UpdateHouseDebug();
+
+private:
 	std::vector<std::shared_ptr<GameEngineSpriteRenderer>> m_HouseVec;
 
 	const float HouseRenderBias = 148.0f;
+
+	bool IsRendererDebug = false;
 };
 

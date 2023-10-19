@@ -3,6 +3,7 @@
 
 
 #include "BackDrop_PlayLevel.h"
+#include "PlayLevel.h"
 
 WitchHouse::WitchHouse() 
 {
@@ -19,6 +20,7 @@ void WitchHouse::Start()
 
 void WitchHouse::Update(float _Delta)
 {
+	UpdateHouseDebug();
 }
 
 void WitchHouse::Release()
@@ -82,4 +84,41 @@ void WitchHouse::RendererSetting()
 	m_HouseVec[6]->SetSprite("WitchHouse_BrokenPart_4.png");
 	m_HouseVec[7]->SetSprite("WitchHouse_RepairedPart_5.png");
 	m_HouseVec[8]->SetSprite("WitchHouse_BrokenPart_6.png");
+}
+
+
+void WitchHouse::UpdateHouseDebug()
+{
+	if (false == IsRendererDebug && true == PlayLevel::PixelDebugMode)
+	{
+		for (size_t i = 0; i < m_HouseVec.size(); i++)
+		{
+			if (nullptr == m_HouseVec[i])
+			{
+				MsgBoxAssert("존재하지 않는 렌더러를 참조하려 했습니다.");
+				return;
+			}
+
+			m_HouseVec[i]->Off();
+		}
+
+		IsRendererDebug = true;
+	}
+
+	if (true == IsRendererDebug && false == PlayLevel::PixelDebugMode)
+	{
+		for (size_t i = 0; i < m_HouseVec.size(); i++)
+		{
+			if (nullptr == m_HouseVec[i])
+			{
+				MsgBoxAssert("존재하지 않는 렌더러를 참조하려 했습니다.");
+				return;
+			}
+
+			m_HouseVec[i]->On();
+		}
+
+		IsRendererDebug = false;
+	}
+	
 }

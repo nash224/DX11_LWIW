@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "ContentsGUI.h"
 
+#include "PlayLevel.h"
 #include "BackDrop_PlayLevel.h"
 #include "CameraControler.h"
 
@@ -69,7 +70,11 @@ void Field_CenterTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 void DebugTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
-	ImGui::Checkbox("On Collision", &GameEngineLevel::IsDebug); 
+	ImGui::Checkbox("Show CollisionDebug", &GameEngineLevel::IsDebug); 
+	if (true == GameEngineLevel::IsDebug)
+	{
+		ImGui::Checkbox("Show PixelDebug", &PlayLevel::PixelDebugMode);
+	}
 
 	float4 CamepraPosition = GlobalValue::g_CameraControler->GetCameraCurrentPostion();
 	ImGui::Text(CamepraPosition.ToString().c_str());
