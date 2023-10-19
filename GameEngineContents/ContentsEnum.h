@@ -59,7 +59,7 @@ enum class ETITLERENDERORDER
 
 enum class ERENDERDEPTH
 {
-	FadeObject = -1000,
+	FadeObject = -400,
 	Roof = -2,
 	FX = -1,
 	Object = 0,
@@ -127,20 +127,6 @@ enum class EUI_RENDERORDERDEPTH
 	HUB_Frame,
 	Mark,
 };
-//Mark,
-//HUB_Frame,
-//HUB_Gauge1,
-//HUB_Gauge2,
-//HUB_Indicator,
-//HUB_Icon,
-//UIArrow,
-//Base,
-//Frame,
-//Attachment,
-//Component,
-//Icon,
-//CursorOutLine,
-//Cursor,
 
 
 enum class ECOLLISION

@@ -8,6 +8,7 @@
 #include "CameraControler.h"
 #include "Ellie.h"
 #include "UIManager.h"
+#include "FadeObject.h"
 
 
 bool PlayLevel::PixelDebugMode = false;
@@ -35,6 +36,8 @@ void PlayLevel::Update(float _Delta)
 void PlayLevel::LevelStart(GameEngineLevel* _NextLevel)
 {
 	ContentsLevel::LevelStart(_NextLevel);
+
+	FadeObject::CallFadeIn(this, 0.2f);
 
 	if (false == LevelInitCheck)
 	{

@@ -4,6 +4,7 @@
 #include "Prop.h"
 #include "PortalObject.h"
 #include "Dian.h"
+#include "WitchHouse.h"
 
 BackDrop_WitchHouse_Yard::BackDrop_WitchHouse_Yard() 
 {
@@ -48,6 +49,8 @@ void BackDrop_WitchHouse_Yard::Init()
 {
 	MainBackDrop = this;
 
+	m_BackScale = GlobalValue::GetWindowScale();
+
 	GameEngineLevel* CurLevel = GetLevel();
 	if (nullptr == CurLevel)
 	{
@@ -57,6 +60,7 @@ void BackDrop_WitchHouse_Yard::Init()
 
 	CreateFlooring();
 	CreateProp(CurLevel);
+	CreateHouse(CurLevel);
 	/*CreatePixelMap(CurLevel);*/
 	CreatePortalActor(CurLevel);
 	CreateDian(CurLevel);
@@ -109,6 +113,24 @@ void BackDrop_WitchHouse_Yard::CreateProp(GameEngineLevel* _Level)
 
 #pragma endregion 
 
+void BackDrop_WitchHouse_Yard::CreateHouse(GameEngineLevel* _Level)
+{
+	m_BackScale;
+
+	std::shared_ptr<WitchHouse> Object = _Level->CreateActor<WitchHouse>(EUPDATEORDER::Objects);
+	if (nullptr == Object)
+	{
+		MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
+		return;
+	}
+
+	float HouseYPosition = -350.0f;
+
+	float HouseZ = ZSort(HouseYPosition);
+	Object->Transform.SetLocalPosition({ m_BackScale.Half().X, HouseYPosition , HouseZ });
+	Object->Init();
+}
+
 #pragma region CreatePortal
 
 void BackDrop_WitchHouse_Yard::CreatePortalActor(GameEngineLevel* _Level)
@@ -126,8 +148,8 @@ void BackDrop_WitchHouse_Yard::CreatePortalActor(GameEngineLevel* _Level)
 
 			Object->CreatePortalCollision(ECOLLISION::Portal);
 			Object->SetChangeLevelName("WitchHouse_UpFloor");
-			Object->SetLocalPosition({ HWinScale.X , -25.0f });
-			Object->SetCollisionRange({ 200.0f , 50.0f });
+			Object->SetLocalPosition({ 478.0f , -323.0f });
+			Object->SetCollisionRange({ 60.0f , 4.0f });
 			Object->SetCollisionType(ColType::AABBBOX2D);
 			vecPortalObject.push_back(Object);
 		}

@@ -48,7 +48,7 @@ private:
 	void UpdateFade(float _Delta);
 
 private:
-	std::shared_ptr<GameEngineSpriteRenderer> m_FadeRenderer = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> m_FadeRenderer = nullptr;
 
 private:
 	CallFadeType m_FadeType = CallFadeType::None;

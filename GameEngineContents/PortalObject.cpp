@@ -140,5 +140,5 @@ void PortalObject::CallFadeOut()
 		return;
 	}
 
-	FadeObject::CallFadeOut(CurLevel, m_ChangeLevelName);
+	FadeObject::CallFadeOut(CurLevel, m_ChangeLevelName, 0.4f);
 }
