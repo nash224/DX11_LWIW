@@ -1,8 +1,10 @@
 #pragma once
 
-#define SYSTEM_NOTICE_ITEM_FRIST_POSITION { -384.0f , -10.0f }
-#define SYSTEM_NOTICE_ITEM_GAP 50.0f
+#define SYSTEM_NOTICE_ITEM_FRIST_POSITION { -384.0f , -4.0f }
+#define SYSTEM_NOTICE_ITEM_GAP 42.0f
 #define SYSTEM_NOTICE_ITEM_MOVETIME 0.2f
+
+#define SYSTEM_NOTICE_STAYTIME 2.4f
 
 
 enum class ENOTICECOLORSTATE
@@ -71,12 +73,23 @@ private:
 	void StartAwake(GameEngineState* _Parent);
 	void UpdateAwake(float _Delta, GameEngineState* _Parent);
 
+	void StartAppear(GameEngineState* _Parent);
+	void UpdateAppear(float _Delta, GameEngineState* _Parent);
+
+	void StartStay(GameEngineState* _Parent);
+	void UpdateStay(float _Delta, GameEngineState* _Parent);
+
+	void StartDisappear(GameEngineState* _Parent);
+	void UpdateDisappear(float _Delta, GameEngineState* _Parent);
+
+
 private:
 	ItemDropRenderer m_ItemDropRenderer;
 	GameEngineState PositionState;
 	GameEngineState ColorState;
 
 	bool IsFirst = true;
+	float m_MulColor = 0.0f;
 	float m_StateTime = 0.0f;
 	float m_TargetPosition = 0.0f;
 

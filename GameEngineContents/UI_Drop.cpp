@@ -22,10 +22,14 @@ void UI_Drop::Start()
 void UI_Drop::Update(float _Delta)
 {
 	PositionState.Update(_Delta);
+	ColorState.Update(_Delta);
 }
 
 void UI_Drop::Release()
 {
+	m_ItemDropRenderer.SystemNotice_Base = nullptr;
+	m_ItemDropRenderer.Item_Img = nullptr;
+	ManagerPtr = nullptr;
 }
 
 void UI_Drop::LevelStart(class GameEngineLevel* _NextLevel)
@@ -35,8 +39,6 @@ void UI_Drop::LevelStart(class GameEngineLevel* _NextLevel)
 void UI_Drop::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	Death();
-	m_ItemDropRenderer.SystemNotice_Base = nullptr;
-	m_ItemDropRenderer.Item_Img = nullptr;
 }
 
 
@@ -71,7 +73,7 @@ void UI_Drop::RendererSetting(std::string_view _ItemName)
 	m_ItemDropRenderer.Item_Img->Transform.SetLocalPosition(Position);
 	m_ItemDropRenderer.Item_Img->SetSprite(ItemData->Name + ".png");
 
-	/*AddColorData(-1.0f);*/
+	AddColorData(0.0f);
 }
 
 // 알파값 설정
@@ -89,17 +91,33 @@ void UI_Drop::AddColorData(float _AddValue)
 		return;
 	}
 
-	m_ItemDropRenderer.SystemNotice_Base->GetColorData().PlusColor.A = _AddValue;
-	m_ItemDropRenderer.Item_Img->GetColorData().PlusColor.A = _AddValue;
+	m_ItemDropRenderer.SystemNotice_Base->GetColorData().MulColor.A = _AddValue;
+	m_ItemDropRenderer.Item_Img->GetColorData().MulColor.A = _AddValue;
 }
 
 
 void UI_Drop::StateSetting()
 {
-	CreateStateParameter Para;
-	Para.Start = std::bind(&UI_Drop::StartAwake, this, std::placeholders::_1);
-	Para.Stay = std::bind(&UI_Drop::UpdateAwake, this, std::placeholders::_1, std::placeholders::_2);
-	PositionState.CreateState(ENOTICEPOSITIONSTATE::Awake, Para);
+	CreateStateParameter PositionPara;
+	PositionPara.Start = std::bind(&UI_Drop::StartAwake, this, std::placeholders::_1);
+	PositionPara.Stay = std::bind(&UI_Drop::UpdateAwake, this, std::placeholders::_1, std::placeholders::_2);
+	PositionState.CreateState(ENOTICEPOSITIONSTATE::Awake, PositionPara);
+
+	CreateStateParameter ColorAppearPara;
+	ColorAppearPara.Start = std::bind(&UI_Drop::StartAppear, this, std::placeholders::_1);
+	ColorAppearPara.Stay = std::bind(&UI_Drop::UpdateAppear, this, std::placeholders::_1, std::placeholders::_2);
+	ColorState.CreateState(ENOTICECOLORSTATE::Appear, ColorAppearPara);
+
+	CreateStateParameter ColorStayPara;
+	ColorStayPara.Start = std::bind(&UI_Drop::StartStay, this, std::placeholders::_1);
+	ColorStayPara.Stay = std::bind(&UI_Drop::UpdateStay, this, std::placeholders::_1, std::placeholders::_2);
+	ColorState.CreateState(ENOTICECOLORSTATE::Stay, ColorStayPara);
+
+	CreateStateParameter ColorDisappearPara;
+	ColorDisappearPara.Start = std::bind(&UI_Drop::StartDisappear, this, std::placeholders::_1);
+	ColorDisappearPara.Stay = std::bind(&UI_Drop::UpdateDisappear, this, std::placeholders::_1, std::placeholders::_2);
+	ColorState.CreateState(ENOTICECOLORSTATE::Disappear, ColorDisappearPara);
+	ColorState.ChangeState(ENOTICECOLORSTATE::Appear);
 }
 
 
@@ -127,7 +145,83 @@ void UI_Drop::UpdateAwake(float _Delta, GameEngineState* _Parent)
 		float4 TargetPosition = SYSTEM_NOTICE_ITEM_FRIST_POSITION;
 		TargetPosition.Y -= m_Line * SYSTEM_NOTICE_ITEM_GAP;
 		Transform.SetLocalPosition( TargetPosition );
+
+		// 4번째 라인이면 정리됩니다
+		if (m_Line == 4)
+		{
+			if (nullptr == ManagerPtr)
+			{
+				MsgBoxAssert("매니저를 모릅니다.");
+				return;
+			}
+
+			ManagerPtr->GetSystemNoticeList().remove(GetDynamic_Cast_This<UI_Drop>());
+
+			Death();
+		}
+
 		PositionState.ChangeState(ENOTICEPOSITIONSTATE::Stay);
 		return;
+	}
+}
+
+
+
+void UI_Drop::StartAppear(GameEngineState* _Parent)
+{
+
+}
+
+void UI_Drop::UpdateAppear(float _Delta, GameEngineState* _Parent)
+{
+	if (true == IsFirst)
+	{
+		IsFirst = false;
+		return;
+	}
+
+	m_MulColor += _Delta / SYSTEM_NOTICE_ITEM_MOVETIME;
+	AddColorData(m_MulColor);
+
+	if (_Parent->GetStateTime() > SYSTEM_NOTICE_ITEM_MOVETIME)
+	{
+		_Parent->ChangeState(ENOTICECOLORSTATE::Stay);
+	}
+}
+
+void UI_Drop::StartStay(GameEngineState* _Parent)
+{
+	AddColorData(1.0f);
+}
+
+void UI_Drop::UpdateStay(float _Delta, GameEngineState* _Parent)
+{
+	if (_Parent->GetStateTime() > SYSTEM_NOTICE_STAYTIME)
+	{
+		_Parent->ChangeState(ENOTICECOLORSTATE::Disappear);
+	}
+}
+
+void UI_Drop::StartDisappear(GameEngineState* _Parent)
+{
+
+}
+
+void UI_Drop::UpdateDisappear(float _Delta, GameEngineState* _Parent)
+{
+	m_MulColor -= _Delta / SYSTEM_NOTICE_ITEM_MOVETIME;
+	AddColorData(m_MulColor);
+
+	if (_Parent->GetStateTime() > SYSTEM_NOTICE_ITEM_MOVETIME)
+	{
+		if (nullptr == ManagerPtr)
+		{
+			MsgBoxAssert("매니저를 모릅니다.");
+			return;
+		}
+
+		ManagerPtr->GetSystemNoticeList().remove(GetDynamic_Cast_This<UI_Drop>());
+
+		Death();
 	}
 }
