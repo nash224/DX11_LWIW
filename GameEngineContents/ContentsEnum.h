@@ -25,36 +25,37 @@ enum class ERENDERORDER
 	UI_AlphaBlend,
 	Fade = 100,
 };
-
-enum class ETITLERENDERORDER
-{
-	Back_ ,
-	Star ,
-	Moon ,
-	Cloud_0,
-	Cloud_1,
-	Cloud_2,
-	Cloud_3,
-	Cloud_4 ,
-	Water,
-	Mountain_blur,
-	Bridge_Down,
-	Bridge_blur,
-	Train_blur,
-	Train_Light_blur,
-	Water_blur,
-	Props_1,
-	Props_0,
-	TrainSmoke_Big,
-	TrainSmoke_Mid,
-	TrainSmoke_Small,
-	Trains,
-	Trains_Light,
-	Bridge ,
-	Tree,
-	Shadow,
-	Logo,
-};
+//
+//enum class ETITLERENDERORDER
+//{
+//	Back_ ,
+//	Star ,
+//	Moon ,
+//	Cloud_0,
+//	Cloud_1,
+//	Cloud_2,
+//	Cloud_3,
+//	Cloud_4 ,
+//	Water,
+//	Mountain_blur,
+//	Bridge_Down,
+//	Bridge_blur,
+//	Train_blur,
+//	Train_Light_blur,
+//	Water_blur,
+//	Props_1,
+//	Props_0,
+//	TrainSmoke_Big,
+//	TrainSmoke_Mid,
+//	TrainSmoke_Small,
+//	Trains,
+//	Trains_Light,
+//	Bridge ,
+//	Tree,
+//	Shadow,
+//	UI,
+//	Logo,
+//};
 
 
 enum class ERENDERDEPTH
@@ -73,6 +74,7 @@ enum class ERENDERDEPTH
 enum class ETITLERENDERDEPTH
 {
 	Logo,
+	UI,
 	Shadow,
 	Tree = 100,
 	Bridge = 200,
@@ -105,8 +107,13 @@ enum class EHOUSEDEPTH
 	FRAME = -1,
 	Object,
 	Shadow = 3000,
+	UnderBook,
+	Chair,
+	Sign,
 	Rug,
+	Wall,
 	HouseComposition,
+	BackWindow,
 	BackPaint,
 };
 

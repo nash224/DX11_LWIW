@@ -112,24 +112,24 @@ void FlowerBird::AnimationSetting()
 	m_Shadow->Transform.AddLocalPosition({ 0.0f,30.0f });
 
 
-	m_Body->SetFrameEvent("Pick", 4, [=](GameEngineSpriteRenderer* _Renderer)
+	m_Body->SetFrameEvent("Pick", 4, [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			m_Shadow->SetSprite("FlowerBird_IdleC.png", 2);
 		});
 
 
-	m_Body->SetEndEvent("Pick", [=](GameEngineSpriteRenderer* _Renderer)
+	m_Body->SetEndEvent("Pick", [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			m_Shadow->SetSprite("FlowerBird_Standing.png", 1);
 		});
 
 
-	m_Body->SetStartEvent("Fly", [=](GameEngineSpriteRenderer* _Renderer)
+	m_Body->SetStartEvent("Fly", [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			m_Shadow->Off();
 		});
 
-	m_Body->SetStartEvent("Fly_Bloom", [=](GameEngineSpriteRenderer* _Renderer)
+	m_Body->SetStartEvent("Fly_Bloom", [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			m_Shadow->Off();
 		});

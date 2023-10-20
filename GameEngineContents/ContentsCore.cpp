@@ -5,6 +5,7 @@
 
 #include "GlobalLoad.h"
 
+#include "LogoLevel.h"
 #include "MainMenu.h"
 #include "LoadingLevel.h"
 #include "PlayLevel.h"
@@ -32,6 +33,7 @@ void ContentsCore::Start()
 
 	
 
+	GameEngineCore::CreateLevel<LogoLevel>("LogoLevel");
 	GameEngineCore::CreateLevel<MainMenu>("MainMenu");
 	GameEngineCore::CreateLevel<LoadingLevel>("LoadingLevel");
 	GameEngineCore::CreateLevel<Field_Center>("Field_Center");

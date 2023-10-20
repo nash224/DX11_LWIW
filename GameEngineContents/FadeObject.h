@@ -28,8 +28,8 @@ public:
 
 	void Init();
 
-	static void CallFadeOut(GameEngineLevel* _Level, std::string_view _NextLevelName, float _FadeOutDuration = 1.0f);
-	static void CallFadeIn(GameEngineLevel* _Level, float _FadeOutDuration = 1.0f);
+	void CallFadeOut(std::string_view _NextLevelName, float _FadeOutDuration = 1.0f);
+	void CallFadeIn(float _FadeOutDuration = 1.0f);
 
 
 protected:

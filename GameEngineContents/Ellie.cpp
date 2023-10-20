@@ -306,12 +306,6 @@ void Ellie::Init()
 	MainEllie = this;
 }
 
-// 앨리의 위치를 지정합니다.
-void Ellie::SetSpawnLocalPosition(const float4& _Position)
-{
-	Transform.SetLocalPosition(_Position);
-}
-
 
 // 생성되거나 레벨이 바뀔때 호출되고 앨리의 상태를 초기화합니다.
 void Ellie::OnLevelStart()

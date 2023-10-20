@@ -19,9 +19,7 @@ WitchHouse_Yard::~WitchHouse_Yard()
 void WitchHouse_Yard::Start()
 {
 	PlayLevel::Start();
-
-	std::string Name = "WitchHouse_Yard";
-	SetName(Name);
+	SetName(std::string("WitchHouse_Yard"));
 
 	if (nullptr != m_LevelCameraControler)
 	{
@@ -112,8 +110,7 @@ void WitchHouse_Yard::SetEllieLevelChangeLocation(class GameEngineLevel* _NextLe
 
 	float4 HWinScale = GlobalValue::GetWindowScale().Half();
 
-	std::string NextLevelName = _NextLevel->GetName();
-	if (NextLevelName == "Field_Center")
+	if (_NextLevel->GetName() == "Field_Center")
 	{
 		SpawnPosition = { HWinScale.X , -HWinScale.Half().Y };
 	}
@@ -127,7 +124,7 @@ void WitchHouse_Yard::SetEllieLevelChangeLocation(class GameEngineLevel* _NextLe
 		MsgBoxAssert("앨리를 생성하지 않았습니다.");
 		return;
 	}
-	m_Ellie->SetSpawnLocalPosition(SpawnPosition);
+	m_Ellie->Transform.SetLocalPosition(SpawnPosition);
 }
 
 void WitchHouse_Yard::CameraSetting()

@@ -8,6 +8,10 @@
 #include "BackDrop_MainMenu.h"
 #include "CameraControler.h"
 
+#include "Tunnel.h"
+#include "TitleUI.h"
+
+
 MainMenu::MainMenu()
 	: m_BackDrop(nullptr)
 {
@@ -31,6 +35,12 @@ void MainMenu::Start()
 
 void MainMenu::Update(float _Delta)
 {
+	if (true == GameEngineInput::IsDown('R', this))
+	{
+		std::shared_ptr<Tunnel> TunnelPtr = CreateActor<Tunnel>(EUPDATEORDER::Fade);
+		TunnelPtr->Init();
+	}
+
 	if (true == GameEngineInput::IsDown('T', this))
 	{
 		GameEngineCore::ChangeLevel("LoadingLevel");
@@ -115,6 +125,16 @@ void MainMenu::InitActor()
 	}
 
 	m_BackDrop->Init();
+
+
+	std::shared_ptr<TitleUI> Title_UI = CreateActor<TitleUI>(EUPDATEORDER::Objects);
+	if (nullptr == Title_UI)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다");
+		return;
+	}
+
+	Title_UI->Init();
 }
 
 void MainMenu::ReleaseSprite()

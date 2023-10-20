@@ -23,6 +23,8 @@ PlayLevel::~PlayLevel()
 void PlayLevel::Start()
 {
 	ContentsLevel::Start();
+
+	GetMainCamera()->SetZSort(static_cast<int>(ERENDERORDER::NonAlphaBlend));
 }
 
 void PlayLevel::Update(float _Delta)
@@ -37,7 +39,13 @@ void PlayLevel::LevelStart(GameEngineLevel* _NextLevel)
 {
 	ContentsLevel::LevelStart(_NextLevel);
 
-	FadeObject::CallFadeIn(this, 0.2f);
+	std::shared_ptr<FadeObject> Fade = CreateActor<FadeObject>(EUPDATEORDER::Fade);
+	if (nullptr == Fade)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+	Fade->CallFadeIn(0.2f);
 
 	if (false == LevelInitCheck)
 	{

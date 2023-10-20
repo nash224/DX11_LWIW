@@ -65,7 +65,20 @@ void LevelChangeTab::OnGUI(GameEngineLevel* _Level, float _Delta)
 
 void Field_CenterTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
+	if (ImGui::BeginTabBar("tabs", 0)) {
+		if (ImGui::BeginTabItem("item")) {
+			if (ImGui::Button("click this"))
+			{
 
+			}
+			ImGui::EndTabItem();
+		}
+		if (ImGui::BeginTabItem("item2")) {
+			ImGui::Text("test  tab text");
+			ImGui::EndTabItem();
+		}
+		ImGui::EndTabBar();
+	}
 }
 
 void DebugTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
@@ -121,32 +134,6 @@ void MapEditorTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	// Renderer->SetSprite
 	/*Renderer->Transform.SetLocalPosition();*/
 	// pushback
-
-	if (ImGui::Button("Field_Center"))
-	{
-		GameEngineCore::ChangeLevel("Field_Center");
-		return;
-	}
-
-	if (ImGui::Button("WitchHouse_Yard"))
-	{
-		GameEngineCore::ChangeLevel("WitchHouse_Yard");
-		return;
-	}
-
-	if (ImGui::Button("WitchHouse_UpFloor"))
-	{
-		GameEngineCore::ChangeLevel("WitchHouse_UpFloor");
-		return;
-	}
-
-
-	if (ImGui::Button("CreateActor"))
-	{
-		GameEngineCore::ChangeLevel("WitchHouse_UpFloor");
-		return;
-	}
-
 
 	if (ImGui::Button("Play"))
 	{

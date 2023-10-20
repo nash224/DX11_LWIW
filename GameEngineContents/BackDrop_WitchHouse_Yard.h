@@ -27,6 +27,10 @@ protected:
 private:
 	void CreateFlooring();
 	void CreateProp(GameEngineLevel* _Level);
+	void CreateTree(GameEngineLevel* _Level);
+	void CreateNormalProp(GameEngineLevel* _Level);
+
+
 	void CreateHouse(GameEngineLevel* _Level);
 	void CreatePixelMap(GameEngineLevel* _Level);
 	void CreatePortalActor(GameEngineLevel* _Level);

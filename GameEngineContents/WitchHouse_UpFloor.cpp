@@ -20,9 +20,7 @@ void WitchHouse_UpFloor::Start()
 {
 	PlayLevel::Start();
 
-
-	std::string Name = "WitchHouse_UpFloor";
-	SetName(Name);
+	SetName(std::string("WitchHouse_UpFloor"));
 
 	if (nullptr != m_LevelCameraControler)
 	{
@@ -94,12 +92,11 @@ void WitchHouse_UpFloor::LoadActor()
 	if (nullptr == m_BackDrop)
 	{
 		m_BackDrop = CreateActor<BackDrop_WitchHouse_UpFloor>(EUPDATEORDER::Objects);
-	}
-	
-	if (nullptr == m_BackDrop)
-	{
-		MsgBoxAssert("액터를 생성하지 못했습니다.");
-		return;
+		if (nullptr == m_BackDrop)
+		{
+			MsgBoxAssert("액터를 생성하지 못했습니다.");
+			return;
+		}
 	}
 
 	m_BackDrop->Init();
@@ -109,12 +106,17 @@ void WitchHouse_UpFloor::LoadActor()
 // 레벨전환시 앨리의 시작위치를 지정해줍니다.
 void WitchHouse_UpFloor::SetEllieLevelChangeLocation(class GameEngineLevel* _NextLevel)
 {
+	if (nullptr == m_Ellie)
+	{
+		return;
+	}
+
 	float4 SpawnPosition = float4::ZERO;
 
 	std::string NextLevelName = _NextLevel->GetName();
 	if (NextLevelName == "WitchHouse_Yard")
 	{
-		SpawnPosition = { 480.0f , -364.0f };
+		SpawnPosition = m_BackDrop->m_HouseLocation + float4{ 128.0f , -310.0f };
 	}
 
 	if (NextLevelName == "WitchHouse_DownFloor")
@@ -122,13 +124,7 @@ void WitchHouse_UpFloor::SetEllieLevelChangeLocation(class GameEngineLevel* _Nex
 		SpawnPosition = { 510.0f , -273.0f };
 	}
 	
-
-	if (nullptr == m_Ellie)
-	{
-		MsgBoxAssert("앨리를 생성하지 않았습니다.");
-		return;
-	}
-	m_Ellie->SetSpawnLocalPosition(SpawnPosition);
+	m_Ellie->Transform.SetLocalPosition(SpawnPosition);
 }
 
 void WitchHouse_UpFloor::CameraSetting()

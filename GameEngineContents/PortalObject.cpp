@@ -140,5 +140,11 @@ void PortalObject::CallFadeOut()
 		return;
 	}
 
-	FadeObject::CallFadeOut(CurLevel, m_ChangeLevelName, 0.4f);
+	std::shared_ptr<FadeObject> Fade = CurLevel->CreateActor<FadeObject>(EUPDATEORDER::Fade);
+	if (nullptr == Fade)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+	Fade->CallFadeOut(m_ChangeLevelName, 0.4f);
 }

@@ -74,7 +74,7 @@ void Ellie::UpdateInteractionCollsiion()
 		EllieRightFOVAngle += 360.0f;
 	}
 
-	m_EllieCol->Collision(ECOLLISION::Entity, [=](std::vector<std::shared_ptr<GameEngineCollision>>& _Collisions)
+	m_EllieCol->Collision(ECOLLISION::Entity, [&](std::vector<std::shared_ptr<GameEngineCollision>>& _Collisions)
 		{
 			// 가장 가까운 객체만 참조하겠습니다.
 			std::vector<float> vecDistance;

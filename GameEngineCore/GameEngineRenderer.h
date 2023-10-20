@@ -5,6 +5,15 @@
 #include "GameEngineMaterial.h"
 #include "GameEngineRenderUnit.h"
 
+struct RenderBaseInfo
+{
+	float4 BaseColor;
+	int IsMask = 0;
+	int Temp0 = 0;
+	int Temp1 = 0;
+	int Temp2 = 0;
+};
+
 // 설명 : GameEngineRenderer에게 Order는 랜더링 되는 순서를 의미합니다.
 // 엔진에서 지원해주는 랜더링
 // 코드를 짜다보면 그냥 랜더링 그자체를 이요해야 하는 경우가 많아진다.
@@ -79,6 +88,8 @@ protected:
 	//GameEngineShaderResHelper ShaderResHelper;
 
 	std::vector<std::shared_ptr<GameEngineRenderUnit>> Units;
+
+	RenderBaseInfo RenderBaseInfoValue;
 
 private:
 	class GameEngineCamera* Camera = nullptr;

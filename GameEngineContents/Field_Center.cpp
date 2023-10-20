@@ -122,7 +122,7 @@ void Field_Center::SetEllieLevelChangeLocation(class GameEngineLevel* _NextLevel
 		return;
 	}
 
-	m_Ellie->SetSpawnLocalPosition(SpawnPosition);
+	m_Ellie->Transform.SetLocalPosition(SpawnPosition);
 }
 
 

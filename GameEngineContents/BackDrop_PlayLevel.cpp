@@ -3,6 +3,7 @@
 
 
 #include "Prop.h"
+#include "Props.h"
 #include "StaticEntity.h"
 #include "PortalObject.h"
 
@@ -49,6 +50,7 @@ void BackDrop_PlayLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 
 	m_BackProp.clear();
 	vecPixelProps.clear();
+	PixelVec.clear();
 	vecPortalObject.clear();
 }
 
@@ -119,22 +121,41 @@ void BackDrop_PlayLevel::EnableDebugMode(bool _Value)
 // 특정 위치에 픽셀데이터가 있는지 반환해줍니다.
 bool BackDrop_PlayLevel::IsColorAtPosition(const float4& _Position, GameEngineColor _CheckColor)
 {
-	if (true == vecPixelProps.empty())
+	if (false == vecPixelProps.empty())
 	{
-		return false;
+		for (size_t i = 0; i < vecPixelProps.size(); i++)
+		{
+			std::shared_ptr<Prop> Object = vecPixelProps[i];
+			if (nullptr == Object)
+			{
+				MsgBoxAssert("생성되지 않은 액터를 참조하려고 했습니다.");
+				return false;
+			}
+
+			if (false == Object->PixelRendererCheck)
+			{
+				continue;
+			}
+
+			if (_CheckColor == Object->GetColor(_Position))
+			{
+				return true;
+			}
+		}
 	}
 
 
-	for (size_t i = 0; i < vecPixelProps.size(); i++)
+
+	for (size_t i = 0; i < PixelVec.size(); i++)
 	{
-		std::shared_ptr<Prop> Object = vecPixelProps[i];
+		std::shared_ptr<Props> Object = PixelVec[i];
 		if (nullptr == Object)
 		{
 			MsgBoxAssert("생성되지 않은 액터를 참조하려고 했습니다.");
 			return false;
 		}
 
-		if (false == Object->PixelRendererCheck)
+		if (false == Object->GetPixelCheck())
 		{
 			continue;
 		}

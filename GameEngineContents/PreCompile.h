@@ -18,6 +18,9 @@
 // Collision
 #include <GameEngineCore/GameEngineCollision.h>
 
+// FSM
+#include <GameEngineCore/GameEngineState.h>
+
 
 // Contents
 #include "GlobalValue.h"
@@ -26,3 +29,4 @@
 #include "ContentsResource.h"
 #include "EventData.h"
 #include "ActorEnum.h"
+#include "PlayLevel.h"

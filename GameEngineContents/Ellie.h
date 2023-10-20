@@ -96,7 +96,7 @@ public:
 
 	// ¿Ã¥œº»
 	void Init();
-	void SetSpawnLocalPosition(const float4& _Position);
+
 	void OnControl();
 	void OffControl();
 	void SetPixelPointBaseOnCenter();
@@ -245,16 +245,18 @@ private:
 	bool IsControl = true;
 
 
-	const float CONST_Ellie_NonRiding_Acceleration_Time = 1.0f;
-	const float CONST_Ellie_Riding_Move_Acceleration_Time = 1.2f;
-	const float CONST_Ellie_Riding_Boosting_Acceleration_Time = 1.0f;
+
 
 	const float CONST_Ellie_SlowWalk_Speed = 100.0f;
 	const float CONST_Ellie_Walk_Speed = 160.0f;
 	const float CONST_Ellie_Run_Speed = 220.0f;
 
+	const float CONST_Ellie_NonRiding_Acceleration_Time = 1.0f;
+	const float CONST_Ellie_Riding_Move_Acceleration_Time = 1.2f;
+	const float CONST_Ellie_Riding_Boosting_Acceleration_Time = 1.0f;
 	const float CONST_Ellie_Riding_Move_Speed = 500.0f;
 	const float CONST_Ellie_Riding_Boost_Speed = 700.0f;
+
 
 private:
 	// Pixel √Êµπ

@@ -64,9 +64,10 @@ protected:
 protected:
 	std::vector<std::shared_ptr<GameEngineSpriteRenderer>> m_BackProp;
 	std::vector<std::shared_ptr<class Prop>> vecPixelProps;
-	std::vector<std::shared_ptr<class PortalObject>> vecPortalObject;
+	std::vector<std::shared_ptr<class Props>> PixelVec;
 	std::list<std::shared_ptr<class StaticEntity>> StaticEntityList;
 	std::list<std::shared_ptr<class LootedItem>> LootedItemList;
+	std::vector<std::shared_ptr<class PortalObject>> vecPortalObject;
 
 protected:
 	DayStatus m_UpdateDayTime = DayStatus::None;

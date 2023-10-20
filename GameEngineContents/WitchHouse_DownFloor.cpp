@@ -20,8 +20,7 @@ void WitchHouse_DownFloor::Start()
 {
 	PlayLevel::Start();
 
-	std::string Name = "WitchHouse_DownFloor";
-	SetName(Name);
+	SetName(std::string("WitchHouse_DownFloor"));
 
 
 	if (nullptr != m_LevelCameraControler)
@@ -167,7 +166,7 @@ void WitchHouse_DownFloor::SetEllieLevelChangeLocation(class GameEngineLevel* _N
 		MsgBoxAssert("앨리를 생성하지 않았습니다.");
 		return;
 	}
-	m_Ellie->SetSpawnLocalPosition(SpawnPosition);
+	m_Ellie->Transform.SetLocalPosition(SpawnPosition);
 }
 
 void WitchHouse_DownFloor::CameraSetting()

@@ -26,10 +26,23 @@ void GlobalLoad::LoadGlobalResource()
 
 void GlobalLoad::LoadGlobalTexture()
 {
-	GlobalUtils::LoadAllFileInPath("Resources\\GlobalResources");
+	GlobalUtils::LoadAllDirFile("Resources\\GlobalResources");
 }
 
 void GlobalLoad::LoadGlobalSprite()
 {
-	GameEngineSprite::CreateSingle("Fade_Texture.png");
+	GameEngineDirectory Dir;
+	Dir.MoveParentToExistsChild("Resources");
+	Dir.MoveChild("Resources\\GlobalResources");
+	std::vector<GameEngineDirectory> Dirs = Dir.GetAllDirectory();
+	for (size_t i = 0; i < Dirs.size(); i++)
+	{
+		GameEngineDirectory Folder = Dirs[i];
+		std::vector<GameEngineFile> Files = Folder.GetAllFile();
+		for (size_t i = 0; i < Files.size(); i++)
+		{
+			GameEngineFile pFile =  Files[i];
+			GameEngineSprite::CreateSingle(pFile.GetFileName());
+		}
+	}
 }

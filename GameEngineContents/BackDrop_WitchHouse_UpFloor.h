@@ -30,7 +30,7 @@ private:
 	void CreatePixelMap(GameEngineLevel* _Level);
 	void LoadPortalActor(GameEngineLevel* _Level);
 
-private:
+public:
 	float4 m_HouseLocation = float4{340.0f , -50.0f };
 };
 

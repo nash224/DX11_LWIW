@@ -118,23 +118,25 @@ private:
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> m_Shadow = nullptr;
 
-private:
+
 	EFLOWERBIRDSTATE m_State = EFLOWERBIRDSTATE::None;
 	EFLOWERBIRDSTATE m_NextState = EFLOWERBIRDSTATE::None;
 
 	bool IsActted = false;
 
-	float m_StateTime = 0.0f;
-	float m_IdleTime = 0.0f;
-
-	float m_TurnTime = 0.0f;
+	int m_PickCount = 0;
 	int m_TurnCount = 0;
 	int m_AssignedTurnCount = 0;
-
-	int m_PickCount = 0;
 	const int MaxPickCount = 8;
 
-	float4 m_BirdFlyDirection = float4::ZERO;
+	float m_StateTime = 0.0f;
+	float m_IdleTime = 0.0f;
+	float m_TurnTime = 0.0f;
 	const float m_FlyDegree = 30.0f;
+
+	float4 m_BirdFlyDirection = float4::ZERO;
+
+
+
 };
 

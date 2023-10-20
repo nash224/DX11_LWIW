@@ -143,7 +143,7 @@ void BackDrop_MainMenu::CreateProp(class GameEngineLevel* _CurLevel)
 			return;
 		}
 
-		Object->CreateRenderer(ETITLERENDERORDER::Bridge_blur);
+		Object->CreateRenderer();
 		Object->SetSprite("Title_Train_Bridge_Shadow.png");
 		Object->SetRendererPivotType(PivotType::LeftTop);
 		Object->SetPositionAndDepth({ 0.0f , -464.0f }, ETITLERENDERDEPTH::Bridge_blur);
@@ -158,7 +158,7 @@ void BackDrop_MainMenu::CreateProp(class GameEngineLevel* _CurLevel)
 			return;
 		}
 
-		Object->CreateRenderer(ETITLERENDERORDER::Train_Light_blur);
+		Object->CreateRenderer();
 		Object->SetSprite("Title_Train_TrainWater_blur.png");
 		Object->SetRendererPivotType(PivotType::LeftTop);
 		Object->SetPositionAndDepth({ 0.0f , -492.0f }, ETITLERENDERDEPTH::Train_blur);
@@ -173,7 +173,7 @@ void BackDrop_MainMenu::CreateProp(class GameEngineLevel* _CurLevel)
 			return;
 		}
 
-		Object->CreateRenderer(ETITLERENDERORDER::Train_Light_blur);
+		Object->CreateRenderer();
 		Object->SetSprite("Title_Train_Light_Blur.png");
 		Object->SetRendererPivotType(PivotType::LeftTop);
 		Object->SetPositionAndDepth({ 26.0f , -500.0f }, ETITLERENDERDEPTH::Train_Light_blur);
@@ -190,7 +190,7 @@ void BackDrop_MainMenu::CreateProp(class GameEngineLevel* _CurLevel)
 			return;
 		}
 
-		Object->CreateRenderer(ETITLERENDERORDER::Train_Light_blur);
+		Object->CreateRenderer();
 		Object->SetSprite("Title_Train_WindowWater_blur.png");
 		Object->SetRendererPivotType(PivotType::LeftTop);
 		Object->SetPositionAndDepth({ 220.0f , -490.0f }, ETITLERENDERDEPTH::Train_Light_blur);
@@ -228,7 +228,7 @@ void BackDrop_MainMenu::CreateProp(class GameEngineLevel* _CurLevel)
 			return;
 		}
 
-		Object->CreateRenderer(ERENDERORDER::AlphaBlend);
+		Object->CreateRenderer();
 		Object->CreateAndSetAnimation("Smoke_big", "trainsmoke_big.png", 0.1f);
 		Object->SetPositionAndDepth({ 437.0f , -284.0f }, ETITLERENDERDEPTH::TrainSmoke_Big);
 		vecProps.push_back(Object);
@@ -242,7 +242,7 @@ void BackDrop_MainMenu::CreateProp(class GameEngineLevel* _CurLevel)
 			return;
 		}
 
-		Object->CreateRenderer(ERENDERORDER::AlphaBlend);
+		Object->CreateRenderer();
 		Object->CreateAndSetAnimation("Smoke_big", "trainsmoke_mid.png", 0.1f);
 		Object->SetPositionAndDepth({ 430.0f , -289.0f }, ETITLERENDERDEPTH::TrainSmoke_Mid);
 		vecProps.push_back(Object);
@@ -256,7 +256,7 @@ void BackDrop_MainMenu::CreateProp(class GameEngineLevel* _CurLevel)
 			return;
 		}
 
-		Object->CreateRenderer(ERENDERORDER::AlphaBlend);
+		Object->CreateRenderer();
 		Object->CreateAndSetAnimation("Smoke_big", "trainsmoke_small.png", 0.1f);
 		Object->SetPositionAndDepth({ 434.0f , -289.0f }, ETITLERENDERDEPTH::TrainSmoke_Small);
 
@@ -274,7 +274,7 @@ void BackDrop_MainMenu::CreateProp(class GameEngineLevel* _CurLevel)
 			return;
 		}
 
-		Object->CreateRenderer(ETITLERENDERORDER::Shadow);
+		Object->CreateRenderer(0);
 		Object->SetSprite("Background_Shadow-Title.png");
 		Object->SetAutoSpriteSize(0.5f);
 		Object->SetRendererPivotType(PivotType::LeftTop);
@@ -416,7 +416,6 @@ void BackDrop_MainMenu::CreateChainProp(class GameEngineLevel* _CurLevel)
 			return;
 		}
 
-		Object->SetRenderOrder(ETITLERENDERORDER::Mountain_blur);
 		Object->SetSprite("Title_Train_MountainWater_blur.png");
 		Object->SetSpeed(CONST_MountainSpeed);
 		Object->SetDepth(ETITLERENDERDEPTH::Mountain_blur);
@@ -468,7 +467,6 @@ void BackDrop_MainMenu::CreateChainProp(class GameEngineLevel* _CurLevel)
 			return;
 		}
 
-		Object->SetRenderOrder(ETITLERENDERORDER::Water_blur);
 		Object->SetSprite("Title_Train_WaterShine_blur.png");
 		Object->SetSpeed(-400.0f);
 		Object->SetDepth(ETITLERENDERDEPTH::Water_blur);

@@ -6,10 +6,10 @@
 #include "CameraControler.h"
 
 ContentsLevel::ContentsLevel() 
-	:	
-	Mode(EGAMEMODE::None)
 {
 	GetMainCamera()->Transform.SetLocalPosition({ 0.0f, 0.0f, -500.0f });
+	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Orthographic);
+	GetMainCamera()->SetZSort(0);
 	GetCamera(static_cast<int>(ECAMERAORDER::UI))->Transform.SetLocalPosition({ 0.0f, 0.0f, -500.0f });
 }
 
@@ -21,8 +21,6 @@ void ContentsLevel::Start()
 {
 	// 입력 등록함
 	GameEngineInput::AddInputObject(this);
-
-	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Orthographic);
 
 	// 카메라 컨트롤러 생성
 	m_LevelCameraControler = CreateActor<CameraControler>(EUPDATEORDER::CameraControler);
