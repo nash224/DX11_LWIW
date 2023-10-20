@@ -246,7 +246,7 @@ void FlowerBird::UpdateBloom(float _Delta)
 				return;
 			}
 
-			BackDrop_PlayLevel::MainBackDrop->CreateItem("FlowerBird_Collect.png", Transform.GetLocalPosition());
+			BackDrop_PlayLevel::MainBackDrop->CreateItem("FlowerBird_Collect", Transform.GetLocalPosition());
 		}
 
 		ChangeState(EFLOWERBIRDSTATE::Fly);

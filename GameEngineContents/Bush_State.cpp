@@ -36,7 +36,7 @@ void Bush::UpdateApple(float _Delta)
 
 		float4 ItemPosition = Transform.GetLocalPosition();
 		ItemPosition = { ItemPosition.X, ItemPosition.Y - 50.0f, GlobalUtils::CalculateDepth(ERENDERDEPTH::RootedItem) };
-		BackDrop_PlayLevel::MainBackDrop->CreateItem("Food_CranApple.png", ItemPosition);
+		BackDrop_PlayLevel::MainBackDrop->CreateItem("Food_CranApple", ItemPosition);
 
 		ChangeState(EBUSHSTATE::Shake);
 		return;

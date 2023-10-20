@@ -84,9 +84,11 @@ void LootedItem::CreateItemRenderer(std::string_view _ItemName)
 		return;
 	}
 
-	m_ItemRenderer->SetSprite(_ItemName);
+	std::string ItemName = _ItemName.data();
+	ItemName += ".png";
+	m_ItemRenderer->SetSprite(ItemName);
 
-	ItemName = _ItemName;
+	m_ItemName = _ItemName;
 }
 
 
@@ -126,7 +128,7 @@ void LootedItem::UpdateItemInteraction()
 	if (true == IsEnalbeActive)
 	{
 		// 아이템 넣고
-		UI_Inventory::PushItem(ItemName, m_Stack);
+		UI_Inventory::PushItem(m_ItemName, m_Stack);
 
 		// 리스트에서 제거하고
 		std::list<std::shared_ptr<LootedItem>>& ItemList = BackManager->GetLootedItemList();

@@ -119,7 +119,7 @@ enum class EHOUSEDEPTH
 
 enum class EUI_RENDERORDERDEPTH
 {
-	Cursor = -100,
+	Cursor = -300,
 	CursorOutLine,
 	Icon,
 	Component,

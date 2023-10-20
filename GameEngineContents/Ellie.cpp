@@ -36,7 +36,7 @@ void Ellie::UpdateTestCode()
 {
 	if (true == GameEngineInput::IsDown('1', this))
 	{
-		BackDrop_PlayLevel::MainBackDrop->CreateItem("Mongsiri_Collect.png", Transform.GetLocalPosition());
+		BackDrop_PlayLevel::MainBackDrop->CreateItem("Mongsiri_Collect", Transform.GetLocalPosition());
 	}
 }
 

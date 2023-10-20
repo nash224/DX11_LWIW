@@ -42,7 +42,6 @@ void BackDrop_WitchHouse_DownFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	vecProps.clear();
 	m_BackProp.clear();
-	vecPixelProps.clear();
 	PixelVec.clear();
 	vecPortalObject.clear();
 }

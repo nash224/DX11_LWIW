@@ -45,7 +45,7 @@ private:
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> m_ItemRenderer = nullptr;
 
-	std::string ItemName = "";
+	std::string m_ItemName = "";
 	int m_Stack = 0;
 
 	const float ItemInterativeRange = 10.0f;

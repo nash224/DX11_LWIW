@@ -57,6 +57,7 @@ public:
 };
 
 
+
 // 설명 :
 class UI_Inventory : public UI_ToggleActor
 {
@@ -96,11 +97,11 @@ private:
 	void CreateBase();
 	void CreateSlotArray();
 	void CreateCursor();
+	void CreateNoticeDropManager();
+
 	void CreateData();
 
 	void LockSlot(const unsigned int _Y);
-
-	void Reset();
 
 private:
 	// 데이터
@@ -132,6 +133,8 @@ private:
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> m_InventoryBase = nullptr;
 	std::vector<std::vector<InventorySlotComposition>> InventorySlotArray;
+
+	std::shared_ptr<class UI_DropManager> m_DropManager = nullptr;
 	InventoryCursorComposition m_CursorComposition;
 
 	// 슬롯
@@ -142,9 +145,9 @@ private:
 
 	// 그리드 
 	float4 m_GridScale = float4::ZERO;
+	float4 FirstGridPosition = float4::ZERO;
 	const float CONST_GridSpacing = 12.0f;
 	bool IsFirstPosCalculated = false;
-	float4 FirstGridPosition = float4::ZERO;
 
 	// 커서
 	const float CursorInter = 0.4f;

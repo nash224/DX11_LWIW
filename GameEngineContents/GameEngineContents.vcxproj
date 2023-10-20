@@ -436,6 +436,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="UI_Drop.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UI_DropManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="UI_Hub.cpp">
       <SubType>
       </SubType>
@@ -764,6 +772,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="UI_DictionaryPage.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UI_Drop.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UI_DropManager.h">
       <SubType>
       </SubType>
     </ClInclude>

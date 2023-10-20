@@ -2,6 +2,8 @@
 #include "UI_Inventory.h"
 
 
+#include "UI_DropManager.h"
+
 // 데이터 배열은 1차원 배열로 설정합니다.
 void Inventory::Init()
 {
@@ -202,6 +204,7 @@ void UI_Inventory::Init()
 	CreateBase();
 	CreateSlotArray();
 	CreateCursor();
+	CreateNoticeDropManager();
 	LockSlot(UnlockSlotY);
 	Transform.AddLocalPosition({ -288.0f , 28.0f });
 
@@ -283,6 +286,26 @@ void UI_Inventory::CreateCursor()
 	SelectSlot(0, 0);
 }
 
+
+void UI_Inventory::CreateNoticeDropManager()
+{
+	GameEngineLevel* CurLevel = GetLevel();
+	if (nullptr == CurLevel)
+	{
+		MsgBoxAssert("레벨을 불러오지 못했습니다.");
+		return;
+	}
+
+	m_DropManager = CurLevel->CreateActor<UI_DropManager>(EUPDATEORDER::UIMagnaer);
+	if (nullptr == m_DropManager)
+	{
+		MsgBoxAssert("액터를 생성하지 못했습니다.");
+		return;
+	}
+
+	m_DropManager->Init();
+}
+
 // 전역으로 한번만 실행됩니다.
 void UI_Inventory::CreateData()
 {
@@ -342,7 +365,19 @@ void UI_Inventory::PushItem(std::string_view _ItemName, unsigned int _Count/* = 
 		return;
 	}
 
-	Data->PushItem(_ItemName, _Count);
+
+	std::string ItemName = _ItemName.data();
+	ItemName += ".png";
+	Data->PushItem(ItemName, _Count);
+
+
+	if (nullptr == MainInventory->m_DropManager)
+	{
+		MsgBoxAssert("드롭매니저가 존재하지 없습니다.");
+		return;
+	}
+
+	MainInventory->m_DropManager->NoticeItemDrop(_ItemName);
 }
 
 void UI_Inventory::UnlockSlot(const unsigned int _Count /*= 1*/)

@@ -298,7 +298,7 @@ void LoadingLevel::LoadContentsData()
 	EventData::Init();
 
 	// ¾ÆÀÌÅÛ
-	ItemData::CreateData("Mongsiri", { "Mongsiri", "¸ù½Ã¸®ÅÐ", EITEM_TYPE::Ingredient });
+	ItemData::CreateData("Mongsiri_Collect", { "Mongsiri_Collect", "¸ù½Ã¸®ÅÐ", EITEM_TYPE::Ingredient });
 
 	// Àç·á °¡°ø
 	IngredientData::CreateData("Mongsiri_Water", { "Mongsiri_Water", "¸ù½Ã¸®Áó", "Mongsiri", EBrewingMachineType::Extractor, 2 });
