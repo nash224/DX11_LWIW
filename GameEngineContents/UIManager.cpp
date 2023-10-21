@@ -11,7 +11,7 @@
 #include "Ellie.h"
 
 
-GameEngineActor* UIManager::g_MainUIManager = nullptr;
+UIManager* UIManager::MainUIManager = nullptr;
 UIManager::UIManager() 
 {
 }
@@ -34,7 +34,7 @@ void UIManager::Update(float _Delta)
 
 void UIManager::LevelStart(class GameEngineLevel* _NextLevel)
 {
-	g_MainUIManager = this;
+	MainUIManager = this;
 }
 
 void UIManager::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -50,6 +50,8 @@ void UIManager::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void UIManager::Init()
 {
+	MainUIManager = this;
+
 	if (nullptr == GameEngineSprite::Find("Photo.png"))
 	{
 		std::vector<GameEngineDirectory> Dirs = GlobalUtils::GetAllDirInPath("Resources\\PlayContents\\PlayResourecs\\UI\\UI_Sprite");
@@ -113,6 +115,30 @@ void UIManager::Init()
 
 
 	Reset();
+}
+
+
+
+void UIManager::OpenInventory()
+{
+	if (nullptr == m_Inventory)
+	{
+		MsgBoxAssert("인벤토리가 존재하지 않습니다.");
+		return;
+	}
+
+	m_Inventory->Open();
+}
+
+void UIManager::CloseInventory()
+{
+	if (nullptr == m_Inventory)
+	{
+		MsgBoxAssert("인벤토리가 존재하지 않습니다.");
+		return;
+	}
+
+	m_Inventory->Close();
 }
 
 

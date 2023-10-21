@@ -166,6 +166,9 @@
     <Filter Include="2.Object\2.Actor\2.Interactive\Static\BranchTree">
       <UniqueIdentifier>{26f52f03-9544-4cb9-9bed-b4d5ab4198e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2.Object\2.Actor\0.Manager\UIManager\6.Dispensation">
+      <UniqueIdentifier>{1a53decc-91e0-44c8-8a7e-9b5303e3107f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -429,6 +432,9 @@
     </ClInclude>
     <ClInclude Include="BranchTree.h">
       <Filter>2.Object\2.Actor\2.Interactive\Static\BranchTree</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Dispensation.h">
+      <Filter>2.Object\2.Actor\0.Manager\UIManager\6.Dispensation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -703,6 +709,9 @@
     <ClCompile Include="ContentsCore_Resources.cpp" />
     <ClCompile Include="Ellie_Riding_State.cpp">
       <Filter>2.Object\2.Actor\2.Interactive\Dynamic\Ellie</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Dispensation.cpp">
+      <Filter>2.Object\2.Actor\0.Manager\UIManager\6.Dispensation</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -10,6 +10,8 @@ enum class EPOTSTATE
 	Success
 };
 
+
+
 // Ό³Έν :
 class AlchemyPot : public StaticEntity
 {
@@ -27,6 +29,7 @@ public:
 	void Init();
 
 	void RendererSetting();
+	void DispensationSetting();
 
 	void SetCreatePotion(const bool _Value);
 
@@ -71,7 +74,8 @@ private:
 
 private:
 	EPOTSTATE m_State = EPOTSTATE::None;
-	
+
+	std::shared_ptr<class UI_Dispensation> m_Dispensation = nullptr;
 
 	bool IsPotionCreated = false;
 };

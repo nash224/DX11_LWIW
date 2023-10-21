@@ -1,6 +1,10 @@
 #include "PreCompile.h"
 #include "AlchemyPot.h"
 
+#include "UI_Dispensation.h"
+
+
+
 AlchemyPot::AlchemyPot() 
 {
 }
@@ -12,7 +16,7 @@ AlchemyPot::~AlchemyPot()
 
 void AlchemyPot::Start()
 {
-	CreateAndSetCollision(ECOLLISION::Entity, { 260.0f , 100.0f }, float4::ZERO, ColType::SPHERE2D);
+	CreateAndSetCollision(ECOLLISION::Entity, { 160.0f , 100.0f }, float4(0.0f, -100.0f), ColType::SPHERE2D);
 	SetInteractionType(EINTERACTION_TYPE::Far);
 	SetInteractionButtonType(EINTERACTION_BUTTONTYPE::Gear);
 	m_CollectionTool = ETOOLTYPE::Nothing;
@@ -34,6 +38,9 @@ void AlchemyPot::Release()
 	m_SteamRenderer = nullptr;
 
 	m_InteractiveCol = nullptr;
+
+	// 연금UI
+	m_Dispensation = nullptr;
 }
 
 void AlchemyPot::LevelStart(class GameEngineLevel* _NextLevel)
@@ -43,7 +50,7 @@ void AlchemyPot::LevelStart(class GameEngineLevel* _NextLevel)
 
 void AlchemyPot::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-
+	Death();
 }
 
 
@@ -53,6 +60,13 @@ void AlchemyPot::LevelEnd(class GameEngineLevel* _NextLevel)
 void AlchemyPot::Init()
 {
 	RendererSetting();
+	DispensationSetting();
+}
+
+void AlchemyPot::DispensationSetting()
+{
+	m_Dispensation = GetLevel()->CreateActor<UI_Dispensation>();
+	m_Dispensation->Init();
 }
 
 void AlchemyPot::RendererSetting()
@@ -117,7 +131,6 @@ void AlchemyPot::RendererSetting()
 
 	ChangeState(EPOTSTATE::Idle);
 }
-
 
 
 void AlchemyPot::SetCreatePotion(const bool _Value)
@@ -204,8 +217,17 @@ void AlchemyPot::UpdateIdle(float _Delta)
 {
 	if (true == IsEnalbeActive)
 	{
-		ChangeState(EPOTSTATE::Boil);
-		return; 
+		if (nullptr == m_Dispensation)
+		{
+			MsgBoxAssert("연금UI가 존재하지 않습니다.");
+			return;
+		}
+
+		m_Dispensation->Open();
+
+
+		/*ChangeState(EPOTSTATE::Boil);
+		return; */
 	}
 }
 
