@@ -15,7 +15,7 @@ BushBug::~BushBug()
 void BushBug::Start()
 {
 	CreateAndSetCollision(ECOLLISION::Entity, { 200.0f }, float4::ZERO, ColType::SPHERE2D);
-	SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Dragonfly);
+	SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::None, ECOLLECTION_METHOD::None, ETOOLTYPE::Dragonfly);
 }
 
 void BushBug::Update(float _Delta)

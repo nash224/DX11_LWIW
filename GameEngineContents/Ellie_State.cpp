@@ -489,6 +489,14 @@ void Ellie::StartApproach()
 		MsgBoxAssert("참조한 액터가 존재하지 않습니다.");
 		return;
 	}
+
+	// 수집타입이 몽시리일때
+	if (ECOLLECTION_METHOD::MongSiri == OtherEntity->GetCollectionMethod())
+	{
+		// 멈추게 함
+		OtherEntity->GetCaught();
+	}
+
 	IsControl = false;					// 다가가는 행동을 할땐 조작이 불가능합니다.
 	IsCollected = false;					// 해당 자원을 수집했는지 확인합니다.
 
@@ -576,23 +584,6 @@ void Ellie::UpdateNet(float _Delta)
 		ChangeState(EELLIE_STATE::Idle);
 		return;
 	}
-}
-
-void Ellie::NetCollision()
-{
-	m_NetCol->Collision(ECOLLISION::Entity, [&](std::vector<std::shared_ptr<GameEngineCollision>>& _OtherGroup)
-		{
-			for (size_t i = 0; i < _OtherGroup.size(); i++)
-			{
-				std::shared_ptr<GameEngineCollision> Collision = _OtherGroup[i];
-				GameEngineActor* Actor = Collision->GetActor();
-				InteractiveActor* Entity = dynamic_cast<InteractiveActor*>(Actor);
-				if (ETOOLTYPE::Dragonfly == Entity->GetCollectionToolType())
-				{
-					Entity->ReachThis();
-				}
-			}
-		});
 }
 
 void Ellie::EndNet()

@@ -153,7 +153,7 @@ void WitchFlower::ChildUpRoot()
 		return;
 	}
 	
-	UI_Inventory::MainInventory->PushItem("WitchFlower_Collect.png");
+	UI_Inventory::MainInventory->PushItem("WitchFlower_Collect");
 
 	if (nullptr == BackDrop_PlayLevel::MainBackDrop)
 	{

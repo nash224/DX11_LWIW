@@ -33,7 +33,6 @@ private:
 private:
 	void LoadTexture();
 	void LoadSprite();
-	void LoadContentsData();
 	void InitActor();
 
 

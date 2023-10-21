@@ -232,6 +232,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ContentsCore_Resources.cpp" />
     <ClCompile Include="ContentsGUI.cpp">
       <SubType>
       </SubType>

@@ -326,7 +326,7 @@ void Ellie::CollisionSetting()
 		return;
 	}
 
-	m_NetCol->Transform.SetLocalScale(float4(40.0f, 4.0f));
+	m_NetCol->Transform.SetLocalScale(float4(140.0f, 4.0f));
 	m_NetCol->Off();
 	m_NetCol->SetCollisionType(ColType::SPHERE2D);
 }

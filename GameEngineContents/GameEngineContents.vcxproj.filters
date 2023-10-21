@@ -700,5 +700,6 @@
     <ClCompile Include="BranchTree.cpp">
       <Filter>2.Object\2.Actor\2.Interactive\Static\BranchTree</Filter>
     </ClCompile>
+    <ClCompile Include="ContentsCore_Resources.cpp" />
   </ItemGroup>
 </Project>

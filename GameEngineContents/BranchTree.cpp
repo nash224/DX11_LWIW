@@ -348,5 +348,5 @@ void BranchTree::CreateBranchItem()
 	RandomClass.SetSeed(reinterpret_cast<__int64>(this) + GlobalValue::GetSeedValue());
 	float4 FallingPosition = RandomClass.RandomVectorBox2D(FallingPositionBranchMinRange, FallingPositionBranchMaxRange, FallingPositionBranchMinRange, FallingPositionBranchMaxRange);
 	FallingPosition += Transform.GetLocalPosition() + float4{ 60.0f, 40.0f };
-	BackDrop_PlayLevel::MainBackDrop->CreateItem("Branch_Collect.png", FallingPosition, 1, 60.0f);
+	BackDrop_PlayLevel::MainBackDrop->CreateItem("Branch_Collect", FallingPosition, 1, 60.0f);
 }

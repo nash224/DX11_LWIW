@@ -180,7 +180,8 @@ void Ellie::UpdateInteractionCollsiion()
 					return;
 				}
 
-				if (UI_Hub_Tool::m_CurrentTool != ETOOLTYPE::Dragonfly)
+				// 잠자리채 상호작용이 아닐때
+				if (UI_Hub_Tool::m_CurrentTool != ETOOLTYPE::Dragonfly && EINTERACTION_TYPE::None != Entity->GetInteractionType())
 				{
 					// 한번 누르면 되는 타입
 					if (EINTERACTION_PRESSTYPE::Down == Entity->GetInteractionPressType())
@@ -191,13 +192,6 @@ void Ellie::UpdateInteractionCollsiion()
 							// 상호작용이 가까이면 
 							if (EINTERACTION_TYPE::Near == Entity->GetInteractionType())
 							{
-								// 수집타입이 몽시리일때
-								if (ECOLLECTION_METHOD::MongSiri == Entity->GetCollectionMethod())
-								{
-									// 멈추게 함
-									Entity->GetCaught();
-								}
-
 								OtherEntity = Entity;
 								ChangeState(EELLIE_STATE::Approach);
 							}
@@ -236,3 +230,21 @@ void Ellie::UpdateInteractionCollsiion()
 		});
 }
 
+
+
+void Ellie::NetCollision()
+{
+	m_NetCol->Collision(ECOLLISION::Entity, [&](std::vector<std::shared_ptr<GameEngineCollision>>& _OtherGroup)
+		{
+			for (size_t i = 0; i < _OtherGroup.size(); i++)
+			{
+				std::shared_ptr<GameEngineCollision> Collision = _OtherGroup[i];
+				GameEngineActor* Actor = Collision->GetActor();
+				InteractiveActor* Entity = dynamic_cast<InteractiveActor*>(Actor);
+				if (ETOOLTYPE::Dragonfly == Entity->GetCollectionToolType())
+				{
+					Entity->ReachThis();
+				}
+			}
+		});
+}

@@ -26,8 +26,8 @@ ContentsCore::~ContentsCore()
 
 void ContentsCore::Start()
 {
-	GameEngineGUI::CreateGUIWindow<ContentsGUI>("ContentsGUI");
 	GlobalLoad::LoadGlobalResource();
+	InitResources();
 	GlobalValue::SetWindowScale(GetStartWindowSize());
 	
 
@@ -41,6 +41,9 @@ void ContentsCore::Start()
 	GameEngineCore::CreateLevel<WitchHouse_DownFloor>("WitchHouse_DownFloor");
 	GameEngineCore::CreateLevel<TestLevel>("TestLevel");
 	GameEngineCore::ChangeLevel("MainMenu");
+
+
+	GameEngineGUI::CreateGUIWindow<ContentsGUI>("ContentsGUI");
 }
 
 void ContentsCore::Update(float _Delta)
