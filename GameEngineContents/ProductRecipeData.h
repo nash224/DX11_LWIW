@@ -17,9 +17,9 @@ public:
 	ProductRecipeData(
 		std::string _ProductName = "",
 		std::string _KoreanName = "",
-		EBREWINGOPTION _Star = EBREWINGOPTION::None,
-		EBREWINGOPTION _Ladle = EBREWINGOPTION::None,
-		EBREWINGOPTION _Fire = EBREWINGOPTION::None,
+		EBREWING_DIFFICULTY _Star = EBREWING_DIFFICULTY::Hard,
+		EBREWING_DIRECTION _Ladle = EBREWING_DIRECTION::StirNone,
+		EBREWING_FIRE _Fire = EBREWING_FIRE::Three,
 		std::string _Material1 = "",
 		unsigned int _Material1Count = 0,
 		std::string _Material2 = "",
@@ -54,9 +54,9 @@ protected:
 public:
 	std::string ProductName;
 	std::string KoreanName;
-	EBREWINGOPTION Star = EBREWINGOPTION::None;
-	EBREWINGOPTION Ladle = EBREWINGOPTION::None;
-	EBREWINGOPTION Fire = EBREWINGOPTION::None;
+	EBREWING_DIFFICULTY Star = EBREWING_DIFFICULTY::Easy;
+	EBREWING_DIRECTION Ladle = EBREWING_DIRECTION::StirNone;
+	EBREWING_FIRE Fire = EBREWING_FIRE::Three;
 	std::string Material1;
 	unsigned int Material1Count;
 	std::string Material2;

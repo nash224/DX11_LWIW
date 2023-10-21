@@ -86,6 +86,8 @@ public:
 	static void PushItem(std::string_view _ItemName, unsigned int _Count = 1);
 	void UnlockSlot(const unsigned int _Count = 1);
 
+	void UsingOtherComponent(bool _Value);
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -103,13 +105,11 @@ private:
 
 	void LockSlot(const unsigned int _Y);
 
-private:
 	// 데이터
 	void ChangeDataParent();
 	void DisplayItem(const size_t _SlotNumber, std::string_view _FileName);
 	void RenewInventory();
 
-private:
 	// Open, Close
 	void OpenChild() override;
 	void CloseChild() override;
@@ -153,5 +153,7 @@ private:
 	const float CursorInter = 0.4f;
 	const float4 NameTagPositionBaseOnSlotCenter = { 0.0f, 40.0f };
 
+	// 다른 컴포넌트와 사용하고 있을 때
+	bool IsOtherComponent = false;
 };
 

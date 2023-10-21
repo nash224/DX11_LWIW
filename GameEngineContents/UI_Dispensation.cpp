@@ -39,6 +39,7 @@ void UI_Dispensation::Release()
 	Direction_CounterClockwise = nullptr;
 	Direction_Clockwise = nullptr;
 
+	m_DispensationSlotInfo.clear();
 }
 
 void UI_Dispensation::LevelStart(class GameEngineLevel* _NextLevel)
@@ -93,11 +94,11 @@ void UI_Dispensation::RendererSetting()
 
 	Fire_Gauge = CreateComponent<GameEngineUIRenderer>();
 	Fire_Gauge->Transform.SetLocalPosition(float4(0.0f, 57.0f, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Attachment)));
-	Fire_Gauge->SetSprite("Dispensation_Fire_Gauge.png", 0);
+	Fire_Gauge->SetSprite("Dispensation_Fire_Gauge.png", static_cast<int>(CurFire));
 	
 	Fire_Gauge_Pin = CreateComponent<GameEngineUIRenderer>();
 	Fire_Gauge_Pin->Transform.SetLocalPosition(float4(0.0f, 30.0f, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Component)));
-	Fire_Gauge_Pin->SetSprite("dispensation_fire_gauge_pin.png", 0);
+	Fire_Gauge_Pin->SetSprite("dispensation_fire_gauge_pin.png", static_cast<int>(CurFire));
 
 	Direction_None = CreateComponent<GameEngineUIRenderer>();
 	Direction_None->Transform.SetLocalPosition(float4(0.0f, -62.0f, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Component)));
@@ -165,5 +166,164 @@ void UI_Dispensation::UpdateKey()
 	if (true == GameEngineInput::IsDown('X', this))
 	{
 		Close();
+		return;
 	}
+
+	if (true == GameEngineInput::IsDown('Q', this))
+	{
+		LowHit();
+		return;
+	}
+
+	if (true == GameEngineInput::IsDown('W', this))
+	{
+		HighHit();
+		return;
+	}
+
+	if (true == GameEngineInput::IsDown('E', this))
+	{
+		PrevDirection();
+		return;
+	}
+
+	if (true == GameEngineInput::IsDown('R', this))
+	{
+		NextDirection();
+		return;
+	}
+}
+
+
+
+void UI_Dispensation::LowHit()
+{
+	if (EBREWING_FIRE::One == CurFire)
+	{
+		return;
+	}
+
+	int iFire = static_cast<int>(CurFire);
+	--iFire;
+	
+	if (nullptr == Fire_Gauge)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
+	
+	Fire_Gauge->SetSprite("Dispensation_Fire_Gauge.png", iFire);
+
+	if (nullptr == Fire_Gauge_Pin)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
+
+	Fire_Gauge_Pin->SetSprite("dispensation_fire_gauge_pin.png", iFire);
+
+	CurFire = static_cast<EBREWING_FIRE>(iFire);
+}
+
+void UI_Dispensation::HighHit()
+{
+	if (EBREWING_FIRE::Five == CurFire)
+	{
+		return;
+	}
+
+
+	int iFire = static_cast<int>(CurFire);
+	++iFire;
+
+	if (nullptr == Fire_Gauge)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
+
+	Fire_Gauge->SetSprite("Dispensation_Fire_Gauge.png", iFire);
+
+	if (nullptr == Fire_Gauge_Pin)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
+
+	Fire_Gauge_Pin->SetSprite("dispensation_fire_gauge_pin.png", iFire);
+
+	CurFire = static_cast<EBREWING_FIRE>(iFire);
+}
+
+void UI_Dispensation::PrevDirection()
+{
+	if (EBREWING_DIRECTION::StirLeft == CurDirection)
+	{
+		return;
+	}
+
+	ChangeAllDirectionReset();
+
+	if (EBREWING_DIRECTION::StirNone == CurDirection)
+	{
+		Direction_CounterClockwise->SetSprite("Dispensation_Direction_CounterClockwise_Check.png");
+		CurDirection = EBREWING_DIRECTION::StirLeft;
+	}
+
+	if (EBREWING_DIRECTION::StirRight == CurDirection)
+	{
+		Direction_None->SetSprite("Dispensation_Direction_None_Check.png");
+		CurDirection = EBREWING_DIRECTION::StirNone;
+	}
+}
+
+void UI_Dispensation::NextDirection()
+{
+	if (EBREWING_DIRECTION::StirRight == CurDirection)
+	{
+		return;
+	}
+
+	ChangeAllDirectionReset();
+
+	if (EBREWING_DIRECTION::StirNone == CurDirection)
+	{
+		Direction_Clockwise->SetSprite("Dispensation_Direction_Clockwise_Check.png");
+		CurDirection = EBREWING_DIRECTION::StirRight;
+	}
+
+	if (EBREWING_DIRECTION::StirLeft == CurDirection)
+	{
+		Direction_None->SetSprite("Dispensation_Direction_None_Check.png");
+		CurDirection = EBREWING_DIRECTION::StirNone;
+	}
+}
+
+
+// 선택하지 않은 휘젓기 스프라이트 이름이 
+void UI_Dispensation::ChangeAllDirectionReset()
+{
+	if (nullptr == Direction_None)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
+
+	Direction_None->SetSprite("Dispensation_Direction_None.png");
+
+	if (nullptr == Direction_CounterClockwise)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
+
+	Direction_CounterClockwise->SetSprite("Dispensation_Direction_CounterClockwise.png");
+
+	if (nullptr == Direction_Clockwise)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
+
+	Direction_Clockwise->SetSprite("Dispensation_Direction_Clockwise.png");
 }

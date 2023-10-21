@@ -12,6 +12,7 @@
 
 
 UIManager* UIManager::MainUIManager = nullptr;
+bool UIManager::UI_Using = false;
 UIManager::UIManager() 
 {
 }
@@ -128,6 +129,9 @@ void UIManager::OpenInventory()
 	}
 
 	m_Inventory->Open();
+	m_Inventory->UsingOtherComponent(true);
+	m_Hub->Close();
+	SetEllieControl(false);
 }
 
 void UIManager::CloseInventory()
@@ -139,6 +143,9 @@ void UIManager::CloseInventory()
 	}
 
 	m_Inventory->Close();
+	m_Inventory->UsingOtherComponent(false);
+	m_Hub->Open();
+	SetEllieControl(true);
 }
 
 

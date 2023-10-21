@@ -43,19 +43,26 @@ enum class EDICTIONARYCATEGORY				// 사전
 	CandyPage,
 };
 
-
-enum class EBREWINGOPTION					// 레시피 옵션
+enum class EBREWING_DIRECTION
 {
-	None,
-	Easy,
-	Normal,
-	Hard,
-	StirNone,
 	StirRight,
+	StirNone,
 	StirLeft,
+};
+
+
+enum class EBREWING_FIRE
+{
 	One,
 	Two,
 	Three,
 	Four,
 	Five,
+};
+
+enum class EBREWING_DIFFICULTY					// 레시피 옵션
+{
+	Easy,
+	Normal,
+	Hard,
 };

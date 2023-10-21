@@ -28,6 +28,7 @@ void ContentsCore::Start()
 {
 	GlobalLoad::LoadGlobalResource();
 	InitResources();
+	InitBlendResources();
 	GlobalValue::SetWindowScale(GetStartWindowSize());
 	
 

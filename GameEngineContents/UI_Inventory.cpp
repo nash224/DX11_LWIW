@@ -420,6 +420,12 @@ void UI_Inventory::UnlockSlot(const unsigned int _Count /*= 1*/)
 }
 
 
+void UI_Inventory::UsingOtherComponent(bool _Value)
+{
+	IsOtherComponent = _Value;
+}
+
+
 
 // 같은 부모로 설정해두면 이전레벨에 렌더링 될수있음으로 레벨이 바뀔때 부모를 바꿉니다. 
 void UI_Inventory::ChangeDataParent()
@@ -651,7 +657,7 @@ void UI_Inventory::UpdateInventory(float _Delta)
 
 void UI_Inventory::DectedCloseInventory()
 {
-	if (false == OpenCheck)
+	if (false == OpenCheck && false == IsOtherComponent)
 	{
 		if (true == GameEngineInput::IsDown('S', this))
 		{

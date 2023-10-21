@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "ContentsCore.h"
 
+#include <GameEngineCore/GameEngineBlend.h>
 
 // data
 #include "BiologyData.h"
@@ -103,11 +104,47 @@ void ContentsCore::LoadContentsData()
 	BiologyData::CreateData("MapleHerb", { "MapleHerb", "단풍 허브", "단풍 허브", ETOOLTYPE::Gloves, EECOLOGYTYPE::GreenForest, EECOLOGYTYPE::ForestPlateau, EECOLOGYTYPE::AllDay });
 
 	// 물약
-	ProductRecipeData::CreateData("BadGrassPotion", { "BadGrassPotion", "나쁜 풀 제거 물약", EBREWINGOPTION::Easy, EBREWINGOPTION::StirNone, EBREWINGOPTION::Four, "Mongsiri_Water", 2, "WitchFlower_Water", 2 });
-	ProductRecipeData::CreateData("NutritionPotion", { "NutritionPotion", "풀 성장 물약", EBREWINGOPTION::Normal, EBREWINGOPTION::StirRight, EBREWINGOPTION::Three, "SilverStarFlower_Water", 2, "MapleHerb_Water", 2, "BushBug_Water", 2 });
-	ProductRecipeData::CreateData("FirecrackerPotion", { "FirecrackerPotion", "불꽃놀이 물약", EBREWINGOPTION::Hard, EBREWINGOPTION::StirRight, EBREWINGOPTION::Three, "PumpkinTerrier_Powder", 2, "FlowerBird_Water", 2, "MoonButterfly_Water", 2 });
+	ProductRecipeData::CreateData("BadGrassPotion", { "BadGrassPotion", "나쁜 풀 제거 물약", EBREWING_DIFFICULTY::Easy, EBREWING_DIRECTION::StirNone, EBREWING_FIRE::Four, "Mongsiri_Water", 2, "WitchFlower_Water", 2 });
+	ProductRecipeData::CreateData("NutritionPotion", { "NutritionPotion", "풀 성장 물약", EBREWING_DIFFICULTY::Normal, EBREWING_DIRECTION::StirRight, EBREWING_FIRE::Three, "SilverStarFlower_Water", 2, "MapleHerb_Water", 2, "BushBug_Water", 2 });
+	ProductRecipeData::CreateData("FirecrackerPotion", { "FirecrackerPotion", "불꽃놀이 물약", EBREWING_DIFFICULTY::Hard, EBREWING_DIRECTION::StirRight, EBREWING_FIRE::Three, "PumpkinTerrier_Powder", 2, "FlowerBird_Water", 2, "MoonButterfly_Water", 2 });
 
 	// 사탕
-	ProductRecipeData::CreateData("UncurseCandy", { "UncurseCandy", "단풍 허브", EBREWINGOPTION::Easy, EBREWINGOPTION::StirNone, EBREWINGOPTION::Three, "Mongsiri_Water", 2, "MapleHerb_Water", 2 });
-	ProductRecipeData::CreateData("HealingCandy", { "HealingCandy", "치료 사탕", EBREWINGOPTION::Easy, EBREWINGOPTION::StirRight, EBREWINGOPTION::Four, "WitchFlower_Water", 2, "MapleHerb_Water", 2 });
+	ProductRecipeData::CreateData("UncurseCandy", { "UncurseCandy", "단풍 허브", EBREWING_DIFFICULTY::Easy, EBREWING_DIRECTION::StirNone, EBREWING_FIRE::Three, "Mongsiri_Water", 2, "MapleHerb_Water", 2 });
+	ProductRecipeData::CreateData("HealingCandy", { "HealingCandy", "치료 사탕", EBREWING_DIFFICULTY::Easy, EBREWING_DIRECTION::StirRight, EBREWING_FIRE::Four, "WitchFlower_Water", 2, "MapleHerb_Water", 2 });
+}
+
+
+
+void ContentsCore::InitBlendResources()
+{
+	D3D11_BLEND_DESC Desc = {};
+
+	// 렌더타겟당 블랜드 옵션을 각각 적용할꺼냐
+	Desc.IndependentBlendEnable = false;
+
+	// 렌더타겟 0번 
+	// 블랜드 허용
+	Desc.RenderTarget[0].BlendEnable = true;
+
+	// 색깔 전체를 대상으로 삼겠다.
+	Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+	// 색을 더한다
+	Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+
+	// https://learn.microsoft.com/ko-kr/windows/win32/api/d3d11/ne-d3d11-d3d11_blend
+
+	// src srcColor * src의 알파
+	// 1, 0, 0(, 1) * 1.0f
+	Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA; // src팩터
+
+	// src 1, 0, 0, 1 * (1 - src의 알파)
+	Desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+
+	// 
+	Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ZERO;
+	Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
+
+	std::shared_ptr<GameEngineBlend> Blend = GameEngineBlend::Create("Overlay", Desc);
 }

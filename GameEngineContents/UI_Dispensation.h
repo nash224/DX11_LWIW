@@ -1,6 +1,10 @@
 #pragma once
 #include "UI_ToggleActor.h"
 
+
+
+
+
 class DispensationSlotInfo
 {
 public:
@@ -43,6 +47,12 @@ protected:
 private:
 	void UpdateKey();
 
+	void LowHit();
+	void HighHit();
+	void PrevDirection();
+	void NextDirection();
+	void ChangeAllDirectionReset();
+
 private:
 	std::shared_ptr<GameEngineUIRenderer> m_Base = nullptr;
 	std::shared_ptr<GameEngineUIRenderer> m_Frame = nullptr;
@@ -56,6 +66,9 @@ private:
 	std::shared_ptr<GameEngineUIRenderer> Direction_Clockwise = nullptr;
 
 	std::vector<DispensationSlotInfo> m_DispensationSlotInfo;
+
+	EBREWING_FIRE CurFire = EBREWING_FIRE::Three;
+	EBREWING_DIRECTION CurDirection = EBREWING_DIRECTION::StirNone;
 
 };
 

@@ -50,10 +50,6 @@ protected:
 
 
 private:
-	std::string ReturnIllustedBookFileName(EBREWINGOPTION _Option);
-	int ReturnIllustedBookIndex(EBREWINGOPTION _Option);
-
-private:
 	ProductPageComposition m_ProductPageComposition;
 
 	const float CONST_OptionGap = 100.0f;

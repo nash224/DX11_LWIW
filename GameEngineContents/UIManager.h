@@ -15,6 +15,7 @@ class UIManager : public GameEngineActor
 {
 public:
 	static UIManager* MainUIManager;
+	static bool UI_Using;
 
 public:
 	// constrcuter destructer

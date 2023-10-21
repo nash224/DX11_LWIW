@@ -39,6 +39,7 @@ protected:
 private:
 	void InitResources();
 	void LoadContentsData();
+	void InitBlendResources();
 
 	
 };
