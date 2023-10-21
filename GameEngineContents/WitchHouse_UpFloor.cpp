@@ -104,10 +104,13 @@ void WitchHouse_UpFloor::SetEllieLevelChangeLocation(class GameEngineLevel* _Nex
 	{
 		SpawnPosition = m_BackDrop->m_HouseLocation + float4{ 128.0f , -310.0f };
 	}
-
-	if (NextLevelName == "WitchHouse_DownFloor")
+	else if (NextLevelName == "WitchHouse_DownFloor")
 	{
 		SpawnPosition = { 510.0f , -273.0f };
+	}
+	else
+	{
+		SpawnPosition = m_BackDrop->m_HouseLocation + float4{ 128.0f , -310.0f };
 	}
 	
 	m_Ellie->Transform.SetLocalPosition(SpawnPosition);

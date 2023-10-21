@@ -115,21 +115,13 @@ void WitchHouse_DownFloor::LoadActor()
 // 레벨전환시 앨리의 시작위치를 지정해줍니다.
 void WitchHouse_DownFloor::SetEllieLevelChangeLocation(class GameEngineLevel* _NextLevel)
 {
-	float4 SpawnPosition = float4::ZERO;
-
-	std::string NextLevelName = _NextLevel->GetName();
-	if (NextLevelName == "WitchHouse_UpFloor")
-	{
-		SpawnPosition = { 548.0f , -228.0f };
-	}
-
-
 	if (nullptr == m_Ellie)
 	{
 		MsgBoxAssert("앨리를 생성하지 않았습니다.");
 		return;
 	}
-	m_Ellie->Transform.SetLocalPosition(SpawnPosition);
+
+	m_Ellie->Transform.SetLocalPosition({ 548.0f , -228.0f });
 }
 
 void WitchHouse_DownFloor::CameraSetting()
