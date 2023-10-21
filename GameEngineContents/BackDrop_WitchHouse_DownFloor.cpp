@@ -875,10 +875,10 @@ void BackDrop_WitchHouse_DownFloor::CreateStaticActor(GameEngineLevel* _Level)
 			return;
 		}
 
-		Object->CreateAndSetCollision(ECOLLISION::Entity, { 100.0f , 100.0f }, float4::ZERO, ColType::SPHERE2D );
-		Object->SetInteractionType(EINTERACTION_TYPE::Far);
-		Object->SetInteractionButtonType(EINTERACTION_BUTTONTYPE::Gear);
-		Object->Transform.SetLocalPosition(m_DownFloorWholePosition + float4{ 57.0f + 352.0f , -53.0f - 246.0f });
+		float4 Position = float4(m_DownFloorWholePosition + float4(409.0f, -299.0f));
+		Position.Z = ZSort(Position.Y);
+		Object->Transform.SetLocalPosition(Position);
+		Object->Init();
 
 		StaticEntityList.push_back(Object);
 	}

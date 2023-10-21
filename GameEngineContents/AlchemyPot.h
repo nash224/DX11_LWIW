@@ -24,9 +24,9 @@ public:
 	AlchemyPot& operator=(const AlchemyPot& _Other) = delete;
 	AlchemyPot& operator=(AlchemyPot&& _Other) noexcept = delete;
 
-	void StartAlchemyPot();
+	void Init();
 
-	void CreateRendererAndAnimation();
+	void RendererSetting();
 
 	void SetCreatePotion(const bool _Value);
 
@@ -64,15 +64,15 @@ private:
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> m_PotRenderer;
 	std::shared_ptr<GameEngineSpriteRenderer> m_WaterRenderer;
+	std::shared_ptr<GameEngineSpriteRenderer> m_FxRenderer;
 	std::shared_ptr<GameEngineSpriteRenderer> m_FireRenderer;
-	std::shared_ptr<GameEngineSpriteRenderer> m_PotFxSteam;
+	std::shared_ptr<GameEngineSpriteRenderer> m_SteamRenderer;
 
 
 private:
 	EPOTSTATE m_State = EPOTSTATE::None;
 	
 
-	bool IsPotionCreationStart = false;
 	bool IsPotionCreated = false;
 };
 

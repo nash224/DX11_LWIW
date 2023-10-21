@@ -12,48 +12,50 @@ AlchemyPot::~AlchemyPot()
 
 void AlchemyPot::Start()
 {
-	InteractiveActor::Start();
-
-	StartAlchemyPot();
+	CreateAndSetCollision(ECOLLISION::Entity, { 260.0f , 100.0f }, float4::ZERO, ColType::SPHERE2D);
+	SetInteractionType(EINTERACTION_TYPE::Far);
+	SetInteractionButtonType(EINTERACTION_BUTTONTYPE::Gear);
+	m_CollectionTool = ETOOLTYPE::Nothing;
 }
 
 void AlchemyPot::Update(float _Delta)
 {
-	InteractiveActor::Update(_Delta);
+	StaticEntity::Update(_Delta);
 
 	UpdateState(_Delta);
 }
 
 void AlchemyPot::Release()
 {
-	InteractiveActor::Release();
-
 	m_PotRenderer = nullptr;
 	m_WaterRenderer = nullptr;
+	m_FxRenderer = nullptr;
 	m_FireRenderer = nullptr;
-	m_PotFxSteam = nullptr;
+	m_SteamRenderer = nullptr;
+
+	m_InteractiveCol = nullptr;
 }
 
 void AlchemyPot::LevelStart(class GameEngineLevel* _NextLevel)
 {
-	InteractiveActor::LevelStart(_NextLevel);
+
 }
 
 void AlchemyPot::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-	InteractiveActor::LevelEnd(_NextLevel);
+
 }
 
 
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-void AlchemyPot::StartAlchemyPot()
+void AlchemyPot::Init()
 {
-	CreateRendererAndAnimation();
+	RendererSetting();
 }
 
-void AlchemyPot::CreateRendererAndAnimation()
+void AlchemyPot::RendererSetting()
 {
 	if (nullptr == GameEngineSprite::Find("Pot_Fire_Large.png"))
 	{
@@ -68,59 +70,50 @@ void AlchemyPot::CreateRendererAndAnimation()
 		GameEngineSprite::CreateCut("Pot_Fx_Success.png", 5, 5);
 	}
 
-	m_PotRenderer = CreateComponent<GameEngineSpriteRenderer>(15);
-	if (nullptr == m_PotRenderer)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
-
+	m_PotRenderer = CreateComponent<GameEngineSpriteRenderer>();
 	m_PotRenderer->SetSprite("DownFloor_Pot_0.png");
 	m_PotRenderer->Transform.SetLocalPosition({ 0.0f , -8.0f });
 
 
-	m_WaterRenderer = CreateComponent<GameEngineSpriteRenderer>(16);
-	if (nullptr == m_WaterRenderer)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
-
+	m_WaterRenderer = CreateComponent<GameEngineSpriteRenderer>();
+	m_WaterRenderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, -1.0f));
 	m_WaterRenderer->CreateAnimation("Idle", "Pot_Fx_IdleA.png", 0.1f, 0, 21);
-	m_WaterRenderer->CreateAnimation("Boil", "Pot_Fx_Boil.png", 0.1f, 0, 14);
-	m_WaterRenderer->CreateAnimation("Fail", "Pot_Fx_Fail.png", 0.1f, 0, 18);
-	m_WaterRenderer->SetEndEvent("Fail", std::bind(&AlchemyPot::EndPotionCreation, this));
-	m_WaterRenderer->CreateAnimation("Success", "Pot_Fx_Success.png", 0.1f, 0, 21);
-	m_WaterRenderer->SetEndEvent("Success", std::bind(&AlchemyPot::EndPotionCreation, this));
-
 	m_WaterRenderer->AutoSpriteSizeOn();
+	m_WaterRenderer->ChangeAnimation("Idle");
 
 
-	m_FireRenderer = CreateComponent<GameEngineSpriteRenderer>(16);
-	if (nullptr == m_FireRenderer)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
+	m_FxRenderer = CreateComponent<GameEngineSpriteRenderer>();
+	m_FxRenderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, -2.0f));
+	m_FxRenderer->CreateAnimation("Idle", "Pot_Fx_IdleA.png", 0.1f, 0, 21, false);
+	m_FxRenderer->CreateAnimation("Boil", "Pot_Fx_Boil.png", 0.1f, 0, 14, false);
+	m_FxRenderer->SetStartEvent("Boil", [&](GameEngineSpriteRenderer* _Renderer)
+		{
+			m_FireRenderer->ChangeAnimation("Large");
+			m_SteamRenderer->Off();
+		});
 
 
+	m_FxRenderer->CreateAnimation("Fail", "Pot_Fx_Fail.png", 0.1f, 0, 18, false);
+	m_FxRenderer->SetEndEvent("Fail", std::bind(&AlchemyPot::EndPotionCreation, this));
+	m_FxRenderer->CreateAnimation("Success", "Pot_Fx_Success.png", 0.1f, 0, 21, false);
+	m_FxRenderer->SetEndEvent("Success", std::bind(&AlchemyPot::EndPotionCreation, this));
+	m_FxRenderer->AutoSpriteSizeOn();
+	m_FxRenderer->Off();
+
+
+	m_FireRenderer = CreateComponent<GameEngineSpriteRenderer>();
+	m_FireRenderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, -1.0f));
 	m_FireRenderer->CreateAnimation("Small", "Pot_Fire_Small.png", 0.1f, 1, 23);
 	m_FireRenderer->CreateAnimation("Large", "Pot_Fire_Large.png", 0.1f, 1, 23);
 	m_FireRenderer->AutoSpriteSizeOn();
 	
 	m_FireRenderer->ChangeAnimation("Small");
 
-	m_PotFxSteam = CreateComponent<GameEngineSpriteRenderer>(17);
-	if (nullptr == m_PotFxSteam)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
-
-	m_PotFxSteam->CreateAnimation("Steam", "Pot_Fire_Large.png", 0.1f, 1, 23);
-	m_PotFxSteam->AutoSpriteSizeOn();
-
-	m_PotFxSteam->ChangeAnimation("Steam");
+	m_SteamRenderer = CreateComponent<GameEngineSpriteRenderer>();
+	m_SteamRenderer->CreateAnimation("Steam", "Pot_Fire_Large.png", 0.1f, 1, 23);
+	m_SteamRenderer->AutoSpriteSizeOn();
+	m_SteamRenderer->ChangeAnimation("Steam");
+	m_SteamRenderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, -2.0f));
 
 	ChangeState(EPOTSTATE::Idle);
 }
@@ -191,13 +184,13 @@ void AlchemyPot::ChangePotCompositionAnimation(std::string_view _StateName)
 	std::string AnimationName = "";
 	AnimationName += _StateName.data();
 	
-	if (nullptr == m_WaterRenderer)
+	if (nullptr == m_FxRenderer)
 	{
-		MsgBoxAssert("믿기지 않겠지만 렌더러가 존재하지 않습니다.");
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	m_WaterRenderer->ChangeAnimation(AnimationName);
+	m_FxRenderer->ChangeAnimation(AnimationName);
 }
 
 
@@ -213,37 +206,28 @@ void AlchemyPot::UpdateIdle(float _Delta)
 	{
 		ChangeState(EPOTSTATE::Boil);
 		return; 
-
-		IsPotionCreationStart = false;
 	}
 }
 
 
 void AlchemyPot::StartBoil()
 {
-	if (nullptr == m_FireRenderer)
+	if (nullptr == m_FxRenderer)
 	{
-		MsgBoxAssert("있을수 없는 일입니다.");
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	m_FireRenderer->ChangeAnimation("Large");
+	m_FxRenderer->On();
 
-
-	if (nullptr == m_PotFxSteam)
-	{
-		MsgBoxAssert("있을수 없는 일입니다.");
-		return;
-	}
-
-	m_PotFxSteam->Off();
+	IsPotionCreated = true;
 
 	ChangePotCompositionAnimation("Boil");
 }
 
 void AlchemyPot::UpdateBoil(float _Delta)
 {
-	if (nullptr != m_WaterRenderer && true == m_WaterRenderer->IsCurAnimationEnd())
+	if (nullptr != m_FxRenderer && true == m_FxRenderer->IsCurAnimationEnd())
 	{
 		if (true == IsPotionCreated)
 		{
@@ -266,7 +250,7 @@ void AlchemyPot::StartFail()
 
 void AlchemyPot::UpdateFail(float _Delta)
 {
-	if (nullptr != m_WaterRenderer && true == m_WaterRenderer->IsCurAnimationEnd())
+	if (nullptr != m_FxRenderer && true == m_FxRenderer->IsCurAnimationEnd())
 	{
 		ChangeState(EPOTSTATE::Idle);
 		return;
@@ -281,7 +265,7 @@ void AlchemyPot::StartSuccess()
 
 void AlchemyPot::UpdateSuccess(float _Delta)
 {
-	if (nullptr != m_WaterRenderer && true == m_WaterRenderer->IsCurAnimationEnd())
+	if (nullptr != m_FxRenderer && true == m_FxRenderer->IsCurAnimationEnd())
 	{
 		ChangeState(EPOTSTATE::Idle);
 		return;
@@ -302,13 +286,21 @@ void AlchemyPot::EndPotionCreation()
 	m_FireRenderer->ChangeAnimation("Small");
 
 
-	if (nullptr == m_PotFxSteam)
+	if (nullptr == m_SteamRenderer)
 	{
 		MsgBoxAssert("있을수 없는 일입니다.");
 		return;
 	}
 
-	m_PotFxSteam->On();
+	m_SteamRenderer->On();
+
+	if (nullptr == m_FxRenderer)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
+
+	m_FxRenderer->Off();
 
 	IsPotionCreated = false;
 }
