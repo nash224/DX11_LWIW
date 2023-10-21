@@ -250,6 +250,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Ellie_Riding_State.cpp" />
     <ClCompile Include="Ellie_State.cpp" />
     <ClCompile Include="EventData.cpp">
       <SubType>

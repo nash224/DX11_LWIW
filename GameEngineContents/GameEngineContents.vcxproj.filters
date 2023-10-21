@@ -701,5 +701,8 @@
       <Filter>2.Object\2.Actor\2.Interactive\Static\BranchTree</Filter>
     </ClCompile>
     <ClCompile Include="ContentsCore_Resources.cpp" />
+    <ClCompile Include="Ellie_Riding_State.cpp">
+      <Filter>2.Object\2.Actor\2.Interactive\Dynamic\Ellie</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
