@@ -118,6 +118,13 @@ void UI_ProductPage::CreatePage(std::string_view _ProduectName, int& PageCount)
 
 std::string UI_ProductPage::ReturnIllustedBookFileName(EBREWINGOPTION _Option)
 {
+	if (nullptr == GameEngineSprite::Find("IllustedBook_Icon_Fire.png"))
+	{
+		GameEngineSprite::CreateCut("IllustedBook_Icon_Fire.png", 5, 1);
+		GameEngineSprite::CreateCut("IllustedBook_Icon_Ladle.png", 3, 1);
+		GameEngineSprite::CreateCut("IllustedBook_Icon_Star.png", 3, 1);
+	}
+
 	std::string FileName = "IllustedBook_Icon_";
 
 	switch (_Option)

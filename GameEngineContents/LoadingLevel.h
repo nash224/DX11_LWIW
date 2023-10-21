@@ -25,10 +25,8 @@ protected:
 
 
 private:
-	void LoadTexture();
 	void LoadSprite();
 	void LoadActor();
-	void LoadContentsData();
 	
 private:
 	void ReleaseSprite();

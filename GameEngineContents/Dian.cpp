@@ -23,6 +23,15 @@ void Dian::Update(float _Delta)
 void Dian::Release()
 {
 	StaticEntity::Release();
+
+	if (0 == m_Body.use_count())
+	{
+		if (nullptr != GameEngineSprite::Find("Dian_idle.png"))
+		{
+			GameEngineSprite::Release("Dian_idle.png");
+		}
+	}
+	
 }
 
 void Dian::LevelStart(class GameEngineLevel* _NextLevel)
@@ -50,6 +59,12 @@ void Dian::Init()
 
 void Dian::RendererSetting()
 {
+	if (nullptr == GameEngineSprite::Find("Dian_idle.png"))
+	{
+		GameEngineSprite::CreateCut("Dian_idle.png", 3, 3);
+	}
+
+
 	m_Body = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::Object);
 	if (nullptr == m_Body)
 	{

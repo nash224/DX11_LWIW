@@ -63,6 +63,17 @@ void BranchTree::Init()
 
 void BranchTree::CreateBranchTreehAnimation()
 {
+	if (nullptr == GameEngineSprite::Find("Tree_Branch.png"))
+	{
+		// branchTree
+		GameEngineSprite::CreateCut("Tree_Branch.png", 3, 2);
+		GameEngineSprite::CreateCut("Tree_Branch_Mask.png", 3, 2);
+
+		GameEngineSprite::CreateSingle("Branch.png");
+		GameEngineSprite::CreateSingle("Branch_1.png");
+	}
+
+
 	m_Tree = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
 	if (nullptr == m_Tree)
 	{

@@ -40,22 +40,18 @@ void Tunnel::LevelEnd(class GameEngineLevel* _NextLevel)
 /////////////////////////////////////////////////////////////////////////////////////
 
 
-void Tunnel::Init()
+void Tunnel::Init(std::string_view _NextLevelName)
 {
-	float4 WinScale = GlobalValue::GetWindowScale();
+	NextLevelName = _NextLevelName;
 
-	Transform.SetLocalRotation({0.0f, 0.0f, 180.0f});
+	// Actor Transfomr Setting
+	float4 WinScale = GlobalValue::GetWindowScale();
 	float4 Position = { (WinScale.X + WinScale.hX()) * 2.0f, -WinScale.hY(), GlobalUtils::CalculateDepth(ERENDERDEPTH::FadeObject) };
+	Transform.SetLocalRotation({0.0f, 0.0f, 180.0f});
 	Transform.SetLocalPosition(Position);
 
-
+	// Renderer Setting
 	m_Renderer = CreateComponent<GameEngineSpriteRenderer>(EUPDATEORDER::Fade);
-	if (nullptr == m_Renderer)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
-
 	m_Renderer->SetSprite("Title_Train_Cover.png");
 	m_Renderer->GetImageTransform().SetLocalScale({ WinScale.X * 2.0f , WinScale.Y });
 }
@@ -68,6 +64,6 @@ void Tunnel::UpdateTunnel(float _Delta)
 	float TunnelXPos = Transform.GetLocalPosition().X;
 	if (TunnelXPos < 400.0f)
 	{
-		GameEngineCore::ChangeLevel("LoadingLevel");
+		GameEngineCore::ChangeLevel(NextLevelName);
 	}
 }

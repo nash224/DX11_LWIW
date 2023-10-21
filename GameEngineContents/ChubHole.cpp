@@ -42,6 +42,11 @@ void ChubHole::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void ChubHole::Init()
 {
+	if (nullptr == GameEngineSprite::Find("SquishychubHole.png"))
+	{
+		GameEngineSprite::CreateSingle("SquishychubHole.png");
+	}
+
 	m_HoleRenderer = CreateComponent<GameEngineSpriteRenderer>();
 	if (nullptr == m_HoleRenderer)
 	{

@@ -50,6 +50,22 @@ void UIManager::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void UIManager::Init()
 {
+	if (nullptr == GameEngineSprite::Find("Photo.png"))
+	{
+		std::vector<GameEngineDirectory> Dirs = GlobalUtils::GetAllDirInPath("Resources\\PlayContents\\PlayResourecs\\UI\\UI_Sprite");
+		for (size_t i = 0; i < Dirs.size(); i++)
+		{
+			GameEngineDirectory Dir = Dirs[i];
+			std::vector <GameEngineFile> Files = Dir.GetAllFile();
+			for (size_t i = 0; i < Files.size(); i++)
+			{
+				GameEngineFile pFile = Files[i];
+				GameEngineSprite::CreateSingle(pFile.GetFileName());
+			}
+		}
+	}
+
+
 	GameEngineLevel* CurLevel = GetLevel();
 	if (nullptr == CurLevel)
 	{

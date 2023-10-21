@@ -50,6 +50,14 @@ void Aurea::Init()
 
 void Aurea::RendererSetting()
 {
+	if (nullptr == GameEngineSprite::Find("Aurea_Idle.png"))
+	{
+		GameEngineSprite::CreateCut("Aurea_Idle.png", 3, 2);
+		GameEngineSprite::CreateCut("merchant_creature.png", 7, 1);
+	}
+
+
+
 	m_Body = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
 	if (nullptr == m_Body)
 	{

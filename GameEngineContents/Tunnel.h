@@ -14,7 +14,7 @@ public:
 	Tunnel& operator=(const Tunnel& _Other) = delete;
 	Tunnel& operator=(Tunnel&& _Other) noexcept = delete;
 
-	void Init();
+	void Init(std::string_view _NextLevelName);
 
 protected:
 	void Start() override;
@@ -28,6 +28,7 @@ private:
 
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> m_Renderer = nullptr;
+	std::string NextLevelName = "";
 
 
 	float TunnelSpeed = 2800.0f;

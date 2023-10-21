@@ -44,6 +44,11 @@ void UI_Hub_Tool::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void UI_Hub_Tool::Init()
 {
+	if (nullptr == GameEngineSprite::Find("Tool_Icon.png"))
+	{
+		GameEngineSprite::CreateCut("Tool_Icon.png", 3, 1);
+	}
+
 	m_CurrentTool = ETOOLTYPE::Gloves;
 
 	Transform.AddLocalPosition({ -418.0f , -196.0f });

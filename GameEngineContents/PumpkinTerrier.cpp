@@ -51,6 +51,19 @@ void PumpkinTerrier::Init()
 
 void PumpkinTerrier::RendererSetting()
 {
+	if (nullptr == GameEngineSprite::Find("PumpkinTerrier_Vine_GaspA.png"))
+	{
+		GameEngineSprite::CreateCut("PumpkinTerrier_Vine_GaspA.png", 5, 4);
+		GameEngineSprite::CreateCut("PumpkinTerrier_Vine_GaspB.png", 5, 4);
+		GameEngineSprite::CreateCut("PumpkinTerrier_Vine_IdleA.png", 4, 3);
+		GameEngineSprite::CreateCut("PumpkinTerrier_Vine_IdleB.png", 4, 3);
+		GameEngineSprite::CreateCut("PumpkinTerrier_Vine_PawA.png", 4, 4);
+		GameEngineSprite::CreateCut("PumpkinTerrier_Vine_PawB.png", 4, 4);
+		GameEngineSprite::CreateCut("PumpkinTerrier_Vine_RunA.png", 3, 3);
+		GameEngineSprite::CreateCut("PumpkinTerrier_Vine_RunB.png", 3, 3);
+	}
+
+
 	m_Body = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::Object);
 	if (nullptr == m_Body)
 	{

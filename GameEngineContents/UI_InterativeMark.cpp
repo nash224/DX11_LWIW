@@ -50,6 +50,12 @@ void UI_InterativeMark::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void UI_InterativeMark::Init()
 {
+	if (nullptr == GameEngineSprite::Find("PointArrow.png"))
+	{
+		GameEngineSprite::CreateCut("PointArrow.png", 3, 2);
+	}
+
+
 	m_MarkRenderer = CreateComponent<GameEngineUIRenderer>();
 	if (nullptr == m_MarkRenderer)
 	{

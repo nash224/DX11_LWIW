@@ -13,6 +13,7 @@
 #include "WitchHouse_Yard.h"
 #include "WitchHouse_UpFloor.h"
 #include "WitchHouse_DownFloor.h"
+#include "TestLevel.h"
 
 #include "ContentsGUI.h"
 
@@ -40,6 +41,7 @@ void ContentsCore::Start()
 	GameEngineCore::CreateLevel<WitchHouse_Yard>("WitchHouse_Yard");
 	GameEngineCore::CreateLevel<WitchHouse_UpFloor>("WitchHouse_UpFloor");
 	GameEngineCore::CreateLevel<WitchHouse_DownFloor>("WitchHouse_DownFloor");
+	GameEngineCore::CreateLevel<TestLevel>("TestLevel");
 	GameEngineCore::ChangeLevel("MainMenu");
 }
 

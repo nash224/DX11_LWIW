@@ -204,7 +204,10 @@ void UI_Inventory::Init()
 	CreateBase();
 	CreateSlotArray();
 	CreateCursor();
+
+	// 아이템 획득 알림창 매니저입니다.
 	CreateNoticeDropManager();
+
 	LockSlot(UnlockSlotY);
 	Transform.AddLocalPosition({ -288.0f , 28.0f });
 
@@ -267,6 +270,11 @@ void UI_Inventory::CreateSlotArray()
 
 void UI_Inventory::CreateCursor()
 {
+	if (nullptr == GameEngineSprite::Find("Inventory_Cursor.png"))
+	{
+		GameEngineSprite::CreateCut("Inventory_Cursor.png", 2, 1);
+	}
+
 	std::shared_ptr<GameEngineUIRenderer> CurSor = CreateComponent<GameEngineUIRenderer>();
 	CurSor->CreateAnimation("Cursor", "Inventory_Cursor.png", CursorInter);
 	CurSor->ChangeAnimation("Cursor");
@@ -371,15 +379,14 @@ void UI_Inventory::PushItem(std::string_view _ItemName, unsigned int _Count/* = 
 	Data->PushItem(ItemName, _Count);
 
 
-	if (nullptr == MainInventory->m_DropManager)
+	// 알림 시스템이기 때문에 터트리진 않습니다.
+	if (nullptr != MainInventory->m_DropManager)
 	{
-		MsgBoxAssert("드롭매니저가 존재하지 없습니다.");
-		return;
+		MainInventory->m_DropManager->NoticeItemDrop(_ItemName);
 	}
-
-	MainInventory->m_DropManager->NoticeItemDrop(_ItemName);
 }
 
+// 슬롯 줄 잠금해제
 void UI_Inventory::UnlockSlot(const unsigned int _Count /*= 1*/)
 {
 	unsigned int PrevUnlockSlotY = UnlockSlotY;
@@ -518,7 +525,7 @@ void UI_Inventory::SelectSlot(const unsigned int _X, const unsigned int _Y)
 		MsgBoxAssert("커서를 생성하지 않고 사용하려 했습니다.");
 		return;
 	}
-
+	 
 	// 데이터가 있으면
 	if (-1 != Data->IsContain(_X, _Y))
 	{

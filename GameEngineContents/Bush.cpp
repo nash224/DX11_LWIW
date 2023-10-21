@@ -64,6 +64,20 @@ void Bush::Init()
 // 局聪皋捞记 积己
 void Bush::CreateBushAnimation()
 {
+	if (nullptr == GameEngineSprite::Find("Bush_0.png"))
+	{
+		// Bush & Bug
+		GameEngineSprite::CreateCut("Bush_0.png", 4, 3);
+		GameEngineSprite::CreateCut("Bush_0_Mask.png", 4, 3);
+		GameEngineSprite::CreateCut("Bush_2_Shaking.png", 4, 3);
+		GameEngineSprite::CreateCut("Bush_2_Shaking_Mask.png", 4, 3);
+		GameEngineSprite::CreateCut("Bush_Animation_1.png", 4, 4);
+		GameEngineSprite::CreateCut("BushBug_Appearing.png", 5, 5);
+	}
+
+
+
+
 	m_Bush_FX = CreateComponent<GameEngineSpriteRenderer>();
 	if (nullptr == m_Bush_FX)
 	{

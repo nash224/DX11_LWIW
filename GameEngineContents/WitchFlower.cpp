@@ -54,6 +54,11 @@ void WitchFlower::Init()
 
 void WitchFlower::CreateAndSetWitchFlowerRenderer()
 {
+	if (nullptr == GameEngineSprite::Find("WitchFlower.png"))
+	{
+		GameEngineSprite::CreateCut("WitchFlower.png", 4, 4);
+	}
+
 	m_Plant = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
 	if (nullptr == m_Plant)
 	{

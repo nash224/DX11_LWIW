@@ -12,7 +12,8 @@ BushBug::~BushBug()
 
 void BushBug::Start()
 {
-	DynamicEntity::Start();
+	CreateAndSetCollision(ECOLLISION::Entity, { 200.0f }, float4::ZERO, ColType::SPHERE2D);
+	SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Dragonfly);
 }
 
 void BushBug::Update(float _Delta)
@@ -22,17 +23,18 @@ void BushBug::Update(float _Delta)
 
 void BushBug::Release()
 {
-	DynamicEntity::Release();
+	m_Body = nullptr;
+	m_InteractiveCol = nullptr;
 }
 
 void BushBug::LevelStart(class GameEngineLevel* _NextLevel)
 {
-	DynamicEntity::LevelStart(_NextLevel);
+
 }
 
 void BushBug::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-	DynamicEntity::LevelEnd(_NextLevel);
+
 }
 
 
@@ -44,13 +46,17 @@ void BushBug::Init()
 {
 	//SetDepthBias();
 	//ApplyDepth();
-	CreateAndSetCollision(ECOLLISION::Entity, { 200.0f }, float4::ZERO, ColType::SPHERE2D);
-	SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Dragonfly);
 	AnimationSetting();
 }
 
 void BushBug::AnimationSetting()
 {
+	if (nullptr == GameEngineSprite::Find("Bushbug_Standing.png"))
+	{
+		GameEngineSprite::CreateCut("Bushbug_Standing.png", 4, 3);
+	}
+
+
 	m_Body = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
 	if (nullptr == m_Body)
 	{

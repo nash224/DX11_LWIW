@@ -69,6 +69,26 @@ void GlobalUtils::ReleaseAllTextureInPath(std::string_view _Path)
 	}
 }
 
+std::vector<GameEngineFile> GlobalUtils::GetAllFileInPath(std::string_view _Path)
+{
+	GameEngineDirectory Dir;
+	std::string ParentString = GetParentString(_Path);
+	Dir.MoveParentToExistsChild(ParentString);
+	Dir.MoveChild(_Path);
+	std::vector<GameEngineFile> Files = Dir.GetAllFile();
+	return Files;
+}
+
+std::vector<GameEngineDirectory> GlobalUtils::GetAllDirInPath(std::string_view _Path)
+{
+	GameEngineDirectory Dir;
+	std::string ParentString = GetParentString(_Path);
+	Dir.MoveParentToExistsChild(ParentString);
+	Dir.MoveChild(_Path);
+	std::vector<GameEngineDirectory> Dirs = Dir.GetAllDirectory();
+	return Dirs;
+}
+
 
 std::string GlobalUtils::GetParentString(std::string_view _ChildPath)
 {

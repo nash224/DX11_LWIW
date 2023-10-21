@@ -50,6 +50,11 @@ void SilverStarFlower::Init()
 
 void SilverStarFlower::RendererSetting()
 {
+	if (nullptr == GameEngineSprite::Find("SilverStarFlower.png"))
+	{
+		GameEngineSprite::CreateCut("SilverStarFlower.png", 4, 3);
+	}
+
 	m_Plant = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::Object);
 	if (nullptr == m_Plant)
 	{

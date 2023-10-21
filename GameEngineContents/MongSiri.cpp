@@ -65,6 +65,23 @@ void MongSiri::Init()
 
 void MongSiri::CreateAndSetRenderer()
 {
+	if (nullptr == GameEngineSprite::Find("Mongsiri_Collected.png"))
+	{
+		// MongSiri
+		GameEngineSprite::CreateCut("Mongsiri_Collected.png", 4, 3);
+		GameEngineSprite::CreateCut("Mongsiri_CollectedA.png", 4, 1);
+		GameEngineSprite::CreateCut("Mongsiri_Disappear.png", 6, 6);
+		GameEngineSprite::CreateCut("Mongsiri_Escape.png", 4, 3);
+		GameEngineSprite::CreateCut("Mongsiri_Idle.png", 3, 3);
+		GameEngineSprite::CreateCut("Mongsiri_IdleA.png", 3, 3);
+		GameEngineSprite::CreateCut("Mongsiri_IdleB.png", 4, 3);
+		GameEngineSprite::CreateCut("Mongsiri_Jump.png", 5, 5);
+	}
+
+
+
+
+
 	m_Shadow = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::Shadow);
 	if (nullptr == m_Shadow)
 	{
