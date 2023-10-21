@@ -119,14 +119,17 @@ private:
 	void RenewStatus();
 	void ChangeStatus(const EELLIE_STATUS _Status);
 
+	void UpdateOutPutDebug(float _Delta);
 
 private:
 	void RendererSetting();
 	void RideFxSetting();
 	
 
-	void StartCollision();
+	void CollisionSetting();
 
+private:
+	std::shared_ptr<GameEngineSpriteRenderer> m_Fx = nullptr;
 
 
 private:
@@ -140,6 +143,8 @@ private:
 	
 
 	bool InputTestPattern();
+
+	bool UsingTool();
 
 	void StartIdle();
 	void UpdateIdle(float _Delta);
@@ -172,6 +177,8 @@ private:
 
 	void StartNet();
 	void UpdateNet(float _Delta);
+	void NetCollision();
+	void EndNet();
 
 	void StartRootUp();
 	void UpdateRootUp(float _Delta);
@@ -194,6 +201,7 @@ private:
 	void StartDrink();
 	void UpdateDrink(float _Delta);
 
+
 private:
 	// 방향 키 감지
 	// 가능한 1프레임당 한번 업데이트 되는 것을 원칙으로 합니다.
@@ -206,7 +214,7 @@ private:
 	float4 CalculateDirectionVectorToDir(const EDIRECTION _Direction);
 
 	void CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce);
-	EDIRECTION ReturnDirectionCheckBothSide(EDIRECTION _Direction , const float4& _LeftCheckPoint, const float4& _RightCheckPoint);
+	EDIRECTION ReturnDirectionCheckBothSide(EDIRECTION _Direction, const float4& _LeftCheckPoint, const float4& _RightCheckPoint);
 	EDIRECTION ReturnPixelCollisionMoveDirectionToCurrentCheckPoint(EDIRECTION _Dir, const float4& _MoveVector);
 
 
@@ -216,24 +224,6 @@ private:
 	void DecelerateMoveVector(float _Delta, const float _MaxMoveForce, const float _DecelerationTime);
 	void DecelerateAtMidpoint(float _Delta, const float _MaxMoveForce, const float _Time);
 	void ApplyMovementToTransform(float _DElta);
-	
-
-
-private:
-	// 충돌 업데이트
-	void UpdateCollision();
-	void UpdatePortalCollsiion();
-	void UpdateInteractionCollsiion();
-
-
-private:
-	// 디버그
-	void UpdateOutPutDebug(float _Delta);
-
-
-private:
-	std::shared_ptr<GameEngineSpriteRenderer> m_Fx = nullptr; 
-
 
 private:
 	// 방향키
@@ -242,11 +232,8 @@ private:
 
 	// 행동
 	EELLIE_STATE m_State = EELLIE_STATE::None;
+
 	bool IsControl = true;
-
-
-
-
 	const float CONST_Ellie_SlowWalk_Speed = 100.0f;
 	const float CONST_Ellie_Walk_Speed = 160.0f;
 	const float CONST_Ellie_Run_Speed = 220.0f;
@@ -258,19 +245,27 @@ private:
 	const float CONST_Ellie_Riding_Boost_Speed = 700.0f;
 
 
+
+private:
+	// 충돌 업데이트
+	void UpdateCollision();
+	void UpdatePortalCollsiion();
+	void UpdateInteractionCollsiion();
+
 private:
 	// Pixel 충돌
 	const float4 m_PixelCheckScale = { 10.0f , 10.0f };
 	const float4 m_PixelCheckPosBaseOnCenter = float4::ZERO;
+	// 벽 마찰력
+	const float COSNT_FrictionForce = 0.5f;
 
 	// Pixel 충돌 체크 포인트
 	PixelCheckPoint m_PixelCheckPoint;
 
-	// 벽 마찰력
-	const float COSNT_FrictionForce = 0.5f;
 
 private:
 	std::shared_ptr<GameEngineCollision> m_EllieCol = nullptr;
+	std::shared_ptr<GameEngineCollision> m_NetCol = nullptr;
 	InteractiveActor* OtherEntity = nullptr;
 	
 	bool IsCollected = false;

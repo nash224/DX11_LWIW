@@ -139,6 +139,7 @@ enum class EUI_RENDERORDERDEPTH
 enum class ECOLLISION
 {
 	Player,
+	Net,
 	Entity,
 	Portal,
 };

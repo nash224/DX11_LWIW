@@ -80,6 +80,7 @@ public:
 	EINTERACTION_BUTTONTYPE GetInteractionButtonType() const;
 	ECOLLECTION_METHOD GetCollectionMethod() const;
 	EINTERACTION_PRESSTYPE GetInteractionPressType() const;
+	ETOOLTYPE GetCollectionToolType() const;
 
 
 	// 앨리전용 : 동적 대상을 정지시킨다.

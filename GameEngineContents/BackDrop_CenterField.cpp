@@ -58,23 +58,7 @@ void BackDrop_CenterField::Init()
 {
 	MainBackDrop = this;
 
-	std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Find("TestFieldMap.png");
-	if (nullptr == Texture)
-	{
-		MsgBoxAssert("존재하지 않는 텍스처입니다.");
-		return;
-	}
-
-
-	m_BackScale = Texture->GetScale();
-
-
 	GameEngineLevel* CurLevel = GetLevel();
-	if (nullptr == CurLevel)
-	{
-		MsgBoxAssert("레벨을 불러오지 못했습니다.");
-		return;
-	}
 
 	CreateFlooring();
 	CreateProp(CurLevel);
@@ -112,8 +96,8 @@ void BackDrop_CenterField::CreateFlooring()
 	m_BackProp.reserve(100);
 
 	{
-		float4 BaseScale = { 1920.0f, 1080.0f };
-		float4 BasePosition = BaseScale.Half();
+		m_BackScale = { 1920.0f, 1080.0f };
+		float4 BasePosition = m_BackScale.Half();
 		BasePosition.Y *= -1.0f;
 		BasePosition.Z = GlobalUtils::CalculateDepth(ERENDERDEPTH::Back_Paint);
 
@@ -125,7 +109,7 @@ void BackDrop_CenterField::CreateFlooring()
 		}
 
 		Renderer->SetSprite("GroundBase.png");
-		Renderer->SetImageScale(BaseScale);
+		Renderer->SetImageScale(m_BackScale);
 		Renderer->Transform.SetLocalPosition(BasePosition);
 		m_BackProp.push_back(Renderer);
 	}

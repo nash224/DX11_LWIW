@@ -155,8 +155,8 @@ void DynamicEntity::ApplyMovement(float _Delta)
 		return;
 	}
 
-	float ZSort = BackDrop_PlayLevel::MainBackDrop->ZSort(MovePosition.Y + m_DepthBias);	// Z소팅
-	MovePosition.Z = ZSort;							
+	float Depth = BackDrop_PlayLevel::MainBackDrop->ZSort(MovePosition.Y + m_DepthBias);	// 깊이 계산
+	MovePosition.Z = Depth;
 	
 	Transform.SetLocalPosition(MovePosition);
 }

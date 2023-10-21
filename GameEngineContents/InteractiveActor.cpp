@@ -131,6 +131,11 @@ EINTERACTION_PRESSTYPE InteractiveActor::GetInteractionPressType() const
 	return m_PressType;
 }
 
+ETOOLTYPE InteractiveActor::GetCollectionToolType() const
+{
+	return m_CollectionTool;
+}
+
 // 보정계수가 포함된 깊이 적용 
 void InteractiveActor::ApplyDepth(const float4& _Position)
 {

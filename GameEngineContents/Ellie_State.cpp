@@ -2,6 +2,7 @@
 #include "Ellie.h"
 
 #include "BackDrop.h"
+#include "UI_Hub_Tool.h"
 
 
 
@@ -10,12 +11,6 @@ bool Ellie::InputTestPattern()
 	if (true == GameEngineInput::IsDown('1', this))
 	{
 		ChangeState(EELLIE_STATE::Net);
-		return true;
-	}
-
-	if (true == GameEngineInput::IsDown('2', this))
-	{
-		ChangeState(EELLIE_STATE::RootUp);
 		return true;
 	}
 
@@ -58,6 +53,21 @@ bool Ellie::InputTestPattern()
 	return false;
 }
 
+bool Ellie::UsingTool()
+{
+	if (true == GameEngineInput::IsDown('Z', this))
+	{
+		if (ETOOLTYPE::Dragonfly == UI_Hub_Tool::m_CurrentTool)
+		{
+			ChangeState(EELLIE_STATE::Net);
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
 
 #pragma region 기본조작
 void Ellie::StartIdle()
@@ -77,6 +87,11 @@ void Ellie::UpdateIdle(float _Delta)
 	if (true == IsControl && false == IsHolding)
 	{
 		if (true == InputTestPattern())
+		{
+			return;
+		}
+
+		if (true == UsingTool())
 		{
 			return;
 		}
@@ -115,6 +130,12 @@ void Ellie::StartSlowWalk()
 
 void Ellie::UpdateSlowWalk(float _Delta)
 {
+	if (true == UsingTool())
+	{
+		return;
+	}
+
+
 	// 움직이지 않으면 Idle인 상태로 간주합니다.
 	if (false == DetectMovement())
 	{
@@ -159,6 +180,11 @@ void Ellie::UpdateWalk(float _Delta)
 {
 	InputTestPattern();
 
+	if (true == UsingTool())
+	{
+		return;
+	}
+
 	// 움직이지 않으면 Idle인 상태로 간주합니다.
 	if (false == DetectMovement())
 	{
@@ -200,6 +226,11 @@ void Ellie::StartRun()
 
 void Ellie::UpdateRun(float _Delta)
 {
+	if (true == UsingTool())
+	{
+		return;
+	}
+
 	InputTestPattern();
 
 	if (false == DetectMovement())
@@ -517,16 +548,56 @@ void Ellie::EndApproach()
 
 void Ellie::StartNet()
 {
+	if (nullptr == m_NetCol)
+	{
+		MsgBoxAssert("충돌체가 존재하지 않습니다.");
+		return;
+	}
+	m_NetCol->On();
+
 	ChangeAnimationByDirection("Net");
 }
 
 void Ellie::UpdateNet(float _Delta)
 {
+	if (nullptr == m_Body)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
+
+	if (m_Body->GetCurIndex() > 2)
+	{
+		NetCollision();
+	}
+
 	if (true == m_Body->IsCurAnimationEnd())
 	{
 		ChangeState(EELLIE_STATE::Idle);
 		return;
 	}
+}
+
+void Ellie::NetCollision()
+{
+	m_NetCol->Collision(ECOLLISION::Entity, [&](std::vector<std::shared_ptr<GameEngineCollision>>& _OtherGroup)
+		{
+			for (size_t i = 0; i < _OtherGroup.size(); i++)
+			{
+				std::shared_ptr<GameEngineCollision> Collision = _OtherGroup[i];
+				GameEngineActor* Actor = Collision->GetActor();
+				InteractiveActor* Entity = dynamic_cast<InteractiveActor*>(Actor);
+				if (ETOOLTYPE::Dragonfly == Entity->GetCollectionToolType())
+				{
+					Entity->ReachThis();
+				}
+			}
+		});
+}
+
+void Ellie::EndNet()
+{
+	m_NetCol->Off();
 }
 
 

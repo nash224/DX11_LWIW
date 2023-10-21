@@ -4,8 +4,8 @@
 enum class ETOOLTYPE						// 도구 타입
 {
 	Gloves,
-	FeaturePan,
 	Dragonfly,
+	FeaturePan,
 	Nothing,
 	None
 };

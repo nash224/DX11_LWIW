@@ -53,23 +53,19 @@ void UI_Hub_Tool::Init()
 
 	Transform.AddLocalPosition({ -418.0f , -196.0f });
 
-	float4 UIPosition = float4::ZERO;
 
 	m_Tool = CreateComponent<GameEngineUIRenderer>();
-	UIPosition = { 0.0f , 0.0f, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::HUB_Icon) };
-	m_Tool->Transform.SetLocalPosition(UIPosition);
+	m_Tool->Transform.SetLocalPosition(float4(0.0f, 0.0f, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::HUB_Icon)));
 	m_Tool->SetSprite("Tool_Icon.png", static_cast<int>(m_CurrentTool));
 
 	m_LeftArrow = CreateComponent<GameEngineUIRenderer>();
 	m_LeftArrow->SetSprite("HUD_Arrow_Left.png");
-	UIPosition = { -28.0f , 0.0f , GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::UIArrow) };
-	m_LeftArrow->Transform.AddLocalPosition(UIPosition);
+	m_LeftArrow->Transform.AddLocalPosition(float4(-28.0f, 0.0f, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::UIArrow)));
 
 	m_RightArrow = CreateComponent<GameEngineUIRenderer>();
 	m_RightArrow->SetSprite("HUD_Arrow_Left.png");
 	m_RightArrow->LeftFlip();
-	UIPosition = { 26.0f , 0.0f , GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::UIArrow) };
-	m_RightArrow->Transform.AddLocalPosition({ 26.0f , 0.0f });
+	m_RightArrow->Transform.AddLocalPosition(float4(26.0f, 0.0f, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::UIArrow)));
 }
 
 

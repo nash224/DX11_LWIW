@@ -72,6 +72,7 @@ private:
 
 	void StartAppearBug();
 	void UpdateAppearBug(float _Delta);
+	void CreateBushBug();
 
 
 

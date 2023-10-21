@@ -1,6 +1,10 @@
 #pragma once
 #include "DynamicEntity.h"
 
+#define BUSHBUG_SPEED 16.0f
+#define BUSHBUG_MAX_YANGLE 5.0f
+#define BUSHBUG_MOVE_RANGE 50.0f
+
 
 enum class EBUSHBUGSTATE
 {
@@ -36,14 +40,19 @@ protected:
 
 private:
 	void AnimationSetting();
+	void StateSetting();
+
+
+	void StartMove(GameEngineState* _Parent);
+	void SearchFlyDirection();
+	void UPdateMove(float _Delta, GameEngineState* _Parent);
+
 
 private:
-	void UpdateState(float _Delta);
-	void ChangeState();
-
-
-private:
+	GameEngineState MoveState;
 	std::shared_ptr<GameEngineSpriteRenderer> m_Shadow = nullptr;
-	
+
+	float4 SpawnPosition = float4::ZERO;
+	float m_FlyAngle = 0.0f;
 };
 

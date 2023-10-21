@@ -121,10 +121,6 @@ void MainMenu::LoadTexture()
 			}
 		}
 	}
-
-
-	// 다음 레벨로 넘어가면 Release
-	GlobalUtils::LoadAllFileInPath("Resources\\LoadingLevel");
 }
 
 void MainMenu::LoadSprite()

@@ -19,6 +19,6 @@ void EventData::Init()
 	ToolData.resize(static_cast<int>(ETOOLTYPE::None));
 
 	ToolData[static_cast<int>(ETOOLTYPE::Gloves)] = true;
+	ToolData[static_cast<int>(ETOOLTYPE::Dragonfly)] = true;
 	ToolData[static_cast<int>(ETOOLTYPE::FeaturePan)] = true;
-	ToolData[static_cast<int>(ETOOLTYPE::Dragonfly)] = false;
 }

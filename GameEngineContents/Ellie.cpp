@@ -20,7 +20,7 @@ void Ellie::Start()
 {
 	GameEngineInput::AddInputObject(this);
 	RendererSetting();
-	StartCollision();
+	CollisionSetting();
 }
 
 void Ellie::Update(float _Delta)
@@ -29,7 +29,6 @@ void Ellie::Update(float _Delta)
 	UpdateTestCode();
 	UpdateCollision();
 	UpdateOutPutDebug(_Delta);
-
 }
 
 void Ellie::UpdateTestCode()
@@ -64,6 +63,7 @@ void Ellie::Release()
 	DynamicEntity::Release();
 
 	m_Fx = nullptr;
+	m_EllieCol = nullptr;
 }
 
 
@@ -218,14 +218,14 @@ void Ellie::RendererSetting()
 #pragma region 채칩 및 수집
 
 	{
-		m_Body->CreateAnimation("Net_LEFT", "Ellie_Basic_ButterflyNet.png", Ellie_ButterflyNet_Inter, 7, 13);
-		m_Body->CreateAnimation("Net_LEFTDOWN", "Ellie_Basic_ButterflyNet.png", Ellie_ButterflyNet_Inter, 7, 13);
-		m_Body->CreateAnimation("Net_DOWN", "Ellie_Basic_ButterflyNet.png", Ellie_ButterflyNet_Inter, 21, 27);
-		m_Body->CreateAnimation("Net_RIGHT", "Ellie_Basic_ButterflyNet.png", Ellie_ButterflyNet_Inter, 35, 41);
-		m_Body->CreateAnimation("Net_RIGHTDOWN", "Ellie_Basic_ButterflyNet.png", Ellie_ButterflyNet_Inter, 35, 41);
-		m_Body->CreateAnimation("Net_LEFTUP", "Ellie_Basic_ButterflyNet.png", Ellie_ButterflyNet_Inter, 49, 55);
-		m_Body->CreateAnimation("Net_UP", "Ellie_Basic_ButterflyNet.png", Ellie_ButterflyNet_Inter, 63, 69);
-		m_Body->CreateAnimation("Net_RIGHTUP", "Ellie_Basic_ButterflyNet.png", Ellie_ButterflyNet_Inter, 77, 83);
+		m_Body->CreateAnimation("Net_LEFT", "Ellie_Basic_ButterflyNet.png", Ellie_ButterflyNet_Inter, 7, 13, false);
+		m_Body->CreateAnimation("Net_LEFTDOWN", "Ellie_Basic_ButterflyNet.png", Ellie_ButterflyNet_Inter, 7, 13, false);
+		m_Body->CreateAnimation("Net_DOWN", "Ellie_Basic_ButterflyNet.png", Ellie_ButterflyNet_Inter, 21, 27, false);
+		m_Body->CreateAnimation("Net_RIGHT", "Ellie_Basic_ButterflyNet.png", Ellie_ButterflyNet_Inter, 35, 41, false);
+		m_Body->CreateAnimation("Net_RIGHTDOWN", "Ellie_Basic_ButterflyNet.png", Ellie_ButterflyNet_Inter, 35, 41, false);
+		m_Body->CreateAnimation("Net_LEFTUP", "Ellie_Basic_ButterflyNet.png", Ellie_ButterflyNet_Inter, 49, 55, false);
+		m_Body->CreateAnimation("Net_UP", "Ellie_Basic_ButterflyNet.png", Ellie_ButterflyNet_Inter, 63, 69, false);
+		m_Body->CreateAnimation("Net_RIGHTUP", "Ellie_Basic_ButterflyNet.png", Ellie_ButterflyNet_Inter, 77, 83, false);
 	}
 
 	{
@@ -306,7 +306,7 @@ void Ellie::RideFxSetting()
 	m_Fx->Off();
 }
 
-void Ellie::StartCollision()
+void Ellie::CollisionSetting()
 {
 	m_EllieCol = CreateComponent<GameEngineCollision>(ECOLLISION::Player);
 	if (nullptr == m_EllieCol)
@@ -318,6 +318,17 @@ void Ellie::StartCollision()
 
 	m_EllieCol->Transform.SetLocalScale(float4{ 4.0f , 4.0f });
 	m_EllieCol->SetCollisionType(ColType::AABBBOX2D);
+
+	m_NetCol = CreateComponent<GameEngineCollision>(ECOLLISION::Net);
+	if (nullptr == m_NetCol)
+	{
+		MsgBoxAssert("충돌체를 생성하지 못했습니다.");
+		return;
+	}
+
+	m_NetCol->Transform.SetLocalScale(float4(40.0f, 4.0f));
+	m_NetCol->Off();
+	m_NetCol->SetCollisionType(ColType::SPHERE2D);
 }
 
 
@@ -458,7 +469,7 @@ void Ellie::ChangeState(EELLIE_STATE _State)
 		case EELLIE_STATE::Riding_Move:																break;
 		case EELLIE_STATE::Riding_Boost:															break;
 		case EELLIE_STATE::Approach:								EndApproach();					break;
-		case EELLIE_STATE::Net:																		break;
+		case EELLIE_STATE::Net:										EndNet();						break;
 		case EELLIE_STATE::RootUp:									EndRootUp();					break;
 		case EELLIE_STATE::Sit:										EndSit();						break;
 		case EELLIE_STATE::MongSiri:								EndRootUp();					break;

@@ -179,59 +179,48 @@ void Ellie::UpdateInteractionCollsiion()
 				{
 					return;
 				}
-				// 화살타입이고
-				else if (EINTERACTION_BUTTONTYPE::Gathering == Entity->GetInteractionButtonType())
-				{
-					// 도구가 없으면 패스
-					if (ETOOLTYPE::Nothing == Entity->m_CollectionTool)
-					{
-						// Pass
-					}
-					// 도구 타입이 다르면 리턴
-					else if (UI_Hub_Tool::m_CurrentTool != Entity->m_CollectionTool)
-					{
-						return;
-					}
-				}
 
-				// 한번 누르면 되는 타입
-				if (EINTERACTION_PRESSTYPE::Down == Entity->GetInteractionPressType())
+				if (UI_Hub_Tool::m_CurrentTool != ETOOLTYPE::Dragonfly)
 				{
-					// 닿았습니다.
-					if (true == GameEngineInput::IsDown('Z', this))
+					// 한번 누르면 되는 타입
+					if (EINTERACTION_PRESSTYPE::Down == Entity->GetInteractionPressType())
 					{
-						// 상호작용이 가까이면 
-						if (EINTERACTION_TYPE::Near == Entity->GetInteractionType())
+						// 닿았습니다.
+						if (true == GameEngineInput::IsDown('Z', this))
 						{
-							// 수집타입이 몽시리일때
-							if (ECOLLECTION_METHOD::MongSiri == Entity->GetCollectionMethod())
+							// 상호작용이 가까이면 
+							if (EINTERACTION_TYPE::Near == Entity->GetInteractionType())
 							{
-								// 멈추게 함
-								Entity->GetCaught();
+								// 수집타입이 몽시리일때
+								if (ECOLLECTION_METHOD::MongSiri == Entity->GetCollectionMethod())
+								{
+									// 멈추게 함
+									Entity->GetCaught();
+								}
+
+								OtherEntity = Entity;
+								ChangeState(EELLIE_STATE::Approach);
 							}
 
-							OtherEntity = Entity;
-							ChangeState(EELLIE_STATE::Approach);
-						}
-
-						// 멀리있으면 무조건 통과
-						if (EINTERACTION_TYPE::Far == Entity->GetInteractionType())
-						{
-							Entity->IsReach = true;
+							// 멀리있으면 무조건 통과
+							if (EINTERACTION_TYPE::Far == Entity->GetInteractionType())
+							{
+								Entity->IsReach = true;
+							}
 						}
 					}
-				}
-				else if (EINTERACTION_PRESSTYPE::Press == Entity->GetInteractionPressType())
-				{
-					if (true == GameEngineInput::IsPress('Z', this))
+					else if (EINTERACTION_PRESSTYPE::Press == Entity->GetInteractionPressType())
 					{
-						if (EELLIE_STATE::Idle != m_State)
+						if (true == GameEngineInput::IsPress('Z', this))
 						{
-							ChangeState(EELLIE_STATE::Idle);
-						}
+							if (EELLIE_STATE::Idle != m_State)
+							{
+								ChangeState(EELLIE_STATE::Idle);
+							}
 						
-						Entity->IsReach = true;
-						IsHolding = true;
+							Entity->IsReach = true;
+							IsHolding = true;
+						}
 					}
 				}
 

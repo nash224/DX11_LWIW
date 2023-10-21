@@ -2,6 +2,7 @@
 #include "Bush.h"
 
 #include "BackDrop_PlayLevel.h"
+#include "BushBug.h"
 
 
 
@@ -111,9 +112,24 @@ void Bush::UpdateAppearBug(float _Delta)
 
 	if (true == m_Bush->IsCurAnimationEnd())
 	{
-		// 고올든 벌레 소환
-
+		CreateBushBug();
 		ChangeState(EBUSHSTATE::Normal);
 		return;
 	}
+}
+
+
+void Bush::CreateBushBug()
+{
+	// 고올든 벌레 소환
+	std::shared_ptr<BushBug> BushBugPtr = GetLevel()->CreateActor<BushBug>();
+	float4 SpawnPosition = Transform.GetLocalPosition() + float4( 5.0f, 7.0f );
+
+	if (nullptr != BackDrop_PlayLevel::MainBackDrop)
+	{
+		SpawnPosition.Z = BackDrop_PlayLevel::MainBackDrop->ZSort(SpawnPosition.Y);
+	}
+
+	BushBugPtr->Transform.SetLocalPosition(SpawnPosition);
+	BushBugPtr->Init();
 }
