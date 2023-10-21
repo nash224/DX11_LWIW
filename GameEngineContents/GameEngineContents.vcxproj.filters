@@ -154,9 +154,6 @@
     <Filter Include="2.Object\3.Level\2.Play\2.Field">
       <UniqueIdentifier>{1a37cb28-ca1d-4d4b-8802-a9b71bc9a4d4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2.Object\3.Level\0.Loading">
-      <UniqueIdentifier>{41c7ab61-0131-4b20-8b45-0e495b6fcb65}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2.Object\2.Actor\0.Manager\UIManager\1.Inventory\DropManager">
       <UniqueIdentifier>{19127daf-627f-4b09-965e-1769ea63e8c4}</UniqueIdentifier>
     </Filter>
@@ -213,9 +210,6 @@
     </ClInclude>
     <ClInclude Include="Field_Center.h">
       <Filter>2.Object\3.Level\2.Play\2.Field</Filter>
-    </ClInclude>
-    <ClInclude Include="LoadingLevel.h">
-      <Filter>2.Object\3.Level\0.Loading</Filter>
     </ClInclude>
     <ClInclude Include="MainMenu.h">
       <Filter>2.Object\3.Level\1.Title</Filter>
@@ -477,9 +471,6 @@
     </ClCompile>
     <ClCompile Include="Field_Center.cpp">
       <Filter>2.Object\3.Level\2.Play\2.Field</Filter>
-    </ClCompile>
-    <ClCompile Include="LoadingLevel.cpp">
-      <Filter>2.Object\3.Level\0.Loading</Filter>
     </ClCompile>
     <ClCompile Include="MainMenu.cpp">
       <Filter>2.Object\3.Level\1.Title</Filter>

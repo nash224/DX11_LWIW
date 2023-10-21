@@ -44,7 +44,6 @@ void WitchHouse_DownFloor::LevelStart(class GameEngineLevel* _NextLevel)
 	PlayLevel::LevelStart(_NextLevel);
 
 	LoadTexture();
-	LoadSprite();
 	LoadActor();
 
 	SetEllieLevelChangeLocation(_NextLevel);
@@ -56,7 +55,6 @@ void WitchHouse_DownFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	PlayLevel::LevelEnd(_NextLevel);
 
-	ReleaseSprite();
 	ReleaseTexture();
 }
 
@@ -91,41 +89,6 @@ void WitchHouse_DownFloor::LoadTexture()
 			GameEngineTexture::Load(File.GetStringPath());
 		}
 	}
-}
-
-void WitchHouse_DownFloor::LoadSprite()
-{
-	GameEngineDirectory Dir;
-	Dir.MoveParentToExistsChild("Resources");
-	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_DownFloor");
-	std::vector<GameEngineFile> Files = Dir.GetAllFile();
-	for (size_t i = 0; i < Files.size(); i++)
-	{
-		GameEngineFile File = Files[i];
-		GameEngineSprite::CreateSingle(File.GetFileName());
-	}
-
-
-	// Dust
-	GameEngineSprite::CreateCut("DownFloor_dust_remove.png", 22, 1);
-	
-	// Jucier
-	GameEngineSprite::CreateCut("DownFloor_Extractor_0.png", 5, 4);
-	GameEngineSprite::CreateCut("DownFloor_Extractor_1.png", 5, 4);
-
-	// Pot
-	GameEngineSprite::CreateCut("Pot_Fire_Large.png", 5, 5);
-	GameEngineSprite::CreateCut("Pot_Fire_Small.png", 5, 5);
-	GameEngineSprite::CreateCut("Pot_Fx_Boil.png", 4, 4);
-	GameEngineSprite::CreateCut("Pot_Fx_Fail.png", 5, 4);
-	GameEngineSprite::CreateCut("Pot_Fx_IdleA.png", 5, 5);
-	GameEngineSprite::CreateCut("Pot_Fx_IdleB.png", 5, 5);
-	GameEngineSprite::CreateCut("Pot_Fx_Steam.png", 5, 5);
-	GameEngineSprite::CreateCut("Pot_Fx_Success.png", 5, 5);
-
-	// Roaster
-	GameEngineSprite::CreateCut("Roaster_0.png", 7, 7);
-	GameEngineSprite::CreateCut("Roaster_0_Top.png", 7, 6);
 }
 
 void WitchHouse_DownFloor::LoadActor()
@@ -195,34 +158,6 @@ void WitchHouse_DownFloor::CameraSetting()
 #pragma endregion 
 
 #pragma region Release
-
-
-void WitchHouse_DownFloor::ReleaseSprite()
-{
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExistsChild("Resources");
-		Dir.MoveChild("Resources\\PlayContents\\WitchHouse_DownFloor");
-		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-		for (size_t i = 0; i < Files.size(); i++)
-		{
-			GameEngineFile pFile = Files[i];
-			GameEngineSprite::Release(pFile.GetFileName());
-		}
-	}
-
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExistsChild("Resources");
-		Dir.MoveChild("Resources\\PlayContents\\WitchHouse_DownFloor\\Down_Sprite");
-		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-		for (size_t i = 0; i < Files.size(); i++)
-		{
-			GameEngineFile pFile = Files[i];
-			GameEngineSprite::Release(pFile.GetFileName());
-		}
-	}
-}
 
 void WitchHouse_DownFloor::ReleaseTexture()
 {

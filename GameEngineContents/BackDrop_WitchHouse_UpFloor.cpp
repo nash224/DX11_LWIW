@@ -41,6 +41,17 @@ void BackDrop_WitchHouse_UpFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 	PixelVec.clear();
 	vecPixelProps.clear();
 	vecPortalObject.clear();
+
+
+	GameEngineDirectory Dir;
+	Dir.MoveParentToExistsChild("Resources");
+	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_UpFloor");
+	std::vector<GameEngineFile> Files = Dir.GetAllFile();
+	for (size_t i = 0; i < Files.size(); i++)
+	{
+		GameEngineFile File = Files[i];
+		GameEngineSprite::Release(File.GetFileName());
+	}
 }
 
 
@@ -52,20 +63,25 @@ void BackDrop_WitchHouse_UpFloor::Init()
 {
 	MainBackDrop = this;
 
-	GameEngineLevel* CurLevel = GetLevel();
-	if (nullptr == CurLevel)
+
+	GameEngineDirectory Dir;
+	Dir.MoveParentToExistsChild("Resources");
+	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_UpFloor");
+	std::vector<GameEngineFile> Files = Dir.GetAllFile();
+	for (size_t i = 0; i < Files.size(); i++)
 	{
-
-
-		MsgBoxAssert("레벨을 불러오지 못했습니다.");
-		return;
+		GameEngineFile File = Files[i];
+		GameEngineSprite::CreateSingle(File.GetFileName());
 	}
 
+
+	GameEngineLevel* CurLevel = GetLevel();
+
+	m_BackScale = GlobalValue::GetWindowScale();
 	CreateProp(CurLevel);
 	CreatePixelMap(CurLevel);
 	LoadPortalActor(CurLevel);
 
-	m_BackScale = GlobalValue::GetWindowScale();
 }
 
 

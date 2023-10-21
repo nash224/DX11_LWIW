@@ -54,6 +54,14 @@ void Extractor::InitExtractor()
 
 void Extractor::CreateRendererAndAnimation()
 {
+	if (nullptr == GameEngineSprite::Find("DownFloor_Extractor_0.png"))
+	{
+		// Jucier
+		GameEngineSprite::CreateCut("DownFloor_Extractor_0.png", 5, 4);
+		GameEngineSprite::CreateCut("DownFloor_Extractor_1.png", 5, 4);
+
+	}
+
 	m_Extractor = CreateComponent<GameEngineSpriteRenderer>(16);
 	if (nullptr == m_Extractor)
 	{

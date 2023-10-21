@@ -40,7 +40,6 @@ void Field_Center::LevelStart(class GameEngineLevel* _NextLevel)
 	PlayLevel::LevelStart(_NextLevel); 
 
 	LoadTexture();
-	LoadSprite();
 	LoadActor();
 
 	SetEllieLevelChangeLocation(_NextLevel);
@@ -52,7 +51,6 @@ void Field_Center::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	PlayLevel::LevelEnd(_NextLevel);
 
-	ReleaseSprite();
 	ReleaseTexture();
 }
 
@@ -72,12 +70,6 @@ void Field_Center::LoadTexture()
 		GameEngineFile File = Files[i];
 		GameEngineTexture::Load(File.GetStringPath());
 	}
-}
-
-void Field_Center::LoadSprite()
-{
-	GameEngineSprite::CreateSingle("TestFieldMap.png");
-	GameEngineSprite::CreateSingle("TestCenter_ColorMap.png");
 }
 
 
@@ -113,7 +105,11 @@ void Field_Center::SetEllieLevelChangeLocation(class GameEngineLevel* _NextLevel
 	std::string NextLevelName = _NextLevel->GetName();
 	if (NextLevelName == "WitchHouse_Yard")
 	{
-		SpawnPosition = { 200.0f , -200.0f };
+		SpawnPosition = { 500.0f , -400.0f };
+	}
+	else
+	{
+		SpawnPosition = { 500.0f , -400.0f };
 	}
 
 	if (nullptr == m_Ellie)
@@ -152,10 +148,6 @@ void Field_Center::CameraSetting()
 
 #pragma region ReleaseRes
 
-void Field_Center::ReleaseSprite()
-{
-	GameEngineSprite::Release("TestFieldMap.png");
-}
 
 void Field_Center::ReleaseTexture()
 {

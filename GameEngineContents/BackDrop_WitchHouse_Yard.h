@@ -32,7 +32,6 @@ private:
 
 
 	void CreateHouse(GameEngineLevel* _Level);
-	void CreatePixelMap(GameEngineLevel* _Level);
 	void CreatePortalActor(GameEngineLevel* _Level);
 	void CreateDian(GameEngineLevel* _Level);
 };

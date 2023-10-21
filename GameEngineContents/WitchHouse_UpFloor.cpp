@@ -38,7 +38,6 @@ void WitchHouse_UpFloor::LevelStart(class GameEngineLevel* _NextLevel)
 	PlayLevel::LevelStart(_NextLevel);
 
 	LoadTexture();
-	LoadSprite();
 	LoadActor();
 
 
@@ -51,7 +50,6 @@ void WitchHouse_UpFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	PlayLevel::LevelEnd(_NextLevel);
 
-	ReleaseSprite();
 	ReleaseTexture();
 }
 
@@ -73,18 +71,6 @@ void WitchHouse_UpFloor::LoadTexture()
 	}
 }
 
-void WitchHouse_UpFloor::LoadSprite()
-{
-	GameEngineDirectory Dir;
-	Dir.MoveParentToExistsChild("Resources");
-	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_UpFloor");
-	std::vector<GameEngineFile> Files = Dir.GetAllFile();
-	for (size_t i = 0; i < Files.size(); i++)
-	{
-		GameEngineFile File = Files[i];
-		GameEngineSprite::CreateSingle(File.GetFileName());
-	}
-}
 
 
 void WitchHouse_UpFloor::LoadActor()
@@ -146,21 +132,6 @@ void WitchHouse_UpFloor::CameraSetting()
 
 #pragma endregion 
 
-#pragma region ReleaseRes
-
-void WitchHouse_UpFloor::ReleaseSprite()
-{
-	GameEngineDirectory Dir;
-	Dir.MoveParentToExistsChild("Resources");
-	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_UpFloor");
-	std::vector<GameEngineFile> Files = Dir.GetAllFile();
-	for (size_t i = 0; i < Files.size(); i++)
-	{
-		GameEngineFile File = Files[i];
-		GameEngineSprite::Release(File.GetFileName());
-	}
-}
-
 void WitchHouse_UpFloor::ReleaseTexture()
 {
 	GameEngineDirectory Dir;
@@ -174,4 +145,3 @@ void WitchHouse_UpFloor::ReleaseTexture()
 	}
 }
 
-#pragma endregion 

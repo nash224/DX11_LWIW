@@ -26,19 +26,13 @@ protected:
 
 private:
 	void LoadTexture();
-	void LoadSprite();
 	void LoadActor();
 
 	void SetEllieLevelChangeLocation(class GameEngineLevel* _NextLevel);
 	void CameraSetting();
 
-
-private:
-	void ReleaseSprite();
 	void ReleaseTexture();
 
-
-public:
 
 private:
 	std::shared_ptr<BackDrop_CenterField> m_BackDrop = nullptr;

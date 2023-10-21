@@ -37,7 +37,6 @@ void WitchHouse_Yard::LevelStart(class GameEngineLevel* _NextLevel)
 	PlayLevel::LevelStart(_NextLevel);
 
 	LoadTexture();
-	LoadSprite();
 	LoadActor();
 
 
@@ -50,7 +49,6 @@ void WitchHouse_Yard::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	PlayLevel::LevelEnd(_NextLevel);
 
-	ReleaseSprite();
 	ReleaseTexture();
 }
 
@@ -69,19 +67,6 @@ void WitchHouse_Yard::LoadTexture()
 	{
 		GameEngineFile File = Files[i];
 		GameEngineTexture::Load(File.GetStringPath());
-	}
-}
-
-void WitchHouse_Yard::LoadSprite()
-{
-	GameEngineDirectory Dir;
-	Dir.MoveParentToExistsChild("Resources");
-	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_Yard");
-	std::vector<GameEngineFile> Files = Dir.GetAllFile();
-	for (size_t i = 0; i < Files.size(); i++)
-	{
-		GameEngineFile File = Files[i];
-		GameEngineSprite::CreateSingle(File.GetFileName());
 	}
 }
 
@@ -112,7 +97,7 @@ void WitchHouse_Yard::SetEllieLevelChangeLocation(class GameEngineLevel* _NextLe
 
 	if (_NextLevel->GetName() == "Field_Center")
 	{
-		SpawnPosition = { HWinScale.X , -HWinScale.Half().Y };
+		SpawnPosition = { HWinScale.X , -450.0f };
 	}
 	else
 	{
@@ -147,19 +132,6 @@ void WitchHouse_Yard::CameraSetting()
 #pragma endregion 
 
 #pragma region ReleaseRes
-
-void WitchHouse_Yard::ReleaseSprite()
-{
-	GameEngineDirectory Dir;
-	Dir.MoveParentToExistsChild("Resources");
-	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_Yard");
-	std::vector<GameEngineFile> Files = Dir.GetAllFile();
-	for (size_t i = 0; i < Files.size(); i++)
-	{
-		GameEngineFile File = Files[i];
-		GameEngineSprite::Release(File.GetFileName());
-	}
-}
 
 void WitchHouse_Yard::ReleaseTexture()
 {

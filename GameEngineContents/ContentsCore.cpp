@@ -7,7 +7,6 @@
 
 #include "LogoLevel.h"
 #include "MainMenu.h"
-#include "LoadingLevel.h"
 #include "PlayLevel.h"
 #include "Field_Center.h"
 #include "WitchHouse_Yard.h"
@@ -36,7 +35,6 @@ void ContentsCore::Start()
 
 	GameEngineCore::CreateLevel<LogoLevel>("LogoLevel");
 	GameEngineCore::CreateLevel<MainMenu>("MainMenu");
-	GameEngineCore::CreateLevel<LoadingLevel>("LoadingLevel");
 	GameEngineCore::CreateLevel<Field_Center>("Field_Center");
 	GameEngineCore::CreateLevel<WitchHouse_Yard>("WitchHouse_Yard");
 	GameEngineCore::CreateLevel<WitchHouse_UpFloor>("WitchHouse_UpFloor");

@@ -12,7 +12,8 @@ Dian::~Dian()
 
 void Dian::Start()
 {
-	StaticEntity::Start();
+	CreateAndSetCollision(ECOLLISION::Entity, { 60.0f }, float4::ZERO, ColType::SPHERE2D);
+	SetInteractionOption(EINTERACTION_BUTTONTYPE::Gear, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Nothing);
 }
 
 void Dian::Update(float _Delta)
@@ -22,7 +23,7 @@ void Dian::Update(float _Delta)
 
 void Dian::Release()
 {
-	StaticEntity::Release();
+	m_InteractiveCol = nullptr;
 
 	if (0 == m_Body.use_count())
 	{
@@ -36,12 +37,12 @@ void Dian::Release()
 
 void Dian::LevelStart(class GameEngineLevel* _NextLevel)
 {
-	StaticEntity::LevelStart(_NextLevel);
+
 }
 
 void Dian::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-	StaticEntity::LevelEnd(_NextLevel);
+	Death();
 }
 
 
@@ -51,8 +52,6 @@ void Dian::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void Dian::Init()
 {
-	CreateAndSetCollision(ECOLLISION::Entity, { 60.0f }, float4::ZERO, ColType::SPHERE2D);
-	SetInteractionOption(EINTERACTION_BUTTONTYPE::Gear, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Nothing);
 	ApplyDepth(Transform.GetLocalPosition());
 	RendererSetting();
 }

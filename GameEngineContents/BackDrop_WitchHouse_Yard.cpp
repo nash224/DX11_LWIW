@@ -36,12 +36,24 @@ void BackDrop_WitchHouse_Yard::LevelStart(class GameEngineLevel* _NextLevel)
 	MainBackDrop = this;
 }
 
+
 void BackDrop_WitchHouse_Yard::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	vecProps.clear();
 	m_BackProp.clear();
 	vecPixelProps.clear();
 	vecPortalObject.clear();
+
+
+	GameEngineDirectory Dir;
+	Dir.MoveParentToExistsChild("Resources");
+	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_Yard");
+	std::vector<GameEngineFile> Files = Dir.GetAllFile();
+	for (size_t i = 0; i < Files.size(); i++)
+	{
+		GameEngineFile File = Files[i];
+		GameEngineSprite::Release(File.GetFileName());
+	}
 }
 
 
@@ -53,23 +65,25 @@ void BackDrop_WitchHouse_Yard::Init()
 {
 	MainBackDrop = this;
 
-	m_BackScale = GlobalValue::GetWindowScale();
 
-	GameEngineLevel* CurLevel = GetLevel();
-	if (nullptr == CurLevel)
+	GameEngineDirectory Dir;
+	Dir.MoveParentToExistsChild("Resources");
+	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_Yard");
+	std::vector<GameEngineFile> Files = Dir.GetAllFile();
+	for (size_t i = 0; i < Files.size(); i++)
 	{
-		MsgBoxAssert("레벨을 불러오지 못했습니다.");
-		return;
+		GameEngineFile File = Files[i];
+		GameEngineSprite::CreateSingle(File.GetFileName());
 	}
+
+	m_BackScale = GlobalValue::GetWindowScale();
+	GameEngineLevel* CurLevel = GetLevel();
 
 	CreateFlooring();
 	CreateProp(CurLevel);
 	CreateHouse(CurLevel);
-	/*CreatePixelMap(CurLevel);*/
 	CreatePortalActor(CurLevel);
 	CreateDian(CurLevel);
-	
-	m_BackScale = GlobalValue::GetWindowScale();
 }
 
 void BackDrop_WitchHouse_Yard::CreateFlooring()
@@ -87,11 +101,12 @@ void BackDrop_WitchHouse_Yard::CreateFlooring()
 			return;
 		}
 
-		Renderer->SetSprite("Yard_Back.png");
-		Renderer->SetImageScale(GlobalValue::GetWindowScale());
-
 		CenterPosition.Z = GlobalUtils::CalculateDepth(ERENDERDEPTH::Back_Paint);
 		Renderer->Transform.SetLocalPosition(CenterPosition);
+		Renderer->SetSprite("GroundBase.png");
+		Renderer->SetImageScale(GlobalValue::GetWindowScale());
+
+		m_BackProp.push_back(Renderer);
 	}
 }
 
@@ -587,44 +602,39 @@ void BackDrop_WitchHouse_Yard::CreateHouse(GameEngineLevel* _Level)
 
 void BackDrop_WitchHouse_Yard::CreatePortalActor(GameEngineLevel* _Level)
 {
+	float4 HWinScale = GlobalValue::GetWindowScale().Half();
+
+	{
+		std::shared_ptr<PortalObject> Object = _Level->CreateActor<PortalObject>(EUPDATEORDER::Portal);
+		if (nullptr == Object)
+		{
+			MsgBoxAssert("액터를 생성하지 못했습니다.");
+			return;
+		}
+
+		Object->CreatePortalCollision(ECOLLISION::Portal);
+		Object->SetChangeLevelName("WitchHouse_UpFloor");
+		Object->SetLocalPosition({ 478.0f , -323.0f });
+		Object->SetCollisionRange({ 60.0f , 4.0f });
+		Object->SetCollisionType(ColType::AABBBOX2D);
+		vecPortalObject.push_back(Object);
+	}
 
 
 	{
-		float4 HWinScale = GlobalValue::GetWindowScale().Half();
-
+		std::shared_ptr<PortalObject> Object = _Level->CreateActor<PortalObject>(EUPDATEORDER::Portal);
+		if (nullptr == Object)
 		{
-			std::shared_ptr<PortalObject> Object = _Level->CreateActor<PortalObject>(EUPDATEORDER::Portal);
-			if (nullptr == Object)
-			{
-				MsgBoxAssert("액터를 생성하지 못했습니다.");
-				return;
-			}
-
-			Object->CreatePortalCollision(ECOLLISION::Portal);
-			Object->SetChangeLevelName("WitchHouse_UpFloor");
-			Object->SetLocalPosition({ 478.0f , -323.0f });
-			Object->SetCollisionRange({ 60.0f , 4.0f });
-			Object->SetCollisionType(ColType::AABBBOX2D);
-			vecPortalObject.push_back(Object);
+			MsgBoxAssert("액터를 생성하지 못했습니다.");
+			return;
 		}
 
-
-		{
-			std::shared_ptr<PortalObject> Object = _Level->CreateActor<PortalObject>(EUPDATEORDER::Portal);
-			if (nullptr == Object)
-			{
-				MsgBoxAssert("액터를 생성하지 못했습니다.");
-				return;
-			}
-
-			Object->CreatePortalCollision(ECOLLISION::Portal);
-			Object->SetChangeLevelName("Field_Center");
-			Object->SetLocalPosition({ HWinScale.X , -GlobalValue::GetWindowScale().Y });
-			Object->SetCollisionRange({ 200.0f , 100.0f });
-			Object->SetCollisionType(ColType::AABBBOX2D);
-			vecPortalObject.push_back(Object);
-		}
-
+		Object->CreatePortalCollision(ECOLLISION::Portal);
+		Object->SetChangeLevelName("Field_Center");
+		Object->SetLocalPosition({ HWinScale.X , -GlobalValue::GetWindowScale().Y });
+		Object->SetCollisionRange({ 200.0f , 100.0f });
+		Object->SetCollisionType(ColType::AABBBOX2D);
+		vecPortalObject.push_back(Object);
 	}
 }
 
