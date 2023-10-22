@@ -16,9 +16,14 @@ public:
 	GameEngineTime& operator=(const GameEngineTime& _Other) = delete;
 	GameEngineTime& operator=(GameEngineTime&& _Other) noexcept = delete;
 
-	float GetDeltaTime() 
+	float GetDeltaTime()
 	{
 		return FloatDelta * GlobalTimeScale;
+	}
+
+	float GetUnScaleDeltaTime()
+	{
+		return FloatDelta;
 	}
 
 	void Reset();
@@ -47,7 +52,7 @@ public:
 		SetTimeScale(static_cast<int>(_Order), _TimeScale);
 	}
 
-	void SetTimeScale(int _Order, float _TimeScale) 
+	void SetTimeScale(int _Order, float _TimeScale)
 	{
 		TimeScale[_Order] = _TimeScale;
 	}
@@ -61,7 +66,7 @@ public:
 	}
 
 	// 전체가 다 영향받는다.
-	void SetGlobalTimeScale(float _TimeScale) 
+	void SetGlobalTimeScale(float _TimeScale)
 	{
 		GlobalTimeScale = _TimeScale;
 	}
