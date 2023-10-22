@@ -28,6 +28,8 @@ public:
 
 	void Init(std::string_view _ProcessName, int _CurCount);
 
+	void RenewRenderer();
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -45,7 +47,7 @@ private:
 
 	EPROCESSUNITSTATE State = EPROCESSUNITSTATE::None;
 
-
+	int ItemCount = 0;
 	int NeedCount = 0;
 
 

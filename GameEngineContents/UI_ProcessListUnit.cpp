@@ -72,6 +72,22 @@ void UI_ProcessListUnit::Init(std::string_view _ProcessName, int _CurCount)
 	ItemMaskImg = CreateComponent<GameEngineUIRenderer>();
 	ItemMaskImg->Transform.SetLocalPosition(float4(-76.0f, 0.0f, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Icon_Mask)));
 	ItemMaskImg->SetSprite(_ProcessName.data() + std::string("_Mask.png"));
+
+	Off();
+}
+
+// ·»´õ·¯ °»½Å
+void UI_ProcessListUnit::RenewRenderer()
+{
+	if (ItemCount >= NeedCount)
+	{
+		State = EPROCESSUNITSTATE::Possible;
+	}
+	else if (ItemCount < NeedCount)
+	{
+		State = EPROCESSUNITSTATE::NotPossible;
+	}
+
 	if (EPROCESSUNITSTATE::Unknown == State)
 	{
 		ItemMaskImg->Off();

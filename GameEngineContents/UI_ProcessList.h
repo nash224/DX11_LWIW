@@ -2,6 +2,7 @@
 
 #define PROCESS_FIRST_SLOT_POSITION { -4.0f, 134.0f }
 #define PROCESS_SLOT_GAP 64.0f
+#define PROCESS_MAX_SLOT 5
 
 class ProcessListCursor
 {
@@ -38,6 +39,7 @@ public:
 
 	void Open();
 	void Close();
+	void CloseAllSlot();
 
 protected:
 	void Start() override;
@@ -49,6 +51,7 @@ protected:
 private:
 	void UpdateInput();
 	void MoveCursor(int _Value);
+	void RenewSlot();
 
 private:
 	std::vector<std::shared_ptr<class UI_ProcessListUnit>> SlotVec;
@@ -56,5 +59,6 @@ private:
 	std::shared_ptr<GameEngineUIRenderer> m_Base = nullptr;
 	ProcessListCursor m_ProcessListCursor;
 	int CurrentCursor = 0;
+	int CurCursorLine = 0;
 
 };
