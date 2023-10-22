@@ -83,8 +83,8 @@ void ContentsCore::LoadContentsData()
 	// Àç·á °¡°ø
 	IngredientData::CreateData("Mongsiri_Water", { "Mongsiri_Water", "¸ù½Ã¸®Áó", "Mongsiri", EBrewingMachineType::Extractor, 2 });
 	IngredientData::CreateData("PumpkinTerrier_Powder", { "PumpkinTerrier_Powder", "È£¹Ú °­¾ÆÁö ÅÐ ÆÄ¿ì´õ", "PumpkinTerrier", EBrewingMachineType::Roaster, 4 });
-	IngredientData::CreateData("BushBug", { "BushBug_Water", "´ýºÒ ±úºñÁó", "BushBug", EBrewingMachineType::Extractor, 2 });
-	IngredientData::CreateData("FlowerBird", { "FlowerBird_Water", "»õ²ÉÁó", "FlowerBird", EBrewingMachineType::Extractor, 2 });
+	IngredientData::CreateData("BushBug_Water", { "BushBug_Water", "´ýºÒ ±úºñÁó", "BushBug", EBrewingMachineType::Extractor, 2 });
+	IngredientData::CreateData("FlowerBird_Water", { "FlowerBird_Water", "»õ²ÉÁó", "FlowerBird", EBrewingMachineType::Extractor, 2 });
 	IngredientData::CreateData("BubbleLizard_Water", { "BubbleLizard_Water", "¿ôÀ½¹æ¿ïÁó", "BubbleLizard", EBrewingMachineType::Extractor, 2 });
 
 	IngredientData::CreateData("WitchFlower_Water", { "WitchFlower_Water", "¸¶³à²ÉÁó", "WitchFlower", EBrewingMachineType::Extractor, 2 });

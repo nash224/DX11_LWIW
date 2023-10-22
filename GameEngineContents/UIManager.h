@@ -33,6 +33,9 @@ public:
 	void OpenInventory();
 	void CloseInventory();
 
+	void UseUIComponent();
+	void DoneUIComponent();
+
 
 protected:
 	void Start() override;

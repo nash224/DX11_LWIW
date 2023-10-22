@@ -58,6 +58,7 @@ void Ellie::UpdateOutPutDebug(float _Delta)
 #endif
 }
 
+
 void Ellie::Release()
 {
 	DynamicEntity::Release();
@@ -355,6 +356,7 @@ void Ellie::OnLevelStart()
 	MainEllie = this;
 }
 
+// 레벨이 바뀔때 상태를 갱신합니다.
 void Ellie::RenewStatus()
 {
 	if (EELLIE_STATUS::Normal == g_Status && EELLIE_STATE::Idle != m_State)
@@ -376,6 +378,7 @@ void Ellie::RenewStatus()
 	}
 }
 
+// FlowerBird가 참조하고 있습니다.
 void Ellie::ChangeStatus(const EELLIE_STATUS _Status)
 {
 	if (_Status != g_Status)
@@ -851,7 +854,7 @@ void Ellie::CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce)
 	else
 	{
 		MoveDirVector = CalculateDirectionVectorToDir(CheckDir);
-		m_MoveVector = MoveDirVector * _MAXMoveForce * COSNT_FrictionForce;
+		m_MoveVector = MoveDirVector * _MAXMoveForce * FrictionForce;
 	}
 }
 

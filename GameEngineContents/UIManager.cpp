@@ -130,8 +130,7 @@ void UIManager::OpenInventory()
 
 	m_Inventory->Open();
 	m_Inventory->UsingOtherComponent(true);
-	m_Hub->Close();
-	SetEllieControl(false);
+	UseUIComponent();
 }
 
 void UIManager::CloseInventory()
@@ -144,6 +143,18 @@ void UIManager::CloseInventory()
 
 	m_Inventory->Close();
 	m_Inventory->UsingOtherComponent(false);
+	DoneUIComponent();
+}
+
+
+void UIManager::UseUIComponent()
+{
+	m_Hub->Close();
+	SetEllieControl(false);
+}
+
+void UIManager::DoneUIComponent()
+{
 	m_Hub->Open();
 	SetEllieControl(true);
 }

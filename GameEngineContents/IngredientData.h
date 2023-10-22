@@ -32,9 +32,7 @@ public:
 	//IngredientData& operator=(const IngredientData& _Other) = delete;
 	//IngredientData& operator=(IngredientData&& _Other) noexcept = delete;
 
-protected:
-
-private:
+public:
 	std::string Name;
 	std::string KoreanName;
 	std::string SourceName;

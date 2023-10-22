@@ -67,11 +67,11 @@ int Inventory::IsContain(std::string_view _ItemName)
 	{
 		if (ItemName == InventoryData[y].SourceName)
 		{
-			return static_cast<int>(y);
+			return InventoryData[y].ItemCount;
 		}
 	}
 
-	return -1;
+	return 0;
 }
 
 int Inventory::IsContain(unsigned int _X, unsigned int _Y)
@@ -79,24 +79,24 @@ int Inventory::IsContain(unsigned int _X, unsigned int _Y)
 	if (nullptr == InventoryParent)
 	{
 		MsgBoxAssert("인벤토리 부모를 정해주지 않았습니다.");
-		return -1;
+		return 0;
 	}
 
 	int MaxSlot = InventoryParent->MaxSlotX;
 	unsigned int Value  = _Y * MaxSlot + _X;
 	if ("" != InventoryData[Value].SourceName)
 	{
-		return 1;
+		return InventoryData[Value].ItemCount;
 	}
 
-	return -1;
+	return 0;
 }
 
 
 
 void Inventory::ClearData(const unsigned int _X, const unsigned int _Y)
 {
-	if (-1 == IsContain(_X, _Y))
+	if (0 == IsContain(_X, _Y))
 	{
 		MsgBoxAssert("존재하지 않는 슬롯을 지울려고 했습니다.");
 		return;
@@ -533,7 +533,7 @@ void UI_Inventory::SelectSlot(const unsigned int _X, const unsigned int _Y)
 	}
 	 
 	// 데이터가 있으면
-	if (-1 != Data->IsContain(_X, _Y))
+	if (0 != Data->IsContain(_X, _Y))
 	{
 		CursorPosition = CalculateIndexToPos(_X, _Y) + NameTagPositionBaseOnSlotCenter;
 		CursorPosition = { CursorPosition.X , CursorPosition.Y, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Cursor) };

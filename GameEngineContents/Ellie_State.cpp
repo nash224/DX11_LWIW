@@ -9,24 +9,6 @@
 
 bool Ellie::InputTestPattern()
 {
-	if (true == GameEngineInput::IsDown('1', this))
-	{
-		ChangeState(EELLIE_STATE::Net);
-		return true;
-	}
-
-	if (true == GameEngineInput::IsDown('3', this))
-	{
-		ChangeState(EELLIE_STATE::Sit);
-		return true;
-	}
-
-	if (true == GameEngineInput::IsDown('4', this))
-	{
-		ChangeState(EELLIE_STATE::MongSiri);
-		return true;
-	}
-
 	if (true == GameEngineInput::IsDown('5', this))
 	{
 		ChangeState(EELLIE_STATE::Cheer);

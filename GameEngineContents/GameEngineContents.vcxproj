@@ -490,6 +490,18 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="UI_Process.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UI_ProcessList.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UI_ProcessListUnit.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="UI_ProductPage.cpp">
       <SubType>
       </SubType>
@@ -830,6 +842,18 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ContentsResource.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UI_Process.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UI_ProcessList.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UI_ProcessListUnit.h">
       <SubType>
       </SubType>
     </ClInclude>

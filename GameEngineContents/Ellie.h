@@ -2,31 +2,32 @@
 #include "DynamicEntity.h"
 #include "ActorEnum.h"
 
-constexpr float Ellie_Bias = 30.0f;
 
+constexpr float CheckPointGap = 2.0f;
+constexpr float FOVAngle = 60.0f;
+constexpr float Ellie_Bias = 30.0f;
+constexpr float FrictionForce = 0.5f;
 
 constexpr float EllieIdleInter = 0.2f;
 constexpr float Ellie_SlowWalk_Inter = 0.2f;
-
 constexpr float Ellie_Run_Inter = 0.1f;
-
 constexpr float Ellie_Throw_Inter = 0.1f;
-
 constexpr float Ellie_Riding_Idle_Inter = 0.1f;
 constexpr float Ellie_Riding_Move_Inter = 0.1f;
 constexpr float Ellie_Riding_Boost_Inter = 0.1f;
-
 constexpr float Ellie_ButterflyNet_Inter = 0.1f;
-
 constexpr float Ellie_RootUp_Inter = 0.15f;
-
 constexpr float Ellie_Sit_Inter = 0.12f;
-
 constexpr float Ellie_MongSiri_Inter = 0.2f;
 
-
-// 체크 포인트 간격
-constexpr float CheckPointGap = 2.0f;
+constexpr float CONST_Ellie_SlowWalk_Speed = 100.0f;
+constexpr float CONST_Ellie_Walk_Speed = 160.0f;
+constexpr float CONST_Ellie_Run_Speed = 220.0f;
+constexpr float CONST_Ellie_NonRiding_Acceleration_Time = 1.0f;
+constexpr float CONST_Ellie_Riding_Move_Acceleration_Time = 1.2f;
+constexpr float CONST_Ellie_Riding_Boosting_Acceleration_Time = 1.0f;
+constexpr float CONST_Ellie_Riding_Move_Speed = 500.0f;
+constexpr float CONST_Ellie_Riding_Boost_Speed = 700.0f;
 
 
 enum class EELLIE_STATE
@@ -97,11 +98,14 @@ public:
 
 	// 이니셜
 	void Init();
+	void RendererSetting();
+	void RideFxSetting();
+	void CollisionSetting();
+
 
 	void OnControl();
 	void OffControl();
 	void SetPixelPointBaseOnCenter();
-
 
 	EELLIE_STATE GetState() const
 	{
@@ -120,21 +124,13 @@ private:
 	void RenewStatus();
 	void ChangeStatus(const EELLIE_STATUS _Status);
 
-	void UpdateOutPutDebug(float _Delta);
-
 private:
-	void RendererSetting();
-	void RideFxSetting();
-	
+	void UpdateCollision();
+	void UpdatePortalCollsiion();
+	void UpdateInteractionCollsiion();
 
-	void CollisionSetting();
-
-private:
-	std::shared_ptr<GameEngineSpriteRenderer> m_Fx = nullptr;
-
-
-private:
 	void UpdateTestCode();
+	void UpdateOutPutDebug(float _Delta);
 
 	// FSM
 	void ChangeState(EELLIE_STATE _State);
@@ -209,8 +205,6 @@ private:
 
 private:
 	// 방향 키 감지
-	// 가능한 1프레임당 한번 업데이트 되는 것을 원칙으로 합니다.
-	// 어차피 한번 실행하나 두번 실행하나 똑같습니다.
 	bool DetectMovement();
 	bool DetectVerticalMovement();
 	bool DetectHorizontalMovement();
@@ -238,46 +232,20 @@ private:
 	// 행동
 	EELLIE_STATE m_State = EELLIE_STATE::None;
 
-	bool IsControl = true;
-	const float CONST_Ellie_SlowWalk_Speed = 100.0f;
-	const float CONST_Ellie_Walk_Speed = 160.0f;
-	const float CONST_Ellie_Run_Speed = 220.0f;
-
-	const float CONST_Ellie_NonRiding_Acceleration_Time = 1.0f;
-	const float CONST_Ellie_Riding_Move_Acceleration_Time = 1.2f;
-	const float CONST_Ellie_Riding_Boosting_Acceleration_Time = 1.0f;
-	const float CONST_Ellie_Riding_Move_Speed = 500.0f;
-	const float CONST_Ellie_Riding_Boost_Speed = 700.0f;
-
-
 
 private:
-	// 충돌 업데이트
-	void UpdateCollision();
-	void UpdatePortalCollsiion();
-	void UpdateInteractionCollsiion();
-
-private:
-	// Pixel 충돌
-	const float4 m_PixelCheckScale = { 10.0f , 10.0f };
-	const float4 m_PixelCheckPosBaseOnCenter = float4::ZERO;
-	// 벽 마찰력
-	const float COSNT_FrictionForce = 0.5f;
-
-	// Pixel 충돌 체크 포인트
-	PixelCheckPoint m_PixelCheckPoint;
-
-
-private:
+	std::shared_ptr<GameEngineSpriteRenderer> m_Fx = nullptr;
 	std::shared_ptr<GameEngineCollision> m_EllieCol = nullptr;
 	std::shared_ptr<GameEngineCollision> m_NetCol = nullptr;
 	InteractiveActor* OtherEntity = nullptr;
-	
+	PixelCheckPoint m_PixelCheckPoint;
+
+	const float4 m_PixelCheckScale = { 10.0f , 10.0f };
+	const float4 m_PixelCheckPosBaseOnCenter = float4::ZERO;
+
+	bool IsControl = true;
 	bool IsCollected = false;
 	bool IsHolding = false;
-
-	// 상호작용 Collision 시야각도 입니다.
-	const float FOVAngle = 60.0f;
 
 	
 };

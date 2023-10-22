@@ -166,8 +166,17 @@
     <Filter Include="2.Object\2.Actor\2.Interactive\Static\BranchTree">
       <UniqueIdentifier>{26f52f03-9544-4cb9-9bed-b4d5ab4198e5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2.Object\2.Actor\0.Manager\UIManager\6.Dispensation">
+    <Filter Include="2.Object\2.Actor\2.Interactive\Static\Machine\AlchemyPot">
+      <UniqueIdentifier>{357ed98c-4644-4ffe-b672-7f1cdf4ed2d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2.Object\2.Actor\2.Interactive\Static\Machine\AlchemyPot\Dispensation">
       <UniqueIdentifier>{1a53decc-91e0-44c8-8a7e-9b5303e3107f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2.Object\2.Actor\2.Interactive\Static\Machine\Extractor">
+      <UniqueIdentifier>{e7c61f69-627e-4b25-836a-f077f5c22092}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2.Object\2.Actor\2.Interactive\Static\Machine\Extractor\Process">
+      <UniqueIdentifier>{cc575566-e52c-4962-86a2-d02d86b8676f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -301,12 +310,6 @@
     <ClInclude Include="Roaster.h">
       <Filter>2.Object\2.Actor\2.Interactive\Static\Machine</Filter>
     </ClInclude>
-    <ClInclude Include="AlchemyPot.h">
-      <Filter>2.Object\2.Actor\2.Interactive\Static\Machine</Filter>
-    </ClInclude>
-    <ClInclude Include="Extractor.h">
-      <Filter>2.Object\2.Actor\2.Interactive\Static\Machine</Filter>
-    </ClInclude>
     <ClInclude Include="UI_InterativeMark.h">
       <Filter>2.Object\2.Actor\0.Manager\UIManager\5.Mark</Filter>
     </ClInclude>
@@ -434,7 +437,22 @@
       <Filter>2.Object\2.Actor\2.Interactive\Static\BranchTree</Filter>
     </ClInclude>
     <ClInclude Include="UI_Dispensation.h">
-      <Filter>2.Object\2.Actor\0.Manager\UIManager\6.Dispensation</Filter>
+      <Filter>2.Object\2.Actor\2.Interactive\Static\Machine\AlchemyPot\Dispensation</Filter>
+    </ClInclude>
+    <ClInclude Include="AlchemyPot.h">
+      <Filter>2.Object\2.Actor\2.Interactive\Static\Machine\AlchemyPot</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Process.h">
+      <Filter>2.Object\2.Actor\2.Interactive\Static\Machine\Extractor\Process</Filter>
+    </ClInclude>
+    <ClInclude Include="Extractor.h">
+      <Filter>2.Object\2.Actor\2.Interactive\Static\Machine\Extractor</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_ProcessList.h">
+      <Filter>2.Object\2.Actor\2.Interactive\Static\Machine\Extractor\Process</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_ProcessListUnit.h">
+      <Filter>2.Object\2.Actor\2.Interactive\Static\Machine\Extractor\Process</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -561,12 +579,6 @@
     </ClCompile>
     <ClCompile Include="IngredientData.cpp">
       <Filter>0.Data\Contents</Filter>
-    </ClCompile>
-    <ClCompile Include="AlchemyPot.cpp">
-      <Filter>2.Object\2.Actor\2.Interactive\Static\Machine</Filter>
-    </ClCompile>
-    <ClCompile Include="Extractor.cpp">
-      <Filter>2.Object\2.Actor\2.Interactive\Static\Machine</Filter>
     </ClCompile>
     <ClCompile Include="Roaster.cpp">
       <Filter>2.Object\2.Actor\2.Interactive\Static\Machine</Filter>
@@ -711,7 +723,22 @@
       <Filter>2.Object\2.Actor\2.Interactive\Dynamic\Ellie</Filter>
     </ClCompile>
     <ClCompile Include="UI_Dispensation.cpp">
-      <Filter>2.Object\2.Actor\0.Manager\UIManager\6.Dispensation</Filter>
+      <Filter>2.Object\2.Actor\2.Interactive\Static\Machine\AlchemyPot\Dispensation</Filter>
+    </ClCompile>
+    <ClCompile Include="AlchemyPot.cpp">
+      <Filter>2.Object\2.Actor\2.Interactive\Static\Machine\AlchemyPot</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Process.cpp">
+      <Filter>2.Object\2.Actor\2.Interactive\Static\Machine\Extractor\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Extractor.cpp">
+      <Filter>2.Object\2.Actor\2.Interactive\Static\Machine\Extractor</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_ProcessList.cpp">
+      <Filter>2.Object\2.Actor\2.Interactive\Static\Machine\Extractor\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_ProcessListUnit.cpp">
+      <Filter>2.Object\2.Actor\2.Interactive\Static\Machine\Extractor\Process</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
