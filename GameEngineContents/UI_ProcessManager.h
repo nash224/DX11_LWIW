@@ -1,13 +1,7 @@
 #pragma once
-#include "UI_ToggleActor.h"
-
-
-
-
-
 
 // Ό³Έν :
-class UI_ProcessManager : public UI_ToggleActor
+class UI_ProcessManager : public GameEngineActor
 {
 public:
 	// constrcuter destructer

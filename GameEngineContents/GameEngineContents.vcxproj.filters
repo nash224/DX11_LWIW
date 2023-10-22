@@ -442,7 +442,7 @@
     <ClInclude Include="AlchemyPot.h">
       <Filter>2.Object\2.Actor\2.Interactive\Static\Machine\AlchemyPot</Filter>
     </ClInclude>
-    <ClInclude Include="UI_Process.h">
+    <ClInclude Include="UI_ProcessManager.h">
       <Filter>2.Object\2.Actor\2.Interactive\Static\Machine\Extractor\Process</Filter>
     </ClInclude>
     <ClInclude Include="Extractor.h">
@@ -728,7 +728,7 @@
     <ClCompile Include="AlchemyPot.cpp">
       <Filter>2.Object\2.Actor\2.Interactive\Static\Machine\AlchemyPot</Filter>
     </ClCompile>
-    <ClCompile Include="UI_Process.cpp">
+    <ClCompile Include="UI_ProcessManager.cpp">
       <Filter>2.Object\2.Actor\2.Interactive\Static\Machine\Extractor\Process</Filter>
     </ClCompile>
     <ClCompile Include="Extractor.cpp">

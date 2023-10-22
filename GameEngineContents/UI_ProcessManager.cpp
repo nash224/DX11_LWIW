@@ -1,7 +1,8 @@
 #include "PreCompile.h"
-#include "UI_Process.h"
+#include "UI_ProcessManager.h"
 
 #include "UIManager.h"
+#include "UI_ProcessList.h"
 
 UI_ProcessManager::UI_ProcessManager()
 {
@@ -14,19 +15,17 @@ UI_ProcessManager::~UI_ProcessManager()
 
 void UI_ProcessManager::Start()
 {
-	UI_ToggleActor::Start();
-
 	GameEngineInput::AddInputObject(this);
 }
 
 void UI_ProcessManager::Update(float _Delta)
 {
-	UI_ToggleActor::Update(_Delta);
 }
 
 void UI_ProcessManager::Release()
 {
-	
+	ProcessListWindow = nullptr;
+	ProcessWindow = nullptr;
 }
 
 void UI_ProcessManager::LevelStart(class GameEngineLevel* _NextLevel)
@@ -80,7 +79,12 @@ void UI_ProcessManager::Open()
 		return;
 	}
 
-	UIManager::MainUIManager->OpenInventory();
+	UIManager::MainUIManager->UseUIComponent();
+
+	if (nullptr != ProcessListWindow)
+	{
+		ProcessListWindow->On();
+	}
 
 	On();
 }
@@ -93,7 +97,18 @@ void UI_ProcessManager::Close()
 		return;
 	}
 
-	UIManager::MainUIManager->CloseInventory();
+	UIManager::MainUIManager->DoneUIComponent();
+
+
+	if (nullptr != ProcessListWindow)
+	{
+		ProcessListWindow->Off();
+	}
+
+	if (nullptr != ProcessWindow)
+	{
+		ProcessWindow->Off();
+	}
 
 	Off();
 }

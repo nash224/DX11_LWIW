@@ -490,7 +490,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="UI_Process.cpp">
+    <ClCompile Include="UI_ProcessManager.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -845,7 +845,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="UI_Process.h">
+    <ClInclude Include="UI_ProcessManager.h">
       <SubType>
       </SubType>
     </ClInclude>

@@ -1,12 +1,17 @@
 #pragma once
 
-
+#define PROCESS_FIRST_SLOT_POSITION { -4.0f, 134.0f }
+#define PROCESS_SLOT_GAP 64.0f
 
 class ProcessListCursor
 {
 public:
-	std::shared_ptr<GameEngineUIRenderer> m_UpArrow = nullptr;
-	std::shared_ptr<GameEngineUIRenderer> m_DownArrow = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> UpArrow = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> DownArrow = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> ScrollBase = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> ScrollBar = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> Cursor = nullptr;
+
 
 };
 
@@ -28,6 +33,11 @@ public:
 	void Init();
 	void RendererSetting();
 	void CreateProcessSlot(std::string_view _ProcessName);
+	void CursorSetting();
+
+
+	void Open();
+	void Close();
 
 protected:
 	void Start() override;
@@ -37,10 +47,14 @@ protected:
 
 
 private:
+	void UpdateInput();
+	void MoveCursor(int _Value);
+
+private:
 	std::vector<std::shared_ptr<class UI_ProcessListUnit>> SlotVec;
 
 	std::shared_ptr<GameEngineUIRenderer> m_Base = nullptr;
 	ProcessListCursor m_ProcessListCursor;
-
+	int CurrentCursor = 0;
 
 };
