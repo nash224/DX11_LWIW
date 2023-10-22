@@ -47,7 +47,7 @@ PixelOutPut TextureShader_VS(GameEngineVertex2D _Input)
     // _Input 0.5 0.5
     
     // 쉐이더 문법 모두 0인 자료형으로 초기화 하는것
-    PixelOutPut Result = (PixelOutPut)0;
+    PixelOutPut Result = (PixelOutPut) 0;
     
     // 내가 원하는 값을 이안에 넣어줄수 있어야 한다.
     
@@ -119,6 +119,12 @@ float4 TextureShader_PS(PixelOutPut _Input) : SV_Target0
         clip(-1);
     }
     
+    if (BaseColorOnly != 0)
+    {
+        Color = BaseColor;
+        Color.a = 1;
+    }
+        
     Color += PlusColor;
     Color *= MulColor;
     

@@ -9,7 +9,7 @@ struct RenderBaseInfo
 {
 	float4 BaseColor;
 	int IsMask = 0;
-	int Temp0 = 0;
+	int BaseColorOnly = 0;
 	int Temp1 = 0;
 	int Temp2 = 0;
 };
@@ -77,6 +77,8 @@ public:
 
 	GameEngineShaderResHelper& GetShaderResHelper(int _Index = 0);
 
+	RenderBaseInfo RenderBaseInfoValue;
+
 protected:
 	void Start();
 	virtual void Render(class GameEngineCamera* _Camera, float _Delta);
@@ -89,7 +91,6 @@ protected:
 
 	std::vector<std::shared_ptr<GameEngineRenderUnit>> Units;
 
-	RenderBaseInfo RenderBaseInfoValue;
 
 private:
 	class GameEngineCamera* Camera = nullptr;
