@@ -47,7 +47,7 @@ public:
 		ZoomValue += _Value;
 	}
 
-	bool IsFreeCamera() 
+	bool IsFreeCamera()
 	{
 		return IsFreeCameraValue;
 	}
@@ -70,7 +70,7 @@ public:
 	float4 GetScreenMouseDir() { return ScreenMouseDir; }
 	float4 GetScreenMouseDirNormal() { return ScreenMouseDirNormal; }
 
-	void SetZSort(int _SortOrder) 
+	void SetZSort(int _SortOrder)
 	{
 		ZSortMap.insert(_SortOrder);
 	}
@@ -84,7 +84,7 @@ protected:
 
 	void AllReleaseCheck() override;
 
-	
+
 
 
 private:
