@@ -121,6 +121,7 @@ enum class EUI_RENDERORDERDEPTH
 {
 	Cursor = -300,
 	CursorOutLine,
+	Icon_Mask,
 	Icon,
 	Component,
 	Attachment,

@@ -48,7 +48,7 @@ void UI_ProcessListUnit::Init(std::string_view _ProcessName, int _CurCount)
 {
 	std::shared_ptr<IngredientData> Data = IngredientData::Find(_ProcessName);
 
-	ItemFileName = Data->Name;
+	ItemName = Data->Name;
 	ItemKRName = Data->KoreanName;
 	NeedCount = Data->SourceCount;
 
@@ -62,22 +62,22 @@ void UI_ProcessListUnit::Init(std::string_view _ProcessName, int _CurCount)
 	Panel->SetSprite("Process_A_List.png");
 
 	ItemSlot = CreateComponent<GameEngineUIRenderer>();
-	ItemSlot->Transform.SetLocalPosition(float4(-76.0f, 0.0f, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Component)));
+	ItemSlot->Transform.SetLocalPosition(float4(-76.0f, 0.0f, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Attachment)));
 	ItemSlot->SetSprite("Process_A_Slot.png");
 
 	ItemImg = CreateComponent<GameEngineUIRenderer>();
 	ItemImg->Transform.SetLocalPosition(float4(-76.0f, 0.0f, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Icon)));
 	ItemImg->SetSprite(_ProcessName.data() + std::string(".png"));
-	if (EPROCESSUNITSTATE::Unknown == State)
-	{
-		Off();
-	}
-	else 
-	{
-		ItemImg->GetColorData().MulColor = 0.3f;
-	}
 
 	ItemMaskImg = CreateComponent<GameEngineUIRenderer>();
-	ItemMaskImg->Transform.SetLocalPosition(float4(-76.0f, 0.0f, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Component)));
+	ItemMaskImg->Transform.SetLocalPosition(float4(-76.0f, 0.0f, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Icon_Mask)));
 	ItemMaskImg->SetSprite(_ProcessName.data() + std::string("_Mask.png"));
+	if (EPROCESSUNITSTATE::Unknown == State)
+	{
+		ItemMaskImg->Off();
+	}
+	else if (EPROCESSUNITSTATE::NotPossible == State)
+	{
+		ItemMaskImg->GetColorData().MulColor.A = 0.6f;
+	}
 }

@@ -447,6 +447,7 @@ void Ellie::UpdateState(float _Delta)
 	case EELLIE_STATE::RootUp:									UpdateRootUp(_Delta);						break;
 	case EELLIE_STATE::Sit:										UpdateSit(_Delta);							break;
 	case EELLIE_STATE::MongSiri:								UpdateMongSiri(_Delta);						break;
+	case EELLIE_STATE::Wait:									UpdateWait(_Delta);							break;
 	case EELLIE_STATE::Juicy:									UpdateJuicy(_Delta);						break;
 	case EELLIE_STATE::Cheer:									UpdateCheer(_Delta);						break;
 	case EELLIE_STATE::Fail:									UpdateFail(_Delta);							break;
@@ -477,6 +478,7 @@ void Ellie::ChangeState(EELLIE_STATE _State)
 		case EELLIE_STATE::RootUp:									EndRootUp();					break;
 		case EELLIE_STATE::Sit:										EndSit();						break;
 		case EELLIE_STATE::MongSiri:								EndRootUp();					break;
+		case EELLIE_STATE::Wait:									EndWait()	;					break;
 		case EELLIE_STATE::Juicy:									EndJuicy();						break;
 		case EELLIE_STATE::Cheer:																	break;
 		case EELLIE_STATE::Fail:																	break;
@@ -506,6 +508,7 @@ void Ellie::ChangeState(EELLIE_STATE _State)
 		case EELLIE_STATE::RootUp:								StartRootUp();						break;
 		case EELLIE_STATE::Sit:									StartSit();							break;
 		case EELLIE_STATE::MongSiri:							StartMongSiri();					break;
+		case EELLIE_STATE::Wait:								StartWait();						break;
 		case EELLIE_STATE::Juicy:								StartJuicy();						break;
 		case EELLIE_STATE::Cheer:								StartCheer();						break;
 		case EELLIE_STATE::Fail:								StartFail();						break;

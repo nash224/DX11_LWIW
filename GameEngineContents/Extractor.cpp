@@ -1,6 +1,9 @@
 #include "PreCompile.h"
 #include "Extractor.h"
 
+
+#include "UI_ProcessManager.h"
+
 Extractor::Extractor() 
 {
 }
@@ -57,6 +60,8 @@ void Extractor::LevelEnd(class GameEngineLevel* _NextLevel)
 void Extractor::InitExtractor()
 {
 	CreateRendererAndAnimation();
+	UIProcessSetting();
+
 }
 
 void Extractor::CreateRendererAndAnimation()
@@ -85,6 +90,13 @@ void Extractor::CreateRendererAndAnimation()
 
 	ChangeState(EJUICERSTATE::Idle);
 }
+
+void Extractor::UIProcessSetting()
+{
+	m_ProcessManager = GetLevel()->CreateActor<UI_ProcessManager>();
+	m_ProcessManager->Init();
+}
+
 
 void Extractor::PullThis()
 {
@@ -156,10 +168,13 @@ void Extractor::UpdateIdle(float _Delta)
 {
 	if (true == IsEnalbeActive)
 	{
-
+		if (nullptr != m_ProcessManager)
+		{
+			m_ProcessManager->Open();
+		}
 	}
 }
-
+ 
 void Extractor::StartJuicy()
 {
 	ChangeExtractorCompositionAnimation("Juicy");

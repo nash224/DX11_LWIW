@@ -425,6 +425,11 @@ void UI_Inventory::UsingOtherComponent(bool _Value)
 	IsOtherComponent = _Value;
 }
 
+int UI_Inventory::ReturnItemCount(std::string_view _ItemName)
+{
+	return Data->IsContain(_ItemName);
+}
+
 
 
 // 같은 부모로 설정해두면 이전레벨에 렌더링 될수있음으로 레벨이 바뀔때 부모를 바꿉니다. 

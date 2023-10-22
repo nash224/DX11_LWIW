@@ -14,6 +14,7 @@ enum class EPROCESSUNITSTATE
 // Ό³Έν :
 class UI_ProcessListUnit : public GameEngineActor
 {
+	friend class UI_ProcessList;
 public:
 	// constrcuter destructer
 	UI_ProcessListUnit();
@@ -39,7 +40,7 @@ private:
 	std::shared_ptr<GameEngineUIRenderer> ItemSlot = nullptr;
 	std::shared_ptr<GameEngineUIRenderer> ItemImg = nullptr;
 	std::shared_ptr<GameEngineUIRenderer> ItemMaskImg = nullptr;
-	std::string ItemFileName = "";
+	std::string ItemName = "";
 	std::string ItemKRName = "";
 
 	EPROCESSUNITSTATE State = EPROCESSUNITSTATE::None;

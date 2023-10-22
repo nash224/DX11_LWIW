@@ -86,7 +86,9 @@ public:
 	static void PushItem(std::string_view _ItemName, unsigned int _Count = 1);
 	void UnlockSlot(const unsigned int _Count = 1);
 
+
 	void UsingOtherComponent(bool _Value);
+	int ReturnItemCount(std::string_view _ItemName);
 
 protected:
 	void Start() override;

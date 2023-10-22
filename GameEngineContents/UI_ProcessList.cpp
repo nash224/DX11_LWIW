@@ -3,6 +3,7 @@
 
 #include "UI_ProcessListUnit.h"
 #include "UIManager.h"
+#include "UI_Inventory.h"
 
 #include "IngredientData.h"
 
@@ -28,12 +29,19 @@ void UI_ProcessList::Update(float _Delta)
 
 void UI_ProcessList::Release() 
 {
+	m_Base = nullptr;
+	SlotVec.clear();
 
+	m_ProcessListCursor.UpArrow = nullptr;
+	m_ProcessListCursor.DownArrow = nullptr;
+	m_ProcessListCursor.Cursor = nullptr;
+	m_ProcessListCursor.ScrollBase = nullptr;
+	m_ProcessListCursor.ScrollBar = nullptr;
 }
 
 void UI_ProcessList::LevelEnd(class GameEngineLevel* _NextLevel) 
 {
-
+	Death();
 }
 
 
@@ -70,7 +78,7 @@ void UI_ProcessList::CreateProcessSlot(std::string_view _ProcessName)
 		return;
 	}
 
-	std::shared_ptr<UI_ProcessListUnit > Unit = GetLevel()->CreateActor<UI_ProcessListUnit>(EUPDATEORDER::UIComponent);
+	std::shared_ptr<UI_ProcessListUnit> Unit = GetLevel()->CreateActor<UI_ProcessListUnit>(EUPDATEORDER::UIComponent);
 	Unit->Init(_ProcessName, 2);
 	SlotVec.push_back(Unit);
 }
@@ -103,23 +111,26 @@ void UI_ProcessList::CursorSetting()
 
 void UI_ProcessList::Open()
 {
-	if (nullptr == UIManager::MainUIManager)
+	On();
+
+
+	if (nullptr == UI_Inventory::MainInventory)
 	{
-		MsgBoxAssert("메인 UI 매니저가 존재하지 않습니다.");
+		MsgBoxAssert("인벤토리가 존재하지 않는데 참조하려 했습니다.");
 		return;
 	}
-	
-	On();
+
+	for (size_t i = 0; i < SlotVec.size(); i++)
+	{
+		int ItemCount = UI_Inventory::MainInventory->ReturnItemCount(SlotVec[i]->ItemName);
+		
+	}
+	// 리스트 카운트
+	// 리스트 커서
 }
 
 void UI_ProcessList::Close()
 {
-	if (nullptr == UIManager::MainUIManager)
-	{
-		MsgBoxAssert("메인 UI 매니저가 존재하지 않습니다.");
-		return;
-	}
-
 	Off();
 }
 
@@ -156,58 +167,54 @@ void UI_ProcessList::UpdateInput()
 // 1 : 아래
 void UI_ProcessList::MoveCursor(int _Value)
 {
+
 	if (1 == _Value)
 	{
-		++CurrentCursor;
+		if (CurrentCursor + 1 != SlotVec.size())
+		{
+			++CurrentCursor;	
+		}
 	}
 	else
 	{
-		--CurrentCursor;
+		if (CurrentCursor != 0)
+		{
+			--CurrentCursor;
+		}
 	}
 
 	float4 CursorPosition = PROCESS_FIRST_SLOT_POSITION;
 	float NewYPositon = 0.0f;
-	bool SelectPosition = false;
 
-	if (false == SelectPosition && 0 == CurrentCursor)
+	int SlotCount = static_cast<int>(SlotVec.size());
+
+	if (SlotCount >= 1 && 0 == CurrentCursor)
 	{
-		SelectPosition = true;
-	}
 
-	if (false == SelectPosition && 1 == CurrentCursor)
+	}
+	else if (SlotCount >= 2 && 1 == CurrentCursor)
 	{
 		NewYPositon = -PROCESS_SLOT_GAP;
-		SelectPosition = true;
 	}
-
-	if (false == SelectPosition && 2 == CurrentCursor)
+	else if (SlotCount >= 3 && 2 == CurrentCursor)
 	{
 		NewYPositon = -PROCESS_SLOT_GAP * 2.0f;
-		SelectPosition = true;
 	}
-
-	if (false == SelectPosition && 3 == CurrentCursor && 4 == SlotVec.size())
+	else if (SlotCount >= 4 && 3 == CurrentCursor)
 	{
 		NewYPositon = -PROCESS_SLOT_GAP * 3.0f;
-		SelectPosition = true;
 	}
-
-	if (false == SelectPosition && CurrentCursor == SlotVec.size() - 2)
+	else if (CurrentCursor == SlotCount - 2)
 	{
 		NewYPositon = -PROCESS_SLOT_GAP * 4.0f;
-		SelectPosition = true;
 	}
-
-	if (false == SelectPosition && CurrentCursor == SlotVec.size() - 1)
+	else if (CurrentCursor == SlotCount - 1)
 	{
 		NewYPositon = -PROCESS_SLOT_GAP * 3.0f;
-		SelectPosition = true;
 	}
-
-	if (false == SelectPosition)
+	else
 	{
 		NewYPositon = -PROCESS_SLOT_GAP * 2.0f;
-		SelectPosition = true;
 	}
 
 	CursorPosition += float4(0.0f, NewYPositon);

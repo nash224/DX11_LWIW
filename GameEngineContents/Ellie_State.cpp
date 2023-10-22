@@ -3,6 +3,7 @@
 
 #include "BackDrop.h"
 #include "UI_Hub_Tool.h"
+#include "UI_ProcessManager.h"
 #include "Extractor.h"
 
 
@@ -336,7 +337,7 @@ void Ellie::UpdateApproach(float _Delta)
 
 		if (ECOLLECTION_METHOD::Juicy == OtherEntity->GetCollectionMethod())
 		{
-			ChangeState(EELLIE_STATE::Juicy);
+			ChangeState(EELLIE_STATE::Wait);
 			return;
 		}
 	}
@@ -485,6 +486,30 @@ void Ellie::EndMongSiri()
 {
 	OtherEntity = nullptr;
 	IsControl = true;
+}
+
+
+void Ellie::StartWait()
+{
+	if (nullptr == OtherEntity)
+	{
+		MsgBoxAssert("상호작용하려는 객체가 존재하지 않습니다.");
+		return;
+	}
+
+	OtherEntity->ReachThis();
+
+	ChangeAnimationByDirection("Idle");
+}
+
+void Ellie::UpdateWait(float _Delta)
+{
+
+}
+
+void Ellie::EndWait()
+{
+
 }
 
 

@@ -39,6 +39,7 @@ private:
 	void InitExtractor();
 
 	void CreateRendererAndAnimation();
+	void UIProcessSetting();
 
 
 private:
@@ -58,6 +59,7 @@ private:
 
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> m_Extractor;
+	std::shared_ptr<class UI_ProcessManager> m_ProcessManager;
 
 private:
 	EJUICERSTATE m_State = EJUICERSTATE::None;

@@ -51,7 +51,7 @@ void UI_ProcessManager::Init()
 	Off();
 }
 
-
+// 렌더러 세팅
 void UI_ProcessManager::RendererSetting()
 {
 	if (nullptr == GameEngineSprite::Find("Process_Base.png"))
@@ -65,12 +65,14 @@ void UI_ProcessManager::RendererSetting()
 	}
 }
 
+// 가공창 1,2 세팅
 void UI_ProcessManager::OtherProcessSetting()
 {
-	ProcessWindow = GetLevel()->CreateActor<UI_Process>(EUPDATEORDER::UIComponent);
-	ProcessWindow->Init();
+	ProcessListWindow = GetLevel()->CreateActor<UI_ProcessList>(EUPDATEORDER::UIComponent);
+	ProcessListWindow->Init();
 }
 
+// 열기
 void UI_ProcessManager::Open()
 {
 	if (nullptr == UIManager::MainUIManager)
@@ -83,12 +85,13 @@ void UI_ProcessManager::Open()
 
 	if (nullptr != ProcessListWindow)
 	{
-		ProcessListWindow->On();
+		ProcessListWindow->Open();
 	}
 
 	On();
 }
 
+// 닫기
 void UI_ProcessManager::Close()
 {
 	if (nullptr == UIManager::MainUIManager)
@@ -113,7 +116,7 @@ void UI_ProcessManager::Close()
 	Off();
 }
 
-
+// 2번째창 이니셜
 void UI_Process::Init()
 {
 
