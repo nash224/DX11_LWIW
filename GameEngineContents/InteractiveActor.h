@@ -93,15 +93,13 @@ public:
 	}
 
 
-	// 위치
+	void ApplyDepth(const float4& _Position);
 	void SetDepthBias(float _DepthBias)
 	{
 		m_DepthBias = _DepthBias;
 	}
 
-	// 깊이 적용
-	void ApplyDepth(const float4& _Position);
-	float ReturnZOrder(float _YPosition);
+	float ReturnPlusDepth(float _YPosition);
 
 protected:
 	void Start() override;
@@ -122,10 +120,8 @@ protected:
 
 
 	
-	// 충돌검사용 변수
+	// 충돌
 	bool IsReach = false;
-
-	// 충돌 후 처리용 변수
 	bool IsEnalbeActive = false;
 
 protected:

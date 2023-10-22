@@ -45,6 +45,7 @@ enum class EELLIE_STATE
 	RootUp,
 	Sit,
 	MongSiri,
+	Juicy,
 	Cheer,
 	Fail,
 	Drink,
@@ -191,6 +192,10 @@ private:
 	void StartMongSiri();
 	void UpdateMongSiri(float _Delta);
 	void EndMongSiri();
+
+	void StartJuicy();
+	void UpdateJuicy(float _Delta);
+	void EndJuicy();
 
 	void StartCheer();
 	void UpdateCheer(float _Delta);

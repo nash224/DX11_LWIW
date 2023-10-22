@@ -72,13 +72,11 @@ void InteractiveActor::SetNearInteractivePositionAndRange(const float4& _Interac
 
 	m_InteractiveLocalPosition = _InteractivePosition;
 
+	m_InteractiveRange = _Range;
+
 	if (_Range < 0.0f)
 	{
-		m_InteractiveRange *= -_Range;
-	}
-	else
-	{
-		m_InteractiveRange = _Range;
+		m_InteractiveRange = 0.0f;
 	}
 }
 
@@ -153,7 +151,7 @@ void InteractiveActor::ApplyDepth(const float4& _Position)
 }
 
 // 추가 깊이를 계산하고 반환
-float InteractiveActor::ReturnZOrder(float _YPosition)
+float InteractiveActor::ReturnPlusDepth(float _YPosition)
 {
 	if (nullptr == BackDrop_PlayLevel::MainBackDrop)
 	{

@@ -3,6 +3,7 @@
 
 #include "BackDrop.h"
 #include "UI_Hub_Tool.h"
+#include "Extractor.h"
 
 
 
@@ -350,6 +351,12 @@ void Ellie::UpdateApproach(float _Delta)
 			ChangeState(EELLIE_STATE::MongSiri);
 			return;
 		}
+
+		if (ECOLLECTION_METHOD::Juicy == OtherEntity->GetCollectionMethod())
+		{
+			ChangeState(EELLIE_STATE::Juicy);
+			return;
+		}
 	}
 }
 
@@ -497,6 +504,53 @@ void Ellie::EndMongSiri()
 	OtherEntity = nullptr;
 	IsControl = true;
 }
+
+
+void Ellie::StartJuicy()
+{
+	if (nullptr != m_Body && nullptr == m_Body->FindAnimation("Juicy"))
+	{
+		m_Body->CreateAnimation("Juicy", "DownFloor_Extractor_0.png", 0.2f, 12, 19, false);
+		m_Body->FindAnimation("Juicy")->Inter = { 0.12f, 0.12f, 0.1f, 0.16f, 0.17f, 0.18f, 0.19f, 0.19f };
+		m_Body->SetFrameEvent("Juicy", 15, [&](GameEngineSpriteRenderer* _Renerer)
+			{
+				Extractor* ExtractorPtr = dynamic_cast<Extractor*>(OtherEntity);
+				if (nullptr == ExtractorPtr)
+				{
+					MsgBoxAssert("다이나믹 캐스팅을 하지 못했습니다.");
+					return;
+				}
+
+				// 착즙기에게 당겨지라고 요청합니다.
+				ExtractorPtr->PullThis();
+			});
+	}
+
+
+	ChangeAnimationByDirection("Juicy", false);
+}
+
+void Ellie::UpdateJuicy(float _Delta)
+{
+	if (nullptr == m_Body)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
+
+	if (true == m_Body->IsCurAnimationEnd())
+	{
+		ChangeState(EELLIE_STATE::Idle);
+		return;
+	}
+}
+
+void Ellie::EndJuicy()
+{
+	OtherEntity = nullptr;
+	IsControl = true;
+}
+
 
 #pragma endregion
 

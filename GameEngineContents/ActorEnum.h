@@ -52,5 +52,6 @@ enum class ECOLLECTION_METHOD
 	Sit,
 	RootUp,
 	MongSiri,
+	Juicy,
 	None,
 };

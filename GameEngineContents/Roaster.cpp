@@ -13,6 +13,9 @@ Roaster::~Roaster()
 void Roaster::Start()
 {
 	StaticEntity::Start();
+	CreateAndSetCollision(ECOLLISION::Entity, { 150.0f , 150.0f }, float4::ZERO, ColType::SPHERE2D);
+	SetInteractionType(EINTERACTION_TYPE::Far);
+	SetInteractionButtonType(EINTERACTION_BUTTONTYPE::Gear);
 
 	InitRoaster();
 }

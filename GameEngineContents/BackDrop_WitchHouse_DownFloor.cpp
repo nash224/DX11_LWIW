@@ -891,10 +891,9 @@ void BackDrop_WitchHouse_DownFloor::CreateStaticActor(GameEngineLevel* _Level)
 			return;
 		}
 
-		Object->CreateAndSetCollision(ECOLLISION::Entity, { 150.0f , 150.0f }, float4::ZERO, ColType::SPHERE2D);
-		Object->SetInteractionType(EINTERACTION_TYPE::Far);
-		Object->SetInteractionButtonType(EINTERACTION_BUTTONTYPE::Gear);
-		Object->Transform.SetLocalPosition(m_DownFloorWholePosition + float4{ 47.0f + 183.0f , -47.0f - 313.0f });
+		float4 Position = float4(m_DownFloorWholePosition + float4(230.0f, -394.0f));
+		Position.Z = ZSort(Position.Y);
+		Object->Transform.SetLocalPosition(Position);
 
 		StaticEntityList.push_back(Object);
 	}
@@ -907,10 +906,9 @@ void BackDrop_WitchHouse_DownFloor::CreateStaticActor(GameEngineLevel* _Level)
 			return;
 		}
 
-		Object->CreateAndSetCollision(ECOLLISION::Entity, { 150.0f , 150.0f }, float4::ZERO, ColType::SPHERE2D);
-		Object->SetInteractionType(EINTERACTION_TYPE::Far);
-		Object->SetInteractionButtonType(EINTERACTION_BUTTONTYPE::Gear);
-		Object->Transform.SetLocalPosition(m_DownFloorWholePosition + float4{ 39.0f + 267.0f , -46.0f - 99.0f });
+		float4 Position = float4(m_DownFloorWholePosition + float4(296.0f, -186.0f));
+		Position.Z = ZSort(Position.Y);
+		Object->Transform.SetLocalPosition(Position);
 
 		StaticEntityList.push_back(Object);
 	}

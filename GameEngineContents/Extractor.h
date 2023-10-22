@@ -25,6 +25,8 @@ public:
 	Extractor& operator=(const Extractor& _Other) = delete;
 	Extractor& operator=(Extractor&& _Other) noexcept = delete;
 
+	void PullThis();
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
