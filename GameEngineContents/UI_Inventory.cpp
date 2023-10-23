@@ -23,7 +23,7 @@ void Inventory::PushItem(std::string_view _ItemName, unsigned int _Count)
 	// 데이터에 없으면
 	if (0 == Value)
 	{
-		// 빈자리를 찾아서
+		// 빈자리가 있으면 빈자리를 찾아서
 		for (size_t i = 0; i < LockNumber; i++)
 		{
 			// 넣습니다.
@@ -53,7 +53,7 @@ void Inventory::PushItem(std::string_view _ItemName, unsigned int _Count)
 	InventoryParent->DisplayItem(static_cast<size_t>(Value), _ItemName);
 }
 
-
+// 아이템을 지정수만큼 뺍니다.
 void Inventory::PopItem(std::string_view _ItemName, unsigned int _Count)
 {
  	int SlotNumber = Find(_ItemName);
@@ -65,8 +65,24 @@ void Inventory::PopItem(std::string_view _ItemName, unsigned int _Count)
 	
 }
 
-bool Inventory::CheckEmptySlot()
+// 빈슬롯이 있는지 검사합니다.
+bool Inventory::CheckEmptySlot(std::string_view _ItemName)
 {
+	int UnlockSlotCount = UI_Inventory::UnlockSlotY * Max_YSlot;
+
+	for (size_t i = 0; i < UnlockSlotCount; i++)
+	{
+		if (0 == InventoryData[i].ItemCount)
+		{
+			return true;
+		}
+	}
+
+	if (0 != IsContain(_ItemName))
+	{
+		return true;
+	}
+
 	return false;
 }
 
@@ -204,6 +220,20 @@ void UI_Inventory::Update(float _Delta)
 	UI_ToggleActor::Update(_Delta);
 
 	UpdateInventory(_Delta);
+}
+
+void UI_Inventory::Release()
+{
+	Data = nullptr;
+	MainInventory = nullptr;
+
+	m_DropManager = nullptr;
+	m_InventoryBase = nullptr;
+	m_CursorComposition.Cursor = nullptr;
+	m_CursorComposition.CursorOutline = nullptr;
+	m_CursorComposition.NameTooltip = nullptr;
+
+	InventorySlotArray.clear();
 }
 
 void UI_Inventory::LevelStart(class GameEngineLevel* _NextLevel)
@@ -430,11 +460,18 @@ void UI_Inventory::PushItem(std::string_view _ItemName, unsigned int _Count/* = 
 		return;
 	}
 
+	// 빈슬롯이 있는지 검사하고
+	if (false == Data->CheckEmptySlot(_ItemName))
+	{
+		// UI Dont Empty Slot Alert!!
+		OutputDebugStringA("빈슬롯이 없습니다.");
+		return;
+	}
+
 	Data->PushItem(_ItemName, _Count);
 
-
 	// 알림 시스템이기 때문에 터트리진 않습니다.
-	if (nullptr != MainInventory->m_DropManager)
+	if (nullptr != MainInventory && nullptr != MainInventory->m_DropManager)
 	{
 		MainInventory->m_DropManager->NoticeItemDrop(_ItemName);
 	}
@@ -459,9 +496,16 @@ void UI_Inventory::PopItem(std::string_view _ItemName, unsigned int _Count)
 	Data->PopItem(_ItemName, _Count);
 }
 
-bool UI_Inventory::CheckEmptySlot()
+bool UI_Inventory::IsEmptySlot(std::string_view _ItemName)
 {
-	return false;
+	if (nullptr == Data)
+	{
+		MsgBoxAssert("인벤토리가 존재하지 않습니다.");
+		return false;
+	}
+
+
+	return Data->CheckEmptySlot(_ItemName);
 }
 
 // 슬롯 줄 잠금해제

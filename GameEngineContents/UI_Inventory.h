@@ -36,7 +36,7 @@ private:
 	void ClearData(const unsigned int _X, const unsigned int _Y);
 	void ClearData(const unsigned int _SlotNumber);
 
-	bool CheckEmptySlot();
+	bool CheckEmptySlot(std::string_view _ItemName);
 	int IsContain(std::string_view _ItemName);
 	int IsContain(unsigned int _X, unsigned int _Y);
 
@@ -128,7 +128,7 @@ public:
 	static void PushItem(std::string_view _ItemName, unsigned int _Count = 1);
 	void PopItem(std::string_view _ItemName, unsigned int _Count);
 
-	bool CheckEmptySlot();
+	bool IsEmptySlot(std::string_view _ItemName);
 
 	void UnlockSlot(const unsigned int _Count = 1);
 
@@ -139,6 +139,7 @@ public:
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
+	void Release() override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
