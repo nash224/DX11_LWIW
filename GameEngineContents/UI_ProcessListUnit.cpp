@@ -88,10 +88,14 @@ void UI_ProcessListUnit::RenewRenderer()
 
 	if (EPROCESSUNITSTATE::Unknown == State)
 	{
-		ItemMaskImg->Off();
+		ItemImg->Off();
 	}
 	else if (EPROCESSUNITSTATE::NotPossible == State)
 	{
 		ItemMaskImg->GetColorData().MulColor.A = 0.6f;
+	}
+	else
+	{
+		ItemMaskImg->Off();
 	}
 }

@@ -1,10 +1,15 @@
 #include "PreCompile.h"
 #include "UI_ProcessManager.h"
 
+
 #include "UIManager.h"
+#include "UI_Inventory.h"
+
 #include "UI_ProcessList.h"
 #include "UI_ProcessB.h"
 
+
+UI_ProcessManager* UI_ProcessManager::ProcessManager = nullptr;
 UI_ProcessManager::UI_ProcessManager()
 {
 }
@@ -21,6 +26,7 @@ void UI_ProcessManager::Start()
 
 void UI_ProcessManager::Update(float _Delta)
 {
+
 }
 
 void UI_ProcessManager::Release()
@@ -46,6 +52,8 @@ void UI_ProcessManager::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void UI_ProcessManager::Init()
 {
+	ProcessManager = this;
+
 	RendererSetting();
 	OtherProcessSetting();
 
@@ -78,6 +86,9 @@ void UI_ProcessManager::OtherProcessSetting()
 	ProcessWindow->ProcessManager = this;
 }
 
+
+/////////////////////////////////////////////////////////////////////////////////////
+
 // 열기
 void UI_ProcessManager::Open()
 {
@@ -108,7 +119,6 @@ void UI_ProcessManager::Close()
 
 	UIManager::MainUIManager->DoneUIComponent();
 
-
 	if (nullptr != ProcessListWindow)
 	{
 		ProcessListWindow->Close();
@@ -125,6 +135,10 @@ void UI_ProcessManager::Close()
 
 void UI_ProcessManager::OpenProcessWindow(std::string_view ProductName, int _ScrCount)
 {
+	if (nullptr ==ProcessListWindow)
+	{
+		MsgBoxAssert("가공 리스트 탭이 존재하지")
+	}
 	ProcessListWindow->Close();
 	ProcessWindow->Open(ProductName, _ScrCount);
 }
@@ -133,4 +147,25 @@ void UI_ProcessManager::OpenListWindow()
 {
 	ProcessWindow->Close();
 	ProcessListWindow->Open();
+}
+
+void UI_ProcessManager::JuicyDone()
+{
+	if (nullptr == UI_Inventory::MainInventory)
+	{
+		MsgBoxAssert("인벤토리가 존재하지 않습니다.");
+		return;
+	}
+
+	CreateJuicyItem();
+
+	int ItemCount = UI_Inventory::MainInventory->ReturnItemCount(CreatedProductName);
+
+	ProcessWindow->Open(CreatedProductName, ItemCount);
+}
+
+// JuicyDone에서 널체크를 해줍니다.
+void UI_ProcessManager::CreateJuicyItem()
+{
+	UI_Inventory::MainInventory->PushItem(CreatedProductName);
 }

@@ -66,6 +66,7 @@ private:
 	bool m_SwitchOpenHub = false;								// 허브를 자동으로 킬 수 있습니다.
 	bool m_IsHubPreServe = false;								// 현재 컴포넌트가 작동중이지만 허브를 유지할 수 있는 변수입니다.
 	bool m_IsActiveComponent = false;							// 허브를 닫지 않고 컴포넌트를 열지 결정합니다.
+	bool IsOtherComponentUsed = false;
 
 	
 private:

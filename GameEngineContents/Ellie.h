@@ -106,6 +106,8 @@ public:
 
 	void OnControl();
 	void OffControl();
+	void CancleComponent();
+	void WaitDone();
 	void SetPixelPointBaseOnCenter();
 
 	EELLIE_STATE GetState() const
@@ -121,6 +123,7 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
+	// 레벨 시작 초기화 함수
 	void OnLevelStart();
 	void RenewStatus();
 	void ChangeStatus(const EELLIE_STATUS _Status);
@@ -237,6 +240,8 @@ private:
 
 	// 행동
 	EELLIE_STATE m_State = EELLIE_STATE::None;
+	EELLIE_STATE m_WaitState = EELLIE_STATE::Juicy;
+
 
 
 private:
@@ -249,9 +254,11 @@ private:
 	const float4 m_PixelCheckScale = { 10.0f , 10.0f };
 	const float4 m_PixelCheckPosBaseOnCenter = float4::ZERO;
 
+	bool IsCancleComponent = false;
 	bool IsControl = true;
 	bool IsCollected = false;
 	bool IsHolding = false;
+	bool IsWaitDone = false;
 
 	
 };

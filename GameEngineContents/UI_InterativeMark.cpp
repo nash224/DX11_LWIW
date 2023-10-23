@@ -89,6 +89,7 @@ void UI_InterativeMark::PointThis(InteractiveActor* _ActorPtr)
 	}
 
 	UI_Mark->IsPointerInteracted = true;
+	UI_Mark->On();
 
 	if (_ActorPtr != Pointer)
 	{

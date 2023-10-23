@@ -55,3 +55,11 @@ enum class ECOLLECTION_METHOD
 	Juicy,
 	None,
 };
+
+enum class EMACHINETYPE
+{
+	Juicy,
+	AlchemyPot,
+	Roaster,
+
+};

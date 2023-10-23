@@ -4,6 +4,8 @@
 
 #include "IngredientData.h"
 #include "UI_ProcessManager.h"
+#include "UI_Inventory.h"
+#include "Ellie.h"
 
 UI_ProcessB::UI_ProcessB() 
 {
@@ -21,7 +23,12 @@ void UI_ProcessB::Start()
 
 void UI_ProcessB::Update(float _Delta)
 {
-	UpdateInput();
+	if (false == IsJustOpen)
+	{
+		UpdateInput();
+	}
+
+	IsJustOpen = false;
 }
 
 void UI_ProcessB::Release()
@@ -74,11 +81,15 @@ void UI_ProcessB::RendererSetting()
 }
 
 
+/////////////////////////////////////////////////////////////////////////////////////
+
 
 void UI_ProcessB::Open(std::string_view _ProductName, int _ScrCount)
 {
 	ProductInfoSetting(_ProductName);
 	SourceInfoSetting(_ProductName, _ScrCount);
+
+	IsJustOpen = true;
 
 	On();
 }
@@ -86,6 +97,8 @@ void UI_ProcessB::Open(std::string_view _ProductName, int _ScrCount)
 
 void UI_ProcessB::ProductInfoSetting(std::string_view _ProductName)
 {
+	m_ProcessBProductInfo.ProductName = _ProductName;
+
 	if (nullptr == m_ProcessBProductInfo.ProductImg)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
@@ -100,6 +113,9 @@ void UI_ProcessB::SourceInfoSetting(std::string_view _ProductName, int _ScrCount
 	std::shared_ptr<IngredientData> Data = IngredientData::Find(_ProductName);
 
 	
+	m_ProcessBSourceInfo.ScrName = Data->SourceName;
+
+
 	m_ProcessBSourceInfo.NeedCount = Data->SourceCount;
 	m_ProcessBSourceInfo.ScrCount = _ScrCount;
 
@@ -118,13 +134,15 @@ void UI_ProcessB::Close()
 }
 
 
+/////////////////////////////////////////////////////////////////////////////////////
+
 void UI_ProcessB::UpdateInput()
 {
 	if (m_ProcessBSourceInfo.ScrCount >= m_ProcessBSourceInfo.NeedCount)
 	{
-		if (true == GameEngineInput::IsPress('Z', this))
+		if (true == GameEngineInput::IsDown('Z', this))
 		{
-			// Holder Circle
+			JuicyThis();
 		}
 	}
 
@@ -138,4 +156,32 @@ void UI_ProcessB::UpdateInput()
 
 		ProcessManager->OpenListWindow();
 	}
+}
+
+// 재료만큼 뺀다
+void UI_ProcessB::JuicyThis()
+{
+	// 앨리 상태
+	if (nullptr != Ellie::MainEllie)
+	{
+		Ellie::MainEllie->WaitDone();
+	}
+
+	if (nullptr == UI_Inventory::MainInventory)
+	{
+		MsgBoxAssert("인벤토리가 존재하지 않습니다.");
+		return;
+	}
+
+	UI_Inventory::MainInventory->PopItem(m_ProcessBSourceInfo.ScrName, 2);
+
+	if (nullptr == ProcessManager)
+	{
+		MsgBoxAssert("가공 매니저가 존재하지 않습니다.");
+		return;
+	}
+
+	ProcessManager->CreatedProductName = m_ProcessBProductInfo.ProductName;
+
+	Off();
 }

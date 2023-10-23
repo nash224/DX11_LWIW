@@ -5,6 +5,7 @@ class ProcessBProductInfo
 {
 public:
 	std::shared_ptr<GameEngineUIRenderer> ProductImg = nullptr;
+	std::string ProductName = "";
 	std::string ProductKRName = "";
 	
 
@@ -14,6 +15,7 @@ class ProcessBSourceInfo
 {
 public:
 	std::shared_ptr<GameEngineUIRenderer> SrcImg = nullptr;
+	std::string ScrName = "";
 	std::string ScrKRName = "";
 	int NeedCount = 0;
 	int ScrCount = 0;
@@ -41,10 +43,12 @@ public:
 	void Init();
 	void RendererSetting();
 
+	// Open 기능
 	void Open(std::string_view _ProductName, int _ScrCount);
 	void ProductInfoSetting(std::string_view _ProductName);
 	void SourceInfoSetting(std::string_view _ProductName, int _ScrCount);
 
+	// Close 기능
 	void Close();
 
 protected:
@@ -56,14 +60,22 @@ protected:
 
 
 private:
+	void JuicyThis();
+	void DetectJuicyDone();
+
+private:
 	void UpdateInput();
 
 private:
 	std::shared_ptr<GameEngineUIRenderer> m_Base = nullptr;
 	std::shared_ptr<GameEngineUIRenderer> m_Frame = nullptr;
 
+	// 값형
 	ProcessBProductInfo m_ProcessBProductInfo;
 	ProcessBSourceInfo m_ProcessBSourceInfo;
+
+	bool IsJuicying = false;
+	bool IsJustOpen = false;
 
 
 };

@@ -398,7 +398,21 @@ void Ellie::OffControl()
 {
 	IsControl = false;
 
-	RenewStatus();
+	if (EELLIE_STATE::None == m_WaitState)
+	{
+		RenewStatus();
+	}
+}
+
+
+void Ellie::CancleComponent()
+{
+	IsCancleComponent = true;
+}
+
+void Ellie::WaitDone()
+{
+	IsWaitDone = true;
 }
 
 
@@ -478,7 +492,7 @@ void Ellie::ChangeState(EELLIE_STATE _State)
 		case EELLIE_STATE::RootUp:									EndRootUp();					break;
 		case EELLIE_STATE::Sit:										EndSit();						break;
 		case EELLIE_STATE::MongSiri:								EndRootUp();					break;
-		case EELLIE_STATE::Wait:									EndWait()	;					break;
+		case EELLIE_STATE::Wait:									EndWait();						break;
 		case EELLIE_STATE::Juicy:									EndJuicy();						break;
 		case EELLIE_STATE::Cheer:																	break;
 		case EELLIE_STATE::Fail:																	break;

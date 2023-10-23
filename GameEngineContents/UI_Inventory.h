@@ -27,9 +27,15 @@ private:
 
 private:
 	void PushItem(std::string_view _ItemName, unsigned int _Count);
+	void PopItem(std::string_view _ItemName, unsigned int _Count);
+
 	void ClearData(const unsigned int _X, const unsigned int _Y);
+	void ClearData(const unsigned int _SlotNumber);
+
 	int IsContain(std::string_view _ItemName);
 	int IsContain(unsigned int _X, unsigned int _Y);
+
+	int Find(std::string_view _ItemName);
 
 	void RenewInventory();
 
@@ -84,6 +90,8 @@ public:
 	void Init();
 
 	static void PushItem(std::string_view _ItemName, unsigned int _Count = 1);
+	void PopItem(std::string_view _ItemName, unsigned int _Count);
+
 	void UnlockSlot(const unsigned int _Count = 1);
 
 

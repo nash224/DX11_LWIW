@@ -7,6 +7,9 @@ class UI_ProcessManager : public GameEngineActor
 	friend class UI_ProcessB;
 
 public:
+	static UI_ProcessManager* ProcessManager;
+
+public:
 	// constrcuter destructer
 	UI_ProcessManager();
 	~UI_ProcessManager();
@@ -24,6 +27,8 @@ public:
 	void Open();
 	void Close();
 
+	void JuicyDone();
+
 	 
 protected:
 	void Start() override;
@@ -37,8 +42,14 @@ private:
 	void OpenListWindow();
 
 private:
+	void CreateJuicyItem();
+
+private:
 	std::shared_ptr<class UI_ProcessList> ProcessListWindow;
 	std::shared_ptr<class UI_ProcessB> ProcessWindow;
+
+	std::string CreatedProductName = "";
+	bool IsJuicying = false;
 
 };
 

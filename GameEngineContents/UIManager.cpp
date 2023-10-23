@@ -119,6 +119,7 @@ void UIManager::Init()
 }
 
 
+/////////////////////////////////////////////////////////////////////////////////////
 
 void UIManager::OpenInventory()
 {
@@ -150,12 +151,23 @@ void UIManager::CloseInventory()
 void UIManager::UseUIComponent()
 {
 	m_Hub->Close();
+	IsOtherComponentUsed = true;
 	SetEllieControl(false);
 }
 
 void UIManager::DoneUIComponent()
 {
 	m_Hub->Open();
+	IsOtherComponentUsed = false;
+
+	if (nullptr == Ellie::MainEllie)
+	{
+		MsgBoxAssert("존재하지않는 앨리를 이용하려 했습니다.");
+		return;
+	}
+
+	Ellie::MainEllie->CancleComponent();
+
 	SetEllieControl(true);
 }
 
@@ -228,7 +240,7 @@ void UIManager::CheckForOpenUIComponent()
 // 특정 컴포넌트를 킵니다.
 void UIManager::UpdateUIComponentOpenInput()
 {
-	if (false == m_IsActiveComponent)
+	if (false == m_IsActiveComponent && false == IsOtherComponentUsed)
 	{
 		if (true == GameEngineInput::IsDown('D', this))
 		{

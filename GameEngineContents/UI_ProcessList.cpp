@@ -114,6 +114,9 @@ void UI_ProcessList::CursorSetting()
 	m_ProcessListCursor.Cursor->SetSprite("Process_A_Cursor.png");
 }
 
+
+/////////////////////////////////////////////////////////////////////////////////////
+
 // Open Process WIndow Panel
 void UI_ProcessList::Open()
 {
@@ -156,6 +159,8 @@ void UI_ProcessList::CloseAllSlot()
 }
 
 
+
+/////////////////////////////////////////////////////////////////////////////////////
 
 void UI_ProcessList::UpdateInput()
 {

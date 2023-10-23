@@ -337,6 +337,7 @@ void Ellie::UpdateApproach(float _Delta)
 
 		if (ECOLLECTION_METHOD::Juicy == OtherEntity->GetCollectionMethod())
 		{
+			m_WaitState = EELLIE_STATE::Juicy;
 			ChangeState(EELLIE_STATE::Wait);
 			return;
 		}
@@ -497,6 +498,9 @@ void Ellie::StartWait()
 		return;
 	}
 
+	IsWaitDone = false;
+	IsCancleComponent = false;
+
 	OtherEntity->ReachThis();
 
 	ChangeAnimationByDirection("Idle");
@@ -504,12 +508,27 @@ void Ellie::StartWait()
 
 void Ellie::UpdateWait(float _Delta)
 {
+	if (true == IsCancleComponent)
+	{
+		OtherEntity = nullptr;
+		IsControl = true;
 
+		ChangeState(EELLIE_STATE::Idle);
+		return;
+	}
+
+	if (true == IsWaitDone)
+	{
+		ChangeState(m_WaitState);
+		return;
+	}
 }
 
 void Ellie::EndWait()
 {
-
+	m_WaitState = EELLIE_STATE::None;
+	IsCancleComponent = true;
+	IsWaitDone = true;
 }
 
 
@@ -518,7 +537,7 @@ void Ellie::StartJuicy()
 	if (nullptr != m_Body && nullptr == m_Body->FindAnimation("Juicy"))
 	{
 		m_Body->CreateAnimation("Juicy", "DownFloor_Extractor_0.png", 0.2f, 12, 19, false);
-		m_Body->FindAnimation("Juicy")->Inter = { 0.12f, 0.12f, 0.1f, 0.16f, 0.17f, 0.18f, 0.19f, 0.19f };
+		m_Body->FindAnimation("Juicy")->Inter = { 0.12f, 0.12f, 0.1f, 0.16f, 0.17f, 0.18f, 0.19f, 0.1f };
 		m_Body->SetFrameEvent("Juicy", 15, [&](GameEngineSpriteRenderer* _Renerer)
 			{
 				Extractor* ExtractorPtr = dynamic_cast<Extractor*>(OtherEntity);
@@ -547,15 +566,20 @@ void Ellie::UpdateJuicy(float _Delta)
 
 	if (true == m_Body->IsCurAnimationEnd())
 	{
-		ChangeState(EELLIE_STATE::Idle);
+		ChangeState(EELLIE_STATE::Wait);
 		return;
 	}
 }
 
 void Ellie::EndJuicy()
 {
-	OtherEntity = nullptr;
-	IsControl = true;
+	if (nullptr == UI_ProcessManager::ProcessManager)
+	{
+		MsgBoxAssert("가공탭이 존재하지 않습니다.");
+		return;
+	}
+	
+	UI_ProcessManager::ProcessManager->JuicyDone();
 }
 
 

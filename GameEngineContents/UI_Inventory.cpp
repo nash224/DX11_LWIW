@@ -27,7 +27,7 @@ void Inventory::PushItem(std::string_view _ItemName, unsigned int _Count)
 
 	int Value = IsContain(_ItemName);
 	// 데이터에 없으면
-	if (-1 == Value)
+	if (0 == Value)
 	{
 		// 빈자리를 찾아서
 		for (size_t i = 0; i < LockNumber; i++)
@@ -51,6 +51,7 @@ void Inventory::PushItem(std::string_view _ItemName, unsigned int _Count)
 	}
 	else
 	{
+		Value = Find(_ItemName);
 		// 있으면
 		InventoryData[Value].ItemCount += _Count;
 	}
@@ -58,6 +59,17 @@ void Inventory::PushItem(std::string_view _ItemName, unsigned int _Count)
 	InventoryParent->DisplayItem(static_cast<size_t>(Value), _ItemName);
 }
 
+
+void Inventory::PopItem(std::string_view _ItemName, unsigned int _Count)
+{
+ 	int SlotNumber = Find(_ItemName);
+	InventoryData[SlotNumber].ItemCount -= _Count;
+	if (0 == InventoryData[SlotNumber].ItemCount)
+	{
+		ClearData(SlotNumber);
+	}
+	
+}
 
 // 데이터에 동일한 이름을 가진 아이템이 있는지 검사합니다.
 int Inventory::IsContain(std::string_view _ItemName)
@@ -92,6 +104,20 @@ int Inventory::IsContain(unsigned int _X, unsigned int _Y)
 	return 0;
 }
 
+int Inventory::Find(std::string_view _ItemName)
+{
+	for (size_t i = 0; i < InventoryData.size(); i++)
+	{
+		if (_ItemName == InventoryData[i].SourceName)
+		{
+			return static_cast<int>(i);
+		}
+	}
+
+	MsgBoxAssert("데이터에서 아이템을 찾지 못했습니다.");
+	return -1;
+}
+
 
 
 void Inventory::ClearData(const unsigned int _X, const unsigned int _Y)
@@ -122,6 +148,19 @@ void Inventory::ClearData(const unsigned int _X, const unsigned int _Y)
 	InventoryData[Value].ItemCount = 0;
 
 	InventoryParent->EraseSlotImg(_X, _Y);
+}
+
+
+void Inventory::ClearData(const unsigned int _SlotNumber)
+{
+	InventoryData[_SlotNumber].SourceName = "";
+	InventoryData[_SlotNumber].ItemCount = 0;
+
+	int MaxSlot = InventoryParent->MaxSlotX;
+	int XSlot = _SlotNumber % MaxSlot;
+	int YSlot = _SlotNumber / MaxSlot;
+
+	InventoryParent->EraseSlotImg(XSlot, YSlot);
 }
 
 // 인벤토리를 갱신합니다.
@@ -373,10 +412,7 @@ void UI_Inventory::PushItem(std::string_view _ItemName, unsigned int _Count/* = 
 		return;
 	}
 
-
-	std::string ItemName = _ItemName.data();
-	ItemName += ".png";
-	Data->PushItem(ItemName, _Count);
+	Data->PushItem(_ItemName, _Count);
 
 
 	// 알림 시스템이기 때문에 터트리진 않습니다.
@@ -384,6 +420,25 @@ void UI_Inventory::PushItem(std::string_view _ItemName, unsigned int _Count/* = 
 	{
 		MainInventory->m_DropManager->NoticeItemDrop(_ItemName);
 	}
+}
+
+void UI_Inventory::PopItem(std::string_view _ItemName, unsigned int _Count)
+{
+	if (nullptr == Data)
+	{
+		MsgBoxAssert("데이터가 존재하지 않습니다.");
+		return;
+	}
+
+	int ItemCount = Data->IsContain(_ItemName);
+
+	if (ItemCount < _Count)
+	{
+		MsgBoxAssert("사용하려는 아이템의 수보다 적습니다. ");
+		return;
+	}
+
+	Data->PopItem(_ItemName, _Count);
 }
 
 // 슬롯 줄 잠금해제
@@ -458,7 +513,7 @@ void UI_Inventory::DisplayItem(const size_t _SlotNumber, std::string_view _FileN
 		return;
 	}
 
-	Slot->SetSprite(_FileName);
+	Slot->SetSprite(_FileName.data() + std::string(".png"));
 	Slot->On();
 }
 

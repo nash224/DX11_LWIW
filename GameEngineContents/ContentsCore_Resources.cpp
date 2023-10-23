@@ -67,6 +67,9 @@ void ContentsCore::LoadContentsData()
 	EventData::Init();
 
 	// 酒捞袍
+	ItemData::CreateData("Mongsiri_Water", { "Mongsiri_Water", "根矫府 判馏", EITEM_TYPE::Ingredient });
+
+
 	ItemData::CreateData("Mongsiri_Collect", { "Mongsiri_Collect", "根矫府判", EITEM_TYPE::Ingredient });
 	ItemData::CreateData("BushBug_Collect", { "BushBug_Collect", "根矫府判", EITEM_TYPE::Ingredient });
 	ItemData::CreateData("WitchFlower_Collect", { "WitchFlower_Collect", "付赤狼 采", EITEM_TYPE::Ingredient });
