@@ -10,7 +10,7 @@ void ContentsGUI::Start()
 {
 	AllTabs.push_back(std::make_shared<LevelChangeTab>("LevelChange"));
 	CurTab = AllTabs[0];
-	AllTabs.push_back(std::make_shared<Field_CenterTab>("Field_Center"));
+	AllTabs.push_back(std::make_shared<CheatTab>("CheatTab"));
 	AllTabs.push_back(std::make_shared<MapEditorTab>("MapEditor"));
 	AllTabs.push_back(std::make_shared<DebugTab>("Debug"));
 	AllTabs.push_back(std::make_shared<ManualTab>("Manual"));
@@ -63,7 +63,7 @@ void LevelChangeTab::OnGUI(GameEngineLevel* _Level, float _Delta)
 
 
 
-void Field_CenterTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
+void CheatTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
 	if (ImGui::BeginTabBar("tabs", 0)) {
 		if (ImGui::BeginTabItem("item")) {

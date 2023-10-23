@@ -432,7 +432,7 @@ void UI_Inventory::PopItem(std::string_view _ItemName, unsigned int _Count)
 
 	int ItemCount = Data->IsContain(_ItemName);
 
-	if (ItemCount < _Count)
+	if (ItemCount < static_cast<int>(_Count))
 	{
 		MsgBoxAssert("사용하려는 아이템의 수보다 적습니다. ");
 		return;

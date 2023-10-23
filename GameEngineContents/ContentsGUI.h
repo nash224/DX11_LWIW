@@ -48,13 +48,13 @@ public:
 
 
 
-class Field_CenterTab : public UITab
+class CheatTab : public UITab
 {
 	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
 
 
 public:
-	Field_CenterTab(std::string_view _Name)
+	CheatTab(std::string_view _Name)
 		: UITab(_Name)
 	{
 

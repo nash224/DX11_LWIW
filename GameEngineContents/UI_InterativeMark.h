@@ -4,6 +4,7 @@
 class InteractiveActor;
 class UI_InterativeMark : public GameEngineActor
 {
+	friend class UIManager;
 public:
 	static UI_InterativeMark* UI_Mark;
 	static InteractiveActor* Pointer;
@@ -33,6 +34,9 @@ protected:
 
 
 private:
+	void CurLevelPointer();
+
+private:
 	void UpdateMark(float _Delta);
 
 private:
@@ -42,6 +46,8 @@ private:
 	const float4 CONST_MarkPositionToActor = float4{ 0.0f , 48.0f };
 
 	bool IsPointerInteracted = false;
+
+	bool IsLevelChange = false;
 
 
 };

@@ -6,6 +6,7 @@
 #include "InteractiveActor.h"
 
 
+
 UI_InterativeMark* UI_InterativeMark::UI_Mark = nullptr;
 InteractiveActor* UI_InterativeMark::Pointer = nullptr;
 UI_InterativeMark::UI_InterativeMark() 
@@ -36,7 +37,7 @@ void UI_InterativeMark::Update(float _Delta)
 
 void UI_InterativeMark::LevelStart(class GameEngineLevel* _NextLevel)
 {
-	
+
 }
 
 void UI_InterativeMark::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -88,19 +89,13 @@ void UI_InterativeMark::PointThis(InteractiveActor* _ActorPtr)
 		return;
 	}
 
-	UI_Mark->IsPointerInteracted = true;
-	UI_Mark->On();
-
 	if (_ActorPtr != Pointer)
 	{
 		UI_Mark->Reset();
 
-		UI_Mark->On();
 		UI_Mark->IsPointerInteracted = true;
 
 		Pointer = _ActorPtr;
-
-		UI_Mark->m_MarkRenderer->Off();
 
 		if (EINTERACTION_BUTTONTYPE::Gathering == Pointer->GetInteractionButtonType())
 		{
@@ -116,6 +111,10 @@ void UI_InterativeMark::PointThis(InteractiveActor* _ActorPtr)
 			MsgBoxAssert("버튼이 2개들어올리가 없어..");
 			return;
 		}
+	}
+	else
+	{
+		UI_Mark->IsPointerInteracted = true;
 	}
 }
 
@@ -143,10 +142,14 @@ void UI_InterativeMark::Reset()
 	UI_Mark = this;
 	Pointer = nullptr;
 	IsPointerInteracted = false;
-
-	Off();
+	IsLevelChange = false;
 }
 
+
+void UI_InterativeMark::CurLevelPointer()
+{
+	UI_Mark = this;
+}
 
 void UI_InterativeMark::UpdateMark(float _Delta)
 {
