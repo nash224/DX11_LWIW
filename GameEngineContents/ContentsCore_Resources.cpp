@@ -67,7 +67,11 @@ void ContentsCore::LoadContentsData()
 	EventData::Init();
 
 	// æ∆¿Ã≈€
+	ItemData::CreateData("WitchFlower_Water", { "WitchFlower_Water", "∏∂≥‡¿« ≤…¡Û", EITEM_TYPE::Ingredient });
 	ItemData::CreateData("Mongsiri_Water", { "Mongsiri_Water", "∏˘Ω√∏Æ ≈–¡Û", EITEM_TYPE::Ingredient });
+	ItemData::CreateData("BushBug_Water", { "BushBug_Water", "Ω£«Æπ˙∑π ¡Û", EITEM_TYPE::Ingredient });
+	ItemData::CreateData("MapleHerb_Water", { "MapleHerb_Water", "∏ﬁ¿Ã«√ «„∫Í ≤…¡Û", EITEM_TYPE::Ingredient });
+	ItemData::CreateData("WitchFlower_Water", { "SilverStarFlower_Water", "Ω«πˆ∫ß ≤…¡Û", EITEM_TYPE::Ingredient });
 
 
 	ItemData::CreateData("Mongsiri_Collect", { "Mongsiri_Collect", "∏˘Ω√∏Æ≈–", EITEM_TYPE::Ingredient });
