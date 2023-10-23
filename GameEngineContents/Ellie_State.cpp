@@ -537,7 +537,7 @@ void Ellie::StartJuicy()
 	if (nullptr != m_Body && nullptr == m_Body->FindAnimation("Juicy"))
 	{
 		m_Body->CreateAnimation("Juicy", "DownFloor_Extractor_0.png", 0.2f, 12, 19, false);
-		m_Body->FindAnimation("Juicy")->Inter = { 0.12f, 0.12f, 0.1f, 0.16f, 0.17f, 0.18f, 0.19f, 0.1f };
+		m_Body->FindAnimation("Juicy")->Inter = { 0.14f, 0.14f, 0.12f, 0.18f, 0.19f, 0.2f, 0.21f, 0.2f };
 		m_Body->SetFrameEvent("Juicy", 15, [&](GameEngineSpriteRenderer* _Renerer)
 			{
 				Extractor* ExtractorPtr = dynamic_cast<Extractor*>(OtherEntity);

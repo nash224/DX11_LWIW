@@ -44,6 +44,7 @@ public:
 	void Close();
 	void CloseAllSlot();
 
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;

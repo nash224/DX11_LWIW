@@ -164,6 +164,8 @@ void UI_ProcessManager::JuicyDone()
 	ProcessWindow->Open(CreatedProductName, ItemCount);
 }
 
+// 가공하고 나서 List 아이템 반영해야됨
+
 // JuicyDone에서 널체크를 해줍니다.
 void UI_ProcessManager::CreateJuicyItem()
 {

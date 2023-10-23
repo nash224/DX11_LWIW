@@ -154,6 +154,7 @@ void UI_ProcessB::UpdateInput()
 			return;
 		}
 
+
 		ProcessManager->OpenListWindow();
 	}
 }
