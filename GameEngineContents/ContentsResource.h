@@ -48,8 +48,12 @@ public:
 		return FindIter->second;
 	}
 
+	static std::map<std::string, std::shared_ptr<DataType>>& GetAllData()
+	{
+		return NameData;
+	}
 
-private:
+protected:
 	static std::map<std::string, std::shared_ptr<DataType>> NameData;
 
 };

@@ -127,6 +127,8 @@ void UI_Dispensation::RendererSetting()
 }
 
 
+/////////////////////////////////////////////////////////////////////////////////////
+
 void UI_Dispensation::Open()
 {
 	if (nullptr == UIManager::MainUIManager)
@@ -136,6 +138,7 @@ void UI_Dispensation::Open()
 	}
 
 	UIManager::MainUIManager->OpenInventory();
+	
 
 	On();
 }

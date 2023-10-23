@@ -5,6 +5,7 @@
 class UITab
 {
 public:
+	virtual void Start() {}
 	virtual void OnGUI(GameEngineLevel* _Level, float _Delta) = 0;
 
 	UITab(std::string_view _Name)
@@ -50,8 +51,14 @@ public:
 
 class CheatTab : public UITab
 {
+	void Start() override;
 	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
 
+
+public:
+	int SelectItem = 0;
+	std::map<int, std::list<std::string>> ItemContainer;
+	
 
 public:
 	CheatTab(std::string_view _Name)

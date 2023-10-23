@@ -4,6 +4,10 @@
 #include "PlayLevel.h"
 #include "BackDrop_PlayLevel.h"
 #include "CameraControler.h"
+#include "UI_Inventory.h"
+
+#include "ItemData.h"
+
 
 
 void ContentsGUI::Start()
@@ -14,6 +18,11 @@ void ContentsGUI::Start()
 	AllTabs.push_back(std::make_shared<MapEditorTab>("MapEditor"));
 	AllTabs.push_back(std::make_shared<DebugTab>("Debug"));
 	AllTabs.push_back(std::make_shared<ManualTab>("Manual"));
+
+	for (size_t i = 0; i < AllTabs.size(); i++)
+	{
+		AllTabs[i]->Start();
+	}
 }
 
 
@@ -61,24 +70,61 @@ void LevelChangeTab::OnGUI(GameEngineLevel* _Level, float _Delta)
 /////////////////////////////////////////////////////////////////////////////////////
 
 
+void CheatTab::Start()
+{
+	EITEM_TYPE::Ingredient;
+	std::map<std::string, std::shared_ptr<ItemData>>& AllItemData = ItemData::GetAllData();
 
+	std::map<std::string, std::shared_ptr<ItemData>>::iterator StartIter = AllItemData.begin();
+	std::map<std::string, std::shared_ptr<ItemData>>::iterator EndIter = AllItemData.end();
+
+	for (; StartIter != EndIter; ++StartIter)
+	{
+		std::shared_ptr<ItemData> ItemData = (*StartIter).second;
+
+		ItemContainer[static_cast<int>(ItemData->ItemType)].push_back(ItemData->Name);
+	}
+}
 
 void CheatTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
-	if (ImGui::BeginTabBar("tabs", 0)) {
-		if (ImGui::BeginTabItem("item")) {
-			if (ImGui::Button("click this"))
-			{
-
-			}
-			ImGui::EndTabItem();
-		}
-		if (ImGui::BeginTabItem("item2")) {
-			ImGui::Text("test  tab text");
-			ImGui::EndTabItem();
-		}
-		ImGui::EndTabBar();
+	if (_Level->GetName() == "MainMenu")
+	{
+		return;
 	}
+
+	if (ImGui::BeginTabBar("Cheat Items", 0)) 
+	{
+		char Number = 0;
+		for (std::pair<const int, std::list<std::string>>& _Pair : ItemContainer)
+		{
+			std::string ItemTabName = "ItemType" + std::to_string(Number);
+			std::string ListName = "ItemList" + std::to_string(Number);
+			if (ImGui::BeginTabItem(ItemTabName.c_str()))
+			{
+				std::list<std::string>& NameGroup = _Pair.second;
+
+				std::list<std::string>::iterator StartIter = NameGroup.begin();
+				std::list<std::string>::iterator EndIter = NameGroup.end();
+
+				std::vector<const char*> CNames;
+				for (; StartIter != EndIter; ++StartIter)
+				{
+					CNames.push_back((*StartIter).c_str());
+				}
+				
+				if (ImGui::ListBox(ListName.c_str(), &SelectItem, &CNames[0], static_cast<int>(CNames.size())))
+				{
+					UI_Inventory::PushItem(CNames[SelectItem]);
+				}
+				ImGui::EndTabItem();
+			}
+
+			++Number;
+		}
+
+	}
+	ImGui::EndTabBar();
 }
 
 void DebugTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)

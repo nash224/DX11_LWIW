@@ -9,6 +9,8 @@ public:
 	std::string KoreanName;
 	EITEM_TYPE ItemType;
 
+
+
 public:
 	// constrcuter destructer
 	ItemData();
