@@ -133,7 +133,7 @@ public:
 	void UnlockSlot(const unsigned int _Count = 1);
 
 
-	void UsingOtherComponent(bool _Value);
+	void UsingOtherComponent(EINVENTORYMODE _Mode);
 	int ReturnItemCount(std::string_view _ItemName);
 
 protected:
@@ -148,6 +148,7 @@ private:
 	void CreateBase();
 	void CreateSlotArray();
 	void CreateCursor();
+	void StateSetting();
 	void CreateNoticeDropManager();
 
 	// 생성 : 데이터
@@ -168,7 +169,7 @@ private:
 	void CloseChild() override;
 
 	float4 CalculateIndexToPos(const size_t _x, const size_t _y);
-	void SelectSlot(const unsigned int _X, const unsigned int _Y);
+	void CursorThis(const unsigned int _X, const unsigned int _Y);
 
 	void ClearSlot(const unsigned int _X, const unsigned int _Y);
 	void EraseSlotImg(const int _X, const int _Y);
@@ -182,10 +183,12 @@ private:
 	void SelectThis();
 
 private:
-	void UpdateInventory(float _Delta);
+	void UpdateInventory(float _Delta, GameEngineState* _Parent);
 	void DectedCloseInventory();
 	void UpdateCursor();
 	void MoveCursor(const int _X, const int _Y);
+
+	void UpdateDispensation(float _Delta, GameEngineState* _Parent);
 
 
 private:
@@ -196,7 +199,7 @@ private:
 	InventoryCursorComposition m_CursorComposition;
 	SelectCursorInfo m_SelectCursorInfo;
 
-	EINVENTORYMODE m_InventoryMode = EINVENTORYMODE::Normal;
+	GameEngineState m_InventoryState;
 
 	// 슬롯
 	int m_CurrentSlotX = 0;
@@ -209,7 +212,4 @@ private:
 
 	// 커서
 	const float4 NameTagPositionBaseOnSlotCenter = { 0.0f, 40.0f };
-
-	// 다른 컴포넌트와 사용하고 있을 때
-	bool IsOtherComponent = false;
 };

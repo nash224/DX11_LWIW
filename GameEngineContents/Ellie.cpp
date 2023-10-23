@@ -410,8 +410,13 @@ void Ellie::CancleComponent()
 	IsCancleComponent = true;
 }
 
-void Ellie::WaitDone()
+// 일반적인 경우 None으로 설정했습니다.
+void Ellie::WaitDone(EELLIE_STATE _State)
 {
+	if (EELLIE_STATE::None == m_WaitState)
+	{
+		m_WaitState = _State;
+	}
 	IsWaitDone = true;
 }
 

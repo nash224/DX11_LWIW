@@ -1,5 +1,7 @@
 #pragma once
 
+#include "UI_Inventory.h"
+
 enum class EUI_TYPE
 {
 	None,
@@ -30,7 +32,7 @@ public:
 
 	void Init();
 
-	void OpenInventory();
+	void OpenInventory(EINVENTORYMODE _Mode);
 	void CloseInventory();
 
 	void UseUIComponent();

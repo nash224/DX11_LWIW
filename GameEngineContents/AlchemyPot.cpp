@@ -224,10 +224,6 @@ void AlchemyPot::UpdateIdle(float _Delta)
 		}
 
 		m_Dispensation->Open();
-
-
-		/*ChangeState(EPOTSTATE::Boil);
-		return; */
 	}
 }
 

@@ -107,7 +107,7 @@ public:
 	void OnControl();
 	void OffControl();
 	void CancleComponent();
-	void WaitDone();
+	void WaitDone(EELLIE_STATE _State = EELLIE_STATE::None);
 	void SetPixelPointBaseOnCenter();
 
 	EELLIE_STATE GetState() const

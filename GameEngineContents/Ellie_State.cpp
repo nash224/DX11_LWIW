@@ -508,6 +508,7 @@ void Ellie::StartWait()
 
 void Ellie::UpdateWait(float _Delta)
 {
+	// 취소하면
 	if (true == IsCancleComponent)
 	{
 		OtherEntity = nullptr;
@@ -517,6 +518,7 @@ void Ellie::UpdateWait(float _Delta)
 		return;
 	}
 
+	// 끝나면 다음 실행
 	if (true == IsWaitDone)
 	{
 		ChangeState(m_WaitState);

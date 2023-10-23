@@ -217,9 +217,7 @@ void UI_Inventory::Update(float _Delta)
 		OnLevelStart();
 	}
 
-	UI_ToggleActor::Update(_Delta);
-
-	UpdateInventory(_Delta);
+	m_InventoryState.Update(_Delta);
 }
 
 void UI_Inventory::Release()
@@ -266,6 +264,7 @@ void UI_Inventory::Init()
 	CreateBase();
 	CreateSlotArray();
 	CreateCursor();
+	StateSetting();
 
 	// 아이템 획득 알림창 매니저입니다.
 	CreateNoticeDropManager();
@@ -330,6 +329,20 @@ void UI_Inventory::CreateSlotArray()
 	}
 }
 
+
+void UI_Inventory::StateSetting()
+{
+	CreateStateParameter NormalPara;
+	NormalPara.Stay = std::bind(&UI_Inventory::UpdateInventory, this, std::placeholders::_1, std::placeholders::_2);
+	m_InventoryState.CreateState(EINVENTORYMODE::Normal, NormalPara);
+
+	CreateStateParameter DispensationPara;
+	DispensationPara.Stay = std::bind(&UI_Inventory::UpdateDispensation, this, std::placeholders::_1, std::placeholders::_2);
+	m_InventoryState.CreateState(EINVENTORYMODE::Dispensation, DispensationPara);
+	m_InventoryState.ChangeState(EINVENTORYMODE::Normal);
+}
+
+
 void UI_Inventory::CreateCursor()
 {
 	if (nullptr == GameEngineSprite::Find("Inventory_Cursor.png"))
@@ -353,7 +366,7 @@ void UI_Inventory::CreateCursor()
 	m_CursorComposition.NameTooltip = NameTooltip;
 	
 
-	SelectSlot(0, 0);
+	CursorThis(0, 0);
 }
 
 
@@ -542,9 +555,9 @@ void UI_Inventory::UnlockSlot(const unsigned int _Count /*= 1*/)
 }
 
 
-void UI_Inventory::UsingOtherComponent(bool _Value)
+void UI_Inventory::UsingOtherComponent(EINVENTORYMODE _Mode)
 {
-	IsOtherComponent = _Value;
+	m_InventoryState.ChangeState(_Mode);
 }
 
 int UI_Inventory::ReturnItemCount(std::string_view _ItemName)
@@ -602,12 +615,12 @@ void UI_Inventory::RenewInventory()
 // 자식에서 해주고 싶은 행동을 수행합니다.
 void UI_Inventory::OpenChild()
 {
-	SelectSlot(0, 0);
+	CursorThis(0, 0);
 }
 
 void UI_Inventory::CloseChild()
 {
-	
+	m_InventoryState.ChangeState(EINVENTORYMODE::Normal);
 }
 
 
@@ -629,7 +642,7 @@ float4 UI_Inventory::CalculateIndexToPos(const size_t _x, const size_t _y)
 }
 
 
-void UI_Inventory::SelectSlot(const unsigned int _X, const unsigned int _Y)
+void UI_Inventory::CursorThis(const unsigned int _X, const unsigned int _Y)
 {
 	if (nullptr == m_CursorComposition.Cursor)
 	{
@@ -703,7 +716,7 @@ void UI_Inventory::EraseSlotImg(const int _X, const int _Y)
 	}
 
 	InventorySlotArray[_Y][_X].Slot->SetSprite("Inventory_None.png");
-	SelectSlot(_X, _Y);
+	CursorThis(_X, _Y);
 }
 
 void UI_Inventory::ClearAllSlotImg()
@@ -726,7 +739,7 @@ void UI_Inventory::OnLevelStart()
 	MainInventory = this;
 	m_CurrentSlotX = 0;
 	m_CurrentSlotY = 0;
-	SelectSlot(m_CurrentSlotX, m_CurrentSlotY);
+	CursorThis(m_CurrentSlotX, m_CurrentSlotY);
 
 	Close();
 }
@@ -739,45 +752,16 @@ void UI_Inventory::SelectThis()
 
 /////////////////////////////////////////////////////////////////////////////////////
 
-void UI_Inventory::UpdateInventory(float _Delta)
+void UI_Inventory::UpdateInventory(float _Delta, GameEngineState* _Parent)
 {
+	UI_ToggleActor::Update(_Delta);
+
 	DectedCloseInventory();
 	UpdateCursor();
 
 	// 임시코드
 	if (true == GameEngineInput::IsPress(VK_CONTROL, this))
 	{
-		if (true == GameEngineInput::IsDown('4', this))
-		{
-			PushItem("SilverStarFlower_Collect.png");
-			PushItem("MapleHerb_Collect.png");
-			PushItem("UncurseCandy.png");
-			PushItem("PumpkinTerrier_Powder.png");
-			PushItem("MapleHerb_Water.png");
-		}
-		if (true == GameEngineInput::IsDown('5', this))
-		{
-			PushItem("Mongsiri_Collect.png");
-		}
-		if (true == GameEngineInput::IsDown('6', this))
-		{
-			PushItem("Mongsiri_EncyclopediaIcon.png");
-		}
-		if (true == GameEngineInput::IsDown('7', this))
-		{
-			PushItem("MoonButterfly_Water.png");
-			PushItem("NutritionPotion_RecipePotionIcon.png");
-		}
-		if (true == GameEngineInput::IsDown('8', this))
-		{
-			PushItem("WitchFlower_Water.png");
-			PushItem("WitchFlower_Collect.png");
-			PushItem("SilverStarFlower_Collect.png");
-		}
-		if (true == GameEngineInput::IsDown('9', this))
-		{
-			UnlockSlot();
-		}
 		if (true == GameEngineInput::IsDown('3', this))
 		{
 			ClearSlot(m_CurrentSlotX, m_CurrentSlotY);
@@ -789,7 +773,7 @@ void UI_Inventory::UpdateInventory(float _Delta)
 
 void UI_Inventory::DectedCloseInventory()
 {
-	if (false == OpenCheck && false == IsOtherComponent)
+	if (false == OpenCheck)
 	{
 		if (true == GameEngineInput::IsDown('S', this))
 		{
@@ -855,5 +839,11 @@ void UI_Inventory::MoveCursor(const int _X, const int _Y)
 		m_CurrentSlotY = 0;
 	}
 
-	SelectSlot(m_CurrentSlotX, m_CurrentSlotY);
+	CursorThis(m_CurrentSlotX, m_CurrentSlotY);
+}
+
+
+void UI_Inventory::UpdateDispensation(float _Delta, GameEngineState* _Parent)
+{
+	UpdateCursor();
 }

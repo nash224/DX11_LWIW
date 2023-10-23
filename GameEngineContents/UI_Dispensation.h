@@ -10,8 +10,8 @@ class DispensationSlotInfo
 public:
 	std::shared_ptr<GameEngineUIRenderer> ItemImg = nullptr;
 	std::string ItemName = "";
+	unsigned int ItemCount = 0;
 
-	int Number = 0;
 };
 
 
@@ -40,10 +40,10 @@ public:
 	void Open();
 	void Close();
 
-	void Clear();
+	void Reset();
 
 	void DispensationThis();
-	void CheckDispensation();
+	bool CheckDispensation(const class ProductRecipeData& _Data);
 
 protected:
 	void Start() override;

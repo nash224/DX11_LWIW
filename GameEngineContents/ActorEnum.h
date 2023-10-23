@@ -53,6 +53,7 @@ enum class ECOLLECTION_METHOD
 	RootUp,
 	MongSiri,
 	Juicy,
+	AlchemyPot,
 	None,
 };
 

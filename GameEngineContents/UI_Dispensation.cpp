@@ -4,6 +4,8 @@
 #include "UIManager.h"
 #include "UI_Inventory.h"
 
+#include "ProductRecipeData.h"
+
 #include "Ellie.h"
 
 
@@ -142,7 +144,7 @@ void UI_Dispensation::Open()
 		return;
 	}
 
-	UIManager::MainUIManager->OpenInventory();
+	UIManager::MainUIManager->OpenInventory(EINVENTORYMODE::Dispensation);
 	
 	On();
 }
@@ -159,12 +161,22 @@ void UI_Dispensation::Close()
 
 	Off();
 
-	Clear();
+	Reset();
 }
 
-void UI_Dispensation::Clear()
+void UI_Dispensation::Reset()
 {
+	if (nullptr != Fire_Gauge && nullptr != Fire_Gauge_Pin)
+	{
+		CurFire = EBREWING_FIRE::Three;
+		Fire_Gauge->SetSprite("Dispensation_Fire_Gauge.png", static_cast<int>(CurFire));
+		Fire_Gauge_Pin->SetSprite("dispensation_fire_gauge_pin.png", static_cast<int>(CurFire));
+	}
 
+	ChangeAllDirectionReset();
+	CurDirection = EBREWING_DIRECTION::StirNone;
+	Direction_None->SetSprite("Dispensation_Direction_None_Check.png");
+	
 }
 
 
@@ -176,30 +188,47 @@ void UI_Dispensation::DispensationThis()
 		Ellie::MainEllie->WaitDone();
 	}
 
-	CheckDispensation();
+	ProductRecipeData CurRecipeData = {"", "", EBREWING_DIFFICULTY::Normal, CurDirection, CurFire, 
+		m_DispensationSlotInfo[0].ItemName, m_DispensationSlotInfo[0].ItemCount,
+		m_DispensationSlotInfo[1].ItemName, m_DispensationSlotInfo[1].ItemCount,
+		m_DispensationSlotInfo[2].ItemName, m_DispensationSlotInfo[2].ItemCount };
 
-	if (nullptr == UI_Inventory::MainInventory)
+	if (false == CheckDispensation(CurRecipeData))
 	{
-		MsgBoxAssert("인벤토리가 존재하지 않습니다.");
-		return;
+
+	}
+	else
+	{
+		//UI_Inventory::MainInventory->PopItem(m_ProcessBSourceInfo.ScrName, 2);
+
+		//if (nullptr == ProcessManager)
+		//{
+		//	MsgBoxAssert("가공 매니저가 존재하지 않습니다.");
+		//	return;
+		//}
+
+		//ProcessManager->CreatedProductName = m_ProcessBProductInfo.ProductName;
 	}
 
-	//UI_Inventory::MainInventory->PopItem(m_ProcessBSourceInfo.ScrName, 2);
 
-	//if (nullptr == ProcessManager)
-	//{
-	//	MsgBoxAssert("가공 매니저가 존재하지 않습니다.");
-	//	return;
-	//}
-
-	//ProcessManager->CreatedProductName = m_ProcessBProductInfo.ProductName;
 
 	Off();
 }
 
-void UI_Dispensation::CheckDispensation()
+// 일치하는 레시피가 있는지 검사합니다.
+bool UI_Dispensation::CheckDispensation(const ProductRecipeData& _Data)
 {
+	std::map<std::string, std::shared_ptr<ProductRecipeData>>& NameData = ProductRecipeData::GetAllData();
+	for (std::pair<std::string, std::shared_ptr<ProductRecipeData>> Data : NameData)
+	{
+		std::shared_ptr<ProductRecipeData> Recpie = Data.second;
+		if (_Data == Recpie.get())
+		{
+			return true;
+		}
+	}
 
+	return false;
 }
 
 
@@ -208,7 +237,7 @@ void UI_Dispensation::CheckDispensation()
 
 void UI_Dispensation::UpdateKey()
 {
-	if (true == GameEngineInput::IsDown('Z', this))
+	if (true == GameEngineInput::IsDown('C', this))
 	{
 		DispensationThis();
 		return;

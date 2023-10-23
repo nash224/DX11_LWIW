@@ -41,45 +41,45 @@ public:
 	}
 
 
-
-	bool operator==(const ProductRecipeData& _Other) const
+	// 레시피가 오른쪽에 와야합니다.
+	bool operator==(const ProductRecipeData* _Other) const
 	{
-		if (_Other.Ladle != Ladle)
+		if (_Other->Ladle != Ladle)
 		{
 			return false;
 		}
 
-		if (_Other.Fire != Fire)
+		if (_Other->Fire != Fire)
 		{
 			return false;
 		}
 
-		if (_Other.Material1 != Material1)
+		if (_Other->Material1 != Material1)
 		{
 			return false;
 		}
 
-		if (_Other.Material1Count != Material1Count)
+		if (_Other->Material1Count > Material1Count)
 		{
 			return false;
 		}
 
-		if (_Other.Material2 != Material2)
+		if (_Other->Material2 != Material2)
 		{
 			return false;
 		}
 
-		if (_Other.Material2Count != Material2Count)
+		if (_Other->Material2Count > Material2Count)
 		{
 			return false;
 		}
 
-		if (_Other.Material3 != Material3)
+		if (_Other->Material3 != Material3)
 		{
 			return false;
 		}
 
-		if (_Other.Material3Count != Material3Count)
+		if (_Other->Material3Count > Material3Count)
 		{
 			return false;
 		}

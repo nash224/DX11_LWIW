@@ -180,8 +180,34 @@ void Ellie::UpdateInteractionCollsiion()
 					return;
 				}
 
+				// 버튼이 기어 형식이면
+				if (EINTERACTION_BUTTONTYPE::Gear == Entity->GetInteractionButtonType())
+				{	
+					if (true == GameEngineInput::IsDown('Z', this))
+					{
+						// 상호작용이 가까이면 
+						if (EINTERACTION_TYPE::Near == Entity->GetInteractionType())
+						{
+							OtherEntity = Entity;
+							ChangeState(EELLIE_STATE::Approach);
+						}
+						// 멀리있으면 무조건 통과
+						if (EINTERACTION_TYPE::Far == Entity->GetInteractionType())
+						{
+							if (ECOLLECTION_METHOD::AlchemyPot == Entity->GetCollectionMethod())
+							{
+								OtherEntity = Entity;
+								ChangeState(EELLIE_STATE::Wait);
+							}
+							else
+							{
+								Entity->IsReach = true;
+							}
+						}
+					}
+				}
 				// 잠자리채 상호작용이 아닐때
-				if (UI_Hub_Tool::m_CurrentTool != ETOOLTYPE::Dragonfly && EINTERACTION_TYPE::None != Entity->GetInteractionType())
+				else if (UI_Hub_Tool::m_CurrentTool != ETOOLTYPE::Dragonfly && EINTERACTION_TYPE::None != Entity->GetInteractionType())
 				{
 					// 한번 누르면 되는 타입
 					if (EINTERACTION_PRESSTYPE::Down == Entity->GetInteractionPressType())

@@ -121,7 +121,7 @@ void UIManager::Init()
 
 /////////////////////////////////////////////////////////////////////////////////////
 
-void UIManager::OpenInventory()
+void UIManager::OpenInventory(EINVENTORYMODE _Mode)
 {
 	if (nullptr == m_Inventory)
 	{
@@ -130,7 +130,7 @@ void UIManager::OpenInventory()
 	}
 
 	m_Inventory->Open();
-	m_Inventory->UsingOtherComponent(true);
+	m_Inventory->UsingOtherComponent(_Mode);
 	UseUIComponent();
 }
 
@@ -143,7 +143,6 @@ void UIManager::CloseInventory()
 	}
 
 	m_Inventory->Close();
-	m_Inventory->UsingOtherComponent(false);
 	DoneUIComponent();
 }
 
