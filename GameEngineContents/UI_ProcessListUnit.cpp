@@ -44,19 +44,17 @@ void UI_ProcessListUnit::LevelEnd(class GameEngineLevel* _NextLevel)
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-void UI_ProcessListUnit::Init(std::string_view _ProcessName, int _CurCount)
+void UI_ProcessListUnit::Init(std::string_view _ProcessName)
 {
+	// 정보 읽기
 	std::shared_ptr<IngredientData> Data = IngredientData::Find(_ProcessName);
 
 	ItemName = Data->Name;
 	ItemKRName = Data->KoreanName;
 	NeedCount = Data->SourceCount;
+	SrcName = Data->SourceName;
 
-	if (_CurCount >= NeedCount)
-	{
-		State = EPROCESSUNITSTATE::Possible;
-	}
-
+	// 렌더러 세팅
 	Panel = CreateComponent<GameEngineUIRenderer>();
 	Panel->Transform.SetLocalPosition(float4(0.0f, 0.0f, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Frame)));
 	Panel->SetSprite("Process_A_List.png");
@@ -79,11 +77,11 @@ void UI_ProcessListUnit::Init(std::string_view _ProcessName, int _CurCount)
 // 렌더러 갱신
 void UI_ProcessListUnit::RenewRenderer()
 {
-	if (ItemCount >= NeedCount)
+	if (SrcCount >= NeedCount)
 	{
 		State = EPROCESSUNITSTATE::Possible;
 	}
-	else if (ItemCount < NeedCount)
+	else if (SrcCount < NeedCount)
 	{
 		State = EPROCESSUNITSTATE::NotPossible;
 	}

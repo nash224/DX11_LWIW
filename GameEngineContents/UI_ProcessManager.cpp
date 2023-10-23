@@ -3,6 +3,7 @@
 
 #include "UIManager.h"
 #include "UI_ProcessList.h"
+#include "UI_ProcessB.h"
 
 UI_ProcessManager::UI_ProcessManager()
 {
@@ -70,6 +71,11 @@ void UI_ProcessManager::OtherProcessSetting()
 {
 	ProcessListWindow = GetLevel()->CreateActor<UI_ProcessList>(EUPDATEORDER::UIComponent);
 	ProcessListWindow->Init();
+	ProcessListWindow->ProcessManagerPtr = this;
+
+	ProcessWindow = GetLevel()->CreateActor<UI_ProcessB>(EUPDATEORDER::UIComponent);
+	ProcessWindow->Init();
+	ProcessWindow->ProcessManager = this;
 }
 
 // 열기
@@ -105,19 +111,26 @@ void UI_ProcessManager::Close()
 
 	if (nullptr != ProcessListWindow)
 	{
-		ProcessListWindow->Off();
+		ProcessListWindow->Close();
 	}
 
 	if (nullptr != ProcessWindow)
 	{
-		ProcessWindow->Off();
+		ProcessWindow->Close();
 	}
 
 	Off();
 }
 
-// 2번째창 이니셜
-void UI_Process::Init()
-{
 
+void UI_ProcessManager::OpenProcessWindow(std::string_view ProductName, int _ScrCount)
+{
+	ProcessListWindow->Close();
+	ProcessWindow->Open(ProductName, _ScrCount);
+}
+
+void UI_ProcessManager::OpenListWindow()
+{
+	ProcessWindow->Close();
+	ProcessListWindow->Open();
 }

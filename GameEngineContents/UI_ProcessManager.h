@@ -3,6 +3,9 @@
 // Ό³Έν :
 class UI_ProcessManager : public GameEngineActor
 {
+	friend class UI_ProcessList;
+	friend class UI_ProcessB;
+
 public:
 	// constrcuter destructer
 	UI_ProcessManager();
@@ -19,8 +22,8 @@ public:
 	void OtherProcessSetting();
 
 	void Open();
-	void GetItemListToInventoryData();
 	void Close();
+
 	 
 protected:
 	void Start() override;
@@ -30,33 +33,13 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
+	void OpenProcessWindow(std::string_view ProductName, int _ScrCount);
+	void OpenListWindow();
+
+private:
 	std::shared_ptr<class UI_ProcessList> ProcessListWindow;
-	std::shared_ptr<class UI_Process> ProcessWindow;
+	std::shared_ptr<class UI_ProcessB> ProcessWindow;
 
 };
 
 
-
-
-class UI_Process : public GameEngineActor
-{
-public:
-	// constrcuter destructer
-	UI_Process() {}
-	~UI_Process() {}
-
-	// delete Function
-	UI_Process(const UI_Process& _Other) = delete;
-	UI_Process(UI_Process&& _Other) noexcept = delete;
-	UI_Process& operator=(const UI_Process& _Other) = delete;
-	UI_Process& operator=(UI_Process&& _Other) noexcept = delete;
-
-	void Init();
-
-
-public:
-	std::shared_ptr<GameEngineUIRenderer> m_Base = nullptr;
-	std::shared_ptr<GameEngineUIRenderer> m_Frame = nullptr;
-	std::shared_ptr<GameEngineUIRenderer> m_Empty_Slot = nullptr;
-
-};

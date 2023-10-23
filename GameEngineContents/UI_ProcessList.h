@@ -21,6 +21,9 @@ public:
 class UI_ProcessList : public GameEngineActor
 {
 public:
+	class UI_ProcessManager* ProcessManagerPtr = nullptr;
+
+public:
 	// constrcuter destructer
 	UI_ProcessList();
 	~UI_ProcessList();
@@ -51,6 +54,7 @@ protected:
 private:
 	void UpdateInput();
 	void MoveCursor(int _Value);
+	void ResetCursor();
 	void RenewSlot();
 
 private:

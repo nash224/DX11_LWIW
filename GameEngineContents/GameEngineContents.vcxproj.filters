@@ -454,6 +454,9 @@
     <ClInclude Include="UI_ProcessListUnit.h">
       <Filter>2.Object\2.Actor\2.Interactive\Static\Machine\Extractor\Process</Filter>
     </ClInclude>
+    <ClInclude Include="UI_ProcessB.h">
+      <Filter>2.Object\2.Actor\2.Interactive\Static\Machine\Extractor\Process</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -738,6 +741,9 @@
       <Filter>2.Object\2.Actor\2.Interactive\Static\Machine\Extractor\Process</Filter>
     </ClCompile>
     <ClCompile Include="UI_ProcessListUnit.cpp">
+      <Filter>2.Object\2.Actor\2.Interactive\Static\Machine\Extractor\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_ProcessB.cpp">
       <Filter>2.Object\2.Actor\2.Interactive\Static\Machine\Extractor\Process</Filter>
     </ClCompile>
   </ItemGroup>

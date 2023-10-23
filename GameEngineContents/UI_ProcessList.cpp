@@ -1,9 +1,11 @@
 #include "PreCompile.h"
 #include "UI_ProcessList.h"
 
-#include "UI_ProcessListUnit.h"
 #include "UIManager.h"
 #include "UI_Inventory.h"
+
+#include "UI_ProcessManager.h"
+#include "UI_ProcessListUnit.h"
 
 #include "IngredientData.h"
 
@@ -37,6 +39,7 @@ void UI_ProcessList::Release()
 	m_ProcessListCursor.Cursor = nullptr;
 	m_ProcessListCursor.ScrollBase = nullptr;
 	m_ProcessListCursor.ScrollBar = nullptr;
+	ProcessManagerPtr = nullptr;
 }
 
 void UI_ProcessList::LevelEnd(class GameEngineLevel* _NextLevel) 
@@ -81,7 +84,7 @@ void UI_ProcessList::CreateProcessSlot(std::string_view _ProcessName)
 	}
 
 	std::shared_ptr<UI_ProcessListUnit> Unit = GetLevel()->CreateActor<UI_ProcessListUnit>(EUPDATEORDER::UIComponent);
-	Unit->Init(_ProcessName, 2);
+	Unit->Init(_ProcessName);
 	SlotVec.push_back(Unit);
 }
 
@@ -125,13 +128,13 @@ void UI_ProcessList::Open()
 
 	for (size_t i = 0; i < SlotVec.size(); i++)
 	{
-		int ItemCount = UI_Inventory::MainInventory->ReturnItemCount(SlotVec[i]->ItemName);
-		SlotVec[i]->ItemCount = ItemCount;
+		int SrcCount = UI_Inventory::MainInventory->ReturnItemCount(SlotVec[i]->SrcName);
+		SlotVec[i]->SrcCount = SrcCount;
 		SlotVec[i]->RenewRenderer();
 	}
 
 	// 리스트 커서
-	MoveCursor(0);
+	ResetCursor();
 	// 리스트 카운트
 	RenewSlot();
 }
@@ -158,13 +161,24 @@ void UI_ProcessList::UpdateInput()
 {
 	if (GameEngineInput::IsDown('Z', this))
 	{
-		// Select
+		if (nullptr == ProcessManagerPtr)
+		{
+			MsgBoxAssert("매니저가 존재하지 않습니다.");
+			return;
+		}
+		ProcessManagerPtr->OpenProcessWindow(SlotVec[CurrentCursor]->ItemName, SlotVec[CurrentCursor]->SrcCount);
+		
 		return;
 	}
 
 	if (GameEngineInput::IsDown('X', this))
 	{
-		Close();
+		if (nullptr == ProcessManagerPtr)
+		{
+			MsgBoxAssert("매니저가 존재하지 않습니다.");
+			return;
+		}
+		ProcessManagerPtr->Close();
 		return;
 	}
 
@@ -247,6 +261,20 @@ void UI_ProcessList::MoveCursor(int _Value)
 
 	m_ProcessListCursor.Cursor->Transform.SetLocalPosition(CursorPosition);
 }
+
+
+void UI_ProcessList::ResetCursor()
+{
+	CurrentCursor = 0;
+	CurCursorLine = 0;
+
+	float4 CursorPosition = PROCESS_FIRST_SLOT_POSITION;
+	CursorPosition.Z = GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Cursor);
+
+	m_ProcessListCursor.Cursor->Transform.SetLocalPosition(CursorPosition);
+}
+
+
 
 // 슬롯을 갱신한다.
 void UI_ProcessList::RenewSlot()

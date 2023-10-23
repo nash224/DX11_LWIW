@@ -26,7 +26,7 @@ public:
 	UI_ProcessListUnit& operator=(const UI_ProcessListUnit& _Other) = delete;
 	UI_ProcessListUnit& operator=(UI_ProcessListUnit&& _Other) noexcept = delete;
 
-	void Init(std::string_view _ProcessName, int _CurCount);
+	void Init(std::string_view _ProcessName);
 
 	void RenewRenderer();
 
@@ -44,10 +44,11 @@ private:
 	std::shared_ptr<GameEngineUIRenderer> ItemMaskImg = nullptr;
 	std::string ItemName = "";
 	std::string ItemKRName = "";
+	std::string SrcName = "";
 
 	EPROCESSUNITSTATE State = EPROCESSUNITSTATE::None;
 
-	int ItemCount = 0;
+	int SrcCount = 0;
 	int NeedCount = 0;
 
 
