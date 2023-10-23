@@ -1,7 +1,11 @@
 #pragma once
 #include "UI_ToggleActor.h"
 
+#define Max_XSlot  4
+#define Max_YSlot  6
 
+constexpr float GridSpacing = 12.0f;
+constexpr float CursorInter = 0.4f;
 
 struct InventoryInfo
 {
@@ -32,6 +36,7 @@ private:
 	void ClearData(const unsigned int _X, const unsigned int _Y);
 	void ClearData(const unsigned int _SlotNumber);
 
+	bool CheckEmptySlot();
 	int IsContain(std::string_view _ItemName);
 	int IsContain(unsigned int _X, unsigned int _Y);
 
@@ -68,6 +73,9 @@ public:
 	std::shared_ptr<GameEngineUIRenderer> NameTooltip = nullptr;
 
 };
+
+
+
 
 struct SelectItemInfo
 {
@@ -114,10 +122,13 @@ public:
 	UI_Inventory& operator=(const UI_Inventory& _Other) = delete;
 	UI_Inventory& operator=(UI_Inventory&& _Other) noexcept = delete;
 
+	// 생성
 	void Init();
 
 	static void PushItem(std::string_view _ItemName, unsigned int _Count = 1);
 	void PopItem(std::string_view _ItemName, unsigned int _Count);
+
+	bool CheckEmptySlot();
 
 	void UnlockSlot(const unsigned int _Count = 1);
 
@@ -189,20 +200,15 @@ private:
 	// 슬롯
 	int m_CurrentSlotX = 0;
 	int m_CurrentSlotY = 0;
-	const unsigned int MaxSlotX = 4;
-	const unsigned int MaxSlotY = 6;
 
 	// 그리드 
 	float4 m_GridScale = float4::ZERO;
 	float4 FirstGridPosition = float4::ZERO;
-	const float CONST_GridSpacing = 12.0f;
 	bool IsFirstPosCalculated = false;
 
 	// 커서
-	const float CursorInter = 0.4f;
 	const float4 NameTagPositionBaseOnSlotCenter = { 0.0f, 40.0f };
 
 	// 다른 컴포넌트와 사용하고 있을 때
 	bool IsOtherComponent = false;
 };
-

@@ -123,6 +123,22 @@ void CheatTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 			++Number;
 		}
 
+
+		if (ImGui::BeginTabItem("Inventory Cheat"))
+		{
+			if (nullptr == UI_Inventory::MainInventory)
+			{
+				MsgBoxAssert("인벤토리가 존재하지 않습니다.");
+				return;
+			}
+
+			if (ImGui::Button("Unlock Slot"))
+			{
+				UI_Inventory::MainInventory->UnlockSlot();
+			}
+
+			ImGui::EndTabItem();
+		}
 	}
 	ImGui::EndTabBar();
 }

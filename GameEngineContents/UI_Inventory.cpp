@@ -7,13 +7,7 @@
 // 데이터 배열은 1차원 배열로 설정합니다.
 void Inventory::Init()
 {
-	if (nullptr == InventoryParent)
-	{
-		MsgBoxAssert("부모가 지정되지 않았습니다.");
-		return;
-	}
-
-	size_t Amount = InventoryParent->MaxSlotX * InventoryParent->MaxSlotY;
+	size_t Amount = Max_XSlot * Max_YSlot;
 
 	InventoryData.resize(Amount);
 }
@@ -23,7 +17,7 @@ void Inventory::Init()
 // 인벤토리에 동일한 이름의 아이템이 있으면 아이템의 수를 더하고, 아이템이 없으면 빈 슬롯에 넣습니다.
 void Inventory::PushItem(std::string_view _ItemName, unsigned int _Count)
 {
-	size_t LockNumber = InventoryParent->MaxSlotX * InventoryParent->UnlockSlotY;
+	size_t LockNumber = Max_XSlot * InventoryParent->UnlockSlotY;
 
 	int Value = IsContain(_ItemName);
 	// 데이터에 없으면
@@ -71,6 +65,11 @@ void Inventory::PopItem(std::string_view _ItemName, unsigned int _Count)
 	
 }
 
+bool Inventory::CheckEmptySlot()
+{
+	return false;
+}
+
 // 데이터에 동일한 이름을 가진 아이템이 있는지 검사합니다.
 int Inventory::IsContain(std::string_view _ItemName)
 {
@@ -88,13 +87,7 @@ int Inventory::IsContain(std::string_view _ItemName)
 
 int Inventory::IsContain(unsigned int _X, unsigned int _Y)
 {
-	if (nullptr == InventoryParent)
-	{
-		MsgBoxAssert("인벤토리 부모를 정해주지 않았습니다.");
-		return 0;
-	}
-
-	int MaxSlot = InventoryParent->MaxSlotX;
+	int MaxSlot = Max_XSlot;
 	unsigned int Value  = _Y * MaxSlot + _X;
 	if ("" != InventoryData[Value].SourceName)
 	{
@@ -140,7 +133,7 @@ void Inventory::ClearData(const unsigned int _X, const unsigned int _Y)
 		return;
 	}
 
-	int MaxSlot = InventoryParent->MaxSlotX;
+	int MaxSlot = Max_XSlot;
 
 	int Value = _Y * MaxSlot + _X;
 
@@ -156,7 +149,7 @@ void Inventory::ClearData(const unsigned int _SlotNumber)
 	InventoryData[_SlotNumber].SourceName = "";
 	InventoryData[_SlotNumber].ItemCount = 0;
 
-	int MaxSlot = InventoryParent->MaxSlotX;
+	int MaxSlot = Max_XSlot;
 	int XSlot = _SlotNumber % MaxSlot;
 	int YSlot = _SlotNumber / MaxSlot;
 
@@ -281,11 +274,11 @@ void UI_Inventory::CreateSlotArray()
 
 	m_GridScale = Texture->GetScale();
 
-	InventorySlotArray.resize(MaxSlotY);
+	InventorySlotArray.resize(Max_YSlot);
 	for (size_t y = 0; y < InventorySlotArray.size(); y++)
 	{
-		InventorySlotArray[y].resize(MaxSlotX);
-		for (size_t x = 0; x < MaxSlotX; x++)
+		InventorySlotArray[y].resize(Max_XSlot);
+		for (size_t x = 0; x < Max_XSlot; x++)
 		{
 			float4 Pos = CalculateIndexToPos(x, y);
 
@@ -466,6 +459,11 @@ void UI_Inventory::PopItem(std::string_view _ItemName, unsigned int _Count)
 	Data->PopItem(_ItemName, _Count);
 }
 
+bool UI_Inventory::CheckEmptySlot()
+{
+	return false;
+}
+
 // 슬롯 줄 잠금해제
 void UI_Inventory::UnlockSlot(const unsigned int _Count /*= 1*/)
 {
@@ -473,9 +471,9 @@ void UI_Inventory::UnlockSlot(const unsigned int _Count /*= 1*/)
 
 	UnlockSlotY += _Count;
 
-	if (UnlockSlotY > MaxSlotY)
+	if (UnlockSlotY > Max_YSlot)
 	{
-		UnlockSlotY = MaxSlotY;
+		UnlockSlotY = Max_YSlot;
 	}
 
 	if (PrevUnlockSlotY == UnlockSlotY)
@@ -528,8 +526,8 @@ void UI_Inventory::ChangeDataParent()
 void UI_Inventory::DisplayItem(const size_t _SlotNumber, std::string_view _FileName)
 {
 	size_t Number = _SlotNumber;
-	size_t SlotX = Number % MaxSlotX;
-	size_t SlotY = Number / MaxSlotX;
+	size_t SlotX = Number % Max_XSlot;
+	size_t SlotY = Number / Max_XSlot;
 
 	std::shared_ptr<GameEngineUIRenderer> Slot = InventorySlotArray[SlotY][SlotX].Slot;
 	if (nullptr == Slot)
@@ -575,13 +573,13 @@ float4 UI_Inventory::CalculateIndexToPos(const size_t _x, const size_t _y)
 	if (false == IsFirstPosCalculated)
 	{
 		float4 HGridScale = m_GridScale.Half();
-		FirstGridPosition.X = -((CONST_GridSpacing / 2.0f) + HGridScale.X) * ((static_cast<float>(MaxSlotX / 2) - 0.5f) * 2.0f);
-		FirstGridPosition.Y = ((CONST_GridSpacing / 2.0f) + HGridScale.Y) * ((static_cast<float>(MaxSlotY / 2) - 0.5f) * 2.0f);
+		FirstGridPosition.X = -((GridSpacing / 2.0f) + HGridScale.X) * ((static_cast<float>(Max_XSlot / 2) - 0.5f) * 2.0f);
+		FirstGridPosition.Y = ((GridSpacing / 2.0f) + HGridScale.Y) * ((static_cast<float>(Max_YSlot / 2) - 0.5f) * 2.0f);
 
 		IsFirstPosCalculated = true;
 	}
 
-	float4 TargetDistance = { static_cast<float>(_x) * (CONST_GridSpacing + m_GridScale.X) , -static_cast<float>(_y) * (CONST_GridSpacing + m_GridScale.Y) };
+	float4 TargetDistance = { static_cast<float>(_x) * (GridSpacing + m_GridScale.X) , -static_cast<float>(_y) * (GridSpacing + m_GridScale.Y) };
 	float4 ReturnValue = FirstGridPosition + TargetDistance;
 	return ReturnValue;
 }
@@ -668,7 +666,7 @@ void UI_Inventory::ClearAllSlotImg()
 {
 	for (size_t y = 0; y < UnlockSlotY; y++)
 	{
-		for (size_t x = 0; x < MaxSlotX; x++)
+		for (size_t x = 0; x < Max_XSlot; x++)
 		{
 			EraseSlotImg(static_cast<int>(x), static_cast<int>(y));
 		}
@@ -797,9 +795,9 @@ void UI_Inventory::MoveCursor(const int _X, const int _Y)
 
 	if (-1 == m_CurrentSlotX)
 	{
-		m_CurrentSlotX = MaxSlotX - 1;
+		m_CurrentSlotX = Max_XSlot - 1;
 	}
-	if (MaxSlotX == m_CurrentSlotX)
+	if (Max_XSlot == m_CurrentSlotX)
 	{
 		m_CurrentSlotX = 0;
 	}
