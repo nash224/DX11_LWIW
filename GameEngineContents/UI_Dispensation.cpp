@@ -2,7 +2,12 @@
 #include "UI_Dispensation.h"
 
 #include "UIManager.h"
+#include "UI_Inventory.h"
 
+#include "Ellie.h"
+
+
+UI_Dispensation* UI_Dispensation::MainDispensation = nullptr;
 UI_Dispensation::UI_Dispensation() 
 {
 }
@@ -139,7 +144,6 @@ void UI_Dispensation::Open()
 
 	UIManager::MainUIManager->OpenInventory();
 	
-
 	On();
 }
 
@@ -164,8 +168,52 @@ void UI_Dispensation::Clear()
 }
 
 
+void UI_Dispensation::DispensationThis()
+{
+	// 앨리 상태
+	if (nullptr != Ellie::MainEllie)
+	{
+		Ellie::MainEllie->WaitDone();
+	}
+
+	CheckDispensation();
+
+	if (nullptr == UI_Inventory::MainInventory)
+	{
+		MsgBoxAssert("인벤토리가 존재하지 않습니다.");
+		return;
+	}
+
+	//UI_Inventory::MainInventory->PopItem(m_ProcessBSourceInfo.ScrName, 2);
+
+	//if (nullptr == ProcessManager)
+	//{
+	//	MsgBoxAssert("가공 매니저가 존재하지 않습니다.");
+	//	return;
+	//}
+
+	//ProcessManager->CreatedProductName = m_ProcessBProductInfo.ProductName;
+
+	Off();
+}
+
+void UI_Dispensation::CheckDispensation()
+{
+
+}
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+
 void UI_Dispensation::UpdateKey()
 {
+	if (true == GameEngineInput::IsDown('Z', this))
+	{
+		DispensationThis();
+		return;
+	}
+
 	if (true == GameEngineInput::IsDown('X', this))
 	{
 		Close();

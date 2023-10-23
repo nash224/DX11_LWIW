@@ -26,6 +26,17 @@ public:
 
 	}
 
+	//bool operator==(const IngredientData& _Other) const
+	//{
+	//	if (true)
+	//	{
+
+	//	}
+
+	//	return ReturnValue;
+	//}
+
+
 	// delete Function
 	//IngredientData(const IngredientData& _Other) = delete;
 	//IngredientData(IngredientData&& _Other) noexcept = delete;

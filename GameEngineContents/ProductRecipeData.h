@@ -2,10 +2,7 @@
 #include "ContentsResource.h"
 
 
-
-
-
-// 설명 :
+// 설명 : 재료가공 레시피 데이터입니다.
 class ProductRecipeData final : public ContentsResource<ProductRecipeData>
 {
 public:
@@ -41,6 +38,53 @@ public:
 		Material3Count(_Material3Count)
 	{
 
+	}
+
+
+
+	bool operator==(const ProductRecipeData& _Other) const
+	{
+		if (_Other.Ladle != Ladle)
+		{
+			return false;
+		}
+
+		if (_Other.Fire != Fire)
+		{
+			return false;
+		}
+
+		if (_Other.Material1 != Material1)
+		{
+			return false;
+		}
+
+		if (_Other.Material1Count != Material1Count)
+		{
+			return false;
+		}
+
+		if (_Other.Material2 != Material2)
+		{
+			return false;
+		}
+
+		if (_Other.Material2Count != Material2Count)
+		{
+			return false;
+		}
+
+		if (_Other.Material3 != Material3)
+		{
+			return false;
+		}
+
+		if (_Other.Material3Count != Material3Count)
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	// delete Function

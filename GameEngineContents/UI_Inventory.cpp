@@ -381,6 +381,31 @@ void UI_Inventory::CreateData()
 	Data->Init();
 }
 
+void UI_Inventory::ExternUISetting()
+{
+	m_SelectCursorInfo.SelectItem.resize(3);
+
+	m_SelectCursorInfo.Cursor1 = CreateComponent<GameEngineUIRenderer>();
+	m_SelectCursorInfo.Cursor1->SetSprite("Inventory_SelectCursor.png");
+	m_SelectCursorInfo.Cursor1->Off();
+
+	m_SelectCursorInfo.Cursor2 = CreateComponent<GameEngineUIRenderer>();
+	m_SelectCursorInfo.Cursor2->SetSprite("Inventory_SelectCursor.png");
+	m_SelectCursorInfo.Cursor2->Off();
+
+	m_SelectCursorInfo.Cursor3 = CreateComponent<GameEngineUIRenderer>();
+	m_SelectCursorInfo.Cursor3->SetSprite("Inventory_SelectCursor.png");
+	m_SelectCursorInfo.Cursor3->Off();
+}
+
+void SelectCursorInfo::CancleSelectAll()
+{
+
+}
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+
 // UnlockSlot을 넣어주면 사용하지 못하는 슬롯에 잠금장치 이미지가 생성됩니다.
 void UI_Inventory::LockSlot(const unsigned int _Y)
 {
@@ -664,6 +689,11 @@ void UI_Inventory::OnLevelStart()
 	Close();
 }
 
+
+void UI_Inventory::SelectThis()
+{
+
+}
 
 /////////////////////////////////////////////////////////////////////////////////////
 

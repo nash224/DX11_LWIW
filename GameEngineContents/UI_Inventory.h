@@ -45,6 +45,13 @@ private:
 };
 
 
+enum class EINVENTORYMODE
+{
+	Normal,
+	Dispensation,
+	None,
+};
+
 
 struct InventorySlotComposition
 {
@@ -59,6 +66,26 @@ public:
 	std::shared_ptr<GameEngineUIRenderer> CursorOutline = nullptr;
 	std::shared_ptr<GameEngineUIRenderer> Cursor = nullptr;
 	std::shared_ptr<GameEngineUIRenderer> NameTooltip = nullptr;
+
+};
+
+struct SelectItemInfo
+{
+public:
+	std::string ItemName = "";
+	int ItemCount = 0;
+};
+
+class SelectCursorInfo
+{
+public:
+	void CancleSelectAll();
+
+public:
+	std::vector<SelectItemInfo> SelectItem;
+	std::shared_ptr<GameEngineUIRenderer> Cursor1 = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> Cursor2 = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> Cursor3 = nullptr;
 
 };
 
@@ -105,13 +132,17 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
-	// 생성
+	// 생성 : 인벤토리
 	void CreateBase();
 	void CreateSlotArray();
 	void CreateCursor();
 	void CreateNoticeDropManager();
 
+	// 생성 : 데이터
 	void CreateData();
+
+	void ExternUISetting();
+
 
 	void LockSlot(const unsigned int _Y);
 
@@ -131,7 +162,12 @@ private:
 	void EraseSlotImg(const int _X, const int _Y);
 	void ClearAllSlotImg();
 
+	// 레벨 초기화
 	void OnLevelStart();
+
+
+	// 외부
+	void SelectThis();
 
 private:
 	void UpdateInventory(float _Delta);
@@ -141,11 +177,14 @@ private:
 
 
 private:
-	std::shared_ptr<GameEngineSpriteRenderer> m_InventoryBase = nullptr;
 	std::vector<std::vector<InventorySlotComposition>> InventorySlotArray;
-
 	std::shared_ptr<class UI_DropManager> m_DropManager = nullptr;
+	std::shared_ptr<GameEngineSpriteRenderer> m_InventoryBase = nullptr;
+
 	InventoryCursorComposition m_CursorComposition;
+	SelectCursorInfo m_SelectCursorInfo;
+
+	EINVENTORYMODE m_InventoryMode = EINVENTORYMODE::Normal;
 
 	// 슬롯
 	int m_CurrentSlotX = 0;

@@ -14,9 +14,15 @@ public:
 	int Number = 0;
 };
 
+
+
+
 // Ό³Έν :
 class UI_Dispensation : public UI_ToggleActor
 {
+public:
+	static UI_Dispensation* MainDispensation;
+
 public:
 	// constrcuter destructer
 	UI_Dispensation();
@@ -36,6 +42,8 @@ public:
 
 	void Clear();
 
+	void DispensationThis();
+	void CheckDispensation();
 
 protected:
 	void Start() override;
