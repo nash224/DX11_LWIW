@@ -54,7 +54,14 @@ enum class PivotType
 	LeftTop,
 };
 
-struct SpriteRendererInfo 
+
+enum class MaskMode
+{
+	StaticMask, // 스크린 좌표계로 마스크를 
+	DynamicMask, // 스크린좌표계인데 랜더러의 위치에 따라서 마스크 위치를 변경한다.
+};
+
+struct SpriteRendererInfo
 {
 	int FlipLeft = 0;
 	int FlipUp = 0;
@@ -62,7 +69,7 @@ struct SpriteRendererInfo
 	float Temp2;
 };
 
-struct ColorData 
+struct ColorData
 {
 	float4 PlusColor = float4::ZERONULL; // 최종색상에 더한다.
 	float4 MulColor = float4::ONE; // 최종색상에 곱한다.
@@ -138,7 +145,7 @@ public:
 		SpriteRendererInfoValue.FlipUp = 0;
 	}
 
-	bool IsCurAnimationEnd() 
+	bool IsCurAnimationEnd()
 	{
 		return CurFrameAnimations->IsEnd;
 	}
@@ -211,7 +218,7 @@ public:
 		return ColorDataValue;
 	}
 
-	void SetMaskTexture(std::string_view _Texture);
+	void SetMaskTexture(std::string_view _Texture, MaskMode _Mask = MaskMode::StaticMask);
 
 protected:
 	void Start() override;
@@ -238,7 +245,7 @@ private:
 	float4 AutoScaleRatio = { 1.0f,1.0f,1.0f };
 	bool IsPause = false;
 
-	float4 Pivot = {0.5f, 0.5f};
+	float4 Pivot = { 0.5f, 0.5f };
 
 	ColorData ColorDataValue;
 

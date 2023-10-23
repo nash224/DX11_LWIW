@@ -3,10 +3,12 @@
 
 GameEngineSerializer::GameEngineSerializer()
 {
+
 }
 
 GameEngineSerializer::~GameEngineSerializer()
 {
+
 }
 
 void GameEngineSerializer::Write(const void* _Data, unsigned int _Size)

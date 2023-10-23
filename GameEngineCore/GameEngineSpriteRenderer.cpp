@@ -59,7 +59,8 @@ SpriteData GameEngineFrameAnimation::Update(float _DeltaTime)
 			if (true == Loop)
 			{
 				CurIndex = 0;
-			} else
+			}
+			else
 			{
 				--CurIndex;
 			}
@@ -69,15 +70,15 @@ SpriteData GameEngineFrameAnimation::Update(float _DeltaTime)
 	return Sprite->GetSpriteData(Index[CurIndex]);
 }
 
-GameEngineSpriteRenderer::GameEngineSpriteRenderer() 
+GameEngineSpriteRenderer::GameEngineSpriteRenderer()
 {
 }
 
-GameEngineSpriteRenderer::~GameEngineSpriteRenderer() 
+GameEngineSpriteRenderer::~GameEngineSpriteRenderer()
 {
 }
 
-void GameEngineSpriteRenderer::Start() 
+void GameEngineSpriteRenderer::Start()
 {
 	GameEngineRenderer::Start();
 
@@ -103,6 +104,9 @@ void GameEngineSpriteRenderer::Update(float _Delta)
 		Scale.W = 0.0f;
 		SetImageScale(Scale * AutoScaleRatio);
 	}
+
+	RenderBaseInfoValue.RenderScreenScale = CurSprite.GetScale();
+	// 
 }
 
 void GameEngineSpriteRenderer::SetImageScale(const float4& _Scale)
@@ -165,7 +169,7 @@ void GameEngineSpriteRenderer::CreateAnimation(
 	unsigned int _Start /*= -1*/,
 	unsigned int _End /*= -1*/,
 	bool _Loop /*= true*/
-) 
+)
 {
 	std::string SpriteName = GameEngineString::ToUpperReturn(_SpriteName);
 
@@ -196,7 +200,7 @@ void GameEngineSpriteRenderer::CreateAnimation(
 	{
 		NewAnimation->Start = _Start;
 	}
-	else 
+	else
 	{
 		NewAnimation->Start = 0;
 	}
@@ -231,7 +235,7 @@ void GameEngineSpriteRenderer::ChangeAnimation(std::string_view _AnimationName, 
 {
 	std::string UpperName = GameEngineString::ToUpperReturn(_AnimationName);
 
-	std::map<std::string, std::shared_ptr<GameEngineFrameAnimation>>::iterator FindIter 
+	std::map<std::string, std::shared_ptr<GameEngineFrameAnimation>>::iterator FindIter
 		= FrameAnimations.find(UpperName);
 
 	if (FindIter == FrameAnimations.end())
@@ -330,7 +334,7 @@ void GameEngineSpriteRenderer::SetPivotType(PivotType _Type)
 	switch (_Type)
 	{
 	case PivotType::Center:
-		Pivot = {0.5f, 0.5f};
+		Pivot = { 0.5f, 0.5f };
 		break;
 	case PivotType::Top:
 		Pivot = { 0.5f, 0.0f };
@@ -372,7 +376,7 @@ void GameEngineSpriteRenderer::SetMaterialEvent(std::string_view _Name, int _Ind
 }
 
 
-void GameEngineSpriteRenderer::SetMaskTexture(std::string_view _Texture)
+void GameEngineSpriteRenderer::SetMaskTexture(std::string_view _Texture, MaskMode _Mask)
 {
 	//std::shared_ptr<GameEngineFrameAnimation> TempCurFrameAnimation = CurFrameAnimations;
 	//std::shared_ptr<GameEngineSprite> TempSprite = Sprite;
@@ -392,6 +396,8 @@ void GameEngineSpriteRenderer::SetMaskTexture(std::string_view _Texture)
 	//}
 
 	RenderBaseInfoValue.IsMask = 1;
-
+	RenderBaseInfoValue.MaskMode = static_cast<int>(_Mask);
 	GetShaderResHelper().SetTexture("MaskTex", _Texture);
+	std::shared_ptr<GameEngineTexture> Ptr = GameEngineTexture::Find(_Texture);
+	RenderBaseInfoValue.MaskScreeneScale = Ptr->GetScale();
 }
