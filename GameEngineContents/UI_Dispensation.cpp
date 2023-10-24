@@ -164,6 +164,7 @@ void UI_Dispensation::Close()
 	Reset();
 }
 
+// 연금탭을 초기화시킵니다.
 void UI_Dispensation::Reset()
 {
 	if (nullptr != Fire_Gauge && nullptr != Fire_Gauge_Pin)
@@ -179,7 +180,7 @@ void UI_Dispensation::Reset()
 	
 }
 
-
+// 래시피가 일치하면 연금을 합니다.
 void UI_Dispensation::DispensationThis()
 {
 	// 앨리 상태
@@ -193,6 +194,7 @@ void UI_Dispensation::DispensationThis()
 		m_DispensationSlotInfo[1].ItemName, m_DispensationSlotInfo[1].ItemCount,
 		m_DispensationSlotInfo[2].ItemName, m_DispensationSlotInfo[2].ItemCount };
 
+	// 연금결과의 분기입니다
 	if (false == CheckDispensation(CurRecipeData))
 	{
 
@@ -275,7 +277,7 @@ void UI_Dispensation::UpdateKey()
 }
 
 
-
+// 불 강도 낮추기
 void UI_Dispensation::LowHit()
 {
 	if (EBREWING_FIRE::One == CurFire)
@@ -305,6 +307,7 @@ void UI_Dispensation::LowHit()
 	CurFire = static_cast<EBREWING_FIRE>(iFire);
 }
 
+// 불 강도 높이기
 void UI_Dispensation::HighHit()
 {
 	if (EBREWING_FIRE::Five == CurFire)
@@ -335,6 +338,7 @@ void UI_Dispensation::HighHit()
 	CurFire = static_cast<EBREWING_FIRE>(iFire);
 }
 
+// 이전방향
 void UI_Dispensation::PrevDirection()
 {
 	if (EBREWING_DIRECTION::StirLeft == CurDirection)
@@ -357,6 +361,7 @@ void UI_Dispensation::PrevDirection()
 	}
 }
 
+// 다음 방향
 void UI_Dispensation::NextDirection()
 {
 	if (EBREWING_DIRECTION::StirRight == CurDirection)

@@ -7,6 +7,8 @@
 constexpr float GridSpacing = 12.0f;
 constexpr float CursorInter = 0.4f;
 
+
+
 struct InventoryInfo
 {
 public:
@@ -14,7 +16,6 @@ public:
 	unsigned int ItemCount = 0;
 
 };
-
 
 // 인벤토리 데이터를 관리하는 클래스입니다.
 // UI_Inventory에도 데이터를 관리하는 InventoryData를 전역으로 생성해서 관리할 수 있지만,
@@ -39,6 +40,7 @@ private:
 	bool CheckEmptySlot(std::string_view _ItemName);
 	int IsContain(std::string_view _ItemName);
 	int IsContain(unsigned int _X, unsigned int _Y);
+	InventoryInfo& ReturnInventoryInfo(unsigned int _X, unsigned int _Y);
 
 	int Find(std::string_view _ItemName);
 
@@ -80,22 +82,12 @@ public:
 struct SelectItemInfo
 {
 public:
+	std::shared_ptr<GameEngineUIRenderer> Cursor = nullptr;
 	std::string ItemName = "";
-	int ItemCount = 0;
+
+	int SelectCount = -1;
 };
 
-class SelectCursorInfo
-{
-public:
-	void CancleSelectAll();
-
-public:
-	std::vector<SelectItemInfo> SelectItem;
-	std::shared_ptr<GameEngineUIRenderer> Cursor1 = nullptr;
-	std::shared_ptr<GameEngineUIRenderer> Cursor2 = nullptr;
-	std::shared_ptr<GameEngineUIRenderer> Cursor3 = nullptr;
-
-};
 
 
 
@@ -149,6 +141,8 @@ private:
 	void CreateSlotArray();
 	void CreateCursor();
 	void StateSetting();
+
+	// 생성 : UI Drop
 	void CreateNoticeDropManager();
 
 	// 생성 : 데이터
@@ -179,16 +173,12 @@ private:
 	void OnLevelStart();
 
 
-	// 외부
-	void SelectThis();
 
 private:
 	void UpdateInventory(float _Delta, GameEngineState* _Parent);
 	void DectedCloseInventory();
-	void UpdateCursor();
+	bool UpdateCursor();
 	void MoveCursor(const int _X, const int _Y);
-
-	void UpdateDispensation(float _Delta, GameEngineState* _Parent);
 
 
 private:
@@ -197,9 +187,9 @@ private:
 	std::shared_ptr<GameEngineSpriteRenderer> m_InventoryBase = nullptr;
 
 	InventoryCursorComposition m_CursorComposition;
-	SelectCursorInfo m_SelectCursorInfo;
 
 	GameEngineState m_InventoryState;
+	EINVENTORYMODE m_Mode = EINVENTORYMODE::None;
 
 	// 슬롯
 	int m_CurrentSlotX = 0;
@@ -212,4 +202,23 @@ private:
 
 	// 커서
 	const float4 NameTagPositionBaseOnSlotCenter = { 0.0f, 40.0f };
+
+
+
+
+private:
+	// 외부
+	void UpdateDispensation(float _Delta, GameEngineState* _Parent);
+	bool UpdateSelect();
+	void SelectThis();
+	void UnSelectThis(int _SlotNumber);
+
+	int IsSelect();
+	int IsEmptySelectSlot();
+	void UnSelectAll();
+
+private:
+	std::vector<SelectItemInfo> SelectItem;
+	bool IsJustOpen = false;
+
 };

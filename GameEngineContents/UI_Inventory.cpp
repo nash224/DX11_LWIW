@@ -35,10 +35,10 @@ void Inventory::PushItem(std::string_view _ItemName, unsigned int _Count)
 				break;
 			}
 
-			// 인벤토리가 다 찼다는 의미로 PopUp을 요청합니다.
+			// 인벤토리가 다 찼다는 의미로 PopUp UI를 요청합니다.
 			if (i == LockNumber - 1)
 			{
-				// PopUp
+				// PopUp UI
 				return;
 			}
 		}
@@ -101,6 +101,7 @@ int Inventory::IsContain(std::string_view _ItemName)
 	return 0;
 }
 
+// 해당 슬롯에 아이템이 있는지 확인합니다.
 int Inventory::IsContain(unsigned int _X, unsigned int _Y)
 {
 	int MaxSlot = Max_XSlot;
@@ -112,6 +113,13 @@ int Inventory::IsContain(unsigned int _X, unsigned int _Y)
 
 	return 0;
 }
+
+InventoryInfo& Inventory::ReturnInventoryInfo(unsigned int _X, unsigned int _Y)
+{
+	unsigned int Value = _Y * Max_XSlot + _X;
+	return InventoryData[Value];
+}
+
 
 int Inventory::Find(std::string_view _ItemName)
 {
@@ -269,6 +277,8 @@ void UI_Inventory::Init()
 	// 아이템 획득 알림창 매니저입니다.
 	CreateNoticeDropManager();
 
+	ExternUISetting();
+
 	LockSlot(UnlockSlotY);
 	Transform.AddLocalPosition({ -288.0f , 28.0f });
 
@@ -333,12 +343,15 @@ void UI_Inventory::CreateSlotArray()
 void UI_Inventory::StateSetting()
 {
 	CreateStateParameter NormalPara;
+	NormalPara.Start = [&](GameEngineState* _Parent) {m_Mode = EINVENTORYMODE::Normal; };
 	NormalPara.Stay = std::bind(&UI_Inventory::UpdateInventory, this, std::placeholders::_1, std::placeholders::_2);
 	m_InventoryState.CreateState(EINVENTORYMODE::Normal, NormalPara);
 
 	CreateStateParameter DispensationPara;
+	DispensationPara.Start = [&](GameEngineState* _Parent) {IsJustOpen = true , m_Mode = EINVENTORYMODE::Dispensation; };
 	DispensationPara.Stay = std::bind(&UI_Inventory::UpdateDispensation, this, std::placeholders::_1, std::placeholders::_2);
 	m_InventoryState.CreateState(EINVENTORYMODE::Dispensation, DispensationPara);
+
 	m_InventoryState.ChangeState(EINVENTORYMODE::Normal);
 }
 
@@ -419,25 +432,16 @@ void UI_Inventory::CreateData()
 
 void UI_Inventory::ExternUISetting()
 {
-	m_SelectCursorInfo.SelectItem.resize(3);
+	SelectItem.resize(3);
 
-	m_SelectCursorInfo.Cursor1 = CreateComponent<GameEngineUIRenderer>();
-	m_SelectCursorInfo.Cursor1->SetSprite("Inventory_SelectCursor.png");
-	m_SelectCursorInfo.Cursor1->Off();
-
-	m_SelectCursorInfo.Cursor2 = CreateComponent<GameEngineUIRenderer>();
-	m_SelectCursorInfo.Cursor2->SetSprite("Inventory_SelectCursor.png");
-	m_SelectCursorInfo.Cursor2->Off();
-
-	m_SelectCursorInfo.Cursor3 = CreateComponent<GameEngineUIRenderer>();
-	m_SelectCursorInfo.Cursor3->SetSprite("Inventory_SelectCursor.png");
-	m_SelectCursorInfo.Cursor3->Off();
+	for (size_t i = 0; i < SelectItem.size(); i++)
+	{
+		SelectItem[i].Cursor = CreateComponent<GameEngineUIRenderer>();
+		SelectItem[i].Cursor->SetSprite("Inventory_SelectCursor.png");
+		SelectItem[i].Cursor->Off();
+	}
 }
 
-void SelectCursorInfo::CancleSelectAll()
-{
-
-}
 
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -620,6 +624,11 @@ void UI_Inventory::OpenChild()
 
 void UI_Inventory::CloseChild()
 {
+	if (EINVENTORYMODE::Dispensation == m_Mode)
+	{
+		UnSelectAll();
+	}
+
 	m_InventoryState.ChangeState(EINVENTORYMODE::Normal);
 }
 
@@ -745,11 +754,6 @@ void UI_Inventory::OnLevelStart()
 }
 
 
-void UI_Inventory::SelectThis()
-{
-
-}
-
 /////////////////////////////////////////////////////////////////////////////////////
 
 void UI_Inventory::UpdateInventory(float _Delta, GameEngineState* _Parent)
@@ -783,31 +787,33 @@ void UI_Inventory::DectedCloseInventory()
 	}
 }
 
-void UI_Inventory::UpdateCursor()
+bool UI_Inventory::UpdateCursor()
 {
 	if (true == GameEngineInput::IsDown(VK_LEFT, this))
 	{
 		MoveCursor(-1, 0);
-		return;
+		return true;
 	}
 
 	if (true == GameEngineInput::IsDown(VK_RIGHT, this))
 	{
 		MoveCursor(1, 0);
-		return;
+		return true;
 	}
 
 	if (true == GameEngineInput::IsDown(VK_UP, this))
 	{
 		MoveCursor(0, -1);
-		return;
+		return true;
 	}
 
 	if (true == GameEngineInput::IsDown(VK_DOWN, this))
 	{
 		MoveCursor(0, 1);
-		return;
+		return true;
 	}
+
+	return false;
 }
 
 void UI_Inventory::MoveCursor(const int _X, const int _Y)
@@ -845,5 +851,113 @@ void UI_Inventory::MoveCursor(const int _X, const int _Y)
 
 void UI_Inventory::UpdateDispensation(float _Delta, GameEngineState* _Parent)
 {
-	UpdateCursor();
+	if (true == IsJustOpen)
+	{
+		IsJustOpen = false;
+		return;
+	}
+
+	if (true == UpdateCursor())
+	{
+		return;
+	}
+
+	if (true == UpdateSelect())
+	{
+		return;
+	}
+}
+
+
+bool UI_Inventory::UpdateSelect()
+{
+	if (true == GameEngineInput::IsDown('Z', this))
+	{
+		int SelectNumber = IsSelect();
+		if (-1 == SelectNumber)
+		{
+			SelectThis();
+		}
+		else
+		{
+			UnSelectThis(SelectNumber);
+		}
+
+		return true;
+	}
+
+	return false;
+}
+
+
+// -1이면 선택되지 않았습니다.
+int UI_Inventory::IsSelect()
+{
+	for (size_t i = 0; i < SelectItem.size(); i++)
+	{
+		if ("" != SelectItem[i].ItemName)
+		{
+			return static_cast<int>(i);
+		}
+	}
+
+	return -1;
+}
+
+void UI_Inventory::SelectThis()
+{
+	int EmptySlotNumber = IsEmptySelectSlot();
+
+	if (-1 != EmptySlotNumber)
+	{
+		if (nullptr == Data)
+		{
+			MsgBoxAssert("데이터가 존재하지 않습니다.");
+			return;
+		}
+
+		InventoryInfo& InventoryData = Data->ReturnInventoryInfo(m_CurrentSlotX, m_CurrentSlotY);
+
+		// 저장된 아이템이 없으면 
+		if ("" != InventoryData.SourceName)
+		{
+			SelectItem[EmptySlotNumber].ItemName = InventoryData.SourceName;
+			SelectItem[EmptySlotNumber].SelectCount = m_CurrentSlotX * m_CurrentSlotY;
+
+			float4 CursorPosition = CalculateIndexToPos(m_CurrentSlotX, m_CurrentSlotY);
+			CursorPosition.Z = GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Cursor);
+			SelectItem[EmptySlotNumber].Cursor->Transform.SetLocalPosition(CursorPosition);
+			SelectItem[EmptySlotNumber].Cursor->On();
+		}
+	}
+}
+
+// 슬롯이 3개가 넘어가지 않도록 합니다.
+// 빈 슬롯이 없으면 -1 을 반환합니다.
+int UI_Inventory::IsEmptySelectSlot()
+{
+	for (size_t i = 0; i < SelectItem.size(); i++)
+	{
+		if ("" == SelectItem[i].ItemName)
+		{
+			return static_cast<int>(i);
+		}
+	}
+
+	return -1;
+}
+
+void UI_Inventory::UnSelectThis(int _SlotNumber)
+{
+	SelectItem[_SlotNumber].ItemName = "";
+	SelectItem[_SlotNumber].Cursor->Off();
+	SelectItem[_SlotNumber].SelectCount = -1;
+}
+
+void UI_Inventory::UnSelectAll()
+{
+	for (int i = 0; i < SelectItem.size(); i++)
+	{
+		UnSelectThis(i);
+	}
 }
