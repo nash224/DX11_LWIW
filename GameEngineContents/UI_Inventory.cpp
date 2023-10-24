@@ -904,12 +904,15 @@ bool UI_Inventory::UpdateDispensationSelect()
 {
 	if (true == GameEngineInput::IsDown('Z', this))
 	{
+		// 빈칸 클릭하면 리턴
 		if (false == Data->IsContain(m_CurrentSlotX, m_CurrentSlotY))
 		{
 			return false;
 		}
 
-		int SelectNumber = IsSelect(m_CurrentSlotX, m_CurrentSlotY);
+
+		int SelectNumber = ReturnSelectNumber(m_CurrentSlotX, m_CurrentSlotY);
+
 		if (-1 == SelectNumber)
 		{
 			DispensationSelectThis();
@@ -927,13 +930,14 @@ bool UI_Inventory::UpdateDispensationSelect()
 
 
 // -1이면 선택되지 않았습니다.
-int UI_Inventory::IsSelect(int _XSlot, int _YSlot)
+int UI_Inventory::ReturnSelectNumber(int _XSlot, int _YSlot)
 {
-	for (size_t i = 0; i < SelectItem.size(); i++)
+	InventoryInfo& InventoryData = Data->ReturnInventoryInfo(m_CurrentSlotX, m_CurrentSlotY);
+	for (int i = 0; i < SelectItem.size(); i++)
 	{
-		if ("" != SelectItem[i].ItemName)
+		if (SelectItem[i].ItemName == InventoryData.SourceName)
 		{
-			return static_cast<int>(i);
+			return i;
 		}
 	}
 
@@ -942,49 +946,50 @@ int UI_Inventory::IsSelect(int _XSlot, int _YSlot)
 
 void UI_Inventory::DispensationSelectThis()
 {
-	int EmptySlotNumber = IsEmptySelectSlot();
-
-	if (-1 != EmptySlotNumber)
+	int EmptySlotNumber = ReturnEmptySelectSlot();
+	if (-1 == EmptySlotNumber)
 	{
-		if (nullptr == Data)
+		return;
+	}
+
+	if (nullptr == Data)
+	{
+		MsgBoxAssert("데이터가 존재하지 않습니다.");
+		return;
+	}
+
+	InventoryInfo& InventoryData = Data->ReturnInventoryInfo(m_CurrentSlotX, m_CurrentSlotY);
+
+	// 저장된 아이템이 없으면 
+	if ("" != InventoryData.SourceName)
+	{
+		// 인벤토리에서 연금 페이지로 선택됐다고 알립니다.
+		if (nullptr == UI_Dispensation::MainDispensation)
 		{
-			MsgBoxAssert("데이터가 존재하지 않습니다.");
+			MsgBoxAssert("메인 연금 페이지를 모릅니다.");
 			return;
 		}
 
-		InventoryInfo& InventoryData = Data->ReturnInventoryInfo(m_CurrentSlotX, m_CurrentSlotY);
-
-		// 저장된 아이템이 없으면 
-		if ("" != InventoryData.SourceName)
+		if (false == UI_Dispensation::MainDispensation->SelectThis(InventoryData.SourceName, InventoryData.ItemCount))
 		{
-			// 인벤토리에서 연금 페이지로 선택됐다고 알립니다.
-			if (nullptr == UI_Dispensation::MainDispensation)
-			{
-				MsgBoxAssert("메인 연금 페이지를 모릅니다.");
-				return;
-			}
-
-			if (false == UI_Dispensation::MainDispensation->SelectThis(InventoryData.SourceName, InventoryData.ItemCount))
-			{
-				MsgBoxAssert("연금 페이지에 남는 슬롯이 없는데 추가하려했습니다. 안전장치로 터트립니다. ");
-				return;
-			}
+			MsgBoxAssert("연금 페이지에 남는 슬롯이 없는데 추가하려했습니다. 안전장치로 터트립니다. ");
+			return;
+		}
 			
 
-			SelectItem[EmptySlotNumber].ItemName = InventoryData.SourceName;
-			SelectItem[EmptySlotNumber].SelectCount = m_CurrentSlotX * m_CurrentSlotY;
+		SelectItem[EmptySlotNumber].ItemName = InventoryData.SourceName;
+		SelectItem[EmptySlotNumber].SelectCount = m_CurrentSlotX * m_CurrentSlotY;
 
-			float4 CursorPosition = CalculateIndexToPos(m_CurrentSlotX, m_CurrentSlotY);
-			CursorPosition.Z = GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Cursor);
-			SelectItem[EmptySlotNumber].Cursor->Transform.SetLocalPosition(CursorPosition);
-			SelectItem[EmptySlotNumber].Cursor->On();
-		}
+		float4 CursorPosition = CalculateIndexToPos(m_CurrentSlotX, m_CurrentSlotY);
+		CursorPosition.Z = GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Cursor);
+		SelectItem[EmptySlotNumber].Cursor->Transform.SetLocalPosition(CursorPosition);
+		SelectItem[EmptySlotNumber].Cursor->On();
 	}
 }
 
 // 슬롯이 3개가 넘어가지 않도록 합니다.
 // 빈 슬롯이 없으면 -1 을 반환합니다.
-int UI_Inventory::IsEmptySelectSlot()
+int UI_Inventory::ReturnEmptySelectSlot()
 {
 	for (size_t i = 0; i < SelectItem.size(); i++)
 	{

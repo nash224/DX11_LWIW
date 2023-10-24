@@ -215,8 +215,8 @@ private:
 	void DispensationSelectThis();
 	void DispensationUnSelectThis(int _SlotNumber);
 
-	int IsSelect(int _XSlot, int _YSlot);
-	int IsEmptySelectSlot();
+	int ReturnSelectNumber(int _XSlot, int _YSlot);
+	int ReturnEmptySelectSlot();
 	void UnSelectAll();
 
 private:

@@ -45,8 +45,8 @@ public:
 	void Reset();
 
 	bool SelectThis(std::string_view _ItemName, int _ItemCount);
-	int IsEmptySlot();
-	DispensationSlotInfo* Find(std::string_view _ItemName);
+	int ReturnEmptySlot();
+	DispensationSlotInfo* FindSlot(std::string_view _ItemName);
 
 	bool UnSelectThis(std::string_view _ItemName);
 	void ClearSlotInfo();

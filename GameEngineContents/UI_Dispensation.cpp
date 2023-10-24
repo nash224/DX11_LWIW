@@ -190,10 +190,10 @@ void UI_Dispensation::Reset()
 bool UI_Dispensation::SelectThis(std::string_view _ItemName, int _ItemCount)
 {
 	// 빈 슬롯 확인하고
-	int EmptySlotNumber = IsEmptySlot();
+	int EmptySlotNumber = ReturnEmptySlot();
 
 	// 동일한 아이템 이름이 있는지 확인해서
-	DispensationSlotInfo* SlotInfo = Find(_ItemName);
+	DispensationSlotInfo* SlotInfo = FindSlot(_ItemName);
 	if (-1 != EmptySlotNumber && nullptr == SlotInfo)
 	{
 		// 없으면 넣습니다.
@@ -216,7 +216,7 @@ bool UI_Dispensation::SelectThis(std::string_view _ItemName, int _ItemCount)
 }
 
 // 남는 슬롯이 없으면 -1을 반환합니다.
-int UI_Dispensation::IsEmptySlot()
+int UI_Dispensation::ReturnEmptySlot()
 {
 	for (int i = 0; i < m_DispensationSlotInfo.size(); i++)
 	{
@@ -229,13 +229,13 @@ int UI_Dispensation::IsEmptySlot()
 	return -1;
 }
 
-DispensationSlotInfo* UI_Dispensation::Find(std::string_view _ItemName)
+// 아이템을 찾아서 슬롯을 반환해줍니다.
+DispensationSlotInfo* UI_Dispensation::FindSlot(std::string_view _ItemName)
 {
 	for (size_t i = 0; i < m_DispensationSlotInfo.size(); i++)
 	{
 		DispensationSlotInfo& Info = m_DispensationSlotInfo[i];
-
-		if ("" != Info.ItemName)
+		if (Info.ItemName == _ItemName)
 		{
 			return &Info;
 		}
@@ -244,10 +244,11 @@ DispensationSlotInfo* UI_Dispensation::Find(std::string_view _ItemName)
 	return nullptr;
 }
 
+
 // 선택된 슬롯을 해줍니다.
 bool UI_Dispensation::UnSelectThis(std::string_view _ItemName)
 {
-	DispensationSlotInfo* Info = Find(_ItemName);
+	DispensationSlotInfo* Info = FindSlot(_ItemName);
 	if (nullptr == Info)
 	{
 		return false;
