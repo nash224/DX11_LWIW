@@ -15,7 +15,6 @@ GameEngineFile::~GameEngineFile()
 	}
 }
 
-
 GameEngineFile::GameEngineFile(const std::string& _path)
 	: GameEnginePath(_path)
 {
@@ -23,7 +22,7 @@ GameEngineFile::GameEngineFile(const std::string& _path)
 }
 
 
-void GameEngineFile::Open(FileOpenType _OpenType, FileDataType _DataType, bool _IsStartAllData)
+void GameEngineFile::Open(FileOpenType _OpenType, FileDataType _DataType)
 {
 
 	// C시절부터 내려오는 할아버지 함수를 사용할 겁니다.
@@ -68,11 +67,17 @@ void GameEngineFile::Open(FileOpenType _OpenType, FileDataType _DataType, bool _
 	OpenType = _OpenType;
 	DataType = _DataType;
 
-	if (true == _IsStartAllData)
+
+	if (false == IsExits() && OpenType == FileOpenType::Read)
 	{
-		Serializer.BufferResize(GetFileSize<size_t>());
-		Read(Serializer.GetDataPtr<void>(), Serializer.GetBufferSize());
+		MsgBoxAssert("존재하지 않는 파일을 열어서 읽으려고 해습니다.");
 	}
+}
+
+void GameEngineFile::DataAllRead(class GameEngineSerializer& _Data)
+{
+	_Data.BufferResize(GetFileSize<size_t>());
+	Read(_Data.GetDataPtr<void>(), _Data.GetBufferSize());
 }
 
 void GameEngineFile::Read(void* _Data, size_t _Size)
@@ -103,7 +108,24 @@ uintmax_t GameEngineFile::GetFileSize()
 	return std::filesystem::file_size(Path);
 }
 
-std::string_view GameEngineFile::GetStringView()
+void GameEngineFile::Write(class GameEngineSerializer& _Data)
 {
-	return Serializer.GetDataPtr<const char>();
+	Write(_Data.GetDataPtr<void>(), _Data.GetBufferSize());
+}
+
+// 파일에서 데이터를 쓴다.
+void GameEngineFile::Write(void* _Data, size_t _Size)
+{
+	if (nullptr == FilePtr)
+	{
+		MsgBoxAssert("열리지 않은 파일을 읽으려고 했습니다. Open을 먼저 실행해주세요.");
+	}
+
+	if (OpenType != FileOpenType::Write)
+	{
+		MsgBoxAssert("쓰기 모드로 열리지 않은 파일입니다.");
+	}
+
+	fwrite(_Data, _Size, 1, FilePtr);
+
 }

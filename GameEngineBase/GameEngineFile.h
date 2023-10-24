@@ -34,10 +34,15 @@ public:
 	//GameEngineFile& operator=(GameEngineFile&& _Other) noexcept = delete;
 
 	// 운영체제에게 허락을 맡아서 이 파일을 이제부터 편집하거나 읽겠습니다.
-	void Open(FileOpenType _OpenType, FileDataType _DataType, bool _IsStartAllData = true);
+	void Open(FileOpenType _OpenType, FileDataType _DataType);
+
+	// 파일에서 데이터를 읽어드린다.
+	void DataAllRead(class GameEngineSerializer& _Data);
 
 	// 파일에서 데이터를 읽어드린다.
 	void Read(void* _Data, size_t _Size);
+
+	void Write(class GameEngineSerializer& _Data);
 
 	// 파일에서 데이터를 쓴다.
 	void Write(void* _Data, size_t _Size);
@@ -51,7 +56,7 @@ public:
 
 	uintmax_t GetFileSize();
 
-	std::string_view GetStringView();
+	// std::string_view GetStringView();
 
 protected:
 
@@ -59,6 +64,5 @@ private:
 	FILE* FilePtr = nullptr;
 	FileOpenType OpenType;
 	FileDataType DataType;
-	GameEngineSerializer Serializer;
 };
 

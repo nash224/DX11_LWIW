@@ -18,11 +18,11 @@
 #include "GameEngineBlend.h"
 #include "GameEngineConstantBuffer.h"
 
-GameEngineRenderer::GameEngineRenderer()
+GameEngineRenderer::GameEngineRenderer() 
 {
 }
 
-GameEngineRenderer::~GameEngineRenderer()
+GameEngineRenderer::~GameEngineRenderer() 
 {
 }
 
