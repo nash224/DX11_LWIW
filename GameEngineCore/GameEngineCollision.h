@@ -4,7 +4,7 @@
 #include <vector>
 #include <set>
 
-class EventParameter 
+class EventParameter
 {
 public:
 	std::function<void(class GameEngineCollision* _This, class GameEngineCollision* _Collisions)> Enter = nullptr;
@@ -73,6 +73,14 @@ public:
 
 
 	bool CollisionEvent(int _Order, const EventParameter& _Event);
+
+	template<typename EnumType>
+	bool CollisionEvent(EnumType _Order, float4 _EndLine, const EventParameter& _Event)
+	{
+		return CollisionLineEvent(static_cast<int>(_Order), _EndLine, _Event);
+	}
+
+	bool CollisionLineEvent(int _Order, float4 _EndLine, const EventParameter& _Event);
 
 	// bool CollisionEnter(int _Order, const float4& _Next, std::function<void(std::vector<std::shared_ptr<GameEngineCollision>>& _Collisions)> _Collision);
 
