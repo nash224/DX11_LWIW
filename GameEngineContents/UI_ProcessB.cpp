@@ -165,7 +165,7 @@ void UI_ProcessB::JuicyThis()
 	// ¾Ù¸® »óÅÂ
 	if (nullptr != Ellie::MainEllie)
 	{
-		Ellie::MainEllie->WaitDone();
+		Ellie::MainEllie->WaitDone(EELLIE_STATE::Juicy);
 	}
 
 	if (nullptr == UI_Inventory::MainInventory)

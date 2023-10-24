@@ -93,7 +93,7 @@ void UI_ProductPage::CreatePage(std::string_view _ProduectName, int& PageCount)
 	m_ProductPageComposition.ItemSpace1->Transform.AddLocalPosition(CompositionPosition);
 
 	m_ProductPageComposition.ItemSlot1 = CreateComponent<GameEngineUIRenderer>();
-	m_ProductPageComposition.ItemSlot1->SetSprite(Data->Material1 + ".png");
+	m_ProductPageComposition.ItemSlot1->SetSprite(Data->Material[0].MaterialName + ".png");
 	CompositionPosition = { 79.0f , 45.0f  , GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Component) };
 	m_ProductPageComposition.ItemSlot1->Transform.AddLocalPosition(CompositionPosition);
 
@@ -103,11 +103,11 @@ void UI_ProductPage::CreatePage(std::string_view _ProduectName, int& PageCount)
 	m_ProductPageComposition.ItemSpace2->Transform.AddLocalPosition(CompositionPosition);
 
 	m_ProductPageComposition.ItemSlot2 = CreateComponent<GameEngineUIRenderer>();
-	m_ProductPageComposition.ItemSlot2->SetSprite(Data->Material2 + ".png");
+	m_ProductPageComposition.ItemSlot2->SetSprite(Data->Material[1].MaterialName + ".png");
 	CompositionPosition = { 79.0f , 45.0f - CONST_ItemSpaceGap , GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Component) };
 	m_ProductPageComposition.ItemSlot2->Transform.AddLocalPosition(CompositionPosition);
 
-	if ("" != Data->Material3)
+	if ("" != Data->Material[2].MaterialName)
 	{
 		m_ProductPageComposition.ItemSpace3 = CreateComponent<GameEngineUIRenderer>();
 		m_ProductPageComposition.ItemSpace3->SetSprite("Inventory_Empty_Slot.png"); 
@@ -115,7 +115,7 @@ void UI_ProductPage::CreatePage(std::string_view _ProduectName, int& PageCount)
 		m_ProductPageComposition.ItemSpace3->Transform.AddLocalPosition({ 79.0f , 45.0f - CONST_ItemSpaceGap * 2.0f });
 
 		m_ProductPageComposition.ItemSlot3 = CreateComponent<GameEngineUIRenderer>();
-		m_ProductPageComposition.ItemSlot3->SetSprite(Data->Material3 + ".png");
+		m_ProductPageComposition.ItemSlot3->SetSprite(Data->Material[2].MaterialName + ".png");
 		CompositionPosition = { 79.0f , 45.0f - CONST_ItemSpaceGap * 2.0f , GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Component) };
 		m_ProductPageComposition.ItemSlot3->Transform.AddLocalPosition({ 79.0f , 45.0f - CONST_ItemSpaceGap * 2.0f });
 	}

@@ -79,6 +79,9 @@ void ContentsCore::LoadContentsData()
 	ItemData::CreateData("WitchFlower_Collect", { "WitchFlower_Collect", "¸¶³àÀÇ ²É", EITEM_TYPE::Ingredient });
 	ItemData::CreateData("FlowerBird_Collect", { "FlowerBird_Collect", "²É", EITEM_TYPE::Ingredient});
 
+	// Æ÷¼Ç
+	ItemData::CreateData("BadGrassPotion", { "BadGrassPotion", "³ª»Û Ç® Á¦°Å¹°¾à", EITEM_TYPE::Ingredient});
+
 	// ¼ö¸®Àç·á 
 	ItemData::CreateData("Branch_Collect", { "Branch_Collect", "³ª¹µ°¡Áö", EITEM_TYPE::RepairMaterial });
 
@@ -111,13 +114,13 @@ void ContentsCore::LoadContentsData()
 	BiologyData::CreateData("MapleHerb", { "MapleHerb", "´ÜÇ³ Çãºê", "´ÜÇ³ Çãºê", ETOOLTYPE::Gloves, EECOLOGYTYPE::GreenForest, EECOLOGYTYPE::ForestPlateau, EECOLOGYTYPE::AllDay });
 
 	// ¹°¾à
-	ProductRecipeData::CreateData("BadGrassPotion", { "BadGrassPotion", "³ª»Û Ç® Á¦°Å ¹°¾à", EBREWING_DIFFICULTY::Easy, EBREWING_DIRECTION::StirNone, EBREWING_FIRE::Four, "Mongsiri_Water", 2, "WitchFlower_Water", 2 });
-	ProductRecipeData::CreateData("NutritionPotion", { "NutritionPotion", "Ç® ¼ºÀå ¹°¾à", EBREWING_DIFFICULTY::Normal, EBREWING_DIRECTION::StirRight, EBREWING_FIRE::Three, "SilverStarFlower_Water", 2, "MapleHerb_Water", 2, "BushBug_Water", 2 });
-	ProductRecipeData::CreateData("FirecrackerPotion", { "FirecrackerPotion", "ºÒ²É³îÀÌ ¹°¾à", EBREWING_DIFFICULTY::Hard, EBREWING_DIRECTION::StirRight, EBREWING_FIRE::Three, "PumpkinTerrier_Powder", 2, "FlowerBird_Water", 2, "MoonButterfly_Water", 2 });
+	ProductRecipeData::CreateData("BadGrassPotion", { "BadGrassPotion", "³ª»Û Ç® Á¦°Å ¹°¾à", EBREWING_DIFFICULTY::Easy, EBREWING_DIRECTION::StirNone, EBREWING_FIRE::Four, "Mongsiri_Water", 1, "WitchFlower_Water", 1 });
+	ProductRecipeData::CreateData("NutritionPotion", { "NutritionPotion", "Ç® ¼ºÀå ¹°¾à", EBREWING_DIFFICULTY::Normal, EBREWING_DIRECTION::StirRight, EBREWING_FIRE::Three, "SilverStarFlower_Water", 1, "MapleHerb_Water", 1, "BushBug_Water", 1 });
+	ProductRecipeData::CreateData("FirecrackerPotion", { "FirecrackerPotion", "ºÒ²É³îÀÌ ¹°¾à", EBREWING_DIFFICULTY::Hard, EBREWING_DIRECTION::StirRight, EBREWING_FIRE::Three, "PumpkinTerrier_Powder", 1, "FlowerBird_Water", 1, "MoonButterfly_Water", 1 });
 
 	// »çÅÁ
-	ProductRecipeData::CreateData("UncurseCandy", { "UncurseCandy", "´ÜÇ³ Çãºê", EBREWING_DIFFICULTY::Easy, EBREWING_DIRECTION::StirNone, EBREWING_FIRE::Three, "Mongsiri_Water", 2, "MapleHerb_Water", 2 });
-	ProductRecipeData::CreateData("HealingCandy", { "HealingCandy", "Ä¡·á »çÅÁ", EBREWING_DIFFICULTY::Easy, EBREWING_DIRECTION::StirRight, EBREWING_FIRE::Four, "WitchFlower_Water", 2, "MapleHerb_Water", 2 });
+	ProductRecipeData::CreateData("UncurseCandy", { "UncurseCandy", "´ÜÇ³ Çãºê", EBREWING_DIFFICULTY::Easy, EBREWING_DIRECTION::StirNone, EBREWING_FIRE::Three, "Mongsiri_Water", 1, "MapleHerb_Water", 1 });
+	ProductRecipeData::CreateData("HealingCandy", { "HealingCandy", "Ä¡·á »çÅÁ", EBREWING_DIFFICULTY::Easy, EBREWING_DIRECTION::StirRight, EBREWING_FIRE::Four, "WitchFlower_Water", 1, "MapleHerb_Water", 1 });
 }
 
 

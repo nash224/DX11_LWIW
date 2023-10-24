@@ -240,7 +240,7 @@ private:
 
 	// Çàµ¿
 	EELLIE_STATE m_State = EELLIE_STATE::None;
-	EELLIE_STATE m_WaitState = EELLIE_STATE::Juicy;
+	EELLIE_STATE m_WaitState = EELLIE_STATE::None;
 
 
 

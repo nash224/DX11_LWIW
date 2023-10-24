@@ -1,6 +1,13 @@
 #pragma once
 #include "ContentsResource.h"
 
+class MaterialInfo
+{
+public:
+	std::string MaterialName;
+	unsigned int MaterialCount;
+};
+
 
 // 설명 : 재료가공 레시피 데이터입니다.
 class ProductRecipeData final : public ContentsResource<ProductRecipeData>
@@ -29,15 +36,15 @@ public:
 		KoreanName(_KoreanName),
 		Star(_Star),
 		Ladle(_Ladle),
-		Fire(_Fire),
-		Material1(_Material1),
-		Material1Count(_Material1Count),
-		Material2(_Material2),
-		Material2Count(_Material2Count),
-		Material3(_Material3),
-		Material3Count(_Material3Count)
+		Fire(_Fire)
 	{
-
+		Material.resize(3);
+		Material[0].MaterialName = _Material1;
+		Material[0].MaterialCount = _Material1Count;
+		Material[1].MaterialName = _Material2;
+		Material[1].MaterialCount = _Material2Count;
+		Material[2].MaterialName = _Material3;
+		Material[2].MaterialCount = _Material3Count;
 	}
 
 
@@ -54,34 +61,35 @@ public:
 			return false;
 		}
 
-		if (_Other->Material1 != Material1)
+		std::vector<MaterialInfo> CheckMaterial;
+		CheckMaterial.resize(3);
+		for (size_t i = 0; i < CheckMaterial.size(); i++)
 		{
-			return false;
+			CheckMaterial[i] = Material[i];
 		}
+		
 
-		if (_Other->Material1Count > Material1Count)
+		for (size_t MCount = 0; MCount < _Other->Material.size(); MCount++)
 		{
-			return false;
-		}
+			bool IsCollect = false;
 
-		if (_Other->Material2 != Material2)
-		{
-			return false;
-		}
+			for (size_t RCount = 0; RCount < CheckMaterial.size(); RCount++)
+			{
+				if (CheckMaterial[RCount].MaterialName == _Other->Material[MCount].MaterialName)
+				{
+					if (CheckMaterial[RCount].MaterialCount >= _Other->Material[MCount].MaterialCount)
+					{
+						CheckMaterial.erase(CheckMaterial.begin() + RCount);
+						IsCollect = true;
+						break;
+					}
+				}
+			}
 
-		if (_Other->Material2Count > Material2Count)
-		{
-			return false;
-		}
-
-		if (_Other->Material3 != Material3)
-		{
-			return false;
-		}
-
-		if (_Other->Material3Count > Material3Count)
-		{
-			return false;
+			if (false == IsCollect)
+			{
+				return false;
+			}
 		}
 
 		return true;
@@ -101,11 +109,6 @@ public:
 	EBREWING_DIFFICULTY Star = EBREWING_DIFFICULTY::Easy;
 	EBREWING_DIRECTION Ladle = EBREWING_DIRECTION::StirNone;
 	EBREWING_FIRE Fire = EBREWING_FIRE::Three;
-	std::string Material1;
-	unsigned int Material1Count;
-	std::string Material2;
-	unsigned int Material2Count;
-	std::string Material3;
-	unsigned int Material3Count;
+	std::vector<MaterialInfo> Material;
 };
 

@@ -29,6 +29,7 @@ void Ellie::Update(float _Delta)
 	UpdateTestCode();
 	UpdateCollision();
 	UpdateOutPutDebug(_Delta);
+
 }
 
 void Ellie::UpdateTestCode()
@@ -413,10 +414,7 @@ void Ellie::CancleComponent()
 // 일반적인 경우 None으로 설정했습니다.
 void Ellie::WaitDone(EELLIE_STATE _State)
 {
-	if (EELLIE_STATE::None == m_WaitState)
-	{
-		m_WaitState = _State;
-	}
+	ChangeState(_State);
 	IsWaitDone = true;
 }
 

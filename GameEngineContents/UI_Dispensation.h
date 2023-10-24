@@ -21,6 +21,7 @@ public:
 class UI_Dispensation : public UI_ToggleActor
 {
 public:
+	class AlchemyPot* AlchemyPotPtr = nullptr;
 	static UI_Dispensation* MainDispensation;
 
 public:
@@ -54,6 +55,8 @@ public:
 	void Dispensation();
 	bool CheckDispensation(const class ProductRecipeData& _Data);
 
+	void PopDispensationMaterial(std::string_view _ItemName, int ItemCount);
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -84,6 +87,8 @@ private:
 	std::shared_ptr<GameEngineUIRenderer> Direction_Clockwise = nullptr;
 
 	std::vector<DispensationSlotInfo> m_DispensationSlotInfo;
+
+	std::string CreatedProductName = "";
 
 	EBREWING_FIRE CurFire = EBREWING_FIRE::Three;
 	EBREWING_DIRECTION CurDirection = EBREWING_DIRECTION::StirNone;

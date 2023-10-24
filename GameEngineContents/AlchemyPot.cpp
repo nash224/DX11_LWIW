@@ -3,6 +3,9 @@
 
 #include "UI_Dispensation.h"
 
+#include "UI_Inventory.h"
+#include "Ellie.h"
+
 
 
 AlchemyPot::AlchemyPot() 
@@ -19,6 +22,7 @@ void AlchemyPot::Start()
 	CreateAndSetCollision(ECOLLISION::Entity, { 160.0f , 100.0f }, float4(0.0f, -100.0f), ColType::SPHERE2D);
 	SetInteractionType(EINTERACTION_TYPE::Far);
 	SetInteractionButtonType(EINTERACTION_BUTTONTYPE::Gear);
+	m_CollectionMethod = ECOLLECTION_METHOD::AlchemyPot;
 	m_CollectionTool = ETOOLTYPE::Nothing;
 }
 
@@ -108,9 +112,31 @@ void AlchemyPot::RendererSetting()
 
 
 	m_FxRenderer->CreateAnimation("Fail", "Pot_Fx_Fail.png", 0.1f, 0, 18, false);
+	m_FxRenderer->SetFrameEvent("Fail", 9, [&](GameEngineSpriteRenderer* _Renderer)
+		{
+			if (nullptr == Ellie::MainEllie)
+			{
+				MsgBoxAssert("앨리가 존재하지 않습니다.");
+				return;
+			}
+
+			Ellie::MainEllie->WaitDone(EELLIE_STATE::Fail);
+		});
 	m_FxRenderer->SetEndEvent("Fail", std::bind(&AlchemyPot::EndPotionCreation, this));
+
 	m_FxRenderer->CreateAnimation("Success", "Pot_Fx_Success.png", 0.1f, 0, 21, false);
+	m_FxRenderer->SetFrameEvent("Success", 16, [&](GameEngineSpriteRenderer* _Renderer)
+		{
+			if (nullptr == Ellie::MainEllie)
+			{
+				MsgBoxAssert("앨리가 존재하지 않습니다.");
+				return;
+			}
+
+			Ellie::MainEllie->WaitDone(EELLIE_STATE::Cheer);
+		});
 	m_FxRenderer->SetEndEvent("Success", std::bind(&AlchemyPot::EndPotionCreation, this));
+
 	m_FxRenderer->AutoSpriteSizeOn();
 	m_FxRenderer->Off();
 
@@ -133,9 +159,10 @@ void AlchemyPot::RendererSetting()
 }
 
 
-void AlchemyPot::SetCreatePotion(const bool _Value)
+void AlchemyPot::DispensatePotion(std::string_view _CraftedPotionName)
 {
-	IsPotionCreated = _Value;
+	CraftedPotion = _CraftedPotionName;
+	ChangeState(EPOTSTATE::Boil);
 }
 
 
@@ -170,6 +197,25 @@ void AlchemyPot::ChangeState(EPOTSTATE _State)
 {
 	if (_State != m_State)
 	{
+		switch (m_State)
+		{
+		case EPOTSTATE::None:
+			break;
+		case EPOTSTATE::Idle:
+			break;
+		case EPOTSTATE::Boil:
+			break;
+		case EPOTSTATE::Fail:
+			break;
+		case EPOTSTATE::Success:
+			EndSuccess();
+			break;
+		default:
+			break;
+		}
+
+
+
 		switch (_State)
 		{
 		case EPOTSTATE::Idle:
@@ -223,6 +269,7 @@ void AlchemyPot::UpdateIdle(float _Delta)
 			return;
 		}
 
+		m_Dispensation->AlchemyPotPtr = this;
 		m_Dispensation->Open();
 	}
 }
@@ -238,8 +285,6 @@ void AlchemyPot::StartBoil()
 
 	m_FxRenderer->On();
 
-	IsPotionCreated = true;
-
 	ChangePotCompositionAnimation("Boil");
 }
 
@@ -247,7 +292,7 @@ void AlchemyPot::UpdateBoil(float _Delta)
 {
 	if (nullptr != m_FxRenderer && true == m_FxRenderer->IsCurAnimationEnd())
 	{
-		if (true == IsPotionCreated)
+		if ("" != CraftedPotion)
 		{
 			ChangeState(EPOTSTATE::Success);
 			return;
@@ -291,6 +336,20 @@ void AlchemyPot::UpdateSuccess(float _Delta)
 }
 
 
+void AlchemyPot::EndSuccess()
+{
+	if (nullptr == UI_Inventory::MainInventory)
+	{
+		MsgBoxAssert("인벤토리를 모르고 아이템을 넣을 수 없습니다.");
+		return;
+	}
+
+	// 아이템 넣기
+	UI_Inventory::MainInventory->PushItem(CraftedPotion);
+
+	CraftedPotion = "";
+}
+
 
 
 void AlchemyPot::EndPotionCreation()
@@ -320,5 +379,11 @@ void AlchemyPot::EndPotionCreation()
 
 	m_FxRenderer->Off();
 
-	IsPotionCreated = false;
+	if (nullptr == m_Dispensation)
+	{
+		MsgBoxAssert("연금페이지가 존재하지 않는데 사용하려 했습니다.");
+		return;
+	}
+
+	m_Dispensation->Close();
 }

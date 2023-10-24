@@ -15,6 +15,9 @@ enum class EPOTSTATE
 // Ό³Έν :
 class AlchemyPot : public StaticEntity
 {
+private:
+	std::shared_ptr<class UI_Dispensation> m_Dispensation = nullptr;
+
 public:
 	// constrcuter destructer
 	AlchemyPot();
@@ -31,7 +34,7 @@ public:
 	void RendererSetting();
 	void DispensationSetting();
 
-	void SetCreatePotion(const bool _Value);
+	void DispensatePotion(std::string_view _CraftedPotionName);
 
 
 protected:
@@ -40,9 +43,6 @@ protected:
 	void Release() override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
-
-public:
-
 
 private:
 	void UpdateState(float _Delta);
@@ -60,6 +60,7 @@ private:
 
 	void StartSuccess();
 	void UpdateSuccess(float _Delta);
+	void EndSuccess();
 
 	void EndPotionCreation();
 
@@ -71,12 +72,8 @@ private:
 	std::shared_ptr<GameEngineSpriteRenderer> m_FireRenderer;
 	std::shared_ptr<GameEngineSpriteRenderer> m_SteamRenderer;
 
-
-private:
 	EPOTSTATE m_State = EPOTSTATE::None;
 
-	std::shared_ptr<class UI_Dispensation> m_Dispensation = nullptr;
-
-	bool IsPotionCreated = false;
+	std::string CraftedPotion = "";
 };
 

@@ -6,6 +6,7 @@
 
 #include "ProductRecipeData.h"
 
+#include "AlchemyPot.h"
 #include "Ellie.h"
 
 
@@ -45,6 +46,7 @@ void UI_Dispensation::Release()
 	Direction_None = nullptr;
 	Direction_CounterClockwise = nullptr;
 	Direction_Clockwise = nullptr;
+	AlchemyPotPtr = nullptr;
 
 	m_DispensationSlotInfo.clear();
 }
@@ -282,38 +284,37 @@ void UI_Dispensation::ClearSlotInfo()
 // 래시피가 일치하면 연금을 합니다.
 void UI_Dispensation::Dispensation()
 {
-	// 앨리 상태
-	if (nullptr != Ellie::MainEllie)
-	{
-		Ellie::MainEllie->WaitDone();
-	}
-
 	ProductRecipeData CurRecipeData = {"", "", EBREWING_DIFFICULTY::Normal, CurDirection, CurFire, 
 		m_DispensationSlotInfo[0].ItemName, m_DispensationSlotInfo[0].ItemCount,
 		m_DispensationSlotInfo[1].ItemName, m_DispensationSlotInfo[1].ItemCount,
 		m_DispensationSlotInfo[2].ItemName, m_DispensationSlotInfo[2].ItemCount };
 
-	// 연금결과의 분기입니다
-	if (false == CheckDispensation(CurRecipeData))
+	// 연금 레시피와 일치하는게 있으면
+	if (true == CheckDispensation(CurRecipeData))
 	{
-
+		for (size_t i = 0; i < m_DispensationSlotInfo.size(); i++)
+		{
+			// 해당 아이템을 뺴줌
+			PopDispensationMaterial(m_DispensationSlotInfo[i].ItemName, m_DispensationSlotInfo[i].ItemCount);
+		}
 	}
 	else
 	{
-		//UI_Inventory::MainInventory->PopItem(m_ProcessBSourceInfo.ScrName, 2);
-
-		//if (nullptr == ProcessManager)
-		//{
-		//	MsgBoxAssert("가공 매니저가 존재하지 않습니다.");
-		//	return;
-		//}
-
-		//ProcessManager->CreatedProductName = m_ProcessBProductInfo.ProductName;
+		CreatedProductName = "";
 	}
 
-
+	// 포션제작하라고 한다.
+	AlchemyPotPtr->DispensatePotion(CreatedProductName);
 
 	Off();
+
+	if (nullptr == UI_Inventory::MainInventory)
+	{
+		MsgBoxAssert("인벤토리를 모릅니다.");
+		return;
+	}
+
+	UI_Inventory::MainInventory->Off();
 }
 
 // 일치하는 레시피가 있는지 검사합니다.
@@ -325,11 +326,27 @@ bool UI_Dispensation::CheckDispensation(const ProductRecipeData& _Data)
 		std::shared_ptr<ProductRecipeData> Recpie = Data.second;
 		if (_Data == Recpie.get())
 		{
+			CreatedProductName = Recpie->ProductName;
 			return true;
 		}
 	}
 
 	return false;
+}
+
+// 연금된 아이템을 제거합니다.
+void UI_Dispensation::PopDispensationMaterial(std::string_view _ItemName, int ItemCount)
+{
+	if ("" != _ItemName)
+	{
+		if (nullptr == UI_Inventory::MainInventory)
+		{
+			MsgBoxAssert("인벤토리가 존재하지 않습니다.");
+			return;
+		}
+
+		UI_Inventory::MainInventory->PopItem(_ItemName, ItemCount);
+	}
 }
 
 

@@ -337,7 +337,6 @@ void Ellie::UpdateApproach(float _Delta)
 
 		if (ECOLLECTION_METHOD::Juicy == OtherEntity->GetCollectionMethod())
 		{
-			m_WaitState = EELLIE_STATE::Juicy;
 			ChangeState(EELLIE_STATE::Wait);
 			return;
 		}

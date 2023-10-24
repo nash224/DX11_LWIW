@@ -57,9 +57,9 @@ void Inventory::PushItem(std::string_view _ItemName, unsigned int _Count)
 void Inventory::PopItem(std::string_view _ItemName, unsigned int _Count)
 {
 	InventoryInfo* SlotInfo = Find(_ItemName);
- 	int SlotNumber = SlotInfo->ItemCount;
+ 	int SlotNumber = ReturnSlotNumber(_ItemName);
 	InventoryData[SlotNumber].ItemCount -= _Count;
-	if (0 == InventoryData[SlotNumber].ItemCount)
+	if (0 <= InventoryData[SlotNumber].ItemCount)
 	{
 		ClearData(SlotNumber);
 	}

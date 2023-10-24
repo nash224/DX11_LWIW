@@ -45,8 +45,8 @@ enum class EDICTIONARYCATEGORY				// »çÀü
 
 enum class EBREWING_DIRECTION
 {
-	StirRight,
 	StirNone,
+	StirRight,
 	StirLeft,
 };
 
