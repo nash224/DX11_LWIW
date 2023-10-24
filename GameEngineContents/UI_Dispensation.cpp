@@ -180,6 +180,11 @@ void UI_Dispensation::Reset()
 	
 }
 
+void UI_Dispensation::SelectThis(std::string_view _ItemName, int _ItemCount)
+{
+	
+}
+
 // 래시피가 일치하면 연금을 합니다.
 void UI_Dispensation::DispensationThis()
 {

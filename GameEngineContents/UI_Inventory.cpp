@@ -3,6 +3,7 @@
 
 
 #include "UI_DropManager.h"
+#include "UI_Dispensation.h"
 
 // 데이터 배열은 1차원 배열로 설정합니다.
 void Inventory::Init()
@@ -866,25 +867,25 @@ void UI_Inventory::UpdateDispensation(float _Delta, GameEngineState* _Parent)
 		return;
 	}
 
-	if (true == UpdateSelect())
+	if (true == UpdateDispensationSelect())
 	{
 		return;
 	}
 }
 
 
-bool UI_Inventory::UpdateSelect()
+bool UI_Inventory::UpdateDispensationSelect()
 {
 	if (true == GameEngineInput::IsDown('Z', this))
 	{
 		int SelectNumber = IsSelect();
 		if (-1 == SelectNumber)
 		{
-			SelectThis();
+			DispensationSelectThis();
 		}
 		else
 		{
-			UnSelectThis(SelectNumber);
+			DispensationUnSelectThis(SelectNumber);
 		}
 
 		return true;
@@ -908,7 +909,7 @@ int UI_Inventory::IsSelect()
 	return -1;
 }
 
-void UI_Inventory::SelectThis()
+void UI_Inventory::DispensationSelectThis()
 {
 	int EmptySlotNumber = IsEmptySelectSlot();
 
@@ -925,6 +926,14 @@ void UI_Inventory::SelectThis()
 		// 저장된 아이템이 없으면 
 		if ("" != InventoryData.SourceName)
 		{
+			if (nullptr == UI_Dispensation::MainDispensation)
+			{
+				MsgBoxAssert("메인 연금 페이지를 모릅니다.");
+				return;
+			}
+
+			UI_Dispensation::MainDispensation->SelectThis(InventoryData.SourceName, InventoryData.ItemCount);
+
 			SelectItem[EmptySlotNumber].ItemName = InventoryData.SourceName;
 			SelectItem[EmptySlotNumber].SelectCount = m_CurrentSlotX * m_CurrentSlotY;
 
@@ -951,7 +960,7 @@ int UI_Inventory::IsEmptySelectSlot()
 	return -1;
 }
 
-void UI_Inventory::UnSelectThis(int _SlotNumber)
+void UI_Inventory::DispensationUnSelectThis(int _SlotNumber)
 {
 	SelectItem[_SlotNumber].ItemName = "";
 	SelectItem[_SlotNumber].Cursor->Off();
@@ -962,6 +971,6 @@ void UI_Inventory::UnSelectAll()
 {
 	for (int i = 0; i < SelectItem.size(); i++)
 	{
-		UnSelectThis(i);
+		DispensationUnSelectThis(i);
 	}
 }

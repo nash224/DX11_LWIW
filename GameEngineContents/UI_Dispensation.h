@@ -42,6 +42,7 @@ public:
 
 	void Reset();
 
+	void SelectThis(std::string_view _ItemName, int _ItemCount);
 	void DispensationThis();
 	bool CheckDispensation(const class ProductRecipeData& _Data);
 
@@ -60,6 +61,7 @@ private:
 	void PrevDirection();
 	void NextDirection();
 	void ChangeAllDirectionReset();
+
 
 private:
 	std::shared_ptr<GameEngineUIRenderer> m_Base = nullptr;

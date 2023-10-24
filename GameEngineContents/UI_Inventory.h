@@ -165,6 +165,7 @@ private:
 	float4 CalculateIndexToPos(const size_t _x, const size_t _y);
 	void CursorThis(const unsigned int _X, const unsigned int _Y);
 
+	// 슬롯 클리어
 	void ClearSlot(const unsigned int _X, const unsigned int _Y);
 	void EraseSlotImg(const int _X, const int _Y);
 	void ClearAllSlotImg();
@@ -209,9 +210,9 @@ private:
 private:
 	// 외부
 	void UpdateDispensation(float _Delta, GameEngineState* _Parent);
-	bool UpdateSelect();
-	void SelectThis();
-	void UnSelectThis(int _SlotNumber);
+	bool UpdateDispensationSelect();
+	void DispensationSelectThis();
+	void DispensationUnSelectThis(int _SlotNumber);
 
 	int IsSelect();
 	int IsEmptySelectSlot();
