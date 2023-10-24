@@ -39,10 +39,7 @@ void BackDrop_WitchHouse_Yard::LevelStart(class GameEngineLevel* _NextLevel)
 
 void BackDrop_WitchHouse_Yard::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-	vecProps.clear();
-	m_BackProp.clear();
-	vecPixelProps.clear();
-	vecPortalObject.clear();
+	BackDrop_PlayLevel::LevelEnd(_NextLevel);
 
 
 	GameEngineDirectory Dir;
@@ -88,8 +85,6 @@ void BackDrop_WitchHouse_Yard::Init()
 
 void BackDrop_WitchHouse_Yard::CreateFlooring()
 {
-	m_BackProp.reserve(100);
-
 	{
 		float4 CenterPosition = GlobalValue::GetWindowScale().Half();
 		CenterPosition.Y *= -1.0f;
@@ -105,8 +100,6 @@ void BackDrop_WitchHouse_Yard::CreateFlooring()
 		Renderer->Transform.SetLocalPosition(CenterPosition);
 		Renderer->SetSprite("GroundBase.png");
 		Renderer->SetImageScale(GlobalValue::GetWindowScale());
-
-		m_BackProp.push_back(Renderer);
 	}
 }
 

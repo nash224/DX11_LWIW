@@ -101,13 +101,6 @@ void PlayLevel::ChangeDebugMode()
 		if (true == GameEngineInput::IsDown(VK_F2, this))
 		{
 			PixelDebugMode = !PixelDebugMode;
-			if (nullptr == BackDrop_PlayLevel::MainBackDrop)
-			{
-				MsgBoxAssert("글로벌 액터가 존재하지 않습니다.");
-				return;
-			}
-
-			BackDrop_PlayLevel::MainBackDrop->EnableDebugMode(PixelDebugMode);
 		}
 	}
 	else
@@ -115,13 +108,6 @@ void PlayLevel::ChangeDebugMode()
 		if (true == PixelDebugMode)
 		{
 			PixelDebugMode = false;
-
-			if (nullptr == BackDrop_PlayLevel::MainBackDrop)
-			{
-				MsgBoxAssert("글로벌 액터가 존재하지 않습니다.");
-				return;
-			}
-			BackDrop_PlayLevel::MainBackDrop->EnableDebugMode(PixelDebugMode);
 		}
 	}
 }

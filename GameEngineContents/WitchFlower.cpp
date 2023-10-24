@@ -161,8 +161,5 @@ void WitchFlower::ChildUpRoot()
 		return;
 	}
 
-	std::list<std::shared_ptr<class StaticEntity>>& Struct = BackDrop_PlayLevel::MainBackDrop->GetStaticEntityList();
-	Struct.remove(GetDynamic_Cast_This<WitchFlower>());
-
 	Death();
 }

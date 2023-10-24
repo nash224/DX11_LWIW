@@ -36,12 +36,7 @@ void BackDrop_WitchHouse_UpFloor::LevelStart(class GameEngineLevel* _NextLevel)
 
 void BackDrop_WitchHouse_UpFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-	m_BackProp.clear();
-	vecProps.clear();
-	PixelVec.clear();
-	vecPixelProps.clear();
-	vecPortalObject.clear();
-
+	BackDrop_PlayLevel::LevelEnd(_NextLevel);
 
 	GameEngineDirectory Dir;
 	Dir.MoveParentToExistsChild("Resources");

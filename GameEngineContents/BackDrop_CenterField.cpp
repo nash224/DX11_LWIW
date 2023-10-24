@@ -93,8 +93,6 @@ void BackDrop_CenterField::TestPorp()
 
 void BackDrop_CenterField::CreateFlooring()
 {
-	m_BackProp.reserve(100);
-
 	{
 		m_BackScale = { 1920.0f, 1080.0f };
 		float4 BasePosition = m_BackScale.Half();
@@ -111,7 +109,6 @@ void BackDrop_CenterField::CreateFlooring()
 		Renderer->SetSprite("GroundBase.png");
 		Renderer->SetImageScale(m_BackScale);
 		Renderer->Transform.SetLocalPosition(BasePosition);
-		m_BackProp.push_back(Renderer);
 	}
 
 }
@@ -213,7 +210,7 @@ void BackDrop_CenterField::CreateBush(GameEngineLevel* _Level)
 		BushObject->SetBushType(EBUSHTYPE::Bush);
 		BushObject->Init();
 
-		StaticEntityList.push_back(BushObject);
+		PixelStaticEntityVec.push_back(BushObject);
 	}
 
 	{
@@ -228,7 +225,7 @@ void BackDrop_CenterField::CreateBush(GameEngineLevel* _Level)
 		BushObject->SetBushType(EBUSHTYPE::BushApple);
 		BushObject->Init();
 
-		StaticEntityList.push_back(BushObject);
+		PixelStaticEntityVec.push_back(BushObject);
 	}
 
 	{
@@ -243,7 +240,7 @@ void BackDrop_CenterField::CreateBush(GameEngineLevel* _Level)
 		BushObject->SetBushType(EBUSHTYPE::BushBug);
 		BushObject->Init();
 
-		StaticEntityList.push_back(BushObject);
+		PixelStaticEntityVec.push_back(BushObject);
 	}
 }
 
@@ -259,8 +256,6 @@ void BackDrop_CenterField::CreateWitchFlower(GameEngineLevel* _Level)
 
 		Object->Transform.SetLocalPosition({ 300.0f , -350.0f });
 		Object->Init();
-
-		StaticEntityList.push_back(Object);
 	}
 }
 
@@ -276,8 +271,6 @@ void BackDrop_CenterField::CreateSilverStarFlower(GameEngineLevel* _Level)
 
 		Object->Transform.SetLocalPosition({ 100.0f , -450.0f });
 		Object->Init();
-
-		StaticEntityList.push_back(Object);
 	}
 }
 
@@ -293,8 +286,6 @@ void BackDrop_CenterField::CreateBranchTree(GameEngineLevel* _Level)
 
 		Object->Transform.SetLocalPosition({ 500.0f , -550.0f });
 		Object->Init();
-
-		StaticEntityList.push_back(Object);
 	}
 }
 

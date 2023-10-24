@@ -28,6 +28,7 @@ void UI_ProcessListUnit::Release()
 	Panel = nullptr;
 	ItemSlot = nullptr;
 	ItemImg = nullptr;
+	ItemMaskImg = nullptr;
 }
 
 void UI_ProcessListUnit::LevelStart(class GameEngineLevel* _NextLevel)

@@ -147,7 +147,7 @@ void UI_Drop::UpdateAwake(float _Delta, GameEngineState* _Parent)
 		Transform.SetLocalPosition( TargetPosition );
 
 		// 4번째 라인이면 정리됩니다
-		if (m_Line == 4)
+		if (m_Line >= 4)
 		{
 			if (nullptr == ManagerPtr)
 			{

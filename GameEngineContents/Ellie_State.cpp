@@ -2,58 +2,14 @@
 #include "Ellie.h"
 
 #include "BackDrop.h"
-#include "UI_Hub_Tool.h"
-#include "UI_ProcessManager.h"
+
 #include "Extractor.h"
 
-
-
-bool Ellie::InputTestPattern()
-{
-	if (true == GameEngineInput::IsDown('5', this))
-	{
-		ChangeState(EELLIE_STATE::Cheer);
-		return true;
-	}
-
-	if (true == GameEngineInput::IsDown('6', this))
-	{
-		ChangeState(EELLIE_STATE::Fail);
-		return true;
-	}
-
-	if (true == GameEngineInput::IsDown('7', this))
-	{
-		ChangeState(EELLIE_STATE::Drink);
-		return true;
-	}
-
-	if (true == GameEngineInput::IsDown('8', this))
-	{
-		ChangeState(EELLIE_STATE::Throw);
-		return true;
-	}
-
-	return false;
-}
-
-bool Ellie::UsingTool()
-{
-	if (true == GameEngineInput::IsDown('Z', this))
-	{
-		if (ETOOLTYPE::Dragonfly == UI_Hub_Tool::m_CurrentTool)
-		{
-			ChangeState(EELLIE_STATE::Net);
-			return true;
-		}
-	}
-
-	return false;
-}
+#include "UI_Hub_Tool.h"
+#include "UI_ProcessManager.h"
 
 
 
-#pragma region 기본조작
 void Ellie::StartIdle()
 {
 	if (EELLIE_STATUS::Riding == g_Status)
@@ -65,6 +21,144 @@ void Ellie::StartIdle()
 
 	ChangeAnimationByDirection("Idle");
 }
+
+void Ellie::StartSlowWalk()
+{
+	ChangeAnimationByDirection("SlowWalk");
+}
+
+void Ellie::StartWalk()
+{
+	ChangeAnimationByDirection("Walk");
+}
+
+
+void Ellie::StartRun()
+{
+	ChangeAnimationByDirection("Run");
+}
+
+void Ellie::StartThrow()
+{
+	ChangeAnimationByDirection("Throw");
+}
+
+// 접근해서 수집하는 행동입니다.
+void Ellie::StartApproach()
+{
+	if (nullptr == OtherEntity)
+	{
+		MsgBoxAssert("참조한 액터가 존재하지 않습니다.");
+		return;
+	}
+
+	// 수집타입이 몽시리일때
+	if (ECOLLECTION_METHOD::MongSiri == OtherEntity->GetCollectionMethod())
+	{
+		// 멈추게 함
+		OtherEntity->GetCaught();
+	}
+
+	IsControl = false;					// 다가가는 행동을 할땐 조작이 불가능합니다.
+	IsCollected = false;					// 해당 자원을 수집했는지 확인합니다.
+
+	// 상대방을 바라보는 방향을 구합니다.
+	float4 OtherPosition = OtherEntity->GetInteractiveLocalPositon();
+	float4 TargetDistance = OtherPosition - Transform.GetLocalPosition();
+	m_Dir = GetDirectionFromVector(TargetDistance);
+
+	ChangeAnimationByDirection("Walk");
+}
+
+void Ellie::StartNet()
+{
+	if (nullptr == m_NetCol)
+	{
+		MsgBoxAssert("충돌체가 존재하지 않습니다.");
+		return;
+	}
+	m_NetCol->On();
+
+	ChangeAnimationByDirection("Net");
+}
+void Ellie::StartRootUp()
+{
+	OtherEntity->IsReach = true;
+
+	ChangeAnimationByDirection("RootUp");
+}
+
+// 아이템을 줍는 행동패턴입니다.
+void Ellie::StartSit()
+{
+	ChangeAnimationByDirection("Sit");
+}
+
+void Ellie::StartMongSiri()
+{
+	ChangeAnimationByDirection("MongSiri");
+}
+
+void Ellie::StartWait()
+{
+	if (nullptr == OtherEntity)
+	{
+		MsgBoxAssert("상호작용하려는 객체가 존재하지 않습니다.");
+		return;
+	}
+
+	IsWaitDone = false;
+	IsCancleComponent = false;
+
+	OtherEntity->ReachThis();
+
+	ChangeAnimationByDirection("Idle");
+}
+
+void Ellie::StartJuicy()
+{
+	if (nullptr != m_Body && nullptr == m_Body->FindAnimation("Juicy"))
+	{
+		m_Body->CreateAnimation("Juicy", "DownFloor_Extractor_0.png", 0.2f, 12, 19, false);
+		m_Body->FindAnimation("Juicy")->Inter = { 0.14f, 0.14f, 0.12f, 0.18f, 0.19f, 0.2f, 0.21f, 0.2f };
+		m_Body->SetFrameEvent("Juicy", 15, [&](GameEngineSpriteRenderer* _Renerer)
+			{
+				Extractor* ExtractorPtr = dynamic_cast<Extractor*>(OtherEntity);
+				if (nullptr == ExtractorPtr)
+				{
+					MsgBoxAssert("다이나믹 캐스팅을 하지 못했습니다.");
+					return;
+				}
+
+				// 착즙기에게 당겨지라고 요청합니다.
+				ExtractorPtr->PullThis();
+			});
+	}
+
+
+	ChangeAnimationByDirection("Juicy", false);
+}
+
+
+void Ellie::StartCheer()
+{
+	ChangeAnimationByDirection("Cheer", false);
+}
+
+void Ellie::StartFail()
+{
+	ChangeAnimationByDirection("Fail", false);
+}
+
+void Ellie::StartDrink()
+{
+	ChangeAnimationByDirection("Drink", false);
+}
+
+
+
+
+
 
 void Ellie::UpdateIdle(float _Delta)
 {
@@ -106,11 +200,6 @@ void Ellie::UpdateIdle(float _Delta)
 	}
 }
 
-
-void Ellie::StartSlowWalk()
-{
-	ChangeAnimationByDirection("SlowWalk");
-}
 
 void Ellie::UpdateSlowWalk(float _Delta)
 {
@@ -155,11 +244,6 @@ void Ellie::UpdateSlowWalk(float _Delta)
 }
 
 
-void Ellie::StartWalk()
-{
-	ChangeAnimationByDirection("Walk");
-}
-
 void Ellie::UpdateWalk(float _Delta)
 {
 	InputTestPattern();
@@ -202,11 +286,6 @@ void Ellie::UpdateWalk(float _Delta)
 	ApplyMovement(_Delta);
 }
 
-
-void Ellie::StartRun()
-{
-	ChangeAnimationByDirection("Run");
-}
 
 void Ellie::UpdateRun(float _Delta)
 {
@@ -251,12 +330,6 @@ void Ellie::UpdateRun(float _Delta)
 }
 
 
-
-void Ellie::StartThrow()
-{
-	ChangeAnimationByDirection("Throw");
-}
-
 void Ellie::UpdateThrow(float _Delta)
 {
 	if (true == m_Body->IsCurAnimationEnd())
@@ -266,35 +339,6 @@ void Ellie::UpdateThrow(float _Delta)
 	}
 }
 
-
-#pragma region 수집 패턴
-
-// 접근해서 수집하는 행동입니다.
-void Ellie::StartApproach()
-{
-	if (nullptr == OtherEntity)
-	{
-		MsgBoxAssert("참조한 액터가 존재하지 않습니다.");
-		return;
-	}
-
-	// 수집타입이 몽시리일때
-	if (ECOLLECTION_METHOD::MongSiri == OtherEntity->GetCollectionMethod())
-	{
-		// 멈추게 함
-		OtherEntity->GetCaught();
-	}
-
-	IsControl = false;					// 다가가는 행동을 할땐 조작이 불가능합니다.
-	IsCollected = false;					// 해당 자원을 수집했는지 확인합니다.
-
-	// 상대방을 바라보는 방향을 구합니다.
-	float4 OtherPosition = OtherEntity->GetInteractiveLocalPositon();
-	float4 TargetDistance = OtherPosition - Transform.GetLocalPosition();
-	m_Dir = GetDirectionFromVector(TargetDistance);
-
-	ChangeAnimationByDirection("Walk");
-}
 
 void Ellie::UpdateApproach(float _Delta)
 {
@@ -343,22 +387,6 @@ void Ellie::UpdateApproach(float _Delta)
 	}
 }
 
-void Ellie::EndApproach()
-{
-
-}
-
-void Ellie::StartNet()
-{
-	if (nullptr == m_NetCol)
-	{
-		MsgBoxAssert("충돌체가 존재하지 않습니다.");
-		return;
-	}
-	m_NetCol->On();
-
-	ChangeAnimationByDirection("Net");
-}
 
 void Ellie::UpdateNet(float _Delta)
 {
@@ -380,18 +408,6 @@ void Ellie::UpdateNet(float _Delta)
 	}
 }
 
-void Ellie::EndNet()
-{
-	m_NetCol->Off();
-}
-
-
-void Ellie::StartRootUp()
-{
-	OtherEntity->IsReach = true;
-
-	ChangeAnimationByDirection("RootUp");
-}
 
 void Ellie::UpdateRootUp(float _Delta)
 {
@@ -402,18 +418,6 @@ void Ellie::UpdateRootUp(float _Delta)
 	}
 }
 
-void Ellie::EndRootUp()
-{
-	OtherEntity = nullptr;
-	IsControl = true;
-}
-
-
-// 아이템을 줍는 행동패턴입니다.
-void Ellie::StartSit()
-{
-	ChangeAnimationByDirection("Sit");
-}
 
 void Ellie::UpdateSit(float _Delta)
 {
@@ -442,17 +446,6 @@ void Ellie::UpdateSit(float _Delta)
 	}
 }
 
-void Ellie::EndSit()
-{
-	OtherEntity = nullptr;
-	IsControl = true;
-}
-
-
-void Ellie::StartMongSiri()
-{
-	ChangeAnimationByDirection("MongSiri");
-}
 
 void Ellie::UpdateMongSiri(float _Delta)
 {
@@ -482,28 +475,6 @@ void Ellie::UpdateMongSiri(float _Delta)
 	}
 }
 
-void Ellie::EndMongSiri()
-{
-	OtherEntity = nullptr;
-	IsControl = true;
-}
-
-
-void Ellie::StartWait()
-{
-	if (nullptr == OtherEntity)
-	{
-		MsgBoxAssert("상호작용하려는 객체가 존재하지 않습니다.");
-		return;
-	}
-
-	IsWaitDone = false;
-	IsCancleComponent = false;
-
-	OtherEntity->ReachThis();
-
-	ChangeAnimationByDirection("Idle");
-}
 
 void Ellie::UpdateWait(float _Delta)
 {
@@ -525,37 +496,6 @@ void Ellie::UpdateWait(float _Delta)
 	}
 }
 
-void Ellie::EndWait()
-{
-	m_WaitState = EELLIE_STATE::None;
-	IsCancleComponent = true;
-	IsWaitDone = true;
-}
-
-
-void Ellie::StartJuicy()
-{
-	if (nullptr != m_Body && nullptr == m_Body->FindAnimation("Juicy"))
-	{
-		m_Body->CreateAnimation("Juicy", "DownFloor_Extractor_0.png", 0.2f, 12, 19, false);
-		m_Body->FindAnimation("Juicy")->Inter = { 0.14f, 0.14f, 0.12f, 0.18f, 0.19f, 0.2f, 0.21f, 0.2f };
-		m_Body->SetFrameEvent("Juicy", 15, [&](GameEngineSpriteRenderer* _Renerer)
-			{
-				Extractor* ExtractorPtr = dynamic_cast<Extractor*>(OtherEntity);
-				if (nullptr == ExtractorPtr)
-				{
-					MsgBoxAssert("다이나믹 캐스팅을 하지 못했습니다.");
-					return;
-				}
-
-				// 착즙기에게 당겨지라고 요청합니다.
-				ExtractorPtr->PullThis();
-			});
-	}
-
-
-	ChangeAnimationByDirection("Juicy", false);
-}
 
 void Ellie::UpdateJuicy(float _Delta)
 {
@@ -572,27 +512,6 @@ void Ellie::UpdateJuicy(float _Delta)
 	}
 }
 
-void Ellie::EndJuicy()
-{
-	if (nullptr == UI_ProcessManager::ProcessManager)
-	{
-		MsgBoxAssert("가공탭이 존재하지 않습니다.");
-		return;
-	}
-	
-	UI_ProcessManager::ProcessManager->JuicyDone();
-}
-
-
-#pragma endregion
-
-
-#pragma region 단일 애니메이션 
-
-void Ellie::StartCheer()
-{
-	ChangeAnimationByDirection("Cheer", false);
-}
 
 void Ellie::UpdateCheer(float _Delta)
 {
@@ -604,11 +523,6 @@ void Ellie::UpdateCheer(float _Delta)
 }
 
 
-void Ellie::StartFail()
-{
-	ChangeAnimationByDirection("Fail", false);
-}
-
 void Ellie::UpdateFail(float _Delta)
 {
 	if (true == m_Body->IsCurAnimationEnd())
@@ -616,14 +530,6 @@ void Ellie::UpdateFail(float _Delta)
 		ChangeState(EELLIE_STATE::Idle);
 		return;
 	}
-}
-
-
-
-void Ellie::StartDrink()
-{
-	ChangeAnimationByDirection("Drink", false);
-
 }
 
 void Ellie::UpdateDrink(float _Delta)
@@ -635,4 +541,91 @@ void Ellie::UpdateDrink(float _Delta)
 	}
 }
 
-#pragma endregion 
+
+
+
+void Ellie::EndApproach()
+{
+
+}
+
+void Ellie::EndNet()
+{
+	m_NetCol->Off();
+}
+
+
+void Ellie::EndRootUp()
+{
+	OtherEntity = nullptr;
+	IsControl = true;
+}
+
+
+void Ellie::EndSit()
+{
+	OtherEntity = nullptr;
+	IsControl = true;
+}
+
+
+void Ellie::EndMongSiri()
+{
+	OtherEntity = nullptr;
+	IsControl = true;
+}
+
+void Ellie::EndWait()
+{
+	m_WaitState = EELLIE_STATE::None;
+	IsCancleComponent = true;
+	IsWaitDone = true;
+}
+
+void Ellie::EndJuicy()
+{
+	if (nullptr == UI_ProcessManager::ProcessManager)
+	{
+		MsgBoxAssert("가공탭이 존재하지 않습니다.");
+		return;
+	}
+
+	UI_ProcessManager::ProcessManager->JuicyDone();
+}
+
+
+
+
+
+
+
+bool Ellie::InputTestPattern()
+{
+	if (true == GameEngineInput::IsDown('7', this))
+	{
+		ChangeState(EELLIE_STATE::Drink);
+		return true;
+	}
+
+	if (true == GameEngineInput::IsDown('8', this))
+	{
+		ChangeState(EELLIE_STATE::Throw);
+		return true;
+	}
+
+	return false;
+}
+
+bool Ellie::UsingTool()
+{
+	if (true == GameEngineInput::IsDown('Z', this))
+	{
+		if (ETOOLTYPE::Dragonfly == UI_Hub_Tool::m_CurrentTool)
+		{
+			ChangeState(EELLIE_STATE::Net);
+			return true;
+		}
+	}
+
+	return false;
+}

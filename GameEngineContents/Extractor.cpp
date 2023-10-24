@@ -40,6 +40,8 @@ void Extractor::Release()
 
 	m_InteractiveCol = nullptr;
 	m_Extractor = nullptr;
+
+	m_ProcessManager = nullptr;
 }
 
 void Extractor::LevelStart(class GameEngineLevel* _NextLevel)
@@ -50,6 +52,8 @@ void Extractor::LevelStart(class GameEngineLevel* _NextLevel)
 void Extractor::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	StaticEntity::LevelEnd(_NextLevel);
+
+	Death();
 }
 
 

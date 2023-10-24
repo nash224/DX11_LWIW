@@ -4,6 +4,9 @@
 class UI_DropManager : public GameEngineActor
 {
 public:
+	static UI_DropManager* DropManager;
+
+public:
 	// constrcuter destructer
 	UI_DropManager();
 	~UI_DropManager();

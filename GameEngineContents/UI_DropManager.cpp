@@ -4,6 +4,7 @@
 #include "UI_Drop.h"
 
 
+UI_DropManager* UI_DropManager::DropManager = nullptr;;
 UI_DropManager::UI_DropManager() 
 {
 }
@@ -27,6 +28,7 @@ void UI_DropManager::Release()
 
 void UI_DropManager::LevelStart(class GameEngineLevel* _NextLevel)
 {
+	DropManager = this;
 }
 
 void UI_DropManager::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -40,7 +42,7 @@ void UI_DropManager::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void UI_DropManager::Init()
 {
-
+	DropManager = this;
 }
 
 void UI_DropManager::NoticeItemDrop(std::string_view _ItemName)

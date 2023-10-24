@@ -42,10 +42,12 @@ void UI_ProcessB::Release()
 
 void UI_ProcessB::LevelStart(class GameEngineLevel* _NextLevel)
 {
+
 }
 
 void UI_ProcessB::LevelEnd(class GameEngineLevel* _NextLevel)
 {
+	Death();
 }
 
 

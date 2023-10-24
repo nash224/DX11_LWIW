@@ -40,10 +40,7 @@ void BackDrop_WitchHouse_DownFloor::LevelStart(class GameEngineLevel* _NextLevel
 
 void BackDrop_WitchHouse_DownFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-	vecProps.clear();
-	m_BackProp.clear();
-	PixelVec.clear();
-	vecPortalObject.clear();
+	BackDrop_PlayLevel::LevelEnd(_NextLevel);
 
 
 	GameEngineDirectory Dir;
@@ -880,7 +877,7 @@ void BackDrop_WitchHouse_DownFloor::CreateStaticActor(GameEngineLevel* _Level)
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 
-		StaticEntityList.push_back(Object);
+		PixelStaticEntityVec.push_back(Object);
 	}
 
 	{
@@ -895,7 +892,7 @@ void BackDrop_WitchHouse_DownFloor::CreateStaticActor(GameEngineLevel* _Level)
 		Position.Z = ZSort(Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 
-		StaticEntityList.push_back(Object);
+		PixelStaticEntityVec.push_back(Object);
 	}
 
 	{
@@ -910,7 +907,7 @@ void BackDrop_WitchHouse_DownFloor::CreateStaticActor(GameEngineLevel* _Level)
 		Position.Z = ZSort(Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 
-		StaticEntityList.push_back(Object);
+		PixelStaticEntityVec.push_back(Object);
 	}
 }
 

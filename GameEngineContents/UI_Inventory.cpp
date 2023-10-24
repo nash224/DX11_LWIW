@@ -503,9 +503,9 @@ void UI_Inventory::PushItem(std::string_view _ItemName, unsigned int _Count/* = 
 	Data->PushItem(_ItemName, _Count);
 
 	// 알림 시스템이기 때문에 터트리진 않습니다.
-	if (nullptr != MainInventory && nullptr != MainInventory->m_DropManager)
+	if (nullptr != UI_DropManager::DropManager)
 	{
-		MainInventory->m_DropManager->NoticeItemDrop(_ItemName);
+		UI_DropManager::DropManager->NoticeItemDrop(_ItemName);
 	}
 }
 

@@ -1,9 +1,13 @@
 #include "PreCompile.h"
 #include "ContentsGUI.h"
 
+#include "MapEditorLevel.h"
 #include "PlayLevel.h"
-#include "BackDrop_PlayLevel.h"
+
 #include "CameraControler.h"
+
+#include "BackDrop_PlayLevel.h"
+
 #include "UI_Inventory.h"
 
 #include "ItemData.h"
@@ -153,38 +157,6 @@ void DebugTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 	float4 CamepraPosition = GlobalValue::g_CameraControler->GetCameraCurrentPostion();
 	ImGui::Text(CamepraPosition.ToString().c_str());
-}
-
-
-void ManualTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
-{
-	ImGui::Text("Left Arrow : Move Left ");
-	ImGui::Text("Right Arrow  : Move Right ");
-	ImGui::Text("Up Arrow  : Move Up & Front ");
-	ImGui::Text("Donw Arrow  : Move Down & Back ");
-	ImGui::Text("Shift + Arrow : Slow Move ");
-	ImGui::Text("Ctrl : Ride Broom ");
-	ImGui::Text("Z : Interaction with Entity");
-	ImGui::Text("S : Open&Close Inventory");
-	ImGui::Text("D : Open&Close Dictionary");
-	ImGui::Text("Q : Select PrevTool");
-	ImGui::Text("E : Select NextTool");
-	ImGui::Text("1 : Create Item");
-	ImGui::Text("Ctrl + 3 : Delete Item");
-	ImGui::SameLine();
-	ImGui::Text("(Alert!!! Do not use on empty inventory slots.)");
-	ImGui::Text("Ctrl + 4 ~ 7 : Add Item");
-	ImGui::Text("Ctrl + 8 : Unlock Inventory");
-
-}
-
-
-void MapEditorTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
-{
-	if (nullptr == BackDrop_PlayLevel::MainBackDrop)
-	{
-		MapEditorMode();
-	}
 
 
 
@@ -217,7 +189,7 @@ void MapEditorTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 }
 
 
-void MapEditorTab::OnFPSTime(float _DeltaTime)
+void DebugTab::OnFPSTime(float _DeltaTime)
 {
 	static float GUI_UpdateTime = 0.0f;
 
@@ -232,14 +204,195 @@ void MapEditorTab::OnFPSTime(float _DeltaTime)
 	ImGui::Text(FPS_String.c_str());
 }
 
-void MapEditorTab::MousePos()
+void DebugTab::MousePos()
 {
 	std::string MousePos = GameEngineCore::MainWindow.GetMousePos().ToString();
 	ImGui::Text(MousePos.c_str());
 }
 
 
-void MapEditorTab::MapEditorMode()
+void DebugTab::MapEditorMode()
 {
 
+}
+
+
+
+void ManualTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
+{
+	ImGui::Text("Left Arrow : Move Left ");
+	ImGui::Text("Right Arrow  : Move Right ");
+	ImGui::Text("Up Arrow  : Move Up & Front ");
+	ImGui::Text("Donw Arrow  : Move Down & Back ");
+	ImGui::Text("Shift + Arrow : Slow Move ");
+	ImGui::Text("Ctrl : Ride Broom ");
+	ImGui::Text("Z : Interaction with Entity");
+	ImGui::Text("S : Open&Close Inventory");
+	ImGui::Text("D : Open&Close Dictionary");
+	ImGui::Text("Q : Select PrevTool");
+	ImGui::Text("E : Select NextTool");
+	ImGui::Text("1 : Create Item");
+	ImGui::Text("Ctrl + 3 : Delete Item");
+	ImGui::SameLine();
+	ImGui::Text("(Alert!!! Do not use on empty inventory slots.)");
+	ImGui::Text("Ctrl + 4 ~ 7 : Add Item");
+	ImGui::Text("Ctrl + 8 : Unlock Inventory");
+
+}
+
+
+void MapEditorTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
+{
+	if (_Level->GetName() != "MapEditor")
+	{
+		return;
+	}
+
+	if (ImGui::Button("Save"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("ContentsResources");
+		Dir.MoveChild("ContentsResources");
+		Dir.MoveChild("Data");
+
+		std::string Path = Dir.GetStringPath();
+
+		OPENFILENAMEA OFN;
+		char filePathName[100] = "";
+		char lpstrFile[100] = "";
+		static char filter[] = "모든 파일\0*.*\0텍스트 파일\0*.txt\0fbx 파일\0*.fbx";
+
+		memset(&OFN, 0, sizeof(OPENFILENAME));
+		OFN.lStructSize = sizeof(OPENFILENAME);
+		OFN.hwndOwner = GameEngineCore::MainWindow.GetHWND();
+		OFN.lpstrFilter = filter;
+		OFN.lpstrFile = lpstrFile;
+		OFN.nMaxFile = 100;
+		OFN.lpstrDefExt = "Map";
+		OFN.lpstrInitialDir = Path.c_str();
+
+		if (GetSaveFileNameA(&OFN) != 0) {
+			SavePath = OFN.lpstrFile;
+		}
+	}
+
+
+	MapEditorLevel* MapLevel = dynamic_cast<MapEditorLevel*>(_Level);
+
+	if (nullptr == MapLevel)
+	{
+		return;
+	}
+
+	// MapLevel->BackGroundRenderer->SetSprite
+
+	std::string Labal = "저장경로";
+	Labal = "BackImageName";
+	Labal = GameEngineString::AnsiToUTF8(Labal);
+	ImGui::InputText(Labal.c_str(), BackGroundName, 256);
+
+	//if (ImGui::Button("Setting"))
+	//{
+
+	//	std::shared_ptr<GameEngineTexture> Tex = GameEngineTexture::Find(BackGroundName);
+
+	//	float4 HScale = Tex->GetScale().Half();
+	//	HScale.Y *= -1.0f;
+
+	//	MapLevel->BackGroundRenderer->SetSprite(BackGroundName);
+	//	MapLevel->BackGroundRenderer->Transform.SetLocalPosition(HScale);
+	//}
+
+	if ("" != SavePath)
+	{
+		ImGui::Text(SavePath.c_str());
+
+		/*if (ImGui::Button("MapDataSave"))
+		{
+			GameEngineSerializer BinSer;
+			BinSer << MapLevel->BackGroundRenderer->GetSprite()->GetName();
+			std::vector<std::shared_ptr<Monster>> ObjectType = _Level->GetObjectGroupConvert<Monster>(ContentsObjectType::Monster);
+			BinSer << static_cast<unsigned int>(ObjectType.size());
+			for (size_t i = 0; i < ObjectType.size(); i++)
+			{
+				ObjectType[i]->Serializer(BinSer);
+			}
+
+
+			GameEngineFile File = SavePath;
+			File.Open(FileOpenType::Write, FileDataType::Binary);
+			File.Write(BinSer);
+
+		}*/
+	}
+
+	if (ImGui::Button("Load"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("ContentsResources");
+		Dir.MoveChild("ContentsResources");
+		Dir.MoveChild("Data");
+
+
+		OPENFILENAMEA OFN;
+		char filePathName[100] = "";
+		char lpstrFile[100] = "";
+		static char filter[] = "모든 파일\0*.*\0텍스트 파일\0*.txt\0fbx 파일\0*.fbx";
+
+		std::string Path = Dir.GetStringPath();
+
+		memset(&OFN, 0, sizeof(OPENFILENAME));
+		OFN.lStructSize = sizeof(OPENFILENAME);
+		OFN.hwndOwner = GameEngineCore::MainWindow.GetHWND();
+		OFN.lpstrFilter = filter;
+		OFN.lpstrFile = lpstrFile;
+		OFN.nMaxFile = 100;
+		OFN.lpstrDefExt = "GameData";
+		OFN.lpstrInitialDir = Path.c_str();
+
+		if (GetOpenFileNameA(&OFN) != 0) {
+			LoadPath = OFN.lpstrFile;
+		}
+	}
+
+	if (LoadPath != "")
+	{
+		ImGui::Text(LoadPath.c_str());
+
+		if (ImGui::Button("MapDataLoad"))
+		{
+			GameEngineSerializer BinSer;
+
+			GameEngineFile File = LoadPath;
+			File.Open(FileOpenType::Read, FileDataType::Binary);
+			File.DataAllRead(BinSer);
+
+			//std::vector<std::shared_ptr<Monster>> ObjectType = _Level->GetObjectGroupConvert<Monster>(ContentsObjectType::Monster);
+			//for (size_t i = 0; i < ObjectType.size(); i++)
+			//{
+			//	// 다 죽인다.
+			//	ObjectType[i]->Death();
+			//}
+
+
+			//std::string BackFileName;
+			//BinSer >> BackFileName;
+			//unsigned int MonsterCount = 0;
+			//BinSer >> MonsterCount;
+
+			//for (size_t i = 0; i < MonsterCount; i++)
+			//{
+			//	std::shared_ptr<Monster> Object = _Level->CreateActor<Monster>(ContentsObjectType::Monster);
+			//	Object->DeSerializer(BinSer);
+			//}
+
+
+
+			// GameEngineSerializer BinSer;
+			// SaveBin << MapLevel->BackGroundRenderer->GetSprite()->GetName();
+		}
+	}
+
+	// 일반적으로 그냥 클래스를 저장할수는 없다.
+	// 포인터는 저장의 의미가 없다.
 }

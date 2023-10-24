@@ -73,6 +73,9 @@ class DebugTab : public UITab
 {
 	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
 
+	void OnFPSTime(float _DeltaTime);
+	void MousePos();
+	void MapEditorMode();
 
 public:
 	DebugTab(std::string_view _Name)
@@ -80,13 +83,24 @@ public:
 	{
 
 	}
+
+
+	std::vector<std::string> SpriteNameVector;
+
+private:
+	bool IsCheckBox = false;
+
+	std::string SpriteName = "";
+
+	int SliderAmount = 0;
+	float ColorEdit3Value = 0.2f;
+	int iFPS = 0;
 };
 
 
 class ManualTab : public UITab
 {
 	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
-
 
 public:
 	ManualTab(std::string_view _Name)
@@ -101,11 +115,6 @@ class MapEditorTab : public UITab
 {
 	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
 
-public:
-	void OnFPSTime(float _DeltaTime);
-	void MousePos();
-	void MapEditorMode();
-
 
 public:
 	MapEditorTab(std::string_view _Name)
@@ -114,17 +123,13 @@ public:
 
 	}
 
-	std::vector<std::string> SpriteNameVector;
+public:
+	std::string DefSavePath;
+	std::string SavePath;
+	std::string LoadPath;
+	std::string InputPath;
 
-private:
-	bool IsCheckBox = false;
-
-	std::string SpriteName = "";
-
-	int SliderAmount = 0;
-	float ColorEdit3Value = 0.2f;
-	int iFPS = 0;
-
+	char BackGroundName[256] = { 0, };
 
 };
 

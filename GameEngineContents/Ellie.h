@@ -145,71 +145,61 @@ private:
 
 	bool InputTestPattern();
 
-	bool UsingTool();
-
 	void StartIdle();
-	void UpdateIdle(float _Delta);
-
 	void StartSlowWalk();
-	void UpdateSlowWalk(float _Delta);
-
 	void StartWalk();
-	void UpdateWalk(float _Delta);
-
 	void StartRun();
-	void UpdateRun(float _Delta);
-
 	void StartThrow();
-	void UpdateThrow(float _Delta);
-
 	void StartRiding_Idle();
-	void OnRideFx();
-	void UpdateRiding_Idle(float _Delta);
-
 	void StartRiding_Move();
-	void UpdateRiding_Move(float _Delta);
-
 	void StartRiding_Boost();
-	void UpdateRiding_Boost(float _Delta);
-
 	void StartApproach();
-	void UpdateApproach(float _Delta);
-	void EndApproach();
-
 	void StartNet();
-	void UpdateNet(float _Delta);
-	void NetCollision();
-	void EndNet();
-
 	void StartRootUp();
-	void UpdateRootUp(float _Delta);
-	void EndRootUp();
-
 	void StartSit();
-	void UpdateSit(float _Delta);
-	void EndSit();
-
 	void StartMongSiri();
-	void UpdateMongSiri(float _Delta);
-	void EndMongSiri();
-
 	void StartWait();
-	void UpdateWait(float _Delta);
-	void EndWait();
-
-
 	void StartJuicy();
+	void StartCheer();
+	void StartFail();
+	void StartDrink();
+
+
+	void UpdateIdle(float _Delta);
+	void UpdateSlowWalk(float _Delta);
+	void UpdateWalk(float _Delta);
+	void UpdateRun(float _Delta);
+	void UpdateThrow(float _Delta);
+	void UpdateRiding_Idle(float _Delta);
+	void UpdateRiding_Move(float _Delta);
+	void UpdateRiding_Boost(float _Delta);
+	void UpdateApproach(float _Delta);
+	void UpdateNet(float _Delta);
+	void UpdateRootUp(float _Delta);
+	void UpdateSit(float _Delta);
+	void UpdateMongSiri(float _Delta);
+	void UpdateWait(float _Delta);
 	void UpdateJuicy(float _Delta);
+	void UpdateCheer(float _Delta);
+	void UpdateFail(float _Delta);
+	void UpdateDrink(float _Delta);
+
+
+	void EndApproach();
+	void EndNet();
+	void EndRootUp();
+	void EndSit();
+	void EndMongSiri();
+	void EndWait();
 	void EndJuicy();
 
-	void StartCheer();
-	void UpdateCheer(float _Delta);
 
-	void StartFail();
-	void UpdateFail(float _Delta);
 
-	void StartDrink();
-	void UpdateDrink(float _Delta);
+	void OnRideFx();
+
+	void NetCollision();
+
+	bool UsingTool();
 
 
 private:

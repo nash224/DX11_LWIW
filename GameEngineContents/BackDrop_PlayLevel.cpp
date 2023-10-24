@@ -12,7 +12,6 @@
 
 
 BackDrop_PlayLevel* BackDrop_PlayLevel::MainBackDrop = nullptr;
-DayStatus  BackDrop_PlayLevel::TimeOfDay = DayStatus::None;
 BackDrop_PlayLevel::BackDrop_PlayLevel() 
 {
 }
@@ -48,74 +47,15 @@ void BackDrop_PlayLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	BackDrop::LevelEnd(_NextLevel);
 
-	m_BackProp.clear();
 	vecPixelProps.clear();
 	PixelVec.clear();
+	PixelStaticEntityVec.clear();
 	vecPortalObject.clear();
 }
 
 
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
-
-void BackDrop_PlayLevel::CreatePropInCurBackDrop(ERENDERDEPTH _RenderDepth, std::string_view _SpriteName, const float4& _Position, const float _Depth /*= 0.0f*/)
-{
-	std::shared_ptr<GameEngineSpriteRenderer> Renderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
-	if (nullptr == Renderer)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
-
-	Renderer->SetSprite(_SpriteName);
-
-	float4 Position = _Position;
-	if (ERENDERDEPTH::Object == _RenderDepth)
-	{
-		Position.Z = ZSort(Position.Y + _Depth);
-	}
-	else
-	{
-		GlobalUtils::CalculateDepth(_RenderDepth);
-	}
-
-	Renderer->Transform.SetLocalPosition(Position);
-
-	m_BackProp.push_back(Renderer);
-}
-
-
-// 배경의 디버깅 모드로 일반 텍스처와 픽셀 충돌 텍스처를 전환시켜줍니다.
-void BackDrop_PlayLevel::EnableDebugMode(bool _Value)
-{
-	for (size_t i = 0; i < vecProps.size(); i++)
-	{
-		std::shared_ptr<Prop> Object = vecProps[i];
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("액터를 불러오지 못했습니다.");
-			return;
-		}
-
-		Object->EnableDebugMode(_Value);
-	}
-
-
-	for (size_t i = 0; i < vecPixelProps.size(); i++)
-	{
-		std::shared_ptr<Prop> Object = vecPixelProps[i];
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("액터를 불러오지 못했습니다.");
-			return;
-		}
-
-		Object->EnableDebugMode(_Value);
-	}
-
-	EnableBackDropElemnetDebugMode(_Value);
-}
-
 
 
 // 특정 위치에 픽셀데이터가 있는지 반환해줍니다.
@@ -225,9 +165,3 @@ std::list<std::shared_ptr<class LootedItem>>& BackDrop_PlayLevel::GetLootedItemL
 {
 	return LootedItemList;
 }
-
-std::list<std::shared_ptr<StaticEntity>>& BackDrop_PlayLevel::GetStaticEntityList()
-{
-	return StaticEntityList;
-}
-

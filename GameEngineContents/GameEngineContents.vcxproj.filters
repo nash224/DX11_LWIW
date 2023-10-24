@@ -178,6 +178,9 @@
     <Filter Include="2.Object\2.Actor\2.Interactive\Static\Machine\Extractor\Process">
       <UniqueIdentifier>{cc575566-e52c-4962-86a2-d02d86b8676f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2.Object\3.Level\0.MapEditor">
+      <UniqueIdentifier>{8beecefb-6bb4-421d-a163-ded3fcdc47cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -456,6 +459,9 @@
     </ClInclude>
     <ClInclude Include="UI_ProcessB.h">
       <Filter>2.Object\2.Actor\2.Interactive\Static\Machine\Extractor\Process</Filter>
+    </ClInclude>
+    <ClInclude Include="MapEditorLevel.h">
+      <Filter>2.Object\3.Level\0.MapEditor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -745,6 +751,9 @@
     </ClCompile>
     <ClCompile Include="UI_ProcessB.cpp">
       <Filter>2.Object\2.Actor\2.Interactive\Static\Machine\Extractor\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="MapEditorLevel.cpp">
+      <Filter>2.Object\3.Level\0.MapEditor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

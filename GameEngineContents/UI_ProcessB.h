@@ -61,7 +61,6 @@ protected:
 
 private:
 	void JuicyThis();
-	void DetectJuicyDone();
 
 private:
 	void UpdateInput();
