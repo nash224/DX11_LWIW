@@ -926,13 +926,19 @@ void UI_Inventory::DispensationSelectThis()
 		// 저장된 아이템이 없으면 
 		if ("" != InventoryData.SourceName)
 		{
+			// 인벤토리에서 연금 페이지로 선택됐다고 알립니다.
 			if (nullptr == UI_Dispensation::MainDispensation)
 			{
 				MsgBoxAssert("메인 연금 페이지를 모릅니다.");
 				return;
 			}
 
-			UI_Dispensation::MainDispensation->SelectThis(InventoryData.SourceName, InventoryData.ItemCount);
+			if (false == UI_Dispensation::MainDispensation->SelectThis(InventoryData.SourceName, InventoryData.ItemCount))
+			{
+				MsgBoxAssert("연금 페이지에 남는 슬롯이 없는데 추가하려했습니다. 안전장치로 터트립니다. ");
+				return;
+			}
+			
 
 			SelectItem[EmptySlotNumber].ItemName = InventoryData.SourceName;
 			SelectItem[EmptySlotNumber].SelectCount = m_CurrentSlotX * m_CurrentSlotY;
@@ -962,6 +968,14 @@ int UI_Inventory::IsEmptySelectSlot()
 
 void UI_Inventory::DispensationUnSelectThis(int _SlotNumber)
 {
+	if (nullptr == UI_Dispensation::MainDispensation)
+	{
+		MsgBoxAssert("메인 연금 페이지를 모릅니다.");
+		return;
+	}
+
+	UI_Dispensation::MainDispensation->UnSelectThis(SelectItem[_SlotNumber].ItemName);
+
 	SelectItem[_SlotNumber].ItemName = "";
 	SelectItem[_SlotNumber].Cursor->Off();
 	SelectItem[_SlotNumber].SelectCount = -1;
@@ -971,6 +985,9 @@ void UI_Inventory::UnSelectAll()
 {
 	for (int i = 0; i < SelectItem.size(); i++)
 	{
-		DispensationUnSelectThis(i);
+		if ("" != SelectItem[i].ItemName)
+		{
+			DispensationUnSelectThis(i);
+		}
 	}
 }

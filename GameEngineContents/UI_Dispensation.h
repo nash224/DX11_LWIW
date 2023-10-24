@@ -34,16 +34,24 @@ public:
 	UI_Dispensation& operator=(const UI_Dispensation& _Other) = delete;
 	UI_Dispensation& operator=(UI_Dispensation&& _Other) noexcept = delete;
 
+	// 초기화
 	void Init();
 	void RendererSetting();
 
+	// 열기 닫기
 	void Open();
 	void Close();
 
 	void Reset();
 
-	void SelectThis(std::string_view _ItemName, int _ItemCount);
-	void DispensationThis();
+	bool SelectThis(std::string_view _ItemName, int _ItemCount);
+	int IsEmptySlot();
+	DispensationSlotInfo* Find(std::string_view _ItemName);
+
+	bool UnSelectThis(std::string_view _ItemName);
+	void ClearSlotInfo();
+
+	void Dispensation();
 	bool CheckDispensation(const class ProductRecipeData& _Data);
 
 protected:

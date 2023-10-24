@@ -51,7 +51,7 @@ void UI_Dispensation::Release()
 
 void UI_Dispensation::LevelStart(class GameEngineLevel* _NextLevel)
 {
-
+	MainDispensation = this;
 }
 
 void UI_Dispensation::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -67,6 +67,9 @@ void UI_Dispensation::LevelEnd(class GameEngineLevel* _NextLevel)
 void UI_Dispensation::Init()
 {
 	RendererSetting();
+
+	MainDispensation = this;
+	
 	Off();
 }
 
@@ -177,16 +180,99 @@ void UI_Dispensation::Reset()
 	ChangeAllDirectionReset();
 	CurDirection = EBREWING_DIRECTION::StirNone;
 	Direction_None->SetSprite("Dispensation_Direction_None_Check.png");
-	
+
+	ClearSlotInfo();
+
+	MainDispensation = this;
 }
 
-void UI_Dispensation::SelectThis(std::string_view _ItemName, int _ItemCount)
+// 인벤토리에서 슬롯을 지정해줍니다.
+bool UI_Dispensation::SelectThis(std::string_view _ItemName, int _ItemCount)
 {
-	
+	// 빈 슬롯 확인하고
+	int EmptySlotNumber = IsEmptySlot();
+
+	// 동일한 아이템 이름이 있는지 확인해서
+	DispensationSlotInfo* SlotInfo = Find(_ItemName);
+	if (-1 != EmptySlotNumber && nullptr == SlotInfo)
+	{
+		// 없으면 넣습니다.
+		m_DispensationSlotInfo[EmptySlotNumber].ItemName = _ItemName;
+		m_DispensationSlotInfo[EmptySlotNumber].ItemImg->SetSprite(_ItemName.data() + std::string(".png"));
+		m_DispensationSlotInfo[EmptySlotNumber].ItemCount = _ItemCount;
+
+		return true;
+	}
+
+	MsgBoxAssert("지정한 슬롯에 아이템을 넣지 못했습니다.");
+	return false;
 }
+
+// 남는 슬롯이 없으면 -1을 반환합니다.
+int UI_Dispensation::IsEmptySlot()
+{
+	for (int i = 0; i < m_DispensationSlotInfo.size(); i++)
+	{
+		if ("" == m_DispensationSlotInfo[i].ItemName)
+		{
+			return i;
+		}
+	}
+
+	return -1;
+}
+
+DispensationSlotInfo* UI_Dispensation::Find(std::string_view _ItemName)
+{
+	for (size_t i = 0; i < m_DispensationSlotInfo.size(); i++)
+	{
+		DispensationSlotInfo& Info = m_DispensationSlotInfo[i];
+
+		if ("" != Info.ItemName)
+		{
+			return &Info;
+		}
+	}
+
+	return nullptr;
+}
+
+// 선택된 슬롯을 해줍니다.
+bool UI_Dispensation::UnSelectThis(std::string_view _ItemName)
+{
+	DispensationSlotInfo* Info = Find(_ItemName);
+	if (nullptr == Info)
+	{
+		return false;
+	}
+
+	Info->ItemName = "";
+	Info->ItemCount = 0;
+	if (nullptr == Info->ItemImg)
+	{
+		MsgBoxAssert("존재하지 않는 렌더러를 참조하려 했습니다.");
+		return false;
+	}
+
+	Info->ItemImg->Off();
+
+	return true;
+}
+
+// 슬롯 정보를 초기화합니다.
+void UI_Dispensation::ClearSlotInfo()
+{
+	for (size_t i = 0; i < m_DispensationSlotInfo.size(); i++)
+	{
+		m_DispensationSlotInfo[i].ItemCount = 0;
+		m_DispensationSlotInfo[i].ItemName = "";
+		m_DispensationSlotInfo[i].ItemImg->Off();
+	}
+}
+
 
 // 래시피가 일치하면 연금을 합니다.
-void UI_Dispensation::DispensationThis()
+void UI_Dispensation::Dispensation()
 {
 	// 앨리 상태
 	if (nullptr != Ellie::MainEllie)
@@ -246,7 +332,7 @@ void UI_Dispensation::UpdateKey()
 {
 	if (true == GameEngineInput::IsDown('C', this))
 	{
-		DispensationThis();
+		Dispensation();
 		return;
 	}
 
