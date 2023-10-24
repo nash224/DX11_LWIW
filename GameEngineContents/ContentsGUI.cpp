@@ -243,7 +243,17 @@ void ManualTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 void MapEditorTab::Start()
 {
-	
+	SpriteNames.reserve(64);
+
+	GameEngineDirectory Dir;
+	Dir.MoveParentToExistsChild("Resources");
+	Dir.MoveChild("Resources\\PlayContents\\PlayResourecs\\Map\\MapSingle");
+	std::vector<GameEngineFile> Files = Dir.GetAllFile();
+	for (size_t i = 0; i < Files.size(); i++)
+	{
+		GameEngineFile pFile = Files[i];
+		SpriteNames.push_back(pFile.GetFileName());
+	}
 }
 
 
@@ -258,6 +268,19 @@ void MapEditorTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	{
 		if (ImGui::BeginTabItem("SaveTab"))
 		{
+			std::vector<const char*> CNames;
+			CNames.reserve(SpriteNames.size());
+
+			for (size_t i = 0; i < SpriteNames.size(); i++)
+			{
+				CNames.push_back(SpriteNames[i].c_str());
+			}
+
+			if (ImGui::ListBox("SpriteNames", &SelectItem, &CNames[0], static_cast<int>(CNames.size())))
+			{
+				SelectItem;
+			}
+
 			if (ImGui::Button("Save"))
 			{
 				GameEngineDirectory Dir;

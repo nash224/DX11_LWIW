@@ -133,5 +133,8 @@ public:
 
 	char BackGroundName[256] = { 0, };
 
+	std::vector<std::string> SpriteNames;
+	int SelectItem;
+
 };
 
