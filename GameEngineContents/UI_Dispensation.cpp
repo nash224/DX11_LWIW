@@ -198,8 +198,15 @@ bool UI_Dispensation::SelectThis(std::string_view _ItemName, int _ItemCount)
 	{
 		// 없으면 넣습니다.
 		m_DispensationSlotInfo[EmptySlotNumber].ItemName = _ItemName;
-		m_DispensationSlotInfo[EmptySlotNumber].ItemImg->SetSprite(_ItemName.data() + std::string(".png"));
 		m_DispensationSlotInfo[EmptySlotNumber].ItemCount = _ItemCount;
+
+		if (nullptr == m_DispensationSlotInfo[EmptySlotNumber].ItemImg)
+		{
+			MsgBoxAssert("렌더러를 생성하지 않고 사용하려 했습니다.");
+			return false;
+		}
+		m_DispensationSlotInfo[EmptySlotNumber].ItemImg->SetSprite(_ItemName.data() + std::string(".png"));
+		m_DispensationSlotInfo[EmptySlotNumber].ItemImg->On();
 
 		return true;
 	}

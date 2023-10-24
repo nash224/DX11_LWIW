@@ -20,9 +20,9 @@ void Inventory::PushItem(std::string_view _ItemName, unsigned int _Count)
 {
 	size_t LockNumber = Max_XSlot * InventoryParent->UnlockSlotY;
 
-	int Value = IsContain(_ItemName);
+	int Value = ReturnSlotNumber(_ItemName);
 	// 데이터에 없으면
-	if (0 == Value)
+	if (-1 == Value)
 	{
 		// 빈자리가 있으면 빈자리를 찾아서
 		for (size_t i = 0; i < LockNumber; i++)
@@ -46,7 +46,6 @@ void Inventory::PushItem(std::string_view _ItemName, unsigned int _Count)
 	}
 	else
 	{
-		Value = Find(_ItemName);
 		// 있으면
 		InventoryData[Value].ItemCount += _Count;
 	}
@@ -57,7 +56,8 @@ void Inventory::PushItem(std::string_view _ItemName, unsigned int _Count)
 // 아이템을 지정수만큼 뺍니다.
 void Inventory::PopItem(std::string_view _ItemName, unsigned int _Count)
 {
- 	int SlotNumber = Find(_ItemName);
+	InventoryInfo* SlotInfo = Find(_ItemName);
+ 	int SlotNumber = SlotInfo->ItemCount;
 	InventoryData[SlotNumber].ItemCount -= _Count;
 	if (0 == InventoryData[SlotNumber].ItemCount)
 	{
@@ -71,6 +71,11 @@ bool Inventory::CheckEmptySlot(std::string_view _ItemName)
 {
 	int UnlockSlotCount = UI_Inventory::UnlockSlotY * Max_YSlot;
 
+	if (true == IsContain(_ItemName))
+	{
+		return true;
+	}
+
 	for (size_t i = 0; i < UnlockSlotCount; i++)
 	{
 		if (0 == InventoryData[i].ItemCount)
@@ -79,7 +84,30 @@ bool Inventory::CheckEmptySlot(std::string_view _ItemName)
 		}
 	}
 
-	if (0 != IsContain(_ItemName))
+	return false;
+}
+
+// 데이터에 동일한 이름을 가진 아이템이 있는지 검사합니다.
+bool Inventory::IsContain(std::string_view _ItemName)
+{
+	std::string ItemName = _ItemName.data();
+	for (size_t y = 0; y < InventoryData.size(); y++)
+	{
+		if (ItemName == InventoryData[y].SourceName)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+// 해당 슬롯에 아이템이 있는지 확인합니다.
+bool Inventory::IsContain(unsigned int _X, unsigned int _Y)
+{
+	int MaxSlot = Max_XSlot;
+	unsigned int Value  = _Y * MaxSlot + _X;
+	if ("" != InventoryData[Value].SourceName)
 	{
 		return true;
 	}
@@ -87,32 +115,19 @@ bool Inventory::CheckEmptySlot(std::string_view _ItemName)
 	return false;
 }
 
-// 데이터에 동일한 이름을 가진 아이템이 있는지 검사합니다.
-int Inventory::IsContain(std::string_view _ItemName)
+// 인벤토리에 같은 이름을 가진 아이템의 슬롯넘버를 반환합니다.
+// 없으면 -1이 반환됩니다.
+int Inventory::ReturnSlotNumber(std::string_view _ItemName)
 {
-	std::string ItemName = _ItemName.data();
-	for (size_t y = 0; y < InventoryData.size(); y++)
+	for (int i = 0; i < InventoryData.size(); i++)
 	{
-		if (ItemName == InventoryData[y].SourceName)
+		if (_ItemName == InventoryData[i].SourceName)
 		{
-			return InventoryData[y].ItemCount;
+			return i;
 		}
 	}
 
-	return 0;
-}
-
-// 해당 슬롯에 아이템이 있는지 확인합니다.
-int Inventory::IsContain(unsigned int _X, unsigned int _Y)
-{
-	int MaxSlot = Max_XSlot;
-	unsigned int Value  = _Y * MaxSlot + _X;
-	if ("" != InventoryData[Value].SourceName)
-	{
-		return InventoryData[Value].ItemCount;
-	}
-
-	return 0;
+	return -1;
 }
 
 InventoryInfo& Inventory::ReturnInventoryInfo(unsigned int _X, unsigned int _Y)
@@ -122,25 +137,24 @@ InventoryInfo& Inventory::ReturnInventoryInfo(unsigned int _X, unsigned int _Y)
 }
 
 
-int Inventory::Find(std::string_view _ItemName)
+InventoryInfo* Inventory::Find(std::string_view _ItemName)
 {
 	for (size_t i = 0; i < InventoryData.size(); i++)
 	{
 		if (_ItemName == InventoryData[i].SourceName)
 		{
-			return static_cast<int>(i);
+			return &InventoryData[i];
 		}
 	}
 
-	MsgBoxAssert("데이터에서 아이템을 찾지 못했습니다.");
-	return -1;
+	return nullptr;
 }
 
 
 
 void Inventory::ClearData(const unsigned int _X, const unsigned int _Y)
 {
-	if (0 == IsContain(_X, _Y))
+	if (false == IsContain(_X, _Y))
 	{
 		MsgBoxAssert("존재하지 않는 슬롯을 지울려고 했습니다.");
 		return;
@@ -503,9 +517,14 @@ void UI_Inventory::PopItem(std::string_view _ItemName, unsigned int _Count)
 		return;
 	}
 
-	int ItemCount = Data->IsContain(_ItemName);
+	InventoryInfo* SlotInfo  = Data->Find(_ItemName);
+	if (nullptr == SlotInfo)
+	{
+		MsgBoxAssert("아이템 정보가 존재하지 않습니다.");
+		return;
+	}
 
-	if (ItemCount < static_cast<int>(_Count))
+	if (SlotInfo->ItemCount < static_cast<int>(_Count))
 	{
 		MsgBoxAssert("사용하려는 아이템의 수보다 적습니다. ");
 		return;
@@ -567,7 +586,14 @@ void UI_Inventory::UsingOtherComponent(EINVENTORYMODE _Mode)
 
 int UI_Inventory::ReturnItemCount(std::string_view _ItemName)
 {
-	return Data->IsContain(_ItemName);
+	InventoryInfo* SlotInfo = Data->Find(_ItemName);
+
+	if (nullptr == SlotInfo)
+	{
+		return 0;
+	}
+
+	return SlotInfo->ItemCount;
 }
 
 
@@ -683,7 +709,7 @@ void UI_Inventory::CursorThis(const unsigned int _X, const unsigned int _Y)
 	}
 	 
 	// 데이터가 있으면
-	if (0 != Data->IsContain(_X, _Y))
+	if (true == Data->IsContain(_X, _Y))
 	{
 		CursorPosition = CalculateIndexToPos(_X, _Y) + NameTagPositionBaseOnSlotCenter;
 		CursorPosition = { CursorPosition.X , CursorPosition.Y, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Cursor) };
@@ -878,7 +904,12 @@ bool UI_Inventory::UpdateDispensationSelect()
 {
 	if (true == GameEngineInput::IsDown('Z', this))
 	{
-		int SelectNumber = IsSelect();
+		if (false == Data->IsContain(m_CurrentSlotX, m_CurrentSlotY))
+		{
+			return false;
+		}
+
+		int SelectNumber = IsSelect(m_CurrentSlotX, m_CurrentSlotY);
 		if (-1 == SelectNumber)
 		{
 			DispensationSelectThis();
@@ -896,7 +927,7 @@ bool UI_Inventory::UpdateDispensationSelect()
 
 
 // -1이면 선택되지 않았습니다.
-int UI_Inventory::IsSelect()
+int UI_Inventory::IsSelect(int _XSlot, int _YSlot)
 {
 	for (size_t i = 0; i < SelectItem.size(); i++)
 	{

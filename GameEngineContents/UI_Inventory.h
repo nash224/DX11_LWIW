@@ -38,11 +38,12 @@ private:
 	void ClearData(const unsigned int _SlotNumber);
 
 	bool CheckEmptySlot(std::string_view _ItemName);
-	int IsContain(std::string_view _ItemName);
-	int IsContain(unsigned int _X, unsigned int _Y);
+	bool IsContain(std::string_view _ItemName);
+	bool IsContain(unsigned int _X, unsigned int _Y);
+	int ReturnSlotNumber(std::string_view _ItemName);
 	InventoryInfo& ReturnInventoryInfo(unsigned int _X, unsigned int _Y);
 
-	int Find(std::string_view _ItemName);
+	InventoryInfo* Find(std::string_view _ItemName);
 
 	void RenewInventory();
 
@@ -214,7 +215,7 @@ private:
 	void DispensationSelectThis();
 	void DispensationUnSelectThis(int _SlotNumber);
 
-	int IsSelect();
+	int IsSelect(int _XSlot, int _YSlot);
 	int IsEmptySelectSlot();
 	void UnSelectAll();
 
