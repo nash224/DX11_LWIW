@@ -113,6 +113,8 @@ public:
 
 class MapEditorTab : public UITab
 {
+	void Start() override;
+
 	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
 
 

@@ -1,6 +1,9 @@
 #include "PreCompile.h"
 #include "MapEditorLevel.h"
 
+
+#include "CameraControler.h"
+
 MapEditorLevel::MapEditorLevel() 
 {
 }
@@ -13,6 +16,8 @@ MapEditorLevel::~MapEditorLevel()
 void MapEditorLevel::Start()
 {
 	ContentsLevel::Start();
+
+	m_LevelCameraControler->SetCameraMode(ECAMERAMODE::Editor);
 }
 
 void MapEditorLevel::Update(float _Delta)

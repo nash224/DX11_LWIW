@@ -143,8 +143,6 @@ private:
 	void ChangeDirectionAnimation(std::string_view  _StateName);
 	
 
-	bool InputTestPattern();
-
 	void StartIdle();
 	void StartSlowWalk();
 	void StartWalk();
@@ -194,6 +192,7 @@ private:
 	void EndJuicy();
 
 
+	bool InputTestPattern();
 
 	void OnRideFx();
 

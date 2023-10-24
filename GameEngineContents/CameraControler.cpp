@@ -408,8 +408,18 @@ void CameraControler::UpdateCameraFixMode()
 void CameraControler::UpdateCameraEditorMode(float _Delta)
 {
 	float CameraSpeed = m_EditorModeSpeed * _Delta;
+	if (true == GameEngineInput::IsPress(VK_SHIFT, this))
+	{
+		CameraSpeed = m_EditorModeSpeed * 3.0f * _Delta;
+	}
+
 	float4 CameraMoveDistance = float4::ZERO;
 	
+	if (true == GameEngineInput::IsPress('A', this))
+	{
+		CameraMoveDistance = float4::LEFT * CameraSpeed;
+	}
+
 	if (true == GameEngineInput::IsPress('W', this))
 	{
 		CameraMoveDistance = float4::UP * CameraSpeed;
@@ -418,11 +428,6 @@ void CameraControler::UpdateCameraEditorMode(float _Delta)
 	if (true == GameEngineInput::IsPress('S', this))
 	{
 		CameraMoveDistance = float4::DOWN * CameraSpeed;
-	}
-
-	if (true == GameEngineInput::IsPress('A', this))
-	{
-		CameraMoveDistance = float4::LEFT * CameraSpeed;
 	}
 
 	if (true == GameEngineInput::IsPress('D', this))
