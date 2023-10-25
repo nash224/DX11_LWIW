@@ -57,6 +57,7 @@ class CheatTab : public UITab
 
 public:
 	int SelectItem = 0;
+
 	std::map<int, std::list<std::string>> ItemContainer;
 	
 
@@ -131,10 +132,13 @@ public:
 	std::string LoadPath;
 	std::string InputPath;
 
-	char BackGroundName[256] = { 0, };
 
 	std::vector<std::string> SpriteNames;
+
+	char BackGroundName[256] = { 0, };
+	bool BaseRendererCheckBox = false;
 	int SelectItem;
+	
 
 };
 

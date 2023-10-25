@@ -454,6 +454,9 @@
     <ClInclude Include="Scenery.h">
       <Filter>2.Object\2.Actor\3.Prop</Filter>
     </ClInclude>
+    <ClInclude Include="RendererActor.h">
+      <Filter>2.Object\2.Actor\3.Prop</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -738,6 +741,9 @@
       <Filter>2.Object\3.Level\0.MapEditor</Filter>
     </ClCompile>
     <ClCompile Include="Scenery.cpp">
+      <Filter>2.Object\2.Actor\3.Prop</Filter>
+    </ClCompile>
+    <ClCompile Include="RendererActor.cpp">
       <Filter>2.Object\2.Actor\3.Prop</Filter>
     </ClCompile>
   </ItemGroup>

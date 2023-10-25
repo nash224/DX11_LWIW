@@ -16,7 +16,7 @@
 
 void ContentsGUI::Start()
 {
-	AllTabs.push_back(std::make_shared<LevelChangeTab>("LevelChange"));
+	AllTabs.push_back(std::make_shared<LevelChangeTab>("LevelChange")); 
 	CurTab = AllTabs[0];
 	AllTabs.push_back(std::make_shared<CheatTab>("CheatTab"));
 	AllTabs.push_back(std::make_shared<MapEditorTab>("MapEditor"));
@@ -276,9 +276,14 @@ void MapEditorTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				CNames.push_back(SpriteNames[i].c_str());
 			}
 
+			if (ImGui::Checkbox("Floor", &BaseRendererCheckBox))
+			{
+
+			}
+
 			if (ImGui::ListBox("SpriteNames", &SelectItem, &CNames[0], static_cast<int>(CNames.size())))
 			{
-				SelectItem;
+				dynamic_cast<MapEditorLevel*>(_Level)->_SelcetSprite = SpriteNames[SelectItem];
 			}
 
 			if (ImGui::Button("Save"))
