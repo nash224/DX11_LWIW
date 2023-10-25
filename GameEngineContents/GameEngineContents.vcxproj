@@ -290,10 +290,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="GroundLayer.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="IngredientData.cpp">
       <SubType>
       </SubType>
@@ -648,10 +644,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GlobalValue.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="GroundLayer.h">
       <SubType>
       </SubType>
     </ClInclude>

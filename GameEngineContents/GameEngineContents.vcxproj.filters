@@ -199,12 +199,6 @@
     <ClInclude Include="ContentsLevel.h">
       <Filter>2.Object\3.Level</Filter>
     </ClInclude>
-    <ClInclude Include="Scenery.h">
-      <Filter>2.Object\2.Actor\1.BackDrop</Filter>
-    </ClInclude>
-    <ClInclude Include="GroundLayer.h">
-      <Filter>2.Object\2.Actor\1.BackDrop</Filter>
-    </ClInclude>
     <ClInclude Include="MainMenu_Trains.h">
       <Filter>2.Object\2.Actor\3.Prop\Train</Filter>
     </ClInclude>
@@ -457,6 +451,9 @@
     <ClInclude Include="MapEditorLevel.h">
       <Filter>2.Object\3.Level\0.MapEditor</Filter>
     </ClInclude>
+    <ClInclude Include="Scenery.h">
+      <Filter>2.Object\2.Actor\3.Prop</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -471,12 +468,6 @@
     </ClCompile>
     <ClCompile Include="ContentsLevel.cpp">
       <Filter>2.Object\3.Level</Filter>
-    </ClCompile>
-    <ClCompile Include="Scenery.cpp">
-      <Filter>2.Object\2.Actor\1.BackDrop</Filter>
-    </ClCompile>
-    <ClCompile Include="GroundLayer.cpp">
-      <Filter>2.Object\2.Actor\1.BackDrop</Filter>
     </ClCompile>
     <ClCompile Include="MainMenu_Trains.cpp">
       <Filter>2.Object\2.Actor\3.Prop\Train</Filter>
@@ -745,6 +736,9 @@
     </ClCompile>
     <ClCompile Include="MapEditorLevel.cpp">
       <Filter>2.Object\3.Level\0.MapEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="Scenery.cpp">
+      <Filter>2.Object\2.Actor\3.Prop</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

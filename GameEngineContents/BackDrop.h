@@ -1,7 +1,6 @@
 #pragma once
 
 
-
 // Ό³Έν :
 class BackDrop : public GameEngineActor
 {
@@ -16,7 +15,7 @@ public:
 	BackDrop& operator=(const BackDrop& _Other) = delete;
 	BackDrop& operator=(BackDrop&& _Other) noexcept = delete;
 
-	const float4& GetBackGroundScale() const;
+	float4 GetBackGroundScale() const;
 
 protected:
 	void Start() override;

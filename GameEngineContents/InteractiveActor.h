@@ -116,16 +116,12 @@ protected:
 	ETOOLTYPE m_CollectionTool = ETOOLTYPE::None;													// 채집 도구 타입
 	EINTERACTION_PRESSTYPE m_PressType = EINTERACTION_PRESSTYPE::Down;
 	float4 m_InteractiveLocalPosition = float4::ZERO;											
+
 	float m_InteractiveRange = 1.0f;
-
-
+	float m_DepthBias = 0.0f;				
 	
-	// 충돌
 	bool IsReach = false;
 	bool IsEnalbeActive = false;
 
-protected:
-	// 깊이 보정
-	float m_DepthBias = 0.0f;				
 };
 

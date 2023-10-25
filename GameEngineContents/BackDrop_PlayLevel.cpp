@@ -2,10 +2,8 @@
 #include "BackDrop_PlayLevel.h"
 
 
-#include "Prop.h"
 #include "Props.h"
 #include "StaticEntity.h"
-#include "PortalObject.h"
 
 #include "LootedItem.h"
 
@@ -49,12 +47,6 @@ void BackDrop_PlayLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 
 	PixelVec.clear();
 	PixelStaticEntityVec.clear();
-
-	std::vector<std::shared_ptr<PortalObject>> Portals = GetLevel()->GetObjectGroupConvert<PortalObject>(0);
-	for (size_t i = 0; i < Portals.size(); i++)
-	{
-		Portals[i]->Death();
-	}
 }
 
 

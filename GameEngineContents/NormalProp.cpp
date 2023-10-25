@@ -49,6 +49,4 @@ void NormalProp::Init(int _Order)
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
 		return;
 	}
-
-	
 }

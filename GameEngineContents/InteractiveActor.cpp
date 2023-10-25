@@ -51,12 +51,6 @@ void InteractiveActor::LevelEnd(class GameEngineLevel* _NextLevel)
 void InteractiveActor::CreateAndSetCollision(ECOLLISION _Order, const float4& _Scale, const float4& _Position, ColType _Type)
 {
 	m_InteractiveCol = CreateComponent<GameEngineCollision>(_Order);
-	if (nullptr == m_InteractiveCol)
-	{
-		MsgBoxAssert("충돌체를 생성하지 못했습니다.");
-		return;
-	}
-
 	m_InteractiveCol->Transform.SetLocalScale(_Scale);
 	m_InteractiveCol->Transform.SetLocalPosition(_Position);
 	m_InteractiveCol->SetCollisionType(_Type);
@@ -140,7 +134,7 @@ void InteractiveActor::ApplyDepth(const float4& _Position)
 	float4 Position = _Position;
 	if (nullptr == BackDrop_PlayLevel::MainBackDrop)
 	{
-		MsgBoxAssert("nullptr == BackDrop_PlayLevel::MainBackDrop");
+		MsgBoxAssert("배경 매니저를 알지 못합니다");
 		return;
 	}
 
@@ -155,7 +149,7 @@ float InteractiveActor::ReturnPlusDepth(float _YPosition)
 {
 	if (nullptr == BackDrop_PlayLevel::MainBackDrop)
 	{
-		MsgBoxAssert("nullptr == BackDrop_PlayLevel::MainBackDrop");
+		MsgBoxAssert("배경 매니저를 알지 못합니다.");
 		return 0.0f;
 	}
 

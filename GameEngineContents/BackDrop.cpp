@@ -2,13 +2,6 @@
 #include "BackDrop.h"
 
 
-#include "GlobalValue.h"
-
-
-#include "Scenery.h"
-#include "Prop.h"
-
-
 BackDrop::BackDrop()
 {
 }
@@ -49,7 +42,7 @@ void BackDrop::LevelEnd(class GameEngineLevel* _NextLevel)
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-const float4& BackDrop::GetBackGroundScale() const
+float4 BackDrop::GetBackGroundScale() const
 {
 	return m_BackScale;
 }
