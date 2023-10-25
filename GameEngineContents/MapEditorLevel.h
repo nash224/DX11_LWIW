@@ -6,6 +6,8 @@ class MapEditorLevel : public ContentsLevel
 {
 public:
 	std::shared_ptr<class MouseManager> m_MouseManager = nullptr;
+	class RendererActor* SelectActor = nullptr;
+
 
 public:
 	// constrcuter destructer
@@ -38,6 +40,7 @@ protected:
 
 private:
 	void UpdateMapEditor(float _Delta);
+	void ClickCreateActor();
 
 
 

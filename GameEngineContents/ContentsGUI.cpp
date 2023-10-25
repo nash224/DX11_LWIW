@@ -389,6 +389,11 @@ void MapEditorTab::EditorTab(GameEngineLevel* _Level, float _DeltaTime)
 		dynamic_cast<MapEditorLevel*>(_Level)->_SelcetSprite = SpriteNames[SelectItem];
 	}
 
+	if (ImGui::Button("UnSelect"))
+	{
+		dynamic_cast<MapEditorLevel*>(_Level)->SelectActor = nullptr;
+	}
+
 	//if (ImGui::)
 	//{
 

@@ -82,6 +82,99 @@ float MapEditorLevel::CalculateDepth(const float _PositionY) const
 
 void MapEditorLevel::UpdateMapEditor(float _Delta)
 {
+	ClickCreateActor();
+
+	if (true == GameEngineInput::IsDown(VK_RBUTTON, this))
+	{
+		float4 CurWorldMousePos = m_MouseManager->m_MouseInfo.CurPos;
+
+
+		 std::vector<std::shared_ptr<RendererActor>> Group = GetObjectGroupConvert<RendererActor>(0);
+
+		 bool SelectCheck = false;
+		 int NearestNumber = 0;
+		 float NearestDistance = 10000.0f;
+
+		 for (int i = 0; i < Group.size(); i++)
+		 {
+			 float4 IMGWorldPos = Group[i]->m_Renderer->Transform.GetWorldPosition();
+			 
+			 std::shared_ptr<GameEngineTexture> Texture = Group[i]->m_Renderer->GetSprite()->GetSpriteData(0).Texture;
+			 if (nullptr == Texture)
+			 {
+				 MsgBoxAssert("텍스처가 존재하지 않습니다.");
+				 return;
+			 }
+
+
+			 // 이동보정
+			 float4 CheckBias = Texture->GetScale().Half();
+
+			 // 체크 위치
+			 float4 SelectPos = CurWorldMousePos - IMGWorldPos + CheckBias;
+			 
+			 // 알파가 0이면 투명한 텍스처임으로 넘긴다.
+			 GameEngineColor Color = Texture->GetColor(SelectPos, { 0, 0, 0, 0});
+			 if (Color.A == 0)
+			 {
+				 continue;
+			 }
+			 
+
+			 if (NearestDistance > IMGWorldPos.Z)
+			 {
+				 SelectCheck = true;
+				 NearestNumber = i;
+				 NearestDistance = IMGWorldPos.Z;
+			 }
+		 }
+
+		 if (true == SelectCheck)
+		 {
+			 SelectActor = Group[NearestNumber].get();
+		 }
+		 else
+		 {
+			 SelectActor = nullptr;
+		 }
+	}
+
+	if (nullptr == SelectActor)
+	{
+		return;
+	}
+
+
+	float4 Position = float4::ZERO;
+	if (true == GameEngineInput::IsDown(VK_LEFT, this))
+	{
+		Position = float4::LEFT;
+		SelectActor->Transform.AddLocalPosition(Position);
+	}
+
+	if (true == GameEngineInput::IsDown(VK_UP, this))
+	{
+		Position = float4::UP;
+		SelectActor->Transform.AddLocalPosition(Position);
+	}
+
+	if (true == GameEngineInput::IsDown(VK_DOWN, this))
+	{
+		Position = float4::DOWN;
+		SelectActor->Transform.AddLocalPosition(Position);
+	}
+
+	if (true == GameEngineInput::IsDown(VK_RIGHT, this))
+	{
+		Position = float4::RIGHT;
+		SelectActor->Transform.AddLocalPosition(Position);
+	}
+
+
+}
+
+void MapEditorLevel::ClickCreateActor()
+{
 	if (true == GameEngineInput::IsDown(VK_LBUTTON, this))
 	{
 		if ("" == _SelcetSprite)
@@ -94,28 +187,6 @@ void MapEditorLevel::UpdateMapEditor(float _Delta)
 		Position.Z = 0.0f;
 		Object->Transform.SetLocalPosition(Position);
 		Object->m_Renderer->SetSprite(_SelcetSprite);
-		Object->m_Renderer->Transform.SetLocalPosition(float4( 0.0f , 0.0f, _RendererDepth));
-	}
-
-
-	float4 Position = float4::ZERO;
-	if (true == GameEngineInput::IsDown(VK_LEFT, this))
-	{
-		Position = float4::LEFT;
-	}
-
-	if (true == GameEngineInput::IsDown(VK_UP, this))
-	{
-		Position = float4::UP;
-	}
-
-	if (true == GameEngineInput::IsDown(VK_DOWN, this))
-	{
-		Position = float4::DOWN;
-	}
-
-	if (true == GameEngineInput::IsDown(VK_RIGHT, this))
-	{
-		Position = float4::RIGHT;
+		Object->m_Renderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, _RendererDepth));
 	}
 }
