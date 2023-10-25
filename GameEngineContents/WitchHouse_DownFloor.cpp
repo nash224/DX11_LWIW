@@ -20,9 +20,6 @@ void WitchHouse_DownFloor::Start()
 {
 	PlayLevel::Start();
 
-	SetName(std::string("WitchHouse_DownFloor"));
-
-
 	if (nullptr != m_LevelCameraControler)
 	{
 		m_LevelCameraControler->SetCameraMode(ECAMERAMODE::Fix);
@@ -98,12 +95,6 @@ void WitchHouse_DownFloor::LoadActor()
 		m_BackDrop = CreateActor<BackDrop_WitchHouse_DownFloor>(EUPDATEORDER::Objects);
 	}
 
-	if (nullptr == m_BackDrop)
-	{
-		MsgBoxAssert("액터가 존재하지 않습니다.");
-		return;
-	}
-
 	m_BackDrop->Init();
 }
 
@@ -143,11 +134,6 @@ void WitchHouse_DownFloor::CameraSetting()
 
 #pragma endregion 
 
-#pragma region Update
-
-
-
-#pragma endregion 
 
 #pragma region Release
 

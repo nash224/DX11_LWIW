@@ -24,14 +24,13 @@ void PlayLevel::Start()
 {
 	ContentsLevel::Start();
 
-	GetMainCamera()->SetZSort(static_cast<int>(ERENDERORDER::NonAlphaBlend));
+	GetMainCamera()->SetZSort(0);
 }
 
 void PlayLevel::Update(float _Delta)
 {
 	ContentsLevel::Update(_Delta);
 
-	// 디버그 전환
 	ChangeDebugMode();
 }
 
@@ -39,19 +38,14 @@ void PlayLevel::LevelStart(GameEngineLevel* _NextLevel)
 {
 	ContentsLevel::LevelStart(_NextLevel);
 
-	std::shared_ptr<FadeObject> Fade = CreateActor<FadeObject>(EUPDATEORDER::Fade);
-	if (nullptr == Fade)
-	{
-		MsgBoxAssert("액터를 생성하지 못했습니다.");
-		return;
-	}
-	Fade->CallFadeIn(0.2f);
-
 	if (false == LevelInitCheck)
 	{
 		CreateEllie();			// 플레이어 생성
 		CreateUIManager();		// UI 생성
 	}
+
+	std::shared_ptr<FadeObject> Fade = CreateActor<FadeObject>(EUPDATEORDER::Fade);
+	Fade->CallFadeIn(0.2f);
 
 	LevelInitCheck = true;
 }
@@ -67,29 +61,17 @@ void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
 
 
 
-// UI
+// UI 매니저 생성
 void PlayLevel::CreateUIManager()
 {
 	m_UIManager = CreateActor<UIManager>(EUPDATEORDER::UIMagnaer);
-	if (nullptr == m_UIManager)
-	{
-		MsgBoxAssert("액터를 생성하지 못했습니다.");
-		return;
-	}
-
 	m_UIManager->Init();
 }
 
-// 플레이어 
+// 플레이어 생성
 void PlayLevel::CreateEllie()
 {
 	m_Ellie = CreateActor<Ellie>(EUPDATEORDER::Player);
-	if (nullptr == m_Ellie)
-	{
-		MsgBoxAssert("액터를 생성하지 못했습니다.");
-		return;
-	}
-
 	m_Ellie->Init();
 }
 

@@ -25,9 +25,6 @@ void Field_Center::Start()
 	{
 		m_LevelCameraControler->SetCameraMode(ECAMERAMODE::Play);
 	}
-
-	std::string Name = "Field_Center";
-	SetName(Name);
 }
 
 void Field_Center::Update(float _Delta)
@@ -80,30 +77,19 @@ void Field_Center::LoadActor()
 		m_BackDrop = CreateActor<BackDrop_CenterField>(EUPDATEORDER::Objects);
 	}
 
-	if (nullptr == m_BackDrop)
-	{
-		MsgBoxAssert("액터를 생성하지 못했습니다.");
-		return;
-	}
-
 	m_BackDrop->Init();
 
-	if (nullptr == m_LevelCameraControler)
+	if (nullptr != m_LevelCameraControler)
 	{
-		MsgBoxAssert("카메라 컨트롤러를 생성하지 않고 사용하려고 했습니다.");
-		return;
+		m_LevelCameraControler->SetBackDropScale(m_BackDrop->GetBackGroundScale());
 	}
-
-	// 배경 크기를 알려줘야 카메라 기능을 사용할 수 있습니다.
-	m_LevelCameraControler->SetBackDropScale(m_BackDrop->GetBackGroundScale());
 }
 
 void Field_Center::SetEllieLevelChangeLocation(class GameEngineLevel* _NextLevel)
 {
 	float4 SpawnPosition = float4::ZERO;
 
-	std::string NextLevelName = _NextLevel->GetName();
-	if (NextLevelName == "WitchHouse_Yard")
+	if (_NextLevel->GetName() == "WitchHouse_Yard")
 	{
 		SpawnPosition = { 500.0f , -400.0f };
 	}
@@ -112,13 +98,10 @@ void Field_Center::SetEllieLevelChangeLocation(class GameEngineLevel* _NextLevel
 		SpawnPosition = { 500.0f , -400.0f };
 	}
 
-	if (nullptr == m_Ellie)
+	if (nullptr != m_Ellie)
 	{
-		MsgBoxAssert("앨리를 생성하지 않았습니다.");
-		return;
+		m_Ellie->Transform.SetLocalPosition(SpawnPosition);
 	}
-
-	m_Ellie->Transform.SetLocalPosition(SpawnPosition);
 }
 
 

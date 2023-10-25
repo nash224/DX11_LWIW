@@ -20,8 +20,6 @@ void WitchHouse_UpFloor::Start()
 {
 	PlayLevel::Start();
 
-	SetName(std::string("WitchHouse_UpFloor"));
-
 	if (nullptr != m_LevelCameraControler)
 	{
 		m_LevelCameraControler->SetCameraMode(ECAMERAMODE::Fix);
@@ -78,11 +76,6 @@ void WitchHouse_UpFloor::LoadActor()
 	if (nullptr == m_BackDrop)
 	{
 		m_BackDrop = CreateActor<BackDrop_WitchHouse_UpFloor>(EUPDATEORDER::Objects);
-		if (nullptr == m_BackDrop)
-		{
-			MsgBoxAssert("액터를 생성하지 못했습니다.");
-			return;
-		}
 	}
 
 	m_BackDrop->Init();

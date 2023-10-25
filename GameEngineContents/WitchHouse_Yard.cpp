@@ -19,7 +19,6 @@ WitchHouse_Yard::~WitchHouse_Yard()
 void WitchHouse_Yard::Start()
 {
 	PlayLevel::Start();
-	SetName(std::string("WitchHouse_Yard"));
 
 	if (nullptr != m_LevelCameraControler)
 	{
@@ -76,12 +75,6 @@ void WitchHouse_Yard::LoadActor()
 	if (nullptr == m_BackDrop)
 	{
 		m_BackDrop = CreateActor<BackDrop_WitchHouse_Yard>(EUPDATEORDER::Objects);
-	}
-
-	if (nullptr == m_BackDrop)
-	{
-		MsgBoxAssert("액터를 생성하지 못했습니다.");
-		return;
 	}
 
 	m_BackDrop->Init();
