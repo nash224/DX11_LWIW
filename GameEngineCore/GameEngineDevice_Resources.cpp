@@ -16,9 +16,12 @@
 #include "GameEngineMesh.h"
 #include "GameEngineDepthStencil.h"
 #include "GameEngineMaterial.h"
+#include "GameEngineFont.h"
 
 void GameEngineDevice::ResourcesInit()
 {
+	GameEngineFont::Load("돋움");
+
 	{
 		// 엔진용 쉐이더를 전부다 전부다 로드하는 코드를 친다.
 		GameEngineDirectory Dir;
@@ -261,7 +264,7 @@ void GameEngineDevice::ResourcesInit()
 
 		//D3D11_FILL_MODE FillMode;
 		// 랜더링 할때 채우기 모드를 결정한다.
-		
+
 		// 외적했는데 z방향이 어디냐?
 		// D3D11_CULL_NONE => 방향이 어디든 건져낸다.
 		// D3D11_CULL_BACK => z가 앞쪽인 픽셀들은 안건져 낸다.
@@ -396,7 +399,7 @@ void GameEngineDevice::ResourcesInit()
 		Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
 
 		// https://learn.microsoft.com/ko-kr/windows/win32/api/d3d11/ne-d3d11-d3d11_blend
-		
+
 		// src srcColor * src의 알파
 		// 1, 0, 0(, 1) * 1.0f
 		Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA; // src팩터
