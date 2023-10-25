@@ -417,22 +417,22 @@ void CameraControler::UpdateCameraEditorMode(float _Delta)
 	
 	if (true == GameEngineInput::IsPress('A', this))
 	{
-		CameraMoveDistance = float4::LEFT * CameraSpeed;
+		CameraMoveDistance += float4::LEFT * CameraSpeed;
 	}
 
 	if (true == GameEngineInput::IsPress('W', this))
 	{
-		CameraMoveDistance = float4::UP * CameraSpeed;
+		CameraMoveDistance += float4::UP * CameraSpeed;
 	}
 
 	if (true == GameEngineInput::IsPress('S', this))
 	{
-		CameraMoveDistance = float4::DOWN * CameraSpeed;
+		CameraMoveDistance += float4::DOWN * CameraSpeed;
 	}
 
 	if (true == GameEngineInput::IsPress('D', this))
 	{
-		CameraMoveDistance = float4::RIGHT * CameraSpeed;
+		CameraMoveDistance += float4::RIGHT * CameraSpeed;
 	}
 
 	m_MainCamera->Transform.AddLocalPosition(CameraMoveDistance);

@@ -76,7 +76,6 @@ class DebugTab : public UITab
 
 	void OnFPSTime(float _DeltaTime);
 	void MousePos();
-	void MapEditorMode();
 
 public:
 	DebugTab(std::string_view _Name)
@@ -118,6 +117,12 @@ class MapEditorTab : public UITab
 
 	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
 
+public:
+	void SaveTab(GameEngineLevel* _Level, float _DeltaTime);
+	void SettingTab(GameEngineLevel* _Level, float _DeltaTime);
+	void EditorTab(GameEngineLevel* _Level, float _DeltaTime);
+	void LoadTab(GameEngineLevel* _Level, float _DeltaTime);
+
 
 public:
 	MapEditorTab(std::string_view _Name)
@@ -132,8 +137,9 @@ public:
 	std::string LoadPath;
 	std::string InputPath;
 
-
 	std::vector<std::string> SpriteNames;
+	std::vector<std::string> DepthTypes;
+
 
 	char BackGroundName[256] = { 0, };
 	bool BaseRendererCheckBox = false;

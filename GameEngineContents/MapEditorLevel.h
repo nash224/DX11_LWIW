@@ -5,6 +5,9 @@
 class MapEditorLevel : public ContentsLevel
 {
 public:
+	std::shared_ptr<class MouseManager> m_MouseManager = nullptr;
+
+public:
 	// constrcuter destructer
 	MapEditorLevel();
 	~MapEditorLevel();
@@ -17,6 +20,15 @@ public:
 
 	std::string _SelcetSprite = "";
 	float _RendererDepth = 0.0f;
+
+	float4 m_BaseScale = float4::ZERO;
+
+
+	std::shared_ptr<GameEngineActor> m_MapBaseActor;
+	std::shared_ptr<GameEngineSpriteRenderer> m_MapBaseRenderer;
+
+
+	float CalculateDepth(const float _PositionY) const;
 
 protected:
 	void Start() override;

@@ -4,6 +4,7 @@
 
 enum class EUPDATEORDER
 {
+	Mouse,
 	Player,
 	Entity,
 	Projectile,
@@ -35,7 +36,9 @@ enum class ERENDERDEPTH
 	RootedItem = 3000,
 	ObjectShadow,
 	Hole,
-	Back_,
+	UpperGround,
+	DeepDarkGrass,
+	DarkGrass,
 	Back_Paint,
 };
 

@@ -457,6 +457,9 @@
     <ClInclude Include="RendererActor.h">
       <Filter>2.Object\2.Actor\3.Prop</Filter>
     </ClInclude>
+    <ClInclude Include="MouseManager.h">
+      <Filter>2.Object\3.Level\0.MapEditor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -745,6 +748,9 @@
     </ClCompile>
     <ClCompile Include="RendererActor.cpp">
       <Filter>2.Object\2.Actor\3.Prop</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseManager.cpp">
+      <Filter>2.Object\3.Level\0.MapEditor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
