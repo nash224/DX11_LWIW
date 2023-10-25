@@ -39,6 +39,8 @@ void CameraControler::Update(float _Delta)
 
 	UpdateCameraMode(_Delta);
 	RenewCameraPosition();
+
+
 }
 
 void CameraControler::LevelStart(class GameEngineLevel* _NextLevel)

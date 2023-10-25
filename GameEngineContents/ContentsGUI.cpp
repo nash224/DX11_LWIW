@@ -308,8 +308,8 @@ void MapEditorTab::SaveTab(GameEngineLevel* _Level, float _DeltaTime)
 		std::string DataPath = Dir.GetStringPath();
 
 		OPENFILENAMEA OFN;
-		char filePathName[100] = "";
-		char lpstrFile[100] = "";
+		char filePathName[256] = "";
+		char lpstrFile[256] = "";
 		static char filter1[] = "모든 파일\0*.*\0텍스트 파일\0*.txt\0fbx 파일\0*.fbx";
 
 		memset(&OFN, 0, sizeof(OPENFILENAME));
@@ -333,25 +333,27 @@ void MapEditorTab::SaveTab(GameEngineLevel* _Level, float _DeltaTime)
 
 		MapEditorLevel* MapLevel = dynamic_cast<MapEditorLevel*>(_Level);
 
-		/*if (ImGui::Button("MapDataSave"))
+		if (ImGui::Button("Save GroupData"))
 		{
-			GameEngineSerializer BinSer;
-			BinSer << MapLevel->BackGroundRenderer->GetSprite()->GetName();
-			std::vector<std::shared_ptr<Monster>> ObjectType = _Level->GetObjectGroupConvert<Monster>(ContentsObjectType::Monster);
-			BinSer << static_cast<unsigned int>(ObjectType.size());
+			GameEngineSerializer BinSerial;
+			std::vector<std::shared_ptr<RendererActor>> ObjectType = _Level->GetObjectGroupConvert<RendererActor>(0);
+
+			// 객체수 저장
+			BinSerial << static_cast<unsigned int>(ObjectType.size());
+
+			// 객체 정보 저장
 			for (size_t i = 0; i < ObjectType.size(); i++)
 			{
-				ObjectType[i]->Serializer(BinSer);
+				ObjectType[i]->Serializer(BinSerial);
 			}
 
-
+			// Write
 			GameEngineFile File = SavePath;
 			File.Open(FileOpenType::Write, FileDataType::Binary);
-			File.Write(BinSer);
+			File.Write(BinSerial);
+		}
 
-		}*/
-
-		ImGui::InputText("Save Path", BackGroundName, 256);
+		ImGui::InputText("Save Path", PathString, 256);
 	}
 }
 
@@ -386,10 +388,19 @@ void MapEditorTab::SettingTab(GameEngineLevel* _Level, float _DeltaTime)
 		MapEditorPtr->m_MapBaseRenderer->On();
 		MapEditorPtr->m_BaseScale = BaseScale;
 	}
+
+	if (ImGui::Button("Reset Camera"))
+	{
+		float4 Position = GlobalValue::GetWindowScale().Half();
+		Position.Y *= -1.0f;
+		_Level->GetMainCamera()->Transform.SetLocalPosition(Position);
+	}
 }
 
 void MapEditorTab::EditorTab(GameEngineLevel* _Level, float _DeltaTime)
 {
+	MapEditorLevel* EditorLevel = dynamic_cast<MapEditorLevel*>(_Level);
+
 	std::vector<const char*> CNames;
 	CNames.reserve(SpriteNames.size());
 
@@ -400,8 +411,19 @@ void MapEditorTab::EditorTab(GameEngineLevel* _Level, float _DeltaTime)
 
 	if (ImGui::ListBox("SpriteNames", &SelectSpriteItem, &CNames[0], static_cast<int>(CNames.size())))
 	{
-		dynamic_cast<MapEditorLevel*>(_Level)->_SelcetSprite = SpriteNames[SelectSpriteItem];
+		EditorLevel->_SelcetSprite = SpriteNames[SelectSpriteItem];
 		SelectSpriteName = SpriteNames[SelectSpriteItem];
+	}
+
+	ImGui::Text("Select : ");
+	ImGui::SameLine();
+	if (nullptr != EditorLevel->SelectActor)
+	{
+		ImGui::Text("On");
+	}
+	else
+	{
+		ImGui::Text("Off");
 	}
 
 	if ("" != SelectSpriteName)
@@ -416,8 +438,27 @@ void MapEditorTab::EditorTab(GameEngineLevel* _Level, float _DeltaTime)
 
 		if (ImGui::ListBox("Depth", &SelectDepthItem, &CNames[0], static_cast<int>(CNames.size())), 3)
 		{
-			dynamic_cast<MapEditorLevel*>(_Level)->_SelectDepth = SelectDepthItem;
+			dynamic_cast<MapEditorLevel*>(_Level)->_SelectDepth = DepthTypes.find(CNames[SelectDepthItem])->second;
 		}
+
+		if (nullptr != EditorLevel->SelectActor)
+		{
+			if (ImGui::SliderFloat("Adjustment Height", &EditorLevel->_RendererHeight, 0.0f, 100.0f, "%.0f"))
+			{
+				EditorLevel->SelectActor->m_Renderer->Transform.SetLocalPosition(float4(0.0f, EditorLevel->_RendererHeight));
+			}
+		}
+	}
+
+	if (ImGui::Button("All Clear"))
+	{
+		std::vector<std::shared_ptr<RendererActor>> Objects = _Level->GetObjectGroupConvert<RendererActor>(0);
+		for (size_t i = 0; i < Objects.size(); i++)
+		{
+			Objects[i]->Death();
+		}
+
+		EditorLevel->SelectActor = nullptr;
 	}
 }
 
@@ -426,14 +467,12 @@ void MapEditorTab::LoadTab(GameEngineLevel* _Level, float _DeltaTime)
 	if (ImGui::Button("Load"))
 	{
 		GameEngineDirectory Dir;
-		Dir.MoveParentToExistsChild("ContentsResources");
-		Dir.MoveChild("ContentsResources");
-		Dir.MoveChild("Data");
-
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\Data");
 
 		OPENFILENAMEA OFN;
-		char filePathName[100] = "";
-		char lpstrFile[100] = "";
+		char filePathName[256] = "";
+		char lpstrFile[256] = "";
 		static char filter[] = "모든 파일\0*.*\0텍스트 파일\0*.txt\0fbx 파일\0*.fbx";
 
 		std::string Path = Dir.GetStringPath();
@@ -452,41 +491,33 @@ void MapEditorTab::LoadTab(GameEngineLevel* _Level, float _DeltaTime)
 		}
 	}
 
-	if (LoadPath != "")
+	if ("" != LoadPath)
 	{
 		ImGui::Text(LoadPath.c_str());
 
-		if (ImGui::Button("MapDataLoad"))
+		if (ImGui::Button("Load Data"))
 		{
-			GameEngineSerializer BinSer;
+			GameEngineSerializer LoadBin;
 
 			GameEngineFile File = LoadPath;
 			File.Open(FileOpenType::Read, FileDataType::Binary);
-			File.DataAllRead(BinSer);
+			File.DataAllRead(LoadBin);
 
-			//std::vector<std::shared_ptr<Monster>> ObjectType = _Level->GetObjectGroupConvert<Monster>(ContentsObjectType::Monster);
-			//for (size_t i = 0; i < ObjectType.size(); i++)
-			//{
-			//	// 다 죽인다.
-			//	ObjectType[i]->Death();
-			//}
+			std::vector<std::shared_ptr<RendererActor>> ObjectGroup = _Level->GetObjectGroupConvert<RendererActor>(0);
+			for (size_t i = 0; i < ObjectGroup.size(); i++)
+			{
+				ObjectGroup[i]->Death();
+			}
 
+			// 객체 수 읽어옴
+			unsigned int ActorCount = 0;
+			LoadBin >> ActorCount;
 
-			//std::string BackFileName;
-			//BinSer >> BackFileName;
-			//unsigned int MonsterCount = 0;
-			//BinSer >> MonsterCount;
-
-			//for (size_t i = 0; i < MonsterCount; i++)
-			//{
-			//	std::shared_ptr<Monster> Object = _Level->CreateActor<Monster>(ContentsObjectType::Monster);
-			//	Object->DeSerializer(BinSer);
-			//}
-
-
-
-			// GameEngineSerializer BinSer;
-			// SaveBin << MapLevel->BackGroundRenderer->GetSprite()->GetName();
+			for (size_t i = 0; i < ActorCount; i++)
+			{
+				std::shared_ptr<RendererActor> Object = _Level->CreateActor<RendererActor>();
+				Object->DeSerializer(LoadBin);
+			}
 		}
 	}
 }

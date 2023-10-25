@@ -95,35 +95,27 @@ void MongSiri::SearchJumpLocation()
 		MyPosition.Z = 0.0f;
 		float4 PopulationSpawnPosition = MongSiriParant->m_PopulationLocation;
 		PopulationSpawnPosition.Z = 0.0f;
-		float PopulationMinCircle = MongSiriParant->m_PopulationMinCircle;
-		float PopulationMaxCircle = MongSiriParant->m_PopulationMaxCircle;
-
 		
 		float4 TargetDistance = PopulationSpawnPosition - MyPosition;			// 스폰위치와 내 거리
-		float SpawnToDistance = TargetDistance.Size();
-		float Degree = TargetDistance.NormalizeReturn().Angle2DDeg();
-		if (TargetDistance.Y < 0.0f)
-		{
-			Degree = 180.0f - Degree;
-			Degree += 180.0f;
-		}
+		float Degree = DirectX::XMConvertToDegrees(atan2f(TargetDistance.Y, TargetDistance.X));
 
 		float JumpAngle = 0.0f;
 
 		// 만약 최대 범위면 구멍으로 뛰어라
-		if (SpawnToDistance > PopulationMaxCircle)
+		float SpawnToDistance = TargetDistance.Size();
+		if (SpawnToDistance > MongSiriParant->m_PopulationMaxCircle)
 		{
 			JumpAngle = Degree;
 		}
 		// 스폰 위치점 기준
 		// 작은원 안에 있다면 완전 랜덤 
-		else if (SpawnToDistance < PopulationMinCircle)
+		else if (SpawnToDistance < MongSiriParant->m_PopulationMinCircle)
 		{
 			JumpAngle = RandomClass.RandomFloat(0.0f, 360.0f);
 		}
 		// 스폰 위치점 기준
 		// 작은 원보다 밖에 있다면
-		else if (SpawnToDistance > PopulationMinCircle)
+		else if (SpawnToDistance > MongSiriParant->m_PopulationMinCircle)
 		{
 			// 점프력 측정
 			float JumpChangeRatio = RandomClass.RandomFloat(0.0f, 1.0f);

@@ -23,7 +23,7 @@ public:
 	MapEditorLevel& operator=(MapEditorLevel&& _Other) noexcept = delete;
 
 	int _SelectDepth = 0;
-	float _RendererBias = 0.0f;
+	float _RendererHeight = 0.0f;
 
 	std::string _SelcetSprite = "";
 

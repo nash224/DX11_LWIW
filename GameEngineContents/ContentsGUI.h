@@ -144,7 +144,7 @@ public:
 	std::map<std::string, int> DepthTypes;
 
 
-	char BackGroundName[256] = { 0, };
+	char PathString[256] = { 0, };
 	bool BaseRendererCheckBox = false;
 	int SelectSpriteItem = 0;
 	int SelectDepthItem = 0;

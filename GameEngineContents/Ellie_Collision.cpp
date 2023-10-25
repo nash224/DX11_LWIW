@@ -93,6 +93,7 @@ void Ellie::UpdateInteractionCollsiion()
 
 				float4 OtherPosition = Collision->Transform.GetWorldPosition();
 				float4 EllieVectorTowardObject = OtherPosition - ElliePosition;
+
 				EllieVectorTowardObject.Z = 0.0f;
 				float ObjectAngle = EllieVectorTowardObject.NormalizeReturn().Angle2DDeg();
 				if (EllieVectorTowardObject.Y < 0.0f)

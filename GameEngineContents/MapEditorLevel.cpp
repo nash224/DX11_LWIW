@@ -82,7 +82,7 @@ float MapEditorLevel::CalculateDepth(const float _PositionY) const
 
 void MapEditorLevel::UpdateMapEditor(float _Delta)
 {
-	if (nullptr == SelectActor && true == GameEngineInput::IsDown(VK_MBUTTON, this))
+	if (nullptr == SelectActor)
 	{
 		if (true == ClickCreateActor())
 		{
@@ -136,7 +136,7 @@ bool MapEditorLevel::ClickCreateActor()
 		Position.Z = 0.0f;
 		Object->Transform.SetLocalPosition(Position);
 		Object->m_Renderer->SetSprite(_SelcetSprite);
-		Object->m_Renderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, _RendererBias));
+		Object->m_Renderer->Transform.SetLocalPosition(float4(0.0f, _RendererHeight));
 		SelectActor = Object.get();
 
 		return true;
@@ -292,7 +292,7 @@ bool MapEditorLevel::PlaceThis()
 		Position.Z = GlobalUtils::CalculateDepth(ERENDERDEPTH::DeepDarkGrass);
 	}
 
-	if (ERENDERDEPTH::DarkGrass == static_cast<ERENDERDEPTH>(_SelectDepth))
+	if (ERENDERDEPTH::Object == static_cast<ERENDERDEPTH>(_SelectDepth))
 	{
 		Position.Z = CalculateDepth(Position.Y);
 	}
