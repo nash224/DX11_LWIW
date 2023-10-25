@@ -30,8 +30,6 @@ public:
 	void SetRattleCycle(float _Value);
 	void Init();
 
-	void ActorRelease();
-
 protected:
 	void Start() override;
 	void Update(float _Delta) override;

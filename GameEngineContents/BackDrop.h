@@ -27,7 +27,5 @@ protected:
 
 
 protected:
-	std::vector<std::shared_ptr<class Prop>> vecProps;
-
 	float4 m_BackScale = float4::ZERO;
 };

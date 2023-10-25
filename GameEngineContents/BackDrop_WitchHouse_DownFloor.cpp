@@ -89,8 +89,6 @@ void BackDrop_WitchHouse_DownFloor::Init()
 
 void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 {
-	vecProps.reserve(30);
-
 #pragma region BackPaint
 
 	float4 HWinScale = GlobalValue::GetWindowScale().Half();

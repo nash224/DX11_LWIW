@@ -31,7 +31,6 @@ public:
 	void CreateItem(std::string_view _ItemName, const float4& _Position = float4::ZERO, const int _Stack = 1, const float _FallYPosition = 0.0f);
 
 
-
 protected:
 	void Start() override;
 	void Update(float _Delta) override;

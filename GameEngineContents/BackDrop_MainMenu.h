@@ -19,6 +19,9 @@ public:
 	BackDrop_MainMenu& operator=(const BackDrop_MainMenu& _Other) = delete;
 	BackDrop_MainMenu& operator=(BackDrop_MainMenu&& _Other) noexcept = delete;
 
+
+	void Init();
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -26,18 +29,10 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
-
-public:
-	void Init();
-
 private:
 	void CreateProp(class GameEngineLevel* _CurLevel);
 	void CreateTrain(class GameEngineLevel* _CurLevel);
 	void CreateChainProp(class GameEngineLevel* _CurLevel);
-
-private:
-	std::shared_ptr<MainMenu_Trains> m_MainMenu_Train;
-	std::vector<std::shared_ptr<ChainProp>> vecMainMenu_Chain;
 
 private:
 

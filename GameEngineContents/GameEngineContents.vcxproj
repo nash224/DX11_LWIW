@@ -187,10 +187,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="BackDrop_Loading.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="BackDrop_MainMenu.cpp">
       <SubType>
       </SubType>
@@ -554,10 +550,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="BackDrop_CenterField.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="BackDrop_Loading.h">
       <SubType>
       </SubType>
     </ClInclude>

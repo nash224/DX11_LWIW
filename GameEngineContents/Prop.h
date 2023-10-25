@@ -2,7 +2,6 @@
 
 
 // 설명 : 배경의 소품을 담당하는 클래스입니다.
-//		또는 픽셀 충돌을 담당하기도 합니다.
 class Prop : public GameEngineActor
 {
 public:
@@ -48,19 +47,6 @@ public:
 	void SetAutoSpriteSize(float _Ratio, bool _Value = true);
 
 
-
-	// 픽셀충돌
-	void CreatePixelCollisionRenderer();
-	void SetPixelSprite(std::string_view _FileName);
-
-	GameEngineColor GetColor(const float4& _Position, GameEngineColor _DefaultColor = { 255, 255, 255, 255 });
-
-
-
-	// 디버그
-	void EnableDebugMode(bool _Value);
-
-
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -71,15 +57,11 @@ protected:
 
 public:
 	std::shared_ptr<class GameEngineSpriteRenderer> m_Renderer = nullptr;
-	float4 m_Position = float4::ZERO;
-
-protected:
-	// 픽셀 충돌
 	std::shared_ptr<class GameEngineSpriteRenderer> m_DebugRenderer = nullptr;
 	std::string m_PixelFileName = "";
 
-public:
-	bool PixelRendererCheck = false;
+	float4 m_Position = float4::ZERO;
 	float4 m_PixelTextureScale = float4::ZERO;
+	bool PixelRendererCheck = false;
 
 };

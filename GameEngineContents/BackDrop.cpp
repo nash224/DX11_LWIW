@@ -41,7 +41,7 @@ void BackDrop::LevelStart(class GameEngineLevel* _NextLevel)
 
 void BackDrop::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-	vecProps.clear();
+	
 }
 
 

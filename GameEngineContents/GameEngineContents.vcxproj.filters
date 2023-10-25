@@ -64,9 +64,6 @@
     <Filter Include="2.Object\2.Actor\1.BackDrop\LevelBackDrop\2.Play">
       <UniqueIdentifier>{7225245d-3e89-4098-9cfd-3cfb1d98b3d0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2.Object\2.Actor\1.BackDrop\LevelBackDrop\0.Loading">
-      <UniqueIdentifier>{21f50499-21ff-4011-95d0-3d89e05823d8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2.Object\2.Actor\2.Interactive">
       <UniqueIdentifier>{e2fea63f-3b07-4ea3-a0c6-8afed64b65e4}</UniqueIdentifier>
     </Filter>
@@ -330,9 +327,6 @@
     </ClInclude>
     <ClInclude Include="BackDrop_MainMenu.h">
       <Filter>2.Object\2.Actor\1.BackDrop\LevelBackDrop\1.MainMenu</Filter>
-    </ClInclude>
-    <ClInclude Include="BackDrop_Loading.h">
-      <Filter>2.Object\2.Actor\1.BackDrop\LevelBackDrop\0.Loading</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_PlayLevel.h">
       <Filter>2.Object\2.Actor\1.BackDrop\LevelBackDrop\2.Play</Filter>
@@ -609,9 +603,6 @@
     </ClCompile>
     <ClCompile Include="BackDrop_MainMenu.cpp">
       <Filter>2.Object\2.Actor\1.BackDrop\LevelBackDrop\1.MainMenu</Filter>
-    </ClCompile>
-    <ClCompile Include="BackDrop_Loading.cpp">
-      <Filter>2.Object\2.Actor\1.BackDrop\LevelBackDrop\0.Loading</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_PlayLevel.cpp">
       <Filter>2.Object\2.Actor\1.BackDrop\LevelBackDrop\2.Play</Filter>
