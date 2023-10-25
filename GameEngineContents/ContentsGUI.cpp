@@ -7,6 +7,7 @@
 #include "CameraControler.h"
 
 #include "BackDrop_PlayLevel.h"
+#include "RendererActor.h"
 
 #include "UI_Inventory.h"
 
@@ -40,6 +41,11 @@ void ContentsGUI::OnGUI(GameEngineLevel* _Level, float _Delta)
 			if (ImGui::Button(AllTabs[i]->Name.c_str()))
 			{
 				CurTab = AllTabs[i];
+
+				if ("MapEditor" == AllTabs[i]->Name)
+				{
+					GameEngineCore::ChangeLevel("MapEditorLevel");
+				}
 			}
 		}
 
@@ -237,8 +243,9 @@ void MapEditorTab::Start()
 		SpriteNames.push_back(pFile.GetFileName());
 	}
 
-	DepthTypes.push_back("Dark Grass");
-	DepthTypes.push_back("Dark Grass");
+	DepthTypes.insert(std::make_pair("DarkGrass", static_cast<int>(ERENDERDEPTH::DarkGrass)));
+	DepthTypes.insert(std::make_pair("DeepDarkGrass", static_cast<int>(ERENDERDEPTH::DeepDarkGrass)));
+	DepthTypes.insert(std::make_pair("Object", static_cast<int>(ERENDERDEPTH::Object)));
 }
 
 
@@ -275,6 +282,13 @@ void MapEditorTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		if (ImGui::BeginTabItem("LoadTab"))
 		{
 			LoadTab(_Level, _DeltaTime);
+
+			ImGui::EndTabItem();
+		}
+
+		if (ImGui::BeginTabItem("Help"))
+		{
+			HelpTab(_Level, _DeltaTime);
 
 			ImGui::EndTabItem();
 		}
@@ -384,20 +398,27 @@ void MapEditorTab::EditorTab(GameEngineLevel* _Level, float _DeltaTime)
 		CNames.push_back(SpriteNames[i].c_str());
 	}
 
-	if (ImGui::ListBox("SpriteNames", &SelectItem, &CNames[0], static_cast<int>(CNames.size())))
+	if (ImGui::ListBox("SpriteNames", &SelectSpriteItem, &CNames[0], static_cast<int>(CNames.size())))
 	{
-		dynamic_cast<MapEditorLevel*>(_Level)->_SelcetSprite = SpriteNames[SelectItem];
+		dynamic_cast<MapEditorLevel*>(_Level)->_SelcetSprite = SpriteNames[SelectSpriteItem];
+		SelectSpriteName = SpriteNames[SelectSpriteItem];
 	}
 
-	if (ImGui::Button("UnSelect"))
+	if ("" != SelectSpriteName)
 	{
-		dynamic_cast<MapEditorLevel*>(_Level)->SelectActor = nullptr;
+		std::vector<const char*> CNames;
+
+		CNames.reserve(DepthTypes.size());
+		for (std::pair<const std::string, int>& Type : DepthTypes)
+		{
+			CNames.push_back(Type.first.c_str());
+		}
+
+		if (ImGui::ListBox("Depth", &SelectDepthItem, &CNames[0], static_cast<int>(CNames.size())), 3)
+		{
+			dynamic_cast<MapEditorLevel*>(_Level)->_SelectDepth = SelectDepthItem;
+		}
 	}
-
-	//if (ImGui::)
-	//{
-
-	//}
 }
 
 void MapEditorTab::LoadTab(GameEngineLevel* _Level, float _DeltaTime)
@@ -468,4 +489,26 @@ void MapEditorTab::LoadTab(GameEngineLevel* _Level, float _DeltaTime)
 			// SaveBin << MapLevel->BackGroundRenderer->GetSprite()->GetName();
 		}
 	}
+}
+
+
+void MapEditorTab::HelpTab(GameEngineLevel* _Level, float _DeltaTime)
+{
+	ImGui::Text("Camera");
+	ImGui::Text("Shift : Camera Acceleration ");
+	ImGui::Text("A : Move Left ");
+	ImGui::Text("W : Move Up & Front ");
+	ImGui::Text("S : Move Down & Back ");
+	ImGui::Text("D : Move Right ");
+	ImGui::Text("");
+
+	ImGui::Text("Select");
+	ImGui::Text("MMouseButton : Create Actor");
+	ImGui::Text("RMouseButton : Select Actor");
+	ImGui::Text("LMouseButton : Drag Selected Actor");
+	ImGui::Text("Arrow : Move Actor 1px");
+	ImGui::Text("Q : Rotate Transform");
+	ImGui::Text("E : Rotate Transform");
+	ImGui::Text("X : Erase Actor");
+	ImGui::Text("F : Place Actor ");
 }

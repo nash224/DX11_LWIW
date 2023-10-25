@@ -1,6 +1,8 @@
 #pragma once
 #include "ContentsLevel.h"
 
+#define OneQuater 90.0f
+
 // Ό³Έν :
 class MapEditorLevel : public ContentsLevel
 {
@@ -20,10 +22,13 @@ public:
 	MapEditorLevel& operator=(const MapEditorLevel& _Other) = delete;
 	MapEditorLevel& operator=(MapEditorLevel&& _Other) noexcept = delete;
 
+	int _SelectDepth = 0;
+	float _RendererBias = 0.0f;
+
 	std::string _SelcetSprite = "";
-	float _RendererDepth = 0.0f;
 
 	float4 m_BaseScale = float4::ZERO;
+	float4 m_SaveLocation = float4::ZERO;
 
 
 	std::shared_ptr<GameEngineActor> m_MapBaseActor;
@@ -40,7 +45,12 @@ protected:
 
 private:
 	void UpdateMapEditor(float _Delta);
-	void ClickCreateActor();
+	bool ClickCreateActor();
+	bool ClickForSelectActor();
+	bool MoveSelectActor();
+	bool RotateSelectActor();
+	bool EraseSelectActor();
+	bool PlaceThis();
 
 
 

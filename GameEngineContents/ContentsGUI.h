@@ -122,6 +122,8 @@ public:
 	void SettingTab(GameEngineLevel* _Level, float _DeltaTime);
 	void EditorTab(GameEngineLevel* _Level, float _DeltaTime);
 	void LoadTab(GameEngineLevel* _Level, float _DeltaTime);
+	void HelpTab(GameEngineLevel* _Level, float _DeltaTime);
+
 
 
 public:
@@ -136,14 +138,16 @@ public:
 	std::string SavePath;
 	std::string LoadPath;
 	std::string InputPath;
+	std::string SelectSpriteName;
 
 	std::vector<std::string> SpriteNames;
-	std::vector<std::string> DepthTypes;
+	std::map<std::string, int> DepthTypes;
 
 
 	char BackGroundName[256] = { 0, };
 	bool BaseRendererCheckBox = false;
-	int SelectItem;
+	int SelectSpriteItem = 0;
+	int SelectDepthItem = 0;
 	
 
 };
