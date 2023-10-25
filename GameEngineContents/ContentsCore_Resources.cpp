@@ -151,10 +151,9 @@ void ContentsCore::InitBlendResources()
 	// src 1, 0, 0, 1 * (1 - src의 알파)
 	Desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
 
-	// 
-	Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
-	Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ZERO;
-	Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
+	Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;	// 색을 더하는데
+	Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ZERO;	// 소스는 색만입힘
+	Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;	// 원본은 유지
 
 	std::shared_ptr<GameEngineBlend> Blend = GameEngineBlend::Create("Overlay", Desc);
 }

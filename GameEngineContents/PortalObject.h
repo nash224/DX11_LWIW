@@ -77,10 +77,10 @@ private:
 
 private:
 	std::shared_ptr<GameEngineCollision> PotalCol = nullptr;
+	std::string m_ChangeLevelName = "";
+
 	PortalType m_PortalType = PortalType::Instant;
 	float4 m_ColScale = float4::ZERO;
-
-	std::string m_ChangeLevelName = "";
 
 	bool IsColliding = false;
 };

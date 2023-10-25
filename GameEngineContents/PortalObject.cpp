@@ -47,11 +47,6 @@ void PortalObject::LevelEnd(class GameEngineLevel* _NextLevel)
 void PortalObject::CreatePortalCollision(int _Order)
 {
 	PotalCol = CreateComponent<GameEngineCollision>(_Order);
-	if (nullptr == PotalCol)
-	{
-		MsgBoxAssert("충돌체가 존재하지 않습니다..");
-		return;
-	}
 }
 
 

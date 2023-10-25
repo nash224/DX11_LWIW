@@ -610,7 +610,6 @@ void BackDrop_WitchHouse_Yard::CreatePortalActor(GameEngineLevel* _Level)
 		Object->SetLocalPosition({ 478.0f , -323.0f });
 		Object->SetCollisionRange({ 60.0f , 4.0f });
 		Object->SetCollisionType(ColType::AABBBOX2D);
-		vecPortalObject.push_back(Object);
 	}
 
 
@@ -627,7 +626,6 @@ void BackDrop_WitchHouse_Yard::CreatePortalActor(GameEngineLevel* _Level)
 		Object->SetLocalPosition({ HWinScale.X , -GlobalValue::GetWindowScale().Y });
 		Object->SetCollisionRange({ 200.0f , 100.0f });
 		Object->SetCollisionType(ColType::AABBBOX2D);
-		vecPortalObject.push_back(Object);
 	}
 }
 

@@ -30,7 +30,6 @@ public:
 	// æ∆¿Ã≈€
 	void CreateItem(std::string_view _ItemName, const float4& _Position = float4::ZERO, const int _Stack = 1, const float _FallYPosition = 0.0f);
 
-	std::list<std::shared_ptr<class LootedItem>>& GetLootedItemList();
 
 
 protected:
@@ -41,12 +40,8 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 protected:
-	std::vector<std::shared_ptr<class Prop>> vecPixelProps;
 	std::vector<std::shared_ptr<class Props>> PixelVec;
 	std::vector<std::shared_ptr<class StaticEntity>> PixelStaticEntityVec;
-	std::list<std::shared_ptr<class LootedItem>> LootedItemList;
-	std::vector<std::shared_ptr<class PortalObject>> vecPortalObject;
-
 
 };
 

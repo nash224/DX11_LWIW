@@ -84,15 +84,10 @@ void Ellie::UpdateInteractionCollsiion()
 
 			for (size_t i = 0; i < Amount; i++)
 			{
-				// 1. 각도 캐릭터 기준 양 옆 45도
+				// 1. 각도 캐릭터 기준 양 옆 특정 각도
 				// 2. 거리 가까운 액터 기준
 
 				std::shared_ptr<GameEngineCollision>& Collision = _Collisions[i];
-				if (nullptr == Collision)
-				{
-					MsgBoxAssert("충돌 정보를 불러오지 못했습니다.");
-					return;
-				}
 
 				bool IsAngle = false;
 
@@ -161,11 +156,6 @@ void Ellie::UpdateInteractionCollsiion()
 				std::shared_ptr<GameEngineCollision>& Collision = _Collisions[ShortestNumber];
 
 				GameEngineActor* Object = Collision->GetActor();
-				if (nullptr == Object)
-				{
-					MsgBoxAssert("액터를 불러오지 못했습니다.");
-					return;
-				}
 
 				InteractiveActor* Entity = dynamic_cast<InteractiveActor*>(Object);
 				if (nullptr == Entity)
@@ -245,13 +235,10 @@ void Ellie::UpdateInteractionCollsiion()
 				}
 
 				// UI에게 이걸 띄워달라고 요청합니다.
-				if (nullptr == UI_InterativeMark::UI_Mark)
+				if (nullptr != UI_InterativeMark::UI_Mark)
 				{
-					MsgBoxAssert("UI Mark가 생성되지 않았습니다.");
-					return;
+					UI_InterativeMark::UI_Mark->PointThis(Entity);
 				}
-
-				UI_InterativeMark::UI_Mark->PointThis(Entity);
 			}
 		});
 }

@@ -426,12 +426,8 @@ void MapEditorTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 				}
 			}
 
-
-
 			ImGui::EndTabItem();
 		}
 	}
 	ImGui::EndTabBar();
-
-	// MapLevel->BackGroundRenderer->SetSprite
 }

@@ -933,8 +933,6 @@ void BackDrop_WitchHouse_DownFloor::CreatePortalActor(GameEngineLevel* _Level)
 		Object->SetCollisionRange({ 64.0f , 22.0f });
 		Object->SetLocalPosition({ 548.0f , -172.0f });
 		Object->SetCollisionType(ColType::AABBBOX2D);
-
-		vecPortalObject.push_back(Object);
 	}
 }
 

@@ -47,10 +47,14 @@ void BackDrop_PlayLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	BackDrop::LevelEnd(_NextLevel);
 
-	vecPixelProps.clear();
 	PixelVec.clear();
 	PixelStaticEntityVec.clear();
-	vecPortalObject.clear();
+
+	std::vector<std::shared_ptr<PortalObject>> Portals = GetLevel()->GetObjectGroupConvert<PortalObject>(0);
+	for (size_t i = 0; i < Portals.size(); i++)
+	{
+		Portals[i]->Death();
+	}
 }
 
 
@@ -61,31 +65,6 @@ void BackDrop_PlayLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 // 특정 위치에 픽셀데이터가 있는지 반환해줍니다.
 bool BackDrop_PlayLevel::IsColorAtPosition(const float4& _Position, GameEngineColor _CheckColor)
 {
-	if (false == vecPixelProps.empty())
-	{
-		for (size_t i = 0; i < vecPixelProps.size(); i++)
-		{
-			std::shared_ptr<Prop> Object = vecPixelProps[i];
-			if (nullptr == Object)
-			{
-				MsgBoxAssert("생성되지 않은 액터를 참조하려고 했습니다.");
-				return false;
-			}
-
-			if (false == Object->PixelRendererCheck)
-			{
-				continue;
-			}
-
-			if (_CheckColor == Object->GetColor(_Position))
-			{
-				return true;
-			}
-		}
-	}
-
-
-
 	for (size_t i = 0; i < PixelVec.size(); i++)
 	{
 		std::shared_ptr<Props> Object = PixelVec[i];
@@ -122,46 +101,28 @@ float BackDrop_PlayLevel::ZSort(const float _PositionY) const
 	return Depth;
 }
 
-// 아이템생성
+// 아이템 생성 : 
+// 아이템 이름
+// 위치
+// 개수
+// 떨어질 거리
 void BackDrop_PlayLevel::CreateItem(std::string_view _ItemName, const float4& _Position, const int _Stack /*= 1*/, const float _FallYPosition /*= 0.0f*/)
 {
-	GameEngineLevel* CurLevel = GetLevel();
-	if (nullptr == CurLevel)
-	{
-		MsgBoxAssert("레벨을 불러오지 못했습니다.");
-		return;
-	}
-
-	if (this != MainBackDrop)
-	{
-		MsgBoxAssert("현재 배경매니저가 아닙니다.");
-		return;
-	}
-
-	std::shared_ptr<LootedItem> Item = CurLevel->CreateActor<LootedItem>(EUPDATEORDER::Objects);
-	if (nullptr == Item)
-	{
-		MsgBoxAssert("액터를 생성하지 못했습니다.");
-		return;
-	}
+	std::shared_ptr<LootedItem> Item = GetLevel()->CreateActor<LootedItem>(EUPDATEORDER::Objects);
 
 	Item->BackManager = this;
+
 	float4 Position = _Position;
 	Position.Z = GlobalUtils::CalculateDepth(ERENDERDEPTH::RootedItem);
 	Item->Transform.SetLocalPosition(Position);
+
 	Item->SetStack(_Stack);
+
 	if (0.0f != _FallYPosition)
 	{
 		Item->SetFallingTargetPosition(_FallYPosition);
 	}
+
 	Item->Init(_ItemName);
-	LootedItemList.push_back(Item);
 }
 
-
-
-// 아이템 전용
-std::list<std::shared_ptr<class LootedItem>>& BackDrop_PlayLevel::GetLootedItemList() 
-{
-	return LootedItemList;
-}

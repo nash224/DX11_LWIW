@@ -148,8 +148,6 @@ void BackDrop_CenterField::CreatePortalActor(GameEngineLevel* _Level)
 		Object->SetCollisionRange({ 100.0f , 400.0f });
 		Object->SetLocalPosition({ 1200.0f , -200.0f });
 		Object->SetCollisionType(ColType::AABBBOX2D);
-
-		vecPortalObject.push_back(Object);
 	}
 }
 

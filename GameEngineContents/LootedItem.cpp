@@ -37,6 +37,9 @@ void LootedItem::LevelStart(class GameEngineLevel* _NextLevel)
 	StaticEntity::LevelStart(_NextLevel);
 }
 
+
+// 이 객체를 지울때 GameEngineLevel의 GetObjectGroupConvert로 그룹을 받아와서 지울 수 있습니다.
+// 날이 바뀌면 위 함수를 호출하여 모든 플레이 레벨의 아이템을 지울 예정입니다.
 void LootedItem::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	StaticEntity::LevelEnd(_NextLevel);
@@ -129,10 +132,6 @@ void LootedItem::UpdateItemInteraction()
 	{
 		// 아이템 넣고
 		UI_Inventory::PushItem(m_ItemName, m_Stack);
-
-		// 리스트에서 제거하고
-		std::list<std::shared_ptr<LootedItem>>& ItemList = BackManager->GetLootedItemList();
-		ItemList.remove(GetDynamic_Cast_This<LootedItem>());
 
 		// 삭제
 		Death();

@@ -618,8 +618,6 @@ void BackDrop_WitchHouse_UpFloor::CreatePixelMap(GameEngineLevel* _Level)
 
 void BackDrop_WitchHouse_UpFloor::LoadPortalActor(GameEngineLevel* _Level)
 {
-	vecPortalObject.resize(2);
-
 	{
 		std::shared_ptr<PortalObject> Object = _Level->CreateActor<PortalObject>(EUPDATEORDER::Portal);
 		if (nullptr == Object)
@@ -635,8 +633,6 @@ void BackDrop_WitchHouse_UpFloor::LoadPortalActor(GameEngineLevel* _Level)
 		Object->SetCollisionRange({ 44.0f , 20.0f });
 		Object->SetLocalPosition(m_HouseLocation + float4{ 174.0f , -184.0f });
 		Object->SetCollisionType(ColType::AABBBOX2D);
-
-		vecPortalObject.push_back(Object);
 	}
 
 	{
@@ -654,8 +650,6 @@ void BackDrop_WitchHouse_UpFloor::LoadPortalActor(GameEngineLevel* _Level)
 		Object->SetCollisionRange({ 60.0f , 10.0f });
 		Object->SetLocalPosition(m_HouseLocation + float4{ 126.0f , -336.0f });
 		Object->SetCollisionType(ColType::AABBBOX2D);
-
-		vecPortalObject.push_back(Object);
 	}
 }
 

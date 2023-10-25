@@ -355,6 +355,7 @@ void Ellie::UpdateApproach(float _Delta)
 	TargetDistance.Z = 0.0f;
 	float4 TargetDircetion = TargetDistance.NormalizeReturn();
 	m_MoveVector = TargetDircetion * CONST_Ellie_Walk_Speed;
+	
 
 	ApplyMovement(_Delta);
 
