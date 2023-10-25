@@ -295,7 +295,7 @@ void UI_Inventory::Init()
 	ExternUISetting();
 
 	LockSlot(UnlockSlotY);
-	Transform.AddLocalPosition({ -288.0f , 28.0f });
+	Transform.AddLocalPosition(INVENTORY_POSITION);
 
 	// 부모 설정 후, 그립니다.
 	OnLevelStart();
@@ -304,15 +304,10 @@ void UI_Inventory::Init()
 // Base Create
 void UI_Inventory::CreateBase()
 {
-	m_InventoryBase = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Base);
-	if (nullptr == m_InventoryBase)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
-
-	m_InventoryBase->SetSprite("Inventory_Base.png");
 	float4 BasePosition = { 0.0f , 0.0f , GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Base) };
+
+	m_InventoryBase = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Base);
+	m_InventoryBase->SetSprite("Inventory_Base.png");
 	m_InventoryBase->Transform.AddLocalPosition(BasePosition);
 }
 
@@ -400,20 +395,7 @@ void UI_Inventory::CreateCursor()
 
 void UI_Inventory::CreateNoticeDropManager()
 {
-	GameEngineLevel* CurLevel = GetLevel();
-	if (nullptr == CurLevel)
-	{
-		MsgBoxAssert("레벨을 불러오지 못했습니다.");
-		return;
-	}
-
-	m_DropManager = CurLevel->CreateActor<UI_DropManager>(EUPDATEORDER::UIMagnaer);
-	if (nullptr == m_DropManager)
-	{
-		MsgBoxAssert("액터를 생성하지 못했습니다.");
-		return;
-	}
-
+	m_DropManager = GetLevel()->CreateActor<UI_DropManager>(EUPDATEORDER::UIMagnaer);
 	m_DropManager->Init();
 }
 
@@ -434,14 +416,7 @@ void UI_Inventory::CreateData()
 
 
 	Data = std::make_shared<Inventory>();
-	if (nullptr == Data)
-	{
-		MsgBoxAssert("데이터를 생성하지 못했습니다.");
-		return;
-	}
-
 	Data->InventoryParent = this;
-
 	Data->Init();
 }
 
@@ -469,12 +444,6 @@ void UI_Inventory::LockSlot(const unsigned int _Y)
 		for (size_t x = 0; x < InventorySlotArray[y].size(); x++)
 		{
 			std::shared_ptr<GameEngineUIRenderer> Slot = InventorySlotArray[y][x].Slot;
-			if (nullptr == Slot)
-			{
-				MsgBoxAssert("존재하지 않는 슬롯을 참조하려고 했습니다.");
-				return;
-			}
-
 			Slot->SetSprite("Inventory_SlotLock.png");
 			Slot->On();
 		}
@@ -711,7 +680,7 @@ void UI_Inventory::CursorThis(const unsigned int _X, const unsigned int _Y)
 	// 데이터가 있으면
 	if (true == Data->IsContain(_X, _Y))
 	{
-		CursorPosition = CalculateIndexToPos(_X, _Y) + NameTagPositionBaseOnSlotCenter;
+		CursorPosition = CalculateIndexToPos(_X, _Y) + NameTagPosition;
 		CursorPosition = { CursorPosition.X , CursorPosition.Y, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Cursor) };
 		m_CursorComposition.NameTooltip->Transform.SetLocalPosition(CursorPosition);
 		m_CursorComposition.NameTooltip->On();
@@ -721,19 +690,12 @@ void UI_Inventory::CursorThis(const unsigned int _X, const unsigned int _Y)
 		m_CursorComposition.NameTooltip->Off();
 	}
 
-
 	m_CurrentSlotX = _X;
 	m_CurrentSlotY = _Y;
 }
 
 void UI_Inventory::ClearSlot(const unsigned int _X, const unsigned int _Y)
 {
-	if (this != Data->InventoryParent)
-	{
-		MsgBoxAssert("지정된 부모가 아닙니다. 확인해세요");
-		return;
-	}
-
 	if (nullptr == Data)
 	{
 		MsgBoxAssert("데이터가 존재하지 않습니다.");
@@ -846,12 +808,6 @@ bool UI_Inventory::UpdateCursor()
 
 void UI_Inventory::MoveCursor(const int _X, const int _Y)
 {
-	if (nullptr == Data)
-	{
-		MsgBoxAssert("데이터가 존재하지 않습니다.");
-		return;
-	}
-
 	m_CurrentSlotX += _X;
 	m_CurrentSlotY += _Y;
 

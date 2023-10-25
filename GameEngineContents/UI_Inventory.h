@@ -4,6 +4,8 @@
 #define Max_XSlot  4
 #define Max_YSlot  6
 
+#define INVENTORY_POSITION { -288.0f , 28.0f }
+
 constexpr float GridSpacing = 12.0f;
 constexpr float CursorInter = 0.4f;
 
@@ -193,17 +195,15 @@ private:
 	GameEngineState m_InventoryState;
 	EINVENTORYMODE m_Mode = EINVENTORYMODE::None;
 
-	// 슬롯
+	float4 m_GridScale = float4::ZERO;
+	float4 FirstGridPosition = float4::ZERO;
+
 	int m_CurrentSlotX = 0;
 	int m_CurrentSlotY = 0;
 
-	// 그리드 
-	float4 m_GridScale = float4::ZERO;
-	float4 FirstGridPosition = float4::ZERO;
 	bool IsFirstPosCalculated = false;
 
-	// 커서
-	const float4 NameTagPositionBaseOnSlotCenter = { 0.0f, 40.0f };
+	const float4 NameTagPosition = { 0.0f, 40.0f };
 
 
 
