@@ -39,8 +39,6 @@ void CameraControler::Update(float _Delta)
 
 	UpdateCameraMode(_Delta);
 	RenewCameraPosition();
-
-
 }
 
 void CameraControler::LevelStart(class GameEngineLevel* _NextLevel)
@@ -334,6 +332,10 @@ void CameraControler::UpdateCameraMode(float _Delta)
 	default:
 		break;
 	}
+
+	float4 CameraPos = m_MainCamera->Transform.GetLocalPosition();
+	CameraPos.Z = CAMERA_DEPTH;
+	m_MainCamera->Transform.SetLocalPosition(CameraPos);
 }
 
 

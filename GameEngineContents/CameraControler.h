@@ -1,5 +1,8 @@
 #pragma once
 
+#define CAMERA_DEPTH -1000.0f
+
+
 enum class ECAMERAMODE
 {
 	None,

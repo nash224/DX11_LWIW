@@ -29,7 +29,9 @@ void MongSiri_Population::Update(float _Delta)
 
 void MongSiri_Population::Release()
 {
-	
+
+	MongSiriEntityList.clear();
+	m_ChubHole = nullptr;
 }
 
 void MongSiri_Population::LevelStart(class GameEngineLevel* _NextLevel)
@@ -228,8 +230,6 @@ void MongSiri_Population::ActorRelaese()
 	{
 		Object->Death();
 	}
-
-	MongSiriEntityList.clear();
 
 	m_ChubHole->Death();
 }

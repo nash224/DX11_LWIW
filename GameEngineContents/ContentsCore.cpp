@@ -30,6 +30,9 @@ void ContentsCore::Start()
 {
 	GlobalLoad::LoadGlobalResource();
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor(float4{ 0.5f, 0.5f, 0.5f });
+	GameEngineFont::Load("LiberationSans");
+	GameEngineFont::Load("SDSamliphopangcheTTFBasic");
+	GameEngineFont::Load("Perfect DOS VGA 437");
 	InitResources();
 	InitBlendResources();
 

@@ -14,7 +14,6 @@ MapEditorLevel::MapEditorLevel()
 	float4 Position = GlobalValue::GetWindowScale().Half();
 	Position.Y *= -1.0f;
 	GetMainCamera()->Transform.AddLocalPosition(Position);
-
 }
 
 MapEditorLevel::~MapEditorLevel() 

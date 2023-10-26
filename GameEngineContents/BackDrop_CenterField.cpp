@@ -65,7 +65,7 @@ void BackDrop_CenterField::Init()
 	CreatePixelMap(CurLevel);
 	CreatePortalActor(CurLevel);
 	CreateAurea(CurLevel);
-
+	/*TestPorp();*/
 
 	static bool IsCreatedCreature = false;
 	if (false == IsCreatedCreature)
@@ -82,12 +82,9 @@ void BackDrop_CenterField::Init()
 
 void BackDrop_CenterField::TestPorp()
 {
-	// std::shared_ptr<GameEngineSpriteRenderer> Renderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
-	// Position, Rotation
-	// Depth => (RenderDepth, ZOrder)
-	// Renderer->SetSprite
-	/*Renderer->Transform.SetLocalPosition();*/
-	// pushback
+	std::shared_ptr<GameEngineActor> TestActor = GetLevel()->CreateActor<GameEngineActor>(0);
+	std::shared_ptr<GameEngineUIRenderer> Text = TestActor->CreateComponent<GameEngineUIRenderer>();
+	Text->SetText("SDSamliphopangcheTTFBasic", "다람쥐 헌 챗바퀴에 타고파", 20.0f , float4::BLUE);
 }
 
 
@@ -359,12 +356,6 @@ void BackDrop_CenterField::PopulationRelease()
 	for (size_t i = 0; i < PopulationVec.size(); i++)
 	{
 		std::shared_ptr<MongSiri_Population> Population = PopulationVec[i];
-		if (nullptr == Population)
-		{
-			MsgBoxAssert("생성되지 않은 객체를 지우려고 했습니다.");
-			return;
-		}
-
 		Population->ActorRelaese();
 	}
 }
