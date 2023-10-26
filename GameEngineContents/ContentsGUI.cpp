@@ -520,9 +520,12 @@ void BaseRendererItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTim
 				EditorLevel->SelectActor->m_Renderer->Transform.SetLocalPosition(float4(Width, 0.0f));
 			}
 
-			float4 WPos = EditorLevel->SelectActor->Transform.GetWorldPosition();
-			WPos.Z -= 1.0f;
-			GameEngineDebug::DrawBox2D(float4(4.0f, 4.0f), float4::ZERO, WPos);
+			if (true == _Level->IsDebug)
+			{
+				float4 WPos = EditorLevel->SelectActor->Transform.GetWorldPosition();
+				WPos.Z -= 1.0f;
+				GameEngineDebug::DrawBox2D(float4(4.0f, 4.0f), float4::ZERO, WPos);
+			}
 		}
 	}
 
@@ -680,9 +683,12 @@ void PropItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTime)
 				EditorLevel->SelectActor->m_Renderer->Transform.SetLocalPosition(float4(Width, 0.0f));
 			}
 
-			float4 WPos = EditorLevel->SelectActor->Transform.GetWorldPosition();
-			WPos.Z -= 1.0f;
-			GameEngineDebug::DrawBox2D(float4(4.0f, 4.0f), float4::ZERO, WPos);
+			if (true == _Level->IsDebug)
+			{
+				float4 WPos = EditorLevel->SelectActor->Transform.GetWorldPosition();
+				WPos.Z -= 1.0f;
+				GameEngineDebug::DrawBox2D(float4(4.0f, 4.0f), float4::ZERO, WPos);
+			}
 		}
 
 		{

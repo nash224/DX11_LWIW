@@ -118,6 +118,7 @@ void MapEditorLevel::UpdateMapEditor(float _Delta)
 		if (true == GameEngineInput::IsDown('F', this))
 		{
 			PlaceThis();
+			SelectActor = nullptr;
 			return;
 		}
 	}
@@ -253,41 +254,44 @@ bool MapEditorLevel::RotateSelectActor()
 // 선택된 액터 이동
 bool MapEditorLevel::MoveSelectActor()
 {
-	float4 Position = float4::ZERO;
+	bool IsInput = false;
+
+	float4 Position = SelectActor->Transform.GetLocalPosition();
 
 	if (true == GameEngineInput::IsPress(VK_LBUTTON, this))
 	{
-		Position = m_MouseManager->m_MouseInfo.MovePos;
-		Position.Z = 0.0f;
-		SelectActor->Transform.AddLocalPosition(Position);
-		return true;
+		Position += m_MouseManager->m_MouseInfo.MovePos;
+		IsInput = true;
 	}
 
 	if (true == GameEngineInput::IsDown(VK_LEFT, this))
 	{
-		Position = float4::LEFT;
-		SelectActor->Transform.AddLocalPosition(Position);
-		return true;
+		Position += float4::LEFT;
+		IsInput = true;
 	}
 
 	if (true == GameEngineInput::IsDown(VK_UP, this))
 	{
-		Position = float4::UP;
-		SelectActor->Transform.AddLocalPosition(Position);
-		return true;
+		Position += float4::UP;
+		IsInput = true;
 	}
 
 	if (true == GameEngineInput::IsDown(VK_DOWN, this))
 	{
-		Position = float4::DOWN;
-		SelectActor->Transform.AddLocalPosition(Position);
-		return true;
+		Position += float4::DOWN;
+		IsInput = true;
 	}
 
 	if (true == GameEngineInput::IsDown(VK_RIGHT, this))
 	{
-		Position = float4::RIGHT;
-		SelectActor->Transform.AddLocalPosition(Position);
+		Position += float4::RIGHT;
+		IsInput = true;
+	}
+
+	if (true == IsInput)
+	{
+		SelectActor->Transform.SetLocalPosition(Position);
+		PlaceThis();
 		return true;
 	}
 
@@ -327,6 +331,5 @@ bool MapEditorLevel::PlaceThis()
 	}
 
 	SelectActor->Transform.SetLocalPosition(Position);
-	SelectActor = nullptr;
 	return true;
 }
