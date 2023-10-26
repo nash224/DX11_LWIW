@@ -86,17 +86,8 @@ void FadeObject::Init()
 void FadeObject::RendererSetting()
 {
 	m_FadeRenderer = CreateComponent<GameEngineUIRenderer>(ERENDERORDER::Fade);
-	if (nullptr == m_FadeRenderer)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
-
-	float4 WinScale = GlobalValue::GetWindowScale();
-
-	// 크기
-	m_FadeRenderer->SetSprite("Fade_Texture.png");
-	m_FadeRenderer->GetImageTransform().SetLocalScale(WinScale);
+	m_FadeRenderer->GetImageTransform().SetLocalScale(GlobalValue::GetWindowScale());
+	m_FadeRenderer->GetColorData().PlusColor = float4(-1.0f, -1.0f, -1.0f);
 }
 
 
