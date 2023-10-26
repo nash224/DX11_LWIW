@@ -738,8 +738,6 @@ void UI_Inventory::OnLevelStart()
 	m_CurrentSlotX = 0;
 	m_CurrentSlotY = 0;
 	CursorThis(m_CurrentSlotX, m_CurrentSlotY);
-
-	Close();
 }
 
 

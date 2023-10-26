@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "ContentsCore.h"
 
+#include <GameEngineCore/GameEngineRenderTarget.h>
 #include <GameEngineCore/GameEngineBlend.h>
 
 #include "GlobalLoad.h"
@@ -28,8 +29,11 @@ ContentsCore::~ContentsCore()
 void ContentsCore::Start()
 {
 	GlobalLoad::LoadGlobalResource();
+	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor(float4{ 0.5f, 0.5f, 0.5f });
 	InitResources();
 	InitBlendResources();
+
+
 	GlobalValue::SetWindowScale(GetStartWindowSize());
 	
 

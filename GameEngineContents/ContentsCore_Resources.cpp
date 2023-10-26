@@ -155,5 +155,12 @@ void ContentsCore::InitBlendResources()
 	Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ZERO;	// 소스는 색만입힘
 	Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;	// 원본은 유지
 
-	std::shared_ptr<GameEngineBlend> Blend = GameEngineBlend::Create("Overlay", Desc);
+	std::shared_ptr<GameEngineBlend> Blend = GameEngineBlend::Create("2DOverRay", Desc);
+
+
+	std::shared_ptr<GameEngineMaterial> OverRayMaterial = GameEngineMaterial::Create("2DTextureOverRay");
+	OverRayMaterial->SetVertexShader("TextureShader_VS");
+	OverRayMaterial->SetPixelShader("TextureShader_PS");
+	OverRayMaterial->SetBlendState("2DOverRay");
+	
 }
