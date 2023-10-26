@@ -32,8 +32,6 @@ private:
 
 
 private:
-
-private:
 	float4 m_DownFloorWholePosition = { 150.0f , -10.0f };
 };
 

@@ -55,7 +55,6 @@ void Bush::Init()
 {
 	SetDepthBias(-30.0f);
 	ApplyDepth(Transform.GetLocalPosition());
-	CreateAndSetCollision(ECOLLISION::Entity, {96.0f , 96.0f }, float4::ZERO,ColType::AABBBOX2D);
 	CreateBushAnimation();
 	InteractiveOptionSetting();
 	BushStateSetting();
@@ -170,6 +169,8 @@ void Bush::InteractiveOptionSetting()
 	case EBUSHTYPE::BushBug:
 	case EBUSHTYPE::BushApple:
 		ButtonType = EINTERACTION_BUTTONTYPE::Gear;
+		SetInteractionOption(ButtonType, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Nothing);
+		CreateAndSetCollision(ECOLLISION::Entity, { 96.0f , 96.0f }, float4::ZERO, ColType::AABBBOX2D);
 		break;
 	case EBUSHTYPE::None:
 	{
@@ -180,8 +181,6 @@ void Bush::InteractiveOptionSetting()
 	default:
 		break;
 	}
-
-	SetInteractionOption(ButtonType, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Nothing);
 }
 
 // 부쉬 초기 행동 적용

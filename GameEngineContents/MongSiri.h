@@ -47,6 +47,8 @@ public:
 	MongSiri& operator=(MongSiri&& _Other) noexcept = delete;
 
 	void Init();
+	void CreateAndSetRenderer();
+	void InitDirection();
 
 protected:
 	void Start() override;
@@ -56,16 +58,11 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
-	void CreateAndSetRenderer();
-	void InitDirection();
-
-private:
 	void ChangeAnimation(std::string_view _StateName);
 	void ChangeAnimationByDircetion(std::string_view _StateName);
 
 	bool IsPlayerAround();
 
-private:
 	void UpdateState(float _Delta);
 	void ChangeState(EMONGSIRISTATE _State);
 
@@ -98,19 +95,15 @@ private:
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> m_Shadow = nullptr;
 
-private:
-	// ป๓ลย
 	EMONGSIRISTATE m_State = EMONGSIRISTATE::None;
 	EMONGSIRISTATUS m_Status = EMONGSIRISTATUS::None;
 
-private:
 	float4 m_TargetForce = float4::ZERO;
-	int m_IdleCount = 0;
 
 	bool IsOnTheHole = false;
-
-private:
+	int m_IdleCount = 0;
 	const float MongSiri_FOVSize = 90.0f;
+
 };
 
 

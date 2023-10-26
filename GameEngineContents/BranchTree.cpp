@@ -100,7 +100,7 @@ void BranchTree::CreateBranchRenderer()
 		}
 
 		BranchRenderer->SetSprite("Branch.png");
-		float4 Position = FristBranchPosition;
+		float4 Position = { -20.0f , -14.0f };
 		Position.Y += TreeRenderBias;
 		Position.Z = GlobalUtils::CalculateDepth(ERENDERDEPTH::Roof);
 		BranchRenderer->Transform.SetLocalPosition(Position);
@@ -117,7 +117,7 @@ void BranchTree::CreateBranchRenderer()
 		}
 
 		BranchRenderer->SetSprite("Branch.png");
-		float4 Position = SecondBranchPosition;
+		float4 Position = { 50.0f , 26.0f };
 		Position.Y += TreeRenderBias;
 		Position.Z = GlobalUtils::CalculateDepth(ERENDERDEPTH::Roof);
 		BranchRenderer->Transform.SetLocalPosition(Position);
@@ -133,7 +133,7 @@ void BranchTree::CreateBranchRenderer()
 		}
 
 		BranchRenderer->SetSprite("Branch_1.png");
-		float4 Position = ThirdBranchPosition;
+		float4 Position = { -22.0f , 54.0f };
 		Position.Y += TreeRenderBias;
 		Position.Z = GlobalUtils::CalculateDepth(ERENDERDEPTH::Roof);
 		BranchRenderer->Transform.SetLocalPosition(Position);

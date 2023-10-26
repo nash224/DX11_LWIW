@@ -38,6 +38,8 @@ public:
 	BranchTree& operator=(BranchTree&& _Other) noexcept = delete;
 
 	void Init();
+	void CreateBranchTreehAnimation();
+	void SetBranchInter();
 
 protected:
 	void Start() override;
@@ -45,11 +47,6 @@ protected:
 	void Release() override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
-
-private:
-	void CreateBranchTreehAnimation();
-	void SetBranchInter();
-
 
 private:
 	void UpdateState(float _Delta);
@@ -71,26 +68,17 @@ private:
 
 
 private:
-	std::shared_ptr<GameEngineSpriteRenderer> m_Tree = nullptr;
-	const float TreeRenderBias = 112.0f;
-
 	std::vector<std::shared_ptr<GameEngineSpriteRenderer>> BranchVector;
-	const float4 FristBranchPosition = { -20.0f , -14.0f };
-	const float4 SecondBranchPosition = { 50.0f , 26.0f };
-	const float4 ThirdBranchPosition = { -22.0f , 54.0f };
+	std::shared_ptr<GameEngineSpriteRenderer> m_Tree = nullptr;
 
-
-private:
 	EBRANCHTREESTATE m_State = EBRANCHTREESTATE::None;
 
 	bool IsShaked = false;
-
-private:
 	int m_BranchCount = 3;
 	float m_BranchStateTime = 0.0f;
-
 	float BranchFallInter = 0.8f;
 	float BranchTotalInter = 0.0f;
+	const float TreeRenderBias = 112.0f;
 
 };
 

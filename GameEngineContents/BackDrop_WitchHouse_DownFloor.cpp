@@ -97,12 +97,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = HWinScale;
 		Position.Z = GlobalUtils::CalculateDepth(EHOUSEDEPTH::BackPaint);
 		Object->Transform.SetLocalPosition(Position);
@@ -117,12 +111,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 349.0f , -315.0f };
 		Position.Z = GlobalUtils::CalculateDepth(EHOUSEDEPTH::HouseComposition);
 		Object->Transform.SetLocalPosition(Position);
@@ -132,12 +120,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 350.0f , -191.0f };
 		Position.Z = GlobalUtils::CalculateDepth(EHOUSEDEPTH::Wall);
 		Object->Transform.SetLocalPosition(Position);
@@ -150,12 +132,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 617.0f , -349.0f };
 		Position.Z = ZSort(Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -165,12 +141,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 254.0f , -469.0f };
 		Position.Z = ZSort(Position.Y - 15.0f);
 		Object->Transform.SetLocalPosition(Position);
@@ -195,12 +165,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 198.0f , -63.0f };
 		Position.Z = ZSort(Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -210,12 +174,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 177.0f , -37.0f };
 		Position.Z = ZSort(Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -225,12 +183,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 157.0f , -65.0f };
 		Position.Z = ZSort(Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -240,12 +192,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 221.0f , -38.0f };
 		Position.Z = ZSort(Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -255,12 +201,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 120.0f , -52.0f };
 		Position.Z = ZSort(Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -270,12 +210,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 73.0f , -41.0f };
 		Position.Z = ZSort(Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -285,12 +219,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 616.0f , -272.0f };
 		Position.Z = ZSort(Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -300,12 +228,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 201.0f , -167.0f };
 		Position.Z = ZSort(Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -315,12 +237,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 48.0f , -147.0f };
 		Position.Z = ZSort(Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -330,12 +246,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 205.0f , -197.0f };
 		Position.Z = ZSort(Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -345,12 +255,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 168.0f , -268.0f };
 		Position.Z = ZSort(Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -360,12 +264,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 92.0f , -247.0f };
 		Position.Z = ZSort(Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -375,12 +273,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 143.0f , -260.0f };
 		Position.Z = ZSort(Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -390,12 +282,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 408.0f , -394.0f };
 		Position.Z = ZSort(Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -405,12 +291,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 223.0f , -474.0f };
 		Position.Z = ZSort(Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -421,12 +301,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 451.0f , -186.0f };
 		Position.Z = ZSort(Position.Y - 12.0f);
 		Object->Transform.SetLocalPosition(Position);
@@ -436,12 +310,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 229.0f , -141.0f };
 		Position.Z = ZSort(Position.Y + 30.0f);
 		Object->Transform.SetLocalPosition(Position);
@@ -451,12 +319,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 215.0f , -331.0f };
 		Position.Z = ZSort(Position.Y + 30.0f);
 		Object->Transform.SetLocalPosition(Position);
@@ -466,12 +328,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 75.0f , -269.0f };
 		Position.Z = ZSort(Position.Y - 20.0f );
 		Object->Transform.SetLocalPosition(Position);
@@ -481,12 +337,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 455.0f , -195.0f };
 		Position.Z = ZSort(Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -496,12 +346,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 26.0f , -203.0f };
 		Position.Z = ZSort(Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -512,12 +356,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 521.0f , -132.0f };
 		Position.Z = ZSort(Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -527,12 +365,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 189.0f , -119.0f };
 		Position.Z = ZSort(Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -542,12 +374,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 254.0f , -481.0f };
 		Position.Z = ZSort(Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -557,12 +383,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 191.0f , -476.0f };
 		Position.Z = ZSort(Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -572,12 +392,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 67.0f , -197.0f };
 		Position.Z = GlobalUtils::CalculateDepth(EHOUSEDEPTH::UnderBook);
 		Object->Transform.SetLocalPosition(Position);
@@ -587,12 +401,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 641.0f , -485.0f };
 		Position.Z = ZSort(Position.Y - 20.0f);
 		Object->Transform.SetLocalPosition(Position);
@@ -602,12 +410,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 544.0f , -476.0f };
 		Position.Z = ZSort(Position.Y - 20.0f);
 		Object->Transform.SetLocalPosition(Position);
@@ -617,12 +419,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 130.0f , -179.0f };
 		Position.Z = GlobalUtils::CalculateDepth(EHOUSEDEPTH::Rug);
 		Object->Transform.SetLocalPosition(Position);
@@ -632,12 +428,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 580.0f , -184.0f };
 		Position.Z = ZSort(Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -647,12 +437,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 409.0f , -325.0f };
 		Position.Z = GlobalUtils::CalculateDepth(EHOUSEDEPTH::Sign);
 		Object->Transform.SetLocalPosition(Position);
@@ -662,12 +446,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 409.0f , -325.0f };
 		Position.Z = GlobalUtils::CalculateDepth(EHOUSEDEPTH::Sign);
 		Object->Transform.SetLocalPosition(Position);
@@ -677,12 +455,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 409.0f , -325.0f };
 		Position.Z = GlobalUtils::CalculateDepth(EHOUSEDEPTH::Sign);
 		Object->Transform.SetLocalPosition(Position);
@@ -692,12 +464,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 68.0f , -205.0f };
 		Position.Z = GlobalUtils::CalculateDepth(EHOUSEDEPTH::Shadow);
 		Object->Transform.SetLocalPosition(Position);
@@ -707,12 +473,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 205.0f , -211.0f };
 		Position.Z = GlobalUtils::CalculateDepth(EHOUSEDEPTH::Shadow);
 		Object->Transform.SetLocalPosition(Position);
@@ -722,12 +482,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 455.0f , -209.0f };
 		Position.Z = GlobalUtils::CalculateDepth(EHOUSEDEPTH::Shadow);
 		Object->Transform.SetLocalPosition(Position);
@@ -737,12 +491,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 130.0f , -181.0f };
 		Position.Z = GlobalUtils::CalculateDepth(EHOUSEDEPTH::Shadow);
 		Object->Transform.SetLocalPosition(Position);
@@ -752,12 +500,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 617.0f , -397.0f };
 		Position.Z = GlobalUtils::CalculateDepth(EHOUSEDEPTH::Shadow);
 		Object->Transform.SetLocalPosition(Position);
@@ -767,12 +509,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 48.0f , -161.0f };
 		Position.Z = GlobalUtils::CalculateDepth(EHOUSEDEPTH::Shadow);
 		Object->Transform.SetLocalPosition(Position);
@@ -782,12 +518,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 224.0f , -490.0f };
 		Position.Z = GlobalUtils::CalculateDepth(EHOUSEDEPTH::Shadow);
 		Object->Transform.SetLocalPosition(Position);
@@ -797,12 +527,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 409.0f , -325.0f };
 		Position.Z = GlobalUtils::CalculateDepth(EHOUSEDEPTH::Rug);
 		Object->Transform.SetLocalPosition(Position);
@@ -815,12 +539,6 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 350.0f , -255.0f };
 		Position.Z = GlobalUtils::CalculateDepth(EHOUSEDEPTH::FRAME);
 		Object->Transform.SetLocalPosition(Position);
@@ -841,12 +559,6 @@ void BackDrop_WitchHouse_DownFloor::CreatePixelMap(GameEngineLevel* _Level)
 {
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 350.0f , -306.0f };
 		Position.Z = GlobalUtils::CalculateDepth(EHOUSEDEPTH::FRAME);
 		Object->Transform.SetLocalPosition(Position);
@@ -864,12 +576,6 @@ void BackDrop_WitchHouse_DownFloor::CreateStaticActor(GameEngineLevel* _Level)
 {
 	{
 		std::shared_ptr<AlchemyPot> Object = _Level->CreateActor<AlchemyPot>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = float4(m_DownFloorWholePosition + float4(409.0f, -299.0f));
 		Position.Z = ZSort(Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -880,12 +586,6 @@ void BackDrop_WitchHouse_DownFloor::CreateStaticActor(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<Roaster> Object = _Level->CreateActor<Roaster>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = float4(m_DownFloorWholePosition + float4(230.0f, -394.0f));
 		Position.Z = ZSort(Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -895,12 +595,6 @@ void BackDrop_WitchHouse_DownFloor::CreateStaticActor(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<Extractor> Object = _Level->CreateActor<Extractor>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = float4(m_DownFloorWholePosition + float4(296.0f, -186.0f));
 		Position.Z = ZSort(Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -918,12 +612,6 @@ void BackDrop_WitchHouse_DownFloor::CreatePortalActor(GameEngineLevel* _Level)
 {
 	{
 		std::shared_ptr<PortalObject> Object = _Level->CreateActor<PortalObject>(EUPDATEORDER::Portal);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("액터를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 HWinScale = GlobalValue::GetWindowScale().Half();
 
 		Object->CreatePortalCollision(ECOLLISION::Portal);
@@ -935,9 +623,5 @@ void BackDrop_WitchHouse_DownFloor::CreatePortalActor(GameEngineLevel* _Level)
 }
 
 
-
-#pragma endregion 
-
-#pragma region Release
 
 #pragma endregion 

@@ -49,8 +49,9 @@ private:
 
 
 private:
-	GameEngineState MoveState;
 	std::shared_ptr<GameEngineSpriteRenderer> m_Shadow = nullptr;
+
+	GameEngineState MoveState;
 
 	float4 SpawnPosition = float4::ZERO;
 	float m_FlyAngle = 0.0f;

@@ -72,8 +72,9 @@ private:
 	std::shared_ptr<GameEngineSpriteRenderer> m_FireRenderer;
 	std::shared_ptr<GameEngineSpriteRenderer> m_SteamRenderer;
 
+	std::string CraftedPotion = "";
+
 	EPOTSTATE m_State = EPOTSTATE::None;
 
-	std::string CraftedPotion = "";
 };
 

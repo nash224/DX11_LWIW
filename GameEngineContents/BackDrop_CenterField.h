@@ -22,9 +22,6 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
-private:
-
-
 public:
 	void Init();
 	void TestPorp();
@@ -48,7 +45,7 @@ public:
 	void CreateFlowerBird(GameEngineLevel* _Level);
 	void CreatePumpkinTerrier(GameEngineLevel* _Level);
 
-public:
+
 	void PopulationRelease();
 
 private:

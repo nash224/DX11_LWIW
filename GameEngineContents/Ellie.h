@@ -232,8 +232,6 @@ private:
 	EELLIE_STATE m_WaitState = EELLIE_STATE::None;
 
 
-
-private:
 	std::shared_ptr<GameEngineSpriteRenderer> m_Fx = nullptr;
 	std::shared_ptr<GameEngineCollision> m_EllieCol = nullptr;
 	std::shared_ptr<GameEngineCollision> m_NetCol = nullptr;
