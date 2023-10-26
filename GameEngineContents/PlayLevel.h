@@ -12,10 +12,6 @@ class UIManager;
 class PlayLevel : public ContentsLevel
 {
 public:
-	static bool PixelDebugMode;
-
-
-public:
 	// constrcuter destructer
 	PlayLevel();
 	~PlayLevel();
@@ -39,10 +35,6 @@ protected:
 private:
 	void CreateUIManager();
 	void CreateEllie();
-
-
-private:
-	void ChangeDebugMode();
 
 
 protected:

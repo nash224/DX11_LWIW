@@ -11,7 +11,7 @@
 #include "FadeObject.h"
 
 
-bool PlayLevel::PixelDebugMode = false;
+
 PlayLevel::PlayLevel()
 {
 }
@@ -30,8 +30,6 @@ void PlayLevel::Start()
 void PlayLevel::Update(float _Delta)
 {
 	ContentsLevel::Update(_Delta);
-
-	ChangeDebugMode();
 }
 
 void PlayLevel::LevelStart(GameEngineLevel* _NextLevel)
@@ -73,23 +71,4 @@ void PlayLevel::CreateEllie()
 {
 	m_Ellie = CreateActor<Ellie>(EUPDATEORDER::Player);
 	m_Ellie->Init();
-}
-
-// 디버그 모드 전환
-void PlayLevel::ChangeDebugMode()
-{
-	if (true == IsDebug)
-	{
-		if (true == GameEngineInput::IsDown(VK_F2, this))
-		{
-			PixelDebugMode = !PixelDebugMode;
-		}
-	}
-	else
-	{
-		if (true == PixelDebugMode)
-		{
-			PixelDebugMode = false;
-		}
-	}
 }

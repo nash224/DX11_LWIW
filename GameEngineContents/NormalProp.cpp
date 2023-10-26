@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "NormalProp.h"
 
+#include "ContentsLevel.h"
+
 NormalProp::NormalProp() 
 {
 }
@@ -43,7 +45,7 @@ void NormalProp::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void NormalProp::UpdateDebug()
 {
-	if (true == IsRendererOn && true == PlayLevel::PixelDebugMode)
+	if (true == IsRendererOn && true == ContentsLevel::PixelDebugMode)
 	{
 		if (nullptr != m_Renderer)
 		{
@@ -58,7 +60,7 @@ void NormalProp::UpdateDebug()
 		IsRendererOn = false;
 	}
 
-	if (false == IsRendererOn && false == PlayLevel::PixelDebugMode)
+	if (false == IsRendererOn && false == ContentsLevel::PixelDebugMode)
 	{
 		if (nullptr != m_Renderer)
 		{

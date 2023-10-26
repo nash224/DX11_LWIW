@@ -218,6 +218,7 @@ public:
 
 	int SelectSpriteItem = 0;
 	int SelectDepthItem = 0;
+	float Width = 0.0f;
 
 };
 
@@ -249,6 +250,7 @@ public:
 	int SelectSpriteItem = 0;
 	int SelectPixelSpriteItem = 0;
 	int SelectDepthItem = 0;
+	float Width = 0.0f;
 
 
 };

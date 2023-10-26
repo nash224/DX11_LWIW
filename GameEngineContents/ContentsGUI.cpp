@@ -515,6 +515,10 @@ void BaseRendererItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTim
 			{
 				EditorLevel->SelectActor->m_Renderer->Transform.SetLocalPosition(float4(0.0f, EditorLevel->_RendererHeight));
 			}
+			if (ImGui::SliderFloat("Adjustment Weight", &Width, -100.0f, 100.0f, "%.0f"))
+			{
+				EditorLevel->SelectActor->m_Renderer->Transform.SetLocalPosition(float4(Width, 0.0f));
+			}
 
 			float4 WPos = EditorLevel->SelectActor->Transform.GetWorldPosition();
 			WPos.Z -= 1.0f;
@@ -670,6 +674,10 @@ void PropItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTime)
 			if (ImGui::SliderFloat("Adjustment Height", &EditorLevel->_RendererHeight, 0.0f, 200.0f, "%.0f"))
 			{
 				EditorLevel->SelectActor->m_Renderer->Transform.SetLocalPosition(float4(0.0f, EditorLevel->_RendererHeight));
+			}
+			if (ImGui::SliderFloat("Adjustment Weight", &Width, -100.0f, 100.0f, "%.0f"))
+			{
+				EditorLevel->SelectActor->m_Renderer->Transform.SetLocalPosition(float4(Width, 0.0f));
 			}
 
 			float4 WPos = EditorLevel->SelectActor->Transform.GetWorldPosition();

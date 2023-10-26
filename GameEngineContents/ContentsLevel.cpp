@@ -5,6 +5,8 @@
 #include "GlobalValue.h"
 #include "CameraControler.h"
 
+
+bool ContentsLevel::PixelDebugMode = false;
 ContentsLevel::ContentsLevel() 
 {
 	GetMainCamera()->Transform.SetLocalPosition({ 0.0f, 0.0f, -500.0f });
@@ -37,6 +39,8 @@ void ContentsLevel::Update(float _Delta)
 	{
 		IsDebug = !IsDebug;
 	}
+
+	ChangeDebugMode();
 }
 
 void ContentsLevel::LevelStart(class GameEngineLevel* _NextLevel)
@@ -54,5 +58,21 @@ void ContentsLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 }
 
 
-
-
+// 디버그 모드 전환
+void ContentsLevel::ChangeDebugMode()
+{
+	if (true == IsDebug)
+	{
+		if (true == GameEngineInput::IsDown(VK_F2, this))
+		{
+			PixelDebugMode = !PixelDebugMode;
+		}
+	}
+	else
+	{
+		if (true == PixelDebugMode)
+		{
+			PixelDebugMode = false;
+		}
+	}
+}
