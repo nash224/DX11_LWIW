@@ -17,7 +17,6 @@ void Prop_Tree::Start()
 
 void Prop_Tree::Update(float _Delta)
 {
-	UpdateDebug();
 
 }
 
@@ -74,8 +73,6 @@ void Prop_Tree::Init()
 	}
 
 	RendererSetting(FileName);
-	SetPixelCollision("Tree_Pixel.png");
-	
 }
 
 void Prop_Tree::RendererSetting(std::string_view _FileName)

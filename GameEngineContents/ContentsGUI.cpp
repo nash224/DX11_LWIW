@@ -7,7 +7,8 @@
 #include "CameraControler.h"
 #include "BackDrop_PlayLevel.h"
 
-#include "RendererActor.h"
+#include "GroundRenderUnit.h"
+#include "NormalProp.h"
 
 #include "UI_Inventory.h"
 
@@ -229,10 +230,15 @@ void ManualTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 }
 
 
+MapEditorTab* MapEditorTab::MapEditorGui = nullptr;
 void MapEditorTab::Start()
 {
 	CreateItemTab<BaseRendererItemTab>("BaseRendererItemTab");
 	CurItemTab = AllItemTabs[0];
+	CreateItemTab<PropItemTab>("PropItemTab");
+
+
+	MapEditorGui = this;
 }
 
 
@@ -260,6 +266,10 @@ std::shared_ptr<ItemTab> MapEditorTab::FindItemTab(std::string_view _ItemName)
 	return nullptr;
 }
 
+std::string MapEditorTab::GetCurItemTabName()
+{
+	return CurItemTab->TabName;
+}
 
 
 
@@ -279,31 +289,21 @@ void MapEditorTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 			ImGui::EndTabItem();
 		}
 
+
 		for (size_t i = 0; i < AllItemTabs.size(); i++)
 		{
-			const char* CItemName = CurItemTab->TabName.c_str();
+			const char* CItemName = AllItemTabs[i]->TabName.c_str();
 
 			if (ImGui::BeginTabItem(CItemName))
 			{
+				ChangeItemTab(CItemName);
 				CurItemTab->EditoritemTab(_Level, _DeltaTime);
+				SaveTab(_Level, _DeltaTime);
+				LoadTab(_Level, _DeltaTime);
 
 				ImGui::EndTabItem();
 			}
-		}
 
-
-		if (ImGui::BeginTabItem("SaveTab"))
-		{
-			SaveTab(_Level, _DeltaTime);
-
-			ImGui::EndTabItem();
-		}
-
-		if (ImGui::BeginTabItem("LoadTab"))
-		{
-			LoadTab(_Level, _DeltaTime);
-
-			ImGui::EndTabItem();
 		}
 
 		if (ImGui::BeginTabItem("Help"))
@@ -402,11 +402,6 @@ void MapEditorTab::SettingTab(GameEngineLevel* _Level, float _DeltaTime)
 	}
 }
 
-void MapEditorTab::EditorTab(GameEngineLevel* _Level, float _DeltaTime)
-{
-	
-}
-
 void MapEditorTab::LoadTab(GameEngineLevel* _Level, float _DeltaTime)
 {
 	if (ImGui::Button("Load"))
@@ -463,6 +458,7 @@ void BaseRendererItemTab::TabStart()
 		SpriteNames.push_back(pFile.GetFileName());
 	}
 
+
 	DepthTypes.insert(std::make_pair("DarkGrass", static_cast<int>(ERENDERDEPTH::DarkGrass)));
 	DepthTypes.insert(std::make_pair("DeepDarkGrass", static_cast<int>(ERENDERDEPTH::DeepDarkGrass)));
 	DepthTypes.insert(std::make_pair("Object", static_cast<int>(ERENDERDEPTH::Object)));
@@ -512,6 +508,7 @@ void BaseRendererItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTim
 			dynamic_cast<MapEditorLevel*>(_Level)->_SelectDepth = DepthTypes.find(CNames[SelectDepthItem])->second;
 		}
 
+
 		if (nullptr != EditorLevel->SelectActor)
 		{
 			if (ImGui::SliderFloat("Adjustment Height", &EditorLevel->_RendererHeight, 0.0f, 200.0f, "%.0f"))
@@ -540,7 +537,7 @@ void BaseRendererItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTim
 void BaseRendererItemTab::SaveItemTab(GameEngineLevel* _Level)
 {
 	GameEngineSerializer BinSerial;
-	std::vector<std::shared_ptr<RendererActor>> ObjectType = _Level->GetObjectGroupConvert<RendererActor>(0);
+	std::vector<std::shared_ptr<GroundRenderUnit>> ObjectType = _Level->GetObjectGroupConvert<GroundRenderUnit>(0);
 
 	// °´Ã¼¼ö ÀúÀå
 	BinSerial << static_cast<unsigned int>(ObjectType.size());
@@ -565,7 +562,7 @@ void BaseRendererItemTab::LoadItemTab(GameEngineLevel* _Level)
 	File.Open(FileOpenType::Read, FileDataType::Binary);
 	File.DataAllRead(LoadBin);
 
-	std::vector<std::shared_ptr<RendererActor>> ObjectGroup = _Level->GetObjectGroupConvert<RendererActor>(0);
+	std::vector<std::shared_ptr<NormalProp>> ObjectGroup = _Level->GetObjectGroupConvert<NormalProp>(0);
 	for (size_t i = 0; i < ObjectGroup.size(); i++)
 	{
 		ObjectGroup[i]->Death();
@@ -577,12 +574,182 @@ void BaseRendererItemTab::LoadItemTab(GameEngineLevel* _Level)
 
 	for (size_t i = 0; i < ActorCount; i++)
 	{
-		std::shared_ptr<RendererActor> Object = _Level->CreateActor<RendererActor>();
+		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>();
 		Object->DeSerializer(LoadBin);
 	}
 }
 
 
+
+void PropItemTab::TabStart()
+{
+	{
+		SpriteNames.reserve(128);
+
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\PlayContents\\PlayResourecs\\Map\\MapSingle");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (size_t i = 0; i < Files.size(); i++)
+		{
+			GameEngineFile pFile = Files[i];
+			SpriteNames.push_back(pFile.GetFileName());
+		}
+	}
+
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\PlayContents\\PlayResourecs\\Map\\MapPixel");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (size_t i = 0; i < Files.size(); i++)
+		{
+			GameEngineFile pFile = Files[i];
+			PixelSpriteNames.push_back(pFile.GetFileName());
+		}
+	}
+
+
+	{
+		DepthTypes.insert(std::make_pair("DarkGrass", static_cast<int>(ERENDERDEPTH::DarkGrass)));
+		DepthTypes.insert(std::make_pair("DeepDarkGrass", static_cast<int>(ERENDERDEPTH::DeepDarkGrass)));
+		DepthTypes.insert(std::make_pair("Object", static_cast<int>(ERENDERDEPTH::Object)));
+	}
+}
+
+void PropItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTime)
+{
+	MapEditorLevel* EditorLevel = dynamic_cast<MapEditorLevel*>(_Level);
+
+	{
+		std::vector<const char*> CNames;
+		CNames.reserve(SpriteNames.size());
+
+		for (size_t i = 0; i < SpriteNames.size(); i++)
+		{
+			CNames.push_back(SpriteNames[i].c_str());
+		}
+
+		if (ImGui::ListBox("SpriteNames", &SelectSpriteItem, &CNames[0], static_cast<int>(CNames.size())))
+		{
+			EditorLevel->_SelcetSprite = SpriteNames[SelectSpriteItem];
+			SelectSpriteName = SpriteNames[SelectSpriteItem];
+		}
+	}
+
+	ImGui::Text("Select : ");
+	ImGui::SameLine();
+	if (nullptr != EditorLevel->SelectActor)
+	{
+		ImGui::Text("On");
+	}
+	else
+	{
+		ImGui::Text("Off");
+	}
+
+	if ("" != SelectSpriteName)
+	{
+		std::vector<const char*> CNames;
+
+		CNames.reserve(DepthTypes.size());
+		for (std::pair<const std::string, int>& Type : DepthTypes)
+		{
+			CNames.push_back(Type.first.c_str());
+		}
+
+		if (ImGui::ListBox("Depth", &SelectDepthItem, &CNames[0], static_cast<int>(CNames.size())), 3)
+		{
+			dynamic_cast<MapEditorLevel*>(_Level)->_SelectDepth = DepthTypes.find(CNames[SelectDepthItem])->second;
+		}
+
+
+		if (nullptr != EditorLevel->SelectActor)
+		{
+			if (ImGui::SliderFloat("Adjustment Height", &EditorLevel->_RendererHeight, 0.0f, 200.0f, "%.0f"))
+			{
+				EditorLevel->SelectActor->m_Renderer->Transform.SetLocalPosition(float4(0.0f, EditorLevel->_RendererHeight));
+			}
+
+			float4 WPos = EditorLevel->SelectActor->Transform.GetWorldPosition();
+			WPos.Z -= 1.0f;
+			GameEngineDebug::DrawBox2D(float4(4.0f, 4.0f), float4::ZERO, WPos);
+		}
+
+		{
+			std::vector<const char*> CNames;
+			CNames.reserve(PixelSpriteNames.size());
+
+			for (size_t i = 0; i < PixelSpriteNames.size(); i++)
+			{
+				CNames.push_back(PixelSpriteNames[i].c_str());
+			}
+
+			if (ImGui::ListBox("Pixel Sprite List", &SelectPixelSpriteItem, &CNames[0], static_cast<int>(CNames.size())))
+			{
+				EditorLevel->_SelcetPixelSprite = PixelSpriteNames[SelectPixelSpriteItem];
+				SelectSpriteName = PixelSpriteNames[SelectPixelSpriteItem];
+			}
+		}
+	}
+
+	if (ImGui::Button("All Clear"))
+	{
+		std::vector<std::shared_ptr<NormalProp>> Objects = _Level->GetObjectGroupConvert<NormalProp>(0);
+		for (size_t i = 0; i < Objects.size(); i++)
+		{
+			Objects[i]->Death();
+		}
+
+		EditorLevel->SelectActor = nullptr;
+	}
+}
+
+void PropItemTab::SaveItemTab(GameEngineLevel* _Level)
+{
+	GameEngineSerializer BinSerial;
+	std::vector<std::shared_ptr<NormalProp>> ObjectType = _Level->GetObjectGroupConvert<NormalProp>(0);
+
+	// °´Ã¼¼ö ÀúÀå
+	BinSerial << static_cast<unsigned int>(ObjectType.size());
+
+	// °´Ã¼ Á¤º¸ ÀúÀå
+	for (size_t i = 0; i < ObjectType.size(); i++)
+	{
+		ObjectType[i]->Serializer(BinSerial);
+	}
+
+	// Write
+	GameEngineFile File = Parent->SavePath;
+	File.Open(FileOpenType::Write, FileDataType::Binary);
+	File.Write(BinSerial);
+}
+
+void PropItemTab::LoadItemTab(GameEngineLevel* _Level)
+{
+	GameEngineSerializer LoadBin;
+
+	GameEngineFile File = Parent->LoadPath;
+	File.Open(FileOpenType::Read, FileDataType::Binary);
+	File.DataAllRead(LoadBin);
+
+	std::vector<std::shared_ptr<NormalProp>> ObjectGroup = _Level->GetObjectGroupConvert<NormalProp>(0);
+	for (size_t i = 0; i < ObjectGroup.size(); i++)
+	{
+		ObjectGroup[i]->Death();
+	}
+
+	// °´Ã¼ ¼ö ÀÐ¾î¿È
+	unsigned int ActorCount = 0;
+	LoadBin >> ActorCount;
+
+	for (size_t i = 0; i < ActorCount; i++)
+	{
+		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>();
+		Object->DeSerializer(LoadBin);
+	}
+}
 
 
 

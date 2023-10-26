@@ -1,9 +1,9 @@
 #pragma once
-#include "Props.h"
+#include "RendererActor.h"
 
 
 // 설명 : Props 기능을 물려받는 일반 소품입니다.
-class NormalProp : public Props
+class NormalProp : public RendererActor, public GameEngineSerializerObject
 {
 public:
 	// constrcuter destructer
@@ -16,14 +16,15 @@ public:
 	NormalProp& operator=(const NormalProp& _Other) = delete;
 	NormalProp& operator=(NormalProp&& _Other) noexcept = delete;
 
-	template<typename OrderType>
-	void Init(OrderType _Order)
-	{
-		Init(static_cast<int>(_Order));
-	}
 
 
-	void Init(int _Order = 0);
+	void Serializer(GameEngineSerializer& _Data) override;
+	void DeSerializer(GameEngineSerializer& _Data) override;
+
+
+	void SetPixelCollision(std::string_view _FileName);
+	bool GetPixelCheck();
+	GameEngineColor GetColor(const float4& _Position, GameEngineColor _DefaultColor = GameEngineColor::WHITE);
 
 protected:
 	void Start() override;
@@ -31,6 +32,17 @@ protected:
 	void Release() override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
+
+
+	void UpdateDebug();
+
+
+protected:
+	std::shared_ptr<GameEngineSpriteRenderer> m_DebugRenderer = nullptr;
+
+	bool IsRendererOn = true;
+	bool PixelRendererCheck = false;
+	std::string m_PixelFileName = "";
 
 };
 

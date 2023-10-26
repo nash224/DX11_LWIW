@@ -207,6 +207,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="GroundRenderUnit.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="MouseManager.cpp">
       <SubType>
       </SubType>
@@ -574,6 +578,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="BackDrop_WitchHouse_Yard.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GroundRenderUnit.h">
       <SubType>
       </SubType>
     </ClInclude>

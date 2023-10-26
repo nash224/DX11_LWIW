@@ -1,7 +1,7 @@
 #pragma once
 
 // Ό³Έν :
-class RendererActor : public GameEngineActor, public GameEngineSerializerObject
+class RendererActor : public GameEngineActor
 {
 public:
 	// constrcuter destructer
@@ -15,11 +15,14 @@ public:
 	RendererActor& operator=(RendererActor&& _Other) noexcept = delete;
 
 
-	std::shared_ptr<GameEngineSpriteRenderer> m_Renderer = nullptr;
+	template<typename OrderType>
+	void Init(OrderType _Order)
+	{
+		Init(static_cast<int>(_Order));
+	}
 
+	void Init(int _Order = 0);
 
-	void Serializer(GameEngineSerializer& _Data) override;
-	void DeSerializer(GameEngineSerializer& _Data) override;
 
 protected:
 	void Start() override;
@@ -28,5 +31,9 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
+public:
+	std::shared_ptr<GameEngineSpriteRenderer> m_Renderer = nullptr;
+
+	
 };
 

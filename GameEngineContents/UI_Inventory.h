@@ -174,7 +174,7 @@ private:
 	void ClearAllSlotImg();
 
 	// 레벨 초기화
-	void OnLevelStart();
+	void OpenUpdate();
 
 
 

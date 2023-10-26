@@ -2,7 +2,7 @@
 #include "BackDrop_PlayLevel.h"
 
 
-#include "Props.h"
+#include "NormalProp.h"
 #include "StaticEntity.h"
 
 #include "LootedItem.h"
@@ -59,7 +59,7 @@ bool BackDrop_PlayLevel::IsColorAtPosition(const float4& _Position, GameEngineCo
 {
 	for (size_t i = 0; i < PixelVec.size(); i++)
 	{
-		std::shared_ptr<Props> Object = PixelVec[i];
+		std::shared_ptr<NormalProp> Object = PixelVec[i];
 		if (nullptr == Object)
 		{
 			MsgBoxAssert("생성되지 않은 액터를 참조하려고 했습니다.");

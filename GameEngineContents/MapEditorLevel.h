@@ -3,6 +3,7 @@
 
 #define OneQuater 90.0f
 
+
 // Ό³Έν :
 class MapEditorLevel : public ContentsLevel
 {
@@ -26,6 +27,7 @@ public:
 	float _RendererHeight = 0.0f;
 
 	std::string _SelcetSprite = "";
+	std::string _SelcetPixelSprite = "";
 
 	float4 m_BaseScale = float4::ZERO;
 	float4 m_SaveLocation = float4::ZERO;
@@ -45,13 +47,15 @@ protected:
 
 private:
 	void UpdateMapEditor(float _Delta);
+
+
 	bool ClickCreateActor();
 	bool ClickForSelectActor();
+
 	bool MoveSelectActor();
 	bool RotateSelectActor();
 	bool EraseSelectActor();
 	bool PlaceThis();
-
 
 
 };

@@ -115,6 +115,9 @@ class ItemTab;
 class MapEditorTab : public UITab
 {
 public:
+	static MapEditorTab* MapEditorGui;
+
+public:
 	void Start() override;
 
 	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
@@ -136,6 +139,7 @@ public:
 	void ChangeItemTab(std::string_view _ItemName);
 
 	std::shared_ptr<ItemTab> FindItemTab(std::string_view _ItemName);
+	std::string GetCurItemTabName();
 
 
 
@@ -155,14 +159,16 @@ public:
 	}
 
 public:
-	std::shared_ptr<ItemTab> CurItemTab = nullptr;
 	std::vector<std::shared_ptr<ItemTab>> AllItemTabs;
+	std::shared_ptr<ItemTab> CurItemTab = nullptr;
 
-public:
 	std::string SavePath;
 	std::string LoadPath;
 
 	char PathString[256] = { 0, };
+	
+
+
 	
 
 };
@@ -205,12 +211,44 @@ public:
 
 	}
 
-
-private:
-	std::map<std::string, int> DepthTypes;
+public:
 	std::vector<std::string> SpriteNames;
 	std::string SelectSpriteName;
+	std::map<std::string, int> DepthTypes;
 
 	int SelectSpriteItem = 0;
 	int SelectDepthItem = 0;
+
+};
+
+
+class PropItemTab : public ItemTab
+{
+public:
+	void TabStart() override;
+
+	void EditoritemTab(GameEngineLevel* _Level, float _DeltaTime) override;
+	void SaveItemTab(GameEngineLevel* _Level) override;
+	void LoadItemTab(GameEngineLevel* _Level) override;
+
+	PropItemTab(std::string_view _TabName)
+		: ItemTab(_TabName)
+	{
+
+	}
+
+
+public:
+	std::map<std::string, int> DepthTypes;
+	std::vector<std::string> SpriteNames;
+	std::vector<std::string> PixelSpriteNames;
+	std::string SelectSpriteName;
+	std::string PixelSelectSpriteName;
+
+
+	int SelectSpriteItem = 0;
+	int SelectPixelSpriteItem = 0;
+	int SelectDepthItem = 0;
+
+
 };

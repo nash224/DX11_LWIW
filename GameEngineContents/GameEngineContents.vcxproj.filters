@@ -460,6 +460,9 @@
     <ClInclude Include="MouseManager.h">
       <Filter>2.Object\3.Level\0.MapEditor</Filter>
     </ClInclude>
+    <ClInclude Include="GroundRenderUnit.h">
+      <Filter>2.Object\2.Actor\3.Prop</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -751,6 +754,9 @@
     </ClCompile>
     <ClCompile Include="MouseManager.cpp">
       <Filter>2.Object\3.Level\0.MapEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="GroundRenderUnit.cpp">
+      <Filter>2.Object\2.Actor\3.Prop</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

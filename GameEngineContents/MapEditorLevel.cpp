@@ -1,11 +1,12 @@
 #include "PreCompile.h"
 #include "MapEditorLevel.h"
 
-
+#include "ContentsGUI.h"
 #include "CameraControler.h"
 #include "MouseManager.h"
 
-#include "RendererActor.h"
+#include "GroundRenderUnit.h"
+#include "NormalProp.h"
 
 
 MapEditorLevel::MapEditorLevel() 
@@ -26,6 +27,8 @@ void MapEditorLevel::Start()
 	ContentsLevel::Start();
 
 	m_LevelCameraControler->SetCameraMode(ECAMERAMODE::Editor);
+
+
 }
 
 void MapEditorLevel::Update(float _Delta)
@@ -121,6 +124,9 @@ void MapEditorLevel::UpdateMapEditor(float _Delta)
 	}
 }
 
+
+
+
 // 액터 생성
 bool MapEditorLevel::ClickCreateActor()
 {
@@ -131,13 +137,36 @@ bool MapEditorLevel::ClickCreateActor()
 			return false;
 		}
 
-		std::shared_ptr<RendererActor> Object = CreateActor<RendererActor>();
-		float4 Position = GetMainCamera()->GetWorldMousePos2D();
-		Position.Z = 0.0f;
-		Object->Transform.SetLocalPosition(Position);
-		Object->m_Renderer->SetSprite(_SelcetSprite);
-		Object->m_Renderer->Transform.SetLocalPosition(float4(0.0f, _RendererHeight));
-		SelectActor = Object.get();
+		if ("BASERENDERERITEMTAB" == MapEditorTab::MapEditorGui->GetCurItemTabName())
+		{
+			std::shared_ptr<GroundRenderUnit> Object = CreateActor<GroundRenderUnit>();
+			float4 Position = GetMainCamera()->GetWorldMousePos2D();
+			Position.Z = 0.0f;
+			Object->Transform.SetLocalPosition(Position);
+			Object->Init();
+			Object->m_Renderer->SetSprite(_SelcetSprite);
+			Object->m_Renderer->Transform.SetLocalPosition(float4(0.0f, _RendererHeight));
+			SelectActor = Object.get();
+		}
+
+		if ("PROPITEMTAB" == MapEditorTab::MapEditorGui->GetCurItemTabName())
+		{
+			std::shared_ptr<NormalProp> Object = CreateActor<NormalProp>();
+			float4 Position = GetMainCamera()->GetWorldMousePos2D();
+			Position.Z = 0.0f;
+			Object->Transform.SetLocalPosition(Position);
+			Object->Init();
+			Object->m_Renderer->SetSprite(_SelcetSprite);
+			Object->m_Renderer->Transform.SetLocalPosition(float4(0.0f, _RendererHeight));
+
+			if ("" != _SelcetPixelSprite)
+			{
+				Object->SetPixelCollision(_SelcetPixelSprite);
+			}
+
+			SelectActor = Object.get();
+		}
+
 
 		return true;
 	}
@@ -184,7 +213,6 @@ bool MapEditorLevel::ClickForSelectActor()
 				continue;
 			}
 
-
 			if (NearestDistance > IMGWorldPos.Z)
 			{
 				SelectCheck = true;
@@ -202,6 +230,8 @@ bool MapEditorLevel::ClickForSelectActor()
 
 	return false;
 }
+
+
 
 // 선택된 액터 회전
 bool MapEditorLevel::RotateSelectActor()

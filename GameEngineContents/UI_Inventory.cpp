@@ -237,7 +237,7 @@ void UI_Inventory::Update(float _Delta)
 {
 	if (this != MainInventory)
 	{
-		OnLevelStart();
+		OpenUpdate();
 	}
 
 	m_InventoryState.Update(_Delta);
@@ -298,7 +298,7 @@ void UI_Inventory::Init()
 	Transform.AddLocalPosition(INVENTORY_POSITION);
 
 	// 부모 설정 후, 그립니다.
-	OnLevelStart();
+	OpenUpdate();
 }
 
 // Base Create
@@ -728,7 +728,7 @@ void UI_Inventory::ClearAllSlotImg()
 	}
 }
 
-void UI_Inventory::OnLevelStart()
+void UI_Inventory::OpenUpdate()
 {
 	// 레벨이 바뀔때마다 갱신해줍니다.
 	ChangeDataParent();

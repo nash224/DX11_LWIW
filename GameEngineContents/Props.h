@@ -15,9 +15,6 @@ public:
 	Props& operator=(Props&& _Other) noexcept = delete;
 
 
-	void SetPixelCollision(std::string_view _FileName);
-	bool GetPixelCheck();
-	GameEngineColor GetColor(const float4& _Position, GameEngineColor _DefaultColor = GameEngineColor::WHITE);
 
 protected:
 	void Start() override;
@@ -27,18 +24,9 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 
-protected:
-	void UpdateDebug();
 
 public:
 	std::shared_ptr<GameEngineSpriteRenderer> m_Renderer = nullptr;
-
-protected:
-	std::shared_ptr<GameEngineSpriteRenderer> m_DebugRenderer = nullptr;
-
-	bool IsRendererOn = true;
-	bool PixelRendererCheck = false;
-	std::string m_PixelFileName = "";
 
 };
 

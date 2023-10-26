@@ -39,7 +39,7 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 protected:
-	std::vector<std::shared_ptr<class Props>> PixelVec;
+	std::vector<std::shared_ptr<class NormalProp>> PixelVec;
 	std::vector<std::shared_ptr<class StaticEntity>> PixelStaticEntityVec;
 
 };
