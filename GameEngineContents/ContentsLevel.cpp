@@ -26,11 +26,6 @@ void ContentsLevel::Start()
 
 	// 카메라 컨트롤러 생성
 	m_LevelCameraControler = CreateActor<CameraControler>(EUPDATEORDER::CameraControler);
-	if (nullptr == m_LevelCameraControler)
-	{
-		MsgBoxAssert("액터를 생성하지 못했습니다.");
-		return;
-	}
 }
 
 void ContentsLevel::Update(float _Delta)

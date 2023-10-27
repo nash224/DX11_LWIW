@@ -43,6 +43,36 @@ void MapEditorLevel::LevelStart(class GameEngineLevel* _NextLevel)
 	ContentsLevel::LevelStart(_NextLevel);
 
 
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\PlayContents\\WitchHouse_Yard");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+
+		for (size_t i = 0; i < Files.size(); i++)
+		{
+			GameEngineFile pFile = Files[i];
+			GameEngineTexture::Load(pFile.GetStringPath());
+		}
+	}
+
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\PlayContents\\WitchHouse_Yard");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+
+		for (size_t i = 0; i < Files.size(); i++)
+		{
+			GameEngineFile pFile = Files[i];
+			GameEngineSprite::CreateSingle(pFile.GetFileName());
+		}
+	}
+
+
+
+
 	m_MapBaseActor = CreateActor<GameEngineActor>(EUPDATEORDER::Objects);
 	m_MapBaseRenderer = m_MapBaseActor->CreateComponent<GameEngineSpriteRenderer>();
 	m_MapBaseRenderer->Off();
@@ -61,6 +91,37 @@ void MapEditorLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 
 	m_MapBaseActor = nullptr;
 	m_MapBaseRenderer = nullptr;
+
+
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\PlayContents\\WitchHouse_Yard");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+
+		for (size_t i = 0; i < Files.size(); i++)
+		{
+			GameEngineFile pFile = Files[i];
+			GameEngineSprite::Release(pFile.GetFileName());
+		}
+	}
+
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\PlayContents\\WitchHouse_Yard");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+
+		for (size_t i = 0; i < Files.size(); i++)
+		{
+			GameEngineFile pFile = Files[i];
+			GameEngineTexture::Release(pFile.GetFileName());
+		}
+	}
+
+
 }
 
 

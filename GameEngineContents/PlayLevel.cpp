@@ -23,8 +23,6 @@ PlayLevel::~PlayLevel()
 void PlayLevel::Start()
 {
 	ContentsLevel::Start();
-
-	GetMainCamera()->SetZSort(0);
 }
 
 void PlayLevel::Update(float _Delta)
