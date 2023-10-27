@@ -6,6 +6,7 @@
 
 #include "CameraControler.h"
 #include "BackDrop_PlayLevel.h"
+#include "TimeManager.h"
 
 #include "GroundRenderUnit.h"
 #include "NormalProp.h"
@@ -170,7 +171,7 @@ void DebugTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	OnFPSTime(_DeltaTime);
 	MousePos();
 	SkyColor();
-
+	TimeDebug();
 }
 
 
@@ -200,6 +201,14 @@ void DebugTab::SkyColor()
 	if (nullptr != SkyLerp::SkyManager)
 	{
 		ImGui::SliderFloat4("Sky Color", &SkyLerp::SkyManager->SkyColor.R, 0.0f, 1.0f, "%.2f");
+	}
+}
+
+void DebugTab::TimeDebug()
+{
+	if (nullptr != PlayLevel::m_TimeManager)
+	{
+		ImGui::Text(std::string("Time : " + std::to_string(PlayLevel::m_TimeManager->GetTime())).c_str());
 	}
 }
 

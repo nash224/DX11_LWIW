@@ -178,6 +178,9 @@
     <Filter Include="2.Object\3.Level\0.MapEditor">
       <UniqueIdentifier>{8beecefb-6bb4-421d-a163-ded3fcdc47cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2.Object\2.Actor\0.Manager\TimeManager">
+      <UniqueIdentifier>{ddb41d3c-8035-4c91-b4de-494da1d588ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -465,6 +468,9 @@
     </ClInclude>
     <ClInclude Include="SkyLerp.h">
       <Filter>2.Object\2.Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>2.Object\2.Actor\0.Manager\TimeManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -763,6 +769,9 @@
     </ClCompile>
     <ClCompile Include="SkyLerp.cpp">
       <Filter>2.Object\2.Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>2.Object\2.Actor\0.Manager\TimeManager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

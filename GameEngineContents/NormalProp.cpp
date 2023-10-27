@@ -177,6 +177,10 @@ void NormalProp::DeSerializer(GameEngineSerializer& _Data)
 	{
 		std::string PixelSpriteName;
 		_Data >> PixelSpriteName;
-		SetPixelCollision(PixelSpriteName);
+
+		if ("" != PixelSpriteName)
+		{
+			SetPixelCollision(PixelSpriteName);
+		}
 	}
 }

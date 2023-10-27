@@ -1,17 +1,19 @@
 #include "PreCompile.h"
 #include "PlayLevel.h"
 
-#include "GlobalUtils.h"
 
-
-#include "BackDrop_PlayLevel.h"
-#include "CameraControler.h"
+// Actor
 #include "Ellie.h"
-#include "UIManager.h"
 #include "FadeObject.h"
 
+// Manager
+#include "CameraControler.h"
+#include "UIManager.h"
+#include "TimeManager.h"
 
 
+
+std::shared_ptr<TimeManager> PlayLevel::m_TimeManager;
 PlayLevel::PlayLevel()
 {
 }
@@ -23,11 +25,22 @@ PlayLevel::~PlayLevel()
 void PlayLevel::Start()
 {
 	ContentsLevel::Start();
+
+	if (nullptr == m_TimeManager)
+	{
+		m_TimeManager = std::make_shared<TimeManager>();
+		m_TimeManager->Init();
+	}
 }
 
 void PlayLevel::Update(float _Delta)
 {
 	ContentsLevel::Update(_Delta);
+
+	if (nullptr != m_TimeManager)
+	{
+		m_TimeManager->Update(_Delta);
+	}
 }
 
 void PlayLevel::LevelStart(GameEngineLevel* _NextLevel)
@@ -39,6 +52,7 @@ void PlayLevel::LevelStart(GameEngineLevel* _NextLevel)
 		CreateEllie();			// 敲饭捞绢 积己
 		CreateUIManager();		// UI 积己
 	}
+
 
 	std::shared_ptr<FadeObject> Fade = CreateActor<FadeObject>(EUPDATEORDER::Fade);
 	Fade->CallFadeIn(0.2f);

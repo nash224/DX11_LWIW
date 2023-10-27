@@ -1,6 +1,9 @@
 #include "PreCompile.h"
 #include "SkyLerp.h"
 
+#include "PlayLevel.h"
+
+#include "TimeManager.h"
 
 SkyLerp* SkyLerp::SkyManager = nullptr;
 SkyLerp::SkyLerp() 
@@ -18,7 +21,7 @@ void SkyLerp::Start()
 
 void SkyLerp::Update(float _Delta)
 {
-	SetSkyColor();
+	UpdateSkyLerp();
 }
 
 void SkyLerp::Release()
@@ -52,10 +55,117 @@ void SkyLerp::Init()
 	Sun_Renderer->SetSprite("SkyBox.png");
 	Sun_Renderer->GetImageTransform().SetLocalScale(GlobalValue::GetWindowScale());
 	Sun_Renderer->GetColorData().MulColor.A = 0.0f;
+
+
+	SkyData.reserve(29);
+	SkyData.push_back(Sky_300);
+	SkyData.push_back(Sky_310);
+	SkyData.push_back(Sky_320);
+	SkyData.push_back(Sky_330);
+	SkyData.push_back(Sky_340);
+	SkyData.push_back(Sky_350);
+	SkyData.push_back(Sky_400);
+	SkyData.push_back(Sky_410);
+	SkyData.push_back(Sky_420);
+	SkyData.push_back(Sky_430);
+	SkyData.push_back(Sky_440);
+	SkyData.push_back(Sky_450);
+	SkyData.push_back(Sky_500);
+	SkyData.push_back(Sky_510);
+	SkyData.push_back(Sky_520);
+	SkyData.push_back(Sky_530);
+	SkyData.push_back(Sky_530);
+	SkyData.push_back(Sky_530);
+	SkyData.push_back(Sky_540);
+	SkyData.push_back(Sky_540);
+	SkyData.push_back(Sky_550);
+	SkyData.push_back(Sky_600);
+	SkyData.push_back(Sky_610);
+	SkyData.push_back(Sky_620);
+	SkyData.push_back(Sky_630);
+	SkyData.push_back(Sky_640);
+	SkyData.push_back(Sky_650);
+	SkyData.push_back(Sky_650);
+	SkyData.push_back(Sky_700);
+
+
+	if (nullptr == PlayLevel::m_TimeManager)
+	{
+		MsgBoxAssert("타임 매니저가 존재하지 않습니다.");
+		return;
+	}
+
+
+	MinuteRatio = PlayLevel::m_TimeManager->GetMinuteRatio();
+	PlayLevel::m_TimeManager->SetTimeFlowRatio(5.f);
+	PlayLevel::m_TimeManager->SetTime(180.0f);
+
+	LerpSky(SkyData[0]);
 }
 
 
+// 하늘 고정색 지정
 void SkyLerp::SetSkyColor()
 {
+	PauseSkyLerp = true;
+
 	Sun_Renderer->GetColorData().MulColor = SkyColor;
+}
+
+// 일몰 업데이트
+void SkyLerp::UpdateSkyLerp()
+{
+	if (true == PauseSkyLerp)
+	{
+		return;
+	}
+
+
+	if (nullptr == PlayLevel::m_TimeManager)
+	{
+		MsgBoxAssert("시간 매니저가 존재하지 않습니다.");
+		return;
+	}
+
+	float TimeRatio = PlayLevel::m_TimeManager->GetTimeRatio();
+	if (TimeRatio > SUNSET_TIMERATIO)
+	{
+		float SunSetRatio = (TimeRatio - SUNSET_TIMERATIO) / MinuteRatio;
+		float fRefNumber;
+
+		SunSetRatio = std::modff(SunSetRatio, &fRefNumber);
+		int RefNumber = static_cast<int>(fRefNumber);
+
+		int MaxRefNumber = static_cast<int>(SkyData.size() - 1);
+		if (RefNumber < MaxRefNumber)
+		{
+			LerpSky(SkyData[RefNumber], SkyData[RefNumber + 1], SunSetRatio);
+		}
+		else
+		{
+			LerpSky(SkyData[MaxRefNumber]);
+		}
+	}
+}
+
+
+void SkyLerp::LerpSky(const float4& _ColorA, const float4& _ColorB, const float _Time)
+{
+	SkyColor.R = std::lerp(_ColorA.R, _ColorB.R, _Time);
+	SkyColor.G = std::lerp(_ColorA.G, _ColorB.G, _Time);
+	SkyColor.B = std::lerp(_ColorA.B, _ColorB.B, _Time);
+	SkyColor.A = std::lerp(_ColorA.A, _ColorB.A, _Time);
+
+	LerpSky(SkyColor);
+}
+
+void SkyLerp::LerpSky(const float4& _Color)
+{
+	if (nullptr == Sun_Renderer)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
+
+	Sun_Renderer->GetColorData().MulColor = _Color;
 }
