@@ -70,7 +70,7 @@ void BushBug::AnimationSetting()
 
 	m_Shadow = CreateComponent<GameEngineSpriteRenderer>();
 	m_Shadow->SetSprite("Bushbug_Standing.png", 1);
-	m_Shadow->Transform.SetLocalPosition(float4(0.0f , -7.0f, GlobalUtils::CalculateDepth(ERENDERDEPTH::ObjectShadow) ));
+	m_Shadow->Transform.SetLocalPosition(float4(0.0f , -7.0f, GlobalUtils::CalculateFixDepth(ERENDERDEPTH::ObjectShadow) ));
 }
 
 void BushBug::StateSetting()

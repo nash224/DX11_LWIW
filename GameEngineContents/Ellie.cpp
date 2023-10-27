@@ -291,7 +291,7 @@ void Ellie::RideFxSetting()
 
 	float4 Renderer = Transform.GetLocalPosition();
 	Renderer.Y += Ellie_Bias;
-	Renderer.Z = GlobalUtils::CalculateDepth(ERENDERDEPTH::FX);
+	Renderer.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::FX);
 
 	m_Fx->Transform.SetLocalPosition(Renderer);
 	m_Fx->CreateAnimation("FX", "Broom_Ride_Fx_Sample.png", 0.12f, 0, 8, false);

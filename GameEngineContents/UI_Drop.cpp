@@ -62,13 +62,13 @@ void UI_Drop::RendererSetting(std::string_view _ItemName)
 	}
 
 
-	float4 Position = float4(0.0f, 0.0f, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Base));
+	float4 Position = float4(0.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Base));
 	m_ItemDropRenderer.SystemNotice_Base = CreateComponent<GameEngineUIRenderer>();
 	m_ItemDropRenderer.SystemNotice_Base->Transform.SetLocalPosition(Position);
 	m_ItemDropRenderer.SystemNotice_Base->SetSprite("SystemNotice_Item.png");
 
 
-	Position = float4(-52.0f, 0.0f, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Icon));
+	Position = float4(-52.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Icon));
 	m_ItemDropRenderer.Item_Img = CreateComponent<GameEngineUIRenderer>();
 	m_ItemDropRenderer.Item_Img->Transform.SetLocalPosition(Position);
 	m_ItemDropRenderer.Item_Img->SetSprite(ItemData->Name + ".png");

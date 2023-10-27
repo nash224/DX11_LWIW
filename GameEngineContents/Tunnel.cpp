@@ -46,7 +46,7 @@ void Tunnel::Init(std::string_view _NextLevelName)
 
 	// Actor Transfomr Setting
 	float4 WinScale = GlobalValue::GetWindowScale();
-	float4 Position = { (WinScale.X + WinScale.hX()) * 2.0f, -WinScale.hY(), GlobalUtils::CalculateDepth(ERENDERDEPTH::FadeObject) };
+	float4 Position = { (WinScale.X + WinScale.hX()) * 2.0f, -WinScale.hY(), GlobalUtils::CalculateFixDepth(ERENDERDEPTH::FadeObject) };
 	Transform.SetLocalRotation({0.0f, 0.0f, 180.0f});
 	Transform.SetLocalPosition(Position);
 

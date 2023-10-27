@@ -78,8 +78,8 @@ void MainMenu_Trains::Init()
 		Object->CreateRenderer();
 		Object->SetSprite("Title_Train_Train.png", "Title_Train_Window_0.png");
 
-		float4 TrainPosition = { 462.0f , -334.0f, GlobalUtils::CalculateDepth(ETITLERENDERDEPTH::Trains) };
-		float4 TrainLightPosition = { 470.0f , -354.0f , GlobalUtils::CalculateDepth(ETITLERENDERDEPTH::Trains_Light) };
+		float4 TrainPosition = { 462.0f , -334.0f, GlobalUtils::CalculateFixDepth(ETITLERENDERDEPTH::Trains) };
+		float4 TrainLightPosition = { 470.0f , -354.0f , GlobalUtils::CalculateFixDepth(ETITLERENDERDEPTH::Trains_Light) };
 		Object->SetLocalPosition(TrainPosition, TrainLightPosition);
 		vecTrain.push_back(Object);
 	}
@@ -95,8 +95,8 @@ void MainMenu_Trains::Init()
 		Object->CreateRenderer();
 		Object->SetSprite("Title_Train_Train_1.png", "Title_Train_Window_1.png");
 
-		float4 TrainPosition = { 350.0f , -334.0f, GlobalUtils::CalculateDepth(ETITLERENDERDEPTH::Trains) };
-		float4 TrainLightPosition = { 356.0f , -354.0f , GlobalUtils::CalculateDepth(ETITLERENDERDEPTH::Trains_Light) };
+		float4 TrainPosition = { 350.0f , -334.0f, GlobalUtils::CalculateFixDepth(ETITLERENDERDEPTH::Trains) };
+		float4 TrainLightPosition = { 356.0f , -354.0f , GlobalUtils::CalculateFixDepth(ETITLERENDERDEPTH::Trains_Light) };
 		Object->SetLocalPosition(TrainPosition, TrainLightPosition);
 		vecTrain.push_back(Object);
 	}
@@ -111,8 +111,8 @@ void MainMenu_Trains::Init()
 
 		Object->CreateRenderer();
 		Object->SetSprite("Title_Train_Train_2.png", "Title_Train_Window_2.png");
-		float4 TrainPosition = { 240.0f , -334.0f, GlobalUtils::CalculateDepth(ETITLERENDERDEPTH::Trains) };
-		float4 TrainLightPosition = { 244.0f , -354.0f , GlobalUtils::CalculateDepth(ETITLERENDERDEPTH::Trains_Light) };
+		float4 TrainPosition = { 240.0f , -334.0f, GlobalUtils::CalculateFixDepth(ETITLERENDERDEPTH::Trains) };
+		float4 TrainLightPosition = { 244.0f , -354.0f , GlobalUtils::CalculateFixDepth(ETITLERENDERDEPTH::Trains_Light) };
 		Object->SetLocalPosition(TrainPosition, TrainLightPosition);
 		vecTrain.push_back(Object);
 	}
@@ -127,8 +127,8 @@ void MainMenu_Trains::Init()
 
 		Object->CreateRenderer();
 		Object->SetSprite("Title_Train_Train_3.png", "Title_Train_Light.png");
-		float4 TrainPosition = { 16.0f , -334.0f, GlobalUtils::CalculateDepth(ETITLERENDERDEPTH::Trains) };
-		float4 TrainLightPosition = { 56.0f , -360.0f, GlobalUtils::CalculateDepth(ETITLERENDERDEPTH::Trains_Light) };
+		float4 TrainPosition = { 16.0f , -334.0f, GlobalUtils::CalculateFixDepth(ETITLERENDERDEPTH::Trains) };
+		float4 TrainLightPosition = { 56.0f , -360.0f, GlobalUtils::CalculateFixDepth(ETITLERENDERDEPTH::Trains_Light) };
 		Object->SetLocalPosition(TrainPosition, TrainLightPosition);
 		vecTrain.push_back(Object);
 	}
@@ -143,7 +143,7 @@ void MainMenu_Trains::Init()
 
 		Object->CreateLastTrainRenderer();
 		Object->SetSprite("Title_Train_Train_4.png");
-		float4 TrainPosition = { 0.0f , -334.0f, GlobalUtils::CalculateDepth(ETITLERENDERDEPTH::Trains) };
+		float4 TrainPosition = { 0.0f , -334.0f, GlobalUtils::CalculateFixDepth(ETITLERENDERDEPTH::Trains) };
 		Object->SetLocalPosition(TrainPosition);
 		vecTrain.push_back(Object);
 	}

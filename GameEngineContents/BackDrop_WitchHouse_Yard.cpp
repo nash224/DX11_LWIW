@@ -96,7 +96,7 @@ void BackDrop_WitchHouse_Yard::CreateFlooring()
 			return;
 		}
 
-		CenterPosition.Z = GlobalUtils::CalculateDepth(ERENDERDEPTH::Back_Paint);
+		CenterPosition.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Back_Paint);
 		Renderer->Transform.SetLocalPosition(CenterPosition);
 		Renderer->SetSprite("GroundBase.png");
 		Renderer->SetImageScale(GlobalValue::GetWindowScale());

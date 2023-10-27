@@ -66,19 +66,19 @@ void UI_ProcessB::Init()
 void UI_ProcessB::RendererSetting()
 {
 	m_Base = CreateComponent<GameEngineUIRenderer>();
-	m_Base->Transform.SetLocalPosition(float4(0.0f, 0.0f, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Base)));
+	m_Base->Transform.SetLocalPosition(float4(0.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Base)));
 	m_Base->SetSprite("Process_Base.png");
 
 	m_Frame = CreateComponent<GameEngineUIRenderer>();
-	m_Frame->Transform.SetLocalPosition(float4(0.0f, 0.0f, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Frame)));
+	m_Frame->Transform.SetLocalPosition(float4(0.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame)));
 	m_Frame->SetSprite("Process_B_Contents.png");
 
 	
 	m_ProcessBProductInfo.ProductImg = CreateComponent<GameEngineUIRenderer>();
-	m_ProcessBProductInfo.ProductImg->Transform.SetLocalPosition(float4(2.0f, 113.0f, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Icon)));
+	m_ProcessBProductInfo.ProductImg->Transform.SetLocalPosition(float4(2.0f, 113.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Icon)));
 
 	m_ProcessBSourceInfo.SrcImg= CreateComponent<GameEngineUIRenderer>();
-	m_ProcessBSourceInfo.SrcImg->Transform.SetLocalPosition(float4(-76.0f, -1.0f, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Icon)));
+	m_ProcessBSourceInfo.SrcImg->Transform.SetLocalPosition(float4(-76.0f, -1.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Icon)));
 	
 }
 

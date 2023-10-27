@@ -57,19 +57,19 @@ void UI_ProcessListUnit::Init(std::string_view _ProcessName)
 
 	// ·»´õ·¯ ¼¼ÆÃ
 	Panel = CreateComponent<GameEngineUIRenderer>();
-	Panel->Transform.SetLocalPosition(float4(0.0f, 0.0f, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Frame)));
+	Panel->Transform.SetLocalPosition(float4(0.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame)));
 	Panel->SetSprite("Process_A_List.png");
 
 	ItemSlot = CreateComponent<GameEngineUIRenderer>();
-	ItemSlot->Transform.SetLocalPosition(float4(-76.0f, 0.0f, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Attachment)));
+	ItemSlot->Transform.SetLocalPosition(float4(-76.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment)));
 	ItemSlot->SetSprite("Process_A_Slot.png");
 
 	ItemImg = CreateComponent<GameEngineUIRenderer>();
-	ItemImg->Transform.SetLocalPosition(float4(-76.0f, 0.0f, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Icon)));
+	ItemImg->Transform.SetLocalPosition(float4(-76.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Icon)));
 	ItemImg->SetSprite(_ProcessName.data() + std::string(".png"));
 
 	ItemMaskImg = CreateComponent<GameEngineUIRenderer>();
-	ItemMaskImg->Transform.SetLocalPosition(float4(-76.0f, 0.0f, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Icon_Mask)));
+	ItemMaskImg->Transform.SetLocalPosition(float4(-76.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Icon_Mask)));
 	ItemMaskImg->SetSprite(_ProcessName.data() + std::string("_Mask.png"));
 
 	Off();

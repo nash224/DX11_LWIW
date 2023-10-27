@@ -94,15 +94,9 @@ void BackDrop_CenterField::CreateFlooring()
 		m_BackScale = { 1920.0f, 1080.0f };
 		float4 BasePosition = m_BackScale.Half();
 		BasePosition.Y *= -1.0f;
-		BasePosition.Z = GlobalUtils::CalculateDepth(ERENDERDEPTH::Back_Paint);
+		BasePosition.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Back_Paint);
 
 		std::shared_ptr<GameEngineSpriteRenderer> Renderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
-		if (nullptr == Renderer)
-		{
-			MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-			return;
-		}
-
 		Renderer->SetSprite("GroundBase.png");
 		Renderer->SetImageScale(m_BackScale);
 		Renderer->Transform.SetLocalPosition(BasePosition);

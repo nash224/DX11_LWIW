@@ -82,7 +82,7 @@ void MongSiri_Population::SetUpChubHole(GameEngineLevel* _CurLevel)
 
 
 	float4 CurrentPosition = Transform.GetLocalPosition();
-	CurrentPosition.Z = GlobalUtils::CalculateDepth(ERENDERDEPTH::Hole);
+	CurrentPosition.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Hole);
 	m_ChubHole->Transform.SetLocalPosition(CurrentPosition);
 	m_ChubHole->Init();
 }

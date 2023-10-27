@@ -171,7 +171,7 @@ void UI_InterativeMark::UpdateMark(float _Delta)
 		
 		float4 ActorWorldPos = Pointer->Transform.GetWorldPosition();
 		float4 Position = ActorWorldPos - MainCameraPos + CONST_MarkPositionToActor;
-		Position.Z = GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Mark);
+		Position.Z = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Mark);
 		Transform.SetLocalPosition(Position);
 	}
 	else

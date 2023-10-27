@@ -31,18 +31,19 @@ public:
 
 public:
 	template<typename OrderType>
-	static float CalculateDepth(OrderType _Order)
+	static float CalculateFixDepth(OrderType _Order)
 	{
-		return CalculateDepth(static_cast<float>(_Order));
+		return CalculateFixDepth(static_cast<float>(_Order));
 	}
 
-	static float CalculateDepth(int _Order)
+	static float CalculateFixDepth(int _Order)
 	{
-		return CalculateDepth(static_cast<float>(_Order));
+		return CalculateFixDepth(static_cast<float>(_Order));
 	}
 
-	static float CalculateDepth(const float _Value);
-	static float4 CalculateActorPivot(const float4& _Scale, ERENDERPIVOTPOS _Pivot);
+	static float CalculateFixDepth(const float _Value);
+
+
 
 protected:
 

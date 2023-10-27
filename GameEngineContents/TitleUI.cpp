@@ -63,7 +63,7 @@ void TitleUI::ButtonSetting(GameEngineLevel* _Level)
 		return;
 	}
 
-	ZButton->Transform.SetLocalPosition({100.0f, -480.0f, GlobalUtils::CalculateDepth(ETITLERENDERDEPTH::UI)});
+	ZButton->Transform.SetLocalPosition({100.0f, -480.0f, GlobalUtils::CalculateFixDepth(ETITLERENDERDEPTH::UI)});
 	ZButton->Init();
 	ZButton->m_Renderer->SetSprite("ButtonSet_Keyboard_Z_PressHold.png");
 
@@ -75,7 +75,7 @@ void TitleUI::ButtonSetting(GameEngineLevel* _Level)
 		return;
 	}
 
-	ArrowButton->Transform.SetLocalPosition({ 270.0f, -480.0f, GlobalUtils::CalculateDepth(ETITLERENDERDEPTH::UI) });
+	ArrowButton->Transform.SetLocalPosition({ 270.0f, -480.0f, GlobalUtils::CalculateFixDepth(ETITLERENDERDEPTH::UI) });
 	ArrowButton->Init();
 	ArrowButton->m_Renderer->SetSprite("ButtonSet_Keyboard_Arrow_Vertical.png");
 }

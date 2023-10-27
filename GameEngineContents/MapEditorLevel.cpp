@@ -378,12 +378,12 @@ bool MapEditorLevel::PlaceThis()
 
 	if (ERENDERDEPTH::DarkGrass == static_cast<ERENDERDEPTH>(_SelectDepth))
 	{
-		Position.Z = GlobalUtils::CalculateDepth(ERENDERDEPTH::DarkGrass);
+		Position.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::DarkGrass);
 	}
 
 	if (ERENDERDEPTH::DeepDarkGrass == static_cast<ERENDERDEPTH>(_SelectDepth))
 	{
-		Position.Z = GlobalUtils::CalculateDepth(ERENDERDEPTH::DeepDarkGrass);
+		Position.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::DeepDarkGrass);
 	}
 
 	if (ERENDERDEPTH::Object == static_cast<ERENDERDEPTH>(_SelectDepth))

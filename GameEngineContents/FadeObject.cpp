@@ -93,7 +93,7 @@ void FadeObject::RendererSetting()
 
 void FadeObject::PositionSetting()
 {
-	float FadeDepth = GlobalUtils::CalculateDepth(ERENDERDEPTH::FadeObject);
+	float FadeDepth = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::FadeObject);
 	Transform.SetLocalPosition({ 0.0f, 0.0f, FadeDepth });
 }
 

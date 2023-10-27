@@ -304,7 +304,7 @@ void UI_Inventory::Init()
 // Base Create
 void UI_Inventory::CreateBase()
 {
-	float4 BasePosition = { 0.0f , 0.0f , GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Base) };
+	float4 BasePosition = { 0.0f , 0.0f , GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Base) };
 
 	m_InventoryBase = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Base);
 	m_InventoryBase->SetSprite("Inventory_Base.png");
@@ -333,14 +333,14 @@ void UI_Inventory::CreateSlotArray()
 
 			std::shared_ptr<GameEngineUIRenderer> Empty = CreateComponent<GameEngineUIRenderer>();
 			Empty->SetSprite("Inventory_Empty_Slot.png");
-			Pos.Z = GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Attachment);
+			Pos.Z = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
 			Empty->Transform.SetLocalPosition(Pos);
 
 
 			InventorySlotArray[y][x].SlotEmpty = Empty;
 
 			std::shared_ptr<GameEngineUIRenderer> Slot = CreateComponent<GameEngineUIRenderer>();
-			Pos.Z = GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Icon);
+			Pos.Z = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Icon);
 			Slot->Transform.SetLocalPosition(Pos);
 			Slot->Off();
 
@@ -656,7 +656,7 @@ void UI_Inventory::CursorThis(const unsigned int _X, const unsigned int _Y)
 	}
 
 	float4 CursorPosition = CalculateIndexToPos(_X, _Y);
-	CursorPosition = { CursorPosition.X , CursorPosition.Y, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Cursor) };
+	CursorPosition = { CursorPosition.X , CursorPosition.Y, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Cursor) };
 	
 
 	m_CursorComposition.Cursor->Transform.SetLocalPosition(CursorPosition);
@@ -668,7 +668,7 @@ void UI_Inventory::CursorThis(const unsigned int _X, const unsigned int _Y)
 		return;
 	}
 
-	CursorPosition = { CursorPosition.X , CursorPosition.Y, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::CursorOutLine) };
+	CursorPosition = { CursorPosition.X , CursorPosition.Y, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::CursorOutLine) };
 	m_CursorComposition.CursorOutline->Transform.SetLocalPosition(CalculateIndexToPos(_X, _Y));
 
 	if (nullptr == m_CursorComposition.NameTooltip)
@@ -681,7 +681,7 @@ void UI_Inventory::CursorThis(const unsigned int _X, const unsigned int _Y)
 	if (true == Data->IsContain(_X, _Y))
 	{
 		CursorPosition = CalculateIndexToPos(_X, _Y) + NameTagPosition;
-		CursorPosition = { CursorPosition.X , CursorPosition.Y, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Cursor) };
+		CursorPosition = { CursorPosition.X , CursorPosition.Y, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Cursor) };
 		m_CursorComposition.NameTooltip->Transform.SetLocalPosition(CursorPosition);
 		m_CursorComposition.NameTooltip->On();
 	}
@@ -935,7 +935,7 @@ void UI_Inventory::DispensationSelectThis()
 		SelectItem[EmptySlotNumber].SelectCount = m_CurrentSlotX * m_CurrentSlotY;
 
 		float4 CursorPosition = CalculateIndexToPos(m_CurrentSlotX, m_CurrentSlotY);
-		CursorPosition.Z = GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Cursor);
+		CursorPosition.Z = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Cursor);
 		SelectItem[EmptySlotNumber].Cursor->Transform.SetLocalPosition(CursorPosition);
 		SelectItem[EmptySlotNumber].Cursor->On();
 	}

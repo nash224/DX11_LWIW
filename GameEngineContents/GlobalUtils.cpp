@@ -112,33 +112,9 @@ std::string GlobalUtils::GetParentString(std::string_view _ChildPath)
 	return ChildPath;
 }
 
-float GlobalUtils::CalculateDepth(const float _Value)
+float GlobalUtils::CalculateFixDepth(const float _Value)
 {
 	return _Value;
 }
 
-float4 GlobalUtils::CalculateActorPivot(const float4& _Scale, ERENDERPIVOTPOS _Pivot)
-{
-	float4 HScale = _Scale;
-	HScale = HScale.Half();
-	float4 ReturnValue = float4::ZERO;
 
-	switch (_Pivot)
-	{
-	case ERENDERPIVOTPOS::Center:
-		ReturnValue = float4::ZERO;
-		break;
-	case ERENDERPIVOTPOS::LeftTop:
-		HScale.Y *= -1.0f;
-		ReturnValue = HScale;
-		break;
-	case ERENDERPIVOTPOS::RightBottom:
-		HScale.X *= -1.0f;
-		ReturnValue = HScale;
-		break;
-	default:
-		break;
-	}
-
-	return ReturnValue;
-}

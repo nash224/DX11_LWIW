@@ -67,7 +67,7 @@ void UI_ProcessList::Init()
 void UI_ProcessList::RendererSetting()
 {
 	m_Base = CreateComponent<GameEngineUIRenderer>();
-	m_Base->Transform.SetLocalPosition(float4(0.0f, 0.0f, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Base)));
+	m_Base->Transform.SetLocalPosition(float4(0.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Base)));
 	m_Base->SetSprite("Process_Base.png");
 
 
@@ -92,24 +92,24 @@ void UI_ProcessList::CreateProcessSlot(std::string_view _ProcessName)
 void UI_ProcessList::CursorSetting()
 {
 	m_ProcessListCursor.UpArrow = CreateComponent<GameEngineUIRenderer>();
-	m_ProcessListCursor.UpArrow->Transform.SetLocalPosition(float4(115.0f, 150.0f, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Frame)));
+	m_ProcessListCursor.UpArrow->Transform.SetLocalPosition(float4(115.0f, 150.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame)));
 	m_ProcessListCursor.UpArrow->SetSprite("Process_A_ScrollArrow.png");
 
 	m_ProcessListCursor.DownArrow = CreateComponent<GameEngineUIRenderer>();
-	m_ProcessListCursor.DownArrow->Transform.SetLocalPosition(float4(115.0f, -150.0f, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Frame)));
+	m_ProcessListCursor.DownArrow->Transform.SetLocalPosition(float4(115.0f, -150.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame)));
 	m_ProcessListCursor.DownArrow->SetSprite("Process_B_ScrollArrow.png");
 
 	m_ProcessListCursor.ScrollBase = CreateComponent<GameEngineUIRenderer>();
-	m_ProcessListCursor.ScrollBase->Transform.SetLocalPosition(float4(115.0f, 0.0f, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Frame)));
+	m_ProcessListCursor.ScrollBase->Transform.SetLocalPosition(float4(115.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame)));
 	m_ProcessListCursor.ScrollBase->SetSprite("Process_A_ScrollBase.png");
 
 	m_ProcessListCursor.ScrollBar = CreateComponent<GameEngineUIRenderer>();
-	m_ProcessListCursor.ScrollBar->Transform.SetLocalPosition(float4(115.0f, 0.0f, GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Attachment)));
+	m_ProcessListCursor.ScrollBar->Transform.SetLocalPosition(float4(115.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment)));
 	m_ProcessListCursor.ScrollBar->SetSprite("Process_A_ScrollBar.png");
 
 	m_ProcessListCursor.Cursor = CreateComponent<GameEngineUIRenderer>();
 	float4 CursorPosition = PROCESS_FIRST_SLOT_POSITION;
-	CursorPosition.Z = GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Cursor);
+	CursorPosition.Z = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Cursor);
 	m_ProcessListCursor.Cursor->Transform.SetLocalPosition(float4(CursorPosition));
 	m_ProcessListCursor.Cursor->SetSprite("Process_A_Cursor.png");
 }
@@ -262,7 +262,7 @@ void UI_ProcessList::MoveCursor(int _Value)
 	}
 
 	CursorPosition += float4(0.0f, NewYPositon);
-	CursorPosition.Z = GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Cursor);
+	CursorPosition.Z = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Cursor);
 
 	m_ProcessListCursor.Cursor->Transform.SetLocalPosition(CursorPosition);
 }
@@ -274,7 +274,7 @@ void UI_ProcessList::ResetCursor()
 	CurCursorLine = 0;
 
 	float4 CursorPosition = PROCESS_FIRST_SLOT_POSITION;
-	CursorPosition.Z = GlobalUtils::CalculateDepth(EUI_RENDERORDERDEPTH::Cursor);
+	CursorPosition.Z = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Cursor);
 
 	m_ProcessListCursor.Cursor->Transform.SetLocalPosition(CursorPosition);
 }
