@@ -57,7 +57,7 @@ void SkyLerp::Init()
 	Sun_Renderer->GetColorData().MulColor.A = 0.0f;
 
 
-	SkyData.reserve(29);
+	SkyData.reserve(33);
 	SkyData.push_back(Sky_300);
 	SkyData.push_back(Sky_310);
 	SkyData.push_back(Sky_320);
@@ -87,7 +87,15 @@ void SkyLerp::Init()
 	SkyData.push_back(Sky_650);
 	SkyData.push_back(Sky_650);
 	SkyData.push_back(Sky_700);
+	SkyData.push_back(Sky_710);
+	SkyData.push_back(Sky_720);
+	SkyData.push_back(Sky_730);
+	SkyData.push_back(Sky_740);
 
+	
+	
+	
+	
 
 	if (nullptr == PlayLevel::m_TimeManager)
 	{
@@ -130,16 +138,16 @@ void SkyLerp::UpdateSkyLerp()
 	float TimeRatio = PlayLevel::m_TimeManager->GetTimeRatio();
 	if (TimeRatio > SUNSET_TIMERATIO)
 	{
-		float SunSetRatio = (TimeRatio - SUNSET_TIMERATIO) / MinuteRatio;
+		float SunSetRatio = (TimeRatio - SUNSET_TIMERATIO) / MinuteRatio;				// 비율계산
 		float fRefNumber;
 
-		SunSetRatio = std::modff(SunSetRatio, &fRefNumber);
+		SunSetRatio = std::modff(SunSetRatio, &fRefNumber);								// 정수부, 소수부 분리
 		int RefNumber = static_cast<int>(fRefNumber);
 
 		int MaxRefNumber = static_cast<int>(SkyData.size() - 1);
 		if (RefNumber < MaxRefNumber)
 		{
-			LerpSky(SkyData[RefNumber], SkyData[RefNumber + 1], SunSetRatio);
+			LerpSky(SkyData[RefNumber], SkyData[RefNumber + 1], SunSetRatio);			// 색 보간
 		}
 		else
 		{
