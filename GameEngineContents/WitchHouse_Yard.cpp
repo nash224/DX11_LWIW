@@ -1,10 +1,12 @@
 #include "PreCompile.h"
 #include "WitchHouse_Yard.h"
 
+
 #include "BackDrop_WitchHouse_Yard.h"
 #include "CameraControler.h"
 #include "Ellie.h"
-#include "PortalObject.h"
+
+#include "SkyLerp.h"
 
 
 WitchHouse_Yard::WitchHouse_Yard() 
@@ -24,6 +26,9 @@ void WitchHouse_Yard::Start()
 	{
 		m_LevelCameraControler->SetCameraMode(ECAMERAMODE::Fix);
 	}
+
+	m_SkyLerp = CreateActor<SkyLerp>(EUPDATEORDER::Sky);
+	m_SkyLerp->Init();
 }
 
 void WitchHouse_Yard::Update(float _Delta)

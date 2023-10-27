@@ -34,5 +34,6 @@ private:
 
 private:
 	std::shared_ptr<BackDrop_WitchHouse_Yard> m_BackDrop = nullptr;
+	std::shared_ptr<class SkyLerp> m_SkyLerp = nullptr;
 };
 

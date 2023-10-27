@@ -9,6 +9,7 @@
 
 #include "GroundRenderUnit.h"
 #include "NormalProp.h"
+#include "SkyLerp.h"
 
 #include "UI_Inventory.h"
 
@@ -163,25 +164,13 @@ void DebugTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	}
 
 	float4 CamepraPosition = GlobalValue::g_CameraControler->GetCameraCurrentPostion();
-	ImGui::Text(CamepraPosition.ToString().c_str());
+	ImGui::Text(("CameraPos :" + CamepraPosition.ToString()).c_str());
 
-	if (ImGui::Button("Play"))
-	{
-		int a = 0;
-	}
-
-	if (ImGui::Checkbox("CheckBox", &IsCheckBox))
-	{
-
-	}
-
-	if (ImGui::SliderInt("Slider", &SliderAmount, 0, 100, "%d"))
-	{
-
-	}
 
 	OnFPSTime(_DeltaTime);
 	MousePos();
+	SkyColor();
+
 }
 
 
@@ -204,6 +193,14 @@ void DebugTab::MousePos()
 {
 	std::string MousePos = GameEngineCore::MainWindow.GetMousePos().ToString();
 	ImGui::Text(MousePos.c_str());
+}
+
+void DebugTab::SkyColor()
+{
+	if (nullptr != SkyLerp::SkyManager)
+	{
+		ImGui::SliderFloat4("Sky Color", &SkyLerp::SkyManager->SkyColor.R, 0.0f, 1.0f, "%.2f");
+	}
 }
 
 

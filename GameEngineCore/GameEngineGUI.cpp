@@ -93,6 +93,11 @@ void GameEngineGUI::GUIRender(GameEngineLevel* _Level, float _DeltaTime)
 
     for (std::pair<const std::string, std::shared_ptr<GameEngineGUIWindow>> Pair : GUIWindows)
     {
+        if (false == Pair.second->IsUpdate())
+        {
+            continue;
+        }
+
         Pair.second->Begin();
         Pair.second->OnGUI(_Level, _DeltaTime);
         Pair.second->End();

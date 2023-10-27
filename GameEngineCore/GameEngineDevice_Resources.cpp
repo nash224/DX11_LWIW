@@ -41,6 +41,25 @@ void GameEngineDevice::ResourcesInit()
 
 	}
 
+	{
+		std::vector<GameEngineVertex> Vertex;
+		Vertex.resize(3);
+
+		Vertex[0] = { { 0.0f, 0.0f, 0.0f, 1.0f } };
+		Vertex[1] = { { 0.0f, 0.0f, 0.0f, 1.0f } };
+
+		GameEngineVertexBuffer::Create("Line", Vertex);
+
+		std::vector<unsigned int> Index =
+		{
+			0, 1
+		};
+		GameEngineIndexBuffer::Create("Line", Index);
+
+		std::shared_ptr<GameEngineMesh> LineMesh = GameEngineMesh::Create("Line");
+		LineMesh->SetTOPOLOGY(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
+		// LineMesh->SetTOPOLOGY(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	}
 
 	{
 		std::vector<GameEngineVertex> Vertex;
@@ -264,7 +283,7 @@ void GameEngineDevice::ResourcesInit()
 
 		//D3D11_FILL_MODE FillMode;
 		// 랜더링 할때 채우기 모드를 결정한다.
-
+		
 		// 외적했는데 z방향이 어디냐?
 		// D3D11_CULL_NONE => 방향이 어디든 건져낸다.
 		// D3D11_CULL_BACK => z가 앞쪽인 픽셀들은 안건져 낸다.
@@ -399,7 +418,7 @@ void GameEngineDevice::ResourcesInit()
 		Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
 
 		// https://learn.microsoft.com/ko-kr/windows/win32/api/d3d11/ne-d3d11-d3d11_blend
-
+		
 		// src srcColor * src의 알파
 		// 1, 0, 0(, 1) * 1.0f
 		Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA; // src팩터
@@ -434,6 +453,26 @@ void GameEngineDevice::ResourcesInit()
 		Desc.MaxLOD = FLT_MAX;
 
 		std::shared_ptr<GameEngineSampler> Rasterizer = GameEngineSampler::Create("EngineBaseSampler", Desc);
+	}
+
+	{
+
+		D3D11_SAMPLER_DESC Desc = {};
+		// 일반적인 보간형식 <= 뭉개진다.
+		// D3D11_FILTER_MIN_MAG_MIP_
+		// 그 밉맵에서 색상가져올때 다 뭉개는 방식으로 가져오겠다.
+		Desc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+		Desc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+		Desc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+		Desc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+
+		Desc.MipLODBias = 0.0f;
+		Desc.MaxAnisotropy = 1;
+		Desc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+		Desc.MinLOD = -FLT_MAX;
+		Desc.MaxLOD = FLT_MAX;
+
+		std::shared_ptr<GameEngineSampler> Sampler = GameEngineSampler::Create("EngineBaseWRAPSampler", Desc);
 	}
 
 
@@ -487,6 +526,14 @@ void GameEngineDevice::ResourcesInit()
 		Mat->SetRasterizer("EngineWireRasterizer");
 	}
 
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("2DDebugLine");
+		Mat->SetVertexShader("DebugLine_VS");
+		Mat->SetPixelShader("DebugLine_PS");
+		// Mat->SetRasterizer("EngineWireRasterizer");
+
+		Mat->SetRasterizer("EngineRasterizer");
+	}
 
 
 	// 엔진수준에서 지원해주는 가장 기초적인 리소스들은 여기에서 만들어질 겁니다.

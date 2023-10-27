@@ -76,6 +76,7 @@ class DebugTab : public UITab
 
 	void OnFPSTime(float _DeltaTime);
 	void MousePos();
+	void SkyColor();
 
 public:
 	DebugTab(std::string_view _Name)

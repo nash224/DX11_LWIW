@@ -47,7 +47,7 @@ PixelOutPut TextureShader_VS(GameEngineVertex2D _Input)
     // _Input 0.5 0.5
     
     // 쉐이더 문법 모두 0인 자료형으로 초기화 하는것
-    PixelOutPut Result = (PixelOutPut) 0;
+    PixelOutPut Result = (PixelOutPut)0;
     
     // 내가 원하는 값을 이안에 넣어줄수 있어야 한다.
     
@@ -57,6 +57,14 @@ PixelOutPut TextureShader_VS(GameEngineVertex2D _Input)
     // 6의 버텍스가 들어올것이다.
     
     float4 CalUV = _Input.TEXCOORD;
+
+    CalUV.x *= VertexUVMul.x;
+    CalUV.y *= VertexUVMul.y;
+    
+       
+    CalUV.x += VertexUVPlus.x;
+    CalUV.y += VertexUVPlus.y;
+
     
     // hlsl은 사용하지 않은 녀석은 인식하지 못합니다.
     // 결과에 유의미한 영향을 주는 리소스가 아니면 hlsl은 최적화를 통해서 그 리소스를 배제한다.
@@ -75,6 +83,7 @@ PixelOutPut TextureShader_VS(GameEngineVertex2D _Input)
     
     Result.TEXCOORD.x = (CalUV.x * Scale2DX) + Pos2DX;
     Result.TEXCOORD.y = (CalUV.y * Scale2DY) + Pos2DY;
+    
     
     // 버텍스 들은 어떻게 되어있나?
     return Result;
@@ -103,7 +112,8 @@ SamplerState DiffuseTexSampler : register(s0);
 
 float4 TextureShader_PS(PixelOutPut _Input) : SV_Target0
 {
-   
+
+    
     float4 Color = DiffuseTex.Sample(DiffuseTexSampler, _Input.TEXCOORD.xy);
     // 블랜드라는 작업을 해줘야 한다.
     
@@ -135,7 +145,7 @@ float4 TextureShader_PS(PixelOutPut _Input) : SV_Target0
     
     if (IsMask == 1 && MaskTex[ScreenPos].r <= 0.0f)
     {
-        clip(-1);
+         clip(-1);
     }
     
     if (0.0f >= Color.a)

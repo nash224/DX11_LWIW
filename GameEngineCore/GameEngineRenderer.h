@@ -16,6 +16,8 @@ struct RenderBaseInfo
 	float4 RenderScreenScale;
 	float4 MaskScreeneScale;
 	float4 MaskPivot;
+	float4 VertexUVPlus;
+	float4 VertexUVMul = float4::ONE;
 };
 
 // 설명 : GameEngineRenderer에게 Order는 랜더링 되는 순서를 의미합니다.

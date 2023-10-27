@@ -9,6 +9,7 @@ enum class EUPDATEORDER
 	Entity,
 	Projectile,
 	Objects,
+	Sky,
 	Portal,
 	CameraControler,
 	UIMagnaer,
@@ -30,8 +31,9 @@ enum class ERENDERORDER
 enum class ERENDERDEPTH
 {
 	FadeObject = -450,
-	Roof = -2,
-	FX = -1,
+	SkyBox = -201,
+	Roof = -200,
+	FX,
 	Object = 0,
 	RootedItem = 3000,
 	ObjectShadow,

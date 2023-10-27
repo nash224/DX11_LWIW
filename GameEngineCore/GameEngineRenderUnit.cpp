@@ -10,11 +10,11 @@
 #include "GameEngineRenderer.H"
 
 
-GameEngineRenderUnit::GameEngineRenderUnit()
+GameEngineRenderUnit::GameEngineRenderUnit() 
 {
 }
 
-GameEngineRenderUnit::~GameEngineRenderUnit()
+GameEngineRenderUnit::~GameEngineRenderUnit() 
 {
 }
 
@@ -26,7 +26,7 @@ void GameEngineRenderUnit::SetText(const std::string& _Font, const std::string& 
 	{
 		MsgBoxAssert("로드하지 않는 폰트를 사용하려고 했습니다.");
 	}
-
+	
 
 	FontText = _Text;
 	FontScale = _Scale;
@@ -132,7 +132,7 @@ void GameEngineRenderUnit::SetMaterial(std::string_view _Name)
 
 	// 이걸 회사의 약속.
 
-	if (nullptr != ParentRenderer
+	if (nullptr != ParentRenderer 
 		&& ShaderResHelper.IsConstantBuffer("TransformData"))
 	{
 		const TransformData& Data = ParentRenderer->Transform.GetConstTransformDataRef();

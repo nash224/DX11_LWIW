@@ -59,8 +59,7 @@ SpriteData GameEngineFrameAnimation::Update(float _DeltaTime)
 			if (true == Loop)
 			{
 				CurIndex = 0;
-			}
-			else
+			} else
 			{
 				--CurIndex;
 			}
@@ -70,15 +69,15 @@ SpriteData GameEngineFrameAnimation::Update(float _DeltaTime)
 	return Sprite->GetSpriteData(Index[CurIndex]);
 }
 
-GameEngineSpriteRenderer::GameEngineSpriteRenderer()
+GameEngineSpriteRenderer::GameEngineSpriteRenderer() 
 {
 }
 
-GameEngineSpriteRenderer::~GameEngineSpriteRenderer()
+GameEngineSpriteRenderer::~GameEngineSpriteRenderer() 
 {
 }
 
-void GameEngineSpriteRenderer::Start()
+void GameEngineSpriteRenderer::Start() 
 {
 	GameEngineRenderer::Start();
 
@@ -138,7 +137,7 @@ void GameEngineSpriteRenderer::Render(GameEngineCamera* _Camera, float _Delta)
 	ImageTransform.TransformUpdate();
 	ImageTransform.CalculationViewAndProjection(Transform.GetConstTransformDataRef());
 
-	GetShaderResHelper().SetTexture("DiffuseTex", CurSprite.Texture);
+	GetShaderResHelper().SetTexture("DiffuseTex", CurSprite.Texture, IsUserSampler);
 
 
 	GameEngineRenderer::Render(_Camera, _Delta);
@@ -169,7 +168,7 @@ void GameEngineSpriteRenderer::CreateAnimation(
 	unsigned int _Start /*= -1*/,
 	unsigned int _End /*= -1*/,
 	bool _Loop /*= true*/
-)
+) 
 {
 	std::string SpriteName = GameEngineString::ToUpperReturn(_SpriteName);
 
@@ -200,7 +199,7 @@ void GameEngineSpriteRenderer::CreateAnimation(
 	{
 		NewAnimation->Start = _Start;
 	}
-	else
+	else 
 	{
 		NewAnimation->Start = 0;
 	}
@@ -235,7 +234,7 @@ void GameEngineSpriteRenderer::ChangeAnimation(std::string_view _AnimationName, 
 {
 	std::string UpperName = GameEngineString::ToUpperReturn(_AnimationName);
 
-	std::map<std::string, std::shared_ptr<GameEngineFrameAnimation>>::iterator FindIter
+	std::map<std::string, std::shared_ptr<GameEngineFrameAnimation>>::iterator FindIter 
 		= FrameAnimations.find(UpperName);
 
 	if (FindIter == FrameAnimations.end())
@@ -334,7 +333,7 @@ void GameEngineSpriteRenderer::SetPivotType(PivotType _Type)
 	switch (_Type)
 	{
 	case PivotType::Center:
-		Pivot = { 0.5f, 0.5f };
+		Pivot = {0.5f, 0.5f};
 		break;
 	case PivotType::Top:
 		Pivot = { 0.5f, 0.0f };
@@ -406,4 +405,11 @@ void GameEngineSpriteRenderer::SetText(const std::string& _Font, const std::stri
 {
 	std::shared_ptr<GameEngineRenderUnit> Unit = CreateAndFindRenderUnit(0);
 	Unit->SetText(_Font, _Text, _Scale, Color, Flag);
+}
+
+void GameEngineSpriteRenderer::SetSampler(std::string_view _Name)
+{
+	std::shared_ptr<GameEngineRenderUnit> Unit = CreateAndFindRenderUnit(0);
+	Unit->ShaderResHelper.SetSampler("DiffuseTexSampler", _Name);
+	IsUserSampler = false;
 }

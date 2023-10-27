@@ -463,6 +463,9 @@
     <ClInclude Include="GroundRenderUnit.h">
       <Filter>2.Object\2.Actor\3.Prop</Filter>
     </ClInclude>
+    <ClInclude Include="SkyLerp.h">
+      <Filter>2.Object\2.Actor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -757,6 +760,9 @@
     </ClCompile>
     <ClCompile Include="GroundRenderUnit.cpp">
       <Filter>2.Object\2.Actor\3.Prop</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyLerp.cpp">
+      <Filter>2.Object\2.Actor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
