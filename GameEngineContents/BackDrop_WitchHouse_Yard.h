@@ -25,14 +25,11 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
-	void CreateFlooring();
-	void CreateProp(GameEngineLevel* _Level);
-	void CreateTree(GameEngineLevel* _Level);
-	void CreateNormalProp(GameEngineLevel* _Level);
-
-
-	void CreateHouse(GameEngineLevel* _Level);
-	void CreatePortalActor(GameEngineLevel* _Level);
-	void CreateDian(GameEngineLevel* _Level);
+	void LoadSerBin();
+	void CreateBase();
+	void CreateNormalProp();
+	void CreateHouse();
+	void CreatePortalActor();
+	void CreateDian();
 };
 

@@ -29,7 +29,7 @@ enum class ERENDERORDER
 
 enum class ERENDERDEPTH
 {
-	FadeObject = -400,
+	FadeObject = -450,
 	Roof = -2,
 	FX = -1,
 	Object = 0,
@@ -90,7 +90,7 @@ enum class EHOUSEDEPTH
 
 enum class EUI_RENDERORDERDEPTH
 {
-	Cursor = -300,
+	Cursor = -400,
 	CursorOutLine,
 	Icon_Mask,
 	Icon,

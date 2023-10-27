@@ -86,11 +86,6 @@ bool NormalProp::GetPixelCheck()
 void NormalProp::SetPixelCollision(std::string_view _FileName)
 {
 	m_DebugRenderer = CreateComponent<GameEngineSpriteRenderer>();
-	if (nullptr == m_DebugRenderer)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
 
 	m_DebugRenderer->Off();
 	m_DebugRenderer->SetSprite(_FileName);

@@ -23,6 +23,8 @@ public:
 	MapEditorLevel& operator=(const MapEditorLevel& _Other) = delete;
 	MapEditorLevel& operator=(MapEditorLevel&& _Other) noexcept = delete;
 
+
+	bool IsFlip = false;
 	int _SelectDepth = 0;
 	float _RendererHeight = 0.0f;
 

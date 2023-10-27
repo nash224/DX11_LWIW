@@ -478,6 +478,11 @@ void BaseRendererItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTim
 
 	if (ImGui::ListBox("SpriteNames", &SelectSpriteItem, &CNames[0], static_cast<int>(CNames.size())))
 	{
+		if (nullptr != EditorLevel->SelectActor)
+		{
+			EditorLevel->SelectActor->m_Renderer->SetSprite(SpriteNames[SelectSpriteItem]);
+		}
+
 		EditorLevel->_SelcetSprite = SpriteNames[SelectSpriteItem];
 		SelectSpriteName = SpriteNames[SelectSpriteItem];
 	}
@@ -640,6 +645,11 @@ void PropItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTime)
 
 		if (ImGui::ListBox("SpriteNames", &SelectSpriteItem, &CNames[0], static_cast<int>(CNames.size())))
 		{
+			if (nullptr != EditorLevel->SelectActor)
+			{
+				EditorLevel->SelectActor->m_Renderer->SetSprite(SpriteNames[SelectSpriteItem]);
+			}
+
 			EditorLevel->_SelcetSprite = SpriteNames[SelectSpriteItem];
 			SelectSpriteName = SpriteNames[SelectSpriteItem];
 		}
@@ -676,11 +686,11 @@ void PropItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTime)
 		{
 			if (ImGui::SliderFloat("Adjustment Height", &EditorLevel->_RendererHeight, 0.0f, 200.0f, "%.0f"))
 			{
-				EditorLevel->SelectActor->m_Renderer->Transform.SetLocalPosition(float4(0.0f, EditorLevel->_RendererHeight));
+				EditorLevel->SelectActor->m_Renderer->Transform.SetLocalPosition(float4(Width, EditorLevel->_RendererHeight));
 			}
 			if (ImGui::SliderFloat("Adjustment Weight", &Width, -100.0f, 100.0f, "%.0f"))
 			{
-				EditorLevel->SelectActor->m_Renderer->Transform.SetLocalPosition(float4(Width, 0.0f));
+				EditorLevel->SelectActor->m_Renderer->Transform.SetLocalPosition(float4(Width, EditorLevel->_RendererHeight));
 			}
 
 			if (true == _Level->IsDebug)

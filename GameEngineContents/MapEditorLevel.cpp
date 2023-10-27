@@ -309,6 +309,22 @@ bool MapEditorLevel::RotateSelectActor()
 		return true;
 	}
 
+	if (true == GameEngineInput::IsDown('R', this))
+	{
+		IsFlip = !IsFlip;
+
+		if (true == IsFlip)
+		{
+			SelectActor->m_Renderer->LeftFlip();
+		}
+		else
+		{
+			SelectActor->m_Renderer->RightFlip();
+		}
+
+		return true;
+	}
+
 	return false;
 }
 
