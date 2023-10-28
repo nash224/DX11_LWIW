@@ -65,7 +65,7 @@ void BackDrop_CenterField::Init()
 	CreatePixelMap(CurLevel);
 	CreatePortalActor(CurLevel);
 	CreateAurea(CurLevel);
-	/*TestPorp();*/
+	TestPorp();
 
 	static bool IsCreatedCreature = false;
 	if (false == IsCreatedCreature)
@@ -84,7 +84,7 @@ void BackDrop_CenterField::TestPorp()
 {
 	std::shared_ptr<GameEngineActor> TestActor = GetLevel()->CreateActor<GameEngineActor>(0);
 	std::shared_ptr<GameEngineUIRenderer> Text = TestActor->CreateComponent<GameEngineUIRenderer>();
-	Text->SetText("SDSamliphopangcheTTFBasic", "´Ù¶÷Áã Çå Ãª¹ÙÄû¿¡ Å¸°íÆÄ", 20.0f , float4::BLUE);
+	Text->SetText("Liberation Sans", "´Ù¶÷Áã Çå Ãª¹ÙÄû¿¡ Å¸°íÆÄ", 20.0f , float4::BLUE);
 }
 
 

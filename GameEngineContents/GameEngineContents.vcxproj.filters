@@ -52,18 +52,6 @@
     <Filter Include="2.Object\2.Actor\0.Manager\EventManager">
       <UniqueIdentifier>{657ff871-8102-49bc-aba3-415223d79dcd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2.Object\2.Actor\1.BackDrop">
-      <UniqueIdentifier>{1b0dee99-207d-445b-aa25-16e8f1c21756}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2.Object\2.Actor\1.BackDrop\LevelBackDrop">
-      <UniqueIdentifier>{ab990094-0a41-46ab-8fd7-2d6165e2048a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2.Object\2.Actor\1.BackDrop\LevelBackDrop\1.MainMenu">
-      <UniqueIdentifier>{e95f5b82-f9b3-4125-9c6f-0af11164f6dc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2.Object\2.Actor\1.BackDrop\LevelBackDrop\2.Play">
-      <UniqueIdentifier>{7225245d-3e89-4098-9cfd-3cfb1d98b3d0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2.Object\2.Actor\2.Interactive">
       <UniqueIdentifier>{e2fea63f-3b07-4ea3-a0c6-8afed64b65e4}</UniqueIdentifier>
     </Filter>
@@ -180,6 +168,18 @@
     </Filter>
     <Filter Include="2.Object\2.Actor\0.Manager\TimeManager">
       <UniqueIdentifier>{ddb41d3c-8035-4c91-b4de-494da1d588ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2.Object\2.Actor\1.BackManager">
+      <UniqueIdentifier>{1b0dee99-207d-445b-aa25-16e8f1c21756}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2.Object\2.Actor\1.BackManager\LevelBackDrop">
+      <UniqueIdentifier>{ab990094-0a41-46ab-8fd7-2d6165e2048a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2.Object\2.Actor\1.BackManager\LevelBackDrop\1.MainMenu">
+      <UniqueIdentifier>{e95f5b82-f9b3-4125-9c6f-0af11164f6dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2.Object\2.Actor\1.BackManager\LevelBackDrop\2.Play">
+      <UniqueIdentifier>{7225245d-3e89-4098-9cfd-3cfb1d98b3d0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -311,25 +311,25 @@
       <Filter>2.Object\2.Actor\0.Manager\UIManager\5.Mark</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_WitchHouse_DownFloor.h">
-      <Filter>2.Object\2.Actor\1.BackDrop\LevelBackDrop\2.Play</Filter>
+      <Filter>2.Object\2.Actor\1.BackManager\LevelBackDrop\2.Play</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_WitchHouse_UpFloor.h">
-      <Filter>2.Object\2.Actor\1.BackDrop\LevelBackDrop\2.Play</Filter>
+      <Filter>2.Object\2.Actor\1.BackManager\LevelBackDrop\2.Play</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_WitchHouse_Yard.h">
-      <Filter>2.Object\2.Actor\1.BackDrop\LevelBackDrop\2.Play</Filter>
+      <Filter>2.Object\2.Actor\1.BackManager\LevelBackDrop\2.Play</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_CenterField.h">
-      <Filter>2.Object\2.Actor\1.BackDrop\LevelBackDrop\2.Play</Filter>
+      <Filter>2.Object\2.Actor\1.BackManager\LevelBackDrop\2.Play</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_MainMenu.h">
-      <Filter>2.Object\2.Actor\1.BackDrop\LevelBackDrop\1.MainMenu</Filter>
+      <Filter>2.Object\2.Actor\1.BackManager\LevelBackDrop\1.MainMenu</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_PlayLevel.h">
-      <Filter>2.Object\2.Actor\1.BackDrop\LevelBackDrop\2.Play</Filter>
+      <Filter>2.Object\2.Actor\1.BackManager\LevelBackDrop\2.Play</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop.h">
-      <Filter>2.Object\2.Actor\1.BackDrop\LevelBackDrop</Filter>
+      <Filter>2.Object\2.Actor\1.BackManager\LevelBackDrop</Filter>
     </ClInclude>
     <ClInclude Include="LootedItem.h">
       <Filter>2.Object\2.Actor\2.Interactive\Static</Filter>
@@ -599,25 +599,25 @@
       <Filter>2.Object\2.Actor\0.Manager\UIManager\5.Mark</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_WitchHouse_DownFloor.cpp">
-      <Filter>2.Object\2.Actor\1.BackDrop\LevelBackDrop\2.Play</Filter>
+      <Filter>2.Object\2.Actor\1.BackManager\LevelBackDrop\2.Play</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_WitchHouse_UpFloor.cpp">
-      <Filter>2.Object\2.Actor\1.BackDrop\LevelBackDrop\2.Play</Filter>
+      <Filter>2.Object\2.Actor\1.BackManager\LevelBackDrop\2.Play</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_WitchHouse_Yard.cpp">
-      <Filter>2.Object\2.Actor\1.BackDrop\LevelBackDrop\2.Play</Filter>
+      <Filter>2.Object\2.Actor\1.BackManager\LevelBackDrop\2.Play</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_CenterField.cpp">
-      <Filter>2.Object\2.Actor\1.BackDrop\LevelBackDrop\2.Play</Filter>
+      <Filter>2.Object\2.Actor\1.BackManager\LevelBackDrop\2.Play</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_MainMenu.cpp">
-      <Filter>2.Object\2.Actor\1.BackDrop\LevelBackDrop\1.MainMenu</Filter>
+      <Filter>2.Object\2.Actor\1.BackManager\LevelBackDrop\1.MainMenu</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_PlayLevel.cpp">
-      <Filter>2.Object\2.Actor\1.BackDrop\LevelBackDrop\2.Play</Filter>
+      <Filter>2.Object\2.Actor\1.BackManager\LevelBackDrop\2.Play</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop.cpp">
-      <Filter>2.Object\2.Actor\1.BackDrop\LevelBackDrop</Filter>
+      <Filter>2.Object\2.Actor\1.BackManager\LevelBackDrop</Filter>
     </ClCompile>
     <ClCompile Include="LootedItem.cpp">
       <Filter>2.Object\2.Actor\2.Interactive\Static</Filter>

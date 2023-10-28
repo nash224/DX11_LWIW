@@ -89,7 +89,7 @@ float BackDrop_PlayLevel::ZSort(const float _PositionY) const
 		BackGroundScale = GlobalValue::GetWindowScale();
 	}
 
-	float Depth = (BackGroundScale.Y + _PositionY);
+	float Depth = (BackGroundScale.Y + _PositionY) / BackGroundScale.Y * 1000.0f;
 	return Depth;
 }
 
