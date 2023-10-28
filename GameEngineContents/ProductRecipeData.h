@@ -5,7 +5,7 @@ class MaterialInfo
 {
 public:
 	std::string MaterialName;
-	unsigned int MaterialCount;
+	unsigned int MaterialCount = 0;
 };
 
 
@@ -13,39 +13,31 @@ public:
 class ProductRecipeData final : public ContentsResource<ProductRecipeData>
 {
 public:
+	struct MaterialInfo
+	{
+		std::string MaterialName;
+		std::uint32_t MaterialCount = 0;
+	};
+
+public:
 	// constrcuter destructer
 	ProductRecipeData();
 	~ProductRecipeData();
 
 
 	ProductRecipeData(
-		std::string _ProductName = "",
-		std::string _KoreanName = "",
-		EBREWING_DIFFICULTY _Star = EBREWING_DIFFICULTY::Hard,
-		EBREWING_DIRECTION _Ladle = EBREWING_DIRECTION::StirNone,
-		EBREWING_FIRE _Fire = EBREWING_FIRE::Three,
-		std::string _Material1 = "",
-		unsigned int _Material1Count = 0,
-		std::string _Material2 = "",
-		unsigned int _Material2Count = 0,
-		std::string _Material3 = "",
-		unsigned int _Material3Count = 0
-	)
-		:
-		ProductName(_ProductName),
-		KoreanName(_KoreanName),
-		Star(_Star),
-		Ladle(_Ladle),
-		Fire(_Fire)
-	{
-		Material.resize(3);
-		Material[0].MaterialName = _Material1;
-		Material[0].MaterialCount = _Material1Count;
-		Material[1].MaterialName = _Material2;
-		Material[1].MaterialCount = _Material2Count;
-		Material[2].MaterialName = _Material3;
-		Material[2].MaterialCount = _Material3Count;
-	}
+		const std::vector<MaterialInfo>& MaterialArray,
+		EBREWING_DIFFICULTY _Star,
+		EBREWING_DIRECTION _Ladle,
+		EBREWING_FIRE _Fire, 
+		std::string_view _ProductName = "", 
+		std::string_view _KoreanName = ""
+	);
+
+	ProductRecipeData(const ProductRecipeData& _Other) = default;
+	ProductRecipeData(ProductRecipeData&& _Other) noexcept = default;
+	ProductRecipeData& operator=(const ProductRecipeData& _Other) = default;
+	ProductRecipeData& operator=(ProductRecipeData&& _Other) noexcept = default;
 
 
 	// 레시피가 오른쪽에 와야합니다.
@@ -67,7 +59,7 @@ public:
 		{
 			CheckMaterial[i] = Material[i];
 		}
-		
+
 
 		for (size_t MCount = 0; MCount < _Other->Material.size(); MCount++)
 		{
@@ -94,12 +86,6 @@ public:
 
 		return true;
 	}
-
-	// delete Function
-	//ProductRecipeData(const ProductRecipeData& _Other) = delete;
-	//ProductRecipeData(ProductRecipeData&& _Other) noexcept = delete;
-	//ProductRecipeData& operator=(const ProductRecipeData& _Other) = delete;
-	//ProductRecipeData& operator=(ProductRecipeData&& _Other) noexcept = delete;
 
 protected:
 

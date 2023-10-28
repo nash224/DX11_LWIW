@@ -107,7 +107,9 @@ void UI_ProductPage::CreatePage(std::string_view _ProduectName, int& PageCount)
 	CompositionPosition = { 79.0f , 45.0f - CONST_ItemSpaceGap , GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Component) };
 	m_ProductPageComposition.ItemSlot2->Transform.AddLocalPosition(CompositionPosition);
 
-	if ("" != Data->Material[2].MaterialName)
+	bool isContain = (3 == Data->Material.size());
+
+	if (isContain)
 	{
 		m_ProductPageComposition.ItemSpace3 = CreateComponent<GameEngineUIRenderer>();
 		m_ProductPageComposition.ItemSpace3->SetSprite("Inventory_Empty_Slot.png"); 

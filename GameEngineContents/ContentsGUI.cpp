@@ -171,6 +171,7 @@ void DebugTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	OnFPSTime(_DeltaTime);
 	MousePos();
 	SkyColor();
+	SkyOn();
 	TimeDebug();
 }
 
@@ -203,6 +204,17 @@ void DebugTab::SkyColor()
 		if (ImGui::SliderFloat4("Sky Color", &SkyLerp::SkyManager->SkyColor.R, 0.0f, 1.0f, "%.2f"))
 		{
 			SkyLerp::SkyManager->SetSkyColor();
+		}
+	}
+}
+
+void DebugTab::SkyOn()
+{
+	if (nullptr != SkyLerp::SkyManager)
+	{
+		if (ImGui::Checkbox("Sky On", &isSkyOn))
+		{
+			isSkyOn ? SkyLerp::SkyManager->On() : SkyLerp::SkyManager->Off();
 		}
 	}
 }
@@ -723,6 +735,12 @@ void PropItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTime)
 			{
 				EditorLevel->_SelcetPixelSprite = PixelSpriteNames[SelectPixelSpriteItem];
 				SelectSpriteName = PixelSpriteNames[SelectPixelSpriteItem];
+
+				if (nullptr != EditorLevel->SelectActor)
+				{
+					NormalProp* Object = dynamic_cast<NormalProp*>(EditorLevel->SelectActor);
+					Object->ChangePixeldata(SelectSpriteName);
+				}
 			}
 		}
 	}

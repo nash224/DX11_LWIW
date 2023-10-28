@@ -26,17 +26,6 @@ void UI_ToggleActor::Update(float _Delta)
 	}
 }
 
-void UI_ToggleActor::LevelStart(class GameEngineLevel* _NextLevel)
-{
-
-}
-
-void UI_ToggleActor::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-
-}
-
-
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -45,7 +34,7 @@ void UI_ToggleActor::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void UI_ToggleActor::Open()
 {
-	OpenChild();
+	OpenInternal();
 	On();
 	IsOpen = true;
 	OpenCheck = true;
@@ -54,7 +43,7 @@ void UI_ToggleActor::Open()
 
 void UI_ToggleActor::Close()
 {
-	CloseChild();
+	CloseInternal();
 	Off();
 	IsOpen = false;
 }

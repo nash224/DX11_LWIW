@@ -114,13 +114,13 @@ void ContentsCore::LoadContentsData()
 	BiologyData::CreateData("MapleHerb", { "MapleHerb", "¥‹«≥ «„∫Í", "¥‹«≥ «„∫Í", ETOOLTYPE::Gloves, EECOLOGYTYPE::GreenForest, EECOLOGYTYPE::ForestPlateau, EECOLOGYTYPE::AllDay });
 
 	// π∞æ‡
-	ProductRecipeData::CreateData("BadGrassPotion", { "BadGrassPotion", "≥™ª€ «Æ ¡¶∞≈ π∞æ‡", EBREWING_DIFFICULTY::Easy, EBREWING_DIRECTION::StirNone, EBREWING_FIRE::Four, "Mongsiri_Water", 1, "WitchFlower_Water", 1 });
-	ProductRecipeData::CreateData("NutritionPotion", { "NutritionPotion", "«Æ º∫¿Â π∞æ‡", EBREWING_DIFFICULTY::Normal, EBREWING_DIRECTION::StirRight, EBREWING_FIRE::Three, "SilverStarFlower_Water", 1, "MapleHerb_Water", 1, "BushBug_Water", 1 });
-	ProductRecipeData::CreateData("FirecrackerPotion", { "FirecrackerPotion", "∫“≤…≥Ó¿Ã π∞æ‡", EBREWING_DIFFICULTY::Hard, EBREWING_DIRECTION::StirRight, EBREWING_FIRE::Three, "PumpkinTerrier_Powder", 1, "FlowerBird_Water", 1, "MoonButterfly_Water", 1 });
+	ProductRecipeData::CreateData("BadGrassPotion", { std::vector<ProductRecipeData::MaterialInfo>{{"Mongsiri_Water", 1}, {"WitchFlower_Water", 1 } }, EBREWING_DIFFICULTY::Easy, EBREWING_DIRECTION::StirNone, EBREWING_FIRE::Four, "BadGrassPotion", "≥™ª€ «Æ ¡¶∞≈ π∞æ‡"});
+	ProductRecipeData::CreateData("NutritionPotion", { std::vector<ProductRecipeData::MaterialInfo>{{"SilverStarFlower_Water", 1}, {"MapleHerb_Water", 1 },{"BushBug_Water", 1  }}, EBREWING_DIFFICULTY::Normal, EBREWING_DIRECTION::StirRight, EBREWING_FIRE::Three, "NutritionPotion", "«Æ º∫¿Â π∞æ‡" });
+	ProductRecipeData::CreateData("FirecrackerPotion", { std::vector<ProductRecipeData::MaterialInfo>{{"PumpkinTerrier_Powder", 1,}, { "FlowerBird_Water", 1 },{"MoonButterfly_Water", 1} }, EBREWING_DIFFICULTY::Hard, EBREWING_DIRECTION::StirRight, EBREWING_FIRE::Three, "FirecrackerPotion", "∫“≤…≥Ó¿Ã π∞æ‡" });
 
 	// ªÁ≈¡
-	ProductRecipeData::CreateData("UncurseCandy", { "UncurseCandy", "¥‹«≥ «„∫Í", EBREWING_DIFFICULTY::Easy, EBREWING_DIRECTION::StirNone, EBREWING_FIRE::Three, "Mongsiri_Water", 1, "MapleHerb_Water", 1 });
-	ProductRecipeData::CreateData("HealingCandy", { "HealingCandy", "ƒ°∑· ªÁ≈¡", EBREWING_DIFFICULTY::Easy, EBREWING_DIRECTION::StirRight, EBREWING_FIRE::Four, "WitchFlower_Water", 1, "MapleHerb_Water", 1 });
+	ProductRecipeData::CreateData("UncurseCandy", { std::vector<ProductRecipeData::MaterialInfo>{{"Mongsiri_Water", 1}, {"MapleHerb_Water", 1 } }, EBREWING_DIFFICULTY::Easy, EBREWING_DIRECTION::StirNone, EBREWING_FIRE::Three,  "UncurseCandy", "¥‹«≥ «„∫Í" });
+	ProductRecipeData::CreateData("HealingCandy", { std::vector<ProductRecipeData::MaterialInfo>{{"WitchFlower_Water", 1}, {"MapleHerb_Water", 1 } }, EBREWING_DIFFICULTY::Easy, EBREWING_DIRECTION::StirRight, EBREWING_FIRE::Four, "HealingCandy", "ƒ°∑· ªÁ≈¡" });
 }
 
 

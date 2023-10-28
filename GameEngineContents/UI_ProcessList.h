@@ -1,8 +1,9 @@
-#pragma once
+ο»Ώ#pragma once
+
 
 #define PROCESS_FIRST_SLOT_POSITION { -4.0f, 134.0f }
-#define PROCESS_SLOT_GAP 64.0f
-#define PROCESS_MAX_SLOT 5
+
+
 
 class ProcessListCursor
 {
@@ -17,7 +18,7 @@ public:
 };
 
 
-// Ό³Έν :
+// μ„¤λª… :
 class UI_ProcessList : public GameEngineActor
 {
 public:
@@ -65,5 +66,8 @@ private:
 	ProcessListCursor m_ProcessListCursor;
 	int CurrentCursor = 0;
 	int CurCursorLine = 0;
+
+	inline static constexpr int PROCESS_MAX_SLOT = 5;
+	inline static constexpr float PROCESS_SLOT_GAP = 64.0f;
 
 };

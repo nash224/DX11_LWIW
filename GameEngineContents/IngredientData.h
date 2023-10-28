@@ -47,8 +47,8 @@ public:
 	std::string Name;
 	std::string KoreanName;
 	std::string SourceName;
-	EBrewingMachineType BrewingMachine;
-	unsigned int SourceCount;
+	EBrewingMachineType BrewingMachine = EBrewingMachineType::None;
+	unsigned int SourceCount = 0;
 
 };
 

@@ -11,26 +11,22 @@
 
 
 UI_Dispensation* UI_Dispensation::MainDispensation = nullptr;
-UI_Dispensation::UI_Dispensation() 
+UI_Dispensation::UI_Dispensation()
 {
 }
 
-UI_Dispensation::~UI_Dispensation() 
+UI_Dispensation::~UI_Dispensation()
 {
 }
 
 
 void UI_Dispensation::Start()
 {
-	UI_ToggleActor::Start();
-
 	GameEngineInput::AddInputObject(this);
 }
 
 void UI_Dispensation::Update(float _Delta)
 {
-	UI_ToggleActor::Update(_Delta);
-
 	UpdateKey();
 }
 
@@ -71,7 +67,7 @@ void UI_Dispensation::Init()
 	RendererSetting();
 
 	MainDispensation = this;
-	
+
 	Off();
 }
 
@@ -107,7 +103,7 @@ void UI_Dispensation::RendererSetting()
 	Fire_Gauge = CreateComponent<GameEngineUIRenderer>();
 	Fire_Gauge->Transform.SetLocalPosition(float4(0.0f, 57.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment)));
 	Fire_Gauge->SetSprite("Dispensation_Fire_Gauge.png", static_cast<int>(CurFire));
-	
+
 	Fire_Gauge_Pin = CreateComponent<GameEngineUIRenderer>();
 	Fire_Gauge_Pin->Transform.SetLocalPosition(float4(0.0f, 30.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Component)));
 	Fire_Gauge_Pin->SetSprite("dispensation_fire_gauge_pin.png", static_cast<int>(CurFire));
@@ -150,7 +146,7 @@ void UI_Dispensation::Open()
 	}
 
 	UIManager::MainUIManager->OpenInventory(EINVENTORYMODE::Dispensation);
-	
+
 	On();
 }
 
@@ -284,10 +280,13 @@ void UI_Dispensation::ClearSlotInfo()
 // 래시피가 일치하면 연금을 합니다.
 void UI_Dispensation::Dispensation()
 {
-	ProductRecipeData CurRecipeData = {"", "", EBREWING_DIFFICULTY::Normal, CurDirection, CurFire, 
-		m_DispensationSlotInfo[0].ItemName, m_DispensationSlotInfo[0].ItemCount,
-		m_DispensationSlotInfo[1].ItemName, m_DispensationSlotInfo[1].ItemCount,
-		m_DispensationSlotInfo[2].ItemName, m_DispensationSlotInfo[2].ItemCount };
+	const std::vector<ProductRecipeData::MaterialInfo> infoArray =
+	{
+		{m_DispensationSlotInfo[0].ItemName, m_DispensationSlotInfo[0].ItemCount },
+		{m_DispensationSlotInfo[1].ItemName, m_DispensationSlotInfo[1].ItemCount},
+		{m_DispensationSlotInfo[2].ItemName, m_DispensationSlotInfo[2].ItemCount}
+	};
+	const ProductRecipeData CurRecipeData = ProductRecipeData{ infoArray, EBREWING_DIFFICULTY::Normal, CurDirection,CurFire};
 
 	// 연금 레시피와 일치하는게 있으면
 	if (true == CheckDispensation(CurRecipeData))
@@ -403,13 +402,13 @@ void UI_Dispensation::LowHit()
 
 	int iFire = static_cast<int>(CurFire);
 	--iFire;
-	
+
 	if (nullptr == Fire_Gauge)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
-	
+
 	Fire_Gauge->SetSprite("Dispensation_Fire_Gauge.png", iFire);
 
 	if (nullptr == Fire_Gauge_Pin)

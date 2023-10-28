@@ -77,6 +77,7 @@ class DebugTab : public UITab
 	void OnFPSTime(float _DeltaTime);
 	void MousePos();
 	void SkyColor();
+	void SkyOn();
 	void TimeDebug();
 
 public:
@@ -92,7 +93,7 @@ public:
 private:
 	std::string SpriteName = "";
 
-	bool IsCheckBox = false;
+	bool isSkyOn = true;
 	int SliderAmount = 0;
 	int iFPS = 0;
 	float ColorEdit3Value = 0.2f;

@@ -303,13 +303,13 @@ void UI_Dictionary::CreatePage(EDICTIONARYCATEGORY _Type, std::string_view Name)
 
 
 // 부모의 Open함수에 자식에서 해줘야할 행동을 선언합니다.
-void UI_Dictionary::OpenChild()
+void UI_Dictionary::OpenInternal()
 {
 	OpenNextPage(g_CurrentCategory);
 }
 
 // 부모의 Close함수에 자식에서 해줘야할 행동을 선언합니다.
-void UI_Dictionary::CloseChild()
+void UI_Dictionary::CloseInternal()
 {
 	CloseCurrentPage(g_CurrentCategory);
 }

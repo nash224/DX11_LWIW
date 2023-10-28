@@ -7,7 +7,7 @@ class ItemData : public ContentsResource<ItemData>
 public:
 	std::string Name;
 	std::string KoreanName;
-	EITEM_TYPE ItemType;
+	EITEM_TYPE ItemType = EITEM_TYPE::None;
 
 
 

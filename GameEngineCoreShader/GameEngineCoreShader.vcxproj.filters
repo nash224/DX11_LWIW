@@ -1,24 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <FxCompile Include="ColorShader.fx" />
-    <FxCompile Include="Transform.fx">
-      <Filter>Header</Filter>
-    </FxCompile>
-    <FxCompile Include="RenderBase.fx">
-      <Filter>Header</Filter>
-    </FxCompile>
-    <FxCompile Include="TextureShader.fx">
-      <Filter>2D</Filter>
-    </FxCompile>
-    <FxCompile Include="DebugLineShader.fx">
-      <Filter>Debug</Filter>
-    </FxCompile>
-    <FxCompile Include="DebugColorShader.fx">
-      <Filter>Debug</Filter>
-    </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
     <Filter Include="Header">
       <UniqueIdentifier>{806f3772-18af-4880-9af2-25ccec71527d}</UniqueIdentifier>
     </Filter>
@@ -33,5 +15,23 @@
     <Text Include="47기 쉐이더 규칙.txt">
       <Filter>Header</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Transform.fx">
+      <Filter>Header</Filter>
+    </None>
+    <None Include="RenderBase.fx">
+      <Filter>Header</Filter>
+    </None>
+    <None Include="ColorShader.fx" />
+    <None Include="DebugLineShader.fx">
+      <Filter>Debug</Filter>
+    </None>
+    <None Include="DebugColorShader.fx">
+      <Filter>Debug</Filter>
+    </None>
+    <None Include="TextureShader.fx">
+      <Filter>2D</Filter>
+    </None>
   </ItemGroup>
 </Project>

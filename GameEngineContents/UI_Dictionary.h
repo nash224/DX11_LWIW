@@ -53,8 +53,8 @@ private:
 
 private:
 	// Open, Close
-	void OpenChild() override;
-	void CloseChild() override;
+	void OpenInternal() override;
+	void CloseInternal() override;
 
 	void OpenNextPage(EDICTIONARYCATEGORY _Type);
 	void CloseCurrentPage(EDICTIONARYCATEGORY _Type);

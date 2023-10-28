@@ -137,7 +137,7 @@ float MapEditorLevel::CalculateDepth(const float _PositionY) const
 		BackGroundScale = GlobalValue::GetWindowScale();
 	}
 
-	float Depth = (BackGroundScale.Y + _PositionY);
+	float Depth = (BackGroundScale.Y + _PositionY) / BackGroundScale.Y * 100.0f + 100.0f;
 	return Depth;
 }
 

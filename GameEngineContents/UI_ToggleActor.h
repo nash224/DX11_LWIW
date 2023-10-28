@@ -19,22 +19,20 @@ public:
 	void Open();
 	void Close();
 
-
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
-	void LevelEnd(class GameEngineLevel* _NextLevel) override;
-
-protected:
-	// Open 또는 Close 함수를 호출할 때 자식에서 끄고 싶은 기능을 추가해줍니다.
-	virtual void OpenChild() {}
-	virtual void CloseChild() {}
+	void LevelStart(class GameEngineLevel* _NextLevel) override {};
+	void LevelEnd(class GameEngineLevel* _NextLevel) override {};
 
 protected:
 	bool IsHub = false;
 	bool IsOpen = false;
 	bool OpenCheck = false;
 
+private:
+	// Open 또는 Close 함수를 호출할 때 자식에서 끄고 싶은 기능을 추가해줍니다.
+	virtual void OpenInternal() = 0;
+	virtual void CloseInternal() = 0;
 };
 

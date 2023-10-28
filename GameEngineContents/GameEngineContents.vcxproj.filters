@@ -457,10 +457,10 @@
     <ClInclude Include="GroundRenderUnit.h">
       <Filter>2.Object\2.Actor\3.Prop</Filter>
     </ClInclude>
-    <ClInclude Include="SkyLerp.h">
-      <Filter>2.Object\2.Actor</Filter>
-    </ClInclude>
     <ClInclude Include="TimeManager.h">
+      <Filter>2.Object\2.Actor\0.Manager\TimeManager</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyLerp.h">
       <Filter>2.Object\2.Actor\0.Manager\TimeManager</Filter>
     </ClInclude>
   </ItemGroup>
@@ -752,10 +752,10 @@
     <ClCompile Include="GroundRenderUnit.cpp">
       <Filter>2.Object\2.Actor\3.Prop</Filter>
     </ClCompile>
-    <ClCompile Include="SkyLerp.cpp">
-      <Filter>2.Object\2.Actor</Filter>
-    </ClCompile>
     <ClCompile Include="TimeManager.cpp">
+      <Filter>2.Object\2.Actor\0.Manager\TimeManager</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyLerp.cpp">
       <Filter>2.Object\2.Actor\0.Manager\TimeManager</Filter>
     </ClCompile>
   </ItemGroup>

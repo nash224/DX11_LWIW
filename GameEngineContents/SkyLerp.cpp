@@ -17,6 +17,7 @@ SkyLerp::~SkyLerp()
 
 void SkyLerp::Start()
 {
+	PauseSkyLerp = true;
 }
 
 void SkyLerp::Update(float _Delta)
@@ -120,6 +121,7 @@ void SkyLerp::SetSkyColor()
 	Sun_Renderer->GetColorData().MulColor = SkyColor;
 }
 
+
 // 일몰 업데이트
 void SkyLerp::UpdateSkyLerp()
 {
@@ -147,7 +149,7 @@ void SkyLerp::UpdateSkyLerp()
 		int MaxRefNumber = static_cast<int>(SkyData.size() - 1);
 		if (RefNumber < MaxRefNumber)
 		{
-			LerpSky(SkyData[RefNumber], SkyData[RefNumber + 1], SunSetRatio);			// 색 보간
+			LerpSky(SkyData[RefNumber], SkyData[static_cast<size_t>(RefNumber) + 1], SunSetRatio);			// 색 보간
 		}
 		else
 		{

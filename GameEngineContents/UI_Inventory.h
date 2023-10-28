@@ -162,8 +162,8 @@ private:
 	void RenewInventory();
 
 	// Open, Close
-	void OpenChild() override;
-	void CloseChild() override;
+	void OpenInternal() override;
+	void CloseInternal() override;
 
 	float4 CalculateIndexToPos(const size_t _x, const size_t _y);
 	void CursorThis(const unsigned int _X, const unsigned int _Y);

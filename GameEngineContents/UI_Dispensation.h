@@ -18,7 +18,7 @@ public:
 
 
 // Ό³Έν :
-class UI_Dispensation : public UI_ToggleActor
+class UI_Dispensation : public GameEngineActor
 {
 public:
 	class AlchemyPot* AlchemyPotPtr = nullptr;

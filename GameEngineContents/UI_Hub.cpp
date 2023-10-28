@@ -97,7 +97,7 @@ void UI_Hub::Init()
 
 /////////////////////////////////////////////////////////////////////////////////////
 
-void UI_Hub::OpenChild()
+void UI_Hub::OpenInternal()
 {
 	if (nullptr != m_Tool)
 	{
@@ -125,7 +125,7 @@ void UI_Hub::OpenChild()
 	}
 }
 
-void UI_Hub::CloseChild()
+void UI_Hub::CloseInternal()
 {
 	if (nullptr != m_Tool)
 	{

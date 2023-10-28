@@ -3,11 +3,11 @@
 
 #include "ContentsLevel.h"
 
-NormalProp::NormalProp() 
+NormalProp::NormalProp()
 {
 }
 
-NormalProp::~NormalProp() 
+NormalProp::~NormalProp()
 {
 }
 
@@ -94,6 +94,20 @@ void NormalProp::SetPixelCollision(std::string_view _FileName)
 	m_PixelFileName = _FileName;
 
 	PixelRendererCheck = true;
+}
+
+
+void NormalProp::ChangePixeldata(std::string_view _PixelName)
+{
+	if (nullptr == m_DebugRenderer)
+	{
+		SetPixelCollision(_PixelName);
+		return;
+	}
+
+	m_DebugRenderer->SetSprite(_PixelName);
+
+	m_PixelFileName = _PixelName;
 }
 
 

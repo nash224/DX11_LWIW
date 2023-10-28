@@ -18,16 +18,16 @@ void Inventory::Init()
 // 인벤토리에 동일한 이름의 아이템이 있으면 아이템의 수를 더하고, 아이템이 없으면 빈 슬롯에 넣습니다.
 void Inventory::PushItem(std::string_view _ItemName, unsigned int _Count)
 {
-	size_t LockNumber = Max_XSlot * InventoryParent->UnlockSlotY;
+	size_t LockNumber = Max_XSlot * static_cast<size_t>(InventoryParent->UnlockSlotY);
 
 	int Value = ReturnSlotNumber(_ItemName);
-	// 데이터에 없으면
-	if (-1 == Value)
+
+	bool isNotContainItem = (-1 == Value);
+	if (isNotContainItem)
 	{
 		// 빈자리가 있으면 빈자리를 찾아서
 		for (size_t i = 0; i < LockNumber; i++)
 		{
-			// 넣습니다.
 			if ("" == InventoryData[i].SourceName)
 			{
 				InventoryData[i].SourceName = _ItemName;
@@ -36,9 +36,10 @@ void Inventory::PushItem(std::string_view _ItemName, unsigned int _Count)
 				break;
 			}
 
-			// 인벤토리가 다 찼다는 의미로 PopUp UI를 요청합니다.
-			if (i == LockNumber - 1)
+			bool IsNotEmptySlot = (i == LockNumber - 1);
+			if (IsNotEmptySlot)
 			{
+				// 인벤토리가 다 찼다는 의미로 PopUp UI를 요청합니다.
 				// PopUp UI
 				return;
 			}
@@ -46,7 +47,6 @@ void Inventory::PushItem(std::string_view _ItemName, unsigned int _Count)
 	}
 	else
 	{
-		// 있으면
 		InventoryData[Value].ItemCount += _Count;
 	}
 
@@ -59,11 +59,12 @@ void Inventory::PopItem(std::string_view _ItemName, unsigned int _Count)
 	InventoryInfo* SlotInfo = Find(_ItemName);
  	int SlotNumber = ReturnSlotNumber(_ItemName);
 	InventoryData[SlotNumber].ItemCount -= _Count;
-	if (0 <= InventoryData[SlotNumber].ItemCount)
+
+	bool isZeroCount = (0 <= InventoryData[SlotNumber].ItemCount);
+	if (isZeroCount)
 	{
 		ClearData(SlotNumber);
 	}
-	
 }
 
 // 빈슬롯이 있는지 검사합니다.
@@ -107,7 +108,9 @@ bool Inventory::IsContain(unsigned int _X, unsigned int _Y)
 {
 	int MaxSlot = Max_XSlot;
 	unsigned int Value  = _Y * MaxSlot + _X;
-	if ("" != InventoryData[Value].SourceName)
+
+	bool isContain = ("" != InventoryData[Value].SourceName);
+	if (isContain)
 	{
 		return true;
 	}
@@ -206,10 +209,9 @@ void Inventory::RenewInventory()
 
 	for (size_t i = 0; i < InventoryData.size(); i++)
 	{
-		std::string_view FileName = InventoryData[i].SourceName;
-		if ("" != FileName)
+		if ("" != InventoryData[i].SourceName)
 		{
-			InventoryParent->DisplayItem(i, FileName);
+			InventoryParent->DisplayItem(i, InventoryData[i].SourceName);
 		}
 	}
 }
@@ -471,9 +473,10 @@ void UI_Inventory::PushItem(std::string_view _ItemName, unsigned int _Count/* = 
 
 	Data->PushItem(_ItemName, _Count);
 
-	// 알림 시스템이기 때문에 터트리진 않습니다.
+
 	if (nullptr != UI_DropManager::DropManager)
 	{
+		// 알림 시스템이기 때문에 터트리진 않습니다.
 		UI_DropManager::DropManager->NoticeItemDrop(_ItemName);
 	}
 }
@@ -493,7 +496,8 @@ void UI_Inventory::PopItem(std::string_view _ItemName, unsigned int _Count)
 		return;
 	}
 
-	if (SlotInfo->ItemCount < static_cast<int>(_Count))
+	bool isNotEnoughItem = (SlotInfo->ItemCount < static_cast<int>(_Count));
+	if (isNotEnoughItem)
 	{
 		MsgBoxAssert("사용하려는 아이템의 수보다 적습니다. ");
 		return;
@@ -510,7 +514,6 @@ bool UI_Inventory::IsEmptySlot(std::string_view _ItemName)
 		return false;
 	}
 
-
 	return Data->CheckEmptySlot(_ItemName);
 }
 
@@ -521,12 +524,14 @@ void UI_Inventory::UnlockSlot(const unsigned int _Count /*= 1*/)
 
 	UnlockSlotY += _Count;
 
-	if (UnlockSlotY > Max_YSlot)
+	bool IsMaxSlot = (UnlockSlotY > Max_YSlot);
+	if (IsMaxSlot)
 	{
 		UnlockSlotY = Max_YSlot;
 	}
 
-	if (PrevUnlockSlotY == UnlockSlotY)
+	bool isNotChangeSlot = (PrevUnlockSlotY == UnlockSlotY);
+	if (isNotChangeSlot)
 	{
 		return;
 	}
@@ -613,12 +618,12 @@ void UI_Inventory::RenewInventory()
 /////////////////////////////////////////////////////////////////////////////////////
 
 // 자식에서 해주고 싶은 행동을 수행합니다.
-void UI_Inventory::OpenChild()
+void UI_Inventory::OpenInternal()
 {
 	CursorThis(0, 0);
 }
 
-void UI_Inventory::CloseChild()
+void UI_Inventory::CloseInternal()
 {
 	if (EINVENTORYMODE::Dispensation == m_Mode)
 	{
@@ -649,45 +654,53 @@ float4 UI_Inventory::CalculateIndexToPos(const size_t _x, const size_t _y)
 
 void UI_Inventory::CursorThis(const unsigned int _X, const unsigned int _Y)
 {
-	if (nullptr == m_CursorComposition.Cursor)
-	{
-		MsgBoxAssert("커서를 생성하지 않고 사용하려 했습니다.");
-		return;
-	}
-
 	float4 CursorPosition = CalculateIndexToPos(_X, _Y);
-	CursorPosition = { CursorPosition.X , CursorPosition.Y, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Cursor) };
-	
 
-	m_CursorComposition.Cursor->Transform.SetLocalPosition(CursorPosition);
-	
 
-	if (nullptr == m_CursorComposition.CursorOutline)
 	{
-		MsgBoxAssert("커서를 생성하지 않고 사용하려 했습니다.");
-		return;
-	}
+		if (nullptr == m_CursorComposition.Cursor)
+		{
+			MsgBoxAssert("커서를 생성하지 않고 사용하려 했습니다.");
+			return;
+		}
 
-	CursorPosition = { CursorPosition.X , CursorPosition.Y, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::CursorOutLine) };
-	m_CursorComposition.CursorOutline->Transform.SetLocalPosition(CalculateIndexToPos(_X, _Y));
-
-	if (nullptr == m_CursorComposition.NameTooltip)
-	{
-		MsgBoxAssert("커서를 생성하지 않고 사용하려 했습니다.");
-		return;
-	}
-	 
-	// 데이터가 있으면
-	if (true == Data->IsContain(_X, _Y))
-	{
-		CursorPosition = CalculateIndexToPos(_X, _Y) + NameTagPosition;
 		CursorPosition = { CursorPosition.X , CursorPosition.Y, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Cursor) };
-		m_CursorComposition.NameTooltip->Transform.SetLocalPosition(CursorPosition);
-		m_CursorComposition.NameTooltip->On();
+		m_CursorComposition.Cursor->Transform.SetLocalPosition(CursorPosition);
 	}
-	else
+	
+
 	{
-		m_CursorComposition.NameTooltip->Off();
+		if (nullptr == m_CursorComposition.CursorOutline)
+		{
+			MsgBoxAssert("커서를 생성하지 않고 사용하려 했습니다.");
+			return;
+		}
+
+		CursorPosition = { CursorPosition.X , CursorPosition.Y, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::CursorOutLine) };
+		m_CursorComposition.CursorOutline->Transform.SetLocalPosition(CalculateIndexToPos(_X, _Y));
+	}
+
+
+
+	{
+		if (nullptr == m_CursorComposition.NameTooltip)
+		{
+			MsgBoxAssert("커서를 생성하지 않고 사용하려 했습니다.");
+			return;
+		}
+
+		// 데이터가 있으면
+		if (true == Data->IsContain(_X, _Y))
+		{
+			CursorPosition = CalculateIndexToPos(_X, _Y) + NameTagPosition;
+			CursorPosition = { CursorPosition.X , CursorPosition.Y, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Cursor) };
+			m_CursorComposition.NameTooltip->Transform.SetLocalPosition(CursorPosition);
+			m_CursorComposition.NameTooltip->On();
+		}
+		else
+		{
+			m_CursorComposition.NameTooltip->Off();
+		}
 	}
 
 	m_CurrentSlotX = _X;
@@ -763,6 +776,7 @@ void UI_Inventory::UpdateInventory(float _Delta, GameEngineState* _Parent)
 	OpenCheck = false;
 }
 
+// 켜질때 입력을 무시합니다.
 void UI_Inventory::DectedCloseInventory()
 {
 	if (false == OpenCheck)
@@ -809,20 +823,28 @@ void UI_Inventory::MoveCursor(const int _X, const int _Y)
 	m_CurrentSlotX += _X;
 	m_CurrentSlotY += _Y;
 
-	if (-1 == m_CurrentSlotX)
+	bool isOverLeft = (-1 == m_CurrentSlotX);
+	bool isOverRight = (Max_XSlot == m_CurrentSlotX);
+	bool isOverUp = (-1 == m_CurrentSlotY);
+	bool isOverDown = (UnlockSlotY == m_CurrentSlotY);
+
+
+	if (isOverLeft)
 	{
 		m_CurrentSlotX = Max_XSlot - 1;
 	}
-	if (Max_XSlot == m_CurrentSlotX)
+
+	if (isOverRight)
 	{
 		m_CurrentSlotX = 0;
 	}
 
-	if (-1 == m_CurrentSlotY)
+	if (isOverUp)
 	{
 		m_CurrentSlotY = UnlockSlotY - 1;
 	}
-	if (UnlockSlotY == m_CurrentSlotY)
+
+	if (isOverDown)
 	{
 		m_CurrentSlotY = 0;
 	}
@@ -866,8 +888,9 @@ bool UI_Inventory::UpdateDispensationSelect()
 
 
 		int SelectNumber = ReturnSelectNumber(m_CurrentSlotX, m_CurrentSlotY);
+		bool isUnSelect = (-1 == SelectNumber);
 
-		if (-1 == SelectNumber)
+		if (isUnSelect)
 		{
 			DispensationSelectThis();
 		}
@@ -901,7 +924,9 @@ int UI_Inventory::ReturnSelectNumber(int _XSlot, int _YSlot)
 void UI_Inventory::DispensationSelectThis()
 {
 	int EmptySlotNumber = ReturnEmptySelectSlot();
-	if (-1 == EmptySlotNumber)
+
+	bool isEmptySlot = (-1 == EmptySlotNumber);
+	if (isEmptySlot)
 	{
 		return;
 	}

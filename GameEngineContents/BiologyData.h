@@ -50,10 +50,10 @@ public:
 	std::string BiologyName;
 	std::string KoreanName;
 	std::string ItemName;
-	ETOOLTYPE GatherTool;
-	EECOLOGYTYPE EcologicalGroup;
-	EECOLOGYTYPE Habitat;
-	EECOLOGYTYPE AppearanceTime;
+	ETOOLTYPE GatherTool = ETOOLTYPE::None;
+	EECOLOGYTYPE EcologicalGroup = EECOLOGYTYPE::None;
+	EECOLOGYTYPE Habitat = EECOLOGYTYPE::None;
+	EECOLOGYTYPE AppearanceTime = EECOLOGYTYPE::None;
 
 };
 

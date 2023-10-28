@@ -1,4 +1,4 @@
-#include "PreCompile.h"
+ï»¿#include "PreCompile.h"
 #include "Ellie.h"
 
 
@@ -69,7 +69,7 @@ void Ellie::Release()
 }
 
 
-// Ellie´Â PlayLevel¿¡¼­ OffÇÒ ¼ö ÀÖÁö¸¸, OffÇÑ Ã¤·Î LevelStart ÇÒ ¼ö´Â ¾ø½À´Ï´Ù.
+// EllieëŠ” PlayLevelì—ì„œ Offí•  ìˆ˜ ìˆì§€ë§Œ, Offí•œ ì±„ë¡œ LevelStart í•  ìˆ˜ëŠ” ì—†ìŠµë‹ˆë‹¤.
 void Ellie::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	OnLevelStart();
@@ -91,30 +91,30 @@ void Ellie::RendererSetting()
 	m_Body = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::Object);
 	if (nullptr == m_Body)
 	{
-		MsgBoxAssert("ÄÄÆ÷³ÍÆ®¸¦ »ı¼ºÇÏÁö ¸øÇß½À´Ï´Ù.");
+		MsgBoxAssert("ì»´í¬ë„ŒíŠ¸ë¥¼ ìƒì„±í•˜ì§€ ëª»í–ˆìŠµë‹ˆë‹¤.");
 		return;
 	}
 
 	if (nullptr == GameEngineSprite::Find("Ellie_Basic_Idle.png"))
 	{
-		// ±âº»Á¶ÀÛ
+		// ê¸°ë³¸ì¡°ì‘
 		GameEngineSprite::CreateCut("Ellie_Basic_Idle.png", 7, 6);
 		GameEngineSprite::CreateCut("Ellie_Basic_Walk.png", 12, 11);
 		GameEngineSprite::CreateCut("Ellie_Basic_Run.png", 9, 8);
 		GameEngineSprite::CreateCut("Ellie_Basic_Throw.png", 8, 7);
 
-		// ±âº»Á¶ÀÛ - Riding
+		// ê¸°ë³¸ì¡°ì‘ - Riding
 		GameEngineSprite::CreateCut("Ellie_Basic_Riding_Standing.png", 8, 7);
 		GameEngineSprite::CreateCut("Ellie_Basic_Riding_Moving.png", 8, 7);
 		GameEngineSprite::CreateCut("Ellie_Basic_Riding_Boosting.png", 8, 7);
 
-		// ¼öÁı 
+		// ìˆ˜ì§‘ 
 		GameEngineSprite::CreateCut("Ellie_Basic_ButterflyNet.png", 12, 11);
 		GameEngineSprite::CreateCut("Ellie_Basic_Colleciton_RootUp.png", 10, 9);
 		GameEngineSprite::CreateCut("Ellie_Basic_Colleciton_Sit.png", 7, 7);
 		GameEngineSprite::CreateCut("Ellie_Basic_Collecting_Mongsiri.png", 5, 4);
 
-		// ´ÜÀÏ ¹æÇâ
+		// ë‹¨ì¼ ë°©í–¥
 		GameEngineSprite::CreateCut("Ellie_Basic_Cheer.png", 6, 6);
 		GameEngineSprite::CreateCut("Ellie_Basic_Fail.png", 6, 5);
 		GameEngineSprite::CreateCut("Ellie_Basic_Drink.png", 6, 5);
@@ -123,7 +123,7 @@ void Ellie::RendererSetting()
 		GameEngineSprite::CreateCut("Broom_Ride_Fx_Sample.png", 3, 3);
 	}
 
-#pragma region ±âº» Á¶ÀÛ
+#pragma region ê¸°ë³¸ ì¡°ì‘
 
 
 	{
@@ -217,7 +217,7 @@ void Ellie::RendererSetting()
 #pragma endregion
 
 
-#pragma region Ã¤Ä¨ ¹× ¼öÁı
+#pragma region ì±„ì¹© ë° ìˆ˜ì§‘
 
 	{
 		m_Body->CreateAnimation("Net_LEFT", "Ellie_Basic_ButterflyNet.png", Ellie_ButterflyNet_Inter, 7, 13, false);
@@ -284,7 +284,7 @@ void Ellie::RideFxSetting()
 	m_Fx = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::Effect);
 	if (nullptr == m_Fx)
 	{
-		MsgBoxAssert("·»´õ·¯¸¦ »ı¼ºÇÏÁö ¸øÇß½À´Ï´Ù.");
+		MsgBoxAssert("ë Œë”ëŸ¬ë¥¼ ìƒì„±í•˜ì§€ ëª»í–ˆìŠµë‹ˆë‹¤.");
 		return;
 	}
 
@@ -313,7 +313,7 @@ void Ellie::CollisionSetting()
 	m_EllieCol = CreateComponent<GameEngineCollision>(ECOLLISION::Player);
 	if (nullptr == m_EllieCol)
 	{
-		MsgBoxAssert("Ãæµ¹Ã¼¸¦ »ı¼ºÇÏÁö ¸øÇß½À´Ï´Ù.");
+		MsgBoxAssert("ì¶©ëŒì²´ë¥¼ ìƒì„±í•˜ì§€ ëª»í–ˆìŠµë‹ˆë‹¤.");
 		return;
 	}
 
@@ -324,7 +324,7 @@ void Ellie::CollisionSetting()
 	m_NetCol = CreateComponent<GameEngineCollision>(ECOLLISION::Net);
 	if (nullptr == m_NetCol)
 	{
-		MsgBoxAssert("Ãæµ¹Ã¼¸¦ »ı¼ºÇÏÁö ¸øÇß½À´Ï´Ù.");
+		MsgBoxAssert("ì¶©ëŒì²´ë¥¼ ìƒì„±í•˜ì§€ ëª»í–ˆìŠµë‹ˆë‹¤.");
 		return;
 	}
 
@@ -334,7 +334,7 @@ void Ellie::CollisionSetting()
 }
 
 
-// Ellie¸¦ »ı¼ºÇÏ¸é ¹«Á¶°Ç ½ÇÇàÇØ¾ßÇÏ´Â ÇÔ¼öÀÔ´Ï´Ù.
+// Ellieë¥¼ ìƒì„±í•˜ë©´ ë¬´ì¡°ê±´ ì‹¤í–‰í•´ì•¼í•˜ëŠ” í•¨ìˆ˜ì…ë‹ˆë‹¤.
 void Ellie::Init()
 {
 	if (false == FirstInitCheck)
@@ -349,7 +349,7 @@ void Ellie::Init()
 }
 
 
-// »ı¼ºµÇ°Å³ª ·¹º§ÀÌ ¹Ù²ğ¶§ È£ÃâµÇ°í ¾Ù¸®ÀÇ »óÅÂ¸¦ ÃÊ±âÈ­ÇÕ´Ï´Ù.
+// ìƒì„±ë˜ê±°ë‚˜ ë ˆë²¨ì´ ë°”ë€”ë•Œ í˜¸ì¶œë˜ê³  ì•¨ë¦¬ì˜ ìƒíƒœë¥¼ ì´ˆê¸°í™”í•©ë‹ˆë‹¤.
 void Ellie::OnLevelStart()
 {
 	RenewStatus();
@@ -357,7 +357,7 @@ void Ellie::OnLevelStart()
 	MainEllie = this;
 }
 
-// ·¹º§ÀÌ ¹Ù²ğ¶§ »óÅÂ¸¦ °»½ÅÇÕ´Ï´Ù.
+// ë ˆë²¨ì´ ë°”ë€”ë•Œ ìƒíƒœë¥¼ ê°±ì‹ í•©ë‹ˆë‹¤.
 void Ellie::RenewStatus()
 {
 	if (EELLIE_STATUS::Normal == g_Status && EELLIE_STATE::Idle != m_State)
@@ -374,12 +374,12 @@ void Ellie::RenewStatus()
 
 	if (EELLIE_STATE::None == m_State)
 	{
-		MsgBoxAssert("µî·ÏµÇÁö ¾ÊÀº Çàµ¿ÆĞÅÏÀÔ´Ï´Ù.");
+		MsgBoxAssert("ë“±ë¡ë˜ì§€ ì•Šì€ í–‰ë™íŒ¨í„´ì…ë‹ˆë‹¤.");
 		return;
 	}
 }
 
-// FlowerBird°¡ ÂüÁ¶ÇÏ°í ÀÖ½À´Ï´Ù.
+// FlowerBirdê°€ ì°¸ì¡°í•˜ê³  ìˆìŠµë‹ˆë‹¤.
 void Ellie::ChangeStatus(const EELLIE_STATUS _Status)
 {
 	if (_Status != g_Status)
@@ -388,13 +388,13 @@ void Ellie::ChangeStatus(const EELLIE_STATUS _Status)
 	}
 }
 
-// ¿òÁ÷ÀÏ ¼ö ÀÖ°Ô ±ÇÇÑÀ» Áİ´Ï´Ù.
+// ì›€ì§ì¼ ìˆ˜ ìˆê²Œ ê¶Œí•œì„ ì¤ë‹ˆë‹¤.
 void Ellie::OnControl()
 {
 	IsControl = true;
 }
 
-// ¿òÁ÷ÀÏ ¼ö ¾ø°Ô ±ÇÇÑÀ» »°½À´Ï´Ù.
+// ì›€ì§ì¼ ìˆ˜ ì—†ê²Œ ê¶Œí•œì„ ëºìŠµë‹ˆë‹¤.
 void Ellie::OffControl()
 {
 	IsControl = false;
@@ -411,7 +411,7 @@ void Ellie::CancleComponent()
 	IsCancleComponent = true;
 }
 
-// ÀÏ¹İÀûÀÎ °æ¿ì NoneÀ¸·Î ¼³Á¤Çß½À´Ï´Ù.
+// ì¼ë°˜ì ì¸ ê²½ìš° Noneìœ¼ë¡œ ì„¤ì •í–ˆìŠµë‹ˆë‹¤.
 void Ellie::WaitDone(EELLIE_STATE _State)
 {
 	ChangeState(_State);
@@ -421,8 +421,8 @@ void Ellie::WaitDone(EELLIE_STATE _State)
 
 
 
-// ÇÈ¼¿ Ãæµ¹¿¡ »ç¿ëµÉ º¯¼öÀÔ´Ï´Ù.
-// ¾×ÅÍÀÇ Áß¾Ó±âÁØÀ¸·Î ÃÊ±âÈ­ µÇ¸ç °¢ ¹æÇâ¿¡ ÇÊ¿äÇÑ Ã¼Å©Æ÷ÀÎÆ®¸¦ ¼³Á¤ÇÕ´Ï´Ù.
+// í”½ì…€ ì¶©ëŒì— ì‚¬ìš©ë  ë³€ìˆ˜ì…ë‹ˆë‹¤.
+// ì•¡í„°ì˜ ì¤‘ì•™ê¸°ì¤€ìœ¼ë¡œ ì´ˆê¸°í™” ë˜ë©° ê° ë°©í–¥ì— í•„ìš”í•œ ì²´í¬í¬ì¸íŠ¸ë¥¼ ì„¤ì •í•©ë‹ˆë‹¤.
 void Ellie::SetPixelPointBaseOnCenter()
 {
 	float4 HalfPixelCheckScale = m_PixelCheckScale.Half();
@@ -440,14 +440,14 @@ void Ellie::SetPixelPointBaseOnCenter()
 
 /////////////////////////////////////////////////////////////////////////////////////
 
-#pragma region State ÇÔ¼ö
+#pragma region State í•¨ìˆ˜
 void Ellie::UpdateState(float _Delta)
 {
 	switch (m_State)
 	{
 	case EELLIE_STATE::None:
 	{
-		MsgBoxAssert("ÁöÁ¤ÇØÁÖÁö ¾ÊÀº Çàµ¿À¸·Î ¾÷µ¥ÀÌÆ® ÇÏ·Á°í Çß½À´Ï´Ù.");
+		MsgBoxAssert("ì§€ì •í•´ì£¼ì§€ ì•Šì€ í–‰ë™ìœ¼ë¡œ ì—…ë°ì´íŠ¸ í•˜ë ¤ê³  í–ˆìŠµë‹ˆë‹¤.");
 		return;
 	}
 		break;
@@ -508,7 +508,7 @@ void Ellie::ChangeState(EELLIE_STATE _State)
 		{
 		case EELLIE_STATE::None:
 		{
-			MsgBoxAssert("Çàµ¿À» ÁöÁ¤ÇØÁÖÁö ¾Ê¾Ò½À´Ï´Ù.");
+			MsgBoxAssert("í–‰ë™ì„ ì§€ì •í•´ì£¼ì§€ ì•Šì•˜ìŠµë‹ˆë‹¤.");
 			return;
 		}
 			break;
@@ -538,13 +538,13 @@ void Ellie::ChangeState(EELLIE_STATE _State)
 	}
 	else
 	{
-		MsgBoxAssert("°°Àº Çàµ¿À¸·Î ¹Ù²Ù·Á°í Çß½À´Ï´Ù.");
+		MsgBoxAssert("ê°™ì€ í–‰ë™ìœ¼ë¡œ ë°”ê¾¸ë ¤ê³  í–ˆìŠµë‹ˆë‹¤.");
 		return;
 	}	
 }
 
 
-// È£ÃâÇÏ¸é ¹æÇâ¿¡ µû¶ó ¾Ö´Ï¸ŞÀÌ¼Ç Ãâ·ÂÀ» ´Ù¸£°Ô ¹Ù²ãÁİ´Ï´Ù.
+// í˜¸ì¶œí•˜ë©´ ë°©í–¥ì— ë”°ë¼ ì• ë‹ˆë©”ì´ì…˜ ì¶œë ¥ì„ ë‹¤ë¥´ê²Œ ë°”ê¿”ì¤ë‹ˆë‹¤.
 void Ellie::ChangeAnimationByDirection(std::string_view _StateName, bool _DirectionInfluence /*= true*/, bool _Force /*= false*/, unsigned int _Index /*= 0*/)
 {
 	std::string SpriteName = "";
@@ -587,7 +587,7 @@ void Ellie::ChangeAnimationByDirection(std::string_view _StateName, bool _Direct
 
 	if (nullptr == m_Body)
 	{
-		MsgBoxAssert("·»´õ·¯°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù."); 
+		MsgBoxAssert("ë Œë”ëŸ¬ê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤."); 
 		return;
 	}
 
@@ -600,7 +600,7 @@ void Ellie::ChangeDirectionAnimation(std::string_view _StateName)
 	{
 		if (nullptr == m_Body)
 		{
-			MsgBoxAssert("»ı¼ºÇÏÁö ¾ÊÀº ·»´õ·¯¸¦ »ç¿ëÇÏ·Á Çß½À´Ï´Ù.");
+			MsgBoxAssert("ìƒì„±í•˜ì§€ ì•Šì€ ë Œë”ëŸ¬ë¥¼ ì‚¬ìš©í•˜ë ¤ í–ˆìŠµë‹ˆë‹¤.");
 			return;
 		}
 
@@ -614,7 +614,7 @@ void Ellie::ChangeDirectionAnimation(std::string_view _StateName)
 /////////////////////////////////////////////////////////////////////////////////////
 
 
-#pragma region ÀÌµ¿ Å° °¨Áö
+#pragma region ì´ë™ í‚¤ ê°ì§€
 
 bool Ellie::DetectMovement()
 {
@@ -760,9 +760,9 @@ bool Ellie::DetectHorizontalMovement()
 #pragma endregion 
 
 
-#pragma region ÀÌµ¿ ¹× ¹æÇâ 
+#pragma region ì´ë™ ë° ë°©í–¥ 
 
-// ¹æÇâÀ» ÀÎÀÚ·Î ³ÖÀ¸¸é ¹æÇâ ±âÀúº¤ÅÍ¸¦ ¹İÈ¯ÇØÁİ´Ï´Ù.
+// ë°©í–¥ì„ ì¸ìë¡œ ë„£ìœ¼ë©´ ë°©í–¥ ê¸°ì €ë²¡í„°ë¥¼ ë°˜í™˜í•´ì¤ë‹ˆë‹¤.
 float4 Ellie::CalculateDirectionVectorToDir(const EDIRECTION _Direction)
 {
 	float4 DirVector = float4::ZERO;
@@ -804,7 +804,7 @@ float4 Ellie::CalculateDirectionVectorToDir(const EDIRECTION _Direction)
 	return DirVector;
 }
 
-// ³ë¸Ö ¸ğµåÀÏ ¶§, ¼Ó·ÂÀ» °è»êÇØÁİ´Ï´Ù.
+// ë…¸ë©€ ëª¨ë“œì¼ ë•Œ, ì†ë ¥ì„ ê³„ì‚°í•´ì¤ë‹ˆë‹¤.
 void Ellie::CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce)
 {
 	float4 DirVector = CalculateDirectionVectorToDir(m_Dir);
@@ -857,20 +857,20 @@ void Ellie::CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce)
 		break;
 	}
 
-	// ¹«Á¶°Ç Left, Right ¼øÀ¸·Î ÀÎÀÚ¸¦ Àü´ŞÇØ¾ßÇÕ´Ï´Ù.
+	// ë¬´ì¡°ê±´ Left, Right ìˆœìœ¼ë¡œ ì¸ìë¥¼ ì „ë‹¬í•´ì•¼í•©ë‹ˆë‹¤.
 	CheckDir = ReturnDirectionCheckBothSide(m_Dir, LeftCheckPoint, RightCheckPoint);
 
-	// À§ ÇÔ¼ö¿¡¼­ ¹İÈ¯µÈ ¹æÇâÀÌ ÇöÀçÀÇ ¹æÇâ°ú °°À¸¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê½À´Ï´Ù.
+	// ìœ„ í•¨ìˆ˜ì—ì„œ ë°˜í™˜ëœ ë°©í–¥ì´ í˜„ì¬ì˜ ë°©í–¥ê³¼ ê°™ìœ¼ë©´ ì•„ë¬´ê²ƒë„ í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
 	if (CheckDir == m_Dir)
 	{
 
 	}
-	// ¸¸¾à Center°¡ ³ª¿Ô´Ù¸é º®¿¡ ¸ÂºÎµúÇû´Ù´Â °ÍÀ¸·Î ¿òÁ÷ÀÌÁö ¾Ê½À´Ï´Ù.
+	// ë§Œì•½ Centerê°€ ë‚˜ì™”ë‹¤ë©´ ë²½ì— ë§ë¶€ë”ªí˜”ë‹¤ëŠ” ê²ƒìœ¼ë¡œ ì›€ì§ì´ì§€ ì•ŠìŠµë‹ˆë‹¤.
 	else if (CheckDir == EDIRECTION::CENTER)
 	{
 		m_MoveVector = float4::ZERO;
 	}
-	// ÁøÇà ¹æÇâ°ú ´Ù¸£¸é º®¿¡ ºñº­ ¿Ã¶ó°¥ ¼ö ÀÖ½À´Ï´Ù. ÇÏÁö¸¸ ÀÏ¹İ ¼Óµµº¸´Ù »ó´ëÀûÀ¸·Î ´À¸®±â ¶§¹®¿¡ ¸¶Âû·Â ¿µÇâÀ» ¹Ş½À´Ï´Ù.
+	// ì§„í–‰ ë°©í–¥ê³¼ ë‹¤ë¥´ë©´ ë²½ì— ë¹„ë²¼ ì˜¬ë¼ê°ˆ ìˆ˜ ìˆìŠµë‹ˆë‹¤. í•˜ì§€ë§Œ ì¼ë°˜ ì†ë„ë³´ë‹¤ ìƒëŒ€ì ìœ¼ë¡œ ëŠë¦¬ê¸° ë•Œë¬¸ì— ë§ˆì°°ë ¥ ì˜í–¥ì„ ë°›ìŠµë‹ˆë‹¤.
 	else
 	{
 		MoveDirVector = CalculateDirectionVectorToDir(CheckDir);
@@ -925,14 +925,14 @@ EDIRECTION Ellie::ReturnPixelCollisionMoveDirectionToCurrentCheckPoint(EDIRECTIO
 		break;
 	}
 
-	// ¹«Á¶°Ç Left, Right ¼øÀ¸·Î ÀÎÀÚ¸¦ Àü´ŞÇØ¾ßÇÕ´Ï´Ù.
+	// ë¬´ì¡°ê±´ Left, Right ìˆœìœ¼ë¡œ ì¸ìë¥¼ ì „ë‹¬í•´ì•¼í•©ë‹ˆë‹¤.
 	return ReturnDirectionCheckBothSide(_Dir, LeftCheckPoint, RightCheckPoint);
 }
 
 
-// ¿ŞÂÊ°ú ¿À¸¥ÂÊ Á¡À» °Ë»çÇØ ÇÈ¼¿ Ãæµ¹À» °Ë»çÇÕ´Ï´Ù.
-// ÇÑÂÊ¸¸ ºÎµúÇû´Ù¸é º®À» Å¸°í °¥ ¼ö ÀÖÀ¸¸ç, ¾çÂÊ°ú ºÎµúÈú ½Ã ¿òÁ÷ÀÏ ¼ö ¾ø´Â »óÅÂ·Î °£ÁÖÇÕ´Ï´Ù
-// (¿òÁ÷ÀÏ ¼ö´Â ¾øÁö¸¸ ·»´õ·¯´Â ¿òÁ÷ÀÔ´Ï´Ù. Áï, ¼Óµµ°¡ 0À¸·Î ¹İÈ¯µÇ°Ô ÇÒ²®´Ï´Ù).
+// ì™¼ìª½ê³¼ ì˜¤ë¥¸ìª½ ì ì„ ê²€ì‚¬í•´ í”½ì…€ ì¶©ëŒì„ ê²€ì‚¬í•©ë‹ˆë‹¤.
+// í•œìª½ë§Œ ë¶€ë”ªí˜”ë‹¤ë©´ ë²½ì„ íƒ€ê³  ê°ˆ ìˆ˜ ìˆìœ¼ë©°, ì–‘ìª½ê³¼ ë¶€ë”ªí ì‹œ ì›€ì§ì¼ ìˆ˜ ì—†ëŠ” ìƒíƒœë¡œ ê°„ì£¼í•©ë‹ˆë‹¤
+// (ì›€ì§ì¼ ìˆ˜ëŠ” ì—†ì§€ë§Œ ë Œë”ëŸ¬ëŠ” ì›€ì§ì…ë‹ˆë‹¤. ì¦‰, ì†ë„ê°€ 0ìœ¼ë¡œ ë°˜í™˜ë˜ê²Œ í• ê»ë‹ˆë‹¤).
 EDIRECTION Ellie::ReturnDirectionCheckBothSide(EDIRECTION _Direction, const float4& _LeftCheckPoint, const float4& _RightCheckPoint)
 {
 	int DirNum = static_cast<int>(_Direction);
@@ -974,11 +974,11 @@ EDIRECTION Ellie::ReturnDirectionCheckBothSide(EDIRECTION _Direction, const floa
 
 
 
-// °¡¼Óµµ·Î ÀÌµ¿ÇÑ´Ù. 
-// ÇÑ°èÄ¡¸¦ ³Ñ±â¸é ¼Óµµ Á¦ÇÑÀÌ °É¸°´Ù.
-// Å°°¡ Á¤¹æÇâÀÌ¸é ¼Óµµ°¡ °¡¼ÓÇÑ´Ù.
-// Å°°¡ Center¸é ¼Óµµ°¡ ÁÙ¾îµç´Ù.
-// Å°°¡ ¿ª¹æÇâÀÌ¸é ¼Óµµ°¡ »¡¸® ÁÙ¾îµç´Ù.
+// ê°€ì†ë„ë¡œ ì´ë™í•œë‹¤. 
+// í•œê³„ì¹˜ë¥¼ ë„˜ê¸°ë©´ ì†ë„ ì œí•œì´ ê±¸ë¦°ë‹¤.
+// í‚¤ê°€ ì •ë°©í–¥ì´ë©´ ì†ë„ê°€ ê°€ì†í•œë‹¤.
+// í‚¤ê°€ Centerë©´ ì†ë„ê°€ ì¤„ì–´ë“ ë‹¤.
+// í‚¤ê°€ ì—­ë°©í–¥ì´ë©´ ì†ë„ê°€ ë¹¨ë¦¬ ì¤„ì–´ë“ ë‹¤.
 float4 Ellie::ReturnPostMoveVector(float _Delta, float _MAXMoveForce, float _Acceleration_Time)
 {
 	float4 Dir = CalculateDirectionVectorToDir(m_Dir);
@@ -994,7 +994,7 @@ float4 Ellie::ReturnPostMoveVector(float _Delta, float _MAXMoveForce, float _Acc
 }
 
 
-// ¸¸¾à ÇöÀç ¼Óµµ°¡ °ú¼ÓÇßÀ» ½Ã, ÃÖ´ë ¼Óµµ·Î ¸ÂÃçÁİ´Ï´Ù.
+// ë§Œì•½ í˜„ì¬ ì†ë„ê°€ ê³¼ì†í–ˆì„ ì‹œ, ìµœëŒ€ ì†ë„ë¡œ ë§ì¶°ì¤ë‹ˆë‹¤.
 bool Ellie::IsOverSpeed(float _CurSpeed, const float _MaxMoveForce)
 {
 	if (_CurSpeed > 0.0f && _MaxMoveForce > 0.0f)
@@ -1045,7 +1045,7 @@ void Ellie::DecelerateMoveVector(float _Delta, const float _MaxMoveForce, const 
 }
 
 
-// ¸¸¾à ¼¼·Î, °¡·ÎÅ°°¡ Center·Î ÀÖ´Ù¸é ¼Óµµ¸¦ ÁÙ¿©Áİ´Ï´Ù.
+// ë§Œì•½ ì„¸ë¡œ, ê°€ë¡œí‚¤ê°€ Centerë¡œ ìˆë‹¤ë©´ ì†ë„ë¥¼ ì¤„ì—¬ì¤ë‹ˆë‹¤.
 void Ellie::DecelerateAtMidpoint(float _Delta, const float _MaxMoveForce, const float _DecelerationTime)
 {
 	if (EHORIZONTAL_KEY_STATE::Center == m_HorizontalKey)
@@ -1079,7 +1079,7 @@ void Ellie::DecelerateAtMidpoint(float _Delta, const float _MaxMoveForce, const 
 	}
 }
 
-// ÃÖÁ¾¼Óµµ¸¦ Àû¿ëÇÏ´Â ÇÔ¼öÀÔ´Ï´Ù.
+// ìµœì¢…ì†ë„ë¥¼ ì ìš©í•˜ëŠ” í•¨ìˆ˜ì…ë‹ˆë‹¤.
 void Ellie::ApplyMovementToTransform(float _Delta)
 {
 	Transform.AddLocalPosition(m_MoveVector * _Delta);

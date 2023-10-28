@@ -25,8 +25,8 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
-	void OpenChild() override;
-	void CloseChild() override;
+	void OpenInternal() override;
+	void CloseInternal() override;
 
 
 	void Reset();

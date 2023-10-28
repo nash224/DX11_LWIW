@@ -206,16 +206,19 @@ void UI_ProcessList::UpdateInput()
 // 1 : ¾Æ·¡
 void UI_ProcessList::MoveCursor(int _Value)
 {
-	if (1 == _Value)
+	const bool isUp = (1 == _Value);
+	const bool isZero = (CurrentCursor != 0);
+
+	if (isUp)
 	{
-		if (CurrentCursor + 1 != SlotVec.size())
+		if (static_cast<size_t>(CurrentCursor) + 1 != SlotVec.size())
 		{
 			++CurrentCursor;	
 		}
 	}
 	else
 	{
-		if (CurrentCursor != 0)
+		if (isZero)
 		{
 			--CurrentCursor;
 		}
@@ -320,7 +323,7 @@ void UI_ProcessList::RenewSlot()
 		else if (CurCursorLine >= 4)
 		{
 			int Line = 0;
-			for (size_t i = SlotCount - PROCESS_MAX_SLOT; i < SlotCount; i++)
+			for (size_t i = static_cast<size_t>(SlotCount) - PROCESS_MAX_SLOT; i < SlotCount; i++)
 			{
 				float4 SlotPosition = PROCESS_FIRST_SLOT_POSITION;
 				SlotPosition.Y = PROCESS_SLOT_GAP * static_cast<float>(Line);
