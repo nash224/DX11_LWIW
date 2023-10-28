@@ -103,9 +103,6 @@
     <Filter Include="2.Object\2.Actor\3.Prop\House">
       <UniqueIdentifier>{c47acfb0-8a98-4f83-9aa1-09c2a53dea1e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2.Object\2.Actor\3.Prop\Tree">
-      <UniqueIdentifier>{3e43b6b6-a021-44da-9d95-d441df509142}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2.Object\2.Actor\3.Prop\Tunnel">
       <UniqueIdentifier>{e201ae36-8db8-4f61-9102-12e0ccfe7975}</UniqueIdentifier>
     </Filter>
@@ -384,12 +381,6 @@
     </ClInclude>
     <ClInclude Include="WitchHouse.h">
       <Filter>2.Object\2.Actor\3.Prop\House</Filter>
-    </ClInclude>
-    <ClInclude Include="Prop_Tree.h">
-      <Filter>2.Object\2.Actor\3.Prop\Tree</Filter>
-    </ClInclude>
-    <ClInclude Include="Props.h">
-      <Filter>2.Object\2.Actor\3.Prop</Filter>
     </ClInclude>
     <ClInclude Include="NormalProp.h">
       <Filter>2.Object\2.Actor\3.Prop</Filter>
@@ -681,12 +672,6 @@
     </ClCompile>
     <ClCompile Include="WitchHouse.cpp">
       <Filter>2.Object\2.Actor\3.Prop\House</Filter>
-    </ClCompile>
-    <ClCompile Include="Prop_Tree.cpp">
-      <Filter>2.Object\2.Actor\3.Prop\Tree</Filter>
-    </ClCompile>
-    <ClCompile Include="Props.cpp">
-      <Filter>2.Object\2.Actor\3.Prop</Filter>
     </ClCompile>
     <ClCompile Include="NormalProp.cpp">
       <Filter>2.Object\2.Actor\3.Prop</Filter>

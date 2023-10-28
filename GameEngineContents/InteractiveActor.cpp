@@ -143,17 +143,3 @@ void InteractiveActor::ApplyDepth(const float4& _Position)
 
 	Transform.SetLocalPosition(Position);
 }
-
-// 추가 깊이를 계산하고 반환
-float InteractiveActor::ReturnPlusDepth(float _YPosition)
-{
-	if (nullptr == BackDrop_PlayLevel::MainBackDrop)
-	{
-		MsgBoxAssert("배경 매니저를 알지 못합니다.");
-		return 0.0f;
-	}
-
-	float BackGorundYSize = BackDrop_PlayLevel::MainBackDrop->GetBackGroundScale().Y;
-	float ZSort = BackDrop_PlayLevel::MainBackDrop->ZSort(_YPosition - BackGorundYSize);
-	return ZSort;
-}

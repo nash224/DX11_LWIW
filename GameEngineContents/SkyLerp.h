@@ -2,12 +2,12 @@
 
 
 
-#define Sky_300 { 0.6f, 0.8f, 0.0f, 0.1f }
-#define Sky_310 { 0.65f, 0.75f, 0.0f, 0.1f }
-#define Sky_320 { 0.7f, 0.7f, 0.0f, 0.1f }
-#define Sky_330 { 0.75f, 0.65f, 0.0f, 0.11f }
-#define Sky_340 { 0.8f, 0.6f, 0.0f, 0.12f }
-#define Sky_350 { 0.8f, 0.55f, 0.0f, 0.12f }
+#define Sky_300 { 0.6f, 0.8f, 0.0f, 0.06f }
+#define Sky_310 { 0.65f, 0.75f, 0.0f, 0.07f }
+#define Sky_320 { 0.7f, 0.7f, 0.0f, 0.08f }
+#define Sky_330 { 0.75f, 0.65f, 0.0f, 0.09f }
+#define Sky_340 { 0.8f, 0.6f, 0.0f, 0.1f }
+#define Sky_350 { 0.8f, 0.55f, 0.0f, 0.11f }
 #define Sky_400 { 0.8f, 0.5f, 0.0f, 0.13f }
 #define Sky_410 { 0.85f, 0.45f, 0.0f, 0.14f }
 #define Sky_420 { 0.9f, 0.4f, 0.0f, 0.16f }
@@ -22,15 +22,15 @@
 #define Sky_550 { 0.65f, 0.0f, 0.0f, 0.35f }
 #define Sky_600 { 0.55f, 0.0f, 0.0f, 0.37f }
 #define Sky_610 { 0.45f, 0.0f, 0.0f, 0.39f }
-#define Sky_620 { 0.39f, 0.0f, 0.02f, 0.41f }
-#define Sky_630 { 0.33f, 0.0f, 0.05f, 0.43f }
-#define Sky_640 { 0.29f, 0.0f, 0.08f, 0.46f }
-#define Sky_650 { 0.21f, 0.0f, 0.11f, 0.48f }
-#define Sky_700 { 0.14f, 0.0f, 0.13f, 0.51f }
-#define Sky_710 { 0.07f, 0.0f, 0.15f, 0.54f }
-#define Sky_720 { 0.03f, 0.0f, 0.17f, 0.58f }
-#define Sky_730 { 0.01f, 0.0f, 0.18f, 0.62f }
-#define Sky_740 { 0.0f, 0.0f, 0.2f, 0.66f }
+#define Sky_620 { 0.39f, 0.0f, 0.0f, 0.41f }
+#define Sky_630 { 0.33f, 0.0f, 0.01f, 0.43f }
+#define Sky_640 { 0.29f, 0.0f, 0.02f, 0.47f }
+#define Sky_650 { 0.21f, 0.0f, 0.04f, 0.5f }
+#define Sky_700 { 0.14f, 0.0f, 0.06f, 0.54f }
+#define Sky_710 { 0.07f, 0.0f, 0.08f, 0.58f }
+#define Sky_720 { 0.03f, 0.0f, 0.1f, 0.63f }
+#define Sky_730 { 0.01f, 0.0f, 0.12f, 0.69f }
+#define Sky_740 { 0.0f, 0.0f, 0.14f, 0.74f }
 
 #define SUNSET_TIMERATIO 0.4f
 #define NIGHT_TIMERATIO 0.666667f

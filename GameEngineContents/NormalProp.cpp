@@ -36,6 +36,8 @@ void NormalProp::LevelStart(class GameEngineLevel* _NextLevel)
 void NormalProp::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	RendererActor::LevelEnd(_NextLevel);
+
+	Death();
 }
 
 

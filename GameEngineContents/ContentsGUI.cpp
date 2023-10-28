@@ -200,7 +200,10 @@ void DebugTab::SkyColor()
 {
 	if (nullptr != SkyLerp::SkyManager)
 	{
-		ImGui::SliderFloat4("Sky Color", &SkyLerp::SkyManager->SkyColor.R, 0.0f, 1.0f, "%.2f");
+		if (ImGui::SliderFloat4("Sky Color", &SkyLerp::SkyManager->SkyColor.R, 0.0f, 1.0f, "%.2f"))
+		{
+			SkyLerp::SkyManager->SetSkyColor();
+		}
 	}
 }
 

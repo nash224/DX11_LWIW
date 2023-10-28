@@ -26,6 +26,7 @@ public:
 	bool IsColorAtPosition(const float4& _Position, GameEngineColor _CheckColor);
 
 	float ZSort(const float _PositionY) const;
+	float ReturnPlusDepth(const float _PositionY) const;
 
 	// æ∆¿Ã≈€
 	void CreateItem(std::string_view _ItemName, const float4& _Position = float4::ZERO, const int _Stack = 1, const float _FallYPosition = 0.0f);

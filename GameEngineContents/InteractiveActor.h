@@ -99,8 +99,6 @@ public:
 		m_DepthBias = _DepthBias;
 	}
 
-	float ReturnPlusDepth(float _YPosition);
-
 protected:
 	void Start() override;
 	void Update(float _Delta) override;

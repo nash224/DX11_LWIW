@@ -1,6 +1,9 @@
 #pragma once
 #include "StaticEntity.h"
 
+constexpr float CreatureYPos = 100.0f;
+
+
 // Ό³Έν :
 class Aurea : public StaticEntity
 {

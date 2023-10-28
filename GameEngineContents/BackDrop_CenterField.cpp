@@ -65,7 +65,7 @@ void BackDrop_CenterField::Init()
 	CreatePixelMap(CurLevel);
 	CreatePortalActor(CurLevel);
 	CreateAurea(CurLevel);
-	TestPorp();
+	/*TestPorp();*/
 
 	static bool IsCreatedCreature = false;
 	if (false == IsCreatedCreature)
@@ -148,13 +148,9 @@ void BackDrop_CenterField::CreatePortalActor(GameEngineLevel* _Level)
 void BackDrop_CenterField::CreateAurea(GameEngineLevel* _Level)
 {
 	std::shared_ptr<Aurea> Object = _Level->CreateActor<Aurea>(EUPDATEORDER::Entity);
-	if (nullptr == Object)
-	{
-		MsgBoxAssert("액터를 생성하지 못했습니다.");
-		return;
-	}
-
-	Object->Transform.SetLocalPosition({ 700.0f , -300.0f });
+	float4 Position = float4(700.0f, -300.0f);
+	Position.Z = ZSort(Position.Y);
+	Object->Transform.SetLocalPosition(Position);
 	Object->Init();
 }
 

@@ -5,7 +5,6 @@
 #include "Dian.h"
 #include "WitchHouse.h"
 
-#include "Prop_Tree.h"
 #include "NormalProp.h"
 
 BackDrop_WitchHouse_Yard::BackDrop_WitchHouse_Yard() 
@@ -170,9 +169,6 @@ void BackDrop_WitchHouse_Yard::CreateNormalProp()
 void BackDrop_WitchHouse_Yard::CreateHouse()
 {
 	std::shared_ptr<WitchHouse> Object = GetLevel()->CreateActor<WitchHouse>(EUPDATEORDER::Objects);
-	float HouseYPosition = -350.0f;
-	float HouseZ = ZSort(HouseYPosition);
-	Object->Transform.SetLocalPosition({ m_BackScale.Half().X, HouseYPosition , HouseZ });
 	Object->Init();
 
 	{

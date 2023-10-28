@@ -44,6 +44,10 @@ void WitchHouse::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void WitchHouse::Init()
 {
+	float HouseYPosition = -350.0f;
+	float HouseZ = BackDrop_PlayLevel::MainBackDrop->ZSort(HouseYPosition + 50.0f);
+	Transform.SetLocalPosition({ BackDrop_PlayLevel::MainBackDrop->GetBackGroundScale().Half().X, HouseYPosition, HouseZ});
+
 	RendererSetting();
 }
 
@@ -54,24 +58,7 @@ void WitchHouse::RendererSetting()
 	for (size_t i = 0; i < m_HouseVec.size(); i++)
 	{
 		std::shared_ptr<GameEngineSpriteRenderer> Renderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
-		if (nullptr == Renderer)
-		{
-			MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-			return;
-		}
-
-		if (nullptr == BackDrop_PlayLevel::MainBackDrop)
-		{
-			MsgBoxAssert("배경 매니저가 존재하지 않습니다.");
-			return;
-		}
-
-		float RendererYPosition = -BackDrop_PlayLevel::MainBackDrop->GetBackGroundScale().Y + 40.0f - static_cast<float>(i);
-
-		float ZOrder = BackDrop_PlayLevel::MainBackDrop->ZSort(RendererYPosition);
-		float4 Position = { 0.0f , HouseRenderBias , ZOrder };
-
-		Renderer->Transform.SetLocalPosition(Position);
+		Renderer->Transform.SetLocalPosition(float4(0.0f, HouseRenderBias, static_cast<float>(i) * -0.001f));
 		m_HouseVec[i] = Renderer;
 	}
 

@@ -89,9 +89,22 @@ float BackDrop_PlayLevel::ZSort(const float _PositionY) const
 		BackGroundScale = GlobalValue::GetWindowScale();
 	}
 
-	float Depth = (BackGroundScale.Y + _PositionY) / BackGroundScale.Y * 1000.0f;
+	float Depth = (BackGroundScale.Y + _PositionY) / BackGroundScale.Y * 100.0f + 100.0f;
 	return Depth;
 }
+
+float BackDrop_PlayLevel::ReturnPlusDepth(const float _PositionY) const
+{
+	float4 BackGroundScale = m_BackScale;
+	if (float4::ZERO == BackGroundScale)
+	{
+		BackGroundScale = GlobalValue::GetWindowScale();
+	}
+
+	float PlusDepth = _PositionY / BackGroundScale.Y * 100.0f;
+	return PlusDepth;
+}
+
 
 // 아이템 생성 : 
 // 아이템 이름

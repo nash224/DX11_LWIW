@@ -31,7 +31,7 @@ void RendererActor::LevelStart(class GameEngineLevel* _NextLevel)
 
 void RendererActor::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-	Death();
+
 }
 
 

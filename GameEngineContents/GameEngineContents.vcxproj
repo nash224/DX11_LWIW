@@ -382,14 +382,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Props.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="Prop_Tree.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="PumpkinTerrier.cpp">
       <SubType>
       </SubType>
@@ -750,14 +742,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ChainProp.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="Props.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="Prop_Tree.h">
       <SubType>
       </SubType>
     </ClInclude>

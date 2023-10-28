@@ -32,6 +32,8 @@ void GroundRenderUnit::LevelStart(class GameEngineLevel* _NextLevel)
 void GroundRenderUnit::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	RendererActor::LevelEnd(_NextLevel);
+
+	Death();
 }
 
 
