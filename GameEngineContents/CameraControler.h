@@ -83,7 +83,7 @@ private:
 	ECAMERAMODE m_Mode;
 
 
-	float m_EditorModeSpeed = 200.0f;
+	static constexpr float m_EditorModeSpeed = 200.0f;
 
 	const float m_SmoothingRatio = 0.035f;
 	const float CameraDepth = -500.0f;

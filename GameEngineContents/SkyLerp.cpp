@@ -17,7 +17,7 @@ SkyLerp::~SkyLerp()
 
 void SkyLerp::Start()
 {
-	PauseSkyLerp = true;
+	
 }
 
 void SkyLerp::Update(float _Delta)
@@ -96,7 +96,7 @@ void SkyLerp::Init()
 	
 	
 	
-	
+	TestCode();
 
 	if (nullptr == PlayLevel::m_TimeManager)
 	{
@@ -106,10 +106,12 @@ void SkyLerp::Init()
 
 
 	MinuteRatio = PlayLevel::m_TimeManager->GetMinuteRatio();
-	PlayLevel::m_TimeManager->SetTimeFlowRatio(5.f);
+	PlayLevel::m_TimeManager->SetTimeFlowRatio(5.0f);
 	PlayLevel::m_TimeManager->SetTime(180.0f);
 
 	LerpSky(SkyData[0]);
+
+	
 }
 
 
@@ -121,6 +123,16 @@ void SkyLerp::SetSkyColor()
 	Sun_Renderer->GetColorData().MulColor = SkyColor;
 }
 
+void SkyLerp::TestCode()
+{
+	/*PauseSkyLerp = true;*/
+
+	static std::uint32_t Order = 0;
+	std::shared_ptr<GameEngineUIRenderer> DarkFilter = CreateComponent<GameEngineUIRenderer>(Order);
+	DarkFilter->SetSprite("SkyBox.png");
+	DarkFilter->Transform.SetLocalPosition(float4(0.0f, 0.0f, GlobalUtils::CalculateFixDepth(-202)));
+	DarkFilter->GetColorData().MulColor = float4(0.1f, 0.1f, 0.1f, 0.1f);
+}
 
 // 일몰 업데이트
 void SkyLerp::UpdateSkyLerp()

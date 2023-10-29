@@ -20,7 +20,7 @@
 
 void ContentsGUI::Start()
 {
-	AllTabs.push_back(std::make_shared<LevelChangeTab>("LevelChange")); 
+	AllTabs.push_back(std::make_shared<LevelChangeTab>("LevelChange"));
 	CurTab = AllTabs[0];
 	AllTabs.push_back(std::make_shared<CheatTab>("CheatTab"));
 	AllTabs.push_back(std::make_shared<MapEditorTab>("MapEditor"));
@@ -37,24 +37,21 @@ void ContentsGUI::Start()
 
 void ContentsGUI::OnGUI(GameEngineLevel* _Level, float _Delta)
 {
-	for (size_t i = 0; i < AllTabs.size(); i++)
+	for (std::shared_ptr<UITab> Tab : AllTabs)
 	{
+		ImGui::SameLine();
+
 		if (nullptr != CurTab)
 		{
-			if (ImGui::Button(AllTabs[i]->Name.c_str()))
+			if (ImGui::Button(Tab->Name.c_str()))
 			{
-				CurTab = AllTabs[i];
+				CurTab = Tab;
 
-				if ("MapEditor" == AllTabs[i]->Name)
+				if ("MapEditor" == Tab->Name)
 				{
 					GameEngineCore::ChangeLevel("MapEditorLevel");
 				}
 			}
-		}
-
-		if (i != static_cast<int>(AllTabs.size()) - 1)
-		{
-			ImGui::SameLine();
 		}
 	}
 
@@ -68,12 +65,12 @@ void ContentsGUI::OnGUI(GameEngineLevel* _Level, float _Delta)
 
 void LevelChangeTab::OnGUI(GameEngineLevel* _Level, float _Delta)
 {
-	std::map<std::string, std::shared_ptr<GameEngineLevel>>& AllLevelRef = GameEngineCore::GetAllLevel();
-	for (std::pair<std::string, std::shared_ptr<GameEngineLevel>> pair : AllLevelRef)
+	const std::map<std::string, std::shared_ptr<GameEngineLevel>>& AllLevelRef = GameEngineCore::GetAllLevel();
+	for (const auto&[LevelName,Level] : AllLevelRef)
 	{
-		if (ImGui::Button((pair.first).c_str()))
+		if (ImGui::Button(LevelName.c_str()))
 		{
-			GameEngineCore::ChangeLevel(pair.first);
+			GameEngineCore::ChangeLevel(LevelName);
 		}
 	}
 }
@@ -106,27 +103,24 @@ void CheatTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		return;
 	}
 
-	if (ImGui::BeginTabBar("Cheat Items")) 
+	if (ImGui::BeginTabBar("Cheat Items"))
 	{
+		static std::vector<const char*> CNames;
 		char Number = 0;
-		for (std::pair<const int, std::list<std::string>>& _Pair : ItemContainer)
+		for (const auto& [index, NameGroup] : ItemContainer)
 		{
-			std::string ItemTabName = "ItemType" + std::to_string(Number);
-			std::string ListName = "ItemList" + std::to_string(Number);
+			CNames.clear();
+
+			const std::string ItemTabName = "ItemType" + std::to_string(Number);
+			const std::string ListName = "ItemList" + std::to_string(Number);
 			if (ImGui::BeginTabItem(ItemTabName.c_str()))
 			{
-				std::list<std::string>& NameGroup = _Pair.second;
-
-				std::list<std::string>::iterator StartIter = NameGroup.begin();
-				std::list<std::string>::iterator EndIter = NameGroup.end();
-
-				std::vector<const char*> CNames;
-				for (; StartIter != EndIter; ++StartIter)
+				for (const std::string& Name : NameGroup)
 				{
-					CNames.push_back((*StartIter).c_str());
+					CNames.push_back(Name.c_str());
 				}
-				
-				if (ImGui::ListBox(ListName.c_str(), &SelectItem, &CNames[0], static_cast<int>(CNames.size())))
+
+				if (ImGui::ListBox(ListName.c_str(), &SelectItem, CNames.data(), static_cast<int>(CNames.size())))
 				{
 					UI_Inventory::PushItem(CNames[SelectItem]);
 				}
@@ -158,14 +152,14 @@ void CheatTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 void DebugTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
-	ImGui::Checkbox("Show CollisionDebug", &GameEngineLevel::IsDebug); 
+	ImGui::Checkbox("Show CollisionDebug", &GameEngineLevel::IsDebug);
 	if (true == GameEngineLevel::IsDebug)
 	{
 		ImGui::Checkbox("Show PixelDebug", &PlayLevel::PixelDebugMode);
 	}
 
-	float4 CamepraPosition = GlobalValue::g_CameraControler->GetCameraCurrentPostion();
-	ImGui::Text(("CameraPos :" + CamepraPosition.ToString()).c_str());
+	float4 CameraPosition = GlobalValue::g_CameraControler->GetCameraCurrentPostion();
+	ImGui::Text(("CameraPos :" + CameraPosition.ToString()).c_str());
 
 
 	OnFPSTime(_DeltaTime);
@@ -186,14 +180,14 @@ void DebugTab::OnFPSTime(float _DeltaTime)
 		GUI_UpdateTime -= 1.0f;
 		iFPS = static_cast<int>(1.0f / _DeltaTime);
 	}
-	std::string FPS_String = "FPS : " + std::to_string(iFPS);
+	const std::string FPS_String = "FPS : " + std::to_string(iFPS);
 
 	ImGui::Text(FPS_String.c_str());
 }
 
 void DebugTab::MousePos()
 {
-	std::string MousePos = GameEngineCore::MainWindow.GetMousePos().ToString();
+	const std::string MousePos = GameEngineCore::MainWindow.GetMousePos().ToString();
 	ImGui::Text(MousePos.c_str());
 }
 
@@ -271,12 +265,10 @@ void MapEditorTab::ChangeItemTab(std::string_view _ItemName)
 
 std::shared_ptr<ItemTab> MapEditorTab::FindItemTab(std::string_view _ItemName)
 {
-	std::string UpperName = GameEngineString::ToUpperReturn(_ItemName);
+	const std::string UpperName = GameEngineString::ToUpperReturn(_ItemName);
 
-	for (size_t i = 0; i < AllItemTabs.size(); i++)
+	for(const std::shared_ptr<ItemTab>& item : AllItemTabs)
 	{
-		std::shared_ptr<ItemTab> item = AllItemTabs[i];
-
 		if (UpperName == item->TabName)
 		{
 			return item;
@@ -311,9 +303,9 @@ void MapEditorTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		}
 
 
-		for (size_t i = 0; i < AllItemTabs.size(); i++)
+		for (const std::shared_ptr<ItemTab>& ItemTab : AllItemTabs)
 		{
-			const char* CItemName = AllItemTabs[i]->TabName.c_str();
+			const char* CItemName = ItemTab->TabName.c_str();
 
 			if (ImGui::BeginTabItem(CItemName))
 			{
@@ -349,14 +341,14 @@ void MapEditorTab::SaveTab(GameEngineLevel* _Level, float _DeltaTime)
 		std::string DataPath = Dir.GetStringPath();
 
 		OPENFILENAMEA OFN;
-		char filePathName[256] = "";
-		char lpstrFile[256] = "";
-		static char filter1[] = "모든 파일\0*.*\0텍스트 파일\0*.txt\0fbx 파일\0*.fbx";
+		char filePathName[256] = {};
+		char lpstrFile[256] = {};
+		static constexpr std::string_view filter1 = "모든 파일\0*.*\0텍스트 파일\0*.txt\0fbx 파일\0*.fbx";
 
 		memset(&OFN, 0, sizeof(OPENFILENAME));
 		OFN.lStructSize = sizeof(OPENFILENAME);
 		OFN.hwndOwner = GameEngineCore::MainWindow.GetHWND();
-		OFN.lpstrFilter = filter1;
+		OFN.lpstrFilter = filter1.data();
 		OFN.lpstrFile = lpstrFile;
 		OFN.nMaxFile = 100;
 		OFN.lpstrDefExt = "map";
@@ -387,13 +379,13 @@ void MapEditorTab::SettingTab(GameEngineLevel* _Level, float _DeltaTime)
 {
 	if (ImGui::Button("Yard Base Setting"))
 	{
-		float4 BaseScale = GlobalValue::GetWindowScale();
+		const float4 BaseScale = GlobalValue::GetWindowScale();
 
 		float4 BasePosition = BaseScale.Half();
 		BasePosition.Y *= -1.0f;
 		BasePosition.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Back_Paint);
 
-		MapEditorLevel* MapEditorPtr = dynamic_cast<MapEditorLevel*>(_Level);
+		MapEditorLevel* MapEditorPtr = static_cast<MapEditorLevel*>(_Level);
 		MapEditorPtr->m_MapBaseRenderer->SetSprite("GroundBase.png");
 		MapEditorPtr->m_MapBaseRenderer->GetImageTransform().SetLocalScale(BaseScale);
 		MapEditorPtr->m_MapBaseRenderer->Transform.SetLocalPosition(BasePosition);
@@ -403,11 +395,11 @@ void MapEditorTab::SettingTab(GameEngineLevel* _Level, float _DeltaTime)
 
 	if (ImGui::Button("Center Field Base Setting"))
 	{
-		float4 BaseScale = float4(1920.0f, 1080.0f);
+		const float4 BaseScale = float4(1920.0f, 1080.0f);
 		float4 BasePosition = BaseScale.Half();
 		BasePosition.Y *= -1.0f;
 
-		MapEditorLevel* MapEditorPtr = dynamic_cast<MapEditorLevel*>(_Level);
+		MapEditorLevel* MapEditorPtr = static_cast<MapEditorLevel*>(_Level);
 		MapEditorPtr->m_MapBaseRenderer->SetSprite("GroundBase.png");
 		MapEditorPtr->m_MapBaseRenderer->GetImageTransform().SetLocalScale(BaseScale);
 		MapEditorPtr->m_MapBaseRenderer->Transform.SetLocalPosition(BasePosition);
@@ -759,16 +751,16 @@ void PropItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTime)
 
 void PropItemTab::SaveItemTab(GameEngineLevel* _Level)
 {
+	constexpr std::uint32_t GroupIndex = 0;
 	GameEngineSerializer BinSerial;
-	std::vector<std::shared_ptr<NormalProp>> ObjectType = _Level->GetObjectGroupConvert<NormalProp>(0);
+	const std::vector<std::shared_ptr<NormalProp>> ObjectGroup = _Level->GetObjectGroupConvert<NormalProp>(GroupIndex);
 
-	// 객체수 저장
-	BinSerial << static_cast<unsigned int>(ObjectType.size());
+	const std::uint32_t objectCount = static_cast<std::uint32_t>(ObjectGroup.size());
+	BinSerial << objectCount;
 
-	// 객체 정보 저장
-	for (size_t i = 0; i < ObjectType.size(); i++)
+	for(const std::shared_ptr<NormalProp> Object : ObjectGroup )
 	{
-		ObjectType[i]->Serializer(BinSerial);
+		Object->Serializer(BinSerial);
 	}
 
 	// Write
