@@ -98,6 +98,7 @@ private:
 	int iFPS = 0;
 	float ColorEdit3Value = 0.2f;
 	float RendererHeightItem = 0.0f;
+	float TimeCustom = 0.0f;
 };
 
 

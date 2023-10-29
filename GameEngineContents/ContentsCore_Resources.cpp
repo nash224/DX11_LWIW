@@ -77,10 +77,10 @@ void ContentsCore::LoadContentsData()
 	ItemData::CreateData("Mongsiri_Collect", { "Mongsiri_Collect", "몽시리털", EITEM_TYPE::Ingredient });
 	ItemData::CreateData("BushBug_Collect", { "BushBug_Collect", "몽시리털", EITEM_TYPE::Ingredient });
 	ItemData::CreateData("WitchFlower_Collect", { "WitchFlower_Collect", "마녀의 꽃", EITEM_TYPE::Ingredient });
-	ItemData::CreateData("FlowerBird_Collect", { "FlowerBird_Collect", "꽃", EITEM_TYPE::Ingredient});
+	ItemData::CreateData("FlowerBird_Collect", { "FlowerBird_Collect", "꽃", EITEM_TYPE::Ingredient });
 
 	// 포션
-	ItemData::CreateData("BadGrassPotion", { "BadGrassPotion", "나쁜 풀 제거물약", EITEM_TYPE::Ingredient});
+	ItemData::CreateData("BadGrassPotion", { "BadGrassPotion", "나쁜 풀 제거물약", EITEM_TYPE::Ingredient });
 
 	// 수리재료 
 	ItemData::CreateData("Branch_Collect", { "Branch_Collect", "나뭇가지", EITEM_TYPE::RepairMaterial });
@@ -114,7 +114,7 @@ void ContentsCore::LoadContentsData()
 	BiologyData::CreateData("MapleHerb", { "MapleHerb", "단풍 허브", "단풍 허브", ETOOLTYPE::Gloves, EECOLOGYTYPE::GreenForest, EECOLOGYTYPE::ForestPlateau, EECOLOGYTYPE::AllDay });
 
 	// 물약
-	ProductRecipeData::CreateData("BadGrassPotion", { std::vector<ProductRecipeData::MaterialInfo>{{"Mongsiri_Water", 1}, {"WitchFlower_Water", 1 } }, EBREWING_DIFFICULTY::Easy, EBREWING_DIRECTION::StirNone, EBREWING_FIRE::Four, "BadGrassPotion", "나쁜 풀 제거 물약"});
+	ProductRecipeData::CreateData("BadGrassPotion", { std::vector<ProductRecipeData::MaterialInfo>{{"Mongsiri_Water", 1}, {"WitchFlower_Water", 1 } }, EBREWING_DIFFICULTY::Easy, EBREWING_DIRECTION::StirNone, EBREWING_FIRE::Four, "BadGrassPotion", "나쁜 풀 제거 물약" });
 	ProductRecipeData::CreateData("NutritionPotion", { std::vector<ProductRecipeData::MaterialInfo>{{"SilverStarFlower_Water", 1}, {"MapleHerb_Water", 1 },{"BushBug_Water", 1  }}, EBREWING_DIFFICULTY::Normal, EBREWING_DIRECTION::StirRight, EBREWING_FIRE::Three, "NutritionPotion", "풀 성장 물약" });
 	ProductRecipeData::CreateData("FirecrackerPotion", { std::vector<ProductRecipeData::MaterialInfo>{{"PumpkinTerrier_Powder", 1,}, { "FlowerBird_Water", 1 },{"MoonButterfly_Water", 1} }, EBREWING_DIFFICULTY::Hard, EBREWING_DIRECTION::StirRight, EBREWING_FIRE::Three, "FirecrackerPotion", "불꽃놀이 물약" });
 
@@ -127,40 +127,46 @@ void ContentsCore::LoadContentsData()
 
 void ContentsCore::InitBlendResources()
 {
-	D3D11_BLEND_DESC Desc = {};
+	{
+		D3D11_BLEND_DESC Desc = {};
+		Desc.IndependentBlendEnable = false;
+		Desc.RenderTarget[0].BlendEnable = true;
+		Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
-	// 렌더타겟당 블랜드 옵션을 각각 적용할꺼냐
-	Desc.IndependentBlendEnable = false;
+		Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE; // src팩터
+		Desc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;
+		Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
 
-	// 렌더타겟 0번 
-	// 블랜드 허용
-	Desc.RenderTarget[0].BlendEnable = true;
+		Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ZERO;
+		Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
+		Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;	
 
-	// 색깔 전체를 대상으로 삼겠다.
-	Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+		const std::shared_ptr<GameEngineBlend> Blend = GameEngineBlend::Create("Blend_Overlay", Desc);
 
-	// 색을 더한다
-	Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
-
-	// https://learn.microsoft.com/ko-kr/windows/win32/api/d3d11/ne-d3d11-d3d11_blend
-
-	// src srcColor * src의 알파
-	// 1, 0, 0(, 1) * 1.0f
-	Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA; // src팩터
-
-	// src 1, 0, 0, 1 * (1 - src의 알파)
-	Desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
-
-	Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;	// 색을 더하는데
-	Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ZERO;	// 소스는 색만입힘
-	Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;	// 원본은 유지
-
-	std::shared_ptr<GameEngineBlend> Blend = GameEngineBlend::Create("2DOverRay", Desc);
+		std::shared_ptr<GameEngineMaterial> OverRayMaterial = GameEngineMaterial::Create("2DTextureOverlay");
+		OverRayMaterial->SetVertexShader("TextureShader_VS");
+		OverRayMaterial->SetPixelShader("TextureShader_PS");
+		OverRayMaterial->SetBlendState("Blend_Overlay");
+	}
 
 
-	std::shared_ptr<GameEngineMaterial> OverRayMaterial = GameEngineMaterial::Create("2DTextureOverRay");
-	OverRayMaterial->SetVertexShader("TextureShader_VS");
-	OverRayMaterial->SetPixelShader("TextureShader_PS");
-	OverRayMaterial->SetBlendState("2DOverRay");
-	
+	{
+		D3D11_BLEND_DESC Desc = {};
+		Desc.IndependentBlendEnable = false;
+		Desc.RenderTarget[0].BlendEnable = true;
+		Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+		Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+		Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA; 
+		Desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+		Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;	
+		Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;	
+		Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;	
+
+		const std::shared_ptr<GameEngineBlend> Blend = GameEngineBlend::Create("Test_Blend", Desc);
+
+		std::shared_ptr<GameEngineMaterial> OverRayMaterial = GameEngineMaterial::Create("Test2DTextureBelnd");
+		OverRayMaterial->SetVertexShader("TextureShader_VS");
+		OverRayMaterial->SetPixelShader("TextureShader_PS");
+		OverRayMaterial->SetBlendState("Test_Blend");
+	}
 }

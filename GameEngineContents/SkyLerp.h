@@ -71,12 +71,13 @@ protected:
 
 
 	void UpdateSkyLerp();
+	void FollowCamera();
 	void LerpSky(const float4& _ColorA, const float4& _ColorB, const float _Time);
 	void LerpSky(const float4& _Color);
 
 private:
 	std::vector<float4> SkyData;
-	std::shared_ptr<GameEngineUIRenderer> Sun_Renderer = nullptr;
+	std::shared_ptr<GameEngineSpriteRenderer> Sun_Renderer = nullptr;
 
 	bool PauseSkyLerp = false;
 	float MinuteRatio = 0.0f;

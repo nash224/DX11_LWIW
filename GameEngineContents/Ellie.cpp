@@ -88,12 +88,9 @@ void Ellie::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void Ellie::RendererSetting()
 {
-	m_Body = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::Object);
-	if (nullptr == m_Body)
-	{
-		MsgBoxAssert("컴포넌트를 생성하지 못했습니다.");
-		return;
-	}
+	static std::uint32_t EllieGroupOrder = 0;
+
+	m_Body = CreateComponent<GameEngineSpriteRenderer>(EllieGroupOrder);
 
 	if (nullptr == GameEngineSprite::Find("Ellie_Basic_Idle.png"))
 	{
@@ -281,7 +278,9 @@ void Ellie::RendererSetting()
 
 void Ellie::RideFxSetting()
 {
-	m_Fx = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::Effect);
+	static std::uint32_t FxGroupOrder = 0;
+
+	m_Fx = CreateComponent<GameEngineSpriteRenderer>(FxGroupOrder);
 	if (nullptr == m_Fx)
 	{
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
@@ -406,9 +405,9 @@ void Ellie::OffControl()
 }
 
 
-void Ellie::CancleComponent()
+void Ellie::FinishWork()
 {
-	IsCancleComponent = true;
+	isFinishWork = true;
 }
 
 // 일반적인 경우 None으로 설정했습니다.

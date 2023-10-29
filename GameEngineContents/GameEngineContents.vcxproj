@@ -211,11 +211,19 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Conversation.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GroundRenderUnit.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="MouseManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="NPCEntity.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -442,6 +450,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="UI_Conversation.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="UI_Dictionary.cpp">
       <SubType>
       </SubType>
@@ -585,11 +597,19 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Conversation.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GroundRenderUnit.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="MouseManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="NPCEntity.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -806,6 +826,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="UI_BiologyPage.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UI_Conversation.h">
       <SubType>
       </SubType>
     </ClInclude>

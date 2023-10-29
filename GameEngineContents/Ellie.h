@@ -106,8 +106,8 @@ public:
 
 	void OnControl();
 	void OffControl();
-	void CancleComponent();
-	void WaitDone(EELLIE_STATE _State = EELLIE_STATE::None);
+	void FinishWork();
+	void WaitDone(EELLIE_STATE _State);
 	void SetPixelPointBaseOnCenter();
 
 	EELLIE_STATE GetState() const
@@ -240,7 +240,7 @@ private:
 	const float4 m_PixelCheckScale = { 10.0f , 10.0f };
 	const float4 m_PixelCheckPosBaseOnCenter = float4::ZERO;
 
-	bool IsCancleComponent = false;
+	bool isFinishWork = false;
 	bool IsControl = true;
 	bool IsCollected = false;
 	bool IsHolding = false;

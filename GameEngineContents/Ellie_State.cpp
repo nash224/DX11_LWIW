@@ -108,7 +108,7 @@ void Ellie::StartWait()
 	}
 
 	IsWaitDone = false;
-	IsCancleComponent = false;
+	isFinishWork = false;
 
 	OtherEntity->ReachThis();
 
@@ -480,7 +480,7 @@ void Ellie::UpdateMongSiri(float _Delta)
 void Ellie::UpdateWait(float _Delta)
 {
 	// 취소하면
-	if (true == IsCancleComponent)
+	if (true == isFinishWork)
 	{
 		OtherEntity = nullptr;
 		IsControl = true;
@@ -579,7 +579,7 @@ void Ellie::EndMongSiri()
 void Ellie::EndWait()
 {
 	m_WaitState = EELLIE_STATE::None;
-	IsCancleComponent = true;
+	isFinishWork = true;
 	IsWaitDone = true;
 }
 

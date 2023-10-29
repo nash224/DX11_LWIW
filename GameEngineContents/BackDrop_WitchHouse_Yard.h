@@ -31,5 +31,8 @@ private:
 	void CreateHouse();
 	void CreatePortalActor();
 	void CreateDian();
+
+
+	void TestLightShader();
 };
 

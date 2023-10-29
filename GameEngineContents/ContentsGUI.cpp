@@ -217,6 +217,12 @@ void DebugTab::TimeDebug()
 {
 	if (nullptr != PlayLevel::m_TimeManager)
 	{
+		if (ImGui::SliderFloat("TimeCustom", &TimeCustom, 0.0f, MAX_DAY_TIME, "%.0f"))
+		{
+			PlayLevel::m_TimeManager->Pause(true);
+			PlayLevel::m_TimeManager->SetTime(TimeCustom);
+		}
+
 		ImGui::Text(std::string("Time : " + std::to_string(PlayLevel::m_TimeManager->GetTime())).c_str());
 	}
 }
@@ -511,7 +517,7 @@ void BaseRendererItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTim
 		ImGui::Text("Off");
 	}
 
-	if ("" != SelectSpriteName)
+	if (SelectSpriteName.empty())
 	{
 		std::vector<const char*> CNames;
 
@@ -562,18 +568,15 @@ void BaseRendererItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTim
 void BaseRendererItemTab::SaveItemTab(GameEngineLevel* _Level)
 {
 	GameEngineSerializer BinSerial;
-	std::vector<std::shared_ptr<GroundRenderUnit>> ObjectType = _Level->GetObjectGroupConvert<GroundRenderUnit>(0);
+	const std::vector<std::shared_ptr<GroundRenderUnit>> ObjectGroup = _Level->GetObjectGroupConvert<GroundRenderUnit>(0);
 
-	// 객체수 저장
-	BinSerial << static_cast<unsigned int>(ObjectType.size());
+	BinSerial << static_cast<unsigned int>(ObjectGroup.size());
 
-	// 객체 정보 저장
-	for (size_t i = 0; i < ObjectType.size(); i++)
+	for (std::shared_ptr<GroundRenderUnit> RenderUnit : ObjectGroup)
 	{
-		ObjectType[i]->Serializer(BinSerial);
+		RenderUnit->Serializer(BinSerial);
 	}
 
-	// Write
 	GameEngineFile File = Parent->SavePath;
 	File.Open(FileOpenType::Write, FileDataType::Binary);
 	File.Write(BinSerial);
@@ -588,7 +591,7 @@ void BaseRendererItemTab::LoadItemTab(GameEngineLevel* _Level)
 	File.DataAllRead(LoadBin);
 
 	std::vector<std::shared_ptr<NormalProp>> ObjectGroup = _Level->GetObjectGroupConvert<NormalProp>(0);
-	for (size_t i = 0; i < ObjectGroup.size(); i++)
+	for (int i = 0; i < ObjectGroup.size(); i++)
 	{
 		ObjectGroup[i]->Death();
 	}
@@ -597,7 +600,7 @@ void BaseRendererItemTab::LoadItemTab(GameEngineLevel* _Level)
 	unsigned int ActorCount = 0;
 	LoadBin >> ActorCount;
 
-	for (size_t i = 0; i < ActorCount; i++)
+	for (unsigned int i = 0; i < ActorCount; i++)
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>();
 		Object->DeSerializer(LoadBin);
@@ -614,10 +617,9 @@ void PropItemTab::TabStart()
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExistsChild("Resources");
 		Dir.MoveChild("Resources\\PlayContents\\PlayResourecs\\Map\\MapSingle");
-		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-		for (size_t i = 0; i < Files.size(); i++)
+		const std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile pFile : Files)
 		{
-			GameEngineFile pFile = Files[i];
 			SpriteNames.push_back(pFile.GetFileName());
 		}
 	}
@@ -627,10 +629,10 @@ void PropItemTab::TabStart()
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExistsChild("Resources");
 		Dir.MoveChild("Resources\\PlayContents\\PlayResourecs\\Map\\MapPixel");
-		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-		for (size_t i = 0; i < Files.size(); i++)
+
+		const std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile pFile : Files)
 		{
-			GameEngineFile pFile = Files[i];
 			PixelSpriteNames.push_back(pFile.GetFileName());
 		}
 	}
@@ -718,9 +720,9 @@ void PropItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTime)
 			std::vector<const char*> CNames;
 			CNames.reserve(PixelSpriteNames.size());
 
-			for (size_t i = 0; i < PixelSpriteNames.size(); i++)
+			for (std::string SpriteName : PixelSpriteNames)
 			{
-				CNames.push_back(PixelSpriteNames[i].c_str());
+				CNames.push_back(SpriteName.c_str());
 			}
 
 			if (ImGui::ListBox("Pixel Sprite List", &SelectPixelSpriteItem, &CNames[0], static_cast<int>(CNames.size())))
@@ -730,7 +732,7 @@ void PropItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTime)
 
 				if (nullptr != EditorLevel->SelectActor)
 				{
-					NormalProp* Object = dynamic_cast<NormalProp*>(EditorLevel->SelectActor);
+					NormalProp* Object = static_cast<NormalProp*>(EditorLevel->SelectActor);
 					Object->ChangePixeldata(SelectSpriteName);
 				}
 			}
@@ -739,10 +741,10 @@ void PropItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTime)
 
 	if (ImGui::Button("All Clear"))
 	{
-		std::vector<std::shared_ptr<NormalProp>> Objects = _Level->GetObjectGroupConvert<NormalProp>(0);
-		for (size_t i = 0; i < Objects.size(); i++)
+		const std::vector<std::shared_ptr<NormalProp>> Objects = _Level->GetObjectGroupConvert<NormalProp>(0);
+		for (const std::shared_ptr<NormalProp>& Object : Objects)
 		{
-			Objects[i]->Death();
+			Object->Death();
 		}
 
 		EditorLevel->SelectActor = nullptr;

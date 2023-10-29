@@ -82,8 +82,31 @@ void BackDrop_WitchHouse_Yard::Init()
 	CreateNormalProp();
 	CreatePortalActor();
 	CreateDian();
+
+
+	TestLightShader();
 }
 
+
+void BackDrop_WitchHouse_Yard::TestLightShader()
+{
+	const float4 Winscale = GlobalValue::GetWindowScale();
+	float4 LightPosition = Winscale.Half();
+	LightPosition.Y = -400.0f;
+	LightPosition.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::illuminant);
+
+	const std::uint32_t LightOrder = 0;
+
+	std::shared_ptr<RendererActor> LightActor = GetLevel()->CreateActor<RendererActor>(LightOrder);
+	LightActor->Transform.SetLocalPosition(LightPosition);
+	LightActor->Init();
+	LightActor->m_Renderer->SetMaterial("2DTextureOverlay");
+	LightActor->m_Renderer->SetSprite("cookie_1.png");
+	LightActor->m_Renderer->GetImageTransform().SetLocalScale(float4(96.0f, 96.0f));
+	LightActor->m_Renderer->GetColorData().MulColor = float4( 0.05f, 0.2f, 0.4f, 0.1f);
+
+	//Test2DTextureBelnd
+}
 
 void BackDrop_WitchHouse_Yard::LoadSerBin()
 {

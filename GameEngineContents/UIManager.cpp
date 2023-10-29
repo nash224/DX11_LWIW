@@ -165,7 +165,7 @@ void UIManager::DoneUIComponent()
 		return;
 	}
 
-	Ellie::MainEllie->CancleComponent();
+	Ellie::MainEllie->FinishWork();
 
 	SetEllieControl(true);
 }

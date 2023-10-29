@@ -1,8 +1,10 @@
 #pragma once
-#include "StaticEntity.h"
+#include "NPCEntity.h"
+
+#include "Conversation.h"
 
 // Ό³Έν :
-class Dian : public StaticEntity
+class Dian : public NPCEntity
 {
 public:
 	// constrcuter destructer
@@ -23,14 +25,17 @@ protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> m_Body = nullptr;
 	std::shared_ptr<GameEngineSpriteRenderer> m_Shadow = nullptr;
 
-	float m_RendererBias = 30.0f;
+
+	Conversation m_ConversationInfo;
+
+	static constexpr const float RendererYCorrection = 30.0f;
 
 };
 

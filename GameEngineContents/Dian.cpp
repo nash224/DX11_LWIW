@@ -18,26 +18,14 @@ void Dian::Start()
 
 void Dian::Update(float _Delta)
 {
-	StaticEntity::Update(_Delta);
+	NPCEntity::Update(_Delta);
+
+	m_ConversationInfo.UpdateConversation(_Delta);
 }
 
 void Dian::Release()
 {
-	m_InteractiveCol = nullptr;
-
-	if (0 == m_Body.use_count())
-	{
-		if (nullptr != GameEngineSprite::Find("Dian_idle.png"))
-		{
-			GameEngineSprite::Release("Dian_idle.png");
-		}
-	}
-	
-}
-
-void Dian::LevelStart(class GameEngineLevel* _NextLevel)
-{
-
+	NPCEntity::Release();
 }
 
 void Dian::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -65,25 +53,13 @@ void Dian::RendererSetting()
 
 
 	m_Body = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::Object);
-	if (nullptr == m_Body)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
-
 	m_Body->CreateAnimation("Idle", "Dian_idle.png", 0.15f, 3, 7, true);
+	m_Body->Transform.SetLocalPosition({0.0f, RendererYCorrection });
 	m_Body->AutoSpriteSizeOn();
-	m_Body->Transform.SetLocalPosition({0.0f, m_RendererBias });
 	m_Body->ChangeAnimation("Idle");
 
 
 	m_Shadow = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::Shadow);
-	if (nullptr == m_Shadow)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
-
-	m_Shadow->Transform.SetLocalPosition({ 0.0f, m_RendererBias });
+	m_Shadow->Transform.SetLocalPosition({ 0.0f, RendererYCorrection });
 	m_Shadow->SetSprite("Dian_idle.png", 0);
 }

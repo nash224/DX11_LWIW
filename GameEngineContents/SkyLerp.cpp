@@ -4,6 +4,7 @@
 #include "PlayLevel.h"
 
 #include "TimeManager.h"
+#include "CameraControler.h"
 
 SkyLerp* SkyLerp::SkyManager = nullptr;
 SkyLerp::SkyLerp() 
@@ -23,6 +24,7 @@ void SkyLerp::Start()
 void SkyLerp::Update(float _Delta)
 {
 	UpdateSkyLerp();
+	FollowCamera();
 }
 
 void SkyLerp::Release()
@@ -49,10 +51,9 @@ void SkyLerp::Init()
 {
 	SkyManager = this;
 
-	Transform.SetLocalPosition(float4(0.0f, 0.0f, GlobalUtils::CalculateFixDepth(ERENDERDEPTH::SkyBox)));
+	static const std::uint32_t SkyOrder = 0;
 
-
-	Sun_Renderer = CreateComponent<GameEngineUIRenderer>();
+	Sun_Renderer = CreateComponent<GameEngineSpriteRenderer>(SkyOrder);
 	Sun_Renderer->SetSprite("SkyBox.png");
 	Sun_Renderer->GetImageTransform().SetLocalScale(GlobalValue::GetWindowScale());
 	Sun_Renderer->GetColorData().MulColor.A = 0.0f;
@@ -96,7 +97,7 @@ void SkyLerp::Init()
 	
 	
 	
-	TestCode();
+	/*TestCode();*/
 
 	if (nullptr == PlayLevel::m_TimeManager)
 	{
@@ -127,8 +128,8 @@ void SkyLerp::TestCode()
 {
 	/*PauseSkyLerp = true;*/
 
-	static std::uint32_t Order = 0;
-	std::shared_ptr<GameEngineUIRenderer> DarkFilter = CreateComponent<GameEngineUIRenderer>(Order);
+	static std::uint32_t SkyOrder = 0;
+	std::shared_ptr<GameEngineUIRenderer> DarkFilter = CreateComponent<GameEngineUIRenderer>(SkyOrder);
 	DarkFilter->SetSprite("SkyBox.png");
 	DarkFilter->Transform.SetLocalPosition(float4(0.0f, 0.0f, GlobalUtils::CalculateFixDepth(-202)));
 	DarkFilter->GetColorData().MulColor = float4(0.1f, 0.1f, 0.1f, 0.1f);
@@ -190,4 +191,19 @@ void SkyLerp::LerpSky(const float4& _Color)
 	}
 
 	Sun_Renderer->GetColorData().MulColor = _Color;
+}
+
+
+void SkyLerp::FollowCamera() 
+{
+	if (nullptr == GlobalValue::g_CameraControler)
+	{
+		return;
+	}
+
+	const float4 CameraPos = GlobalValue::g_CameraControler->GetCameraCurrentPostion();
+	float4 SkyPos = CameraPos;
+	SkyPos.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::SkyBox);
+
+	Transform.SetLocalPosition(SkyPos);
 }

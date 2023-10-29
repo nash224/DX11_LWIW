@@ -178,6 +178,9 @@
     <Filter Include="2.Object\2.Actor\1.BackManager\LevelBackDrop\2.Play">
       <UniqueIdentifier>{7225245d-3e89-4098-9cfd-3cfb1d98b3d0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2.Object\2.Actor\0.Manager\ConversationManager">
+      <UniqueIdentifier>{e54c52c1-9599-4afe-9bcd-e96089ca9062}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -462,6 +465,15 @@
     </ClInclude>
     <ClInclude Include="SkyLerp.h">
       <Filter>2.Object\2.Actor\0.Manager\TimeManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Conversation.h">
+      <Filter>2.Object\2.Actor\0.Manager\ConversationManager</Filter>
+    </ClInclude>
+    <ClInclude Include="NPCEntity.h">
+      <Filter>2.Object\2.Actor\2.Interactive\Static\NPC</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Conversation.h">
+      <Filter>2.Object\2.Actor\0.Manager\ConversationManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -757,6 +769,15 @@
     </ClCompile>
     <ClCompile Include="SkyLerp.cpp">
       <Filter>2.Object\2.Actor\0.Manager\TimeManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Conversation.cpp">
+      <Filter>2.Object\2.Actor\0.Manager\ConversationManager</Filter>
+    </ClCompile>
+    <ClCompile Include="NPCEntity.cpp">
+      <Filter>2.Object\2.Actor\2.Interactive\Static\NPC</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Conversation.cpp">
+      <Filter>2.Object\2.Actor\0.Manager\ConversationManager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
