@@ -15,27 +15,27 @@ public:
 	BackDrop_CenterField& operator=(const BackDrop_CenterField& _Other) = delete;
 	BackDrop_CenterField& operator=(BackDrop_CenterField&& _Other) noexcept = delete;
 
+
+	void Init();
+
 protected:
-	void Start() override;
-	void Update(float _Delta) override;
-	void Release() override;
+	void Start() override {}
+	void Update(float _Delta) override {}
+	void Release() override {}
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
-public:
-	void Init();
+protected:
+	void SpriteFileLoad();
 	void TestPorp();
 
-	void CreateFlooring();
-	void CreateProp(GameEngineLevel* _Level);
-	void CreatePixelMap(GameEngineLevel* _Level);
-	void CreatePortalActor(GameEngineLevel* _Level);
+	void CreateMap();
+	void CreatePortalActor();
 	void CreateAurea(GameEngineLevel* _Level);
 
 	void CreateCreature(GameEngineLevel* _Level);
 	void CreateDayNightTimeCreature(GameEngineLevel* _Level);
 	void CreateDayTimeCreature(GameEngineLevel* _Level);
-	void CreateNightCreature(GameEngineLevel* _Level);
 
 	void CreateBush(GameEngineLevel* _Level);
 	void CreateWitchFlower(GameEngineLevel* _Level);

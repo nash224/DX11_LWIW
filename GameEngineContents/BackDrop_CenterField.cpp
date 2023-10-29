@@ -2,7 +2,7 @@
 #include "BackDrop_CenterField.h"
 
 
-#include "Prop.h"
+#include "NormalProp.h"
 #include "PortalObject.h"
 
 #include "MongSiri_Population.h"
@@ -24,29 +24,26 @@ BackDrop_CenterField::~BackDrop_CenterField()
 }
 
 
-void BackDrop_CenterField::Start()
-{
-	BackDrop_PlayLevel::Start();
-}
-
-void BackDrop_CenterField::Update(float _Delta)
-{
-	BackDrop_PlayLevel::Update(_Delta);
-}
-
-void BackDrop_CenterField::Release()
-{
-	BackDrop_PlayLevel::Release();
-}
-
 void BackDrop_CenterField::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	BackDrop_PlayLevel::LevelStart(_NextLevel);
+
+	SpriteFileLoad();
 }
 
 void BackDrop_CenterField::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	BackDrop_PlayLevel::LevelEnd(_NextLevel);
+
+
+	GameEngineDirectory Dir;
+	Dir.MoveParentToExistsChild("Resources");
+	Dir.MoveChild("Resources\\PlayContents\\FieldCenter");
+	const std::vector<GameEngineFile> Files = Dir.GetAllFile();
+	for (GameEngineFile pFile : Files)
+	{
+		GameEngineSprite::Release(pFile.GetFileName());
+	}
 }
 
 
@@ -58,12 +55,15 @@ void BackDrop_CenterField::Init()
 {
 	MainBackDrop = this;
 
-	GameEngineLevel* CurLevel = GetLevel();
+	SpriteFileLoad();
 
-	CreateFlooring();
-	CreateProp(CurLevel);
-	CreatePixelMap(CurLevel);
-	CreatePortalActor(CurLevel);
+	PixelVec.reserve(256);
+
+	CreateMap();
+	CreatePortalActor();
+
+
+	GameEngineLevel* CurLevel = GetLevel();
 	CreateAurea(CurLevel);
 	/*TestPorp();*/
 
@@ -77,7 +77,19 @@ void BackDrop_CenterField::Init()
 
 }
 
-#pragma endregion 
+void BackDrop_CenterField::SpriteFileLoad()
+{
+	GameEngineDirectory Dir;
+	Dir.MoveParentToExistsChild("Resources");
+	Dir.MoveChild("Resources\\PlayContents\\FieldCenter");
+	const std::vector<GameEngineFile> Files = Dir.GetAllFile();
+	for (GameEngineFile pFile : Files)
+	{
+		GameEngineSprite::CreateSingle(pFile.GetFileName());
+	}
+}
+
+
 
 
 void BackDrop_CenterField::TestPorp()
@@ -88,61 +100,42 @@ void BackDrop_CenterField::TestPorp()
 }
 
 
-void BackDrop_CenterField::CreateFlooring()
+void BackDrop_CenterField::CreateMap()
 {
+	const std::int32_t GroupZero = 0;
+
+	const std::shared_ptr<GameEngineTexture> MapTexture = GameEngineTexture::Find("FileMap.png");
+	const float4 MapScale = MapTexture->GetScale();
+
+	m_BackScale = MapScale;
+	
+
 	{
-		m_BackScale = { 1920.0f, 1080.0f };
-		float4 BasePosition = m_BackScale.Half();
+		float4 MapPos = MapScale.Half();
+		MapPos.Y *= -1.0f;
+		MapPos.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Cliff);
+
+		std::shared_ptr<NormalProp> CenterMap = GetLevel()->CreateActor<NormalProp>(GroupZero);
+		CenterMap->Transform.SetLocalPosition(MapPos);
+		CenterMap->Init();
+		CenterMap->m_Renderer->SetSprite("FileMap.png");
+		CenterMap->SetPixelCollision("This_Pixel.png");
+		PixelVec.push_back(CenterMap);
+	}
+
+	{
+		float4 BasePosition = MapScale.Half();
 		BasePosition.Y *= -1.0f;
 		BasePosition.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Back_Paint);
 
-		std::shared_ptr<GameEngineSpriteRenderer> Renderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
-		Renderer->SetSprite("GroundBase.png");
-		Renderer->SetImageScale(m_BackScale);
-		Renderer->Transform.SetLocalPosition(BasePosition);
-	}
-
-}
-
-#pragma region CreateProp
-
-void BackDrop_CenterField::CreateProp(GameEngineLevel* _Level)
-{
-}
-
-#pragma endregion 
-
-#pragma region CreatePixelMap
-
-void BackDrop_CenterField::CreatePixelMap(GameEngineLevel* _Level)
-{
-
-}
-
-
-#pragma endregion 
-
-#pragma region CreatePortal
-
-void BackDrop_CenterField::CreatePortalActor(GameEngineLevel* _Level)
-{
-	{
-		std::shared_ptr<PortalObject> Object = _Level->CreateActor<PortalObject>(EUPDATEORDER::Portal);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("액터를 생성하지 못했습니다.");
-			return;
-		}
-
-		Object->CreatePortalCollision(ECOLLISION::Portal);
-		Object->SetChangeLevelName("WitchHouse_Yard");
-		Object->SetCollisionRange({ 100.0f , 400.0f });
-		Object->SetLocalPosition({ 1200.0f , -200.0f });
-		Object->SetCollisionType(ColType::AABBBOX2D);
+		std::shared_ptr<NormalProp> BaseGorund = GetLevel()->CreateActor<NormalProp>(GroupZero);
+		BaseGorund->Transform.SetLocalPosition(BasePosition);
+		BaseGorund->Init();
+		BaseGorund->m_Renderer->SetSprite("GroundBase.png");
+		BaseGorund->m_Renderer->SetImageScale(m_BackScale);
 	}
 }
 
-#pragma endregion 
 
 
 void BackDrop_CenterField::CreateAurea(GameEngineLevel* _Level)
@@ -160,7 +153,6 @@ void BackDrop_CenterField::CreateCreature(GameEngineLevel* _Level)
 {
 	CreateDayNightTimeCreature(_Level);
 	CreateDayTimeCreature(_Level);
-	CreateNightCreature(_Level);
 }
 
 void BackDrop_CenterField::CreateDayNightTimeCreature(GameEngineLevel* _Level)
@@ -176,7 +168,7 @@ void BackDrop_CenterField::CreateDayNightTimeCreature(GameEngineLevel* _Level)
 
 void BackDrop_CenterField::CreateDayTimeCreature(GameEngineLevel* _Level)
 {
-	CreateMongSiriPopulation(_Level);
+	/*CreateMongSiriPopulation(_Level);*/
 }
 
 
@@ -332,10 +324,18 @@ void BackDrop_CenterField::CreatePumpkinTerrier(GameEngineLevel* _Level)
 }
 
 
-void BackDrop_CenterField::CreateNightCreature(GameEngineLevel* _Level)
+void BackDrop_CenterField::CreatePortalActor()
 {
-
+	{
+		std::shared_ptr<PortalObject> Object = GetLevel()->CreateActor<PortalObject>(EUPDATEORDER::Portal);
+		Object->CreatePortalCollision(ECOLLISION::Portal);
+		Object->SetChangeLevelName("WitchHouse_Yard");
+		Object->SetCollisionRange({ 100.0f , 400.0f });
+		Object->SetLocalPosition({ 1200.0f , -200.0f });
+		Object->SetCollisionType(ColType::AABBBOX2D);
+	}
 }
+
 
 
 #pragma region Release

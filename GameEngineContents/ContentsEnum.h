@@ -38,7 +38,7 @@ enum class ERENDERDEPTH
 	RootedItem = 3000,
 	ObjectShadow,
 	Hole,
-	UpperGround,
+	Cliff,
 	DeepDarkGrass,
 	DarkGrass,
 	Back_Paint,
