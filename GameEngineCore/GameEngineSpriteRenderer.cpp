@@ -47,7 +47,7 @@ SpriteData GameEngineFrameAnimation::Update(float _DeltaTime)
 		++CurIndex;
 		EventCheck = true;
 
-		if (CurIndex > End - Start)
+		if (CurIndex > InterIndex)
 		{
 			if (nullptr != EndEvent && false == IsEnd)
 			{
@@ -59,7 +59,8 @@ SpriteData GameEngineFrameAnimation::Update(float _DeltaTime)
 			if (true == Loop)
 			{
 				CurIndex = 0;
-			} else
+			}
+			else
 			{
 				--CurIndex;
 			}
@@ -69,15 +70,15 @@ SpriteData GameEngineFrameAnimation::Update(float _DeltaTime)
 	return Sprite->GetSpriteData(Index[CurIndex]);
 }
 
-GameEngineSpriteRenderer::GameEngineSpriteRenderer() 
+GameEngineSpriteRenderer::GameEngineSpriteRenderer()
 {
 }
 
-GameEngineSpriteRenderer::~GameEngineSpriteRenderer() 
+GameEngineSpriteRenderer::~GameEngineSpriteRenderer()
 {
 }
 
-void GameEngineSpriteRenderer::Start() 
+void GameEngineSpriteRenderer::Start()
 {
 	GameEngineRenderer::Start();
 
@@ -168,7 +169,7 @@ void GameEngineSpriteRenderer::CreateAnimation(
 	unsigned int _Start /*= -1*/,
 	unsigned int _End /*= -1*/,
 	bool _Loop /*= true*/
-) 
+)
 {
 	std::string SpriteName = GameEngineString::ToUpperReturn(_SpriteName);
 
@@ -199,7 +200,7 @@ void GameEngineSpriteRenderer::CreateAnimation(
 	{
 		NewAnimation->Start = _Start;
 	}
-	else 
+	else
 	{
 		NewAnimation->Start = 0;
 	}
@@ -213,10 +214,29 @@ void GameEngineSpriteRenderer::CreateAnimation(
 		NewAnimation->End = Sprite->GetSpriteCount() - 1;
 	}
 
+	int Plus = 1;
 
-	for (unsigned int i = NewAnimation->Start; i <= NewAnimation->End; i++)
+	if (NewAnimation->Start > NewAnimation->End)
 	{
-		NewAnimation->Index.push_back(i);
+		for (
+			int i = NewAnimation->Start;
+			i >= NewAnimation->End;
+			i--
+			)
+		{
+			NewAnimation->Index.push_back(i);
+		}
+
+		NewAnimation->InterIndex = NewAnimation->Start - NewAnimation->End;
+	}
+	else
+	{
+		for (unsigned int i = NewAnimation->Start; i <= NewAnimation->End; i++)
+		{
+			NewAnimation->Index.push_back(i);
+		}
+
+		NewAnimation->InterIndex = NewAnimation->End - NewAnimation->Start;
 	}
 
 	NewAnimation->Inter.resize(NewAnimation->Index.size());
@@ -234,7 +254,7 @@ void GameEngineSpriteRenderer::ChangeAnimation(std::string_view _AnimationName, 
 {
 	std::string UpperName = GameEngineString::ToUpperReturn(_AnimationName);
 
-	std::map<std::string, std::shared_ptr<GameEngineFrameAnimation>>::iterator FindIter 
+	std::map<std::string, std::shared_ptr<GameEngineFrameAnimation>>::iterator FindIter
 		= FrameAnimations.find(UpperName);
 
 	if (FindIter == FrameAnimations.end())
@@ -333,7 +353,7 @@ void GameEngineSpriteRenderer::SetPivotType(PivotType _Type)
 	switch (_Type)
 	{
 	case PivotType::Center:
-		Pivot = {0.5f, 0.5f};
+		Pivot = { 0.5f, 0.5f };
 		break;
 	case PivotType::Top:
 		Pivot = { 0.5f, 0.0f };
