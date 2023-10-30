@@ -64,6 +64,7 @@ void Conversation::StartConversation(int _ConversationType)
 
 void Conversation::ConverseLine()
 {
+	CurTopic->Data[CurLine].Question;
 	ConversationBTWEvent();
 }
 
@@ -78,15 +79,15 @@ void Conversation::NextConversationLine()
 
 	++CurLine;
 
-	bool isLast = (CurLine == static_cast<int>(Data.size()));
+	ConverseLine();
+
+	bool isLast = (CurLine == static_cast<int>(Data.size() - 1));
 	if (isLast)
 	{
 		EndConversationEvent();
 		EndConversation();
 		return;
 	}
-
-	ConverseLine();
 }
 
 void Conversation::ConversationBTWEvent()
