@@ -162,8 +162,10 @@ void GameEngineSpriteRenderer::SetSprite(std::string_view _Name, unsigned int in
 	SetImageScale(CurSprite.GetScale() * AutoScaleRatio);
 }
 
-void GameEngineSpriteRenderer::ChangeSpriteIndex(int _Index)
+void GameEngineSpriteRenderer::ChangeCurSprite(int _Index)
 {
+	CurFrameAnimations = nullptr;
+
 	if (nullptr == Sprite)
 	{
 		MsgBoxAssert("존재하지 않는 스프라이트를 사용하려고 했습니다.");

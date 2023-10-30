@@ -50,13 +50,17 @@ public:
 		std::shared_ptr<GameEngineUIRenderer> Right_Tail;
 		std::shared_ptr<GameEngineUIRenderer> Main_Dialogue;
 		std::shared_ptr<GameEngineUIRenderer> Main_Cursor;
-		std::shared_ptr<GameEngineUIRenderer> Main_Font;
+		std::shared_ptr<GameEngineSpriteRenderer> Main_Font;
 		std::string Main_Message;
 
 		std::shared_ptr<GameEngineUIRenderer> Virgil_Dialogue;
 		std::shared_ptr<GameEngineUIRenderer> Virgil_Cursor;
 		std::shared_ptr<GameEngineUIRenderer> Virgil_Font;
 		std::string Virgil_Message;
+
+		static constexpr const float FontSize = 17.0f;
+		float4 DefaultColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
+		float4 RedColor = float4(0.8f, 0.0f, 0.0f, 1.0f);
 
 	};
 
@@ -94,11 +98,14 @@ protected:
 	void Reset();
 
 
-	void SetNPCExpression(int _SpriteIndex);
-	void SetEllieExpression(int _SpriteIndex);
-	void SetVirgilExpression(int _SpriteIndex);
+	void SetNPCExpression(unsigned int _SpriteIndex);
+	void SetEllieExpression(unsigned int _SpriteIndex);
+	void SetVirgilExpression(unsigned int _SpriteIndex);
 
-	const unsigned int ReturnEllieIndexToVirgil();
+	void SetMainMessage(std::string_view _FontName);
+	void SetVirgilMessage(std::string_view _FontName);
+
+	const unsigned int ReturnVirgilIndexToEllie(unsigned int _Index);
 
 	
 	
@@ -109,6 +116,8 @@ private:
 	DialogueInfo Dialogue;
 
 	GameEngineState State;
+
+	bool isJustVirgilTalked = false;
 
 };
 

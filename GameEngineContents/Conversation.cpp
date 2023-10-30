@@ -85,11 +85,6 @@ void Conversation::ConverseLine()
 		return;
 	}
 
-	CurTopic->Data[CurLine].ConversationEntity;
-	CurTopic->Data[CurLine].FileIndex;
-	CurTopic->Data[CurLine].Question;
-	CurTopic->Data[CurLine].Font_LiberationSans;
-
 	UI_Conversation::MainConversationUI->ShowConversation(
 		{ CurTopic->Data[CurLine].ConversationEntity,
 		CurTopic->Data[CurLine].FileIndex,

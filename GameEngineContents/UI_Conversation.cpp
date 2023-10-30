@@ -166,7 +166,7 @@ void UI_Conversation::DialogueSetting()
 	Dialogue.Main_Cursor->SetSprite("Dialogue_Cursor.png");
 	Dialogue.Main_Cursor->Off();
 
-	Dialogue.Main_Font = CreateComponent<GameEngineUIRenderer>(DialogueRenderOrder);
+	Dialogue.Main_Font = CreateComponent<GameEngineSpriteRenderer>(DialogueRenderOrder);
 	Dialogue.Main_Font->Transform.SetLocalPosition(float4(0.0f, Main_DialogueYPos, MessageDepth));
 	Dialogue.Main_Font->Off();
 
@@ -221,28 +221,29 @@ void UI_Conversation::StartConversation(std::string_view _NPCSpriteName)
 
 void UI_Conversation::ShowConversation(const ConversationParameter& _Para)
 {
+	isJustVirgilTalked = false;
+
 	switch (_Para.Entity)
 	{
 	case ECONVERSATIONENTITY::NPC:
-		Dialogue.Main_Message = _Para.Message;
 		SetNPCExpression(_Para.FileIndex);
+		Dialogue.Main_Message = _Para.Message;
+		SetMainMessage(_Para.FontName);
 		break;
 	case ECONVERSATIONENTITY::Ellie:
-		Dialogue.Main_Message = _Para.Message;
 		SetEllieExpression(_Para.FileIndex);
+		Dialogue.Main_Message = _Para.Message;
+		SetMainMessage(_Para.FontName);
 		break;
 	case ECONVERSATIONENTITY::Virgil:
-		Dialogue.Virgil_Message = _Para.Message;
 		SetVirgilExpression(_Para.FileIndex);
+		Dialogue.Virgil_Message = _Para.Message;
+		SetVirgilMessage(_Para.FontName);
+		isJustVirgilTalked = true;
 		break;
 	default:
 		break;
 	}
-
-
-
-	_Para.FileIndex;
-	_Para.FontName;
 }
 
 void UI_Conversation::EndConversation()
@@ -251,7 +252,7 @@ void UI_Conversation::EndConversation()
 }
 
 
-void UI_Conversation::SetEllieExpression(int _SpriteIndex)
+void UI_Conversation::SetEllieExpression(unsigned int _SpriteIndex)
 {
 	if (nullptr == Portrait.Ellie)
 	{
@@ -259,10 +260,19 @@ void UI_Conversation::SetEllieExpression(int _SpriteIndex)
 		return;
 	}
 
-	Portrait.Ellie->ChangeSpriteIndex(_SpriteIndex);
+	if (nullptr == Portrait.Virgil)
+	{
+		MsgBoxAssert("생성하지 않은 컴포넌트를 사용하려 했습니다.");
+		return;
+	}
+
+	const std::uint32_t Virgil_Sprite_Index = ReturnVirgilIndexToEllie(_SpriteIndex);
+
+	Portrait.Ellie->ChangeCurSprite(_SpriteIndex);
+	Portrait.Virgil->ChangeCurSprite(Virgil_Sprite_Index);
 }
 
-void UI_Conversation::SetNPCExpression(int _SpriteIndex)
+void UI_Conversation::SetNPCExpression(unsigned int _SpriteIndex)
 {
 	if (nullptr == Portrait.Other)
 	{
@@ -270,16 +280,59 @@ void UI_Conversation::SetNPCExpression(int _SpriteIndex)
 		return;
 	}
 
-	Portrait.Other->ChangeSpriteIndex(_SpriteIndex);
+	Portrait.Other->ChangeCurSprite(_SpriteIndex);
 }
 
-void UI_Conversation::SetVirgilExpression(int _SpriteIndex)
+void UI_Conversation::SetVirgilExpression(unsigned int _SpriteIndex)
 {
+	if (nullptr == Portrait.Virgil)
+	{
+		MsgBoxAssert("생성하지 않은 컴포넌트를 사용하려 했습니다.");
+		return;
+	}
 
+	Portrait.Virgil->ChangeCurSprite(_SpriteIndex);
 }
 
-
-const unsigned int UI_Conversation::ReturnEllieIndexToVirgil()
+void UI_Conversation::SetMainMessage(std::string_view _FontName)
 {
-	return 1;
+	if (nullptr == Dialogue.Main_Font)
+	{
+		MsgBoxAssert("FontRenderer가 없습니다.");
+		return;
+	}
+
+	Dialogue.Main_Font->SetText(_FontName.data(), Dialogue.Main_Message.data(), Dialogue.FontSize, Dialogue.DefaultColor);
+}
+
+void UI_Conversation::SetVirgilMessage(std::string_view _FontName)
+{
+	if (nullptr == Dialogue.Virgil_Font)
+	{
+		MsgBoxAssert("FontRenderer가 없습니다.");
+		return;
+	}
+
+	Dialogue.Virgil_Font->SetText(_FontName.data(), Dialogue.Virgil_Message.data(), Dialogue.FontSize, Dialogue.DefaultColor);
+}
+
+const unsigned int UI_Conversation::ReturnVirgilIndexToEllie(unsigned int _Index)
+{
+	switch (_Index)
+	{
+	case 0:
+	{
+		MsgBoxAssert("스프라이트에 앨리가 존재하지 않습니다.");
+		return;
+	}
+		break;
+	case 1:
+	case 5:
+	case 10:
+		return 2;
+	default:
+		break;
+	}
+
+	return 6;
 }
