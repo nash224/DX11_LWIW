@@ -11,33 +11,39 @@ Conversation::Conversation()
 }
 
 
-void Conversation::Init()
+
+void Conversation::CreateTopic(int _ConversationType, const std::vector<ConversationData>& _Topic, std::string_view _SpriteName)
 {
-	
+	std::shared_ptr<Topic> topic = std::make_shared<Topic>();
+	topic->Data = _Topic;
+	topic->EntitySpriteName = _SpriteName;
+
+	Topics.insert(std::make_pair(_ConversationType, topic));
 }
 
-void Conversation::RendererSetting()
+const std::shared_ptr<Topic>& Conversation::FindTopic(int _ConversationType)
 {
-
-}
-
-
-void Conversation::CreateConversationData(int _ConversationType, const std::vector<ConversationData>& _Topic)
-{
-	ConversationDatas.insert(std::make_pair(_ConversationType, _Topic));
-}
-
-const std::vector<ConversationData>& Conversation::FindData(int _ConversationType)
-{
-	const std::vector<ConversationData>& topic = ConversationDatas.find(_ConversationType)->second;
-	if (topic.empty())
+	const std::shared_ptr<Topic>& topic = Topics.find(_ConversationType)->second;
+	if (nullptr == topic)
 	{
-		MsgBoxAssert("존재하지 않는 데이터를 반환하려 했습니다.");
-		return topic;
+		MsgBoxAssert("존재하지 않는 주제를 반환하려 했습니다.");
+		return nullptr;
 	}
 
 	return topic;
 }
+
+void Conversation::SetConversationEndEvent(int _Topic, std::function<void()> _Function)
+{
+	if (nullptr == Topics[_Topic])
+	{
+		MsgBoxAssert("존재하지 않는 주제에 이벤트를 설정하려 했습니다.");
+		return;
+	}
+
+	Topics[_Topic]->EndEvent = _Function;
+}
+
 
 
 void Conversation::StartConversation(int _ConversationType)
@@ -50,37 +56,55 @@ void Conversation::StartConversation(int _ConversationType)
 
 	UIManager::MainUIManager->UseUIComponent();
 
-	CurTopic = FindData(_ConversationType);
+	CurTopic = FindTopic(_ConversationType);
 
 	CurLine = 0;
+	ConverseLine();
 }
 
-
-void Conversation::NextConversation()
+void Conversation::ConverseLine()
 {
-	if (CurTopic.empty())
+	// UI
+
+	ConversationBTWEvent();
+}
+
+void Conversation::NextConversationLine()
+{
+	const std::vector<ConversationData>& Data = CurTopic->Data;
+
+	if (Data.empty())
 	{
 		return;
 	}
 
-	bool isLast = (CurLine == static_cast<int>(CurTopic.size()));
+	++CurLine;
+
+	bool isLast = (CurLine == static_cast<int>(Data.size()));
 	if (isLast)
 	{
+		EndConversationEvent();
 		EndConversation();
 		return;
 	}
 
-	if (nullptr != CurTopic[CurLine].Event)
-	{
-		ConversationEvent();
-	}
-
-	++CurLine;
+	ConverseLine();
 }
 
-void Conversation::ConversationEvent()
+void Conversation::ConversationBTWEvent()
 {
-	CurTopic[CurLine].Event();
+	if (nullptr != CurTopic->Data[CurLine].Event)
+	{
+		CurTopic->Data[CurLine].Event();
+	}
+}
+
+void Conversation::EndConversationEvent()
+{
+	if (nullptr != CurTopic->EndEvent)
+	{
+		CurTopic->EndEvent();
+	}
 }
 
 void Conversation::EndConversation()
@@ -92,12 +116,14 @@ void Conversation::EndConversation()
 	}
 
 	UIManager::MainUIManager->DoneUIComponent();
+
+	CurTopic = nullptr;
 }
 
 
 void Conversation::UpdateConversation(float _Delta)
 {
-	if (CurTopic.empty())
+	if (CurTopic->Data.empty())
 	{
 		return;
 	}
@@ -108,7 +134,7 @@ void Conversation::UpdateConversation(float _Delta)
 	{
 		if (true == GameEngineInput::IsDown('Z', this))
 		{
-			NextConversation();
+			NextConversationLine();
 			ConversationTime = 0.0f;
 		}
 	}
