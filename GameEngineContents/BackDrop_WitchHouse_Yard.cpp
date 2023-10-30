@@ -6,6 +6,7 @@
 #include "WitchHouse.h"
 
 #include "NormalProp.h"
+#include "GroundRenderUnit.h"
 
 BackDrop_WitchHouse_Yard::BackDrop_WitchHouse_Yard() 
 {
@@ -129,6 +130,28 @@ void BackDrop_WitchHouse_Yard::LoadSerBin()
 			std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>();
 			Object->DeSerializer(LoadBin);
 			PixelVec.push_back(Object);
+		}
+	}
+
+
+	{
+		GameEngineSerializer LoadBin;
+
+		GameEngineFile File;
+		File.MoveParentToExistsChild("Resources");
+		File.MoveChild("Resources\\Data\\YardGrassData.map");
+
+		File.Open(FileOpenType::Read, FileDataType::Binary);
+		File.DataAllRead(LoadBin);
+
+		// °´Ã¼ ¼ö ÀÐ¾î¿È
+		unsigned int ActorCount = 0;
+		LoadBin >> ActorCount;
+
+		for (size_t i = 0; i < ActorCount; i++)
+		{
+			std::shared_ptr<GroundRenderUnit> Object = GetLevel()->CreateActor<GroundRenderUnit>();
+			Object->DeSerializer(LoadBin);
 		}
 	}
 }

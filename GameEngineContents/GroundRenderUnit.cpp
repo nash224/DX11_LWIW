@@ -62,6 +62,8 @@ void GroundRenderUnit::Serializer(GameEngineSerializer& _Data)
 
 void GroundRenderUnit::DeSerializer(GameEngineSerializer& _Data)
 {
+	Init();
+
 	TransformData TransData;
 
 	{

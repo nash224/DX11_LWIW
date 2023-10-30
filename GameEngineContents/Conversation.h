@@ -8,15 +8,6 @@ enum class ECONVERSATIONENTITY
 	None,
 };
 
-class Topic
-{
-public:
-	std::vector<ConversationData> Data;
-	std::function<void()> EndEvent;
-	std::string EntitySpriteName;
-
-};
-
 
 class ConversationData
 {
@@ -44,6 +35,17 @@ public:
 };
 
 
+class Topic
+{
+public:
+	std::vector<ConversationData> Data;
+	std::function<void()> EndEvent;
+	std::string EntitySpriteName;
+
+};
+
+
+
 
 // Ό³Έν :
 class Conversation
@@ -62,7 +64,7 @@ public:
 
 
 	void CreateTopic(int _ConversationType, const std::vector<ConversationData>& _Topic, std::string_view _SpriteName);
-	const std::shared_ptr<Topic>& FindTopic(int _ConversationType);
+	const std::shared_ptr<Topic> FindTopic(int _ConversationType);
 
 	template<typename EnumType>
 	void SetConversationEndEvent(EnumType _Topic, std::function<void()> _Function)

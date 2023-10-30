@@ -21,7 +21,7 @@ void Conversation::CreateTopic(int _ConversationType, const std::vector<Conversa
 	Topics.insert(std::make_pair(_ConversationType, topic));
 }
 
-const std::shared_ptr<Topic>& Conversation::FindTopic(int _ConversationType)
+const std::shared_ptr<Topic> Conversation::FindTopic(int _ConversationType)
 {
 	const std::shared_ptr<Topic>& topic = Topics.find(_ConversationType)->second;
 	if (nullptr == topic)
@@ -123,7 +123,7 @@ void Conversation::EndConversation()
 
 void Conversation::UpdateConversation(float _Delta)
 {
-	if (CurTopic->Data.empty())
+	if (nullptr == CurTopic)
 	{
 		return;
 	}

@@ -222,7 +222,8 @@ public:
 
 	int SelectSpriteItem = 0;
 	int SelectDepthItem = 0;
-	float Width = 0.0f;
+
+	float4 RendererCorrection = float4::ZERONULL;
 
 };
 

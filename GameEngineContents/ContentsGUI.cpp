@@ -267,6 +267,8 @@ void MapEditorTab::Start()
 void MapEditorTab::ChangeItemTab(std::string_view _ItemName)
 {
 	CurItemTab = FindItemTab(_ItemName);
+	SavePath.clear();
+	LoadPath.clear();
 }
 
 std::shared_ptr<ItemTab> MapEditorTab::FindItemTab(std::string_view _ItemName)
@@ -315,7 +317,11 @@ void MapEditorTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 			if (ImGui::BeginTabItem(CItemName))
 			{
-				ChangeItemTab(CItemName);
+				if (CurItemTab->TabName != CItemName)
+				{
+					ChangeItemTab(CItemName);
+				}
+
 				CurItemTab->EditoritemTab(_Level, _DeltaTime);
 				SaveTab(_Level, _DeltaTime);
 				LoadTab(_Level, _DeltaTime);
@@ -366,7 +372,7 @@ void MapEditorTab::SaveTab(GameEngineLevel* _Level, float _DeltaTime)
 		}
 	}
 
-	if ("" != SavePath)
+	if (false == SavePath.empty())
 	{
 		ImGui::Text(SavePath.c_str());
 
@@ -480,6 +486,7 @@ void BaseRendererItemTab::TabStart()
 
 	DepthTypes.insert(std::make_pair("DarkGrass", static_cast<int>(ERENDERDEPTH::DarkGrass)));
 	DepthTypes.insert(std::make_pair("DeepDarkGrass", static_cast<int>(ERENDERDEPTH::DeepDarkGrass)));
+	DepthTypes.insert(std::make_pair("Grass", static_cast<int>(ERENDERDEPTH::Grass)));
 	DepthTypes.insert(std::make_pair("Object", static_cast<int>(ERENDERDEPTH::Object)));
 }
 
@@ -517,7 +524,7 @@ void BaseRendererItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTim
 		ImGui::Text("Off");
 	}
 
-	if (SelectSpriteName.empty())
+	if (false == SelectSpriteName.empty())
 	{
 		std::vector<const char*> CNames;
 
@@ -535,14 +542,19 @@ void BaseRendererItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTim
 
 		if (nullptr != EditorLevel->SelectActor)
 		{
-			if (ImGui::SliderFloat("Adjustment Height", &EditorLevel->_RendererHeight, 0.0f, 200.0f, "%.0f"))
+			if (ImGui::SliderFloat2("Renderer Correction", &RendererCorrection.X, -100.0f, 200.0f, "%.0f"))
 			{
-				EditorLevel->SelectActor->m_Renderer->Transform.SetLocalPosition(float4(0.0f, EditorLevel->_RendererHeight));
+				EditorLevel->SelectActor->m_Renderer->Transform.SetLocalPosition(RendererCorrection);
 			}
-			if (ImGui::SliderFloat("Adjustment Weight", &Width, -100.0f, 100.0f, "%.0f"))
-			{
-				EditorLevel->SelectActor->m_Renderer->Transform.SetLocalPosition(float4(Width, 0.0f));
-			}
+
+			//if (ImGui::SliderFloat("Stretch Width", &StretchWidth, 0.0f, 1000.0f, "%.0f"))
+			//{
+			//	EditorLevel->SelectActor->m_Renderer->GetImageTransform().SetLocalScale(float4(StretchWidth, StretchHeight));
+			//}
+			//if (ImGui::SliderFloat("Stretch Height", &StretchHeight, 0.0f, 1000.0f, "%.0f"))
+			//{
+			//	EditorLevel->SelectActor->m_Renderer->GetImageTransform().SetLocalScale(float4(StretchWidth, StretchHeight));
+			//}
 
 			if (true == _Level->IsDebug)
 			{
@@ -590,7 +602,7 @@ void BaseRendererItemTab::LoadItemTab(GameEngineLevel* _Level)
 	File.Open(FileOpenType::Read, FileDataType::Binary);
 	File.DataAllRead(LoadBin);
 
-	std::vector<std::shared_ptr<NormalProp>> ObjectGroup = _Level->GetObjectGroupConvert<NormalProp>(0);
+	std::vector<std::shared_ptr<GroundRenderUnit>> ObjectGroup = _Level->GetObjectGroupConvert<GroundRenderUnit>(0);
 	for (int i = 0; i < ObjectGroup.size(); i++)
 	{
 		ObjectGroup[i]->Death();
@@ -602,7 +614,7 @@ void BaseRendererItemTab::LoadItemTab(GameEngineLevel* _Level)
 
 	for (unsigned int i = 0; i < ActorCount; i++)
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>();
+		std::shared_ptr<GroundRenderUnit> Object = _Level->CreateActor<GroundRenderUnit>();
 		Object->DeSerializer(LoadBin);
 	}
 }
@@ -681,7 +693,7 @@ void PropItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTime)
 		ImGui::Text("Off");
 	}
 
-	if ("" != SelectSpriteName)
+	if (false == SelectSpriteName.empty())
 	{
 		std::vector<const char*> CNames;
 
@@ -720,7 +732,7 @@ void PropItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTime)
 			std::vector<const char*> CNames;
 			CNames.reserve(PixelSpriteNames.size());
 
-			for (std::string SpriteName : PixelSpriteNames)
+			for (const std::string& SpriteName : PixelSpriteNames)
 			{
 				CNames.push_back(SpriteName.c_str());
 			}

@@ -40,6 +40,7 @@ enum class ERENDERDEPTH
 	ObjectShadow,
 	Hole,
 	Cliff,
+	Grass,
 	DeepDarkGrass,
 	DarkGrass,
 	Back_Paint,
