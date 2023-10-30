@@ -3,6 +3,28 @@
 
 #define ELLIE_PORTRAIT { -400.0f , -250.0f }
 
+class ConversationParameter
+{
+public:
+	ConversationParameter(ECONVERSATIONENTITY _Entity, int _FileIndex, std::string_view _Message, std::string_view _FontName)
+		:
+		Entity(_Entity),
+		FileIndex(_FileIndex),
+		Message(_Message),
+		FontName(_FontName)
+	{
+
+	}
+
+public:
+	ECONVERSATIONENTITY Entity;
+	int FileIndex = 0;
+	std::string_view Message;
+	std::string_view FontName;
+
+};
+
+
 
 // Ό³Έν :
 class UI_Conversation : public GameEngineActor
@@ -11,6 +33,7 @@ public:
 	static UI_Conversation* MainConversationUI;
 
 public:
+
 	class PortraitInfo
 	{
 	public:
@@ -35,8 +58,6 @@ public:
 		std::shared_ptr<GameEngineUIRenderer> Virgil_Font;
 		std::string Virgil_Message;
 
-
-
 	};
 
 
@@ -53,11 +74,15 @@ public:
 
 	void Init();
 
+	void StartConversation(std::string_view _NPCSpriteName);
+	void ShowConversation(const ConversationParameter& _Para);
+	void EndConversation();
+
 
 protected:
 	void Start() override {}
-	void Update(float _Delta) override {}
-	void Release() override {}
+	void Update(float _Delta) override;
+	void Release() override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
@@ -66,9 +91,24 @@ protected:
 	void PortraitSetting();
 	void DialogueSetting();
 
+	void Reset();
+
+
+	void SetNPCExpression(int _SpriteIndex);
+	void SetEllieExpression(int _SpriteIndex);
+	void SetVirgilExpression(int _SpriteIndex);
+
+	const unsigned int ReturnEllieIndexToVirgil();
+
+	
+	
+
+
 private:
 	PortraitInfo Portrait;
 	DialogueInfo Dialogue;
+
+	GameEngineState State;
 
 };
 

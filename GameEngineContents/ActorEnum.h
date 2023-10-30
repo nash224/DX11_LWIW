@@ -64,3 +64,13 @@ enum class EMACHINETYPE
 	Roaster,
 
 };
+
+
+
+enum class ECONVERSATIONENTITY
+{
+	NPC,
+	Ellie,
+	Virgil,
+	None,
+};

@@ -59,12 +59,43 @@ void Conversation::StartConversation(int _ConversationType)
 	CurTopic = FindTopic(_ConversationType);
 
 	CurLine = 0;
+
+	if (nullptr == UI_Conversation::MainConversationUI)
+	{
+		MsgBoxAssert("대화 UI가 존재하지 않습니다.");
+		return;
+	}
+
+	UI_Conversation::MainConversationUI->StartConversation(CurTopic->EntitySpriteName);
+
 	ConverseLine();
 }
 
 void Conversation::ConverseLine()
 {
+	if (nullptr == CurTopic)
+	{
+		MsgBoxAssert("주제를 정하지 않았습니다.");
+		return;
+	}
+
+	if (nullptr == UI_Conversation::MainConversationUI)
+	{
+		MsgBoxAssert("대화 UI가 존재하지 않습니다.");
+		return;
+	}
+
+	CurTopic->Data[CurLine].ConversationEntity;
+	CurTopic->Data[CurLine].FileIndex;
 	CurTopic->Data[CurLine].Question;
+	CurTopic->Data[CurLine].Font_LiberationSans;
+
+	UI_Conversation::MainConversationUI->ShowConversation(
+		{ CurTopic->Data[CurLine].ConversationEntity,
+		CurTopic->Data[CurLine].FileIndex,
+		CurTopic->Data[CurLine].Question,
+		CurTopic->Data[CurLine].Font_LiberationSans });
+
 	ConversationBTWEvent();
 }
 

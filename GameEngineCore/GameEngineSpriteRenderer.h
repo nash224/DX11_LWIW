@@ -202,6 +202,8 @@ public:
 		return CurSprite;
 	}
 
+	void ChangeSpriteIndex(int _Index);
+
 	inline unsigned int GetCurIndex() const
 	{
 		return CurFrameAnimations->CurIndex;
