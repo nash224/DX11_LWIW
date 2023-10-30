@@ -7,6 +7,19 @@
 class Dian : public NPCEntity
 {
 public:
+	enum class EDIANTOPICTYPE
+	{
+		Hello,
+		None,
+	};
+
+	enum class EDIANSTATE
+	{
+		Normal,
+		None,
+	};
+
+public:
 	// constrcuter destructer
 	Dian();
 	~Dian();
@@ -18,7 +31,7 @@ public:
 	Dian& operator=(Dian&& _Other) noexcept = delete;
 
 	void Init();
-	void RendererSetting();
+
 	
 
 protected:
@@ -28,12 +41,16 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
+	void RendererSetting();
+	void StateSetting();
+	void ConversationSetting();
+	void NormalUpdate(float _DeltaTime, GameEngineState* _Parent);
+
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> m_Body = nullptr;
 	std::shared_ptr<GameEngineSpriteRenderer> m_Shadow = nullptr;
-
-
-	Conversation m_ConversationInfo;
+	
+	GameEngineState State;
 
 	static constexpr const float RendererYCorrection = 30.0f;
 

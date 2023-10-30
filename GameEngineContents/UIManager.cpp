@@ -6,6 +6,7 @@
 #include "UI_Inventory.h"
 #include "UI_Dictionary.h"
 #include "UI_InterativeMark.h"
+#include "UI_Conversation.h"
 #include "UI_Hub.h"
 
 #include "Ellie.h"
@@ -69,50 +70,22 @@ void UIManager::Init()
 	}
 
 
-	GameEngineLevel* CurLevel = GetLevel();
-	if (nullptr == CurLevel)
-	{
-		MsgBoxAssert("레벨을 불러오지 못했습니다.");
-		return;
-	}
+	
 
-	m_Hub = CurLevel->CreateActor<UI_Hub>(EUPDATEORDER::UIComponent);
-	if (nullptr == m_Hub)
-	{
-		MsgBoxAssert("액터를 생성하지 못했습니다.");
-		return;
-	}
-
+	m_Hub = GetLevel()->CreateActor<UI_Hub>(EUPDATEORDER::UIComponent);
 	m_Hub->Init();
 
-	m_Dictionary = CurLevel->CreateActor<UI_Dictionary>(EUPDATEORDER::UIComponent);
-	if (nullptr == m_Dictionary)
-	{
-		MsgBoxAssert("액터를 생성하지 못했습니다.");
-		return;
-	}
-
+	m_Dictionary = GetLevel()->CreateActor<UI_Dictionary>(EUPDATEORDER::UIComponent);
 	m_Dictionary->Init();
 
-
-	m_Inventory = CurLevel->CreateActor<UI_Inventory>(EUPDATEORDER::UIComponent);
-	if (nullptr == m_Inventory)
-	{
-		MsgBoxAssert("액터를 생성하지 못했습니다.");
-		return;
-	}
-
+	m_Inventory = GetLevel()->CreateActor<UI_Inventory>(EUPDATEORDER::UIComponent);
 	m_Inventory->Init();
 
-
-	m_InteractiveMark = CurLevel->CreateActor<UI_InterativeMark>(EUPDATEORDER::UIComponent);
-	if (nullptr == m_InteractiveMark)
-	{
-		MsgBoxAssert("액터를 생성하지 못했습니다.");
-		return;
-	}
-
+	m_InteractiveMark = GetLevel()->CreateActor<UI_InterativeMark>(EUPDATEORDER::UIComponent);
 	m_InteractiveMark->Init();
+
+	m_ConversationUI = GetLevel()->CreateActor<UI_Conversation>(EUPDATEORDER::UIComponent);
+	m_ConversationUI->Init();
 
 
 	Reset();

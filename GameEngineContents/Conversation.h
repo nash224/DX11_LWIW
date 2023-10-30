@@ -4,7 +4,7 @@ enum class ECONVERSATIONENTITY
 {
 	NPC,
 	Ellie,
-	MagicHat,
+	Virgil,
 	None,
 };
 
@@ -13,7 +13,6 @@ class ConversationData
 {
 public:
 	ConversationData(
-		std::string_view _FileName,
 		std::string_view _Question,
 		ECONVERSATIONENTITY _ConversationEntity,
 		int _FileIndex = 0)
@@ -32,6 +31,11 @@ public:
 	ECONVERSATIONENTITY ConversationEntity = ECONVERSATIONENTITY::None;
 	int FileIndex = 0;
 
+public:
+	static constexpr const char* Font_LiberationSans = "Liberation Sans";
+	static constexpr const char* Font_Sandoll = "Sandoll »ï¸³È£»§Ã¼ TTF Basic";
+	static constexpr const char* Font_PerfectDOS = "Perfect DOS VGA 437";
+
 };
 
 
@@ -41,6 +45,11 @@ public:
 	std::vector<ConversationData> Data;
 	std::function<void()> EndEvent;
 	std::string EntitySpriteName;
+
+public:
+	static constexpr const char* Aurea_Expression_Sprite_Name = "Aurea_Expression.png";
+	static constexpr const char* Crow_Expression_Sprite_Name = "Crow_Expression.png";
+	static constexpr const char* Dian_Expression_Sprite_Name = "Dian_Expression.png";
 
 };
 
@@ -61,9 +70,15 @@ public:
 	Conversation& operator=(const Conversation& _Other) = delete;
 	Conversation& operator=(Conversation&& _Other) noexcept = delete;
 
+	template<typename TopicType>
+	void CreateTopic(TopicType _ConversationType, const Topic& _Topic)
+	{
+		CreateTopic(static_cast<int>(_ConversationType), _Topic);
+	}
+
+	void CreateTopic(int _ConversationType, const Topic& _Topic);
 
 
-	void CreateTopic(int _ConversationType, const std::vector<ConversationData>& _Topic, std::string_view _SpriteName);
 	const std::shared_ptr<Topic> FindTopic(int _ConversationType);
 
 	template<typename EnumType>

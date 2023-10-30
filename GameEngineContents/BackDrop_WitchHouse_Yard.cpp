@@ -101,10 +101,10 @@ void BackDrop_WitchHouse_Yard::TestLightShader()
 	std::shared_ptr<RendererActor> LightActor = GetLevel()->CreateActor<RendererActor>(LightOrder);
 	LightActor->Transform.SetLocalPosition(LightPosition);
 	LightActor->Init();
-	LightActor->m_Renderer->SetMaterial("2DTextureOverlay");
+	LightActor->m_Renderer->SetMaterial("2DTexture_Light");
 	LightActor->m_Renderer->SetSprite("cookie_1.png");
 	LightActor->m_Renderer->GetImageTransform().SetLocalScale(float4(96.0f, 96.0f));
-	LightActor->m_Renderer->GetColorData().MulColor = float4( 0.05f, 0.2f, 0.4f, 0.1f);
+	LightActor->m_Renderer->GetColorData().MulColor = float4( 0.2f, 0.2f, 0.4f);
 
 	//Test2DTextureBelnd
 }

@@ -60,6 +60,7 @@ private:
 	std::shared_ptr<class UI_Inventory> m_Inventory = nullptr;						// 인벤토리
 	std::shared_ptr<class UI_Dictionary> m_Dictionary = nullptr;					// 사전
 	std::shared_ptr<class UI_InterativeMark> m_InteractiveMark = nullptr;			// 마크기능
+	std::shared_ptr<class UI_Conversation> m_ConversationUI = nullptr;
 
 
 private:

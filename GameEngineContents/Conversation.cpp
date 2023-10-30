@@ -3,6 +3,8 @@
 
 #include "Ellie.h"
 #include "UIManager.h"
+#include "UI_Conversation.h"
+
 
 
 Conversation::Conversation()
@@ -12,11 +14,9 @@ Conversation::Conversation()
 
 
 
-void Conversation::CreateTopic(int _ConversationType, const std::vector<ConversationData>& _Topic, std::string_view _SpriteName)
+void Conversation::CreateTopic(int _ConversationType, const Topic& _Topic)
 {
-	std::shared_ptr<Topic> topic = std::make_shared<Topic>();
-	topic->Data = _Topic;
-	topic->EntitySpriteName = _SpriteName;
+	std::shared_ptr<Topic> topic = std::make_shared<Topic>(_Topic);
 
 	Topics.insert(std::make_pair(_ConversationType, topic));
 }
@@ -26,7 +26,7 @@ const std::shared_ptr<Topic> Conversation::FindTopic(int _ConversationType)
 	const std::shared_ptr<Topic>& topic = Topics.find(_ConversationType)->second;
 	if (nullptr == topic)
 	{
-		MsgBoxAssert("존재하지 않는 주제를 반환하려 했습니다.");
+		MsgBoxAssert("존재하지 않는 주제입니다.");
 		return nullptr;
 	}
 
@@ -64,8 +64,6 @@ void Conversation::StartConversation(int _ConversationType)
 
 void Conversation::ConverseLine()
 {
-	// UI
-
 	ConversationBTWEvent();
 }
 
