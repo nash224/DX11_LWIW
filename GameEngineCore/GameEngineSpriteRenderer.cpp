@@ -231,7 +231,7 @@ void GameEngineSpriteRenderer::CreateAnimation(
 	}
 	else
 	{
-		for (unsigned int i = NewAnimation->Start; i <= NewAnimation->End; i++)
+		for (int i = NewAnimation->Start; i <= NewAnimation->End; i++)
 		{
 			NewAnimation->Index.push_back(i);
 		}

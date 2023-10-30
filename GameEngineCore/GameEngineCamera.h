@@ -47,7 +47,7 @@ public:
 		ZoomValue += _Value;
 	}
 
-	bool IsFreeCamera() 
+	bool IsFreeCamera()
 	{
 		return IsFreeCameraValue;
 	}
@@ -76,10 +76,22 @@ public:
 		ZSortMap.insert(static_cast<int>(_SortOrder));
 	}
 
-	void SetZSort(int _SortOrder) 
+	void SetZSort(int _SortOrder)
 	{
 		ZSortMap.insert(_SortOrder);
 	}
+
+	template<typename EnumType>
+	void SetYSort(EnumType _SortOrder)
+	{
+		YSortMap.insert(static_cast<int>(_SortOrder));
+	}
+
+	void SetYSort(int _SortOrder)
+	{
+		YSortMap.insert(_SortOrder);
+	}
+
 
 protected:
 	void Start() override;
@@ -90,7 +102,7 @@ protected:
 
 	void AllReleaseCheck() override;
 
-	
+
 
 
 private:
@@ -117,6 +129,7 @@ private:
 	TransformData OriginData;
 
 	std::set<int> ZSortMap;
+	std::set<int> YSortMap;
 
 	void CameraUpdate(float _DeltaTime);
 };

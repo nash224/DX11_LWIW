@@ -8,11 +8,11 @@
 float GameEngineCamera::FreeRotSpeed = 180.0f;
 float GameEngineCamera::FreeSpeed = 200.0f;
 
-GameEngineCamera::GameEngineCamera() 
+GameEngineCamera::GameEngineCamera()
 {
 }
 
-GameEngineCamera::~GameEngineCamera() 
+GameEngineCamera::~GameEngineCamera()
 {
 }
 
@@ -105,7 +105,7 @@ void GameEngineCamera::Update(float _Delta)
 	{
 		float4 Dir = ScreenMouseDirNormal;
 
-		Transform.AddWorldRotation({ -Dir.Y, -Dir.X});
+		Transform.AddWorldRotation({ -Dir.Y, -Dir.X });
 	}
 
 }
@@ -161,7 +161,15 @@ void GameEngineCamera::Render(float _DeltaTime)
 				});
 		}
 
-		for (std::shared_ptr<class GameEngineRenderer> & Renderer : RendererList)
+		if (true == YSortMap.contains(RendererPair.first))
+		{
+			RendererList.sort([](std::shared_ptr<class GameEngineRenderer> _Left, std::shared_ptr<class GameEngineRenderer> _Right)
+				{
+					return _Left->Transform.GetWorldPosition().Y > _Right->Transform.GetWorldPosition().Y;
+				});
+		}
+
+		for (std::shared_ptr<class GameEngineRenderer>& Renderer : RendererList)
 		{
 			if (false == Renderer->IsUpdate())
 			{
@@ -207,7 +215,7 @@ float4 GameEngineCamera::GetWorldMousePos2D()
 {
 	// 월드라고 하는 세상은 화면과 관련이 없었다.
 	// 그런데 관련있게 됐다.
-	
+
 	// 나누기
 	// 로컬 => 월드(크자이공부) => 뷰 => 프로젝션 => 뷰포트(스크린좌표)
 
