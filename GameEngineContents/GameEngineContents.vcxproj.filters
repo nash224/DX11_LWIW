@@ -779,5 +779,8 @@
     <ClCompile Include="UI_Conversation.cpp">
       <Filter>2.Object\2.Actor\0.Manager\ConversationManager</Filter>
     </ClCompile>
+    <ClCompile Include="UI_Conversation_Setting.cpp">
+      <Filter>2.Object\2.Actor\0.Manager\ConversationManager</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -111,7 +111,4 @@ private:
 
 	int CurLine = 0;
 
-	float ConversationTime = 0.0f;
-	static constexpr const float Interaction_Cooldown = 0.3f;
-
 };

@@ -75,9 +75,10 @@ public:
 
 		std::string FontName;
 		int OutputCount = 0;
+		bool isOutPutMessage = false;
 
 	public:
-		static constexpr const float Virgil_Dialogue_Animation_Inter = 0.2f;
+		static constexpr const float Virgil_Dialogue_Animation_Inter = 0.16f;
 		
 		static constexpr const float FontSize = 19.0f;
 
@@ -85,21 +86,28 @@ public:
 		const float4 RedColor = float4(0.8f, 0.0f, 0.0f, 1.0f);
 
 		const float4 Main_Dialogue_1th_Line_Position = float4(-164.0f, -174.0f);
+		const float4 Virgil_Dialogue_1th_Line_Position = float4(-460.0f, 90.0f);
+
 
 		const float4 Virgil_Dialogue_Position = float4(-360.0f, 70.0f);
 
 
-		static constexpr const unsigned int Main_Message_Max_Line_String_Count = 11;
+		static constexpr const unsigned int Main_Message_Max_Line_String_Count = 22;
+		static constexpr const unsigned int Virgil_Message_Max_Line_String_Count = 15;
 		static constexpr const float Over_Message_Line_Y_Distance = 6.0f;
 
 
 		static constexpr const float Message_Output_Once_Inter = 0.1f;
+
+		static constexpr const int Skip_Able_Count = 1;
+
 
 	};
 
 	enum class EUICONERSATIONSTATE
 	{
 		Output,
+		VirgilOutput,
 		Done,
 		None,
 	};
@@ -122,9 +130,11 @@ public:
 	void ShowConversation(const ConversationParameter& _Para);
 	void EndConversation();
 
+	bool IsConversation();
+
 
 protected:
-	void Start() override {}
+	void Start() override;
 	void Update(float _Delta) override;
 	void Release() override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
@@ -139,9 +149,14 @@ protected:
 
 	void StartDoneState(GameEngineState* _Parent);
 	void StartOutputState(GameEngineState* _Parent);
+	void StartVirgilOutputState(GameEngineState* _Parent);
 
 	void UpdateDoneState(float _Delta, GameEngineState* _Parent);
 	void UpdateOutputState(float _Delta, GameEngineState* _Parent);
+	void UpdateVirgilOutputtState(float _Delta, GameEngineState* _Parent);
+
+	void EndVirgilOutputState(GameEngineState* _Parent);
+	void EndOutputState(GameEngineState* _Parent);
 
 	void Reset();
 	void ResetVirgil();
@@ -156,8 +171,8 @@ protected:
 	void SetVirgilMessage();
 
 
-	void Place2thLinePosition();
-	void Place1thLinePosition();
+	float4 Place2thLinePosition(const float4& _LinePosition);
+	float4 Place1thLinePosition(const float4& _LinePosition);
 	float4 Calculate2thLinePosition(const float4& _MessagePosition);
 
 	const unsigned int ReturnVirgilIndexToEllie(unsigned int _Index);

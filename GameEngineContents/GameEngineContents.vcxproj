@@ -454,6 +454,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="UI_Conversation_Setting.cpp" />
     <ClCompile Include="UI_Dictionary.cpp">
       <SubType>
       </SubType>

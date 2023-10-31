@@ -162,14 +162,8 @@ void Conversation::UpdateConversation(float _Delta)
 		return;
 	}
 
-	ConversationTime += _Delta;
-
-	if (ConversationTime > Interaction_Cooldown)
+	if (false == UI_Conversation::MainConversationUI->IsConversation() && true == GameEngineInput::IsDown('Z', this))
 	{
-		if (true == GameEngineInput::IsDown('Z', this))
-		{
-			NextConversationLine();
-			ConversationTime = 0.0f;
-		}
+		NextConversationLine();
 	}
 }
