@@ -14,7 +14,7 @@ UI_Conversation::~UI_Conversation()
 
 void UI_Conversation::Update(float _Delta)
 {
-
+	State.Update(_Delta);
 }
 
 void UI_Conversation::Release()
@@ -51,6 +51,7 @@ void UI_Conversation::Init()
 	MainConversationUI = this;
 
 	RendererSetting();
+	StateSetting();
 }
 
 
@@ -139,7 +140,7 @@ void UI_Conversation::DialogueSetting()
 	static constexpr const float Main_DialogueYPos = -185.0f;
 	static constexpr const float Main_Dialogue_Cursor_YPos = -238.0f;
 
-	float4 MessagePos = float4(-174.0f, -147.0f);
+	float4 MessagePos = Dialogue.Main_Dialogue_1th_Line_Position;
 
 	const float FrameDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Conversation_Frame);
 	const float TailDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Conversation_Tail);
@@ -193,6 +194,58 @@ void UI_Conversation::DialogueSetting()
 	Dialogue.Virgil_Font = CreateComponent<GameEngineUIRenderer>(DialogueRenderOrder);
 	Dialogue.Virgil_Font->Transform.SetLocalPosition(float4(0.0f, Main_DialogueYPos, MessageDepth));
 	Dialogue.Virgil_Font->Off();
+}
+
+void UI_Conversation::StateSetting()
+{
+	CreateStateParameter DoneState;
+	DoneState.Start = std::bind(&UI_Conversation::StartDoneState, this, std::placeholders::_1);
+	DoneState.Stay = std::bind(&UI_Conversation::UpdateDoneState, this, std::placeholders::_1, std::placeholders::_2);
+	State.CreateState(EUICONERSATIONSTATE::Done, DoneState);
+
+	CreateStateParameter OutputState;
+	OutputState.Start = std::bind(&UI_Conversation::StartOutputState, this, std::placeholders::_1);
+	OutputState.Stay = std::bind(&UI_Conversation::UpdateOutputState, this, std::placeholders::_1, std::placeholders::_2);
+	State.CreateState(EUICONERSATIONSTATE::Output, OutputState);
+}
+
+void UI_Conversation::StartDoneState(GameEngineState* _Parent)
+{
+	Dialogue.OutputCount = 0;
+	Dialogue.Main_Message_Output.clear();
+}
+
+void UI_Conversation::StartOutputState(GameEngineState* _Parent)
+{
+	Dialogue.Main_Font->SetText(Dialogue.FontName, Dialogue.Main_Message_Output, Dialogue.FontSize, Dialogue.DefaultColor);
+}
+
+void UI_Conversation::UpdateDoneState(float _Delta, GameEngineState* _Parent)
+{
+	int a = 0;
+}
+
+void UI_Conversation::UpdateOutputState(float _Delta, GameEngineState* _Parent)
+{
+	m_State += _Delta;
+	if (m_State > Dialogue.Message_Output_Once_Inter)
+	{
+		m_State -= Dialogue.Message_Output_Once_Inter;
+
+		const int MessageSize = static_cast<int>(Dialogue.Main_Message.size() + 1);
+		bool isDoneOutput = (Dialogue.OutputCount >= MessageSize);
+		if (isDoneOutput)
+		{
+			State.ChangeState(EUICONERSATIONSTATE::Done);
+			return;
+		}
+
+		std::wstring PrintMessage = Dialogue.Main_Message.substr(0, Dialogue.OutputCount);
+		Dialogue.Main_Message_Output = GameEngineString::UnicodeToAnsi(PrintMessage);
+		Dialogue.Main_Font->SetText(Dialogue.FontName, Dialogue.Main_Message_Output, Dialogue.FontSize, Dialogue.DefaultColor);
+
+		Dialogue.OutputCount += 1;
+	}
 }
 
 
@@ -270,6 +323,8 @@ void UI_Conversation::StartConversation(std::string_view _NPCSpriteName)
 
 void UI_Conversation::ShowConversation(const ConversationParameter& _Para)
 {
+	Dialogue.FontName = _Para.FontName;
+
 	bool VirgilNotConverse = (ECONVERSATIONENTITY::Virgil != _Para.Entity);
 	if (true == isJustVirgilTalked && VirgilNotConverse)
 	{
@@ -282,23 +337,25 @@ void UI_Conversation::ShowConversation(const ConversationParameter& _Para)
 	case ECONVERSATIONENTITY::NPC:
 		SetNPCExpression(_Para.FileIndex);
 		Dialogue.Main_Message = _Para.Message;
-		SetMainMessage(_Para.FontName);
+		SetMainMessage();
 		SetRightTail();
 		break;
 	case ECONVERSATIONENTITY::Ellie:
 		SetEllieExpression(_Para.FileIndex);
 		Dialogue.Main_Message = _Para.Message;
-		SetMainMessage(_Para.FontName);
+		SetMainMessage();
 		SetLeftTail();
 		break;
 	case ECONVERSATIONENTITY::Virgil:
 		SetVirgilExpression(_Para.FileIndex);
 		Dialogue.Virgil_Message = _Para.Message;
-		SetVirgilMessage(_Para.FontName);
+		SetVirgilMessage();
 		break;
 	default:
 		break;
 	}
+
+	State.ChangeState(EUICONERSATIONSTATE::Output);
 }
 
 void UI_Conversation::EndConversation()
@@ -374,7 +431,7 @@ void UI_Conversation::SetAllExpressionBlack()
 }
 
 
-void UI_Conversation::SetMainMessage(std::string_view _FontName)
+void UI_Conversation::SetMainMessage()
 {
 	if (nullptr == Dialogue.Main_Font)
 	{
@@ -382,13 +439,23 @@ void UI_Conversation::SetMainMessage(std::string_view _FontName)
 		return;
 	}
 
-	Dialogue.Main_Message_Output = ConvertWstirngToString(Dialogue.Main_Message.data());
+	bool isMessageOverLineStringCount = (Dialogue.Main_Message.size() > Dialogue.Main_Message_Max_Line_String_Count);
+	if (isMessageOverLineStringCount)
+	{
+		Place2thLinePosition();
 
-	Dialogue.Main_Font->SetText(_FontName.data(), Dialogue.Main_Message_Output, Dialogue.FontSize, Dialogue.DefaultColor);
+		const unsigned int InputLineNumber = Dialogue.Main_Message_Max_Line_String_Count * 2;
+		Dialogue.Main_Message.insert(InputLineNumber, L"\n");
+	}
+	else
+	{
+		Place1thLinePosition();
+	}
+
 	Dialogue.Main_Font->On();
 }
 
-void UI_Conversation::SetVirgilMessage(std::string_view _FontName)
+void UI_Conversation::SetVirgilMessage()
 {
 	if (nullptr == Dialogue.Virgil_Font)
 	{
@@ -400,21 +467,32 @@ void UI_Conversation::SetVirgilMessage(std::string_view _FontName)
 	Dialogue.Virgil_Dialogue->On();
 
 
-	Dialogue.Virgil_Message_Output = ConvertWstirngToString(Dialogue.Virgil_Message.data());
-
-	Dialogue.Virgil_Font->SetText(_FontName.data(), Dialogue.Virgil_Message_Output, Dialogue.FontSize, Dialogue.DefaultColor);
+	/*Dialogue.Virgil_Font->SetText(_FontName.data(), Dialogue.Virgil_Message_Output, Dialogue.FontSize, Dialogue.DefaultColor);*/
 	Dialogue.Virgil_Font->On();
 }
 
-std::string UI_Conversation::ConvertWstirngToString(std::wstring_view _wMessage)
-{
-	if (true == Dialogue.Main_Message.empty())
-	{
-		return std::string();
-	}
 
-	return GameEngineString::UnicodeToAnsi(Dialogue.Main_Message.data());
+void UI_Conversation::Place1thLinePosition()
+{
+	float4 Message1thLinePosition = Dialogue.Main_Dialogue_1th_Line_Position;
+	Message1thLinePosition.Z = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Conversation_Message);
+	Dialogue.Main_Font->Transform.SetLocalPosition(Message1thLinePosition);
 }
+
+void UI_Conversation::Place2thLinePosition()
+{
+	float4 Message2thLinePosition = Calculate2thLinePosition(Dialogue.Main_Dialogue_1th_Line_Position);
+	Dialogue.Main_Font->Transform.SetLocalPosition(Message2thLinePosition);
+}
+
+float4 UI_Conversation::Calculate2thLinePosition(const float4& _MessagePosition)
+{
+	float4 MessagePosition = _MessagePosition;
+	MessagePosition.Y += Dialogue.Over_Message_Line_Y_Distance;
+	MessagePosition.Z = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Conversation_Message);
+	return MessagePosition;
+}
+
 
 const unsigned int UI_Conversation::ReturnVirgilIndexToEllie(unsigned int _Index)
 {

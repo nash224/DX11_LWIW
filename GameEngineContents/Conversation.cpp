@@ -89,7 +89,7 @@ void Conversation::ConverseLine()
 		{ Data.ConversationEntity,
 		Data.FileIndex,
 		Data.Question,
-		Data.Font_LiberationSans });
+		Data.Font });
 
 	ConversationBTWEvent();
 }

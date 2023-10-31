@@ -73,19 +73,35 @@ public:
 		std::wstring Virgil_Message;
 		std::string Virgil_Message_Output;
 
+		std::string FontName;
+		int OutputCount = 0;
+
 	public:
-		static constexpr const float Virgil_Dialogue_Animation_Inter = 0.24f;
+		static constexpr const float Virgil_Dialogue_Animation_Inter = 0.2f;
 		
-		static constexpr const float FontSize = 17.0f;
+		static constexpr const float FontSize = 19.0f;
 
 		const float4 DefaultColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
 		const float4 RedColor = float4(0.8f, 0.0f, 0.0f, 1.0f);
 
+		const float4 Main_Dialogue_1th_Line_Position = float4(-164.0f, -174.0f);
+
 		const float4 Virgil_Dialogue_Position = float4(-360.0f, 70.0f);
 
 
-		static constexpr const unsigned int Main_Message_Max_Line_String_Count = 12;
+		static constexpr const unsigned int Main_Message_Max_Line_String_Count = 11;
+		static constexpr const float Over_Message_Line_Y_Distance = 6.0f;
 
+
+		static constexpr const float Message_Output_Once_Inter = 0.1f;
+
+	};
+
+	enum class EUICONERSATIONSTATE
+	{
+		Output,
+		Done,
+		None,
 	};
 
 
@@ -119,6 +135,14 @@ protected:
 	void PortraitSetting();
 	void DialogueSetting();
 
+	void StateSetting();
+
+	void StartDoneState(GameEngineState* _Parent);
+	void StartOutputState(GameEngineState* _Parent);
+
+	void UpdateDoneState(float _Delta, GameEngineState* _Parent);
+	void UpdateOutputState(float _Delta, GameEngineState* _Parent);
+
 	void Reset();
 	void ResetVirgil();
 
@@ -128,10 +152,13 @@ protected:
 	void SetVirgilExpression(unsigned int _SpriteIndex);
 	void SetAllExpressionBlack();
 
-	void SetMainMessage(std::string_view _FontName);
-	void SetVirgilMessage(std::string_view _FontName);
+	void SetMainMessage();
+	void SetVirgilMessage();
 
-	std::string ConvertWstirngToString(std::wstring_view _wMessage);
+
+	void Place2thLinePosition();
+	void Place1thLinePosition();
+	float4 Calculate2thLinePosition(const float4& _MessagePosition);
 
 	const unsigned int ReturnVirgilIndexToEllie(unsigned int _Index);
 
@@ -149,6 +176,7 @@ private:
 	DialogueInfo Dialogue;
 
 	GameEngineState State;
+	float m_State = 0.0f;
 
 	bool isJustVirgilTalked = false;
 

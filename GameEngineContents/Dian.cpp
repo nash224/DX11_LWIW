@@ -59,7 +59,7 @@ void Dian::ConversationSetting()
 	HelloTopic.Data =
 	{
 		{ L"안녕하세요" , ECONVERSATIONENTITY::NPC , 2},
-		{ L"반갑습니다" , ECONVERSATIONENTITY::Ellie , 5},
+		{ L"반갑습니다니다니다니다니 다니다니 다니다니다니다다니다니다 다니다니다다니다니다" , ECONVERSATIONENTITY::Ellie , 5},
 		{ L"반갑습니다" , ECONVERSATIONENTITY::NPC , 2},
 		{ L"반갑습니다" , ECONVERSATIONENTITY::Ellie , 3},
 		{ L"반갑습니다" , ECONVERSATIONENTITY::Ellie , 8},

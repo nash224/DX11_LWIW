@@ -7,9 +7,11 @@ public:
 	ConversationData(
 		std::wstring_view _Question,
 		ECONVERSATIONENTITY _ConversationEntity,
-		int _FileIndex = 0)
+		int _FileIndex = 0,
+		std::string_view _Font = Font_Sandoll)
 		:
 		Question(_Question),
+		Font(_Font),
 		ConversationEntity(_ConversationEntity),
 		FileIndex(_FileIndex)
 	{
@@ -18,10 +20,11 @@ public:
 
 
 public:
-	std::function<void()> Event;
-	std::wstring Question;
 	ECONVERSATIONENTITY ConversationEntity = ECONVERSATIONENTITY::None;
 	int FileIndex = 0;
+	std::wstring Question;
+	std::string Font;
+	std::function<void()> Event;
 
 public:
 	static constexpr const char* Font_LiberationSans = "Liberation Sans";
