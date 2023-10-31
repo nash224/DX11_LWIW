@@ -6,10 +6,14 @@
 class ConversationParameter
 {
 public:
-	ConversationParameter(ECONVERSATIONENTITY _Entity, int _FileIndex, std::string_view _Message, std::string_view _FontName)
+	ConversationParameter(
+		ECONVERSATIONENTITY _Entity, 
+		int _FileIndex, 
+		std::string_view _Message, 
+		std::string_view _FontName)
 		:
-		Entity(_Entity),
 		FileIndex(_FileIndex),
+		Entity(_Entity),
 		Message(_Message),
 		FontName(_FontName)
 	{
@@ -17,8 +21,8 @@ public:
 	}
 
 public:
-	ECONVERSATIONENTITY Entity;
 	int FileIndex = 0;
+	ECONVERSATIONENTITY Entity;
 	std::string_view Message;
 	std::string_view FontName;
 
@@ -40,6 +44,13 @@ public:
 		std::shared_ptr<GameEngineUIRenderer> Ellie;
 		std::shared_ptr<GameEngineUIRenderer> Virgil;
 		std::shared_ptr<GameEngineUIRenderer> Other;
+
+		unsigned int VirgilIndex = 0;
+		static constexpr const int Ellie_Portrait_Default_Index = 1;
+
+	public:
+		const float4 UnsaidColor = float4(0.3f, 0.3f, 0.3f, 1.0f);
+		const float4 SayingColor = float4::ONE;
 
 	};
 
@@ -96,18 +107,23 @@ protected:
 	void DialogueSetting();
 
 	void Reset();
+	void ResetVirgil();
 
 
 	void SetNPCExpression(unsigned int _SpriteIndex);
 	void SetEllieExpression(unsigned int _SpriteIndex);
 	void SetVirgilExpression(unsigned int _SpriteIndex);
+	void SetAllExpressionBlack();
 
 	void SetMainMessage(std::string_view _FontName);
 	void SetVirgilMessage(std::string_view _FontName);
 
 	const unsigned int ReturnVirgilIndexToEllie(unsigned int _Index);
 
-	
+	void SetRightTail();
+	void SetLeftTail();
+	void ResetAllTail();
+
 	
 
 

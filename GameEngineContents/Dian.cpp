@@ -53,11 +53,13 @@ void Dian::LevelEnd(class GameEngineLevel* _NextLevel)
 void Dian::ConversationSetting()
 {
 	Topic HelloTopic;
+	HelloTopic.EntitySpriteName = HelloTopic.Dian_Expression_Sprite_Name;
+
 	HelloTopic.Data.reserve(64);
 	HelloTopic.Data =
 	{
-		{ "æ»≥Á«œººø‰" , ECONVERSATIONENTITY::NPC },
-		{ "π›∞©Ω¿¥œ¥Ÿ" , ECONVERSATIONENTITY::Ellie },
+		{ "æ»≥Á«œººø‰" , ECONVERSATIONENTITY::NPC , 2},
+		{ "π›∞©Ω¿¥œ¥Ÿ" , ECONVERSATIONENTITY::Ellie , 5},
 		{ "§æ§∑" , ECONVERSATIONENTITY::Virgil }
 	};
 

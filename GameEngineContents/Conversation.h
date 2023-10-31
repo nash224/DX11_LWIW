@@ -1,13 +1,5 @@
 #pragma once
 
-enum class ECONVERSATIONENTITY
-{
-	NPC,
-	Ellie,
-	Virgil,
-	None,
-};
-
 
 class ConversationData
 {

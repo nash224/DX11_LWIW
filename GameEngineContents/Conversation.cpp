@@ -105,15 +105,15 @@ void Conversation::NextConversationLine()
 
 	++CurLine;
 
-	ConverseLine();
-
-	bool isLast = (CurLine == static_cast<int>(Data.size() - 1));
+	bool isLast = (CurLine == static_cast<int>(Data.size()));
 	if (isLast)
 	{
 		EndConversationEvent();
 		EndConversation();
 		return;
 	}
+
+	ConverseLine();
 }
 
 void Conversation::ConversationBTWEvent()
@@ -140,7 +140,16 @@ void Conversation::EndConversation()
 		return;
 	}
 
+	if (nullptr == UI_Conversation::MainConversationUI)
+	{
+		MsgBoxAssert("대화 UI가 존재하지 않습니다.");
+		return;
+	}
+
+
 	UIManager::MainUIManager->DoneUIComponent();
+
+	UI_Conversation::MainConversationUI->EndConversation();
 
 	CurTopic = nullptr;
 }
