@@ -93,7 +93,6 @@ public:
 		SetConversationEndEvent(static_cast<int>(_Topic), _Function);
 	}
 
-
 	void SetConversationEndEvent(int _Topic, std::function<void()> _Function);
 
 

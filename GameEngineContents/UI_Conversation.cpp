@@ -83,8 +83,6 @@ void UI_Conversation::StateSetting()
 void UI_Conversation::StartDoneState(GameEngineState* _Parent)
 {
 	Dialogue.OutputCount = 0;
-	Dialogue.Main_Message_Output.clear();
-	Dialogue.Virgil_Message_Output.clear();
 
 	Dialogue.isOutPutMessage = false;
 }
@@ -105,7 +103,7 @@ void UI_Conversation::StartOutputState(GameEngineState* _Parent)
 
 	Dialogue.Main_Cursor->Off();
 
-	Dialogue.Main_Font->SetText(Dialogue.FontName, Dialogue.Main_Message_Output, Dialogue.FontSize, Dialogue.FontColor);
+	Dialogue.Main_Font->SetText(Dialogue.FontName, std::string(), Dialogue.FontSize, Dialogue.FontColor);
 
 	Dialogue.isOutPutMessage = true;
 }
@@ -126,7 +124,7 @@ void UI_Conversation::StartVirgilOutputState(GameEngineState* _Parent)
 
 	Dialogue.Virgil_Cursor->Off();
 
-	Dialogue.Virgil_Font->SetText(Dialogue.FontName, Dialogue.Virgil_Message_Output, Dialogue.FontSize, Dialogue.FontColor);
+	Dialogue.Virgil_Font->SetText(Dialogue.FontName, std::string(), Dialogue.FontSize, Dialogue.FontColor);
 
 	Dialogue.isOutPutMessage = true;
 }
@@ -136,8 +134,8 @@ void UI_Conversation::UpdateOutputState(float _Delta, GameEngineState* _Parent)
 	bool isSkip = (Dialogue.OutputCount > Dialogue.Skip_Able_Count && true == GameEngineInput::IsDown('Z', this));
 	if (isSkip)
 	{
-		Dialogue.Main_Message_Output = GameEngineString::UnicodeToAnsi(Dialogue.Main_Message);
-		Dialogue.Main_Font->SetText(Dialogue.FontName, Dialogue.Main_Message_Output, Dialogue.FontSize, Dialogue.FontColor);
+		std::string OutPutMessage = GameEngineString::UnicodeToAnsi(Dialogue.Main_Message);
+		Dialogue.Main_Font->SetText(Dialogue.FontName, OutPutMessage, Dialogue.FontSize, Dialogue.FontColor);
 
 		State.ChangeState(EUICONERSATIONSTATE::Done);
 
@@ -169,8 +167,8 @@ void UI_Conversation::UpdateOutputState(float _Delta, GameEngineState* _Parent)
 		}
 
 		std::wstring PrintMessage = Dialogue.Main_Message.substr(0, Dialogue.OutputCount);
-		Dialogue.Main_Message_Output = GameEngineString::UnicodeToAnsi(PrintMessage);
-		Dialogue.Main_Font->SetText(Dialogue.FontName, Dialogue.Main_Message_Output, Dialogue.FontSize, Dialogue.FontColor);
+		std::string OutPutMessage = GameEngineString::UnicodeToAnsi(PrintMessage);
+		Dialogue.Main_Font->SetText(Dialogue.FontName, OutPutMessage, Dialogue.FontSize, Dialogue.FontColor);
 
 		++Dialogue.OutputCount;
 	}
@@ -181,8 +179,8 @@ void UI_Conversation::UpdateVirgilOutputtState(float _Delta, GameEngineState* _P
 	bool isSkip = (Dialogue.OutputCount > 2 && true == GameEngineInput::IsDown('Z', this));
 	if (isSkip)
 	{
-		Dialogue.Virgil_Message_Output = GameEngineString::UnicodeToAnsi(Dialogue.Virgil_Message);
-		Dialogue.Virgil_Font->SetText(Dialogue.FontName, Dialogue.Virgil_Message_Output, Dialogue.FontSize, Dialogue.FontColor);
+		std::string OutPutMessage = GameEngineString::UnicodeToAnsi(Dialogue.Virgil_Message);
+		Dialogue.Virgil_Font->SetText(Dialogue.FontName, OutPutMessage, Dialogue.FontSize, Dialogue.FontColor);
 
 		State.ChangeState(EUICONERSATIONSTATE::Done);
 
@@ -213,8 +211,8 @@ void UI_Conversation::UpdateVirgilOutputtState(float _Delta, GameEngineState* _P
 		}
 
 		std::wstring PrintMessage = Dialogue.Virgil_Message.substr(0, Dialogue.OutputCount);
-		Dialogue.Virgil_Message_Output = GameEngineString::UnicodeToAnsi(PrintMessage);
-		Dialogue.Virgil_Font->SetText(Dialogue.FontName, Dialogue.Virgil_Message_Output, Dialogue.FontSize, Dialogue.FontColor);
+		std::string OutPutMessage = GameEngineString::UnicodeToAnsi(PrintMessage);
+		Dialogue.Virgil_Font->SetText(Dialogue.FontName, OutPutMessage, Dialogue.FontSize, Dialogue.FontColor);
 
 		++Dialogue.OutputCount;
 	}

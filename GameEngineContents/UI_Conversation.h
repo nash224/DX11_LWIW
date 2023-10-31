@@ -41,13 +41,11 @@ public:
 		std::shared_ptr<GameEngineUIRenderer> Main_Cursor;
 		std::shared_ptr<GameEngineUIRenderer> Main_Font;
 		std::wstring Main_Message;
-		std::string Main_Message_Output;
 
 		std::shared_ptr<GameEngineUIRenderer> Virgil_Dialogue;
 		std::shared_ptr<GameEngineUIRenderer> Virgil_Cursor;
 		std::shared_ptr<GameEngineUIRenderer> Virgil_Font;
 		std::wstring Virgil_Message;
-		std::string Virgil_Message_Output;
 
 		std::string FontName;
 		float4 FontColor;
