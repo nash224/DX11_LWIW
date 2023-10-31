@@ -46,8 +46,10 @@ public:
 		std::shared_ptr<GameEngineUIRenderer> Virgil;
 		std::shared_ptr<GameEngineUIRenderer> Other;
 
-	public:
+		int Default_Index = 0;
 		unsigned int VirgilIndex = 0;
+
+	public:
 		static constexpr const int Ellie_Portrait_Default_Index = 1;
 		static constexpr const float Portrait_Default_X_Gap = 360.0f;
 
@@ -78,7 +80,7 @@ public:
 		bool isOutPutMessage = false;
 
 	public:
-		static constexpr const float Virgil_Dialogue_Animation_Inter = 0.16f;
+		static constexpr const float Virgil_Dialogue_Animation_Inter = 0.12f;
 		
 		static constexpr const float FontSize = 18.0f;
 
@@ -126,7 +128,7 @@ public:
 
 	void Init();
 
-	void StartConversation(std::string_view _NPCSpriteName);
+	void StartConversation(std::string_view _NPCSpriteName, int _Default_Sprite_Index = -1);
 	void ShowConversation(const ConversationParameter& _Para);
 	void EndConversation();
 
@@ -151,16 +153,16 @@ protected:
 	void StartOutputState(GameEngineState* _Parent);
 	void StartVirgilOutputState(GameEngineState* _Parent);
 
-	void UpdateDoneState(float _Delta, GameEngineState* _Parent);
 	void UpdateOutputState(float _Delta, GameEngineState* _Parent);
 	void UpdateVirgilOutputtState(float _Delta, GameEngineState* _Parent);
 
-	void EndVirgilOutputState(GameEngineState* _Parent);
 	void EndOutputState(GameEngineState* _Parent);
+	void EndVirgilOutputState(GameEngineState* _Parent);
 
 	void Reset();
 	void ResetVirgil();
 
+	void NPCDefaultIndexSetting();
 
 	void SetNPCExpression(unsigned int _SpriteIndex);
 	void SetEllieExpression(unsigned int _SpriteIndex);

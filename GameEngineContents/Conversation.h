@@ -42,6 +42,8 @@ public:
 	std::vector<ConversationData> Data;
 	std::function<void()> EndEvent;
 	std::string EntitySpriteName;
+	
+	int Default_Npc_Sprite_Index = -1;
 
 public:
 	static constexpr const char* Aurea_Expression_Sprite_Name = "Aurea_Expression.png";

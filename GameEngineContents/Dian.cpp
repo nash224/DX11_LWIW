@@ -54,6 +54,7 @@ void Dian::ConversationSetting()
 {
 	Topic CrowTopic;
 	CrowTopic.EntitySpriteName = CrowTopic.Crow_Expression_Sprite_Name;
+	CrowTopic.Default_Npc_Sprite_Index = 0;
 
 	CrowTopic.Data.reserve(64);
 	CrowTopic.Data =
@@ -92,6 +93,7 @@ void Dian::ConversationSetting()
 		{ L"주변을 둘러보자." , ECONVERSATIONENTITY::Virgil, 5,CrowTopic.Color_BLACK, CrowTopic.Font_JejuHanlasan },
 	};
 
+	
 	CrowTopic.Data.shrink_to_fit();
 	m_ConversationInfo.CreateTopic(EDIANTOPICTYPE::Crow, CrowTopic);
 

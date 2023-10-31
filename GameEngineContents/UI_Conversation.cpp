@@ -64,7 +64,6 @@ void UI_Conversation::StateSetting()
 {
 	CreateStateParameter DoneState;
 	DoneState.Start = std::bind(&UI_Conversation::StartDoneState, this, std::placeholders::_1);
-	DoneState.Stay = std::bind(&UI_Conversation::UpdateDoneState, this, std::placeholders::_1, std::placeholders::_2);
 	State.CreateState(EUICONERSATIONSTATE::Done, DoneState);
 
 	CreateStateParameter OutputState;
@@ -131,12 +130,6 @@ void UI_Conversation::StartVirgilOutputState(GameEngineState* _Parent)
 	Dialogue.isOutPutMessage = true;
 }
 
-
-void UI_Conversation::UpdateDoneState(float _Delta, GameEngineState* _Parent)
-{
-	int a = 0;
-}
-
 void UI_Conversation::UpdateOutputState(float _Delta, GameEngineState* _Parent)
 {
 	bool isSkip = (Dialogue.OutputCount > Dialogue.Skip_Able_Count && true == GameEngineInput::IsDown('Z', this));
@@ -197,24 +190,13 @@ void UI_Conversation::UpdateVirgilOutputtState(float _Delta, GameEngineState* _P
 			return;
 		}
 
+
 		std::wstring PrintMessage = Dialogue.Virgil_Message.substr(0, Dialogue.OutputCount);
 		Dialogue.Virgil_Message_Output = GameEngineString::UnicodeToAnsi(PrintMessage);
 		Dialogue.Virgil_Font->SetText(Dialogue.FontName, Dialogue.Virgil_Message_Output, Dialogue.FontSize, Dialogue.DefaultColor);
 
 		++Dialogue.OutputCount;
 	}
-}
-
-
-void UI_Conversation::EndVirgilOutputState(GameEngineState* _Parent)
-{
-	if (nullptr == Dialogue.Virgil_Cursor)
-	{
-		MsgBoxAssert("생성되지 않은 컴포넌트를 사용하려 했습니다.");
-		return;
-	}
-
-	Dialogue.Virgil_Cursor->On();
 }
 
 void UI_Conversation::EndOutputState(GameEngineState* _Parent)
@@ -228,12 +210,35 @@ void UI_Conversation::EndOutputState(GameEngineState* _Parent)
 	Dialogue.Main_Cursor->On();
 }
 
+void UI_Conversation::EndVirgilOutputState(GameEngineState* _Parent)
+{
+	if (nullptr == Dialogue.Virgil_Cursor)
+	{
+		MsgBoxAssert("생성되지 않은 컴포넌트를 사용하려 했습니다.");
+		return;
+	}
+
+	Dialogue.Virgil_Cursor->On();
+}
+
+void UI_Conversation::EndConversation()
+{
+	Reset();
+}
+
+bool UI_Conversation::IsConversation()
+{
+	return Dialogue.isOutPutMessage;
+}
+
 
 void UI_Conversation::Reset()
 {
 	Portrait.Ellie->Off();
 	Portrait.Other->Off();
 	Portrait.Virgil->Off();
+
+	Portrait.Default_Index = 0;
 
 	const int Virgil_Default_Index = ReturnVirgilIndexToEllie(Portrait.Ellie_Portrait_Default_Index);
 
@@ -260,7 +265,7 @@ void UI_Conversation::ResetVirgil()
 }
 
 
-void UI_Conversation::StartConversation(std::string_view _NPCSpriteName)
+void UI_Conversation::StartConversation(std::string_view _NPCSpriteName, int _Default_Sprite_Index)
 {
 	if (nullptr == Portrait.Other)
 	{
@@ -298,6 +303,17 @@ void UI_Conversation::StartConversation(std::string_view _NPCSpriteName)
 	Portrait.Virgil->ChangeCurSprite(Virgil_Default_Index);
 	Portrait.Other->SetSprite(_NPCSpriteName);
 
+	bool isDeaultIndexSetting = (-1 != Portrait.Default_Index);
+	if (isDeaultIndexSetting)
+	{
+		Portrait.Default_Index = _Default_Sprite_Index;
+	}
+	else
+	{
+		Portrait.Default_Index = -1;
+	}
+	
+
 	Dialogue.Main_Dialogue->On();
 }
 
@@ -311,6 +327,8 @@ void UI_Conversation::ShowConversation(const ConversationParameter& _Para)
 		LoseSpeechControlVirgil();
 		isJustVirgilTalked = false;
 	}
+
+	NPCDefaultIndexSetting();
 
 	switch (_Para.Entity)
 	{
@@ -339,17 +357,22 @@ void UI_Conversation::ShowConversation(const ConversationParameter& _Para)
 	}
 }
 
-void UI_Conversation::EndConversation()
+
+void UI_Conversation::NPCDefaultIndexSetting()
 {
-	Reset();
+	if (-1 == Portrait.Default_Index)
+	{
+		return;
+	}
+
+	if (nullptr == Portrait.Other)
+	{
+		MsgBoxAssert("생성되지 않은 컴포넌트를 사용하려 했습니다.");
+		return;
+	}
+
+	Portrait.Other->ChangeCurSprite(Portrait.Default_Index);
 }
-
-bool UI_Conversation::IsConversation()
-{
-	return Dialogue.isOutPutMessage;
-}
-
-
 
 void UI_Conversation::SetEllieExpression(unsigned int _SpriteIndex)
 {
@@ -486,6 +509,7 @@ float4 UI_Conversation::Place1thLinePosition(const float4& _LinePosition)
 float4 UI_Conversation::Place2thLinePosition(const float4& _LinePosition)
 {
 	float4 Message2thLinePosition = Calculate2thLinePosition(_LinePosition);
+	Message2thLinePosition.Z = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Conversation_Message);
 	return Message2thLinePosition;
 }
 
@@ -493,7 +517,6 @@ float4 UI_Conversation::Calculate2thLinePosition(const float4& _MessagePosition)
 {
 	float4 MessagePosition = _MessagePosition;
 	MessagePosition.Y += Dialogue.Over_Message_Line_Y_Distance;
-	MessagePosition.Z = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Conversation_Message);
 	return MessagePosition;
 }
 
