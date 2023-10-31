@@ -83,8 +83,8 @@ void UI_Conversation::PortraitSetting()
 	static constexpr const char* EllieSpriteName = "Ellie_Basic.png";
 	static constexpr const char* OtherSpriteName = "Dian_Expression.png";
 
-	static constexpr float ElliePortraitXPos = -330.0f;
-	static constexpr float OtherPortraitXPos = 330.0f;
+	static constexpr float ElliePortraitXPos = -Portrait.Portrait_Default_X_Gap;
+	static constexpr float OtherPortraitXPos = Portrait.Portrait_Default_X_Gap;
 
 	const float4 HWinScale = GlobalValue::GetWindowScale().Half();
 
@@ -118,13 +118,13 @@ void UI_Conversation::PortraitSetting()
 
 	Portrait.Ellie = CreateComponent<GameEngineUIRenderer>(PortraitRenderOrder);
 	Portrait.Ellie->Transform.SetLocalPosition(ElliePortraitSpritePos);
-	Portrait.Ellie->RightFlip();
+	Portrait.Ellie->LeftFlip();
 	Portrait.Ellie->SetSprite(EllieSpriteName);
 	Portrait.Ellie->Off();
 
 	Portrait.Virgil = CreateComponent<GameEngineUIRenderer>(PortraitRenderOrder);
 	Portrait.Virgil->Transform.SetLocalPosition(ElliePortraitSpritePos);
-	Portrait.Virgil->RightFlip();
+	Portrait.Virgil->LeftFlip();
 	Portrait.Virgil->SetSprite(VirgilSpriteName);
 	Portrait.Virgil->Off();
 

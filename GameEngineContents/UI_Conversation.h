@@ -46,10 +46,11 @@ public:
 		std::shared_ptr<GameEngineUIRenderer> Virgil;
 		std::shared_ptr<GameEngineUIRenderer> Other;
 
+	public:
 		unsigned int VirgilIndex = 0;
 		static constexpr const int Ellie_Portrait_Default_Index = 1;
+		static constexpr const float Portrait_Default_X_Gap = 360.0f;
 
-	public:
 		const float4 UnsaidColor = float4(0.3f, 0.3f, 0.3f, 1.0f);
 		const float4 SayingColor = float4::ONE;
 
@@ -77,7 +78,7 @@ public:
 		const float4 DefaultColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
 		const float4 RedColor = float4(0.8f, 0.0f, 0.0f, 1.0f);
 
-		const float4 Virgil_Dialogue_Position = float4(-220.0f, 40.0f);
+		const float4 Virgil_Dialogue_Position = float4(-360.0f, 70.0f);
 
 	};
 
