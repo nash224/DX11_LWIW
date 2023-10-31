@@ -60,6 +60,12 @@ void Dian::ConversationSetting()
 	{
 		{ "æ»≥Á«œººø‰" , ECONVERSATIONENTITY::NPC , 2},
 		{ "π›∞©Ω¿¥œ¥Ÿ" , ECONVERSATIONENTITY::Ellie , 5},
+		{ "π›∞©Ω¿¥œ¥Ÿ" , ECONVERSATIONENTITY::NPC , 2},
+		{ "π›∞©Ω¿¥œ¥Ÿ" , ECONVERSATIONENTITY::Ellie , 3},
+		{ "π›∞©Ω¿¥œ¥Ÿ" , ECONVERSATIONENTITY::Ellie , 8},
+		{ "π›∞©Ω¿¥œ¥Ÿ" , ECONVERSATIONENTITY::Virgil },
+		{ "π›∞©Ω¿¥œ¥Ÿ" , ECONVERSATIONENTITY::NPC , 2},
+		{ "π›∞©Ω¿¥œ¥Ÿ" , ECONVERSATIONENTITY::Ellie , 5},
 		{ "§æ§∑" , ECONVERSATIONENTITY::Virgil }
 	};
 

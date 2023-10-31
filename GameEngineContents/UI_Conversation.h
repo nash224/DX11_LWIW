@@ -36,6 +36,7 @@ class UI_Conversation : public GameEngineActor
 public:
 	static UI_Conversation* MainConversationUI;
 
+
 public:
 
 	class PortraitInfo
@@ -69,9 +70,14 @@ public:
 		std::shared_ptr<GameEngineUIRenderer> Virgil_Font;
 		std::string Virgil_Message;
 
+	public:
+		static constexpr const float Virgil_Dialogue_Animation_Inter = 0.24f;
+
 		static constexpr const float FontSize = 17.0f;
-		float4 DefaultColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
-		float4 RedColor = float4(0.8f, 0.0f, 0.0f, 1.0f);
+		const float4 DefaultColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
+		const float4 RedColor = float4(0.8f, 0.0f, 0.0f, 1.0f);
+
+		const float4 Virgil_Dialogue_Position = float4(-220.0f, 40.0f);
 
 	};
 
@@ -119,6 +125,8 @@ protected:
 	void SetVirgilMessage(std::string_view _FontName);
 
 	const unsigned int ReturnVirgilIndexToEllie(unsigned int _Index);
+
+	void LoseSpeechControlVirgil();
 
 	void SetRightTail();
 	void SetLeftTail();

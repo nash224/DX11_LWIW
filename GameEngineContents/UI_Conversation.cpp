@@ -172,9 +172,12 @@ void UI_Conversation::DialogueSetting()
 	Dialogue.Main_Font->Off();
 
 
+	float4 Virgil_Dialogue_Position = Dialogue.Virgil_Dialogue_Position;
+	Virgil_Dialogue_Position.Z = FrameDepth;
+
 	Dialogue.Virgil_Dialogue = CreateComponent<GameEngineUIRenderer>(DialogueRenderOrder);
-	Dialogue.Virgil_Dialogue->Transform.SetLocalPosition(float4(0.0f, Main_DialogueYPos, FrameDepth));
-	Dialogue.Virgil_Dialogue->CreateAnimation("Saying", "Virgil_Dialogue_small.png", 0.12f);
+	Dialogue.Virgil_Dialogue->Transform.SetLocalPosition(Virgil_Dialogue_Position);
+	Dialogue.Virgil_Dialogue->CreateAnimation("Saying", "Virgil_Dialogue_small.png", Dialogue.Virgil_Dialogue_Animation_Inter);
 	Dialogue.Virgil_Dialogue->AutoSpriteSizeOn();
 	Dialogue.Virgil_Dialogue->ChangeAnimation("Saying");
 	Dialogue.Virgil_Dialogue->Off();
@@ -208,7 +211,6 @@ void UI_Conversation::Reset()
 	Dialogue.Main_Font->Off();
 
 	ResetVirgil();
-	Dialogue.Virgil_Dialogue->Off();
 
 	Dialogue.Main_Message.clear();
 	Dialogue.Virgil_Message.clear();
@@ -216,6 +218,7 @@ void UI_Conversation::Reset()
 
 void UI_Conversation::ResetVirgil()
 {
+	Dialogue.Virgil_Dialogue->Off();
 	Dialogue.Virgil_Cursor->Off();
 	Dialogue.Virgil_Font->Off();
 }
@@ -267,7 +270,7 @@ void UI_Conversation::ShowConversation(const ConversationParameter& _Para)
 	bool VirgilNotConverse = (ECONVERSATIONENTITY::Virgil != _Para.Entity);
 	if (true == isJustVirgilTalked && VirgilNotConverse)
 	{
-		ResetVirgil();
+		LoseSpeechControlVirgil();
 		isJustVirgilTalked = false;
 	}
 
@@ -335,7 +338,8 @@ void UI_Conversation::SetVirgilExpression(unsigned int _SpriteIndex)
 
 	if (false == isJustVirgilTalked)
 	{
-		Portrait.Virgil->ChangeCurSprite(--Portrait.VirgilIndex);
+		const int Virgil_Saying_Index = Portrait.VirgilIndex - 1;
+		Portrait.Virgil->ChangeCurSprite(Virgil_Saying_Index);
 	}
 
 	isJustVirgilTalked = true;
@@ -413,6 +417,20 @@ const unsigned int UI_Conversation::ReturnVirgilIndexToEllie(unsigned int _Index
 	}
 
 	return 6;
+}
+
+
+void UI_Conversation::LoseSpeechControlVirgil()
+{
+	if (nullptr == Portrait.Virgil)
+	{
+		MsgBoxAssert("생성하지 않은 컴포넌트를 사용하려 했습니다.");
+		return;
+	}
+
+	Portrait.Virgil->ChangeCurSprite(Portrait.VirgilIndex);
+
+	ResetVirgil();
 }
 
 
