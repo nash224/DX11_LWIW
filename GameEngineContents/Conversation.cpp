@@ -84,12 +84,7 @@ void Conversation::ConverseLine()
 		return;
 	}
 
-	const ConversationData& Data =  CurTopic->Data[CurLine];
-	UI_Conversation::MainConversationUI->ShowConversation(
-		{ Data.ConversationEntity,
-		Data.FileIndex,
-		Data.Question,
-		Data.Font });
+	UI_Conversation::MainConversationUI->ShowConversation(CurTopic->Data[CurLine]);
 
 	ConversationBTWEvent();
 }

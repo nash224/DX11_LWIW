@@ -2,6 +2,7 @@
 #include "UI_Conversation.h"
 
 
+
 UI_Conversation* UI_Conversation::MainConversationUI = nullptr;
 UI_Conversation::UI_Conversation()
 {
@@ -104,7 +105,7 @@ void UI_Conversation::StartOutputState(GameEngineState* _Parent)
 
 	Dialogue.Main_Cursor->Off();
 
-	Dialogue.Main_Font->SetText(Dialogue.FontName, Dialogue.Main_Message_Output, Dialogue.FontSize, Dialogue.DefaultColor);
+	Dialogue.Main_Font->SetText(Dialogue.FontName, Dialogue.Main_Message_Output, Dialogue.FontSize, Dialogue.FontColor);
 
 	Dialogue.isOutPutMessage = true;
 }
@@ -125,7 +126,7 @@ void UI_Conversation::StartVirgilOutputState(GameEngineState* _Parent)
 
 	Dialogue.Virgil_Cursor->Off();
 
-	Dialogue.Virgil_Font->SetText(Dialogue.FontName, Dialogue.Virgil_Message_Output, Dialogue.FontSize, Dialogue.DefaultColor);
+	Dialogue.Virgil_Font->SetText(Dialogue.FontName, Dialogue.Virgil_Message_Output, Dialogue.FontSize, Dialogue.FontColor);
 
 	Dialogue.isOutPutMessage = true;
 }
@@ -136,7 +137,7 @@ void UI_Conversation::UpdateOutputState(float _Delta, GameEngineState* _Parent)
 	if (isSkip)
 	{
 		Dialogue.Main_Message_Output = GameEngineString::UnicodeToAnsi(Dialogue.Main_Message);
-		Dialogue.Main_Font->SetText(Dialogue.FontName, Dialogue.Main_Message_Output, Dialogue.FontSize, Dialogue.DefaultColor);
+		Dialogue.Main_Font->SetText(Dialogue.FontName, Dialogue.Main_Message_Output, Dialogue.FontSize, Dialogue.FontColor);
 
 		State.ChangeState(EUICONERSATIONSTATE::Done);
 
@@ -155,10 +156,21 @@ void UI_Conversation::UpdateOutputState(float _Delta, GameEngineState* _Parent)
 			State.ChangeState(EUICONERSATIONSTATE::Done);
 			return;
 		}
+		
+
+		while (true)
+		{
+			if (Dialogue.Main_Message[Dialogue.OutputCount] != L' ')
+			{
+				break;
+			}
+
+			++Dialogue.OutputCount;
+		}
 
 		std::wstring PrintMessage = Dialogue.Main_Message.substr(0, Dialogue.OutputCount);
 		Dialogue.Main_Message_Output = GameEngineString::UnicodeToAnsi(PrintMessage);
-		Dialogue.Main_Font->SetText(Dialogue.FontName, Dialogue.Main_Message_Output, Dialogue.FontSize, Dialogue.DefaultColor);
+		Dialogue.Main_Font->SetText(Dialogue.FontName, Dialogue.Main_Message_Output, Dialogue.FontSize, Dialogue.FontColor);
 
 		++Dialogue.OutputCount;
 	}
@@ -170,7 +182,7 @@ void UI_Conversation::UpdateVirgilOutputtState(float _Delta, GameEngineState* _P
 	if (isSkip)
 	{
 		Dialogue.Virgil_Message_Output = GameEngineString::UnicodeToAnsi(Dialogue.Virgil_Message);
-		Dialogue.Virgil_Font->SetText(Dialogue.FontName, Dialogue.Virgil_Message_Output, Dialogue.FontSize, Dialogue.DefaultColor);
+		Dialogue.Virgil_Font->SetText(Dialogue.FontName, Dialogue.Virgil_Message_Output, Dialogue.FontSize, Dialogue.FontColor);
 
 		State.ChangeState(EUICONERSATIONSTATE::Done);
 
@@ -190,10 +202,19 @@ void UI_Conversation::UpdateVirgilOutputtState(float _Delta, GameEngineState* _P
 			return;
 		}
 
+		while (true)
+		{
+			if (Dialogue.Virgil_Message[Dialogue.OutputCount] != L' ')
+			{
+				break;
+			}
+
+			++Dialogue.OutputCount;
+		}
 
 		std::wstring PrintMessage = Dialogue.Virgil_Message.substr(0, Dialogue.OutputCount);
 		Dialogue.Virgil_Message_Output = GameEngineString::UnicodeToAnsi(PrintMessage);
-		Dialogue.Virgil_Font->SetText(Dialogue.FontName, Dialogue.Virgil_Message_Output, Dialogue.FontSize, Dialogue.DefaultColor);
+		Dialogue.Virgil_Font->SetText(Dialogue.FontName, Dialogue.Virgil_Message_Output, Dialogue.FontSize, Dialogue.FontColor);
 
 		++Dialogue.OutputCount;
 	}
@@ -317,11 +338,12 @@ void UI_Conversation::StartConversation(std::string_view _NPCSpriteName, int _De
 	Dialogue.Main_Dialogue->On();
 }
 
-void UI_Conversation::ShowConversation(const ConversationParameter& _Para)
+void UI_Conversation::ShowConversation(const ConversationData& _Data)
 {
-	Dialogue.FontName = _Para.FontName;
+	Dialogue.FontName = _Data.Font;
+	Dialogue.FontColor = _Data.Color;
 
-	bool VirgilNotConverse = (ECONVERSATIONENTITY::Virgil != _Para.Entity);
+	bool VirgilNotConverse = (ECONVERSATIONENTITY::Virgil != _Data.ConversationEntity);
 	if (true == isJustVirgilTalked && VirgilNotConverse)
 	{
 		LoseSpeechControlVirgil();
@@ -330,25 +352,25 @@ void UI_Conversation::ShowConversation(const ConversationParameter& _Para)
 
 	NPCDefaultIndexSetting();
 
-	switch (_Para.Entity)
+	switch (_Data.ConversationEntity)
 	{
 	case ECONVERSATIONENTITY::NPC:
-		SetNPCExpression(_Para.FileIndex);
-		Dialogue.Main_Message = _Para.Message;
+		SetNPCExpression(_Data.FileIndex);
+		Dialogue.Main_Message = _Data.Question;
 		SetMainMessage();
 		SetRightTail();
 		State.ChangeState(EUICONERSATIONSTATE::Output);
 		break;
 	case ECONVERSATIONENTITY::Ellie:
-		SetEllieExpression(_Para.FileIndex);
-		Dialogue.Main_Message = _Para.Message;
+		SetEllieExpression(_Data.FileIndex);
+		Dialogue.Main_Message = _Data.Question;
 		SetMainMessage();
 		SetLeftTail();
 		State.ChangeState(EUICONERSATIONSTATE::Output);
 		break;
 	case ECONVERSATIONENTITY::Virgil:
-		SetVirgilExpression(_Para.FileIndex);
-		Dialogue.Virgil_Message = _Para.Message;
+		SetVirgilExpression(_Data.FileIndex);
+		Dialogue.Virgil_Message = _Data.Question;
 		SetVirgilMessage();
 		State.ChangeState(EUICONERSATIONSTATE::VirgilOutput);
 		break;

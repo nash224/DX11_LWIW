@@ -51,7 +51,7 @@ public:
 	static constexpr const char* Dian_Expression_Sprite_Name = "Dian_Expression.png";
 
 	// ConversationData에서 사용하는 변수입니다. 
-	const float4 Color_RED = float4(0.8f, 0.1f, 0.1f, 1.0f);
+	const float4 Color_RED = float4(0.6f, 0.1f, 0.1f, 1.0f);
 	const float4 Color_BLACK = float4(0.0f, 0.0f, 0.0f, 1.0f);
 
 	// 양심의 가책을 느끼고 있습니다.. 어디에 둬야할지 모르곘습니다..

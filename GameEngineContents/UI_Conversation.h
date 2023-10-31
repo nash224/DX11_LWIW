@@ -1,33 +1,7 @@
 #pragma once
-
+#include "Conversation.h"
 
 #define ELLIE_PORTRAIT { -400.0f , -250.0f }
-
-class ConversationParameter
-{
-public:
-	ConversationParameter(
-		ECONVERSATIONENTITY _Entity, 
-		int _FileIndex, 
-		std::wstring_view _Message, 
-		std::string_view _FontName)
-		:
-		FileIndex(_FileIndex),
-		Entity(_Entity),
-		Message(_Message),
-		FontName(_FontName)
-	{
-
-	}
-
-public:
-	int FileIndex = 0;
-	ECONVERSATIONENTITY Entity;
-	std::wstring_view Message;
-	std::string_view FontName;
-
-};
-
 
 
 // Ό³Έν :
@@ -76,16 +50,14 @@ public:
 		std::string Virgil_Message_Output;
 
 		std::string FontName;
+		float4 FontColor;
 		int OutputCount = 0;
 		bool isOutPutMessage = false;
 
 	public:
-		static constexpr const float Virgil_Dialogue_Animation_Inter = 0.12f;
+		static constexpr const float Virgil_Dialogue_Animation_Inter = 0.2f;
 		
 		static constexpr const float FontSize = 18.0f;
-
-		const float4 DefaultColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
-		const float4 RedColor = float4(0.8f, 0.0f, 0.0f, 1.0f);
 
 		const float4 Main_Dialogue_1th_Line_Position = float4(-164.0f, -174.0f);
 		const float4 Virgil_Dialogue_1th_Line_Position = float4(-460.0f, 90.0f);
@@ -99,7 +71,7 @@ public:
 		static constexpr const float Over_Message_Line_Y_Distance = 6.0f;
 
 
-		static constexpr const float Message_Output_Once_Inter = 0.1f;
+		static constexpr const float Message_Output_Once_Inter = 0.08f;
 
 		static constexpr const int Skip_Able_Count = 1;
 
@@ -129,7 +101,7 @@ public:
 	void Init();
 
 	void StartConversation(std::string_view _NPCSpriteName, int _Default_Sprite_Index = -1);
-	void ShowConversation(const ConversationParameter& _Para);
+	void ShowConversation(const ConversationData& _Data);
 	void EndConversation();
 
 	bool IsConversation();
