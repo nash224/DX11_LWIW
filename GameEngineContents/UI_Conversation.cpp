@@ -139,12 +139,14 @@ void UI_Conversation::DialogueSetting()
 	static constexpr const float Main_DialogueYPos = -185.0f;
 	static constexpr const float Main_Dialogue_Cursor_YPos = -238.0f;
 
-	const float4 MessagePos = float4(-164.0f, -167.0f);
+	float4 MessagePos = float4(-174.0f, -147.0f);
 
 	const float FrameDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Conversation_Frame);
 	const float TailDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Conversation_Tail);
 	const float ArrowDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Conversation_Arrow);
 	const float MessageDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Conversation_Message);
+
+	MessagePos.Z = MessageDepth;
 
 
 	Dialogue.Left_Tail = CreateComponent<GameEngineUIRenderer>(DialogueRenderOrder);
@@ -167,8 +169,9 @@ void UI_Conversation::DialogueSetting()
 	Dialogue.Main_Cursor->SetSprite("Dialogue_Cursor.png");
 	Dialogue.Main_Cursor->Off();
 
-	Dialogue.Main_Font = CreateComponent<GameEngineSpriteRenderer>(DialogueRenderOrder);
-	Dialogue.Main_Font->Transform.SetLocalPosition(float4(0.0f, Main_DialogueYPos, MessageDepth));
+
+	Dialogue.Main_Font = CreateComponent<GameEngineUIRenderer>(DialogueRenderOrder);
+	Dialogue.Main_Font->Transform.SetLocalPosition(MessagePos);
 	Dialogue.Main_Font->Off();
 
 
@@ -379,7 +382,9 @@ void UI_Conversation::SetMainMessage(std::string_view _FontName)
 		return;
 	}
 
-	Dialogue.Main_Font->SetText(_FontName.data(), Dialogue.Main_Message.data(), Dialogue.FontSize, Dialogue.DefaultColor);
+	Dialogue.Main_Message_Output = ConvertWstirngToString(Dialogue.Main_Message.data());
+
+	Dialogue.Main_Font->SetText(_FontName.data(), Dialogue.Main_Message_Output, Dialogue.FontSize, Dialogue.DefaultColor);
 	Dialogue.Main_Font->On();
 }
 
@@ -394,8 +399,21 @@ void UI_Conversation::SetVirgilMessage(std::string_view _FontName)
 	Dialogue.Virgil_Cursor->On();
 	Dialogue.Virgil_Dialogue->On();
 
-	Dialogue.Virgil_Font->SetText(_FontName.data(), Dialogue.Virgil_Message.data(), Dialogue.FontSize, Dialogue.DefaultColor);
+
+	Dialogue.Virgil_Message_Output = ConvertWstirngToString(Dialogue.Virgil_Message.data());
+
+	Dialogue.Virgil_Font->SetText(_FontName.data(), Dialogue.Virgil_Message_Output, Dialogue.FontSize, Dialogue.DefaultColor);
 	Dialogue.Virgil_Font->On();
+}
+
+std::string UI_Conversation::ConvertWstirngToString(std::wstring_view _wMessage)
+{
+	if (true == Dialogue.Main_Message.empty())
+	{
+		return std::string();
+	}
+
+	return GameEngineString::UnicodeToAnsi(Dialogue.Main_Message.data());
 }
 
 const unsigned int UI_Conversation::ReturnVirgilIndexToEllie(unsigned int _Index)

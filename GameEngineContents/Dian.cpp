@@ -58,15 +58,15 @@ void Dian::ConversationSetting()
 	HelloTopic.Data.reserve(64);
 	HelloTopic.Data =
 	{
-		{ "æ»≥Á«œººø‰" , ECONVERSATIONENTITY::NPC , 2},
-		{ "π›∞©Ω¿¥œ¥Ÿ" , ECONVERSATIONENTITY::Ellie , 5},
-		{ "π›∞©Ω¿¥œ¥Ÿ" , ECONVERSATIONENTITY::NPC , 2},
-		{ "π›∞©Ω¿¥œ¥Ÿ" , ECONVERSATIONENTITY::Ellie , 3},
-		{ "π›∞©Ω¿¥œ¥Ÿ" , ECONVERSATIONENTITY::Ellie , 8},
-		{ "π›∞©Ω¿¥œ¥Ÿ" , ECONVERSATIONENTITY::Virgil },
-		{ "π›∞©Ω¿¥œ¥Ÿ" , ECONVERSATIONENTITY::NPC , 2},
-		{ "π›∞©Ω¿¥œ¥Ÿ" , ECONVERSATIONENTITY::Ellie , 5},
-		{ "§æ§∑" , ECONVERSATIONENTITY::Virgil }
+		{ L"æ»≥Á«œººø‰" , ECONVERSATIONENTITY::NPC , 2},
+		{ L"π›∞©Ω¿¥œ¥Ÿ" , ECONVERSATIONENTITY::Ellie , 5},
+		{ L"π›∞©Ω¿¥œ¥Ÿ" , ECONVERSATIONENTITY::NPC , 2},
+		{ L"π›∞©Ω¿¥œ¥Ÿ" , ECONVERSATIONENTITY::Ellie , 3},
+		{ L"π›∞©Ω¿¥œ¥Ÿ" , ECONVERSATIONENTITY::Ellie , 8},
+		{ L"π›∞©Ω¿¥œ¥Ÿ" , ECONVERSATIONENTITY::Virgil },
+		{ L"π›∞©Ω¿¥œ¥Ÿ" , ECONVERSATIONENTITY::NPC , 2},
+		{ L"π›∞©Ω¿¥œ¥Ÿ" , ECONVERSATIONENTITY::Ellie , 5},
+		{ L"§æ§∑" , ECONVERSATIONENTITY::Virgil }
 	};
 
 	m_ConversationInfo.CreateTopic(EDIANTOPICTYPE::Hello, HelloTopic);

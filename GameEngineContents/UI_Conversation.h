@@ -9,7 +9,7 @@ public:
 	ConversationParameter(
 		ECONVERSATIONENTITY _Entity, 
 		int _FileIndex, 
-		std::string_view _Message, 
+		std::wstring_view _Message, 
 		std::string_view _FontName)
 		:
 		FileIndex(_FileIndex),
@@ -23,7 +23,7 @@ public:
 public:
 	int FileIndex = 0;
 	ECONVERSATIONENTITY Entity;
-	std::string_view Message;
+	std::wstring_view Message;
 	std::string_view FontName;
 
 };
@@ -63,22 +63,28 @@ public:
 		std::shared_ptr<GameEngineUIRenderer> Right_Tail;
 		std::shared_ptr<GameEngineUIRenderer> Main_Dialogue;
 		std::shared_ptr<GameEngineUIRenderer> Main_Cursor;
-		std::shared_ptr<GameEngineSpriteRenderer> Main_Font;
-		std::string Main_Message;
+		std::shared_ptr<GameEngineUIRenderer> Main_Font;
+		std::wstring Main_Message;
+		std::string Main_Message_Output;
 
 		std::shared_ptr<GameEngineUIRenderer> Virgil_Dialogue;
 		std::shared_ptr<GameEngineUIRenderer> Virgil_Cursor;
 		std::shared_ptr<GameEngineUIRenderer> Virgil_Font;
-		std::string Virgil_Message;
+		std::wstring Virgil_Message;
+		std::string Virgil_Message_Output;
 
 	public:
 		static constexpr const float Virgil_Dialogue_Animation_Inter = 0.24f;
-
+		
 		static constexpr const float FontSize = 17.0f;
+
 		const float4 DefaultColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
 		const float4 RedColor = float4(0.8f, 0.0f, 0.0f, 1.0f);
 
 		const float4 Virgil_Dialogue_Position = float4(-360.0f, 70.0f);
+
+
+		static constexpr const unsigned int Main_Message_Max_Line_String_Count = 12;
 
 	};
 
@@ -124,6 +130,8 @@ protected:
 
 	void SetMainMessage(std::string_view _FontName);
 	void SetVirgilMessage(std::string_view _FontName);
+
+	std::string ConvertWstirngToString(std::wstring_view _wMessage);
 
 	const unsigned int ReturnVirgilIndexToEllie(unsigned int _Index);
 

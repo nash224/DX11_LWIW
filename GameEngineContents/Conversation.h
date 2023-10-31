@@ -5,7 +5,7 @@ class ConversationData
 {
 public:
 	ConversationData(
-		std::string_view _Question,
+		std::wstring_view _Question,
 		ECONVERSATIONENTITY _ConversationEntity,
 		int _FileIndex = 0)
 		:
@@ -19,7 +19,7 @@ public:
 
 public:
 	std::function<void()> Event;
-	std::string Question;
+	std::wstring Question;
 	ECONVERSATIONENTITY ConversationEntity = ECONVERSATIONENTITY::None;
 	int FileIndex = 0;
 
@@ -112,4 +112,3 @@ private:
 	static constexpr const float Interaction_Cooldown = 0.3f;
 
 };
-
