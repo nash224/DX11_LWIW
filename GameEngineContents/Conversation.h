@@ -8,12 +8,15 @@ public:
 		std::wstring_view _Question,
 		ECONVERSATIONENTITY _ConversationEntity,
 		int _FileIndex = 0,
-		std::string_view _Font = Font_Sandoll)
+		float4 _Color = float4(0.0f, 0.0f, 0.0f, 1.0f),
+		std::string_view _Font = Font_Sandoll
+		)
 		:
 		Question(_Question),
-		Font(_Font),
 		ConversationEntity(_ConversationEntity),
-		FileIndex(_FileIndex)
+		FileIndex(_FileIndex),
+		Color(_Color),
+		Font(_Font)
 	{
 
 	}
@@ -24,12 +27,11 @@ public:
 	int FileIndex = 0;
 	std::wstring Question;
 	std::string Font;
+	float4 Color;
 	std::function<void()> Event;
 
 public:
-	static constexpr const char* Font_LiberationSans = "Liberation Sans";
 	static constexpr const char* Font_Sandoll = "Sandoll 삼립호빵체 TTF Basic";
-	static constexpr const char* Font_PerfectDOS = "Perfect DOS VGA 437";
 
 };
 
@@ -45,6 +47,13 @@ public:
 	static constexpr const char* Aurea_Expression_Sprite_Name = "Aurea_Expression.png";
 	static constexpr const char* Crow_Expression_Sprite_Name = "Crow_Expression.png";
 	static constexpr const char* Dian_Expression_Sprite_Name = "Dian_Expression.png";
+
+	// ConversationData에서 사용하는 변수입니다. 
+	const float4 Color_RED = float4(0.8f, 0.1f, 0.1f, 1.0f);
+	const float4 Color_BLACK = float4(0.0f, 0.0f, 0.0f, 1.0f);
+
+	// 양심의 가책을 느끼고 있습니다.. 어디에 둬야할지 모르곘습니다..
+	static constexpr const char* Font_JejuHanlasan = "제주한라산";
 
 };
 

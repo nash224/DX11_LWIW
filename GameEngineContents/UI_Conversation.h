@@ -80,7 +80,7 @@ public:
 	public:
 		static constexpr const float Virgil_Dialogue_Animation_Inter = 0.16f;
 		
-		static constexpr const float FontSize = 19.0f;
+		static constexpr const float FontSize = 18.0f;
 
 		const float4 DefaultColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
 		const float4 RedColor = float4(0.8f, 0.0f, 0.0f, 1.0f);
@@ -92,7 +92,7 @@ public:
 		const float4 Virgil_Dialogue_Position = float4(-360.0f, 70.0f);
 
 
-		static constexpr const unsigned int Main_Message_Max_Line_String_Count = 22;
+		static constexpr const unsigned int Main_Message_Max_Line_String_Count = 24;
 		static constexpr const unsigned int Virgil_Message_Max_Line_String_Count = 15;
 		static constexpr const float Over_Message_Line_Y_Distance = 6.0f;
 

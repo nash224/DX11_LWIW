@@ -33,6 +33,7 @@ void ContentsCore::Start()
 	GameEngineFont::Load("Liberation Sans");
 	GameEngineFont::Load("Sandoll ªÔ∏≥»£ªß√º TTF Basic");
 	GameEngineFont::Load("Perfect DOS VGA 437");
+	GameEngineFont::Load("¡¶¡÷«—∂ÛªÍ");
 	InitResources();
 	InitBlendResources();
 
