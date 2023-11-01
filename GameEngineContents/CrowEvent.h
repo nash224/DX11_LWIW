@@ -64,5 +64,5 @@ private:
 	static constexpr const float Caw_CoolTime = 8.0f;
 
 	static constexpr const float Caw_Animation_Inter = 0.12f;
-	static constexpr const float Disappear_Animation_Inter = 0.16f;
+	static constexpr const float Disappear_Animation_Inter = 0.14f;
 };

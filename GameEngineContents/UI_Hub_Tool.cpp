@@ -115,9 +115,8 @@ void UI_Hub_Tool::NextTool()
 	while (true)
 	{
 		++ToolValue;
-
-		ETOOLTYPE EToolValue = static_cast<ETOOLTYPE>(ToolValue);
-		if (ETOOLTYPE::None == EToolValue)
+		
+		if (ToolValue >= ContentsEvent::ToolData.size())
 		{
 			ToolValue = 0;
 		}

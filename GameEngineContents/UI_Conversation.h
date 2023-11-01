@@ -71,7 +71,7 @@ public:
 		static constexpr const float Over_Message_Line_Y_Distance = 6.0f;
 
 
-		static constexpr const float Message_Output_Once_Inter = 0.08f;
+		static constexpr const float Message_Output_Once_Inter = 0.11f;
 
 		static constexpr const int Skip_Able_Count = 1;
 
@@ -127,6 +127,8 @@ protected:
 
 	void UpdateOutputState(float _Delta, GameEngineState* _Parent);
 	void UpdateVirgilOutputtState(float _Delta, GameEngineState* _Parent);
+	void PlayPageSound();
+	void PlayConversationSound(std::string_view _FileName);
 
 	void EndOutputState(GameEngineState* _Parent);
 	void EndVirgilOutputState(GameEngineState* _Parent);

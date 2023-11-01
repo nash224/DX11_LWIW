@@ -138,6 +138,8 @@ void UI_Conversation::UpdateOutputState(float _Delta, GameEngineState* _Parent)
 
 		State.ChangeState(EUICONERSATIONSTATE::Done);
 
+		PlayPageSound();
+
 		return;
 	}
 
@@ -169,6 +171,8 @@ void UI_Conversation::UpdateOutputState(float _Delta, GameEngineState* _Parent)
 		const std::string OutPutMessage = GameEngineString::UnicodeToAnsi(PrintMessage);
 		Dialogue.Main_Font->SetText(Dialogue.FontName, OutPutMessage, Dialogue.FontSize, Dialogue.FontColor);
 
+		PlayConversationSound("SFX_Voice_01.wav");
+
 		++Dialogue.OutputCount;
 	}
 }
@@ -182,6 +186,8 @@ void UI_Conversation::UpdateVirgilOutputtState(float _Delta, GameEngineState* _P
 		Dialogue.Virgil_Font->SetText(Dialogue.FontName, OutPutMessage, Dialogue.FontSize, Dialogue.FontColor);
 
 		State.ChangeState(EUICONERSATIONSTATE::Done);
+
+		PlayPageSound();
 
 		return;
 	}
@@ -213,9 +219,24 @@ void UI_Conversation::UpdateVirgilOutputtState(float _Delta, GameEngineState* _P
 		const std::string OutPutMessage = GameEngineString::UnicodeToAnsi(PrintMessage);
 		Dialogue.Virgil_Font->SetText(Dialogue.FontName, OutPutMessage, Dialogue.FontSize, Dialogue.FontColor);
 
+		PlayConversationSound("SFX_Voice_02.wav");
+
 		++Dialogue.OutputCount;
 	}
 }
+
+void UI_Conversation::PlayPageSound()
+{
+	GameEngineSoundPlayer PageSound = GameEngineSound::SoundPlay("SFX_InventoryMove_01.wav");
+	PageSound.SetVolume(GlobalValue::GetSFXVolume());
+}
+
+void UI_Conversation::PlayConversationSound(std::string_view _FileName)
+{
+	GameEngineSoundPlayer ConversationSound = GameEngineSound::SoundPlay(_FileName);
+	ConversationSound.SetVolume(GlobalValue::GetSFXVolume());
+}
+
 
 void UI_Conversation::EndOutputState(GameEngineState* _Parent)
 {
@@ -384,6 +405,8 @@ void UI_Conversation::ShowConversation(const ConversationData& _Data)
 	default:
 		break;
 	}
+
+	PlayPageSound();
 }
 
 

@@ -78,7 +78,7 @@ void CrowEvent::RendererSetting()
 	CrowRenderer->AutoSpriteSizeOn();
 	CrowRenderer->CreateAnimation("Idle", "Crow.png", 5.0f,1, 1, false);
 	CrowRenderer->CreateAnimation("Caw", "Crow.png", Caw_Animation_Inter, 2, 4, false);
-	CrowRenderer->FindAnimation("Caw")->Inter[2] = 0.24f;
+	CrowRenderer->FindAnimation("Caw")->Inter[2] = 0.3f;
 
 	CrowRenderer->CreateAnimation("CawReverse", "Crow.png", Caw_Animation_Inter, 4, 2, false);
 	CrowRenderer->CreateAnimation("Disappear", "Crow.png", Disappear_Animation_Inter, 5, 15, false);
@@ -96,7 +96,7 @@ void CrowEvent::RendererSetting()
 
 	CrowRenderer->SetStartEvent("Disappear", [&](GameEngineSpriteRenderer* _Parent)
 		{
-			GameEngineSoundPlayer CrowDisappear = GameEngineSound::SoundPlay("SFX_CrowDisappear_01");
+			GameEngineSoundPlayer CrowDisappear = GameEngineSound::SoundPlay("SFX_CrowDisappear_01.wav");
 			CrowDisappear.SetVolume(GlobalValue::GetSFXVolume());
 		});
 
@@ -155,7 +155,7 @@ void CrowEvent::UpdateIdle(float _DeltaTime, GameEngineState* _Parent)
 
 
 		GameEngineSoundPlayer Caw = GameEngineSound::SoundPlay("SFX_CrowCrying_01.wav");
-		Caw.SetVolume(GlobalValue::GetSoundVolume());
+		Caw.SetVolume(GlobalValue::GetSFXVolume());
 	}
 }
 

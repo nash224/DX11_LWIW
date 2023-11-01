@@ -56,18 +56,28 @@ void UIManager::Init()
 	if (nullptr == GameEngineSprite::Find("Photo.png"))
 	{
 		std::vector<GameEngineDirectory> Dirs = GlobalUtils::GetAllDirInPath("Resources\\PlayContents\\PlayResourecs\\UI\\UI_Sprite");
-		for (size_t i = 0; i < Dirs.size(); i++)
+		for (GameEngineDirectory& Dir : Dirs)
 		{
-			GameEngineDirectory Dir = Dirs[i];
 			std::vector <GameEngineFile> Files = Dir.GetAllFile();
-			for (size_t i = 0; i < Files.size(); i++)
+			for (GameEngineFile& pFile : Files)
 			{
-				GameEngineFile pFile = Files[i];
 				GameEngineSprite::CreateSingle(pFile.GetFileName());
 			}
 		}
 	}
 
+	if (nullptr == GameEngineSound::FindSound("SFX_InventoryDrop_01.wav"))
+	{
+		std::vector<GameEngineDirectory> Dirs = GlobalUtils::GetAllDirInPath("Resources\\Sound\\UI");
+		for (GameEngineDirectory& Dir : Dirs)
+		{
+			std::vector<GameEngineFile> Files = Dir.GetAllFile();
+			for (GameEngineFile& pFile : Files)
+			{
+				GameEngineSound::SoundLoad(pFile.GetStringPath());
+			}
+		}
+	}
 
 	
 
