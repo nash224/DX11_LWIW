@@ -134,7 +134,7 @@ void UI_Conversation::UpdateOutputState(float _Delta, GameEngineState* _Parent)
 	bool isSkip = (Dialogue.OutputCount > Dialogue.Skip_Able_Count && true == GameEngineInput::IsDown('Z', this));
 	if (isSkip)
 	{
-		std::string OutPutMessage = GameEngineString::UnicodeToAnsi(Dialogue.Main_Message);
+		const std::string OutPutMessage = GameEngineString::UnicodeToAnsi(Dialogue.Main_Message);
 		Dialogue.Main_Font->SetText(Dialogue.FontName, OutPutMessage, Dialogue.FontSize, Dialogue.FontColor);
 
 		State.ChangeState(EUICONERSATIONSTATE::Done);
@@ -166,8 +166,8 @@ void UI_Conversation::UpdateOutputState(float _Delta, GameEngineState* _Parent)
 			++Dialogue.OutputCount;
 		}
 
-		std::wstring PrintMessage = Dialogue.Main_Message.substr(0, Dialogue.OutputCount);
-		std::string OutPutMessage = GameEngineString::UnicodeToAnsi(PrintMessage);
+		const std::wstring PrintMessage = Dialogue.Main_Message.substr(0, Dialogue.OutputCount);
+		const std::string OutPutMessage = GameEngineString::UnicodeToAnsi(PrintMessage);
 		Dialogue.Main_Font->SetText(Dialogue.FontName, OutPutMessage, Dialogue.FontSize, Dialogue.FontColor);
 
 		++Dialogue.OutputCount;
@@ -176,10 +176,10 @@ void UI_Conversation::UpdateOutputState(float _Delta, GameEngineState* _Parent)
 
 void UI_Conversation::UpdateVirgilOutputtState(float _Delta, GameEngineState* _Parent)
 {
-	bool isSkip = (Dialogue.OutputCount > 2 && true == GameEngineInput::IsDown('Z', this));
+	bool isSkip = (Dialogue.OutputCount > Dialogue.Skip_Able_Count && true == GameEngineInput::IsDown('Z', this));
 	if (isSkip)
 	{
-		std::string OutPutMessage = GameEngineString::UnicodeToAnsi(Dialogue.Virgil_Message);
+		const std::string OutPutMessage = GameEngineString::UnicodeToAnsi(Dialogue.Virgil_Message);
 		Dialogue.Virgil_Font->SetText(Dialogue.FontName, OutPutMessage, Dialogue.FontSize, Dialogue.FontColor);
 
 		State.ChangeState(EUICONERSATIONSTATE::Done);
@@ -210,8 +210,8 @@ void UI_Conversation::UpdateVirgilOutputtState(float _Delta, GameEngineState* _P
 			++Dialogue.OutputCount;
 		}
 
-		std::wstring PrintMessage = Dialogue.Virgil_Message.substr(0, Dialogue.OutputCount);
-		std::string OutPutMessage = GameEngineString::UnicodeToAnsi(PrintMessage);
+		const std::wstring PrintMessage = Dialogue.Virgil_Message.substr(0, Dialogue.OutputCount);
+		const std::string OutPutMessage = GameEngineString::UnicodeToAnsi(PrintMessage);
 		Dialogue.Virgil_Font->SetText(Dialogue.FontName, OutPutMessage, Dialogue.FontSize, Dialogue.FontColor);
 
 		++Dialogue.OutputCount;
@@ -528,12 +528,12 @@ float4 UI_Conversation::Place1thLinePosition(const float4& _LinePosition)
 
 float4 UI_Conversation::Place2thLinePosition(const float4& _LinePosition)
 {
-	float4 Message2thLinePosition = Calculate2thLinePosition(_LinePosition);
+	float4 Message2thLinePosition = CalculateNextLinePosition(_LinePosition);
 	Message2thLinePosition.Z = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Conversation_Message);
 	return Message2thLinePosition;
 }
 
-float4 UI_Conversation::Calculate2thLinePosition(const float4& _MessagePosition)
+float4 UI_Conversation::CalculateNextLinePosition(const float4& _MessagePosition)
 {
 	float4 MessagePosition = _MessagePosition;
 	MessagePosition.Y += Dialogue.Over_Message_Line_Y_Distance;

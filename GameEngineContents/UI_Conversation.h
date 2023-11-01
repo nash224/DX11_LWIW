@@ -25,7 +25,7 @@ public:
 
 	public:
 		static constexpr const int Ellie_Portrait_Default_Index = 1;
-		static constexpr const float Portrait_Default_X_Gap = 360.0f;
+		static constexpr const float Portrait_Default_X_Gap = 340.0f;
 
 		const float4 UnsaidColor = float4(0.3f, 0.3f, 0.3f, 1.0f);
 		const float4 SayingColor = float4::ONE;
@@ -58,10 +58,10 @@ public:
 		static constexpr const float FontSize = 18.0f;
 
 		const float4 Main_Dialogue_1th_Line_Position = float4(-164.0f, -174.0f);
-		const float4 Virgil_Dialogue_1th_Line_Position = float4(-460.0f, 90.0f);
+		const float4 Virgil_Dialogue_1th_Line_Position = float4(-440.0f, 90.0f);
 
 
-		const float4 Virgil_Dialogue_Position = float4(-360.0f, 70.0f);
+		const float4 Virgil_Dialogue_Position = float4(-340.0f, 70.0f);
 
 
 		static constexpr const unsigned int Main_Message_Max_Line_String_Count = 24;
@@ -145,7 +145,7 @@ protected:
 
 	float4 Place2thLinePosition(const float4& _LinePosition);
 	float4 Place1thLinePosition(const float4& _LinePosition);
-	float4 Calculate2thLinePosition(const float4& _MessagePosition);
+	float4 CalculateNextLinePosition(const float4& _MessagePosition);
 
 	const unsigned int ReturnVirgilIndexToEllie(unsigned int _Index);
 

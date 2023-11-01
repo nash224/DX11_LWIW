@@ -13,7 +13,6 @@
 
 
 UIManager* UIManager::MainUIManager = nullptr;
-bool UIManager::UI_Using = false;
 UIManager::UIManager() 
 {
 }
@@ -30,8 +29,8 @@ void UIManager::Start()
 
 void UIManager::Update(float _Delta)
 {
-	CheckForOpenUIComponent();
-	UpdateUIComponentOpenInput();
+	DectectOpenUIComponent();
+	UpdateInputToOpenUIComponent();
 }
 
 void UIManager::LevelStart(class GameEngineLevel* _NextLevel)
@@ -161,7 +160,7 @@ void UIManager::Reset()
 		m_Inventory->Close();
 	}
 
-	m_IsActiveComponent = false;
+	IsActiveComponent = false;
 
 	SetEllieControl(true);
 }
@@ -170,9 +169,9 @@ void UIManager::Reset()
 /////////////////////////////////////////////////////////////////////////////////////
 
 // UI컴포넌트가 꺼지는 것을 감지하고, 감지되면 HUB가 켜집니다.
-void UIManager::CheckForOpenUIComponent()
+void UIManager::DectectOpenUIComponent()
 {
-	if (true == m_IsActiveComponent)
+	if (true == IsActiveComponent)
 	{
 		if (nullptr == m_Dictionary)
 		{
@@ -188,13 +187,13 @@ void UIManager::CheckForOpenUIComponent()
 
 		if (false == m_Dictionary->IsOpen && false == m_Inventory->IsOpen)
 		{
-			m_SwitchOpenHub = true;									// 허브를 열 수 있습니다.
-			m_IsActiveComponent = false;							// 현재 컴포넌트가 작동중인지 추적하는 변수입니다.
-			m_IsHubPreServe = false;								// 허브를 닫지 않고 컴포넌트를 열지 결정합니다.
+			SwitchOpenHub = true;									// 허브를 열 수 있습니다.
+			IsActiveComponent = false;							// 현재 컴포넌트가 작동중인지 추적하는 변수입니다.
+			HubPreServeCheck = false;								// 허브를 닫지 않고 컴포넌트를 열지 결정합니다.
 		}
 	}
 
-	if (true == m_SwitchOpenHub)
+	if (true == SwitchOpenHub)
 	{
 		if (nullptr == m_Hub)
 		{
@@ -205,14 +204,14 @@ void UIManager::CheckForOpenUIComponent()
 		m_Hub->Open();
 		SetEllieControl(true);
 
-		m_SwitchOpenHub = false;
+		SwitchOpenHub = false;
 	}
 }
 
 // 특정 컴포넌트를 킵니다.
-void UIManager::UpdateUIComponentOpenInput()
+void UIManager::UpdateInputToOpenUIComponent()
 {
-	if (false == m_IsActiveComponent && false == IsOtherComponentUsed)
+	if (false == IsActiveComponent && false == IsOtherComponentUsed)
 	{
 		if (true == GameEngineInput::IsDown('D', this))
 		{
@@ -224,7 +223,7 @@ void UIManager::UpdateUIComponentOpenInput()
 
 			m_Dictionary->Open();
 			SetEllieControl(false);
-			m_IsActiveComponent = true;
+			IsActiveComponent = true;
 		}
 
 		if (true == GameEngineInput::IsDown('S', this))
@@ -237,11 +236,11 @@ void UIManager::UpdateUIComponentOpenInput()
 
 			m_Inventory->Open();
 			SetEllieControl(false);
-			m_IsHubPreServe = true;
-			m_IsActiveComponent = true;
+			HubPreServeCheck = true;
+			IsActiveComponent = true;
 		}
 
-		if (false == m_IsHubPreServe && true == m_IsActiveComponent)
+		if (false == HubPreServeCheck && true == IsActiveComponent)
 		{
 			if (nullptr == m_Hub)
 			{

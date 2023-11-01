@@ -28,6 +28,7 @@ ContentsCore::~ContentsCore()
 
 void ContentsCore::Start()
 {
+	GlobalValue::SetWindowScale(GetStartWindowSize());
 	GlobalLoad::LoadGlobalResource();
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor(float4{ 0.5f, 0.5f, 0.5f });
 	GameEngineFont::Load("Liberation Sans");
@@ -36,9 +37,6 @@ void ContentsCore::Start()
 	GameEngineFont::Load("제주한라산");
 	InitResources();
 	InitBlendResources();
-
-
-	GlobalValue::SetWindowScale(GetStartWindowSize());
 	
 
 	
@@ -55,14 +53,4 @@ void ContentsCore::Start()
 
 
 	GameEngineGUI::CreateGUIWindow<ContentsGUI>("ContentsGUI");
-}
-
-void ContentsCore::Update(float _Delta)
-{
-
-}
-
-void ContentsCore::Release()
-{
-
 }
