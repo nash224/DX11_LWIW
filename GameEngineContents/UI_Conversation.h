@@ -147,12 +147,12 @@ protected:
 	float4 Place1thLinePosition(const float4& _LinePosition);
 	float4 CalculateNextLinePosition(const float4& _MessagePosition);
 
-	const unsigned int ReturnVirgilIndexToEllie(unsigned int _Index);
+	const unsigned int ReturnVirgilIndexToElliePortrait(unsigned int _Index);
 
 	void LoseSpeechControlVirgil();
 
-	void SetRightTail();
-	void SetLeftTail();
+	void OnRightTail();
+	void OnLeftTail();
 	void ResetAllTail();
 
 	

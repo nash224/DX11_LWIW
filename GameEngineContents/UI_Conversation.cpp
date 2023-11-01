@@ -47,7 +47,6 @@ void UI_Conversation::LevelStart(class GameEngineLevel* _NextLevel)
 
 
 
-
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -259,7 +258,7 @@ void UI_Conversation::Reset()
 
 	Portrait.Default_Index = 0;
 
-	const int Virgil_Default_Index = ReturnVirgilIndexToEllie(Portrait.Ellie_Portrait_Default_Index);
+	const int Virgil_Default_Index = ReturnVirgilIndexToElliePortrait(Portrait.Ellie_Portrait_Default_Index);
 
 	Portrait.Ellie->ChangeCurSprite(Portrait.Ellie_Portrait_Default_Index);
 	Portrait.Virgil->ChangeCurSprite(Virgil_Default_Index);
@@ -315,7 +314,7 @@ void UI_Conversation::StartConversation(std::string_view _NPCSpriteName, int _De
 	Portrait.Virgil->On();
 
 
-	const int Virgil_Default_Index = ReturnVirgilIndexToEllie(Portrait.Ellie_Portrait_Default_Index);
+	const int Virgil_Default_Index = ReturnVirgilIndexToElliePortrait(Portrait.Ellie_Portrait_Default_Index);
 	Portrait.VirgilIndex = Virgil_Default_Index;
 
 	Portrait.Ellie->ChangeCurSprite(Portrait.Ellie_Portrait_Default_Index);
@@ -356,14 +355,14 @@ void UI_Conversation::ShowConversation(const ConversationData& _Data)
 		SetNPCExpression(_Data.FileIndex);
 		Dialogue.Main_Message = _Data.Question;
 		SetMainMessage();
-		SetRightTail();
+		OnRightTail();
 		State.ChangeState(EUICONERSATIONSTATE::Output);
 		break;
 	case ECONVERSATIONENTITY::Ellie:
 		SetEllieExpression(_Data.FileIndex);
 		Dialogue.Main_Message = _Data.Question;
 		SetMainMessage();
-		SetLeftTail();
+		OnLeftTail();
 		State.ChangeState(EUICONERSATIONSTATE::Output);
 		break;
 	case ECONVERSATIONENTITY::Virgil:
@@ -401,7 +400,7 @@ void UI_Conversation::SetEllieExpression(unsigned int _SpriteIndex)
 	Portrait.Virgil->GetColorData().MulColor = Portrait.SayingColor;
 
 
-	const std::uint32_t Virgil_Sprite_Index = ReturnVirgilIndexToEllie(_SpriteIndex);
+	const std::uint32_t Virgil_Sprite_Index = ReturnVirgilIndexToElliePortrait(_SpriteIndex);
 
 	Portrait.Ellie->ChangeCurSprite(_SpriteIndex);
 	Portrait.Virgil->ChangeCurSprite(Virgil_Sprite_Index);
@@ -541,7 +540,7 @@ float4 UI_Conversation::CalculateNextLinePosition(const float4& _MessagePosition
 }
 
 
-const unsigned int UI_Conversation::ReturnVirgilIndexToEllie(unsigned int _Index)
+const unsigned int UI_Conversation::ReturnVirgilIndexToElliePortrait(unsigned int _Index)
 {
 	switch (_Index)
 	{
@@ -577,14 +576,14 @@ void UI_Conversation::LoseSpeechControlVirgil()
 }
 
 
-void UI_Conversation::SetRightTail()
+void UI_Conversation::OnRightTail()
 {
 	ResetAllTail();
 
 	Dialogue.Right_Tail->On();
 }
 
-void UI_Conversation::SetLeftTail()
+void UI_Conversation::OnLeftTail()
 {
 	ResetAllTail();
 

@@ -106,6 +106,7 @@ public:
 
 	void UpdateConversation(float _Delta);
 
+
 protected:
 	void ConverseLine();
 	void ConversationBTWEvent();
@@ -116,8 +117,6 @@ protected:
 private:
 	std::map<int, std::shared_ptr<Topic>> Topics;
 	std::shared_ptr<Topic> CurTopic;
-
-	bool isConversed = false;
 
 	int CurLine = 0;
 

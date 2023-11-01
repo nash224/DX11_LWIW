@@ -89,9 +89,9 @@ void UI_Hub_Tool::NextTool()
 	int TrueValue = 0;
 
 	// 데이터에 true가 1개면 움직이지 않는다는 것으로 리턴해줍니다.
-	for (size_t i = 0; i < EventData::ToolData.size(); i++)
+	for (size_t i = 0; i < ContentsData::ToolData.size(); i++)
 	{
-		if (true == EventData::ToolData[i])
+		if (true == ContentsData::ToolData[i])
 		{
 			++TrueValue;
 		}
@@ -101,7 +101,7 @@ void UI_Hub_Tool::NextTool()
 			break;
 		}
 
-		if (i == EventData::ToolData.size() - 1)
+		if (i == ContentsData::ToolData.size() - 1)
 		{
 			return;
 		}
@@ -120,7 +120,7 @@ void UI_Hub_Tool::NextTool()
 			ToolValue = 0;
 		}
 
-		if (true == EventData::ToolData[ToolValue])
+		if (true == ContentsData::ToolData[ToolValue])
 		{
 			m_CurrentTool = static_cast<ETOOLTYPE>(ToolValue);
 			break;
@@ -137,9 +137,9 @@ void UI_Hub_Tool::PrevTool()
 	int TrueValue = 0;
 
 	// 데이터에 true가 1개면 움직이지 않는다는 것으로 리턴해줍니다.
-	for (size_t i = 0; i < EventData::ToolData.size(); i++)
+	for (size_t i = 0; i < ContentsData::ToolData.size(); i++)
 	{
-		if (true == EventData::ToolData[i])
+		if (true == ContentsData::ToolData[i])
 		{
 			++TrueValue;
 		}
@@ -149,7 +149,7 @@ void UI_Hub_Tool::PrevTool()
 			break;
 		}
 
-		if (i == EventData::ToolData.size() - 1)
+		if (i == ContentsData::ToolData.size() - 1)
 		{
 			return;
 		}
@@ -163,10 +163,10 @@ void UI_Hub_Tool::PrevTool()
 
 		if (-1 == ToolValue)
 		{
-			ToolValue = static_cast<int>(ETOOLTYPE::None) - 1;
+			ToolValue = static_cast<int>(ContentsData::ToolData.size()) - 1;
 		}
 
-		if (true == EventData::ToolData[ToolValue])
+		if (true == ContentsData::ToolData[ToolValue])
 		{
 			m_CurrentTool = static_cast<ETOOLTYPE>(ToolValue);
 			break;

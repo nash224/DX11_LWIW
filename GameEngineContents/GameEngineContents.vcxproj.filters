@@ -91,9 +91,6 @@
     <Filter Include="2.Object\2.Actor\2.Interactive\Static\Plant">
       <UniqueIdentifier>{aabcb491-481d-4380-a119-aabdaa014822}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2.Object\2.Actor\2.Interactive\Static\NPC">
-      <UniqueIdentifier>{c1a15aa1-75f1-4523-8683-9d4e21a1ffb7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2.Object\2.Actor\3.Prop">
       <UniqueIdentifier>{bcf057dd-e7fe-4c0b-9aeb-089a080e4283}</UniqueIdentifier>
     </Filter>
@@ -180,6 +177,9 @@
     </Filter>
     <Filter Include="2.Object\2.Actor\0.Manager\ConversationManager">
       <UniqueIdentifier>{e54c52c1-9599-4afe-9bcd-e96089ca9062}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2.Object\2.Actor\2.Interactive\NPC">
+      <UniqueIdentifier>{c1a15aa1-75f1-4523-8683-9d4e21a1ffb7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -289,7 +289,7 @@
     <ClInclude Include="UI_Hub_Actor.h">
       <Filter>2.Object\2.Actor\0.Manager\UIManager\3.Hub</Filter>
     </ClInclude>
-    <ClInclude Include="EventData.h">
+    <ClInclude Include="ContentsData.h">
       <Filter>0.Data\Event</Filter>
     </ClInclude>
     <ClInclude Include="ProductRecipeData.h">
@@ -371,10 +371,10 @@
       <Filter>10.GUI</Filter>
     </ClInclude>
     <ClInclude Include="Dian.h">
-      <Filter>2.Object\2.Actor\2.Interactive\Static\NPC</Filter>
+      <Filter>2.Object\2.Actor\2.Interactive\NPC</Filter>
     </ClInclude>
     <ClInclude Include="Aurea.h">
-      <Filter>2.Object\2.Actor\2.Interactive\Static\NPC</Filter>
+      <Filter>2.Object\2.Actor\2.Interactive\NPC</Filter>
     </ClInclude>
     <ClInclude Include="SilverStarFlower.h">
       <Filter>2.Object\2.Actor\2.Interactive\Static\Plant</Filter>
@@ -470,7 +470,7 @@
       <Filter>2.Object\2.Actor\0.Manager\ConversationManager</Filter>
     </ClInclude>
     <ClInclude Include="NPCEntity.h">
-      <Filter>2.Object\2.Actor\2.Interactive\Static\NPC</Filter>
+      <Filter>2.Object\2.Actor\2.Interactive\NPC</Filter>
     </ClInclude>
     <ClInclude Include="UI_Conversation.h">
       <Filter>2.Object\2.Actor\0.Manager\ConversationManager</Filter>
@@ -580,7 +580,7 @@
     <ClCompile Include="UI_Hub_Actor.cpp">
       <Filter>2.Object\2.Actor\0.Manager\UIManager\3.Hub</Filter>
     </ClCompile>
-    <ClCompile Include="EventData.cpp">
+    <ClCompile Include="ContentsData.cpp">
       <Filter>0.Data\Event</Filter>
     </ClCompile>
     <ClCompile Include="BiologyData.cpp">
@@ -671,10 +671,10 @@
       <Filter>10.GUI</Filter>
     </ClCompile>
     <ClCompile Include="Dian.cpp">
-      <Filter>2.Object\2.Actor\2.Interactive\Static\NPC</Filter>
+      <Filter>2.Object\2.Actor\2.Interactive\NPC</Filter>
     </ClCompile>
     <ClCompile Include="Aurea.cpp">
-      <Filter>2.Object\2.Actor\2.Interactive\Static\NPC</Filter>
+      <Filter>2.Object\2.Actor\2.Interactive\NPC</Filter>
     </ClCompile>
     <ClCompile Include="SilverStarFlower.cpp">
       <Filter>2.Object\2.Actor\2.Interactive\Static\Plant</Filter>
@@ -774,7 +774,7 @@
       <Filter>2.Object\2.Actor\0.Manager\ConversationManager</Filter>
     </ClCompile>
     <ClCompile Include="NPCEntity.cpp">
-      <Filter>2.Object\2.Actor\2.Interactive\Static\NPC</Filter>
+      <Filter>2.Object\2.Actor\2.Interactive\NPC</Filter>
     </ClCompile>
     <ClCompile Include="UI_Conversation.cpp">
       <Filter>2.Object\2.Actor\0.Manager\ConversationManager</Filter>

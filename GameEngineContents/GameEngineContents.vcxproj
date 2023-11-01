@@ -272,7 +272,7 @@
     </ClCompile>
     <ClCompile Include="Ellie_Riding_State.cpp" />
     <ClCompile Include="Ellie_State.cpp" />
-    <ClCompile Include="EventData.cpp">
+    <ClCompile Include="ContentsData.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -654,7 +654,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="EventData.h">
+    <ClInclude Include="ContentsData.h">
       <SubType>
       </SubType>
     </ClInclude>

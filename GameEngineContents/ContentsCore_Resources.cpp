@@ -64,7 +64,7 @@ void ContentsCore::InitResources()
 
 void ContentsCore::LoadContentsData()
 {
-	EventData::Init();
+	ContentsData::Init();
 
 	// æ∆¿Ã≈€
 	ItemData::CreateData("WitchFlower_Water", { "WitchFlower_Water", "∏∂≥‡¿« ≤…¡Û", EITEM_TYPE::Ingredient });

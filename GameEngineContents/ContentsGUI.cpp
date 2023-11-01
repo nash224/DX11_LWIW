@@ -536,7 +536,7 @@ void BaseRendererItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTim
 
 		if (ImGui::ListBox("Depth", &SelectDepthItem, &CNames[0], static_cast<int>(CNames.size())), 3)
 		{
-			dynamic_cast<MapEditorLevel*>(_Level)->_SelectDepth = DepthTypes.find(CNames[SelectDepthItem])->second;
+			static_cast<MapEditorLevel*>(_Level)->_SelectDepth = DepthTypes.find(CNames[SelectDepthItem])->second;
 		}
 
 
@@ -546,15 +546,6 @@ void BaseRendererItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTim
 			{
 				EditorLevel->SelectActor->m_Renderer->Transform.SetLocalPosition(RendererCorrection);
 			}
-
-			//if (ImGui::SliderFloat("Stretch Width", &StretchWidth, 0.0f, 1000.0f, "%.0f"))
-			//{
-			//	EditorLevel->SelectActor->m_Renderer->GetImageTransform().SetLocalScale(float4(StretchWidth, StretchHeight));
-			//}
-			//if (ImGui::SliderFloat("Stretch Height", &StretchHeight, 0.0f, 1000.0f, "%.0f"))
-			//{
-			//	EditorLevel->SelectActor->m_Renderer->GetImageTransform().SetLocalScale(float4(StretchWidth, StretchHeight));
-			//}
 
 			if (true == _Level->IsDebug)
 			{
@@ -567,10 +558,10 @@ void BaseRendererItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTim
 
 	if (ImGui::Button("All Clear"))
 	{
-		std::vector<std::shared_ptr<RendererActor>> Objects = _Level->GetObjectGroupConvert<RendererActor>(0);
-		for (size_t i = 0; i < Objects.size(); i++)
+		std::vector<std::shared_ptr<RendererActor>> GroupObject = _Level->GetObjectGroupConvert<RendererActor>(0);
+		for (const std::shared_ptr<RendererActor>& Object : GroupObject)
 		{
-			Objects[i]->Death();
+			Object->Death();
 		}
 
 		EditorLevel->SelectActor = nullptr;
@@ -603,9 +594,9 @@ void BaseRendererItemTab::LoadItemTab(GameEngineLevel* _Level)
 	File.DataAllRead(LoadBin);
 
 	std::vector<std::shared_ptr<GroundRenderUnit>> ObjectGroup = _Level->GetObjectGroupConvert<GroundRenderUnit>(0);
-	for (int i = 0; i < ObjectGroup.size(); i++)
+	for (const std::shared_ptr<GroundRenderUnit>& Object : ObjectGroup)
 	{
-		ObjectGroup[i]->Death();
+		Object->Death();
 	}
 
 	// °´Ã¼ ¼ö ÀÐ¾î¿È
@@ -705,7 +696,7 @@ void PropItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTime)
 
 		if (ImGui::ListBox("Depth", &SelectDepthItem, &CNames[0], static_cast<int>(CNames.size())), 3)
 		{
-			dynamic_cast<MapEditorLevel*>(_Level)->_SelectDepth = DepthTypes.find(CNames[SelectDepthItem])->second;
+			static_cast<MapEditorLevel*>(_Level)->_SelectDepth = DepthTypes.find(CNames[SelectDepthItem])->second;
 		}
 
 
@@ -792,9 +783,9 @@ void PropItemTab::LoadItemTab(GameEngineLevel* _Level)
 	File.DataAllRead(LoadBin);
 
 	std::vector<std::shared_ptr<NormalProp>> ObjectGroup = _Level->GetObjectGroupConvert<NormalProp>(0);
-	for (size_t i = 0; i < ObjectGroup.size(); i++)
+	for (const std::shared_ptr<NormalProp>& Object : ObjectGroup)
 	{
-		ObjectGroup[i]->Death();
+		Object->Death();
 	}
 
 	// °´Ã¼ ¼ö ÀÐ¾î¿È
