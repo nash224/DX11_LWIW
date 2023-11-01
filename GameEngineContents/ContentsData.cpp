@@ -87,7 +87,7 @@ bool ContentsData::Dian_Quest_2::CheckPrerequisiteQuest()
 	if (nullptr == Quest1)
 	{
 		MsgBoxAssert("존재하지 않는 퀘스트입니다.");
-		return;
+		return false;
 	}
 
 	if (true == Quest1->isQuestComplete())
@@ -104,7 +104,7 @@ bool ContentsData::Dian_Quest_3::CheckPrerequisiteQuest()
 	if (nullptr == Quest2)
 	{
 		MsgBoxAssert("존재하지 않는 퀘스트입니다.");
-		return;
+		return false;
 	}
 
 	if (true == Quest2->isQuestComplete())
@@ -121,7 +121,7 @@ bool ContentsData::Dian_Quest_4::CheckPrerequisiteQuest()
 	if (nullptr == Quest3)
 	{
 		MsgBoxAssert("존재하지 않는 퀘스트입니다.");
-		return;
+		return false;
 	}
 
 	if (true == Quest3->isQuestComplete())
@@ -138,7 +138,7 @@ bool ContentsData::Dian_Quest_5::CheckPrerequisiteQuest()
 	if (nullptr == Quest4)
 	{
 		MsgBoxAssert("존재하지 않는 퀘스트입니다.");
-		return;
+		return false;
 	}
 
 	if (true == Quest4->isQuestComplete())
