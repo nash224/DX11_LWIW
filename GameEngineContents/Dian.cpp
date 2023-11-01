@@ -71,7 +71,7 @@ void Dian::ConversationSetting()
 	};
 
 	HelloTopic.Data.shrink_to_fit();
-	m_ConversationInfo.CreateTopic(EDIANTOPICTYPE::Hello, HelloTopic);
+	NPCConversation.CreateTopic(EDIANTOPICTYPE::Hello, HelloTopic);
 }
 
 
@@ -112,6 +112,6 @@ void Dian::NormalUpdate(float _DeltaTime, GameEngineState* _Parent)
 {
 	if (true == IsEnalbeActive)
 	{
-		NPCEntity::InteractWithEllie(EDIANTOPICTYPE::Crow);
+		NPCEntity::InteractWithEllie(EDIANTOPICTYPE::Hello);
 	}
 }

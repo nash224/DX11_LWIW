@@ -69,6 +69,7 @@ void CrowEvent::RendererSetting()
 	CrowRenderer->CreateAnimation("Caw", "Crow.png", Caw_Animation_Inter, 2, 4, false);
 	CrowRenderer->CreateAnimation("CawReverse", "Crow.png", Caw_Animation_Inter, 4, 2, false);
 	CrowRenderer->CreateAnimation("Disappear", "Crow.png", Disappear_Animation_Inter, 5, 15, false);
+	CrowRenderer->FindAnimation("Disappear")->Inter[10] = 1.0f;
 
 	CrowRenderer->SetEndEvent("Caw", [&](GameEngineSpriteRenderer* _Parent)
 		{

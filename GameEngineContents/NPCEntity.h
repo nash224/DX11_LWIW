@@ -34,7 +34,7 @@ protected:
 
 
 protected:
-	Conversation m_ConversationInfo;
+	Conversation NPCConversation;
 
 };
 

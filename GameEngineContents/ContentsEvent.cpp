@@ -16,8 +16,6 @@ public:
 };
 
 
-
-
 std::vector<bool> ContentsEvent::ToolData;
 std::map<int, std::shared_ptr<ContentsEvent::QuestUnitBase>> ContentsEvent::QuestData;
 

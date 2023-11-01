@@ -9,7 +9,6 @@ class Dian : public NPCEntity
 public:
 	enum class EDIANTOPICTYPE
 	{
-		Crow,
 		Hello,
 		None,
 	};
