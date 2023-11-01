@@ -19,7 +19,7 @@ Field_Center::~Field_Center()
 
 void Field_Center::Start()
 {
-	PlayLevel::Start();
+	FieldLevel::Start();
 
 	if (nullptr != m_LevelCameraControler)
 	{
@@ -29,12 +29,12 @@ void Field_Center::Start()
 
 void Field_Center::Update(float _Delta)
 {
-	PlayLevel::Update(_Delta);
+	FieldLevel::Update(_Delta);
 }
 
 void Field_Center::LevelStart(class GameEngineLevel* _NextLevel)
 {
-	PlayLevel::LevelStart(_NextLevel); 
+	FieldLevel::LevelStart(_NextLevel);
 
 	LoadTexture();
 	LoadActor();
@@ -46,7 +46,7 @@ void Field_Center::LevelStart(class GameEngineLevel* _NextLevel)
 
 void Field_Center::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-	PlayLevel::LevelEnd(_NextLevel);
+	FieldLevel::LevelEnd(_NextLevel);
 
 	ReleaseTexture();
 }

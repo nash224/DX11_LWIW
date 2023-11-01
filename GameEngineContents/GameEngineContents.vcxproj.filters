@@ -475,6 +475,9 @@
     <ClInclude Include="CrowEvent.h">
       <Filter>2.Object\2.Actor\1.BackManager\LevelBackDrop\2.Play\Yard</Filter>
     </ClInclude>
+    <ClInclude Include="FieldLevel.h">
+      <Filter>2.Object\3.Level\2.Play\0.PlayLevel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -784,6 +787,9 @@
     </ClCompile>
     <ClCompile Include="CrowEvent.cpp">
       <Filter>2.Object\2.Actor\1.BackManager\LevelBackDrop\2.Play\Yard</Filter>
+    </ClCompile>
+    <ClCompile Include="FieldLevel.cpp">
+      <Filter>2.Object\3.Level\2.Play\0.PlayLevel</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

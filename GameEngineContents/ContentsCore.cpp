@@ -35,6 +35,9 @@ void ContentsCore::Start()
 	GameEngineFont::Load("Sandoll ªÔ∏≥»£ªß√º TTF Basic");
 	GameEngineFont::Load("Perfect DOS VGA 437");
 	GameEngineFont::Load("¡¶¡÷«—∂ÛªÍ");
+
+	GlobalValue::SetSoundVolume(0.5f);
+
 	InitResources();
 	InitBlendResources();
 	

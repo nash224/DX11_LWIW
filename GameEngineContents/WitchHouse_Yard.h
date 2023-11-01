@@ -1,9 +1,9 @@
 #pragma once
-#include "PlayLevel.h"
+#include "FieldLevel.h"
 
 // Ό³Έν :
 class BackDrop_WitchHouse_Yard;
-class WitchHouse_Yard : public PlayLevel
+class WitchHouse_Yard : public FieldLevel
 {
 public:
 	// constrcuter destructer
@@ -34,6 +34,6 @@ private:
 
 private:
 	std::shared_ptr<BackDrop_WitchHouse_Yard> m_BackDrop = nullptr;
-	std::shared_ptr<class SkyLerp> m_SkyLerp = nullptr;
+
 };
 

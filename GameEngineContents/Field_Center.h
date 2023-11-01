@@ -1,11 +1,11 @@
 #pragma once
-#include "PlayLevel.h"
+#include "FieldLevel.h"
 
 // Ό³Έν :
 class BackDrop_CenterField;
 class Ellie;
 class PortalObject;
-class Field_Center : public PlayLevel
+class Field_Center : public FieldLevel
 {
 public:
 	// constrcuter destructer

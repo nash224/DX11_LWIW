@@ -2,11 +2,14 @@
 #include "WitchHouse_Yard.h"
 
 
-#include "BackDrop_WitchHouse_Yard.h"
 #include "CameraControler.h"
+#include "TimeManager.h"
+#include "SkyLerp.h"
+
+#include "BackDrop_WitchHouse_Yard.h"
 #include "Ellie.h"
 
-#include "SkyLerp.h"
+
 
 
 WitchHouse_Yard::WitchHouse_Yard() 
@@ -20,29 +23,25 @@ WitchHouse_Yard::~WitchHouse_Yard()
 
 void WitchHouse_Yard::Start()
 {
-	PlayLevel::Start();
+	FieldLevel::Start();
 
 	if (nullptr != m_LevelCameraControler)
 	{
 		m_LevelCameraControler->SetCameraMode(ECAMERAMODE::Fix);
 	}
-
-	m_SkyLerp = CreateActor<SkyLerp>(EUPDATEORDER::Sky);
-	m_SkyLerp->Init();
 }
 
 void WitchHouse_Yard::Update(float _Delta)
 {
-	PlayLevel::Update(_Delta);
+	FieldLevel::Update(_Delta);
 }
 
 void WitchHouse_Yard::LevelStart(class GameEngineLevel* _NextLevel)
 {
-	PlayLevel::LevelStart(_NextLevel);
+	FieldLevel::LevelStart(_NextLevel);
 
 	LoadTexture();
 	LoadActor();
-
 
 	SetEllieLevelChangeLocation(_NextLevel);
 
@@ -51,7 +50,7 @@ void WitchHouse_Yard::LevelStart(class GameEngineLevel* _NextLevel)
 
 void WitchHouse_Yard::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-	PlayLevel::LevelEnd(_NextLevel);
+	FieldLevel::LevelEnd(_NextLevel);
 
 	ReleaseTexture();
 }

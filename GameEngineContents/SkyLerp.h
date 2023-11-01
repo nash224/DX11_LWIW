@@ -56,18 +56,16 @@ public:
 	void Init();
 
 	void SetSkyColor();
-	void TestCode();
-
 
 	float4 SkyColor = float4::ZERONULL;
 	
 
 protected:
-	void Start() override;
+	void Start() override {}
 	void Update(float _Delta) override;
 	void Release() override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
-	void LevelEnd(class GameEngineLevel* _NextLevel) override;
+	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 
 	void UpdateSkyLerp();

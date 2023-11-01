@@ -14,6 +14,28 @@ class PlayLevel : public ContentsLevel
 public:
 	static std::shared_ptr<class TimeManager> s_TimeManager;
 
+
+public:
+	class PlaySoundInfo
+	{
+	public:
+		GameEngineSoundPlayer BGM;
+		GameEngineSoundPlayer BGM_SFX;
+		std::string BGMName;
+
+		static float BGMVolume;
+
+	public:
+		void PlayBGM(std::string_view _BGMName, std::string_view _BGM_SFXName = "");
+		void ResourceLoad();
+		void Stop();
+		void SetVolume(float _Value);
+
+		static constexpr const float Max_BGM_Volume = 2.0f;
+		static constexpr const float Min_BGM_Volume = 0.0f;
+
+	};
+
 public:
 	// constrcuter destructer
 	PlayLevel();
@@ -43,6 +65,8 @@ private:
 protected:
 	std::shared_ptr<Ellie> m_Ellie = nullptr;
 	std::shared_ptr<UIManager> m_UIManager = nullptr;
+
+	PlaySoundInfo MainPlaySound;
 
 	bool LevelInitCheck = false;
 

@@ -16,11 +16,6 @@ SkyLerp::~SkyLerp()
 }
 
 
-void SkyLerp::Start()
-{
-	
-}
-
 void SkyLerp::Update(float _Delta)
 {
 	UpdateSkyLerp();
@@ -29,16 +24,14 @@ void SkyLerp::Update(float _Delta)
 
 void SkyLerp::Release()
 {
+	SkyManager = nullptr;
+	Sun_Renderer = nullptr;
+	SkyData.clear();
 }
 
 void SkyLerp::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	SkyManager = this;
-}
-
-void SkyLerp::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-
 }
 
 
@@ -94,20 +87,13 @@ void SkyLerp::Init()
 	SkyData.push_back(Sky_730);
 	SkyData.push_back(Sky_740);
 
-	
-	
-	
-	/*TestCode();*/
-
 	if (nullptr == PlayLevel::s_TimeManager)
 	{
 		MsgBoxAssert("타임 매니저가 존재하지 않습니다.");
 		return;
 	}
 
-
 	MinuteRatio = PlayLevel::s_TimeManager->GetMinuteRatio();
-	PlayLevel::s_TimeManager->SetTimeFlowRatio(5.0f);
 	PlayLevel::s_TimeManager->SetTime(180.0f);
 
 	LerpSky(SkyData[0]);
@@ -122,17 +108,6 @@ void SkyLerp::SetSkyColor()
 	PauseSkyLerp = true;
 
 	Sun_Renderer->GetColorData().MulColor = SkyColor;
-}
-
-void SkyLerp::TestCode()
-{
-	/*PauseSkyLerp = true;*/
-
-	static std::uint32_t SkyOrder = 0;
-	std::shared_ptr<GameEngineUIRenderer> DarkFilter = CreateComponent<GameEngineUIRenderer>(SkyOrder);
-	DarkFilter->SetSprite("SkyBox.png");
-	DarkFilter->Transform.SetLocalPosition(float4(0.0f, 0.0f, GlobalUtils::CalculateFixDepth(-202)));
-	DarkFilter->GetColorData().MulColor = float4(0.1f, 0.1f, 0.1f, 0.1f);
 }
 
 // 일몰 업데이트

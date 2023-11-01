@@ -29,9 +29,17 @@ public:
 	static float4 GetItemScale();
 	static int GetSeedValue();
 
+	static float GetSoundVolume();
+	static void SetSoundVolume(float _Volume);
+
+	static float GetSFXVolume();
+	static void SetSFXVolume(float _Volume);
+
 private:
 	static float4 WindowScale;
 	static float4 ItemScale;
 	static int RandomSeed;
+	static float SoundVolume;
+	static float SFXVolume;
 };
 

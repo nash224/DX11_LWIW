@@ -7,6 +7,17 @@
 
 CrowEvent::CrowEvent() 
 {
+	if (nullptr == GameEngineSound::FindSound("SFX_CrowCrying_01.wav"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\Sound\\Actor\\Crow");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile pFile : Files)
+		{
+			GameEngineSound::SoundLoad(pFile.GetStringPath());
+		}
+	}
 }
 
 CrowEvent::~CrowEvent() 
@@ -81,6 +92,12 @@ void CrowEvent::RendererSetting()
 			CrowRenderer->ChangeAnimation("Idle");
 		});
 
+	CrowRenderer->SetStartEvent("Disappear", [&](GameEngineSpriteRenderer* _Parent)
+		{
+			GameEngineSoundPlayer CrowDisappear = GameEngineSound::SoundPlay("SFX_CrowDisappear_01");
+			CrowDisappear.SetVolume(GlobalValue::GetSFXVolume());
+		});
+
 	CrowRenderer->SetEndEvent("Disappear", [&](GameEngineSpriteRenderer* _Parent)
 		{
 			CrowRenderer->Off();
@@ -133,6 +150,10 @@ void CrowEvent::UpdateIdle(float _DeltaTime, GameEngineState* _Parent)
 		}
 
 		CrowRenderer->ChangeAnimation("Caw", true);
+
+
+		GameEngineSoundPlayer Caw = GameEngineSound::SoundPlay("SFX_CrowCrying_01.wav");
+		Caw.SetVolume(GlobalValue::GetSoundVolume());
 	}
 }
 

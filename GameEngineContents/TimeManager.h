@@ -34,13 +34,17 @@ public:
 	void Reset();
 
 	float GetTime() const;
+	void SetTime(unsigned int  _Hour, unsigned int  _Minute = 0);
 	int GetHour() const;
+	int GetMinute() const;
 	float GetTimeRatio() const;
 	float GetMinuteRatio() const;
 
 	bool IsDay();
 
 	void Update(float _Delta);
+	void ConvertTimeToHour();
+	void ConvertHourToTime();
 
 protected:
 
@@ -49,15 +53,20 @@ private:
 	float TimeFlowRatio = 1.0f;
 	float Time = 0.0f;
 
+	int Hour = 0;
+	int Minute = 0;
+
 	EDAYSTATE DayState = EDAYSTATE::None;
 
-	static constexpr const int Start_Hour = 9;
+	static constexpr const int Start_Day_Hour = 9;
+	static constexpr const int End_Day_Hour = 24;
+
 	static constexpr const int Ten_Minutes_Count_Per_Hour = 6;
 
-
 	static constexpr const float Night_Start_Time = 240.0f;
-	static constexpr const float Unit_Minute_Ratio = 5.0f;
+	static constexpr const int Ratio_Per_Minute = 5;
 
+	static constexpr const int Night_Hour = 19;
 
 };
 
