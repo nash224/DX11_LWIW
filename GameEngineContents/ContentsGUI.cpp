@@ -217,13 +217,16 @@ void DebugTab::TimeDebug()
 {
 	if (nullptr != PlayLevel::s_TimeManager)
 	{
-		if (ImGui::SliderFloat("TimeCustom", &TimeCustom, 0.0f, Max_Day_Time, "%.0f"))
+		if (ImGui::SliderFloat("TimeCustom", &TimeCustom, 0.0f, PlayLevel::s_TimeManager->GetMaxTime(), "%.0f"))
 		{
 			PlayLevel::s_TimeManager->Pause(true);
 			PlayLevel::s_TimeManager->SetTime(TimeCustom);
 		}
 
 		ImGui::Text(std::string("Time : " + std::to_string(PlayLevel::s_TimeManager->GetTime())).c_str());
+
+		ImGui::Text(std::string("Hour : " + std::to_string(PlayLevel::s_TimeManager->GetHour())).c_str());
+		ImGui::Text(std::string("Minute : " + std::to_string(PlayLevel::s_TimeManager->GetMinute())).c_str());
 	}
 }
 

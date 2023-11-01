@@ -14,6 +14,8 @@ TimeManager::~TimeManager()
 void TimeManager::Init()
 {
 	Reset();
+
+	MaxTime = static_cast<float>((End_Day_Hour - Start_Day_Hour) * One_Minutes_Per_Hour / (10 / Ratio_Per_TenMinute));
 }
 
 void TimeManager::SetTime(float _Time)
@@ -43,12 +45,18 @@ void TimeManager::Reset()
 	Minute = 0;
 }
 
+
+float TimeManager::GetMaxTime()
+{
+	return MaxTime;
+}
+
 float TimeManager::GetTime() const
 {
 	return Time;
 }
 
-void TimeManager::SetTime(unsigned int _Hour, unsigned int _Minute /*= 0*/)
+void TimeManager::SetTime(unsigned int _Hour, unsigned int _Minute)
 {
 	int AddHour = 0;
 
@@ -83,7 +91,7 @@ void TimeManager::SetTime(unsigned int _Hour, unsigned int _Minute /*= 0*/)
 		Hour = AddHour;
 	}
 
-	if (Hour > Night_Hour)
+	if (Hour > Start_Night_Hour)
 	{
 		DayState = EDAYSTATE::Night;
 	}
@@ -103,12 +111,12 @@ int TimeManager::GetMinute() const
 
 float TimeManager::GetTimeRatio() const
 {
-	return Time / Max_Day_Time;
+	return Time / MaxTime;
 }
 
 float TimeManager::GetMinuteRatio() const
 {
-	return static_cast<float>(Ratio_Per_Minute) / Max_Day_Time;
+	return static_cast<float>(Ratio_Per_TenMinute) / MaxTime;
 }
 
 
@@ -127,7 +135,7 @@ void TimeManager::Update(float _Delta)
 
 	ConvertTimeToHour();
 
-	if (Hour >= Night_Hour)
+	if (Hour >= Start_Night_Hour)
 	{
  		DayState = EDAYSTATE::Night;
 	}
@@ -152,7 +160,7 @@ bool TimeManager::IsDay()
 void TimeManager::ConvertTimeToHour()
 {
 	float fHour = 0.0f;
-	float TimeRatio = Time / static_cast<float>(Ratio_Per_Minute * Ten_Minutes_Count_Per_Hour);
+	float TimeRatio = Time / static_cast<float>(One_Minutes_Per_Hour / (10 / Ratio_Per_TenMinute));
 	float fMinutes = std::modff(TimeRatio, &fHour);
 	const int AddHour = static_cast<int>(fHour);
 
@@ -162,9 +170,7 @@ void TimeManager::ConvertTimeToHour()
 
 void TimeManager::ConvertHourToTime()
 {
-	// 450 / 15 = 30
-	// (End_Day_Hour - Start_Day_Hour) * Ten_Minutes_Count_Per_Hour * Ratio_Per_Minute
-	int HourTime = (Hour - Start_Day_Hour) * Ten_Minutes_Count_Per_Hour * Ratio_Per_Minute;
-	int MinuteTime = Minute / (60);
+	int HourTime = (Hour - Start_Day_Hour) * One_Minutes_Per_Hour / (10 / Ratio_Per_TenMinute);
+	int MinuteTime = Minute / (10 / Ratio_Per_TenMinute);
 	Time = static_cast<float>(HourTime + MinuteTime);
 }

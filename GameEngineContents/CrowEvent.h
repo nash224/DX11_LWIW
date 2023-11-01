@@ -61,7 +61,7 @@ private:
 	float StateTime = 0.0f;
 
 	static constexpr const float Caw_Wait_Time = 2.0f;
-	static constexpr const float Caw_CoolTime = 5.0f;
+	static constexpr const float Caw_CoolTime = 8.0f;
 
 	static constexpr const float Caw_Animation_Inter = 0.12f;
 	static constexpr const float Disappear_Animation_Inter = 0.16f;

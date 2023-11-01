@@ -14,8 +14,6 @@ bool ContentsEvent::Crow_Meet::CheckPrerequisiteQuest()
 		return false;
 	}
 
-	PlayLevel::s_TimeManager->SetTime(11, 36);
-
 	if (PlayLevel::s_TimeManager->GetHour() >= 11)
 	{
 		return true;

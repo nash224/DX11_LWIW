@@ -32,7 +32,7 @@
 #define Sky_730 { 0.0f, 0.0f, 0.12f, 0.66f }
 #define Sky_740 { 0.0f, 0.0f, 0.14f, 0.7f }
 
-#define SUNSET_TIMERATIO 0.4f
+#define START_SUNSET_TIMERATIO 0.4f
 #define NIGHT_TIMERATIO 0.666667f
 
 
@@ -78,6 +78,6 @@ private:
 	std::shared_ptr<GameEngineSpriteRenderer> Sun_Renderer = nullptr;
 
 	bool PauseSkyLerp = false;
-	float MinuteRatio = 0.0f;
+	float TenMinuteTimeRatio = 0.0f;
 
 };

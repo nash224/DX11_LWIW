@@ -2,8 +2,6 @@
 
 
 
-static constexpr const float Max_Day_Time = 450.0f;
-
 enum class EDAYSTATE
 {
 	Day,
@@ -33,10 +31,12 @@ public:
 	void Pause(bool _Value);
 	void Reset();
 
+	float GetMaxTime();
 	float GetTime() const;
-	void SetTime(unsigned int  _Hour, unsigned int  _Minute = 0);
+	void SetTime(unsigned int  _Hour, unsigned int  _Minute);
 	int GetHour() const;
 	int GetMinute() const;
+	
 	float GetTimeRatio() const;
 	float GetMinuteRatio() const;
 
@@ -52,6 +52,7 @@ private:
 	bool IsPause = false;
 	float TimeFlowRatio = 1.0f;
 	float Time = 0.0f;
+	float MaxTime = 0.0f;
 
 	int Hour = 0;
 	int Minute = 0;
@@ -59,14 +60,12 @@ private:
 	EDAYSTATE DayState = EDAYSTATE::None;
 
 	static constexpr const int Start_Day_Hour = 9;
+	static constexpr const int Start_Night_Hour = 19;
 	static constexpr const int End_Day_Hour = 24;
 
-	static constexpr const int Ten_Minutes_Count_Per_Hour = 6;
+	static constexpr const int One_Minutes_Per_Hour = 60;
 
-	static constexpr const float Night_Start_Time = 240.0f;
-	static constexpr const int Ratio_Per_Minute = 5;
-
-	static constexpr const int Night_Hour = 19;
+	static constexpr const int Ratio_Per_TenMinute = 5;
 
 };
 

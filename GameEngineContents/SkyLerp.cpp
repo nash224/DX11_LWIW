@@ -93,8 +93,8 @@ void SkyLerp::Init()
 		return;
 	}
 
-	MinuteRatio = PlayLevel::s_TimeManager->GetMinuteRatio();
-	PlayLevel::s_TimeManager->SetTime(180.0f);
+	TenMinuteTimeRatio = PlayLevel::s_TimeManager->GetMinuteRatio();
+	PlayLevel::s_TimeManager->SetTime(13, 20);
 
 	LerpSky(SkyData[0]);
 
@@ -125,10 +125,12 @@ void SkyLerp::UpdateSkyLerp()
 		return;
 	}
 
+	// 1 / 
+
 	float TimeRatio = PlayLevel::s_TimeManager->GetTimeRatio();
-	if (TimeRatio > SUNSET_TIMERATIO)
+	if (TimeRatio > START_SUNSET_TIMERATIO)
 	{
-		float SunSetRatio = (TimeRatio - SUNSET_TIMERATIO) / MinuteRatio;				// 비율계산
+		float SunSetRatio = (TimeRatio - START_SUNSET_TIMERATIO) / TenMinuteTimeRatio;				// 비율계산
 		float fRefNumber;
 
 		SunSetRatio = std::modff(SunSetRatio, &fRefNumber);								// 정수부, 소수부 분리
@@ -143,6 +145,10 @@ void SkyLerp::UpdateSkyLerp()
 		{
 			LerpSky(SkyData[MaxRefNumber]);
 		}
+	}
+	else
+	{
+		LerpSky(SkyData[0]);
 	}
 }
 
