@@ -25,6 +25,7 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
+	void LoadSprite();
 	void LoadSerBin();
 	void CreateBase();
 	void CreateNormalProp();
@@ -32,6 +33,10 @@ private:
 	void CreatePortalActor();
 	void CreateDian();
 
+	void CheckCrowEvent();
+	void ShowCrowEvent();
+
+	void ReleaseYardSprite();
 
 	void TestLightShader();
 };

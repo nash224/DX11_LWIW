@@ -257,6 +257,7 @@ void UI_Conversation::Reset()
 	Portrait.Virgil->Off();
 
 	Portrait.Default_Index = 0;
+	Portrait.isNoNpc = false;
 
 	const int Virgil_Default_Index = ReturnVirgilIndexToElliePortrait(Portrait.Ellie_Portrait_Default_Index);
 
@@ -319,16 +320,25 @@ void UI_Conversation::StartConversation(std::string_view _NPCSpriteName, int _De
 
 	Portrait.Ellie->ChangeCurSprite(Portrait.Ellie_Portrait_Default_Index);
 	Portrait.Virgil->ChangeCurSprite(Virgil_Default_Index);
-	Portrait.Other->SetSprite(_NPCSpriteName);
 
-	bool isDeaultIndexSetting = (-1 != Portrait.Default_Index);
-	if (isDeaultIndexSetting)
+	if (true == _NPCSpriteName.empty())
 	{
-		Portrait.Default_Index = _Default_Sprite_Index;
+		Portrait.isNoNpc = true;
+		Portrait.Other->Off();
 	}
 	else
 	{
-		Portrait.Default_Index = -1;
+		Portrait.Other->SetSprite(_NPCSpriteName);
+
+		bool isDeaultIndexSetting = (-1 != Portrait.Default_Index);
+		if (isDeaultIndexSetting)
+		{
+			Portrait.Default_Index = _Default_Sprite_Index;
+		}
+		else
+		{
+			Portrait.Default_Index = -1;
+		}
 	}
 	
 
@@ -379,6 +389,11 @@ void UI_Conversation::ShowConversation(const ConversationData& _Data)
 
 void UI_Conversation::NPCDefaultIndexSetting()
 {
+	if (true == Portrait.isNoNpc)
+	{
+		return;
+	}
+
 	if (-1 == Portrait.Default_Index)
 	{
 		return;
@@ -410,10 +425,15 @@ void UI_Conversation::SetEllieExpression(unsigned int _SpriteIndex)
 
 void UI_Conversation::SetNPCExpression(unsigned int _SpriteIndex)
 {
+	if (true == Portrait.isNoNpc)
+	{
+		MsgBoxAssert("NPC가 없다는데 대화를 하려 했습니다.");
+		return;
+	}
+
 	SetAllExpressionBlack();
 
 	Portrait.Other->GetColorData().MulColor = Portrait.SayingColor;
-
 	Portrait.Other->ChangeCurSprite(_SpriteIndex);
 }
 
@@ -455,8 +475,12 @@ void UI_Conversation::SetAllExpressionBlack()
 	}
 
 	Portrait.Virgil->GetColorData().MulColor = Portrait.UnsaidColor;
-	Portrait.Other->GetColorData().MulColor = Portrait.UnsaidColor;
 	Portrait.Ellie->GetColorData().MulColor = Portrait.UnsaidColor;
+
+	if (false == Portrait.isNoNpc)
+	{
+		Portrait.Other->GetColorData().MulColor = Portrait.UnsaidColor;
+	}
 }
 
 

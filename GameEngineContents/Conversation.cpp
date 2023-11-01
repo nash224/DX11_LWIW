@@ -33,6 +33,19 @@ const std::shared_ptr<Topic> Conversation::FindTopic(int _ConversationType)
 	return topic;
 }
 
+
+void Conversation::SetConversationEvent(int _Topic, int _index, std::function<void()> _Function)
+{
+	std::shared_ptr<Topic> CurTopic = Topics[_Topic];
+	if (nullptr == CurTopic)
+	{
+		MsgBoxAssert("존재하지 않는 주제에 이벤트를 설정하려 했습니다.");
+		return;
+	}
+
+	CurTopic->Data[_index].Event = _Function;
+}
+
 void Conversation::SetConversationEndEvent(int _Topic, std::function<void()> _Function)
 {
 	if (nullptr == Topics[_Topic])
@@ -113,9 +126,10 @@ void Conversation::NextConversationLine()
 
 void Conversation::ConversationBTWEvent()
 {
-	if (nullptr != CurTopic->Data[CurLine].Event)
+	const ConversationData& LineData = CurTopic->Data[CurLine];
+	if (nullptr != LineData.Event)
 	{
-		CurTopic->Data[CurLine].Event();
+		LineData.Event();
 	}
 }
 

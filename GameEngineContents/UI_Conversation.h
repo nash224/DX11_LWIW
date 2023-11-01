@@ -23,6 +23,8 @@ public:
 		int Default_Index = 0;
 		unsigned int VirgilIndex = 0;
 
+		bool isNoNpc = false;
+
 	public:
 		static constexpr const int Ellie_Portrait_Default_Index = 1;
 		static constexpr const float Portrait_Default_X_Gap = 340.0f;

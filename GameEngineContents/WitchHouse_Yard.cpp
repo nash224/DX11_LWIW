@@ -63,14 +63,15 @@ void WitchHouse_Yard::LevelEnd(class GameEngineLevel* _NextLevel)
 #pragma region LoadRes
 void WitchHouse_Yard::LoadTexture()
 {
-	GameEngineDirectory Dir;
-	Dir.MoveParentToExistsChild("Resources");
-	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_Yard");
-	std::vector<GameEngineFile> Files = Dir.GetAllFile();
-	for (size_t i = 0; i < Files.size(); i++)
+	std::vector<GameEngineDirectory> Dirs = GlobalUtils::GetAllDirInPath("Resources\\PlayContents\\WitchHouse_Yard");
+	for (GameEngineDirectory& Dir : Dirs)
 	{
-		GameEngineFile File = Files[i];
-		GameEngineTexture::Load(File.GetStringPath());
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (size_t i = 0; i < Files.size(); i++)
+		{
+			GameEngineFile File = Files[i];
+			GameEngineTexture::Load(File.GetStringPath());
+		}
 	}
 }
 
@@ -133,14 +134,15 @@ void WitchHouse_Yard::CameraSetting()
 
 void WitchHouse_Yard::ReleaseTexture()
 {
-	GameEngineDirectory Dir;
-	Dir.MoveParentToExistsChild("Resources");
-	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_Yard");
-	std::vector<GameEngineFile> Files = Dir.GetAllFile();
-	for (size_t i = 0; i < Files.size(); i++)
+	std::vector<GameEngineDirectory> Dirs = GlobalUtils::GetAllDirInPath("Resources\\PlayContents\\WitchHouse_Yard");
+	for (GameEngineDirectory& Dir : Dirs)
 	{
-		GameEngineFile File = Files[i];
-		GameEngineTexture::Release(File.GetFileName());
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (size_t i = 0; i < Files.size(); i++)
+		{
+			GameEngineFile File = Files[i];
+			GameEngineTexture::Release(File.GetFileName());
+		}
 	}
 }
 

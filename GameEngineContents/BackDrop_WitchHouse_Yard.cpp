@@ -8,6 +8,10 @@
 #include "NormalProp.h"
 #include "GroundRenderUnit.h"
 
+#include "ContentsEvent.h"
+#include "CrowEvent.h"
+
+
 BackDrop_WitchHouse_Yard::BackDrop_WitchHouse_Yard() 
 {
 }
@@ -34,6 +38,8 @@ void BackDrop_WitchHouse_Yard::Release()
 void BackDrop_WitchHouse_Yard::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	MainBackDrop = this;
+
+	CheckCrowEvent();
 }
 
 
@@ -42,15 +48,7 @@ void BackDrop_WitchHouse_Yard::LevelEnd(class GameEngineLevel* _NextLevel)
 	BackDrop_PlayLevel::LevelEnd(_NextLevel);
 
 
-	GameEngineDirectory Dir;
-	Dir.MoveParentToExistsChild("Resources");
-	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_Yard");
-	std::vector<GameEngineFile> Files = Dir.GetAllFile();
-	for (size_t i = 0; i < Files.size(); i++)
-	{
-		GameEngineFile File = Files[i];
-		GameEngineSprite::Release(File.GetFileName());
-	}
+	ReleaseYardSprite();
 }
 
 
@@ -61,22 +59,10 @@ void BackDrop_WitchHouse_Yard::LevelEnd(class GameEngineLevel* _NextLevel)
 void BackDrop_WitchHouse_Yard::Init()
 {
 	MainBackDrop = this;
-
-
-	GameEngineDirectory Dir;
-	Dir.MoveParentToExistsChild("Resources");
-	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_Yard");
-	std::vector<GameEngineFile> Files = Dir.GetAllFile();
-	for (size_t i = 0; i < Files.size(); i++)
-	{
-		GameEngineFile File = Files[i];
-		GameEngineSprite::CreateSingle(File.GetFileName());
-	}
-
+	
 	m_BackScale = GlobalValue::GetWindowScale();
 
-
-
+	LoadSprite();
 	CreateBase();
 	LoadSerBin();
 	CreateHouse();
@@ -88,6 +74,22 @@ void BackDrop_WitchHouse_Yard::Init()
 	TestLightShader();
 }
 
+void BackDrop_WitchHouse_Yard::LoadSprite()
+{
+	if (nullptr == GameEngineSprite::Find("WitchHouse_Base.png"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\PlayContents\\WitchHouse_Yard\\YardSingle");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (size_t i = 0; i < Files.size(); i++)
+		{
+			GameEngineFile File = Files[i];
+			GameEngineSprite::CreateSingle(File.GetFileName());
+		}
+	}
+
+}
 
 void BackDrop_WitchHouse_Yard::TestLightShader()
 {
@@ -161,15 +163,9 @@ void BackDrop_WitchHouse_Yard::CreateBase()
 	{
 		float4 CenterPosition = GlobalValue::GetWindowScale().Half();
 		CenterPosition.Y *= -1.0f;
+		CenterPosition.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Back_Paint);
 
 		std::shared_ptr<GameEngineSpriteRenderer> Renderer = CreateComponent<GameEngineSpriteRenderer>();
-		if (nullptr == Renderer)
-		{
-			MsgBoxAssert("nullptr == Renderer");
-			return;
-		}
-
-		CenterPosition.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Back_Paint);
 		Renderer->Transform.SetLocalPosition(CenterPosition);
 		Renderer->SetSprite("GroundBase.png");
 		Renderer->SetImageScale(GlobalValue::GetWindowScale());
@@ -196,14 +192,6 @@ void BackDrop_WitchHouse_Yard::CreateNormalProp()
 		Object->m_Renderer->SetSprite("Yard_Stone_L_0.png");
 		Object->SetPixelCollision("Yard_Stone_L_0_Pixel.png");
 		PixelVec.push_back(Object);
-	}
-
-	{
-		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		Object->Transform.SetLocalPosition({ 438.0f , -330.0f , GlobalUtils::CalculateObjectDepth(m_BackScale.Y,-330.0f) });
-		Object->Init(ERENDERORDER::NonAlphaBlend);
-		Object->m_Renderer->SetSprite("Yard_MailBox.png");
-		Object->m_Renderer->Transform.SetLocalPosition(float4(0.0f, 34.0f));
 	}
 }
 
@@ -262,6 +250,47 @@ void BackDrop_WitchHouse_Yard::CreateDian()
 }
 
 
-#pragma region Release
 
-#pragma endregion 
+
+
+void BackDrop_WitchHouse_Yard::CheckCrowEvent()
+{
+	const std::shared_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest(EEVENTTYPE::Crow_Meet);
+	if (nullptr == Quest)
+	{
+		MsgBoxAssert("생성되지 않은 퀘스트입니다.");
+		return;
+	}
+
+	if (false == Quest->isQuestComplete())
+	{
+		if (Quest->CheckPrerequisiteQuest())
+		{
+			ShowCrowEvent();
+			Quest->QuestComplete();
+		}
+	}
+}
+
+void BackDrop_WitchHouse_Yard::ShowCrowEvent()
+{
+	std::shared_ptr<CrowEvent> Event = GetLevel()->CreateActor<CrowEvent>(EUPDATEORDER::Objects);
+	Event->Init();
+}
+
+
+void BackDrop_WitchHouse_Yard::ReleaseYardSprite()
+{
+	if (nullptr != GameEngineSprite::Find("WitchHouse_Base.png"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\PlayContents\\WitchHouse_Yard\\YardSingle");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (size_t i = 0; i < Files.size(); i++)
+		{
+			GameEngineFile File = Files[i];
+			GameEngineSprite::Release(File.GetFileName());
+		}
+	}
+}

@@ -216,6 +216,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="ContentsEvent_Dian.cpp" />
+    <ClCompile Include="CrowEvent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GroundRenderUnit.cpp">
       <SubType>
       </SubType>
@@ -596,6 +600,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Conversation.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CrowEvent.h">
       <SubType>
       </SubType>
     </ClInclude>

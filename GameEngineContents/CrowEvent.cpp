@@ -1,0 +1,227 @@
+#include "PreCompile.h"
+#include "CrowEvent.h"
+
+#include "UIManager.h"
+
+
+
+CrowEvent::CrowEvent() 
+{
+}
+
+CrowEvent::~CrowEvent() 
+{
+}
+
+
+void CrowEvent::Update(float _Delta)
+{
+	State.Update(_Delta);
+	CrowConveration.UpdateConversation(_Delta);
+}
+
+void CrowEvent::Release()
+{
+	CrowRenderer = nullptr;
+
+
+	if (nullptr != GameEngineSprite::Find("Crow.png"))
+	{
+		GameEngineSprite::Release("Crow.png");
+	}
+}
+
+void CrowEvent::LevelEnd(class GameEngineLevel* _NextLevel)
+{
+	Death();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+
+void CrowEvent::Init()
+{
+	if (nullptr == GameEngineSprite::Find("Crow.png"))
+	{
+		GameEngineSprite::CreateCut("Crow.png", 4, 4);
+	}
+
+	RendererSetting();
+	StateSetting();
+	ConversationSetting();
+
+	if (nullptr != UIManager::MainUIManager)
+	{
+		UIManager::MainUIManager->UseUIComponent();
+	}
+
+
+	const float4 CrowPosition = float4(435.0f, -250.0f, GlobalUtils::CalculateFixDepth(ERENDERDEPTH::FX));
+	Transform.SetLocalPosition(CrowPosition);
+}
+
+void CrowEvent::RendererSetting()
+{
+	const std::uint32_t RendererGroup = 0;
+	CrowRenderer = CreateComponent<GameEngineSpriteRenderer>(RendererGroup);
+	CrowRenderer->AutoSpriteSizeOn();
+	CrowRenderer->CreateAnimation("Idle", "Crow.png", 5.0f,1, 1, false);
+	CrowRenderer->CreateAnimation("Caw", "Crow.png", Caw_Animation_Inter, 2, 4, false);
+	CrowRenderer->CreateAnimation("CawReverse", "Crow.png", Caw_Animation_Inter, 4, 2, false);
+	CrowRenderer->CreateAnimation("Disappear", "Crow.png", Disappear_Animation_Inter, 5, 15, false);
+
+	CrowRenderer->SetEndEvent("Caw", [&](GameEngineSpriteRenderer* _Parent)
+		{
+			CrowRenderer->ChangeAnimation("CawReverse");
+		});
+
+	CrowRenderer->SetEndEvent("CawReverse", [&](GameEngineSpriteRenderer* _Parent)
+		{
+			CrowRenderer->ChangeAnimation("Idle");
+		});
+
+	CrowRenderer->SetEndEvent("Disappear", [&](GameEngineSpriteRenderer* _Parent)
+		{
+			CrowRenderer->Off();
+
+			CrowConveration.StartConversation(ECROWTOPIC::Disappear);
+		});
+
+	CrowRenderer->ChangeAnimation("Idle");
+}
+
+void CrowEvent::StateSetting()
+{
+	CreateStateParameter EventStartState;
+	EventStartState.Stay = std::bind(&CrowEvent::UpdateEventStart, this, std::placeholders::_1, std::placeholders::_2);
+	State.CreateState(ECROWSTATE::EventStart, EventStartState);
+
+
+	CreateStateParameter IdleState;
+	IdleState.Stay = std::bind(&CrowEvent::UpdateIdle, this, std::placeholders::_1, std::placeholders::_2);
+	State.CreateState(ECROWSTATE::Idle, IdleState);
+
+	CreateStateParameter DisappearState;
+	DisappearState.Stay = std::bind(&CrowEvent::UpdateDisappear, this, std::placeholders::_1, std::placeholders::_2);
+	State.CreateState(ECROWSTATE::Disappear, DisappearState);
+
+	State.ChangeState(ECROWSTATE::EventStart);
+}
+
+void CrowEvent::UpdateEventStart(float _DeltaTime, GameEngineState* _Parent)
+{
+	if (_Parent->GetStateTime() > Caw_Wait_Time)
+	{
+		State.ChangeState(ECROWSTATE::Idle);
+		ConverseWithEllie();
+		return;
+	}
+}
+
+void CrowEvent::UpdateIdle(float _DeltaTime, GameEngineState* _Parent)
+{
+	StateTime += _DeltaTime;
+	if (StateTime > Caw_CoolTime)
+	{
+		StateTime = 0.0f;
+
+		if (nullptr == CrowRenderer)
+		{
+			MsgBoxAssert("렌더러가 존재하지 않습니다.");
+			return;
+		}
+
+		CrowRenderer->ChangeAnimation("Caw", true);
+	}
+}
+
+void CrowEvent::UpdateDisappear(float _DeltaTime, GameEngineState* _Parent)
+{
+
+}
+
+
+void CrowEvent::ConversationSetting()
+{
+	Topic CrowTopic;
+	CrowTopic.EntitySpriteName = CrowTopic.Crow_Expression_Sprite_Name;
+	CrowTopic.Default_Npc_Sprite_Index = 0;
+
+	CrowTopic.Data.reserve(64);
+	CrowTopic.Data =
+	{
+		{ L"까악" , ECONVERSATIONENTITY::NPC , 1},
+		{ L"까마귀?" , ECONVERSATIONENTITY::Ellie, 9 },
+		{ L"마녀! 까악" , ECONVERSATIONENTITY::NPC , 1},
+		{ L"말을 했어?" , ECONVERSATIONENTITY::Ellie, 9 },
+		{ L"마녀 까마귀잖아." , ECONVERSATIONENTITY::Virgil , 4, CrowTopic.Color_BLACK, CrowTopic.Font_JejuHanlasan},
+		{ L"아, 마녀 까마귀였구나." , ECONVERSATIONENTITY::Ellie , 3},
+		{ L"마녀가 돌아왔다! 마녀가 돌아왔다!" , ECONVERSATIONENTITY::NPC , 1},
+		{ L"나는 여기 처음왔는데." , ECONVERSATIONENTITY::Ellie , 1},
+		{ L"마녀가 돌아왔다!" , ECONVERSATIONENTITY::NPC , 1, CrowTopic.Color_RED},
+		{ L"말이 그렇게 잘 통하진 않네." , ECONVERSATIONENTITY::Ellie, 5 },
+		{ L"서비스 제공! 까악 서비스 제공! 마녀 카탈로그." , ECONVERSATIONENTITY::NPC, 1 },
+		{ L"마녀 카탈로그!" , ECONVERSATIONENTITY::Ellie, 8 },
+		{ L"꼭 한 번 써보고 싶었어." , ECONVERSATIONENTITY::Ellie, 6 },
+		{ L"지금 등록하면 선물을 드립니다. 까악" , ECONVERSATIONENTITY::NPC, 1 },
+		{ L"마녀 카탈로그를 이용하세요. 마녀 카탈로그를 이용하세요." , ECONVERSATIONENTITY::NPC, 1 },
+		{ L"선물도 준대! 지금만 준대!" , ECONVERSATIONENTITY::Ellie, 8 },
+		{ L"까악 선물" , ECONVERSATIONENTITY::NPC, 1, CrowTopic.Color_RED},
+		{ L"다목적 접착제? 주방용품? 포크 숟가락?" , ECONVERSATIONENTITY::Virgil, 1 , CrowTopic.Color_BLACK, CrowTopic.Font_JejuHanlasan},
+		{ L"하여튼 마녀 카탈로그는 필요해." , ECONVERSATIONENTITY::Ellie, 2},
+		{ L"잠깐 있을거라도 좋긴하지." , ECONVERSATIONENTITY::Virgil, 1, CrowTopic.Color_BLACK, CrowTopic.Font_JejuHanlasan},
+		{ L"재료나 물약 제조법 같은 것도 살 수 있어." , ECONVERSATIONENTITY::Virgil, 1, CrowTopic.Color_BLACK, CrowTopic.Font_JejuHanlasan},
+		{ L"좋아 일단 등록하자." , ECONVERSATIONENTITY::Ellie, 5 },
+		{ L"감사합니다. 까악 감사합니다. 직원 방문! 직원 방문!" , ECONVERSATIONENTITY::NPC, 1 },
+		{ L"까악 직원 방문" , ECONVERSATIONENTITY::NPC, 1 , CrowTopic.Color_RED },
+		{ L"언제?" , ECONVERSATIONENTITY::Ellie, 1 },
+		{ L"업무 끝! 업무 끝! 퇴근 시간" , ECONVERSATIONENTITY::NPC, 0 },
+		{ L"정시 퇴근" , ECONVERSATIONENTITY::NPC, 1, CrowTopic.Color_RED },
+	};
+
+	CrowTopic.Data.shrink_to_fit();
+	CrowConveration.CreateTopic(ECROWTOPIC::Crow, CrowTopic);
+
+	CrowConveration.SetConversationEndEvent(ECROWTOPIC::Crow, [&]()
+		{
+			CrowRenderer->ChangeAnimation("Disappear");
+
+
+			if (nullptr == UIManager::MainUIManager)
+			{
+				MsgBoxAssert("UI매니저가 존재하지 않습니다.");
+				return;
+			}
+
+			UIManager::MainUIManager->UseUIComponent();
+
+			State.ChangeState(ECROWSTATE::Disappear);
+		});
+
+
+	Topic DisappearTopic;
+	DisappearTopic.Default_Npc_Sprite_Index = 0;
+	DisappearTopic.Data.reserve(64);
+	DisappearTopic.Data =
+	{
+		{ L"이렇게 갑자기?" , ECONVERSATIONENTITY::Ellie, 1 },
+		{ L"마녀 까마귀는 그렇게 말이 잘 통하는 편은 아니지." , ECONVERSATIONENTITY::Virgil, 1 ,CrowTopic.Color_BLACK, CrowTopic.Font_JejuHanlasan},
+		{ L"음, 그럼 일단은 계속 주변을 탐색 해볼까?" , ECONVERSATIONENTITY::Ellie, 5 },
+		{ L"마녀 카탈로그는 언제 올지 모르니까 말야" , ECONVERSATIONENTITY::Virgil, 5,CrowTopic.Color_BLACK, CrowTopic.Font_JejuHanlasan },
+		{ L"주변을 둘러보자." , ECONVERSATIONENTITY::Virgil, 5,CrowTopic.Color_BLACK, CrowTopic.Font_JejuHanlasan },
+	};
+
+	DisappearTopic.Data.shrink_to_fit();
+	CrowConveration.CreateTopic(ECROWTOPIC::Disappear, DisappearTopic);
+
+
+	CrowConveration.SetConversationEndEvent(ECROWTOPIC::Disappear, [&]()
+		{
+			Death();
+		});
+}
+
+void CrowEvent::ConverseWithEllie()
+{
+	CrowConveration.StartConversation(ECROWTOPIC::Crow);
+}
