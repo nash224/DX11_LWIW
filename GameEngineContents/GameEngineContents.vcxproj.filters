@@ -49,9 +49,6 @@
     <Filter Include="2.Object\2.Actor\0.Manager\UIManager\5.Mark">
       <UniqueIdentifier>{a63f72c0-aeac-45f3-8c3d-1b4e748e4631}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2.Object\2.Actor\0.Manager\EventManager">
-      <UniqueIdentifier>{657ff871-8102-49bc-aba3-415223d79dcd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2.Object\2.Actor\2.Interactive">
       <UniqueIdentifier>{e2fea63f-3b07-4ea3-a0c6-8afed64b65e4}</UniqueIdentifier>
     </Filter>
@@ -268,9 +265,6 @@
     <ClInclude Include="CameraControler.h">
       <Filter>2.Object\2.Actor\0.Manager\CameraManager</Filter>
     </ClInclude>
-    <ClInclude Include="EventManager.h">
-      <Filter>2.Object\2.Actor\0.Manager\EventManager</Filter>
-    </ClInclude>
     <ClInclude Include="UI_Hub_Broom.h">
       <Filter>2.Object\2.Actor\0.Manager\UIManager\3.Hub</Filter>
     </ClInclude>
@@ -289,7 +283,7 @@
     <ClInclude Include="UI_Hub_Actor.h">
       <Filter>2.Object\2.Actor\0.Manager\UIManager\3.Hub</Filter>
     </ClInclude>
-    <ClInclude Include="ContentsData.h">
+    <ClInclude Include="ContentsEvent.h">
       <Filter>0.Data\Event</Filter>
     </ClInclude>
     <ClInclude Include="ProductRecipeData.h">
@@ -559,9 +553,6 @@
     <ClCompile Include="CameraControler.cpp">
       <Filter>2.Object\2.Actor\0.Manager\CameraManager</Filter>
     </ClCompile>
-    <ClCompile Include="EventManager.cpp">
-      <Filter>2.Object\2.Actor\0.Manager\EventManager</Filter>
-    </ClCompile>
     <ClCompile Include="UI_Hub_Broom.cpp">
       <Filter>2.Object\2.Actor\0.Manager\UIManager\3.Hub</Filter>
     </ClCompile>
@@ -580,7 +571,7 @@
     <ClCompile Include="UI_Hub_Actor.cpp">
       <Filter>2.Object\2.Actor\0.Manager\UIManager\3.Hub</Filter>
     </ClCompile>
-    <ClCompile Include="ContentsData.cpp">
+    <ClCompile Include="ContentsEvent.cpp">
       <Filter>0.Data\Event</Filter>
     </ClCompile>
     <ClCompile Include="BiologyData.cpp">
@@ -781,6 +772,9 @@
     </ClCompile>
     <ClCompile Include="UI_Conversation_Setting.cpp">
       <Filter>2.Object\2.Actor\0.Manager\ConversationManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsEvent_Dian.cpp">
+      <Filter>0.Data\Event</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

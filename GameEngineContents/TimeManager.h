@@ -1,10 +1,8 @@
 #pragma once
 
-#define UNIT_MINUTE_RATIO 5.0f
 
-#define MAX_DAY_TIME 450.0f
-#define NIGHT_START_TIME 240.0f
 
+static constexpr const float Max_Day_Time = 450.0f;
 
 enum class EDAYSTATE
 {
@@ -31,9 +29,12 @@ public:
 	void Init();
 	void SetTimeFlowRatio(float _FlowRatio);
 	void SetTime(float _Time);
+
 	void Pause(bool _Value);
 	void Reset();
+
 	float GetTime() const;
+	int GetHour() const;
 	float GetTimeRatio() const;
 	float GetMinuteRatio() const;
 
@@ -49,6 +50,14 @@ private:
 	float Time = 0.0f;
 
 	EDAYSTATE DayState = EDAYSTATE::None;
+
+	static constexpr const int Start_Hour = 9;
+	static constexpr const int Ten_Minutes_Count_Per_Hour = 6;
+
+
+	static constexpr const float Night_Start_Time = 240.0f;
+	static constexpr const float Unit_Minute_Ratio = 5.0f;
+
 
 };
 

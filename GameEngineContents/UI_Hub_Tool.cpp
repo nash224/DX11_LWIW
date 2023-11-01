@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "UI_Hub_Tool.h"
 
+#include "ContentsEvent.h"
+
 
 ETOOLTYPE UI_Hub_Tool::m_CurrentTool = ETOOLTYPE::None;
 UI_Hub_Tool::UI_Hub_Tool() 
@@ -89,9 +91,9 @@ void UI_Hub_Tool::NextTool()
 	int TrueValue = 0;
 
 	// 데이터에 true가 1개면 움직이지 않는다는 것으로 리턴해줍니다.
-	for (size_t i = 0; i < ContentsData::ToolData.size(); i++)
+	for (size_t i = 0; i < ContentsEvent::ToolData.size(); i++)
 	{
-		if (true == ContentsData::ToolData[i])
+		if (true == ContentsEvent::ToolData[i])
 		{
 			++TrueValue;
 		}
@@ -101,7 +103,7 @@ void UI_Hub_Tool::NextTool()
 			break;
 		}
 
-		if (i == ContentsData::ToolData.size() - 1)
+		if (i == ContentsEvent::ToolData.size() - 1)
 		{
 			return;
 		}
@@ -120,7 +122,7 @@ void UI_Hub_Tool::NextTool()
 			ToolValue = 0;
 		}
 
-		if (true == ContentsData::ToolData[ToolValue])
+		if (true == ContentsEvent::ToolData[ToolValue])
 		{
 			m_CurrentTool = static_cast<ETOOLTYPE>(ToolValue);
 			break;
@@ -137,9 +139,9 @@ void UI_Hub_Tool::PrevTool()
 	int TrueValue = 0;
 
 	// 데이터에 true가 1개면 움직이지 않는다는 것으로 리턴해줍니다.
-	for (size_t i = 0; i < ContentsData::ToolData.size(); i++)
+	for (size_t i = 0; i < ContentsEvent::ToolData.size(); i++)
 	{
-		if (true == ContentsData::ToolData[i])
+		if (true == ContentsEvent::ToolData[i])
 		{
 			++TrueValue;
 		}
@@ -149,7 +151,7 @@ void UI_Hub_Tool::PrevTool()
 			break;
 		}
 
-		if (i == ContentsData::ToolData.size() - 1)
+		if (i == ContentsEvent::ToolData.size() - 1)
 		{
 			return;
 		}
@@ -163,10 +165,10 @@ void UI_Hub_Tool::PrevTool()
 
 		if (-1 == ToolValue)
 		{
-			ToolValue = static_cast<int>(ContentsData::ToolData.size()) - 1;
+			ToolValue = static_cast<int>(ContentsEvent::ToolData.size()) - 1;
 		}
 
-		if (true == ContentsData::ToolData[ToolValue])
+		if (true == ContentsEvent::ToolData[ToolValue])
 		{
 			m_CurrentTool = static_cast<ETOOLTYPE>(ToolValue);
 			break;

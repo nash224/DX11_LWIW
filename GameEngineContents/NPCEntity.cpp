@@ -29,6 +29,6 @@ void NPCEntity::Release()
 
 
 void NPCEntity::InteractWithEllie(int _Topic)
-{
+{ 
 	m_ConversationInfo.StartConversation(_Topic);
 }

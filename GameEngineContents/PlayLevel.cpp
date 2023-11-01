@@ -13,7 +13,7 @@
 
 
 
-std::shared_ptr<TimeManager> PlayLevel::m_TimeManager;
+std::shared_ptr<TimeManager> PlayLevel::s_TimeManager;
 PlayLevel::PlayLevel()
 {
 }
@@ -26,10 +26,10 @@ void PlayLevel::Start()
 {
 	ContentsLevel::Start();
 
-	if (nullptr == m_TimeManager)
+	if (nullptr == s_TimeManager)
 	{
-		m_TimeManager = std::make_shared<TimeManager>();
-		m_TimeManager->Init();
+		s_TimeManager = std::make_shared<TimeManager>();
+		s_TimeManager->Init();
 	}
 }
 
@@ -37,10 +37,12 @@ void PlayLevel::Update(float _Delta)
 {
 	ContentsLevel::Update(_Delta);
 
-	if (nullptr != m_TimeManager)
+	if (nullptr != s_TimeManager)
 	{
-		m_TimeManager->Update(_Delta);
+		s_TimeManager->Update(_Delta);
 	}
+
+	s_TimeManager->GetHour();
 }
 
 void PlayLevel::LevelStart(GameEngineLevel* _NextLevel)

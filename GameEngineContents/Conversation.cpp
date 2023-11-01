@@ -141,12 +141,11 @@ void Conversation::EndConversation()
 		return;
 	}
 
-
-	UIManager::MainUIManager->DoneUIComponent();
-
 	UI_Conversation::MainConversationUI->EndConversation();
 
 	CurTopic = nullptr;
+
+	UIManager::MainUIManager->DoneUIComponent();
 }
 
 

@@ -215,6 +215,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ContentsEvent_Dian.cpp" />
     <ClCompile Include="GroundRenderUnit.cpp">
       <SubType>
       </SubType>
@@ -272,11 +273,7 @@
     </ClCompile>
     <ClCompile Include="Ellie_Riding_State.cpp" />
     <ClCompile Include="Ellie_State.cpp" />
-    <ClCompile Include="ContentsData.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="EventManager.cpp">
+    <ClCompile Include="ContentsEvent.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -654,11 +651,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="ContentsData.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="EventManager.h">
+    <ClInclude Include="ContentsEvent.h">
       <SubType>
       </SubType>
     </ClInclude>

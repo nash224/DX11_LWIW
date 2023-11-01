@@ -215,15 +215,15 @@ void DebugTab::SkyOn()
 
 void DebugTab::TimeDebug()
 {
-	if (nullptr != PlayLevel::m_TimeManager)
+	if (nullptr != PlayLevel::s_TimeManager)
 	{
-		if (ImGui::SliderFloat("TimeCustom", &TimeCustom, 0.0f, MAX_DAY_TIME, "%.0f"))
+		if (ImGui::SliderFloat("TimeCustom", &TimeCustom, 0.0f, Max_Day_Time, "%.0f"))
 		{
-			PlayLevel::m_TimeManager->Pause(true);
-			PlayLevel::m_TimeManager->SetTime(TimeCustom);
+			PlayLevel::s_TimeManager->Pause(true);
+			PlayLevel::s_TimeManager->SetTime(TimeCustom);
 		}
 
-		ImGui::Text(std::string("Time : " + std::to_string(PlayLevel::m_TimeManager->GetTime())).c_str());
+		ImGui::Text(std::string("Time : " + std::to_string(PlayLevel::s_TimeManager->GetTime())).c_str());
 	}
 }
 

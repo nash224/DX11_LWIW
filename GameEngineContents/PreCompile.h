@@ -27,6 +27,5 @@
 #include "GlobalUtils.h"
 #include "ContentsEnum.h"
 #include "ContentsResource.h"
-#include "ContentsData.h"
 #include "ActorEnum.h"
 #include "PlayLevel.h"

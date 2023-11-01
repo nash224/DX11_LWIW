@@ -4,6 +4,7 @@
 #include <GameEngineCore/GameEngineBlend.h>
 
 // data
+#include "ContentsEvent.h"
 #include "BiologyData.h"
 #include "IngredientData.h"
 #include "ItemData.h"
@@ -64,7 +65,7 @@ void ContentsCore::InitResources()
 
 void ContentsCore::LoadContentsData()
 {
-	ContentsData::Init();
+	ContentsEvent::Init();
 
 	// æ∆¿Ã≈€
 	ItemData::CreateData("WitchFlower_Water", { "WitchFlower_Water", "∏∂≥‡¿« ≤…¡Û", EITEM_TYPE::Ingredient });

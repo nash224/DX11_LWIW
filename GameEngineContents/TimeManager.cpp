@@ -43,14 +43,21 @@ float TimeManager::GetTime() const
 	return Time;
 }
 
+int TimeManager::GetHour() const
+{
+	const int AddHour = static_cast<int>(Time / (Unit_Minute_Ratio * static_cast<float>(Ten_Minutes_Count_Per_Hour)));
+	const int CurHour = Start_Hour + AddHour;
+	return CurHour;
+}
+
 float TimeManager::GetTimeRatio() const
 {
-	return Time / MAX_DAY_TIME;
+	return Time / Max_Day_Time ;
 }
 
 float TimeManager::GetMinuteRatio() const
 {
-	return UNIT_MINUTE_RATIO / MAX_DAY_TIME;
+	return Unit_Minute_Ratio / Max_Day_Time ;
 }
 
 
@@ -63,11 +70,11 @@ void TimeManager::Update(float _Delta)
 
 	Time += _Delta * TimeFlowRatio;
 
-	if (Time > MAX_DAY_TIME)
+	if (Time > Max_Day_Time )
 	{
 		DayState = EDAYSTATE::None;
 	}
-	else if (Time > NIGHT_START_TIME)
+	else if (Time > Night_Start_Time)
 	{
  		DayState = EDAYSTATE::Night;
 	}

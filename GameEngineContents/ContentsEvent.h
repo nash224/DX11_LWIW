@@ -30,7 +30,7 @@ enum class EEVENTTYPE
 
 
 // 설명 : Bool자료형의 이벤트 변수를 전역으로 제공합니다. 
-class ContentsData
+class ContentsEvent
 {
 public:
 	class QuestUnitBase
@@ -103,14 +103,14 @@ public:
 
 public:
 	// constrcuter destructer
-	ContentsData();
-	~ContentsData();
+	ContentsEvent();
+	~ContentsEvent();
 
 	// delete Function
-	ContentsData(const ContentsData& _Other) = delete;
-	ContentsData(ContentsData&& _Other) noexcept = delete;
-	ContentsData& operator=(const ContentsData& _Other) = delete;
-	ContentsData& operator=(ContentsData&& _Other) noexcept = delete;
+	ContentsEvent(const ContentsEvent& _Other) = delete;
+	ContentsEvent(ContentsEvent&& _Other) noexcept = delete;
+	ContentsEvent& operator=(const ContentsEvent& _Other) = delete;
+	ContentsEvent& operator=(ContentsEvent&& _Other) noexcept = delete;
 
 	static void Init();
 
@@ -129,12 +129,12 @@ public:
 
 
 	template<typename EnumType>
-	static const std::shared_ptr<ContentsData::QuestUnitBase> FindQuest(EnumType _Enum)
+	static const std::shared_ptr<ContentsEvent::QuestUnitBase> FindQuest(EnumType _Enum)
 	{
 		return FindQuest(static_cast<int>(_Enum));
 	}
 
-	static const std::shared_ptr<ContentsData::QuestUnitBase> FindQuest(int _Enum);
+	static const std::shared_ptr<ContentsEvent::QuestUnitBase> FindQuest(int _Enum);
 
 
 	static void Release();

@@ -12,7 +12,7 @@ class UIManager;
 class PlayLevel : public ContentsLevel
 {
 public:
-	static std::shared_ptr<class TimeManager> m_TimeManager;
+	static std::shared_ptr<class TimeManager> s_TimeManager;
 
 public:
 	// constrcuter destructer

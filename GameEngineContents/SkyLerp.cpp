@@ -99,16 +99,16 @@ void SkyLerp::Init()
 	
 	/*TestCode();*/
 
-	if (nullptr == PlayLevel::m_TimeManager)
+	if (nullptr == PlayLevel::s_TimeManager)
 	{
 		MsgBoxAssert("타임 매니저가 존재하지 않습니다.");
 		return;
 	}
 
 
-	MinuteRatio = PlayLevel::m_TimeManager->GetMinuteRatio();
-	PlayLevel::m_TimeManager->SetTimeFlowRatio(5.0f);
-	PlayLevel::m_TimeManager->SetTime(180.0f);
+	MinuteRatio = PlayLevel::s_TimeManager->GetMinuteRatio();
+	PlayLevel::s_TimeManager->SetTimeFlowRatio(5.0f);
+	PlayLevel::s_TimeManager->SetTime(180.0f);
 
 	LerpSky(SkyData[0]);
 
@@ -144,13 +144,13 @@ void SkyLerp::UpdateSkyLerp()
 	}
 
 
-	if (nullptr == PlayLevel::m_TimeManager)
+	if (nullptr == PlayLevel::s_TimeManager)
 	{
 		MsgBoxAssert("시간 매니저가 존재하지 않습니다.");
 		return;
 	}
 
-	float TimeRatio = PlayLevel::m_TimeManager->GetTimeRatio();
+	float TimeRatio = PlayLevel::s_TimeManager->GetTimeRatio();
 	if (TimeRatio > SUNSET_TIMERATIO)
 	{
 		float SunSetRatio = (TimeRatio - SUNSET_TIMERATIO) / MinuteRatio;				// 비율계산
