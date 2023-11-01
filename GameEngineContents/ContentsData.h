@@ -41,10 +41,26 @@ public:
 			return false;
 		}
 
-		bool isQuestComplete() const;
+		bool isQuestComplete() const
+		{
+			return isQuestCompleted;
+		}
+
+		void QuestComplete()
+		{
+			isQuestCompleted = true;
+		}
 
 	private:
 		bool isQuestCompleted = false;
+
+	};
+
+
+	class Crow_Meet : public QuestUnitBase
+	{
+	public:
+		bool CheckPrerequisiteQuest() override;
 
 	};
 
@@ -54,6 +70,36 @@ public:
 		bool CheckPrerequisiteQuest() override;
 
 	};
+
+	class Dian_Quest_2 : public QuestUnitBase
+	{
+	public:
+		bool CheckPrerequisiteQuest() override;
+
+	};
+
+	class Dian_Quest_3 : public QuestUnitBase
+	{
+	public:
+		bool CheckPrerequisiteQuest() override;
+
+	};
+
+	class Dian_Quest_4 : public QuestUnitBase
+	{
+	public:
+		bool CheckPrerequisiteQuest() override;
+
+	};
+
+	class Dian_Quest_5 : public QuestUnitBase
+	{
+	public:
+		bool CheckPrerequisiteQuest() override;
+
+	};
+
+
 
 public:
 	// constrcuter destructer
@@ -68,16 +114,32 @@ public:
 
 	static void Init();
 
-	template<typename EnumType>
+	template<typename QuestType, typename EnumType>
 	static void CreateQuest(EnumType _Enum)
 	{
-		CreateQuest(static_cast<int>(_Enum));
+		CreateQuest<QuestType>(static_cast<int>(_Enum));
 	}
 
-	static void CreateQuest(int _Enum);
+	template<typename QuestType>
+	static void CreateQuest(int _Enum)
+	{
+		std::shared_ptr<QuestUnitBase> questUnit = std::make_shared<QuestType>();
+		QuestData.insert(std::make_pair(static_cast<int>(_Enum), questUnit));
+	}
+
+
+	template<typename EnumType>
+	static const std::shared_ptr<ContentsData::QuestUnitBase> FindQuest(EnumType _Enum)
+	{
+		return FindQuest(static_cast<int>(_Enum));
+	}
+
+	static const std::shared_ptr<ContentsData::QuestUnitBase> FindQuest(int _Enum);
+
+
+	static void Release();
 
 protected:
-	
 
 public:
 	static std::vector<bool> ToolData;
