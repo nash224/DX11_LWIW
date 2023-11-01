@@ -83,20 +83,68 @@ bool ContentsData::Dian_Quest_1::CheckPrerequisiteQuest()
 
 bool ContentsData::Dian_Quest_2::CheckPrerequisiteQuest()
 {
-	return true;
+	const std::shared_ptr<ContentsData::QuestUnitBase>& Quest1 = ContentsData::FindQuest(EEVENTTYPE::Dian_Quest_1);
+	if (nullptr == Quest1)
+	{
+		MsgBoxAssert("존재하지 않는 퀘스트입니다.");
+		return;
+	}
+
+	if (true == Quest1->isQuestComplete())
+	{
+		return true;
+	}
+
+	return false;
 }
 
 bool ContentsData::Dian_Quest_3::CheckPrerequisiteQuest()
 {
-	return true;
+	const std::shared_ptr<ContentsData::QuestUnitBase>& Quest2 = ContentsData::FindQuest(EEVENTTYPE::Dian_Quest_1);
+	if (nullptr == Quest2)
+	{
+		MsgBoxAssert("존재하지 않는 퀘스트입니다.");
+		return;
+	}
+
+	if (true == Quest2->isQuestComplete())
+	{
+		return true;
+	}
+
+	return false;
 }
 
 bool ContentsData::Dian_Quest_4::CheckPrerequisiteQuest()
 {
-	return true;
+	const std::shared_ptr<ContentsData::QuestUnitBase>& Quest3 = ContentsData::FindQuest(EEVENTTYPE::Dian_Quest_1);
+	if (nullptr == Quest3)
+	{
+		MsgBoxAssert("존재하지 않는 퀘스트입니다.");
+		return;
+	}
+
+	if (true == Quest3->isQuestComplete())
+	{
+		return true;
+	}
+
+	return false;
 }
 
 bool ContentsData::Dian_Quest_5::CheckPrerequisiteQuest()
 {
-	return true;
+	const std::shared_ptr<ContentsData::QuestUnitBase>& Quest4 = ContentsData::FindQuest(EEVENTTYPE::Dian_Quest_1);
+	if (nullptr == Quest4)
+	{
+		MsgBoxAssert("존재하지 않는 퀘스트입니다.");
+		return;
+	}
+
+	if (true == Quest4->isQuestComplete())
+	{
+		return true;
+	}
+
+	return false;
 }
