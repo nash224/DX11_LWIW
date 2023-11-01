@@ -45,7 +45,7 @@ void WitchHouse::LevelEnd(class GameEngineLevel* _NextLevel)
 void WitchHouse::Init()
 {
 	float HouseYPosition = -350.0f;
-	float HouseZ = BackDrop_PlayLevel::MainBackDrop->ZSort(HouseYPosition + 50.0f);
+	float HouseZ = GlobalUtils::CalculateObjectDepth(BackDrop_PlayLevel::MainBackDrop->GetBackGroundScale().Y, HouseYPosition + 50.0f);
 	Transform.SetLocalPosition({ BackDrop_PlayLevel::MainBackDrop->GetBackGroundScale().Half().X, HouseYPosition, HouseZ});
 
 	RendererSetting();

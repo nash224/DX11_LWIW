@@ -127,9 +127,12 @@ void Bush::CreateBushBug()
 
 	if (nullptr != BackDrop_PlayLevel::MainBackDrop)
 	{
-		SpawnPosition.Z = BackDrop_PlayLevel::MainBackDrop->ZSort(SpawnPosition.Y);
+		SpawnPosition.Z = GlobalUtils::CalculateObjectDepth(BackDrop_PlayLevel::MainBackDrop->GetBackGroundScale().Y, SpawnPosition.Y);
 	}
 
 	BushBugPtr->Transform.SetLocalPosition(SpawnPosition);
 	BushBugPtr->Init();
 }
+
+// 300 
+// 60

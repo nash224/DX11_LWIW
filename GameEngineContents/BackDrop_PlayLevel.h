@@ -25,7 +25,6 @@ public:
 
 	bool IsColorAtPosition(const float4& _Position, GameEngineColor _CheckColor);
 
-	float ZSort(const float _PositionY) const;
 	float ReturnPlusDepth(const float _PositionY) const;
 
 	// æ∆¿Ã≈€

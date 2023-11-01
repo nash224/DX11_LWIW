@@ -133,7 +133,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = m_DownFloorWholePosition + float4{ 617.0f , -349.0f };
-		Position.Z = ZSort(Position.Y);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y ,Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("DownFloor_Desk.png");
@@ -142,7 +142,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = m_DownFloorWholePosition + float4{ 254.0f , -469.0f };
-		Position.Z = ZSort(Position.Y - 15.0f);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y,Position.Y - 15.0f);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("DownFloor_Candle.png");
@@ -150,14 +150,8 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_DownFloorWholePosition + float4{ 45.0f , -134.0f };
-		Position.Z = ZSort(Position.Y - 20.0f);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y, Position.Y - 20.0f);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("DownFloor_Candle.png");
@@ -166,7 +160,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = m_DownFloorWholePosition + float4{ 198.0f , -63.0f };
-		Position.Z = ZSort(Position.Y);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("DownFloor_PhotoFrame_5.png");
@@ -175,7 +169,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = m_DownFloorWholePosition + float4{ 177.0f , -37.0f };
-		Position.Z = ZSort(Position.Y);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("DownFloor_PhotoFrame_2.png");
@@ -184,7 +178,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = m_DownFloorWholePosition + float4{ 157.0f , -65.0f };
-		Position.Z = ZSort(Position.Y);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("DownFloor_Paper_2.png");
@@ -193,7 +187,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = m_DownFloorWholePosition + float4{ 221.0f , -38.0f };
-		Position.Z = ZSort(Position.Y);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("DownFloor_Paper_2.png");
@@ -202,7 +196,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = m_DownFloorWholePosition + float4{ 120.0f , -52.0f };
-		Position.Z = ZSort(Position.Y);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("DownFloor_Paper_1.png");
@@ -211,7 +205,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = m_DownFloorWholePosition + float4{ 73.0f , -41.0f };
-		Position.Z = ZSort(Position.Y);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("DownFloor_Paper_1.png");
@@ -220,7 +214,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = m_DownFloorWholePosition + float4{ 616.0f , -272.0f };
-		Position.Z = ZSort(Position.Y);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y,Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("DownFloor_Paper_1.png");
@@ -229,7 +223,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = m_DownFloorWholePosition + float4{ 201.0f , -167.0f };
-		Position.Z = ZSort(Position.Y);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("DownFloor_Chair_0.png");
@@ -238,7 +232,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = m_DownFloorWholePosition + float4{ 48.0f , -147.0f };
-		Position.Z = ZSort(Position.Y);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y,Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("DownFloor_Chair_0.png");
@@ -247,7 +241,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = m_DownFloorWholePosition + float4{ 205.0f , -197.0f };
-		Position.Z = ZSort(Position.Y);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y,Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("DownFloor_Chair_1.png");
@@ -256,7 +250,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = m_DownFloorWholePosition + float4{ 168.0f , -268.0f };
-		Position.Z = ZSort(Position.Y);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y,Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("Prop_DownFloor_Potion_1.png");
@@ -265,7 +259,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = m_DownFloorWholePosition + float4{ 92.0f , -247.0f };
-		Position.Z = ZSort(Position.Y);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y,Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("ToolBox.png");
@@ -274,7 +268,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = m_DownFloorWholePosition + float4{ 143.0f , -260.0f };
-		Position.Z = ZSort(Position.Y);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y,Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("Prop_DownFloor_Potion_0.png");
@@ -283,7 +277,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = m_DownFloorWholePosition + float4{ 408.0f , -394.0f };
-		Position.Z = ZSort(Position.Y);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y,Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("PotBook.png");
@@ -292,7 +286,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = m_DownFloorWholePosition + float4{ 223.0f , -474.0f };
-		Position.Z = ZSort(Position.Y);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y,Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("DownFloor_Books_0.png");
@@ -302,7 +296,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = m_DownFloorWholePosition + float4{ 451.0f , -186.0f };
-		Position.Z = ZSort(Position.Y - 12.0f);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y,Position.Y - 12.0f);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("DownFloor_Books_6.png");
@@ -311,7 +305,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = m_DownFloorWholePosition + float4{ 229.0f , -141.0f };
-		Position.Z = ZSort(Position.Y + 30.0f);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y,Position.Y + 30.0f);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("DownFloor_Handrail_2.png");
@@ -320,7 +314,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = m_DownFloorWholePosition + float4{ 215.0f , -331.0f };
-		Position.Z = ZSort(Position.Y + 30.0f);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y,Position.Y + 30.0f);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("DownFloor_Handrail_1.png");
@@ -329,7 +323,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = m_DownFloorWholePosition + float4{ 75.0f , -269.0f };
-		Position.Z = ZSort(Position.Y - 20.0f );
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y,Position.Y - 20.0f );
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("DownFloor_Handrail_0.png");
@@ -338,7 +332,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = m_DownFloorWholePosition + float4{ 455.0f , -195.0f };
-		Position.Z = ZSort(Position.Y);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y,Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("DownFloor_Chair_1.png");
@@ -347,7 +341,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = m_DownFloorWholePosition + float4{ 26.0f , -203.0f };
-		Position.Z = ZSort(Position.Y);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y,Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("DownFloor_Cabinet.png");
@@ -357,7 +351,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = m_DownFloorWholePosition + float4{ 521.0f , -132.0f };
-		Position.Z = ZSort(Position.Y);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y,Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("DownFloor_Cabinet_0.png");
@@ -366,7 +360,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = m_DownFloorWholePosition + float4{ 189.0f , -119.0f };
-		Position.Z = ZSort(Position.Y);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y,Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("DownFloor_Locker_1.png");
@@ -375,7 +369,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = m_DownFloorWholePosition + float4{ 254.0f , -481.0f };
-		Position.Z = ZSort(Position.Y);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y,Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("DownFloor_Books_3.png");
@@ -384,7 +378,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = m_DownFloorWholePosition + float4{ 191.0f , -476.0f };
-		Position.Z = ZSort(Position.Y);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y,Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("DownFloor_Books_7.png");
@@ -402,7 +396,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = m_DownFloorWholePosition + float4{ 641.0f , -485.0f };
-		Position.Z = ZSort(Position.Y - 20.0f);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y,Position.Y - 20.0f);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("DownFloor_Drawer_1.png");
@@ -411,7 +405,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = m_DownFloorWholePosition + float4{ 544.0f , -476.0f };
-		Position.Z = ZSort(Position.Y - 20.0f);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y,Position.Y - 20.0f);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("DownFloor_Drawer_0.png");
@@ -429,7 +423,7 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = m_DownFloorWholePosition + float4{ 580.0f , -184.0f };
-		Position.Z = ZSort(Position.Y);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y,Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("DownFloor_Books_5.png");
@@ -577,7 +571,7 @@ void BackDrop_WitchHouse_DownFloor::CreateStaticActor(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<AlchemyPot> Object = _Level->CreateActor<AlchemyPot>(EUPDATEORDER::Objects);
 		float4 Position = float4(m_DownFloorWholePosition + float4(409.0f, -299.0f));
-		Position.Z = ZSort(Position.Y);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y,Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 
@@ -587,7 +581,7 @@ void BackDrop_WitchHouse_DownFloor::CreateStaticActor(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<Roaster> Object = _Level->CreateActor<Roaster>(EUPDATEORDER::Objects);
 		float4 Position = float4(m_DownFloorWholePosition + float4(230.0f, -394.0f));
-		Position.Z = ZSort(Position.Y);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y,Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 
 		PixelStaticEntityVec.push_back(Object);
@@ -596,7 +590,7 @@ void BackDrop_WitchHouse_DownFloor::CreateStaticActor(GameEngineLevel* _Level)
 	{
 		std::shared_ptr<Extractor> Object = _Level->CreateActor<Extractor>(EUPDATEORDER::Objects);
 		float4 Position = float4(m_DownFloorWholePosition + float4(296.0f, -186.0f));
-		Position.Z = ZSort(Position.Y);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y,Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 
 		PixelStaticEntityVec.push_back(Object);

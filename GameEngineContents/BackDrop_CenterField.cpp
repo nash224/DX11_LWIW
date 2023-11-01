@@ -142,7 +142,7 @@ void BackDrop_CenterField::CreateAurea(GameEngineLevel* _Level)
 {
 	std::shared_ptr<Aurea> Object = _Level->CreateActor<Aurea>(EUPDATEORDER::Entity);
 	float4 Position = float4(700.0f, -300.0f);
-	Position.Z = ZSort(Position.Y);
+	Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y, Position.Y);
 	Object->Transform.SetLocalPosition(Position);
 	Object->Init();
 }

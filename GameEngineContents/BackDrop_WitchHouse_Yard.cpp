@@ -183,7 +183,7 @@ void BackDrop_WitchHouse_Yard::CreateNormalProp()
 {
 	{
 		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		Object->Transform.SetLocalPosition({ 700.0f , -214.0f , ZSort(-234.0f) });
+		Object->Transform.SetLocalPosition({ 700.0f , -214.0f , GlobalUtils::CalculateObjectDepth(m_BackScale.Y, -234.0f) });
 		Object->Init(ERENDERORDER::NonAlphaBlend);
 		Object->m_Renderer->SetSprite("Yard_Pumpkins.png");
 		Object->m_Renderer->Transform.SetLocalPosition(float4(0.0f, 10.0f));
@@ -191,7 +191,7 @@ void BackDrop_WitchHouse_Yard::CreateNormalProp()
 
 	{
 		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		Object->Transform.SetLocalPosition({ 700.0f , -228.0f , ZSort(-228.0f) });
+		Object->Transform.SetLocalPosition({ 700.0f , -228.0f , GlobalUtils::CalculateObjectDepth(m_BackScale.Y,-228.0f) });
 		Object->Init(ERENDERORDER::NonAlphaBlend);
 		Object->m_Renderer->SetSprite("Yard_Stone_L_0.png");
 		Object->SetPixelCollision("Yard_Stone_L_0_Pixel.png");
@@ -200,7 +200,7 @@ void BackDrop_WitchHouse_Yard::CreateNormalProp()
 
 	{
 		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		Object->Transform.SetLocalPosition({ 438.0f , -330.0f , ZSort(-330.0f) });
+		Object->Transform.SetLocalPosition({ 438.0f , -330.0f , GlobalUtils::CalculateObjectDepth(m_BackScale.Y,-330.0f) });
 		Object->Init(ERENDERORDER::NonAlphaBlend);
 		Object->m_Renderer->SetSprite("Yard_MailBox.png");
 		Object->m_Renderer->Transform.SetLocalPosition(float4(0.0f, 34.0f));

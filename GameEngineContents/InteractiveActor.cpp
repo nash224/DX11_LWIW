@@ -137,7 +137,7 @@ void InteractiveActor::ApplyDepth(const float4& _Position)
 		return;
 	}
 
-	float ZSort = BackDrop_PlayLevel::MainBackDrop->ZSort(Position.Y + m_DepthBias);
+	float ZSort = GlobalUtils::CalculateObjectDepth(BackDrop_PlayLevel::MainBackDrop->GetBackGroundScale().Y, Position.Y + m_DepthBias);
 	Position.Z = ZSort;
 
 	Transform.SetLocalPosition(Position);

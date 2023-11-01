@@ -152,7 +152,7 @@ void DynamicEntity::ApplyMovement(float _Delta)
 
 	if (nullptr != BackDrop_PlayLevel::MainBackDrop)
 	{
-		float Depth = BackDrop_PlayLevel::MainBackDrop->ZSort(MovePosition.Y + m_DepthBias);	// ±Ì¿Ã ∞ËªÍ
+		float Depth = GlobalUtils::CalculateObjectDepth(BackDrop_PlayLevel::MainBackDrop->GetBackGroundScale().Y, MovePosition.Y + m_DepthBias);	// ±Ì¿Ã ∞ËªÍ
 		MovePosition.Z = Depth;
 	}
 	

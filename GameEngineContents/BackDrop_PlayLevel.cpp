@@ -81,17 +81,6 @@ bool BackDrop_PlayLevel::IsColorAtPosition(const float4& _Position, GameEngineCo
 }
 
 // 깊이버퍼 계산
-float BackDrop_PlayLevel::ZSort(const float _PositionY) const
-{
-	float4 BackGroundScale = GetBackGroundScale();
-	if (float4::ZERO == BackGroundScale)
-	{
-		BackGroundScale = GlobalValue::GetWindowScale();
-	}
-
-	float Depth = (BackGroundScale.Y + _PositionY) / BackGroundScale.Y * 100.0f + 100.0f;
-	return Depth;
-}
 
 float BackDrop_PlayLevel::ReturnPlusDepth(const float _PositionY) const
 {

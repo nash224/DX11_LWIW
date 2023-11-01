@@ -112,6 +112,20 @@ std::string GlobalUtils::GetParentString(std::string_view _ChildPath)
 	return ChildPath;
 }
 
+
+float GlobalUtils::CalculateObjectDepth(float _BackScale, float _PositionY)
+{
+	float BackYScale = _BackScale;
+	if (0.0f == _BackScale)
+	{
+		_BackScale = GlobalValue::GetWindowScale().Y;
+	}
+
+	float Depth = (_BackScale + _PositionY) / _BackScale * 100.0f + 100.0f;
+	return Depth;
+}
+
+
 float GlobalUtils::CalculateFixDepth(const float _Value)
 {
 	return _Value;
