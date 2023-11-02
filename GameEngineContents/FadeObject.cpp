@@ -124,7 +124,6 @@ void FadeObject::UpdateFade(float _Delta)
 			m_FadeType = CallFadeType::None;
 			GameEngineCore::ChangeLevel(m_NextLevelName);
 		}
-
 	}
 
 	if (CallFadeType::FadeIn == m_FadeType)

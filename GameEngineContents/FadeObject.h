@@ -26,8 +26,6 @@ public:
 	FadeObject& operator=(const FadeObject& _Other) = delete;
 	FadeObject& operator=(FadeObject&& _Other) noexcept = delete;
 
-	void Init();
-
 	void CallFadeOut(std::string_view _NextLevelName, float _FadeOutDuration = 1.0f);
 	void CallFadeIn(float _FadeOutDuration = 1.0f);
 
@@ -40,6 +38,7 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
+	void Init();
 	void RendererSetting();
 	void PositionSetting();
 

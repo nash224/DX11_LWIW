@@ -181,6 +181,9 @@
     <Filter Include="2.Object\2.Actor\1.BackManager\LevelBackDrop\2.Play\Yard">
       <UniqueIdentifier>{9b1df275-f0ef-483d-b8d9-45c1837233dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2.Object\3.Level\EndLevel">
+      <UniqueIdentifier>{3bbcd76f-d498-4911-9dac-d445793b19c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -477,6 +480,9 @@
     </ClInclude>
     <ClInclude Include="FieldLevel.h">
       <Filter>2.Object\3.Level\2.Play\0.PlayLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="EndLevel.h">
+      <Filter>2.Object\3.Level\EndLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -790,6 +796,9 @@
     </ClCompile>
     <ClCompile Include="FieldLevel.cpp">
       <Filter>2.Object\3.Level\2.Play\0.PlayLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="EndLevel.cpp">
+      <Filter>2.Object\3.Level\EndLevel</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

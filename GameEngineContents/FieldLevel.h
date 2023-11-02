@@ -36,6 +36,5 @@ private:
 
 	EBGMTYPE BGMType = EBGMTYPE::None;
 
-
 };
 
