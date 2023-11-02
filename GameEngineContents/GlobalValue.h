@@ -35,11 +35,18 @@ public:
 	static float GetSFXVolume();
 	static void SetSFXVolume(float _Volume);
 
+public:
+	static constexpr const char* Font_JejuHanlasan = "¡¶¡÷«—∂ÛªÍ";
+	static constexpr const char* Font_Sandoll = "Sandoll ªÔ∏≥»£ªß√º TTF Basic";
+
 private:
 	static float4 WindowScale;
 	static float4 ItemScale;
 	static int RandomSeed;
 	static float SoundVolume;
 	static float SFXVolume;
+
+
+
 };
 

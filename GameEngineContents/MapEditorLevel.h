@@ -41,11 +41,17 @@ public:
 
 	float CalculateDepth(const float _PositionY) const;
 
+	void CenterFieldMapSetting();
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
+
+	void LoadResouces();
+	void ReleaseResouces();
+
 
 private:
 	void UpdateMapEditor(float _Delta);

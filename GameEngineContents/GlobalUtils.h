@@ -45,8 +45,6 @@ public:
 
 	static float CalculateFixDepth(const float _Value);
 
-
-
 protected:
 
 private:

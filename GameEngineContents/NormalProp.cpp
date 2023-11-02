@@ -3,18 +3,13 @@
 
 #include "ContentsLevel.h"
 
+
 NormalProp::NormalProp()
 {
 }
 
 NormalProp::~NormalProp()
 {
-}
-
-
-void NormalProp::Start()
-{
-
 }
 
 void NormalProp::Update(float _Delta)
@@ -29,14 +24,8 @@ void NormalProp::Release()
 	m_DebugRenderer = nullptr;
 }
 
-void NormalProp::LevelStart(class GameEngineLevel* _NextLevel)
-{
-}
-
 void NormalProp::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-	RendererActor::LevelEnd(_NextLevel);
-
 	Death();
 }
 

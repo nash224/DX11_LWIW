@@ -190,12 +190,6 @@ void BackDrop_CenterField::CreateBush(GameEngineLevel* _Level)
 {
 	{
 		std::shared_ptr<Bush> BushObject = _Level->CreateActor<Bush>(EUPDATEORDER::Entity);
-		if (nullptr == BushObject)
-		{
-			MsgBoxAssert("덤풀을 생성하지 못했습니다.");
-			return;
-		}
-
 		BushObject->Transform.SetLocalPosition({ 300.0f , -150.0f });
 		BushObject->SetBushType(EBUSHTYPE::Bush);
 		BushObject->Init();
@@ -205,12 +199,6 @@ void BackDrop_CenterField::CreateBush(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<Bush> BushObject = _Level->CreateActor<Bush>(EUPDATEORDER::Entity);
-		if (nullptr == BushObject)
-		{
-			MsgBoxAssert("덤풀을 생성하지 못했습니다.");
-			return;
-		}
-
 		BushObject->Transform.SetLocalPosition({ 400.0f , -150.0f });
 		BushObject->SetBushType(EBUSHTYPE::BushApple);
 		BushObject->Init();
@@ -220,12 +208,6 @@ void BackDrop_CenterField::CreateBush(GameEngineLevel* _Level)
 
 	{
 		std::shared_ptr<Bush> BushObject = _Level->CreateActor<Bush>(EUPDATEORDER::Entity);
-		if (nullptr == BushObject)
-		{
-			MsgBoxAssert("덤풀을 생성하지 못했습니다.");
-			return;
-		}
-
 		BushObject->Transform.SetLocalPosition({ 500.0f , -150.0f });
 		BushObject->SetBushType(EBUSHTYPE::BushBug);
 		BushObject->Init();
@@ -238,12 +220,6 @@ void BackDrop_CenterField::CreateWitchFlower(GameEngineLevel* _Level)
 {
 	{
 		std::shared_ptr<WitchFlower> Object = _Level->CreateActor<WitchFlower>(EUPDATEORDER::Entity);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("덤풀을 생성하지 못했습니다.");
-			return;
-		}
-
 		Object->Transform.SetLocalPosition({ 300.0f , -350.0f });
 		Object->Init();
 	}
@@ -253,12 +229,6 @@ void BackDrop_CenterField::CreateSilverStarFlower(GameEngineLevel* _Level)
 {
 	{
 		std::shared_ptr<SilverStarFlower> Object = _Level->CreateActor<SilverStarFlower>(EUPDATEORDER::Entity);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("덤풀을 생성하지 못했습니다.");
-			return;
-		}
-
 		Object->Transform.SetLocalPosition({ 100.0f , -450.0f });
 		Object->Init();
 	}
@@ -268,12 +238,6 @@ void BackDrop_CenterField::CreateBranchTree(GameEngineLevel* _Level)
 {
 	{
 		std::shared_ptr<BranchTree> Object = _Level->CreateActor<BranchTree>(EUPDATEORDER::Entity);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("가지 나무를 생성하지 못했습니다.");
-			return;
-		}
-
 		Object->Transform.SetLocalPosition({ 500.0f , -550.0f });
 		Object->Init();
 	}
@@ -297,24 +261,12 @@ void BackDrop_CenterField::CreateFlowerBird(GameEngineLevel* _Level)
 {
 	{
 		std::shared_ptr<FlowerBird> Object = _Level->CreateActor<FlowerBird>(EUPDATEORDER::Entity);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("가지 나무를 생성하지 못했습니다.");
-			return;
-		}
-
 		Object->Transform.SetLocalPosition({ 400.0f , -200.0f });
 		Object->Init();
 	}
 
 	{
 		std::shared_ptr<FlowerBird> Object = _Level->CreateActor<FlowerBird>(EUPDATEORDER::Entity);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("가지 나무를 생성하지 못했습니다.");
-			return;
-		}
-
 		Object->Transform.SetLocalPosition({ 440.0f , -200.0f });
 		Object->Init();
 	}
@@ -324,12 +276,6 @@ void BackDrop_CenterField::CreatePumpkinTerrier(GameEngineLevel* _Level)
 {
 	{
 		std::shared_ptr<PumpkinTerrier> Object = _Level->CreateActor<PumpkinTerrier>(EUPDATEORDER::Entity);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("가지 나무를 생성하지 못했습니다.");
-			return;
-		}
-
 		Object->Transform.SetLocalPosition({ 360.0f , -400.0f });
 		Object->Init();
 

@@ -187,6 +187,9 @@
     <Filter Include="2.Object\2.Actor\3.Prop\RenderActor">
       <UniqueIdentifier>{b1f72141-7171-43b8-b966-51229b0ecce1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2.Object\2.Actor\0.Manager\AlertManager">
+      <UniqueIdentifier>{e86bc8e0-b21f-4dd1-88ce-35732e7132fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -489,6 +492,16 @@
     </ClInclude>
     <ClInclude Include="ALightActor.h">
       <Filter>2.Object\2.Actor\3.Prop\RenderActor</Filter>
+    </ClInclude>
+    <ClInclude Include="AlertManager.h">
+      <Filter>2.Object\2.Actor\0.Manager\AlertManager</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Alert_Quest.h">
+      <Filter>2.Object\2.Actor\0.Manager\AlertManager</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Alert_Tutorial.h" />
+    <ClInclude Include="UI_Alert_Enter.h">
+      <Filter>2.Object\2.Actor\0.Manager\AlertManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -808,6 +821,19 @@
     </ClCompile>
     <ClCompile Include="ALightActor.cpp">
       <Filter>2.Object\2.Actor\3.Prop\RenderActor</Filter>
+    </ClCompile>
+    <ClCompile Include="MapEditorLevel_Resources.cpp">
+      <Filter>2.Object\3.Level\0.MapEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="AlertManager.cpp">
+      <Filter>2.Object\2.Actor\0.Manager\AlertManager</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Alert_Quest.cpp">
+      <Filter>2.Object\2.Actor\0.Manager\AlertManager</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Alert_Tutorial.cpp" />
+    <ClCompile Include="UI_Alert_Enter.cpp">
+      <Filter>2.Object\2.Actor\0.Manager\AlertManager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

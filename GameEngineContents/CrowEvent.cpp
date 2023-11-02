@@ -178,7 +178,7 @@ void CrowEvent::ConversationSetting()
 		{ L"까마귀?" , ECONVERSATIONENTITY::Ellie, 9 },
 		{ L"마녀! 까악" , ECONVERSATIONENTITY::NPC , 1},
 		{ L"말을 했어?" , ECONVERSATIONENTITY::Ellie, 9 },
-		{ L"마녀 까마귀잖아." , ECONVERSATIONENTITY::Virgil , 4, CrowTopic.Color_BLACK, CrowTopic.Font_JejuHanlasan},
+		{ L"마녀 까마귀잖아." , ECONVERSATIONENTITY::Virgil , 4, CrowTopic.Color_BLACK, GlobalValue::Font_JejuHanlasan},
 		{ L"아, 마녀 까마귀였구나." , ECONVERSATIONENTITY::Ellie , 3},
 		{ L"마녀가 돌아왔다! 마녀가 돌아왔다!" , ECONVERSATIONENTITY::NPC , 1},
 		{ L"나는 여기 처음왔는데." , ECONVERSATIONENTITY::Ellie , 1},
@@ -191,10 +191,10 @@ void CrowEvent::ConversationSetting()
 		{ L"마녀 카탈로그를 이용하세요. 마녀 카탈로그를 이용하세요." , ECONVERSATIONENTITY::NPC, 1 },
 		{ L"선물도 준대! 지금만 준대!" , ECONVERSATIONENTITY::Ellie, 8 },
 		{ L"까악 선물" , ECONVERSATIONENTITY::NPC, 1, CrowTopic.Color_RED},
-		{ L"다목적 접착제? 주방용품? 포크 숟가락?" , ECONVERSATIONENTITY::Virgil, 1 , CrowTopic.Color_BLACK, CrowTopic.Font_JejuHanlasan},
+		{ L"다목적 접착제? 주방용품? 포크 숟가락?" , ECONVERSATIONENTITY::Virgil, 1 , CrowTopic.Color_BLACK, GlobalValue::Font_JejuHanlasan},
 		{ L"하여튼 마녀 카탈로그는 필요해." , ECONVERSATIONENTITY::Ellie, 2},
-		{ L"잠깐 있을거라도 좋긴하지." , ECONVERSATIONENTITY::Virgil, 1, CrowTopic.Color_BLACK, CrowTopic.Font_JejuHanlasan},
-		{ L"재료나 물약 제조법 같은 것도 살 수 있어." , ECONVERSATIONENTITY::Virgil, 1, CrowTopic.Color_BLACK, CrowTopic.Font_JejuHanlasan},
+		{ L"잠깐 있을거라도 좋긴하지." , ECONVERSATIONENTITY::Virgil, 1, CrowTopic.Color_BLACK, GlobalValue::Font_JejuHanlasan},
+		{ L"재료나 물약 제조법 같은 것도 살 수 있어." , ECONVERSATIONENTITY::Virgil, 1, CrowTopic.Color_BLACK, GlobalValue::Font_JejuHanlasan},
 		{ L"좋아 일단 등록하자." , ECONVERSATIONENTITY::Ellie, 5 },
 		{ L"감사합니다. 까악 감사합니다. 직원 방문! 직원 방문!" , ECONVERSATIONENTITY::NPC, 1 },
 		{ L"까악 직원 방문" , ECONVERSATIONENTITY::NPC, 1 , CrowTopic.Color_RED },
@@ -231,10 +231,10 @@ void CrowEvent::ConversationSetting()
 	DisappearTopic.Data =
 	{
 		{ L"이렇게 갑자기?" , ECONVERSATIONENTITY::Ellie, 1 },
-		{ L"마녀 까마귀는 그렇게 말이 잘 통하는 편은 아니지." , ECONVERSATIONENTITY::Virgil, 1 ,CrowTopic.Color_BLACK, CrowTopic.Font_JejuHanlasan},
+		{ L"마녀 까마귀는 그렇게 말이 잘 통하는 편은 아니지." , ECONVERSATIONENTITY::Virgil, 1 ,CrowTopic.Color_BLACK, GlobalValue::Font_JejuHanlasan},
 		{ L"음, 그럼 일단은 계속 주변을 탐색 해볼까?" , ECONVERSATIONENTITY::Ellie, 5 },
-		{ L"마녀 카탈로그는 언제 올지 모르니까 말야" , ECONVERSATIONENTITY::Virgil, 5,CrowTopic.Color_BLACK, CrowTopic.Font_JejuHanlasan },
-		{ L"우선 그렇게 하자." , ECONVERSATIONENTITY::Virgil, 5,CrowTopic.Color_BLACK, CrowTopic.Font_JejuHanlasan },
+		{ L"마녀 카탈로그는 언제 올지 모르니까 말야" , ECONVERSATIONENTITY::Virgil, 5,CrowTopic.Color_BLACK, GlobalValue::Font_JejuHanlasan },
+		{ L"우선 그렇게 하자." , ECONVERSATIONENTITY::Virgil, 5,CrowTopic.Color_BLACK, GlobalValue::Font_JejuHanlasan },
 	};
 
 	DisappearTopic.Data.shrink_to_fit();

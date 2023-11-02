@@ -8,6 +8,7 @@
 
 #include "BackDrop_WitchHouse_Yard.h"
 #include "Ellie.h"
+#include "UI_Alert_Enter.h"
 
 
 
@@ -40,6 +41,8 @@ void WitchHouse_Yard::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	FieldLevel::LevelStart(_NextLevel);
 
+	UI_Alert_Enter::AlertLevelEnter(this, "¸¶³àÀÇ Á¤¿ø");
+
 	LoadTexture();
 	LoadActor();
 
@@ -66,10 +69,9 @@ void WitchHouse_Yard::LoadTexture()
 	for (GameEngineDirectory& Dir : Dirs)
 	{
 		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-		for (size_t i = 0; i < Files.size(); i++)
+		for (GameEngineFile& pFile : Files)
 		{
-			GameEngineFile File = Files[i];
-			GameEngineTexture::Load(File.GetStringPath());
+			GameEngineTexture::Load(pFile.GetStringPath());
 		}
 	}
 }
@@ -137,10 +139,9 @@ void WitchHouse_Yard::ReleaseTexture()
 	for (GameEngineDirectory& Dir : Dirs)
 	{
 		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-		for (size_t i = 0; i < Files.size(); i++)
+		for (GameEngineFile& pFile : Files)
 		{
-			GameEngineFile File = Files[i];
-			GameEngineTexture::Release(File.GetFileName());
+			GameEngineTexture::Release(pFile.GetFileName());
 		}
 	}
 }

@@ -179,6 +179,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="AlertManager.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ALightActor.cpp">
       <SubType>
       </SubType>
@@ -236,6 +240,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="MapEditorLevel_Resources.cpp" />
     <ClCompile Include="MouseManager.cpp">
       <SubType>
       </SubType>
@@ -459,6 +464,18 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="UI_Alert_Enter.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UI_Alert_Quest.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UI_Alert_Tutorial.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="UI_BiologyPage.cpp">
       <SubType>
       </SubType>
@@ -576,6 +593,10 @@
   <ItemGroup>
     <ClInclude Include="ActorEnum.h" />
     <ClInclude Include="AlchemyPot.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="AlertManager.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -848,6 +869,18 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="UIManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UI_Alert_Enter.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UI_Alert_Quest.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UI_Alert_Tutorial.h">
       <SubType>
       </SubType>
     </ClInclude>

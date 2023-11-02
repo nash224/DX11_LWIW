@@ -91,6 +91,7 @@ public:
 	std::vector<std::string> SpriteNameVector;
 
 private:
+
 	std::string SpriteName = "";
 
 	bool isSkyOn = true;

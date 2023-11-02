@@ -63,13 +63,13 @@ void BackDrop_WitchHouse_Yard::Init()
 	m_BackScale = GlobalValue::GetWindowScale();
 
 	LoadSprite();
+
 	CreateBase();
 	LoadSerBin();
 	CreateHouse();
 	CreateNormalProp();
 	CreatePortalActor();
 	CreateDian();
-
 
 	TestLightShader();
 }
@@ -82,10 +82,9 @@ void BackDrop_WitchHouse_Yard::LoadSprite()
 		Dir.MoveParentToExistsChild("Resources");
 		Dir.MoveChild("Resources\\PlayContents\\WitchHouse_Yard\\YardSingle");
 		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-		for (size_t i = 0; i < Files.size(); i++)
+		for (GameEngineFile& pFile : Files)
 		{
-			GameEngineFile File = Files[i];
-			GameEngineSprite::CreateSingle(File.GetFileName());
+			GameEngineSprite::CreateSingle(pFile.GetFileName());
 		}
 	}
 
@@ -107,8 +106,6 @@ void BackDrop_WitchHouse_Yard::TestLightShader()
 	LightActor->m_Renderer->SetSprite("cookie_1.png");
 	LightActor->m_Renderer->GetImageTransform().SetLocalScale(float4(96.0f, 96.0f));
 	LightActor->m_Renderer->GetColorData().MulColor = float4( 0.2f, 0.2f, 0.4f);
-
-	//Test2DTextureBelnd
 }
 
 void BackDrop_WitchHouse_Yard::LoadSerBin()
@@ -118,7 +115,7 @@ void BackDrop_WitchHouse_Yard::LoadSerBin()
 
 		GameEngineFile File;
 		File.MoveParentToExistsChild("Resources");
-		File.MoveChild("Resources\\Data\\SaveThis.map");
+		File.MoveChild("Resources\\Data\\Yard\\Yard_Prop\\YardPropData.map");
 
 		File.Open(FileOpenType::Read, FileDataType::Binary);
 		File.DataAllRead(LoadBin);
@@ -141,7 +138,7 @@ void BackDrop_WitchHouse_Yard::LoadSerBin()
 
 		GameEngineFile File;
 		File.MoveParentToExistsChild("Resources");
-		File.MoveChild("Resources\\Data\\YardGrassData.map");
+		File.MoveChild("Resources\\Data\\Yard\\Yard_Grass\\YardGrassData.map");
 
 		File.Open(FileOpenType::Read, FileDataType::Binary);
 		File.DataAllRead(LoadBin);

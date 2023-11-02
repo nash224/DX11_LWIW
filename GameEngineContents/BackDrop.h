@@ -24,7 +24,7 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
-
 protected:
 	float4 m_BackScale = float4::ZERO;
+
 };

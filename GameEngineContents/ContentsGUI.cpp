@@ -232,6 +232,7 @@ void DebugTab::TimeDebug()
 }
 
 
+
 void ManualTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
 	ImGui::Text("Left Arrow : Move Left ");
@@ -411,16 +412,8 @@ void MapEditorTab::SettingTab(GameEngineLevel* _Level, float _DeltaTime)
 
 	if (ImGui::Button("Center Field Base Setting"))
 	{
-		const float4 BaseScale = float4(1920.0f, 1080.0f);
-		float4 BasePosition = BaseScale.Half();
-		BasePosition.Y *= -1.0f;
-
 		MapEditorLevel* MapEditorPtr = static_cast<MapEditorLevel*>(_Level);
-		MapEditorPtr->m_MapBaseRenderer->SetSprite("GroundBase.png");
-		MapEditorPtr->m_MapBaseRenderer->GetImageTransform().SetLocalScale(BaseScale);
-		MapEditorPtr->m_MapBaseRenderer->Transform.SetLocalPosition(BasePosition);
-		MapEditorPtr->m_MapBaseRenderer->On();
-		MapEditorPtr->m_BaseScale = BaseScale;
+		MapEditorPtr->CenterFieldMapSetting();
 	}
 
 	if (ImGui::Button("Reset Camera"))

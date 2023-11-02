@@ -9,7 +9,7 @@ public:
 		ECONVERSATIONENTITY _ConversationEntity,
 		int _FileIndex = 0,
 		float4 _Color = float4(0.0f, 0.0f, 0.0f, 1.0f),
-		std::string_view _Font = Font_Sandoll
+		std::string_view _Font = GlobalValue::Font_Sandoll
 		)
 		:
 		Question(_Question),
@@ -29,9 +29,6 @@ public:
 	std::string Font;
 	float4 Color;
 	std::function<void()> Event;
-
-public:
-	static constexpr const char* Font_Sandoll = "Sandoll 삼립호빵체 TTF Basic";
 
 };
 
@@ -54,8 +51,6 @@ public:
 	const float4 Color_RED = float4(0.6f, 0.1f, 0.1f, 1.0f);
 	const float4 Color_BLACK = float4(0.0f, 0.0f, 0.0f, 1.0f);
 
-	// 양심의 가책을 느끼고 있습니다.. 어디에 둬야할지 모르곘습니다..
-	static constexpr const char* Font_JejuHanlasan = "제주한라산";
 
 };
 
