@@ -17,6 +17,7 @@
 #include "GameEngineDepthStencil.h"
 #include "GameEngineMaterial.h"
 #include "GameEngineFont.h"
+#include "GAMEENGINERENDERTARGET.H"
 
 void GameEngineDevice::ResourcesInit()
 {
@@ -258,14 +259,16 @@ void GameEngineDevice::ResourcesInit()
 		GameEngineMesh::Create("Rect");
 	}
 
+
+
 	{
 		std::vector<GameEngineVertex> Vertex;
 		Vertex.resize(4);
 
-		Vertex[0] = { { -1.0f, -1.0f, 0.0f, 1.0f }, {0.0f, 0.0f} };
-		Vertex[1] = { { 1.0f, -1.0f, 0.0f, 1.0f },  {1.0f, 0.0f} };
-		Vertex[2] = { { 1.0f, 1.0f, 0.0f, 1.0f },   {1.0f, 1.0f} };
-		Vertex[3] = { { -1.0f, 1.0f, 0.0f, 1.0f },  {0.0f, 1.0f} };
+		Vertex[0] = { { -1.0f, 1.0f, 0.0f, 1.0f },  {0.0f, 0.0f} };
+		Vertex[1] = { { 1.0f, 1.0f, 0.0f, 1.0f } , {1.0f, 0.0f} };
+		Vertex[2] = { { 1.0f, -1.0f, 0.0f, 1.0f }  , {1.0f, 1.0f} };
+		Vertex[3] = { { -1.0f, -1.0f, 0.0f, 1.0f } , {0.0f, 1.0f} };
 
 		GameEngineVertexBuffer::Create("FullRect", Vertex);
 
@@ -277,13 +280,15 @@ void GameEngineDevice::ResourcesInit()
 		};
 
 		GameEngineIndexBuffer::Create("FullRect", Index);
+
+		GameEngineMesh::Create("FullRect");
 	}
 
 	{
 
 		//D3D11_FILL_MODE FillMode;
 		// 랜더링 할때 채우기 모드를 결정한다.
-
+		
 		// 외적했는데 z방향이 어디냐?
 		// D3D11_CULL_NONE => 방향이 어디든 건져낸다.
 		// D3D11_CULL_BACK => z가 앞쪽인 픽셀들은 안건져 낸다.
@@ -418,7 +423,7 @@ void GameEngineDevice::ResourcesInit()
 		Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
 
 		// https://learn.microsoft.com/ko-kr/windows/win32/api/d3d11/ne-d3d11-d3d11_blend
-
+		
 		// src srcColor * src의 알파
 		// 1, 0, 0(, 1) * 1.0f
 		Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA; // src팩터
@@ -523,6 +528,7 @@ void GameEngineDevice::ResourcesInit()
 		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("2DTextureWire");
 		Mat->SetVertexShader("DebugColor_VS");
 		Mat->SetPixelShader("DebugColor_PS");
+		Mat->SetDepthState("AlwaysDepth");
 		Mat->SetRasterizer("EngineWireRasterizer");
 	}
 
@@ -530,10 +536,20 @@ void GameEngineDevice::ResourcesInit()
 		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("2DDebugLine");
 		Mat->SetVertexShader("DebugLine_VS");
 		Mat->SetPixelShader("DebugLine_PS");
-		// Mat->SetRasterizer("EngineWireRasterizer");
-
+		Mat->SetDepthState("AlwaysDepth");
 		Mat->SetRasterizer("EngineRasterizer");
 	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("TargetMerge");
+		Mat->SetVertexShader("TargetMerge_VS");
+		Mat->SetPixelShader("TargetMerge_PS");
+		Mat->SetDepthState("AlwaysDepth");
+		Mat->SetRasterizer("EngineRasterizer");
+	}
+
+
+	GameEngineRenderTarget::MergeRenderUnitInit();
 
 
 	// 엔진수준에서 지원해주는 가장 기초적인 리소스들은 여기에서 만들어질 겁니다.

@@ -5,14 +5,16 @@
 #include "GameEngineCore.h"
 #include "GameEngineRenderTarget.h"
 
+std::shared_ptr<class GameEngineRenderTarget> GameEngineCamera::AllRenderTarget = nullptr;
+
 float GameEngineCamera::FreeRotSpeed = 180.0f;
 float GameEngineCamera::FreeSpeed = 200.0f;
 
-GameEngineCamera::GameEngineCamera()
+GameEngineCamera::GameEngineCamera() 
 {
 }
 
-GameEngineCamera::~GameEngineCamera()
+GameEngineCamera::~GameEngineCamera() 
 {
 }
 
@@ -29,6 +31,27 @@ void GameEngineCamera::Start()
 		MsgBoxAssert("Level이 nullptr입니다");
 		return;
 	}
+
+	float4 WindowScale = GameEngineCore::MainWindow.GetScale();
+
+	if (nullptr == AllRenderTarget)
+	{
+		// 이녀석이 깊이 버퍼도 가집니다.
+		AllRenderTarget = GameEngineRenderTarget::Create();
+		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+		AllRenderTarget->CreateDepthTexture();
+	}
+
+	// 이건 최종 타겟일 뿐입니다.
+	CameraTarget = GameEngineRenderTarget::Create();
+	CameraTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
 
 	IsFreeCameraValue = false;
 }
@@ -105,7 +128,7 @@ void GameEngineCamera::Update(float _Delta)
 	{
 		float4 Dir = ScreenMouseDirNormal;
 
-		Transform.AddWorldRotation({ -Dir.Y, -Dir.X });
+		Transform.AddWorldRotation({ -Dir.Y, -Dir.X});
 	}
 
 }
@@ -138,16 +161,10 @@ void GameEngineCamera::Render(float _DeltaTime)
 		return;
 	}
 
-	GameEngineCore::GetBackBufferRenderTarget()->Setting();
+	// GameEngineCore::GetBackBufferRenderTarget()->Setting();
 
-	//x + 1;
-	//y + 1;
-	//z + 1;
-
-	//for (size_t i = 0; i < 1280 * 720; i++)
-	//{
-	//	GameEngineCore::MainWindow.GetBackBuffer()->GetColor(0, {0, 0});
-	//}
+	AllRenderTarget->Clear();
+	AllRenderTarget->Setting();
 
 	for (std::pair<const int, std::list<std::shared_ptr<class GameEngineRenderer>>>& RendererPair : Renderers)
 	{
@@ -169,7 +186,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 				});
 		}
 
-		for (std::shared_ptr<class GameEngineRenderer>& Renderer : RendererList)
+		for (std::shared_ptr<class GameEngineRenderer> & Renderer : RendererList)
 		{
 			if (false == Renderer->IsUpdate())
 			{
@@ -180,6 +197,14 @@ void GameEngineCamera::Render(float _DeltaTime)
 			Renderer->Render(this, _DeltaTime);
 		}
 	}
+
+	// 기존에 그려진걸 싹다 지우고 복사
+	CameraTarget->Copy(0, AllRenderTarget, 0);
+
+	// 기존에 그려진거 위에다가 덮어 씌우기
+	GameEngineCore::GetBackBufferRenderTarget()->Merge(0, CameraTarget, 0);
+
+	// AllRenderTarget->
 }
 
 void GameEngineCamera::AllReleaseCheck()
@@ -215,7 +240,7 @@ float4 GameEngineCamera::GetWorldMousePos2D()
 {
 	// 월드라고 하는 세상은 화면과 관련이 없었다.
 	// 그런데 관련있게 됐다.
-
+	
 	// 나누기
 	// 로컬 => 월드(크자이공부) => 뷰 => 프로젝션 => 뷰포트(스크린좌표)
 

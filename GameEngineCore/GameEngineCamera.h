@@ -9,6 +9,8 @@
 // Ό³Έν :
 class GameEngineCamera : public GameEngineActor
 {
+	static std::shared_ptr<class GameEngineRenderTarget> AllRenderTarget;
+
 	friend class GameEngineRenderer;
 	friend class GameEngineActor;
 	friend class GameEngineLevel;
@@ -47,7 +49,7 @@ public:
 		ZoomValue += _Value;
 	}
 
-	bool IsFreeCamera()
+	bool IsFreeCamera() 
 	{
 		return IsFreeCameraValue;
 	}
@@ -76,7 +78,7 @@ public:
 		ZSortMap.insert(static_cast<int>(_SortOrder));
 	}
 
-	void SetZSort(int _SortOrder)
+	void SetZSort(int _SortOrder) 
 	{
 		ZSortMap.insert(_SortOrder);
 	}
@@ -102,8 +104,8 @@ protected:
 
 	void AllReleaseCheck() override;
 
-
-
+	
+	
 
 private:
 	float4 Pivot = float4::ZERO;
@@ -130,6 +132,8 @@ private:
 
 	std::set<int> ZSortMap;
 	std::set<int> YSortMap;
+
+	std::shared_ptr<class GameEngineRenderTarget> CameraTarget;
 
 	void CameraUpdate(float _DeltaTime);
 };

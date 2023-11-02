@@ -127,6 +127,7 @@ public:
 		return NewChild;
 	}
 	
+	void ChangeParent(GameEngineObject* _Parent, int _Order);
 
 	void SetParent(GameEngineObject* _Parent, int _Order)
 	{
@@ -141,6 +142,7 @@ public:
 		Parent = _Parent.get();
 		Transform.SetParent(_Parent->Transform);
 	}
+
 
 	GameEngineObject* GetParentObject()
 	{

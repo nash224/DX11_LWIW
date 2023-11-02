@@ -22,7 +22,6 @@ GameEngineCore::GameEngineCore()
 
 GameEngineCore::~GameEngineCore() 
 {
-
 }
 
 void GameEngineCore::Start() 

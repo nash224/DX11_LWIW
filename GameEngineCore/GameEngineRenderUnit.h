@@ -28,6 +28,8 @@ public:
 	void ResSetting();
 	void Draw();
 
+	void Render();
+
 	void SetParentRenderer(class GameEngineRenderer* _Renderer)
 	{
 		ParentRenderer = _Renderer;

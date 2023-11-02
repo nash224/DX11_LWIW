@@ -99,6 +99,9 @@ public:
 	void VSSetting(UINT _Slot);
 	void PSSetting(UINT _Slot);
 
+	void VSReset(UINT _Slot);
+	void PSReset(UINT _Slot);
+
 	GameEngineColor GetColor(float4 _Pos, GameEngineColor _DefaultColor)
 	{
 		return GetColor(_Pos.iX(), _Pos.iY(), _DefaultColor);

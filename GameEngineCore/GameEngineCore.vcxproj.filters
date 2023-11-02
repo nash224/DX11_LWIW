@@ -73,6 +73,9 @@
     <Filter Include="Resources\Font">
       <UniqueIdentifier>{5fcbd217-5b6d-4f9c-98a5-23e02cb4266d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PathFind">
+      <UniqueIdentifier>{89a24fbe-f28a-4c0b-9fec-98423ad17cc7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngineActor.h">
@@ -232,6 +235,9 @@
     <ClInclude Include="ThirdParty\FW1FontWrapper\inc\FW1FontWrapper.h">
       <Filter>ThirdParty\inc</Filter>
     </ClInclude>
+    <ClInclude Include="AStartPathFinder.h">
+      <Filter>PathFind</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineActor.cpp">
@@ -378,6 +384,9 @@
     </ClCompile>
     <ClCompile Include="GameEngineFont.cpp">
       <Filter>Resources\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="AStartPathFinder.cpp">
+      <Filter>PathFind</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

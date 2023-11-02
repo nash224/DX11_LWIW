@@ -1,8 +1,10 @@
 #include "Transform.fx"
 
+// 이녀석은 뭐냐?
 struct GameEngineVertex2D
 {
     float4 POSITION : POSITION;
+    // SV가 붙은 시맨틱들은 인풋레이아웃으로 잡을 필요도 없어요.
     uint iVertex : SV_VertexID;
 };
 
@@ -11,7 +13,6 @@ struct PixelOutPut
 {
     float4 POSITION : SV_POSITION;
 };
-
 
 PixelOutPut DebugLine_VS(GameEngineVertex2D _Input)
 {
