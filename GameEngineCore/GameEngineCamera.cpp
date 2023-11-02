@@ -130,7 +130,6 @@ void GameEngineCamera::Update(float _Delta)
 
 		Transform.AddWorldRotation({ -Dir.Y, -Dir.X});
 	}
-
 }
 
 void GameEngineCamera::SetCameraOrder(int _Order)

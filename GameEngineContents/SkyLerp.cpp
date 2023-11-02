@@ -48,7 +48,7 @@ void SkyLerp::Init()
 
 	Sun_Renderer = CreateComponent<GameEngineSpriteRenderer>(SkyOrder);
 	Sun_Renderer->SetSprite("SkyBox.png");
-	Sun_Renderer->GetImageTransform().SetLocalScale(GlobalValue::GetWindowScale());
+	Sun_Renderer->GetImageTransform().SetLocalScale(GlobalValue::GetWindowScale() + 10.0f);
 	Sun_Renderer->GetColorData().MulColor.A = 0.0f;
 
 

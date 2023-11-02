@@ -412,6 +412,11 @@ bool MapEditorLevel::PlaceThis()
 		Position.Z = CalculateDepth(Position.Y);
 	}
 
+	if (ERENDERDEPTH::Hill_Object == static_cast<ERENDERDEPTH>(_SelectDepth))
+	{
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BaseScale.Y, Position.Y, true);
+	}
+
 	SelectActor->Transform.SetLocalPosition(Position);
 	return true;
 }

@@ -39,7 +39,7 @@ void BackDrop_WitchHouse_Yard::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	MainBackDrop = this;
 
-	CheckCrowEvent();
+	/*CheckCrowEvent();*/
 }
 
 

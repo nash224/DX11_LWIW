@@ -181,8 +181,11 @@
     <Filter Include="2.Object\2.Actor\1.BackManager\LevelBackDrop\2.Play\Yard">
       <UniqueIdentifier>{9b1df275-f0ef-483d-b8d9-45c1837233dc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2.Object\3.Level\EndLevel">
+    <Filter Include="2.Object\3.Level\10.EndLevel">
       <UniqueIdentifier>{3bbcd76f-d498-4911-9dac-d445793b19c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2.Object\2.Actor\3.Prop\RenderActor">
+      <UniqueIdentifier>{b1f72141-7171-43b8-b966-51229b0ecce1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -337,9 +340,6 @@
     <ClInclude Include="MongSiri.h">
       <Filter>2.Object\2.Actor\2.Interactive\Dynamic\MongSiri</Filter>
     </ClInclude>
-    <ClInclude Include="Prop.h">
-      <Filter>2.Object\2.Actor\3.Prop</Filter>
-    </ClInclude>
     <ClInclude Include="Bush.h">
       <Filter>2.Object\2.Actor\2.Interactive\Static\Bush</Filter>
     </ClInclude>
@@ -381,9 +381,6 @@
     </ClInclude>
     <ClInclude Include="WitchHouse.h">
       <Filter>2.Object\2.Actor\3.Prop\House</Filter>
-    </ClInclude>
-    <ClInclude Include="NormalProp.h">
-      <Filter>2.Object\2.Actor\3.Prop</Filter>
     </ClInclude>
     <ClInclude Include="LogoLevel.h">
       <Filter>2.Object\3.Level\1.Title</Filter>
@@ -445,17 +442,8 @@
     <ClInclude Include="MapEditorLevel.h">
       <Filter>2.Object\3.Level\0.MapEditor</Filter>
     </ClInclude>
-    <ClInclude Include="Scenery.h">
-      <Filter>2.Object\2.Actor\3.Prop</Filter>
-    </ClInclude>
-    <ClInclude Include="RendererActor.h">
-      <Filter>2.Object\2.Actor\3.Prop</Filter>
-    </ClInclude>
     <ClInclude Include="MouseManager.h">
       <Filter>2.Object\3.Level\0.MapEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="GroundRenderUnit.h">
-      <Filter>2.Object\2.Actor\3.Prop</Filter>
     </ClInclude>
     <ClInclude Include="TimeManager.h">
       <Filter>2.Object\2.Actor\0.Manager\TimeManager</Filter>
@@ -482,7 +470,25 @@
       <Filter>2.Object\3.Level\2.Play\0.PlayLevel</Filter>
     </ClInclude>
     <ClInclude Include="EndLevel.h">
-      <Filter>2.Object\3.Level\EndLevel</Filter>
+      <Filter>2.Object\3.Level\10.EndLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="GroundRenderUnit.h">
+      <Filter>2.Object\2.Actor\3.Prop\RenderActor</Filter>
+    </ClInclude>
+    <ClInclude Include="NormalProp.h">
+      <Filter>2.Object\2.Actor\3.Prop\RenderActor</Filter>
+    </ClInclude>
+    <ClInclude Include="Prop.h">
+      <Filter>2.Object\2.Actor\3.Prop\RenderActor</Filter>
+    </ClInclude>
+    <ClInclude Include="RendererActor.h">
+      <Filter>2.Object\2.Actor\3.Prop\RenderActor</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenery.h">
+      <Filter>2.Object\2.Actor\3.Prop\RenderActor</Filter>
+    </ClInclude>
+    <ClInclude Include="ALightActor.h">
+      <Filter>2.Object\2.Actor\3.Prop\RenderActor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -637,9 +643,6 @@
     <ClCompile Include="MongSiri.cpp">
       <Filter>2.Object\2.Actor\2.Interactive\Dynamic\MongSiri</Filter>
     </ClCompile>
-    <ClCompile Include="Prop.cpp">
-      <Filter>2.Object\2.Actor\3.Prop</Filter>
-    </ClCompile>
     <ClCompile Include="Bush.cpp">
       <Filter>2.Object\2.Actor\2.Interactive\Static\Bush</Filter>
     </ClCompile>
@@ -687,9 +690,6 @@
     </ClCompile>
     <ClCompile Include="WitchHouse.cpp">
       <Filter>2.Object\2.Actor\3.Prop\House</Filter>
-    </ClCompile>
-    <ClCompile Include="NormalProp.cpp">
-      <Filter>2.Object\2.Actor\3.Prop</Filter>
     </ClCompile>
     <ClCompile Include="LogoLevel.cpp">
       <Filter>2.Object\3.Level\1.Title</Filter>
@@ -755,17 +755,8 @@
     <ClCompile Include="MapEditorLevel.cpp">
       <Filter>2.Object\3.Level\0.MapEditor</Filter>
     </ClCompile>
-    <ClCompile Include="Scenery.cpp">
-      <Filter>2.Object\2.Actor\3.Prop</Filter>
-    </ClCompile>
-    <ClCompile Include="RendererActor.cpp">
-      <Filter>2.Object\2.Actor\3.Prop</Filter>
-    </ClCompile>
     <ClCompile Include="MouseManager.cpp">
       <Filter>2.Object\3.Level\0.MapEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="GroundRenderUnit.cpp">
-      <Filter>2.Object\2.Actor\3.Prop</Filter>
     </ClCompile>
     <ClCompile Include="TimeManager.cpp">
       <Filter>2.Object\2.Actor\0.Manager\TimeManager</Filter>
@@ -798,7 +789,25 @@
       <Filter>2.Object\3.Level\2.Play\0.PlayLevel</Filter>
     </ClCompile>
     <ClCompile Include="EndLevel.cpp">
-      <Filter>2.Object\3.Level\EndLevel</Filter>
+      <Filter>2.Object\3.Level\10.EndLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="GroundRenderUnit.cpp">
+      <Filter>2.Object\2.Actor\3.Prop\RenderActor</Filter>
+    </ClCompile>
+    <ClCompile Include="NormalProp.cpp">
+      <Filter>2.Object\2.Actor\3.Prop\RenderActor</Filter>
+    </ClCompile>
+    <ClCompile Include="Prop.cpp">
+      <Filter>2.Object\2.Actor\3.Prop\RenderActor</Filter>
+    </ClCompile>
+    <ClCompile Include="RendererActor.cpp">
+      <Filter>2.Object\2.Actor\3.Prop\RenderActor</Filter>
+    </ClCompile>
+    <ClCompile Include="Scenery.cpp">
+      <Filter>2.Object\2.Actor\3.Prop\RenderActor</Filter>
+    </ClCompile>
+    <ClCompile Include="ALightActor.cpp">
+      <Filter>2.Object\2.Actor\3.Prop\RenderActor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -31,10 +31,11 @@ enum class ERENDERORDER
 enum class ERENDERDEPTH
 {
 	FadeObject = -450,
-	illuminant = - 120,
+	illuminant = -120,
 	SkyBox = -110,
 	Roof = -100,
 	FX,
+	Hill_Object = -1,
 	Object = 0,
 	RootedItem = 3000,
 	ObjectShadow,

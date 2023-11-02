@@ -30,7 +30,7 @@ public:
 
 
 public:
-	static float CalculateObjectDepth(float _BackScale, float _PositionY);
+	static float CalculateObjectDepth(float _BackScale, float _PositionY, bool _isHill = false);
 
 	template<typename OrderType>
 	static float CalculateFixDepth(OrderType _Order)

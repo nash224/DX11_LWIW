@@ -648,7 +648,9 @@ void PropItemTab::TabStart()
 	{
 		DepthTypes.insert(std::make_pair("DarkGrass", static_cast<int>(ERENDERDEPTH::DarkGrass)));
 		DepthTypes.insert(std::make_pair("DeepDarkGrass", static_cast<int>(ERENDERDEPTH::DeepDarkGrass)));
+		DepthTypes.insert(std::make_pair("Grass", static_cast<int>(ERENDERDEPTH::Grass)));
 		DepthTypes.insert(std::make_pair("Object", static_cast<int>(ERENDERDEPTH::Object)));
+		DepthTypes.insert(std::make_pair("Hill_Object", static_cast<int>(ERENDERDEPTH::Hill_Object)));
 	}
 }
 

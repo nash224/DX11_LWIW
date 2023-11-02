@@ -104,7 +104,7 @@ void BackDrop_CenterField::CreateMap()
 {
 	const std::int32_t GroupZero = 0;
 
-	const std::shared_ptr<GameEngineTexture> MapTexture = GameEngineTexture::Find("FileMap.png");
+	const std::shared_ptr<GameEngineTexture> MapTexture = GameEngineTexture::Find("CenterMap.png");
 	const float4 MapScale = MapTexture->GetScale();
 
 	m_BackScale = MapScale;
@@ -118,9 +118,22 @@ void BackDrop_CenterField::CreateMap()
 		std::shared_ptr<NormalProp> CenterMap = GetLevel()->CreateActor<NormalProp>(GroupZero);
 		CenterMap->Transform.SetLocalPosition(MapPos);
 		CenterMap->Init();
-		CenterMap->m_Renderer->SetSprite("FileMap.png");
-		CenterMap->SetPixelCollision("This_Pixel.png");
+		CenterMap->m_Renderer->SetSprite("CenterMap.png");
+		CenterMap->SetPixelCollision("CenterMap_Pixel.png");
 		PixelVec.push_back(CenterMap);
+	}
+
+	{
+		// 이것 또한 양심의 가책을 느끼고 있습니다.
+		static constexpr const float UpperMapDepth = 100.0f;
+		float4 MapPos = MapScale.Half();
+		MapPos.Y *= -1.0f;
+		MapPos.Z = UpperMapDepth;
+
+		std::shared_ptr<NormalProp> CenterMap = GetLevel()->CreateActor<NormalProp>(GroupZero);
+		CenterMap->Transform.SetLocalPosition(MapPos);
+		CenterMap->Init();
+		CenterMap->m_Renderer->SetSprite("CenterMap_Upper.png");
 	}
 
 	{

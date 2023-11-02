@@ -105,23 +105,27 @@ std::string GlobalUtils::GetParentString(std::string_view _ChildPath)
 
 		++CountBeforeBackSlash;
 	}
-
 	
 	ChildPath.resize(CountBeforeBackSlash);
-
 	return ChildPath;
 }
 
 
-float GlobalUtils::CalculateObjectDepth(float _BackScale, float _PositionY)
+float GlobalUtils::CalculateObjectDepth(float _BackYScale, float _PositionY, bool _isHill /*= false*/)
 {
-	float BackYScale = _BackScale;
-	if (0.0f == _BackScale)
+	float BackYScale = _BackYScale;
+	if (0.0f == _BackYScale)
 	{
-		_BackScale = GlobalValue::GetWindowScale().Y;
+		_BackYScale = GlobalValue::GetWindowScale().Y;
 	}
 
-	float Depth = (_BackScale + _PositionY) / _BackScale * 100.0f + 100.0f;
+	float Depth = (_BackYScale + _PositionY) / _BackYScale * 100.0f + 100.0f;
+
+	if (true == _isHill)
+	{
+		Depth -= 100.0f;
+	}
+
 	return Depth;
 }
 
@@ -130,5 +134,3 @@ float GlobalUtils::CalculateFixDepth(const float _Value)
 {
 	return _Value;
 }
-
-
