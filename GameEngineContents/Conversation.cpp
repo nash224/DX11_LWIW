@@ -116,7 +116,6 @@ void Conversation::NextConversationLine()
 	bool isLast = (CurLine == static_cast<int>(Data.size()));
 	if (isLast)
 	{
-		EndConversationEvent();
 		EndConversation();
 		return;
 	}
@@ -155,11 +154,14 @@ void Conversation::EndConversation()
 		return;
 	}
 
+
 	UI_Conversation::MainConversationUI->EndConversation();
 
-	CurTopic = nullptr;
-
 	UIManager::MainUIManager->DoneUIComponent();
+
+	EndConversationEvent();
+
+	CurTopic = nullptr;
 }
 
 

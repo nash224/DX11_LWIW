@@ -217,10 +217,12 @@ void CrowEvent::ConversationSetting()
 				return;
 			}
 
+
 			UIManager::MainUIManager->UseUIComponent();
 
 			State.ChangeState(ECROWSTATE::Disappear);
 		});
+
 
 
 	Topic DisappearTopic;
@@ -232,7 +234,7 @@ void CrowEvent::ConversationSetting()
 		{ L"마녀 까마귀는 그렇게 말이 잘 통하는 편은 아니지." , ECONVERSATIONENTITY::Virgil, 1 ,CrowTopic.Color_BLACK, CrowTopic.Font_JejuHanlasan},
 		{ L"음, 그럼 일단은 계속 주변을 탐색 해볼까?" , ECONVERSATIONENTITY::Ellie, 5 },
 		{ L"마녀 카탈로그는 언제 올지 모르니까 말야" , ECONVERSATIONENTITY::Virgil, 5,CrowTopic.Color_BLACK, CrowTopic.Font_JejuHanlasan },
-		{ L"주변을 둘러보자." , ECONVERSATIONENTITY::Virgil, 5,CrowTopic.Color_BLACK, CrowTopic.Font_JejuHanlasan },
+		{ L"우선 그렇게 하자." , ECONVERSATIONENTITY::Virgil, 5,CrowTopic.Color_BLACK, CrowTopic.Font_JejuHanlasan },
 	};
 
 	DisappearTopic.Data.shrink_to_fit();

@@ -225,8 +225,9 @@ void DebugTab::TimeDebug()
 
 		ImGui::Text(std::string("Time : " + std::to_string(PlayLevel::s_TimeManager->GetTime())).c_str());
 
-		ImGui::Text(std::string("Hour : " + std::to_string(PlayLevel::s_TimeManager->GetHour())).c_str());
-		ImGui::Text(std::string("Minute : " + std::to_string(PlayLevel::s_TimeManager->GetMinute())).c_str());
+		ImGui::Text(std::string("Time : " + std::to_string(PlayLevel::s_TimeManager->GetHour())).c_str());
+		ImGui::SameLine();
+		ImGui::Text(std::string(": " + std::to_string(PlayLevel::s_TimeManager->GetMinute())).c_str());
 	}
 }
 

@@ -97,8 +97,6 @@ void SkyLerp::Init()
 	PlayLevel::s_TimeManager->SetTime(13, 20);
 
 	LerpSky(SkyData[0]);
-
-	
 }
 
 

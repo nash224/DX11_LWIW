@@ -46,17 +46,17 @@ void FieldLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void FieldLevel::AutoPlayBGM()
 {
-	if (nullptr != s_TimeManager)
+	if (nullptr != MainPlaySound && nullptr != s_TimeManager)
 	{
 		if (true == s_TimeManager->IsDay() && EBGMTYPE::Day != BGMType)
 		{
-			MainPlaySound.PlayBGM("0424_Forest_Day.wav", "AMB_GF_Daytime_01.wav");
+			MainPlaySound->PlayBGM("0424_Forest_Day.wav", "AMB_GF_Daytime_01.wav");
 			BGMType = EBGMTYPE::Day;
 		}
 
 		if (false == s_TimeManager->IsDay() && EBGMTYPE::Night != BGMType)
 		{
-			MainPlaySound.PlayBGM("0424_Forest_Night.wav", "AMB_GF_Nighttime_01.wav");
+			MainPlaySound->PlayBGM("0424_Forest_Night.wav", "AMB_GF_Nighttime_01.wav");
 			BGMType = EBGMTYPE::Night;
 		}
 	}

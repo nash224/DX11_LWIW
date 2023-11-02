@@ -13,14 +13,19 @@
 
 
 
-std::shared_ptr<TimeManager> PlayLevel::s_TimeManager;
-float PlayLevel::PlaySoundInfo::BGMVolume = 1.0f;
+std::unique_ptr<TimeManager> PlayLevel::s_TimeManager;
+std::unique_ptr<PlayLevel::PlaySoundInfo> PlayLevel::MainPlaySound;
 PlayLevel::PlayLevel()
 {
 }
 
 PlayLevel::~PlayLevel()
 {
+	//if (nullptr != MainPlaySound)
+	//{
+	//	MainPlaySound.release();
+	//	MainPlaySound = nullptr;
+	//}
 }
 
 void PlayLevel::Start()
@@ -29,8 +34,14 @@ void PlayLevel::Start()
 
 	if (nullptr == s_TimeManager)
 	{
-		s_TimeManager = std::make_shared<TimeManager>();
+		s_TimeManager = std::make_unique<TimeManager>();
 		s_TimeManager->Init();
+
+	}
+
+	if (nullptr == MainPlaySound)
+	{
+		MainPlaySound = std::make_unique<PlaySoundInfo>();
 	}
 }
 
@@ -111,6 +122,13 @@ void PlayLevel::PlaySoundInfo::PlayBGM(std::string_view _BGMName, std::string_vi
 		BGM_SFX = GameEngineSound::SoundPlay(_BGM_SFXName, 999);
 		BGM_SFX.SetVolume(GlobalValue::GetSoundVolume() * BGMVolume);
 	}
+
+	isPlayBGM = true;
+}
+
+bool PlayLevel::PlaySoundInfo::IsBGMPlay()
+{
+	return isPlayBGM;
 }
 
 void PlayLevel::PlaySoundInfo::ResourceLoad()
@@ -129,6 +147,7 @@ void PlayLevel::PlaySoundInfo::Stop()
 {
 	BGM.Stop();
 	BGM_SFX.Stop();
+	isPlayBGM = false;
 }
 
 void PlayLevel::PlaySoundInfo::SetVolume(float _Value)

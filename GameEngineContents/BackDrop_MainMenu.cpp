@@ -139,7 +139,6 @@ void BackDrop_MainMenu::CreateProp(class GameEngineLevel* _CurLevel)
 
 	{
 		std::shared_ptr<Prop> Object = _CurLevel->CreateActor<Prop>(EUPDATEORDER::Objects);
-
 		Object->CreateRenderer();
 		Object->SetSprite("Title_Train_Moon.png");
 		Object->SetRendererPivotType(PivotType::LeftTop);
@@ -152,15 +151,13 @@ void BackDrop_MainMenu::CreateProp(class GameEngineLevel* _CurLevel)
 
 	{
 		std::shared_ptr<Prop> Object = _CurLevel->CreateActor<Prop>(EUPDATEORDER::Objects);
-
 		Object->CreateRenderer();
-		Object->CreateAndSetAnimation("Smoke_big", "trainsmoke_big.png", 0.1f);
+		Object->CreateAndSetAnimation("Smoke_big", "trainsmoke_big.png", 0.14f);
 		Object->SetPositionAndDepth({ 437.0f , -284.0f }, ETITLERENDERDEPTH::TrainSmoke_Big);
 	}
 
 	{
 		std::shared_ptr<Prop> Object = _CurLevel->CreateActor<Prop>(EUPDATEORDER::Objects);
-
 		Object->CreateRenderer();
 		Object->CreateAndSetAnimation("Smoke_big", "trainsmoke_mid.png", 0.1f);
 		Object->SetPositionAndDepth({ 430.0f , -289.0f }, ETITLERENDERDEPTH::TrainSmoke_Mid);
@@ -169,7 +166,7 @@ void BackDrop_MainMenu::CreateProp(class GameEngineLevel* _CurLevel)
 	{
 		std::shared_ptr<Prop> Object = _CurLevel->CreateActor<Prop>(EUPDATEORDER::Objects);
 		Object->CreateRenderer();
-		Object->CreateAndSetAnimation("Smoke_big", "trainsmoke_small.png", 0.1f);
+		Object->CreateAndSetAnimation("Smoke_big", "trainsmoke_small.png", 0.06f);
 		Object->SetPositionAndDepth({ 434.0f , -289.0f }, ETITLERENDERDEPTH::TrainSmoke_Small);
 	}
 
