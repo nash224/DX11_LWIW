@@ -1,15 +1,10 @@
 #pragma once
+#include "UI_Alert_Base.h"
 
 // Ό³Έν :
-class UI_Alert_Enter : public GameEngineActor
+class UI_Alert_Enter : public UI_Alert_Base
 {
 private:
-	enum class EENTERSTATE
-	{
-		FadeIn,
-		Stay,
-		FadeOut,
-	};
 
 	class AlertEnterInfo
 	{
@@ -20,7 +15,6 @@ private:
 
 	public:
 		static constexpr const float Fade_Change_Time = 1.0f;
-		const float4 FontColor = float4::WHITE;
 
 	};
 
@@ -39,7 +33,7 @@ public:
 	static float AlertLevelEnter(GameEngineLevel* _Level, std::string_view _LevelName);
 
 protected:
-	void Start() override;
+	void Start() override {}
 	void Update(float _Delta) override;
 	void Release() override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
@@ -48,22 +42,16 @@ protected:
 
 	void Init(std::string_view _LevelName);
 	void RendererSetting(std::string_view _LevelName);
-	void FSMSetting();
 
-	void StartFadeIn(GameEngineState* _Parent);
+	void StartFadeIn(GameEngineState* _Parent) override;
 
-	void UpdateFadeIn(float _DeltaTime, GameEngineState* _Parent);
-	void UpdateStay(float _DeltaTime, GameEngineState* _Parent);
-	void UpdateFadeOut(float _DeltaTime, GameEngineState* _Parent);
-
-	void ChangeFontAlpha(float _ColorRatio);
-	void ChangeMulColor(std::weak_ptr<GameEngineUIRenderer> _Member, float _ColorRatio);
+	void UpdateFadeIn(float _DeltaTime, GameEngineState* _Parent) override;
+	void UpdateStay(float _DeltaTime, GameEngineState* _Parent) override;
+	void UpdateFadeOut(float _DeltaTime, GameEngineState* _Parent) override;
 
 
 private:
 	AlertEnterInfo AlertData;
-
-	GameEngineState State;
 
 };
 

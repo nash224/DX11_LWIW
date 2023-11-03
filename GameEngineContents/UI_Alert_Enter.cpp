@@ -11,17 +11,17 @@ UI_Alert_Enter::~UI_Alert_Enter()
 }
 
 
-void UI_Alert_Enter::Start()
-{
-}
 
 void UI_Alert_Enter::Update(float _Delta)
 {
-	State.Update(_Delta);
+	UI_Alert_Base::Update(_Delta);
 }
 
 void UI_Alert_Enter::Release()
 {
+	AlertData.ZoneName = nullptr;
+	AlertData.Black = nullptr;
+	AlertData.Font = nullptr;
 }
 
 void UI_Alert_Enter::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -43,12 +43,11 @@ float UI_Alert_Enter::AlertLevelEnter(GameEngineLevel* _Level, std::string_view 
 
 void UI_Alert_Enter::Init(std::string_view _LevelName)
 {
-	const float4 Position = float4(0.0f, 200.0f);
-
+	const float4& Position = float4(0.0f, 200.0f);
 	Transform.SetLocalPosition(Position);
 
 	RendererSetting(_LevelName);
-	FSMSetting();
+	UI_Alert_Base::FSMSetting();
 }
 
 void UI_Alert_Enter::RendererSetting(std::string_view _LevelName)
@@ -97,25 +96,6 @@ void UI_Alert_Enter::RendererSetting(std::string_view _LevelName)
 	}
 }
 
-void UI_Alert_Enter::FSMSetting()
-{
-	CreateStateParameter FadeInState;
-	FadeInState.Start = std::bind(&UI_Alert_Enter::StartFadeIn, this, std::placeholders::_1);
-	FadeInState.Stay = std::bind(&UI_Alert_Enter::UpdateFadeIn, this, std::placeholders::_1, std::placeholders::_2);
-	State.CreateState(EENTERSTATE::FadeIn, FadeInState);
-
-	CreateStateParameter StayState;
-	StayState.Stay = std::bind(&UI_Alert_Enter::UpdateStay, this, std::placeholders::_1, std::placeholders::_2);
-	State.CreateState(EENTERSTATE::Stay, StayState);
-
-	CreateStateParameter FadeOutState;
-	FadeOutState.Stay = std::bind(&UI_Alert_Enter::UpdateFadeOut, this, std::placeholders::_1, std::placeholders::_2);
-	State.CreateState(EENTERSTATE::FadeOut, FadeOutState);
-
-	State.ChangeState(EENTERSTATE::FadeIn);
-}
-
-
 void UI_Alert_Enter::StartFadeIn(GameEngineState* _Parent)
 {
 	if (nullptr == AlertData.Font)
@@ -130,7 +110,7 @@ void UI_Alert_Enter::StartFadeIn(GameEngineState* _Parent)
 		return;
 	}
 
-	ChangeFontAlpha(0.0f);
+	ChangeFontAlpha(AlertData.Font, 0.0f);
 	ChangeMulColor(AlertData.Black, 0.0f);
 }
 
@@ -139,16 +119,15 @@ void UI_Alert_Enter::UpdateFadeIn(float _DeltaTime, GameEngineState* _Parent)
 {
 	float MulColorValue = _Parent->GetStateTime() / AlertData.Fade_Change_Time;
 
-	ChangeFontAlpha(MulColorValue);
+	ChangeFontAlpha(AlertData.Font, MulColorValue);
 	ChangeMulColor(AlertData.Black, MulColorValue);
 
 	if (_Parent->GetStateTime() > AlertData.Fade_Change_Time)
 	{
-		ChangeFontAlpha(1.0f);
+		ChangeFontAlpha(AlertData.Font, 1.0f);
 		ChangeMulColor(AlertData.Black, 1.0f);
-		State.ChangeState(EENTERSTATE::Stay);
+		ChangeState(EENTERSTATE::Stay);
 	}
-
 }
 
 void UI_Alert_Enter::UpdateStay(float _DeltaTime, GameEngineState* _Parent)
@@ -157,7 +136,7 @@ void UI_Alert_Enter::UpdateStay(float _DeltaTime, GameEngineState* _Parent)
 
 	if (_Parent->GetStateTime() > WaitTime)
 	{
-		State.ChangeState(EENTERSTATE::FadeOut);
+		ChangeState(EENTERSTATE::FadeOut);
 	}
 }
 
@@ -165,39 +144,15 @@ void UI_Alert_Enter::UpdateFadeOut(float _DeltaTime, GameEngineState* _Parent)
 {
 	float MulColorValue = 1.0f - _Parent->GetStateTime() / AlertData.Fade_Change_Time;
 
-	ChangeFontAlpha(MulColorValue);
+	ChangeFontAlpha(AlertData.Font, MulColorValue);
 	ChangeMulColor(AlertData.ZoneName, MulColorValue);
 	ChangeMulColor(AlertData.Black, MulColorValue);
 
 	if (_Parent->GetStateTime() > AlertData.Fade_Change_Time)
 	{
-		ChangeFontAlpha(0.0f);
+		ChangeFontAlpha(AlertData.Font, 0.0f);
 		ChangeMulColor(AlertData.ZoneName, 0.0f);
 		ChangeMulColor(AlertData.Black, 0.0f);
 		Death();
 	}
-}
-
-void UI_Alert_Enter::ChangeMulColor(std::weak_ptr<GameEngineUIRenderer> _Member, float _ColorRatio)
-{
-	if (true == _Member.expired())
-	{
-		MsgBoxAssert("존재하지 않는 포인터를 참조했습니다.");
-		return;
-	}
-
-	_Member.lock()->GetColorData().MulColor.A = _ColorRatio;
-}
-
-void UI_Alert_Enter::ChangeFontAlpha(float _ColorRatio)
-{
-	if (nullptr == AlertData.Font)
-	{
-		MsgBoxAssert("렌더러가 존재하지 않습니다.");
-		return;
-	}
-
-	float4 FontColor = AlertData.FontColor;
-	FontColor.A = _ColorRatio;
-	AlertData.Font->SetTextAlpha(_ColorRatio);
 }
