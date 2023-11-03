@@ -35,6 +35,7 @@ public:
 	float GetTime() const;
 	void SetTime(unsigned int  _Hour, unsigned int  _Minute);
 	int GetHour() const;
+	int GetStartHour() const;
 	int GetMinute() const;
 	
 	float GetTimeRatio() const;

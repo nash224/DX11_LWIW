@@ -19,16 +19,16 @@
 #define Sky_520 { 0.8f, 0.0f, 0.0f, 0.2f }
 #define Sky_530 { 0.75f, 0.0f, 0.0f, 0.2f }
 #define Sky_540 { 0.7f, 0.0f, 0.0f, 0.23f }
-#define Sky_550 { 0.6f, 0.0f, 0.0f, 0.25f }
-#define Sky_600 { 0.5f, 0.0f, 0.0f, 0.29f }
-#define Sky_610 { 0.4f, 0.0f, 0.0f, 0.33f }
-#define Sky_620 { 0.33f, 0.0f, 0.01f, 0.37f }
-#define Sky_630 { 0.28f, 0.0f, 0.03f, 0.42f }
-#define Sky_640 { 0.22f, 0.0f, 0.04f, 0.47f }
-#define Sky_650 { 0.16f, 0.0f, 0.05f, 0.51f }
-#define Sky_700 { 0.11f, 0.0f, 0.07f, 0.55f }
-#define Sky_710 { 0.03f, 0.0f, 0.09f, 0.59f }
-#define Sky_720 { 0.01f, 0.0f, 0.11f, 0.62f }
+#define Sky_550 { 0.6f, 0.0f, 0.01f, 0.25f }
+#define Sky_600 { 0.47f, 0.0f, 0.02f, 0.29f }
+#define Sky_610 { 0.35f, 0.0f, 0.03f, 0.33f }
+#define Sky_620 { 0.21f, 0.0f, 0.05f, 0.37f }
+#define Sky_630 { 0.17f, 0.0f, 0.06f, 0.42f }
+#define Sky_640 { 0.11f, 0.0f, 0.07f, 0.47f }
+#define Sky_650 { 0.07f, 0.0f, 0.08f, 0.51f }
+#define Sky_700 { 0.04f, 0.0f, 0.09f, 0.55f }
+#define Sky_710 { 0.03f, 0.0f, 0.1f, 0.59f }
+#define Sky_720 { 0.01f, 0.0f, 0.11f, 0.62f } 
 #define Sky_730 { 0.0f, 0.0f, 0.12f, 0.66f }
 #define Sky_740 { 0.0f, 0.0f, 0.14f, 0.7f }
 
@@ -69,6 +69,7 @@ protected:
 
 
 	void UpdateSkyLerp();
+	float CalculateTimeRatio(int _MinuteCount);
 	void FollowCamera();
 	void LerpSky(const float4& _ColorA, const float4& _ColorB, const float _Time);
 	void LerpSky(const float4& _Color);
@@ -78,6 +79,10 @@ private:
 	std::shared_ptr<GameEngineSpriteRenderer> Sun_Renderer = nullptr;
 
 	bool PauseSkyLerp = false;
+	static constexpr const int SunsetStartHour = 15;
+	float SunsetStartTimeRatio = 0.0f;
+	float SunsetEndTimeRatio = 0.0f;
+
 	float TenMinuteTimeRatio = 0.0f;
 
 };

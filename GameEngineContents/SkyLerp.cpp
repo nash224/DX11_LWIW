@@ -48,7 +48,7 @@ void SkyLerp::Init()
 
 	Sun_Renderer = CreateComponent<GameEngineSpriteRenderer>(SkyOrder);
 	Sun_Renderer->SetSprite("SkyBox.png");
-	Sun_Renderer->GetImageTransform().SetLocalScale(GlobalValue::GetWindowScale() + 10.0f);
+	Sun_Renderer->GetImageTransform().SetLocalScale(GlobalValue::GetWindowScale() + float4(30.0f, 30.0f));
 	Sun_Renderer->GetColorData().MulColor.A = 0.0f;
 
 
@@ -95,6 +95,10 @@ void SkyLerp::Init()
 
 	TenMinuteTimeRatio = PlayLevel::s_TimeManager->GetMinuteRatio();
 	PlayLevel::s_TimeManager->SetTime(13, 20);
+	PlayLevel::s_TimeManager->SetTimeFlowRatio(10.0f);
+
+	SunsetStartTimeRatio = CalculateTimeRatio((SunsetStartHour - PlayLevel::s_TimeManager->GetStartHour()) * 6);
+	SunsetEndTimeRatio = CalculateTimeRatio(static_cast<int>(SkyData.size()) - 1) + SunsetStartTimeRatio;
 
 	LerpSky(SkyData[0]);
 }
@@ -126,9 +130,10 @@ void SkyLerp::UpdateSkyLerp()
 	// 1 / 
 
 	float TimeRatio = PlayLevel::s_TimeManager->GetTimeRatio();
-	if (TimeRatio > START_SUNSET_TIMERATIO)
+	if (TimeRatio > SunsetStartTimeRatio)
 	{
-		float SunSetRatio = (TimeRatio - START_SUNSET_TIMERATIO) / TenMinuteTimeRatio;				// 비율계산
+		float SunSetRatio = (TimeRatio - SunsetStartTimeRatio) / (SunsetEndTimeRatio - SunsetStartTimeRatio);
+		SunSetRatio *= static_cast<float>(SkyData.size() - 1);
 		float fRefNumber;
 
 		SunSetRatio = std::modff(SunSetRatio, &fRefNumber);								// 정수부, 소수부 분리
@@ -150,6 +155,10 @@ void SkyLerp::UpdateSkyLerp()
 	}
 }
 
+float SkyLerp::CalculateTimeRatio(int _MinuteCount)
+{
+	return static_cast<float>(_MinuteCount * TenMinuteTimeRatio);
+}
 
 void SkyLerp::LerpSky(const float4& _ColorA, const float4& _ColorB, const float _Time)
 {

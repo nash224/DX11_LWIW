@@ -87,7 +87,7 @@ void FadeObject::RendererSetting()
 {
 	m_FadeRenderer = CreateComponent<GameEngineUIRenderer>(ERENDERORDER::Fade);
 	m_FadeRenderer->GetImageTransform().SetLocalScale(GlobalValue::GetWindowScale());
-	m_FadeRenderer->GetColorData().PlusColor = float4(-1.0f, -1.0f, -1.0f);
+	m_FadeRenderer->GetColorData().MulColor = float4(0.0f, 0.0f, 0.0f);
 }
 
 

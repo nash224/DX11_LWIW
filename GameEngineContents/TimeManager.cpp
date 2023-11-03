@@ -104,6 +104,11 @@ int TimeManager::GetHour() const
 	return Hour;
 }
 
+int TimeManager::GetStartHour() const
+{
+	return Start_Day_Hour;
+}
+
 int TimeManager::GetMinute() const
 {
 	return Minute;
