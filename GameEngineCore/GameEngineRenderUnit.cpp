@@ -56,6 +56,7 @@ void GameEngineRenderUnit::SetTextAlpha(float _AlphaValue /*= 0.0f*/)
 	FontColor.A = _AlphaValue;
 }
 
+
 void GameEngineRenderUnit::ResSetting()
 {
 	if (nullptr != Font)

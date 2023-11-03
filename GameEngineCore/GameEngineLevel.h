@@ -65,7 +65,10 @@ public:
 		return Cameras[_Select];
 	}
 
-	
+	std::shared_ptr<class GameEngineRenderTarget> GetLevelRenderTarget()
+	{
+		return LevelRenderTarget;
+	}
 
 protected:
 
@@ -78,10 +81,10 @@ private:
 	// 내가 이제 다른 레벨로 이전하면 호출
 	virtual void LevelEnd(GameEngineLevel* _NextLevel) {}
 
+	void Start() override;
+
 	// 액터관련 기능들
 	void AllUpdate(float _Delta) override;
-
-	//void Render(float _Delta);
 
 	void Release() override;
 
@@ -98,5 +101,8 @@ private:
 	std::map<int, std::shared_ptr<class GameEngineCamera>> Cameras;
 
 	std::map<int, std::shared_ptr<class GameEngineCollisionGroup>> Collisions;
+
+	std::shared_ptr<class GameEngineRenderTarget> LevelRenderTarget;
+
 };
 

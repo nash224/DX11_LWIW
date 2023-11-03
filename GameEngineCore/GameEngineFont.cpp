@@ -25,11 +25,11 @@ public:
 
 FontFactoryCreator InitFont;
 
-GameEngineFont::GameEngineFont()
+GameEngineFont::GameEngineFont() 
 {
 }
 
-GameEngineFont::~GameEngineFont()
+GameEngineFont::~GameEngineFont() 
 {
 	if (nullptr != Font)
 	{
@@ -47,7 +47,7 @@ void GameEngineFont::ResLoad(const std::string_view& _Path)
 	std::wstring WPath = GameEngineString::AnsiToUnicode(_Path);
 
 	D3D11_BLEND_DESC blendDesc = { 0, };
-	for (int i = 0; i < 4; ++i)
+	for (int i = 0; i < 4; ++i) 
 	{
 		blendDesc.RenderTarget[i].BlendEnable = true;
 		blendDesc.RenderTarget[i].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
@@ -66,7 +66,7 @@ void GameEngineFont::ResLoad(const std::string_view& _Path)
 	}
 }
 
-void GameEngineFont::FontDraw(const std::string& _Text, float _FontScale, const float4& _Pos, const float4& _Color, FW1_TEXT_FLAG _Flag)
+void GameEngineFont::FontDraw(const std::string& _Text, float _FontScale,const float4& _Pos, const float4& _Color, FW1_TEXT_FLAG _Flag)
 {
 	std::wstring Text = GameEngineString::AnsiToUnicode(_Text);
 

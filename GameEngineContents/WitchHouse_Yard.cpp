@@ -9,6 +9,7 @@
 #include "BackDrop_WitchHouse_Yard.h"
 #include "Ellie.h"
 #include "UI_Alert_Enter.h"
+#include "UI_Alert_Quest.h"
 
 
 
@@ -41,7 +42,9 @@ void WitchHouse_Yard::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	FieldLevel::LevelStart(_NextLevel);
 
-	UI_Alert_Enter::AlertLevelEnter(this, "마녀의 정원");
+	/*UI_Alert_Enter::AlertLevelEnter(this, "마녀의 정원");*/
+	/*UI_Alert_Quest::AlertQuestClear(this, "수습시작!", EALERTTYPE::QuestAccept);*/
+	UI_Alert_Quest::AlertQuestClear(this, "수습시작!", EALERTTYPE::QuestClear);
 
 	LoadTexture();
 	LoadActor();

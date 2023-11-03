@@ -165,6 +165,10 @@
   <ItemGroup>
     <ClInclude Include="AStartPathFinder.h" />
     <ClInclude Include="EngineEnum.h" />
+    <ClInclude Include="FadePostEffect.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineActor.h">
       <SubType>
       </SubType>
@@ -328,6 +332,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AStartPathFinder.cpp" />
+    <ClCompile Include="FadePostEffect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameEngineActor.cpp">
       <SubType>
       </SubType>
@@ -499,10 +507,10 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </Library>
     <Library Include="ThirdParty\FW1FontWrapper\lib\Release\FW1FontWrapper.lib">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </Library>
     <None Include="ThirdParty\DirectXTex\inc\DirectXTex.inl" />
     <Library Include="ThirdParty\DirectXTex\lib\Debug\DirectXTex.pdb">
@@ -527,11 +535,11 @@
       <FileType>Document</FileType>
     </CopyFileToFolders>
     <CopyFileToFolders Include="ThirdParty\FW1FontWrapper\lib\Release\FW1FontWrapper.dll">
-      <FileType>Document</FileType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
     </CopyFileToFolders>
   </ItemGroup>
   <ItemGroup>

@@ -130,6 +130,7 @@ void GameEngineCamera::Update(float _Delta)
 
 		Transform.AddWorldRotation({ -Dir.Y, -Dir.X});
 	}
+
 }
 
 void GameEngineCamera::SetCameraOrder(int _Order)
@@ -200,8 +201,7 @@ void GameEngineCamera::Render(float _DeltaTime)
 	// 기존에 그려진걸 싹다 지우고 복사
 	CameraTarget->Copy(0, AllRenderTarget, 0);
 
-	// 기존에 그려진거 위에다가 덮어 씌우기
-	GameEngineCore::GetBackBufferRenderTarget()->Merge(0, CameraTarget, 0);
+	GetLevel()->LevelRenderTarget->Merge(0, CameraTarget, 0);
 
 	// AllRenderTarget->
 }

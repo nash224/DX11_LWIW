@@ -22,8 +22,9 @@ GameEngineLevel::GameEngineLevel()
 		std::shared_ptr<GameEngineCamera> NewCamera = CreateCamera(INT_MIN, ECAMERAORDER::UI);
 	}
 
-	// UI카메라
-	// CreateActor<GameEngineCamera>(100);
+	float4 WindowScale = GameEngineCore::MainWindow.GetScale();
+	LevelRenderTarget = GameEngineRenderTarget::Create();
+	LevelRenderTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
 }
 
 std::shared_ptr<GameEngineCamera> GameEngineLevel::CreateCamera(int _Order, int _CameraOrder)
@@ -34,6 +35,10 @@ std::shared_ptr<GameEngineCamera> GameEngineLevel::CreateCamera(int _Order, int 
 }
 
 GameEngineLevel::~GameEngineLevel() 
+{
+}
+
+void GameEngineLevel::Start() 
 {
 }
 
@@ -62,6 +67,8 @@ void GameEngineLevel::AllUpdate(float _Delta)
 
 void GameEngineLevel::Render(float _Delta)
 {
+	LevelRenderTarget->Clear();
+
 	for (std::pair<const int, std::shared_ptr<class GameEngineCamera>>& CameraPair : Cameras)
 	{
 		if (nullptr == CameraPair.second)
@@ -73,6 +80,13 @@ void GameEngineLevel::Render(float _Delta)
 		std::shared_ptr<GameEngineCamera>& Camera = CameraPair.second;
 		Camera->Render(_Delta);
 	}
+
+	// post process라는것을 보여줄것인데.
+
+	// 뭔가 
+	LevelRenderTarget->PostEffect(_Delta);
+
+	GameEngineCore::GetBackBufferRenderTarget()->Copy(0, LevelRenderTarget, 0);
 
 	if (true == IsDebug)
 	{
@@ -158,3 +172,4 @@ void GameEngineLevel::PushCollision(std::shared_ptr<class GameEngineCollision> _
 
 	Collisions[_Collision->GetOrder()]->PushCollision(_Collision);
 }
+

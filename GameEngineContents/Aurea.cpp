@@ -3,6 +3,7 @@
 
 
 #include "BackDrop_PlayLevel.h"
+#include "Ellie.h"
 
 Aurea::Aurea()
 {

@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "UI_Alert_Base.h"
 
+
+const float4 UI_Alert_Base::InitialFontColor = float4(0.85f, 0.85f, 0.85f, 1.0f);
 UI_Alert_Base::UI_Alert_Base() 
 {
 }
@@ -68,4 +70,14 @@ void UI_Alert_Base::ChangeFontAlpha(std::weak_ptr<GameEngineUIRenderer> _Font, f
 	}
 
 	_Font.lock()->SetTextAlpha(_ColorRatio);
+}
+
+void UI_Alert_Base::ChangeAutoScaleRatio(std::weak_ptr<GameEngineUIRenderer> _Member, const float4& _ScaleRatio)
+{
+	if (true == _Member.expired())
+	{
+		return;
+	}
+
+	_Member.lock()->SetAutoScaleRatio(_ScaleRatio);
 }

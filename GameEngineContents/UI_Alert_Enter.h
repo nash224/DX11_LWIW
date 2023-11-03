@@ -15,6 +15,8 @@ private:
 	public:
 		static constexpr const float Fade_Change_Time = 1.0f;
 
+		static constexpr const float FontScale = 23.0f;
+
 	};
 
 

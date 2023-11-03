@@ -20,6 +20,9 @@
     <FxCompile Include="TargetMerge.fx">
       <Filter>Target</Filter>
     </FxCompile>
+    <FxCompile Include="FadePostEffect.fx">
+      <Filter>Effect</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
@@ -33,6 +36,9 @@
     </Filter>
     <Filter Include="Target">
       <UniqueIdentifier>{0324b8c6-c4c0-4fe2-bf48-9023b6d52cf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effect">
+      <UniqueIdentifier>{ce1e9f9d-d554-4b67-b29c-13e5632a98aa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

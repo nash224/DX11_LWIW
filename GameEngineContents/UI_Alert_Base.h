@@ -35,12 +35,17 @@ protected:
 	void ChangeFontAlpha(std::weak_ptr<GameEngineUIRenderer> _Font, float _ColorRatio);
 	void ChangeMulColor(std::weak_ptr<GameEngineUIRenderer> _Member, float _ColorRatio);
 
+	void ChangeAutoScaleRatio(std::weak_ptr<GameEngineUIRenderer> _Member, const float4& _ScaleRatio);
+
 	virtual void StartFadeIn(GameEngineState* _Parent) {}
 
 	virtual void UpdateFadeIn(float _DeltaTime, GameEngineState* _Parent) {}
 	virtual void UpdateStay(float _DeltaTime, GameEngineState* _Parent) {}
 	virtual void UpdateFadeOut(float _DeltaTime, GameEngineState* _Parent) {}
 
+
+protected:
+	static const float4 InitialFontColor;
 	
 
 private:

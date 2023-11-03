@@ -87,7 +87,6 @@ void UI_Alert_Enter::RendererSetting(std::string_view _LevelName)
 	}
 
 	{
-		const float4 InitialFontColor = float4(0.85f, 0.85f, 0.85f, 1.0f);
 		static constexpr const float FontScale = 21.0f;
 
 		AlertInfo.Font = CreateComponent<GameEngineUIRenderer>(RenderOrder);

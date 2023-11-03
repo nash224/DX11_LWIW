@@ -30,6 +30,8 @@ public:
 
 	void Reset();
 
+	std::function<void(const SpriteData& CurSprite, int _SpriteIndex)> FrameChangeFunction;
+
 	std::map<int, std::function<void(GameEngineSpriteRenderer*)>> FrameEventFunction;
 
 	std::function<void(GameEngineSpriteRenderer*)> EndEvent;
@@ -176,6 +178,8 @@ public:
 	void SetStartEvent(std::string_view _AnimationName, std::function<void(GameEngineSpriteRenderer*)> _Function);
 	void SetEndEvent(std::string_view _AnimationName, std::function<void(GameEngineSpriteRenderer*)> _Function);
 	void SetFrameEvent(std::string_view _AnimationName, int _Frame, std::function<void(GameEngineSpriteRenderer*)> _Function);
+
+	void SetFrameChangeFunction(std::string_view _AnimationName, std::function<void(const SpriteData& CurSprite, int _SpriteIndex)> _Function);
 
 	// "EngineBaseWRAPSampler"
 	void SetSampler(std::string_view _Name);

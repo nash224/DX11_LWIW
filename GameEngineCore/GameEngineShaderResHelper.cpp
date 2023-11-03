@@ -420,7 +420,10 @@ void GameEngineShaderResHelper::SetTexture(std::string_view _Name, std::shared_p
 		{
 			std::shared_ptr<GameEngineSampler> Sampler = Setter.Res->GetBaseSampler();
 
-			SetSampler(SamplerName, Sampler);
+			if (nullptr != Sampler)
+			{
+				SetSampler(SamplerName, Sampler);
+			}
 		}
 	}
 }
