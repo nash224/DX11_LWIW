@@ -5,11 +5,10 @@
 class UI_Alert_Enter : public UI_Alert_Base
 {
 private:
-
 	class AlertEnterInfo
 	{
 	public:
-		std::shared_ptr<GameEngineUIRenderer> ZoneName;
+		std::shared_ptr<GameEngineUIRenderer> ZoneFrame;
 		std::shared_ptr<GameEngineUIRenderer> Black;
 		std::shared_ptr<GameEngineUIRenderer> Font;
 
@@ -51,7 +50,7 @@ protected:
 
 
 private:
-	AlertEnterInfo AlertData;
+	AlertEnterInfo AlertInfo;
 
 };
 

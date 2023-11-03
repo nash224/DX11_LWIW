@@ -98,7 +98,6 @@ void GameEngineRenderTarget::AddNewTexture(std::shared_ptr<GameEngineTexture> _T
 	SRV.push_back(Tex->GetSRV());
 	ClearColor.push_back(_Color);
 	ViewPorts.push_back(ViewPortData);
-
 }
 
 void GameEngineRenderTarget::CreateDepthTexture(int _Index/* = 0*/)

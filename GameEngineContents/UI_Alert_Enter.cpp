@@ -19,9 +19,9 @@ void UI_Alert_Enter::Update(float _Delta)
 
 void UI_Alert_Enter::Release()
 {
-	AlertData.ZoneName = nullptr;
-	AlertData.Black = nullptr;
-	AlertData.Font = nullptr;
+	AlertInfo.ZoneFrame = nullptr;
+	AlertInfo.Black = nullptr;
+	AlertInfo.Font = nullptr;
 }
 
 void UI_Alert_Enter::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -64,68 +64,68 @@ void UI_Alert_Enter::RendererSetting(std::string_view _LevelName)
 	const float FontDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Font);
 
 	const float4& fShadowDepth = float4(0.0f, 0.0f, ShadowDepth);
-	const float4& fZoneNameDepth = float4(0.0f, 0.0f, BaseDepth);
+	const float4& fZoneFrameDepth = float4(0.0f, 0.0f, BaseDepth);
 	const float4& fFontDepth = float4(0.0f, 0.0f, FontDepth);
 
 
 	{
-		AlertData.Black = CreateComponent<GameEngineUIRenderer>(RenderOrder);
-		AlertData.Black->Transform.SetLocalPosition(fShadowDepth);
-		AlertData.Black->GetColorData().MulColor = float4::ZERO;
-		AlertData.Black->SetSprite("Default_Particle.png");
-		AlertData.Black->GetImageTransform().SetLocalScale(float4(300.0f, 200.0f));
+		AlertInfo.Black = CreateComponent<GameEngineUIRenderer>(RenderOrder);
+		AlertInfo.Black->Transform.SetLocalPosition(fShadowDepth);
+		AlertInfo.Black->GetColorData().MulColor = float4::ZERO;
+		AlertInfo.Black->SetSprite("Default_Particle.png");
+		AlertInfo.Black->GetImageTransform().SetLocalScale(float4(300.0f, 200.0f));
 	}
 
 	{
-		static constexpr const float ZoneName_Animation_Inter = 0.045f;
+		static constexpr const float ZoneFrame_Animation_Inter = 0.045f;
 
-		AlertData.ZoneName = CreateComponent<GameEngineUIRenderer>(RenderOrder);
-		AlertData.ZoneName->Transform.SetLocalPosition(fZoneNameDepth);
-		AlertData.ZoneName->AutoSpriteSizeOn();
-		AlertData.ZoneName->CreateAnimation("Alert", "ZoneName_Animation.png", ZoneName_Animation_Inter, 0, 36, false);
-		AlertData.ZoneName->ChangeAnimation("Alert");
+		AlertInfo.ZoneFrame = CreateComponent<GameEngineUIRenderer>(RenderOrder);
+		AlertInfo.ZoneFrame->Transform.SetLocalPosition(fZoneFrameDepth);
+		AlertInfo.ZoneFrame->AutoSpriteSizeOn();
+		AlertInfo.ZoneFrame->CreateAnimation("Alert", "ZoneName_Animation.png", ZoneFrame_Animation_Inter, 0, 36, false);
+		AlertInfo.ZoneFrame->ChangeAnimation("Alert");
 	}
 
 	{
 		const float4 InitialFontColor = float4(0.85f, 0.85f, 0.85f, 1.0f);
 		static constexpr const float FontScale = 21.0f;
 
-		AlertData.Font = CreateComponent<GameEngineUIRenderer>(RenderOrder);
-		AlertData.Font->Transform.SetLocalPosition(fFontDepth);
-		AlertData.Font->SetText(GlobalValue::Font_Sandoll, _LevelName.data(), FontScale, InitialFontColor, FW1_TEXT_FLAG::FW1_CENTER);
+		AlertInfo.Font = CreateComponent<GameEngineUIRenderer>(RenderOrder);
+		AlertInfo.Font->Transform.SetLocalPosition(fFontDepth);
+		AlertInfo.Font->SetText(GlobalValue::Font_Sandoll, _LevelName.data(), FontScale, InitialFontColor, FW1_TEXT_FLAG::FW1_CENTER);
 	}
 }
 
 void UI_Alert_Enter::StartFadeIn(GameEngineState* _Parent)
 {
-	if (nullptr == AlertData.Font)
+	if (nullptr == AlertInfo.Font)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	if (nullptr == AlertData.Black)
+	if (nullptr == AlertInfo.Black)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	ChangeFontAlpha(AlertData.Font, 0.0f);
-	ChangeMulColor(AlertData.Black, 0.0f);
+	ChangeFontAlpha(AlertInfo.Font, 0.0f);
+	ChangeMulColor(AlertInfo.Black, 0.0f);
 }
 
 
 void UI_Alert_Enter::UpdateFadeIn(float _DeltaTime, GameEngineState* _Parent)
 {
-	float MulColorValue = _Parent->GetStateTime() / AlertData.Fade_Change_Time;
+	float MulColorValue = _Parent->GetStateTime() / AlertInfo.Fade_Change_Time;
 
-	ChangeFontAlpha(AlertData.Font, MulColorValue);
-	ChangeMulColor(AlertData.Black, MulColorValue);
+	ChangeFontAlpha(AlertInfo.Font, MulColorValue);
+	ChangeMulColor(AlertInfo.Black, MulColorValue);
 
-	if (_Parent->GetStateTime() > AlertData.Fade_Change_Time)
+	if (_Parent->GetStateTime() > AlertInfo.Fade_Change_Time)
 	{
-		ChangeFontAlpha(AlertData.Font, 1.0f);
-		ChangeMulColor(AlertData.Black, 1.0f);
+		ChangeFontAlpha(AlertInfo.Font, 1.0f);
+		ChangeMulColor(AlertInfo.Black, 1.0f);
 		ChangeState(EENTERSTATE::Stay);
 	}
 }
@@ -142,17 +142,17 @@ void UI_Alert_Enter::UpdateStay(float _DeltaTime, GameEngineState* _Parent)
 
 void UI_Alert_Enter::UpdateFadeOut(float _DeltaTime, GameEngineState* _Parent)
 {
-	float MulColorValue = 1.0f - _Parent->GetStateTime() / AlertData.Fade_Change_Time;
+	float MulColorValue = 1.0f - _Parent->GetStateTime() / AlertInfo.Fade_Change_Time;
 
-	ChangeFontAlpha(AlertData.Font, MulColorValue);
-	ChangeMulColor(AlertData.ZoneName, MulColorValue);
-	ChangeMulColor(AlertData.Black, MulColorValue);
+	ChangeFontAlpha(AlertInfo.Font, MulColorValue);
+	ChangeMulColor(AlertInfo.ZoneFrame, MulColorValue);
+	ChangeMulColor(AlertInfo.Black, MulColorValue);
 
-	if (_Parent->GetStateTime() > AlertData.Fade_Change_Time)
+	if (_Parent->GetStateTime() > AlertInfo.Fade_Change_Time)
 	{
-		ChangeFontAlpha(AlertData.Font, 0.0f);
-		ChangeMulColor(AlertData.ZoneName, 0.0f);
-		ChangeMulColor(AlertData.Black, 0.0f);
+		ChangeFontAlpha(AlertInfo.Font, 0.0f);
+		ChangeMulColor(AlertInfo.ZoneFrame, 0.0f);
+		ChangeMulColor(AlertInfo.Black, 0.0f);
 		Death();
 	}
 }
