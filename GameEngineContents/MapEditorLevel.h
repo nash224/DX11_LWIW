@@ -39,8 +39,6 @@ public:
 	std::shared_ptr<GameEngineSpriteRenderer> m_MapBaseRenderer;
 
 
-	float CalculateDepth(const float _PositionY) const;
-
 	void CenterFieldMapSetting();
 
 protected:

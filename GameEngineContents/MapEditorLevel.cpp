@@ -72,17 +72,6 @@ void MapEditorLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 /////////////////////////////////////////////////////////////////////////////////////
 
 
-float MapEditorLevel::CalculateDepth(const float _PositionY) const
-{
-	float4 BackGroundScale = m_BaseScale;
-	if (float4::ZERO == BackGroundScale)
-	{
-		BackGroundScale = GlobalValue::GetWindowScale();
-	}
-
-	float Depth = (BackGroundScale.Y + _PositionY) / BackGroundScale.Y * 100.0f + 100.0f;
-	return Depth;
-}
 
 
 
@@ -184,6 +173,7 @@ bool MapEditorLevel::ClickForSelectActor()
 {
 	if (true == GameEngineInput::IsDown(VK_RBUTTON, this))
 	{
+
 		float4 CurWorldMousePos = m_MouseManager->m_MouseInfo.CurPos;
 
 		std::vector<std::shared_ptr<RendererActor>> Group = GetObjectGroupConvert<RendererActor>(0);
@@ -228,6 +218,15 @@ bool MapEditorLevel::ClickForSelectActor()
 		if (true == SelectCheck)
 		{
 			SelectActor = Group[NearestNumber].get();
+
+			GroundRenderUnit* Check1 = dynamic_cast<GroundRenderUnit*>(SelectActor);
+			NormalProp* Check2 = dynamic_cast<NormalProp*>(SelectActor);
+			if (nullptr == Check1 && nullptr == Check2)
+			{
+				SelectActor = nullptr;
+				return false;
+			}
+
 			return true;
 		}
 	}
@@ -352,7 +351,7 @@ bool MapEditorLevel::PlaceThis()
 
 	if (ERENDERDEPTH::Object == static_cast<ERENDERDEPTH>(_SelectDepth))
 	{
-		Position.Z = CalculateDepth(Position.Y);
+		Position.Z = GlobalUtils::CalculateObjectDepth(m_BaseScale.Y, Position.Y);
 	}
 
 	if (ERENDERDEPTH::Hill_Object == static_cast<ERENDERDEPTH>(_SelectDepth))

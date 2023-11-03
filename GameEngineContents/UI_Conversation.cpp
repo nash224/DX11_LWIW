@@ -143,10 +143,10 @@ void UI_Conversation::UpdateOutputState(float _Delta, GameEngineState* _Parent)
 		return;
 	}
 
-	m_State += _Delta;
-	if (m_State > Dialogue.Message_Output_Once_Inter)
+	StateTime += _Delta;
+	if (StateTime > Dialogue.Message_Output_Once_Inter)
 	{
-		m_State -= Dialogue.Message_Output_Once_Inter;
+		StateTime -= Dialogue.Message_Output_Once_Inter;
 
 		const int MessageSize = static_cast<int>(Dialogue.Main_Message.size() + 1);
 		bool isDoneOutput = (Dialogue.OutputCount >= MessageSize);
@@ -192,10 +192,10 @@ void UI_Conversation::UpdateVirgilOutputtState(float _Delta, GameEngineState* _P
 		return;
 	}
 
-	m_State += _Delta;
-	if (m_State > Dialogue.Message_Output_Once_Inter)
+	StateTime += _Delta;
+	if (StateTime > Dialogue.Message_Output_Once_Inter)
 	{
-		m_State -= Dialogue.Message_Output_Once_Inter;
+		StateTime -= Dialogue.Message_Output_Once_Inter;
 
 		const int MessageSize = static_cast<int>(Dialogue.Virgil_Message.size() + 1);
 		bool isDoneOutput = (Dialogue.OutputCount >= MessageSize);

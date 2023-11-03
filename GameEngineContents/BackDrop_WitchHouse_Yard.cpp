@@ -87,7 +87,6 @@ void BackDrop_WitchHouse_Yard::LoadSprite()
 			GameEngineSprite::CreateSingle(pFile.GetFileName());
 		}
 	}
-
 }
 
 void BackDrop_WitchHouse_Yard::TestLightShader()

@@ -167,7 +167,7 @@ private:
 	DialogueInfo Dialogue;
 
 	GameEngineState State;
-	float m_State = 0.0f;
+	float StateTime = 0.0f;
 
 	bool isJustVirgilTalked = false;
 

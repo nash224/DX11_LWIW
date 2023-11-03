@@ -1,7 +1,7 @@
 #include "PreCompile.h"
 #include "BackDrop_CenterField.h"
 
-
+#include "GroundRenderUnit.h"
 #include "NormalProp.h"
 #include "PortalObject.h"
 
@@ -60,12 +60,12 @@ void BackDrop_CenterField::Init()
 	PixelVec.reserve(256);
 
 	CreateMap();
+	LoadSerBin();
 	CreatePortalActor();
 
 
 	GameEngineLevel* CurLevel = GetLevel();
 	CreateAurea(CurLevel);
-	/*TestPorp();*/
 
 	static bool IsCreatedCreature = false;
 	if (false == IsCreatedCreature)
@@ -88,17 +88,6 @@ void BackDrop_CenterField::SpriteFileLoad()
 		GameEngineSprite::CreateSingle(pFile.GetFileName());
 	}
 }
-
-
-
-
-void BackDrop_CenterField::TestPorp()
-{
-	std::shared_ptr<GameEngineActor> TestActor = GetLevel()->CreateActor<GameEngineActor>(0);
-	std::shared_ptr<GameEngineUIRenderer> Text = TestActor->CreateComponent<GameEngineUIRenderer>();
-	Text->SetText("Liberation Sans", "´Ù¶÷Áã Çå Ãª¹ÙÄû¿¡ Å¸°íÆÄ", 20.0f , float4::BLUE);
-}
-
 
 void BackDrop_CenterField::CreateMap()
 {
@@ -124,19 +113,6 @@ void BackDrop_CenterField::CreateMap()
 	}
 
 	{
-		// ÀÌ°Í ¶ÇÇÑ ¾ç½ÉÀÇ °¡Ã¥À» ´À³¢°í ÀÖ½À´Ï´Ù.
-		static constexpr const float UpperMapDepth = 100.0f;
-		float4 MapPos = MapScale.Half();
-		MapPos.Y *= -1.0f;
-		MapPos.Z = UpperMapDepth;
-
-		std::shared_ptr<NormalProp> CenterMap = GetLevel()->CreateActor<NormalProp>(GroupZero);
-		CenterMap->Transform.SetLocalPosition(MapPos);
-		CenterMap->Init();
-		CenterMap->m_Renderer->SetSprite("CenterMap_Upper.png");
-	}
-
-	{
 		float4 BasePosition = MapScale.Half();
 		BasePosition.Y *= -1.0f;
 		BasePosition.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Back_Paint);
@@ -149,6 +125,52 @@ void BackDrop_CenterField::CreateMap()
 	}
 }
 
+
+void BackDrop_CenterField::LoadSerBin()
+{
+	{
+		GameEngineSerializer LoadBin;
+
+		GameEngineFile File;
+		File.MoveParentToExistsChild("Resources");
+		File.MoveChild("Resources\\Data\\Field_Center\\Center_Prop\\CenterPropData.map");
+
+		File.Open(FileOpenType::Read, FileDataType::Binary);
+		File.DataAllRead(LoadBin);
+
+		unsigned int ActorCount = 0;
+		LoadBin >> ActorCount;
+
+		for (size_t i = 0; i < ActorCount; i++)
+		{
+			const std::shared_ptr<NormalProp>& Object = GetLevel()->CreateActor<NormalProp>();
+			Object->DeSerializer(LoadBin);
+			PixelVec.push_back(Object);
+		}
+	}
+
+
+	{
+		GameEngineSerializer LoadBin;
+
+		GameEngineFile File;
+		File.MoveParentToExistsChild("Resources");
+		File.MoveChild("Resources\\Data\\Field_Center\\Center_Grass\\CenterGrassData.map");
+
+		File.Open(FileOpenType::Read, FileDataType::Binary);
+		File.DataAllRead(LoadBin);
+
+		// °´Ã¼ ¼ö ÀÐ¾î¿È
+		unsigned int ActorCount = 0;
+		LoadBin >> ActorCount;
+
+		for (size_t i = 0; i < ActorCount; i++)
+		{
+			std::shared_ptr<GroundRenderUnit> Object = GetLevel()->CreateActor<GroundRenderUnit>();
+			Object->DeSerializer(LoadBin);
+		}
+	}
+}
 
 
 void BackDrop_CenterField::CreateAurea(GameEngineLevel* _Level)

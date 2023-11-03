@@ -26,7 +26,7 @@ private:
 
 	public:
 		static constexpr const float Fade_Change_Time = 1.0f;
-		static constexpr const float UnderLine_Initial_X_Scale_Ratio = 0.8f;
+		static constexpr const float UnderLine_Initial_X_Scale_Ratio = 0.7f;
 
 		const float4 Stamp_Initial_Scale_Ratio_Size = float4(1.8f, 1.8f);
 
@@ -61,6 +61,8 @@ protected:
 	void QuestClearInit(std::string_view _QuestName);
 
 	void RendererSetting(std::string_view _LevelName);
+	void StampRendererSetting();
+	void SoundSetting();
 
 	void StartFadeIn(GameEngineState* _Parent) override;
 

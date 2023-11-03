@@ -499,11 +499,13 @@
     <ClInclude Include="UI_Alert_Quest.h">
       <Filter>2.Object\2.Actor\0.Manager\AlertManager</Filter>
     </ClInclude>
-    <ClInclude Include="UI_Alert_Tutorial.h" />
     <ClInclude Include="UI_Alert_Enter.h">
       <Filter>2.Object\2.Actor\0.Manager\AlertManager</Filter>
     </ClInclude>
     <ClInclude Include="UI_Alert_Base.h">
+      <Filter>2.Object\2.Actor\0.Manager\AlertManager</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Alert_Tutorial.h">
       <Filter>2.Object\2.Actor\0.Manager\AlertManager</Filter>
     </ClInclude>
   </ItemGroup>
@@ -834,11 +836,13 @@
     <ClCompile Include="UI_Alert_Quest.cpp">
       <Filter>2.Object\2.Actor\0.Manager\AlertManager</Filter>
     </ClCompile>
-    <ClCompile Include="UI_Alert_Tutorial.cpp" />
     <ClCompile Include="UI_Alert_Enter.cpp">
       <Filter>2.Object\2.Actor\0.Manager\AlertManager</Filter>
     </ClCompile>
     <ClCompile Include="UI_Alert_Base.cpp">
+      <Filter>2.Object\2.Actor\0.Manager\AlertManager</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Alert_Tutorial.cpp">
       <Filter>2.Object\2.Actor\0.Manager\AlertManager</Filter>
     </ClCompile>
   </ItemGroup>

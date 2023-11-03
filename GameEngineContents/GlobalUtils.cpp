@@ -123,7 +123,7 @@ float GlobalUtils::CalculateObjectDepth(float _BackYScale, float _PositionY, boo
 
 	if (true == _isHill)
 	{
-		Depth -= 100.0f;
+		Depth -= (_BackYScale + 50.0f) / _BackYScale * 100.0f;
 	}
 
 	return Depth;

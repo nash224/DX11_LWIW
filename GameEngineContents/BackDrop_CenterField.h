@@ -27,9 +27,9 @@ protected:
 
 protected:
 	void SpriteFileLoad();
-	void TestPorp();
 
 	void CreateMap();
+	void LoadSerBin();
 	void CreatePortalActor();
 	void CreateAurea(GameEngineLevel* _Level);
 

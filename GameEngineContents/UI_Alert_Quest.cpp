@@ -71,32 +71,28 @@ void UI_Alert_Quest::SameInit(std::string_view _QuestName)
 
 	RendererSetting(_QuestName);
 	UI_Alert_Base::FSMSetting();
+
+	SoundSetting();
 }
 
 void UI_Alert_Quest::QuestAcceptInit(std::string_view _QuestName)
 {
 	SameInit(_QuestName);
+
+	 GameEngineSoundPlayer SFX = GameEngineSound::SoundPlay("SFX_Quest_Start_01.wav");
+	 SFX.SetVolume(GlobalValue::GetSFXVolume());
 }
 
 void UI_Alert_Quest::QuestClearInit(std::string_view _QuestName)
 {
 	SameInit(_QuestName);
 
-	const int RenderOrder = 0;
-
-	const float FrameDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Stamp);
-	const float4& StampPosition = float4(110.0f, -30.0f, FrameDepth);
-
-	QuestInfo.Stamp = CreateComponent<GameEngineUIRenderer>(RenderOrder);
-	QuestInfo.Stamp->Transform.SetLocalPosition(StampPosition);
-	QuestInfo.Stamp->SetSprite("Quest_Notice_Complete.png");
-	QuestInfo.Stamp->AutoSpriteSizeOn();
-	QuestInfo.Stamp->GetColorData().MulColor = float4(0.84f, 0.84f, 0.84f, 1.0f);
-	QuestInfo.Stamp->Off();
-
+	StampRendererSetting();
 	FSMStampSetting();
-}
 
+	GameEngineSoundPlayer SFX = GameEngineSound::SoundPlay("SFX_Quest_Complete_01.wav");
+	SFX.SetVolume(GlobalValue::GetSFXVolume());
+}
 
 void UI_Alert_Quest::RendererSetting(std::string_view _QuestName)
 {
@@ -148,6 +144,36 @@ void UI_Alert_Quest::RendererSetting(std::string_view _QuestName)
 		QuestInfo.Font = CreateComponent<GameEngineUIRenderer>(RenderOrder);
 		QuestInfo.Font->Transform.SetLocalPosition(FontPosition);
 		QuestInfo.Font->SetText(GlobalValue::Font_Sandoll, _QuestName.data(), FontScale, InitialFontColor, FW1_TEXT_FLAG::FW1_CENTER);
+	}
+}
+
+void UI_Alert_Quest::StampRendererSetting()
+{
+	const int RenderOrder = 0;
+
+	const float FrameDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Stamp);
+	const float4& StampPosition = float4(110.0f, -30.0f, FrameDepth);
+
+	QuestInfo.Stamp = CreateComponent<GameEngineUIRenderer>(RenderOrder);
+	QuestInfo.Stamp->Transform.SetLocalPosition(StampPosition);
+	QuestInfo.Stamp->SetSprite("Quest_Notice_Complete.png");
+	QuestInfo.Stamp->AutoSpriteSizeOn();
+	QuestInfo.Stamp->GetColorData().MulColor = float4(0.84f, 0.84f, 0.84f, 1.0f);
+	QuestInfo.Stamp->Off();
+}
+
+void UI_Alert_Quest::SoundSetting()
+{
+	if (nullptr == GameEngineSound::FindSound("SFX_Quest_Start_01.wav"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\Sound\\UI\\Quest");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pFile : Files)
+		{
+			GameEngineSound::SoundLoad(pFile.GetStringPath());
+		}
 	}
 }
 
