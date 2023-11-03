@@ -52,7 +52,7 @@ void SkyLerp::Init()
 	Sun_Renderer->GetColorData().MulColor.A = 0.0f;
 
 
-	SkyData.reserve(33);
+	SkyData.reserve(29);
 	SkyData.push_back(Sky_300);
 	SkyData.push_back(Sky_310);
 	SkyData.push_back(Sky_320);
@@ -69,9 +69,6 @@ void SkyLerp::Init()
 	SkyData.push_back(Sky_510);
 	SkyData.push_back(Sky_520);
 	SkyData.push_back(Sky_530);
-	SkyData.push_back(Sky_530);
-	SkyData.push_back(Sky_530);
-	SkyData.push_back(Sky_540);
 	SkyData.push_back(Sky_540);
 	SkyData.push_back(Sky_550);
 	SkyData.push_back(Sky_600);
@@ -79,7 +76,6 @@ void SkyLerp::Init()
 	SkyData.push_back(Sky_620);
 	SkyData.push_back(Sky_630);
 	SkyData.push_back(Sky_640);
-	SkyData.push_back(Sky_650);
 	SkyData.push_back(Sky_650);
 	SkyData.push_back(Sky_700);
 	SkyData.push_back(Sky_710);
@@ -95,7 +91,6 @@ void SkyLerp::Init()
 
 	TenMinuteTimeRatio = PlayLevel::s_TimeManager->GetMinuteRatio();
 	PlayLevel::s_TimeManager->SetTime(13, 20);
-	PlayLevel::s_TimeManager->SetTimeFlowRatio(10.0f);
 
 	SunsetStartTimeRatio = CalculateTimeRatio((SunsetStartHour - PlayLevel::s_TimeManager->GetStartHour()) * 6);
 	SunsetEndTimeRatio = CalculateTimeRatio(static_cast<int>(SkyData.size()) - 1) + SunsetStartTimeRatio;
