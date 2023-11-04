@@ -6,6 +6,7 @@
 #include "UI_Hub_Tool.h"
 #include "UI_Hub_QuickSlot.h"
 #include "UI_Hub_Broom.h"
+#include "UI_Hub_Calender.h"
 
 
 UI_Hub::UI_Hub() 
@@ -60,6 +61,10 @@ void UI_Hub::Init()
 	m_Broom = GetLevel()->CreateActor<UI_Hub_Broom>(EUPDATEORDER::UIComponent);
 	m_Broom->Init();
 
+	m_Calender = GetLevel()->CreateActor<UI_Hub_Calender>(EUPDATEORDER::UIComponent);
+	m_Calender->Init();
+
+
 	Reset();
 }
 
@@ -78,11 +83,6 @@ void UI_Hub::OpenInternal()
 		m_Stamina->On();
 	}
 
-	if (nullptr != m_Stamina)
-	{
-		m_Stamina->On();
-	}
-
 	if (nullptr != m_Broom)
 	{
 		m_Broom->On();
@@ -91,6 +91,11 @@ void UI_Hub::OpenInternal()
 	if (nullptr != m_QuickSlot)
 	{
 		m_QuickSlot->On();
+	}
+
+	if (nullptr != m_Calender)
+	{
+		m_Calender->On();
 	}
 }
 
@@ -116,9 +121,9 @@ void UI_Hub::CloseInternal()
 		m_Broom->Off();
 	}
 
-	if (nullptr != m_QuickSlot)
+	if (nullptr != m_Calender)
 	{
-		m_QuickSlot->Off();
+		m_Calender->Off();
 	}
 }
 
@@ -144,8 +149,8 @@ void UI_Hub::Reset()
 		m_Broom->On();
 	}
 
-	if (nullptr != m_QuickSlot)
+	if (nullptr != m_Calender)
 	{
-		m_QuickSlot->On();
+		m_Calender->On();
 	}
 }

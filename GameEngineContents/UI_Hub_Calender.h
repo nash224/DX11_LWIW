@@ -28,9 +28,9 @@ private:
 	private:
 		std::string_view FontStyle = GlobalValue::Font_Cafe24;
 		const float4 FontColorWhite = float4(0.95f, 0.95f, 0.95f, 1.0f);
-		static constexpr const float Day_Font_Scale = 20.0f;
-		static constexpr const float Time_Font_Scale = 26.0f;
-		static constexpr const float Meridiem_Font_Scale = 17.0f;
+		static constexpr const float Day_Font_Scale = 30.0f;
+		static constexpr const float Time_Font_Scale = 33.0f;
+		static constexpr const float Meridiem_Font_Scale = 19.0f;
 
 	public:
 		void UpdateAll();

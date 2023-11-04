@@ -91,11 +91,6 @@ void TimeManager::SetTime(unsigned int _Hour, unsigned int _Minute)
 		Hour = AddHour;
 	}
 
-	if (Hour > Start_Night_Hour)
-	{
-		DayState = EDAYSTATE::Night;
-	}
-
 	ConvertHourToTime();
 }
 
@@ -146,7 +141,11 @@ void TimeManager::Update(float _Delta)
 
 	if (Hour >= Start_Night_Hour)
 	{
- 		DayState = EDAYSTATE::Night;
+		DayState = EDAYSTATE::Night;
+	}
+	else
+	{
+		DayState = EDAYSTATE::Day;
 	}
 }
 
@@ -185,6 +184,15 @@ void TimeManager::ConvertTimeToHour()
 
 	Hour = Start_Day_Hour + AddHour;
 	Minute = static_cast<int>(fMinutes * 60.0f);
+
+	if (Hour >= Start_Night_Hour)
+	{
+		DayState = EDAYSTATE::Night;
+	}
+	else
+	{
+		DayState = EDAYSTATE::Day;
+	}
 }
 
 void TimeManager::ConvertHourToTime()
@@ -192,6 +200,15 @@ void TimeManager::ConvertHourToTime()
 	int HourTime = (Hour - Start_Day_Hour) * One_Minutes_Per_Hour / (10 / Ratio_Per_TenMinute);
 	int MinuteTime = Minute / (10 / Ratio_Per_TenMinute);
 	Time = static_cast<float>(HourTime + MinuteTime);
+
+	if (Hour >= Start_Night_Hour)
+	{
+		DayState = EDAYSTATE::Night;
+	}
+	else
+	{
+		DayState = EDAYSTATE::Day;
+	}
 }
 
 void TimeManager::ChangeDay()

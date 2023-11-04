@@ -51,8 +51,9 @@ void UI_Hub_Calender::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void UI_Hub_Calender::Init()
 {
-	RendererSetting();
+	Transform.SetLocalPosition(float4(350.0f, 220.0f));
 
+	RendererSetting();
 }
 
 void UI_Hub_Calender::RendererSetting()
@@ -69,22 +70,30 @@ void UI_Hub_Calender::RendererSetting()
 
 	Calender.UnderLine = CreateComponent<GameEngineUIRenderer>(RendererOrder);
 	Calender.UnderLine->Transform.SetLocalPosition(float4(0.0f , 0.0f, CalenderDepth));
-	Calender.UnderLine->SetSprite("Calender_UnderLine.png");
-	Calender.UnderLine->GetImageTransform().SetLocalScale(float4(140.0f, 20.0f));
+	Calender.UnderLine->SetSprite("HUD_Clock.png");
+	Calender.UnderLine->GetImageTransform().SetLocalScale(float4(160.0f, 5.0f));
 
 	Calender.Symbol = CreateComponent<GameEngineUIRenderer>(RendererOrder);
+	Calender.Symbol->Transform.SetLocalPosition(float4(-54.0f, 26.0f, CalenderDepth));
 	Calender.Symbol->SetSprite("Month_Symbol.png");
+	Calender.Symbol->AutoSpriteSizeOn();
+	Calender.Symbol->SetAutoScaleRatio(0.76f);
+
 
 	Calender.Font_Day = CreateComponent<GameEngineUIRenderer>(RendererOrder);
+	Calender.Font_Day->Transform.SetLocalPosition(float4(-26.0f, 42.0f, CalenderDepth));
 	Calender.Font_Day->GetColorData().MulColor = float4::ONE;
 
 	Calender.Font_Week = CreateComponent<GameEngineUIRenderer>(RendererOrder);
+	Calender.Font_Week->Transform.SetLocalPosition(float4(16.0f, 42.0f, CalenderDepth));
 	Calender.Font_Week->GetColorData().MulColor = float4::ONE;
 
 	Calender.Font_Time = CreateComponent<GameEngineUIRenderer>(RendererOrder);
+	Calender.Font_Time->Transform.SetLocalPosition(float4(-72.0f, -6.0f, CalenderDepth));
 	Calender.Font_Time->GetColorData().MulColor = float4::ONE;
 
 	Calender.Font_Meridiem = CreateComponent<GameEngineUIRenderer>(RendererOrder);
+	Calender.Font_Meridiem->Transform.SetLocalPosition(float4(36.0f, -16.0f, CalenderDepth));
 	Calender.Font_Meridiem->GetColorData().MulColor = float4::ONE;
 }
 
@@ -113,7 +122,15 @@ void UI_Hub_Calender::CalenderInfo::UpdateRenderDayAndWeek()
 	{
 		DayReset();
 
-		SetCalenderFont(Font_Day, std::to_string(CurDayCount), Day_Font_Scale);
+		std::string DayOutputString;
+		if (CurDayCount < 10)
+		{
+			DayOutputString += "0";
+		}
+
+		DayOutputString += std::to_string(CurDayCount);
+
+		SetCalenderFont(Font_Day, DayOutputString, Day_Font_Scale);
 
 		RenderDayCount = CurDayCount;
 
@@ -159,20 +176,39 @@ void UI_Hub_Calender::CalenderInfo::UpdateRenderTime()
 	 {
 		 RenderTime = TimeNumber;
 
-		 std::string TimeString = std::to_string(CurHour) + ':' + std::to_string(CurTenMinute);
+		 std::string TimeString;
+
+		 if (CurHour < 10)
+		 {
+			 TimeString += "0";
+		 }
+
+		 TimeString += std::to_string(CurHour) + ':';
+
+		 if (CurTenMinute < 10)
+		 {
+			 TimeString += "0";
+		 }
+
+		 TimeString += std::to_string(CurTenMinute);
+
 		 SetCalenderFont(Font_Time, TimeString, Time_Font_Scale);
 	 }
 
-	 bool ChangePM = (true == RenderAnteMeridiem && TimeNumber >= 12);
+	 bool ChangePM = (true == RenderAnteMeridiem && CurHour >= 12);
 	 if (ChangePM)
 	 {
+		 RenderAnteMeridiem = false;
 		 UpdateMeridiem("PM");
+		 return;
 	 }
 
-	 bool ChangeAM = (false == RenderAnteMeridiem && TimeNumber < 12);
+	 bool ChangeAM = (false == RenderAnteMeridiem && CurHour < 12);
 	 if (ChangeAM)
 	 {
+		 RenderAnteMeridiem = true;
 		 UpdateMeridiem("AM");
+		 return;
 	 }
 }
 
@@ -184,8 +220,8 @@ void UI_Hub_Calender::CalenderInfo::UpdateSymbol()
 		bool isSymbolChange = (DayState != RenderDayState);
 		if (isSymbolChange)
 		{
-			static constexpr const int Day_Symbol_Index = 0;
-			static constexpr const int Night_Symbol_Index = 1;
+			static constexpr const int Day_Symbol_Index = 1;
+			static constexpr const int Night_Symbol_Index = 0;
 
 			RenderDayState = DayState;
 

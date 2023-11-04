@@ -60,7 +60,7 @@ private:
 	float Time = 0.0f;
 	float MaxTime = 0.0f;
 
-	int DayCount = 0;
+	int DayCount = 1;
 	int Hour = 0;
 	int Minute = 0;
 
