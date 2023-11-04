@@ -9,11 +9,12 @@ enum class EUPDATEORDER
 	Entity,
 	Projectile,
 	Objects,
-	Sky,
 	Portal,
 	CameraControler,
 	UIMagnaer,
 	UIComponent,
+	Sky,
+	Event,
 	Fade,
 };
 

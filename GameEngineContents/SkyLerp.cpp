@@ -6,7 +6,7 @@
 #include "TimeManager.h"
 #include "CameraControler.h"
 
-SkyLerp* SkyLerp::SkyManager = nullptr;
+SkyLerp* SkyLerp::MainSkyManager = nullptr;
 SkyLerp::SkyLerp() 
 {
 }
@@ -24,14 +24,14 @@ void SkyLerp::Update(float _Delta)
 
 void SkyLerp::Release()
 {
-	SkyManager = nullptr;
+	MainSkyManager = nullptr;
 	Sun_Renderer = nullptr;
 	SkyData.clear();
 }
 
 void SkyLerp::LevelStart(class GameEngineLevel* _NextLevel)
 {
-	SkyManager = this;
+	MainSkyManager = this;
 }
 
 
@@ -42,7 +42,7 @@ void SkyLerp::LevelStart(class GameEngineLevel* _NextLevel)
 
 void SkyLerp::Init()
 {
-	SkyManager = this;
+	MainSkyManager = this;
 
 	static const std::uint32_t SkyOrder = 0;
 
@@ -52,7 +52,7 @@ void SkyLerp::Init()
 	Sun_Renderer->GetColorData().MulColor.A = 0.0f;
 
 
-	SkyData.reserve(29);
+	SkyData.reserve(32);
 	SkyData.push_back(Sky_300);
 	SkyData.push_back(Sky_310);
 	SkyData.push_back(Sky_320);
@@ -85,15 +85,17 @@ void SkyLerp::Init()
 
 	if (nullptr == PlayLevel::s_TimeManager)
 	{
-		MsgBoxAssert("타임 매니저가 존재하지 않습니다.");
+		MsgBoxAssert("시간매니저 없이는 사용할 수 없는 기능입니다.");
 		return;
 	}
 
 	TenMinuteTimeRatio = PlayLevel::s_TimeManager->GetMinuteRatio();
-	PlayLevel::s_TimeManager->SetTime(13, 20);
+	/*PlayLevel::s_TimeManager->SetTime(13, 20);*/
 
 	SunsetStartTimeRatio = CalculateTimeRatio((SunsetStartHour - PlayLevel::s_TimeManager->GetStartHour()) * 6);
 	SunsetEndTimeRatio = CalculateTimeRatio(static_cast<int>(SkyData.size()) - 1) + SunsetStartTimeRatio;
+
+	ALightStartTimeRatio = CalculateTimeRatio(AlightStartHour);
 
 	LerpSky(SkyData[0]);
 }
@@ -107,6 +109,12 @@ void SkyLerp::SetSkyColor()
 	Sun_Renderer->GetColorData().MulColor = SkyColor;
 }
 
+float SkyLerp::GetALightValue() const
+{
+	return ALight;
+}
+
+
 // 일몰 업데이트
 void SkyLerp::UpdateSkyLerp()
 {
@@ -115,19 +123,21 @@ void SkyLerp::UpdateSkyLerp()
 		return;
 	}
 
-
 	if (nullptr == PlayLevel::s_TimeManager)
 	{
-		MsgBoxAssert("시간 매니저가 존재하지 않습니다.");
+		MsgBoxAssert("시간매니저 없이는 사용할 수 없는 기능입니다.");
 		return;
 	}
 
-	// 1 / 
-
 	float TimeRatio = PlayLevel::s_TimeManager->GetTimeRatio();
-	if (TimeRatio > SunsetStartTimeRatio)
+
+	bool isOver300PM = (TimeRatio > SunsetStartTimeRatio);
+	if (isOver300PM)
 	{
 		float SunSetRatio = (TimeRatio - SunsetStartTimeRatio) / (SunsetEndTimeRatio - SunsetStartTimeRatio);
+
+		UpdateALightRatio(SunSetRatio);
+
 		SunSetRatio *= static_cast<float>(SkyData.size() - 1);
 		float fRefNumber;
 
@@ -135,9 +145,13 @@ void SkyLerp::UpdateSkyLerp()
 		int RefNumber = static_cast<int>(fRefNumber);
 
 		int MaxRefNumber = static_cast<int>(SkyData.size() - 1);
-		if (RefNumber < MaxRefNumber)
+
+		
+
+		bool isOver740PM = (RefNumber < MaxRefNumber);
+		if (isOver740PM)
 		{
-			LerpSky(SkyData[RefNumber], SkyData[static_cast<size_t>(RefNumber) + 1], SunSetRatio);			// 색 보간
+			LerpSky(SkyData[RefNumber], SkyData[static_cast<size_t>(RefNumber) + 1], SunSetRatio);
 		}
 		else
 		{
@@ -146,6 +160,7 @@ void SkyLerp::UpdateSkyLerp()
 	}
 	else
 	{
+		ALight = 0.0f;
 		LerpSky(SkyData[0]);
 	}
 }
@@ -179,14 +194,23 @@ void SkyLerp::LerpSky(const float4& _Color)
 
 void SkyLerp::FollowCamera() 
 {
-	if (nullptr == GlobalValue::g_CameraControler)
+	if (nullptr != GlobalValue::g_CameraControler)
 	{
-		return;
+		const float4 CameraPos = GlobalValue::g_CameraControler->GetCameraCurrentPostion();
+		float4 SkyPos = CameraPos;
+		SkyPos.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::SkyBox);
+
+		Transform.SetLocalPosition(SkyPos);
 	}
+}
 
-	const float4 CameraPos = GlobalValue::g_CameraControler->GetCameraCurrentPostion();
-	float4 SkyPos = CameraPos;
-	SkyPos.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::SkyBox);
+void SkyLerp::UpdateALightRatio(const float _TimeRatio)
+{
+	float ALightValue = (_TimeRatio - ALightStartTimeRatio) / (SunsetEndTimeRatio - ALightStartTimeRatio);
+	ALight = powf(ALightValue, 2.0f);
 
-	Transform.SetLocalPosition(SkyPos);
+	if (ALight >= 1.0f)
+	{
+		ALight = 1.0f;
+	}
 }

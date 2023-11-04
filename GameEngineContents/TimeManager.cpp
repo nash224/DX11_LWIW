@@ -114,6 +114,11 @@ int TimeManager::GetMinute() const
 	return Minute;
 }
 
+int TimeManager::GetDayCount() const
+{
+	return DayCount;
+}
+
 float TimeManager::GetTimeRatio() const
 {
 	return Time / MaxTime;
@@ -123,7 +128,6 @@ float TimeManager::GetMinuteRatio() const
 {
 	return static_cast<float>(Ratio_Per_TenMinute) / MaxTime;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
@@ -162,6 +166,16 @@ bool TimeManager::IsDay()
 	return false;
 }
 
+EDAYSTATE TimeManager::GetDayState() const
+{
+	if (EDAYSTATE::None == DayState)
+	{
+		return EDAYSTATE::None;
+	}
+	
+	return DayState;
+}
+
 void TimeManager::ConvertTimeToHour()
 {
 	float fHour = 0.0f;
@@ -178,4 +192,10 @@ void TimeManager::ConvertHourToTime()
 	int HourTime = (Hour - Start_Day_Hour) * One_Minutes_Per_Hour / (10 / Ratio_Per_TenMinute);
 	int MinuteTime = Minute / (10 / Ratio_Per_TenMinute);
 	Time = static_cast<float>(HourTime + MinuteTime);
+}
+
+void TimeManager::ChangeDay()
+{
+	Reset();
+	++DayCount;
 }

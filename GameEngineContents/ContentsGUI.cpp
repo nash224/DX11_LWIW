@@ -7,12 +7,13 @@
 #include "CameraControler.h"
 #include "BackDrop_PlayLevel.h"
 #include "TimeManager.h"
+#include "UI_Inventory.h"
+
 
 #include "GroundRenderUnit.h"
 #include "NormalProp.h"
 #include "SkyLerp.h"
 
-#include "UI_Inventory.h"
 
 #include "ItemData.h"
 
@@ -82,17 +83,27 @@ void LevelChangeTab::OnGUI(GameEngineLevel* _Level, float _Delta)
 
 void CheatTab::Start()
 {
-	EITEM_TYPE::Ingredient;
-	std::map<std::string, std::shared_ptr<ItemData>>& AllItemData = ItemData::GetAllData();
-
-	std::map<std::string, std::shared_ptr<ItemData>>::iterator StartIter = AllItemData.begin();
-	std::map<std::string, std::shared_ptr<ItemData>>::iterator EndIter = AllItemData.end();
-
-	for (; StartIter != EndIter; ++StartIter)
 	{
-		std::shared_ptr<ItemData> ItemData = (*StartIter).second;
+		std::map<std::string, std::shared_ptr<ItemData>>& AllItemData = ItemData::GetAllData();
 
-		ItemContainer[static_cast<int>(ItemData->ItemType)].push_back(ItemData->Name);
+		std::map<std::string, std::shared_ptr<ItemData>>::iterator StartIter = AllItemData.begin();
+		std::map<std::string, std::shared_ptr<ItemData>>::iterator EndIter = AllItemData.end();
+
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			std::shared_ptr<ItemData> ItemData = (*StartIter).second;
+
+			ItemContainer[static_cast<int>(ItemData->ItemType)].push_back(ItemData->Name);
+		}
+	}
+
+
+	{
+		QeustContainer.resize(ContentsEvent::QuestData.size());
+		for (const auto& [Index, Quest] : ContentsEvent::QuestData)
+		{
+			QeustContainer[Index] = Quest;
+		}
 	}
 }
 
@@ -103,51 +114,81 @@ void CheatTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		return;
 	}
 
-	if (ImGui::BeginTabBar("Cheat Items"))
+	if (ImGui::BeginTabBar("Cheat"))
 	{
-		static std::vector<const char*> CNames;
-		char Number = 0;
-		for (const auto& [index, NameGroup] : ItemContainer)
-		{
-			CNames.clear();
-
-			const std::string ItemTabName = "ItemType" + std::to_string(Number);
-			const std::string ListName = "ItemList" + std::to_string(Number);
-			if (ImGui::BeginTabItem(ItemTabName.c_str()))
-			{
-				for (const std::string& Name : NameGroup)
-				{
-					CNames.push_back(Name.c_str());
-				}
-
-				if (ImGui::ListBox(ListName.c_str(), &SelectItem, CNames.data(), static_cast<int>(CNames.size())))
-				{
-					UI_Inventory::PushItem(CNames[SelectItem]);
-				}
-				ImGui::EndTabItem();
-			}
-
-			++Number;
-		}
-
-
-		if (ImGui::BeginTabItem("Inventory Cheat"))
-		{
-			if (nullptr == UI_Inventory::MainInventory)
-			{
-				MsgBoxAssert("인벤토리가 존재하지 않습니다.");
-				return;
-			}
-
-			if (ImGui::Button("Unlock Slot"))
-			{
-				UI_Inventory::MainInventory->UnlockSlot();
-			}
-
-			ImGui::EndTabItem();
-		}
+		QuestCheat();
+		ItemCheat();
+		InventoryCheat();
 	}
 	ImGui::EndTabBar();
+}
+
+void CheatTab::QuestCheat()
+{
+	if (ImGui::BeginTabItem("Quest"))
+	{
+		for (size_t i = 0; i < QeustContainer.size(); i++)
+		{
+			if (true == QeustContainer[i].expired())
+			{
+				continue;
+			}
+
+			std::string QuestName = "Quest";
+			QuestName += std::to_string(i);
+
+			ImGui::Checkbox(QuestName.c_str(), &QeustContainer[i].lock()->isQuestCompleted);
+		}
+
+		ImGui::EndTabItem();
+	}
+}
+
+void CheatTab::ItemCheat()
+{
+	static std::vector<const char*> CNames;
+	char Number = 0;
+	for (const auto& [index, NameGroup] : ItemContainer)
+	{
+		CNames.clear();
+
+		const std::string ItemTabName = "ItemType" + std::to_string(Number);
+		const std::string ListName = "ItemList" + std::to_string(Number);
+		if (ImGui::BeginTabItem(ItemTabName.c_str()))
+		{
+			for (const std::string& Name : NameGroup)
+			{
+				CNames.push_back(Name.c_str());
+			}
+
+			if (ImGui::ListBox(ListName.c_str(), &SelectItem, CNames.data(), static_cast<int>(CNames.size())))
+			{
+				UI_Inventory::PushItem(CNames[SelectItem]);
+			}
+			ImGui::EndTabItem();
+		}
+
+		++Number;
+	}
+}
+
+void CheatTab::InventoryCheat()
+{
+	if (ImGui::BeginTabItem("Inventory"))
+	{
+		if (nullptr == UI_Inventory::MainInventory)
+		{
+			MsgBoxAssert("인벤토리가 존재하지 않습니다.");
+			return;
+		}
+
+		if (ImGui::Button("Unlock Slot"))
+		{
+			UI_Inventory::MainInventory->UnlockSlot();
+		}
+
+		ImGui::EndTabItem();
+	}
 }
 
 void DebugTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
@@ -193,22 +234,22 @@ void DebugTab::MousePos()
 
 void DebugTab::SkyColor()
 {
-	if (nullptr != SkyLerp::SkyManager)
+	if (nullptr != SkyLerp::MainSkyManager)
 	{
-		if (ImGui::SliderFloat4("Sky Color", &SkyLerp::SkyManager->SkyColor.R, 0.0f, 1.0f, "%.2f"))
+		if (ImGui::SliderFloat4("Sky Color", &SkyLerp::MainSkyManager->SkyColor.R, 0.0f, 1.0f, "%.2f"))
 		{
-			SkyLerp::SkyManager->SetSkyColor();
+			SkyLerp::MainSkyManager->SetSkyColor();
 		}
 	}
 }
 
 void DebugTab::SkyOn()
 {
-	if (nullptr != SkyLerp::SkyManager)
+	if (nullptr != SkyLerp::MainSkyManager)
 	{
 		if (ImGui::Checkbox("Sky On", &isSkyOn))
 		{
-			isSkyOn ? SkyLerp::SkyManager->On() : SkyLerp::SkyManager->Off();
+			isSkyOn ? SkyLerp::MainSkyManager->On() : SkyLerp::MainSkyManager->Off();
 		}
 	}
 }
@@ -324,6 +365,7 @@ void MapEditorTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 			{
 				if (CurItemTab->TabName != CItemName)
 				{
+					static_cast<MapEditorLevel*>(_Level)->SelectActor = nullptr;
 					ChangeItemTab(CItemName);
 				}
 
@@ -539,9 +581,12 @@ void BaseRendererItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTim
 
 		if (nullptr != EditorLevel->SelectActor)
 		{
-			if (ImGui::SliderFloat2("Renderer Correction", &RendererCorrection.X, -100.0f, 200.0f, "%.0f"))
+			if (ImGui::SliderFloat("Renderer Correction", &EditorLevel->_RendererHeight, -100.0f, 200.0f, "%.0f"))
 			{
-				EditorLevel->SelectActor->m_Renderer->Transform.SetLocalPosition(RendererCorrection);
+				const std::shared_ptr<GameEngineSpriteRenderer>& Renderer = EditorLevel->SelectActor->m_Renderer;
+				float4 Position = Renderer->Transform.GetLocalPosition();
+				Position.Y = EditorLevel->_RendererHeight;
+				Renderer->Transform.SetLocalPosition(Position);
 			}
 
 			if (true == _Level->IsDebug)

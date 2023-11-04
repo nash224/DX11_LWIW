@@ -43,7 +43,7 @@ void UI_ToggleActor::Open()
 
 void UI_ToggleActor::Close()
 {
-	CloseInternal();
+ 	CloseInternal();
 	Off();
 	IsOpen = false;
 }

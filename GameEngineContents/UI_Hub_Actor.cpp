@@ -15,21 +15,6 @@ void UI_Hub_Actor::Start()
 	GameEngineInput::AddInputObject(this);
 }
 
-void UI_Hub_Actor::Update(float _Delta)
-{
-
-}
-
-void UI_Hub_Actor::LevelStart(class GameEngineLevel* _NextLevel)
-{
-
-}
-
-void UI_Hub_Actor::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-
-}
-
 
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////

@@ -37,9 +37,9 @@ void BackDrop_WitchHouse_Yard::Release()
 
 void BackDrop_WitchHouse_Yard::LevelStart(class GameEngineLevel* _NextLevel)
 {
-	MainBackDrop = this;
+	MainBackDrop = this;                  
 
-	/*CheckCrowEvent();*/
+	CheckCrowEvent();
 }
 
 
@@ -270,7 +270,7 @@ void BackDrop_WitchHouse_Yard::CheckCrowEvent()
 
 void BackDrop_WitchHouse_Yard::ShowCrowEvent()
 {
-	std::shared_ptr<CrowEvent> Event = GetLevel()->CreateActor<CrowEvent>(EUPDATEORDER::Objects);
+	std::shared_ptr<CrowEvent> Event = GetLevel()->CreateActor<CrowEvent>(EUPDATEORDER::Event);
 	Event->Init();
 }
 

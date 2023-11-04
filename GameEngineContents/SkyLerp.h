@@ -40,7 +40,7 @@
 class SkyLerp : public GameEngineActor
 {
 public:
-	static SkyLerp* SkyManager;
+	static SkyLerp* MainSkyManager;
 
 public:
 	// constrcuter destructer
@@ -56,9 +56,8 @@ public:
 	void Init();
 
 	void SetSkyColor();
-
-	float4 SkyColor = float4::ZERONULL;
 	
+	float GetALightValue() const;
 
 protected:
 	void Start() override {}
@@ -74,6 +73,11 @@ protected:
 	void LerpSky(const float4& _ColorA, const float4& _ColorB, const float _Time);
 	void LerpSky(const float4& _Color);
 
+	void UpdateALightRatio(const float _TimeRatio);
+
+public:
+	float4 SkyColor = float4::ZERONULL;
+
 private:
 	std::vector<float4> SkyData;
 	std::shared_ptr<GameEngineSpriteRenderer> Sun_Renderer = nullptr;
@@ -85,4 +89,8 @@ private:
 
 	float TenMinuteTimeRatio = 0.0f;
 
+
+	static constexpr const int AlightStartHour = 17;
+	float ALightStartTimeRatio = 0.0f;
+	float ALight = 0.0f;
 };

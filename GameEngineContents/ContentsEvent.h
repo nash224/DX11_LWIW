@@ -51,7 +51,10 @@ public:
 			isQuestCompleted = true;
 		}
 
-	private:
+	public:
+		// ContentsGUI에서 요구합니다. 
+		// 절때 외부로 공개할 일은 없지만
+		// friend 선언을 해도 안먹혀서 public으로 둡니다.
 		bool isQuestCompleted = false;
 
 	};

@@ -183,10 +183,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="ALightActor.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="Aurea.cpp">
       <SubType>
       </SubType>
@@ -517,7 +513,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="UI_Hub_Calendar.cpp">
+    <ClCompile Include="UI_Hub_Calender.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -601,10 +597,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="AlertManager.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="ALightActor.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -928,7 +920,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="UI_Hub_Calendar.h">
+    <ClInclude Include="UI_Hub_Calender.h">
       <SubType>
       </SubType>
     </ClInclude>

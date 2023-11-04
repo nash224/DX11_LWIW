@@ -289,9 +289,6 @@
     <ClInclude Include="UI_Hub_Stamina.h">
       <Filter>2.Object\2.Actor\0.Manager\UIManager\3.Hub</Filter>
     </ClInclude>
-    <ClInclude Include="UI_Hub_Calendar.h">
-      <Filter>2.Object\2.Actor\0.Manager\UIManager\3.Hub</Filter>
-    </ClInclude>
     <ClInclude Include="UI_Hub_Actor.h">
       <Filter>2.Object\2.Actor\0.Manager\UIManager\3.Hub</Filter>
     </ClInclude>
@@ -490,9 +487,6 @@
     <ClInclude Include="Scenery.h">
       <Filter>2.Object\2.Actor\3.Prop\RenderActor</Filter>
     </ClInclude>
-    <ClInclude Include="ALightActor.h">
-      <Filter>2.Object\2.Actor\3.Prop\RenderActor</Filter>
-    </ClInclude>
     <ClInclude Include="AlertManager.h">
       <Filter>2.Object\2.Actor\0.Manager\AlertManager</Filter>
     </ClInclude>
@@ -507,6 +501,9 @@
     </ClInclude>
     <ClInclude Include="UI_Alert_Tutorial.h">
       <Filter>2.Object\2.Actor\0.Manager\AlertManager</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Hub_Calender.h">
+      <Filter>2.Object\2.Actor\0.Manager\UIManager\3.Hub</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -602,9 +599,6 @@
       <Filter>2.Object\2.Actor\0.Manager\UIManager\3.Hub</Filter>
     </ClCompile>
     <ClCompile Include="UI_Hub_Stamina.cpp">
-      <Filter>2.Object\2.Actor\0.Manager\UIManager\3.Hub</Filter>
-    </ClCompile>
-    <ClCompile Include="UI_Hub_Calendar.cpp">
       <Filter>2.Object\2.Actor\0.Manager\UIManager\3.Hub</Filter>
     </ClCompile>
     <ClCompile Include="UI_Hub_Actor.cpp">
@@ -824,9 +818,6 @@
     <ClCompile Include="Scenery.cpp">
       <Filter>2.Object\2.Actor\3.Prop\RenderActor</Filter>
     </ClCompile>
-    <ClCompile Include="ALightActor.cpp">
-      <Filter>2.Object\2.Actor\3.Prop\RenderActor</Filter>
-    </ClCompile>
     <ClCompile Include="MapEditorLevel_Resources.cpp">
       <Filter>2.Object\3.Level\0.MapEditor</Filter>
     </ClCompile>
@@ -844,6 +835,9 @@
     </ClCompile>
     <ClCompile Include="UI_Alert_Tutorial.cpp">
       <Filter>2.Object\2.Actor\0.Manager\AlertManager</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Hub_Calender.cpp">
+      <Filter>2.Object\2.Actor\0.Manager\UIManager\3.Hub</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

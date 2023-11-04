@@ -1,5 +1,5 @@
 #pragma once
-
+#include "ContentsEvent.h"
 
 
 class UITab
@@ -54,11 +54,15 @@ class CheatTab : public UITab
 	void Start() override;
 	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
 
+	void QuestCheat();
+	void ItemCheat();
+	void InventoryCheat();
 
 public:
 	int SelectItem = 0;
 
 	std::map<int, std::list<std::string>> ItemContainer;
+	std::vector<std::weak_ptr<ContentsEvent::QuestUnitBase>> QeustContainer;
 	
 
 public:
@@ -195,6 +199,8 @@ public:
 
 public:
 	class MapEditorTab* Parent = nullptr;
+
+	std::string ActorType;
 
 	std::string TabName = "";
 

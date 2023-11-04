@@ -45,50 +45,19 @@ void UI_Hub::Init()
 {
 	IsHub = true;
 
-	GameEngineLevel* CurLevel = GetLevel();
-	if (nullptr == CurLevel)
-	{
-		MsgBoxAssert("레벨을 불러오지 못했습니다.");
-		return;
-	}
-
-	m_Tool = CurLevel->CreateActor<UI_Hub_Tool>(EUPDATEORDER::UIComponent);
-	if (nullptr == m_Tool)
-	{
-		MsgBoxAssert("도구를 생성하지 못했습니다.");
-		return;
-	}
-
+	m_Tool = GetLevel()->CreateActor<UI_Hub_Tool>(EUPDATEORDER::UIComponent);
 	m_Tool->Init();
 
 
-	m_Stamina = CurLevel->CreateActor<UI_Hub_Stamina>(EUPDATEORDER::UIComponent);
-	if (nullptr == m_Stamina)
-	{
-		MsgBoxAssert("도구를 생성하지 못했습니다.");
-		return;
-	}
-
+	m_Stamina = GetLevel()->CreateActor<UI_Hub_Stamina>(EUPDATEORDER::UIComponent);
 	m_Stamina->Init();
 
 
-	m_QuickSlot = CurLevel->CreateActor<UI_Hub_QuickSlot>(EUPDATEORDER::UIComponent);
-	if (nullptr == m_QuickSlot)
-	{
-		MsgBoxAssert("도구를 생성하지 못했습니다.");
-		return;
-	}
-
+	m_QuickSlot = GetLevel()->CreateActor<UI_Hub_QuickSlot>(EUPDATEORDER::UIComponent);
 	m_QuickSlot->Init();
 
 
-	m_Broom = CurLevel->CreateActor<UI_Hub_Broom>(EUPDATEORDER::UIComponent);
-	if (nullptr == m_Broom)
-	{
-		MsgBoxAssert("도구를 생성하지 못했습니다.");
-		return;
-	}
-
+	m_Broom = GetLevel()->CreateActor<UI_Hub_Broom>(EUPDATEORDER::UIComponent);
 	m_Broom->Init();
 
 	Reset();

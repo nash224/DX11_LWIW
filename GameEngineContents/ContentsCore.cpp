@@ -32,6 +32,7 @@ void ContentsCore::Start()
 	GlobalValue::SetWindowScale(GetStartWindowSize());
 	GlobalLoad::LoadGlobalResource();
 	GameEngineCore::GetBackBufferRenderTarget()->SetClearColor(float4{ 0.5f, 0.5f, 0.5f });
+	GameEngineFont::Load("카페24 아네모네");
 	GameEngineFont::Load("Liberation Sans");
 	GameEngineFont::Load("Sandoll 삼립호빵체 TTF Basic");
 	GameEngineFont::Load("Perfect DOS VGA 437");
