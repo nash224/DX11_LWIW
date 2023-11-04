@@ -310,23 +310,10 @@ void Ellie::RideFxSetting()
 void Ellie::CollisionSetting()
 {
 	m_EllieCol = CreateComponent<GameEngineCollision>(ECOLLISION::Player);
-	if (nullptr == m_EllieCol)
-	{
-		MsgBoxAssert("충돌체를 생성하지 못했습니다.");
-		return;
-	}
-
-
 	m_EllieCol->Transform.SetLocalScale(float4{ 4.0f , 4.0f });
 	m_EllieCol->SetCollisionType(ColType::AABBBOX2D);
 
 	m_NetCol = CreateComponent<GameEngineCollision>(ECOLLISION::Net);
-	if (nullptr == m_NetCol)
-	{
-		MsgBoxAssert("충돌체를 생성하지 못했습니다.");
-		return;
-	}
-
 	m_NetCol->Transform.SetLocalScale(float4(140.0f, 4.0f));
 	m_NetCol->Off();
 	m_NetCol->SetCollisionType(ColType::SPHERE2D);
@@ -934,12 +921,18 @@ EDIRECTION Ellie::ReturnPixelCollisionMoveDirectionToCurrentCheckPoint(EDIRECTIO
 // (움직일 수는 없지만 렌더러는 움직입니다. 즉, 속도가 0으로 반환되게 할껍니다).
 EDIRECTION Ellie::ReturnDirectionCheckBothSide(EDIRECTION _Direction, const float4& _LeftCheckPoint, const float4& _RightCheckPoint)
 {
+	if (nullptr == BackDrop_PlayLevel::MainBackDrop)
+	{
+		return EDIRECTION::DOWN;
+	}
+
 	int DirNum = static_cast<int>(_Direction);
 
 	bool LeftCheck = BackDrop_PlayLevel::MainBackDrop->IsColorAtPosition(_LeftCheckPoint, GameEngineColor::RED);
 	bool RightCheck = BackDrop_PlayLevel::MainBackDrop->IsColorAtPosition(_RightCheckPoint, GameEngineColor::RED);
 
-	if (true == LeftCheck && false == RightCheck)
+	bool isLeftWall = (true == LeftCheck && false == RightCheck);
+	if (isLeftWall)
 	{
 		if (8 == DirNum)
 		{
@@ -951,7 +944,8 @@ EDIRECTION Ellie::ReturnDirectionCheckBothSide(EDIRECTION _Direction, const floa
 		}
 	}
 
-	if (false == LeftCheck && true == RightCheck)
+	bool isRightWall = (false == LeftCheck && true == RightCheck);
+	if (isRightWall)
 	{
 		if (1 == DirNum)
 		{
@@ -963,7 +957,8 @@ EDIRECTION Ellie::ReturnDirectionCheckBothSide(EDIRECTION _Direction, const floa
 		}
 	}
 
-	if (true == LeftCheck && true == RightCheck)
+	bool isFrontWall = (true == LeftCheck && true == RightCheck);
+	if (isFrontWall)
 	{
 		DirNum = 0;
 	}

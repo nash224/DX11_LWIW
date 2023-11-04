@@ -5,7 +5,8 @@
 #include "CameraControler.h"
 
 #include "Ellie.h"
-#include "BushBug.h"
+#include "UIManager.h"
+
 #include "Bush.h"
 #include "NormalProp.h"
 
@@ -21,6 +22,11 @@ TestLevel::~TestLevel()
 void TestLevel::Start()
 {
 	ContentsLevel::Start();
+
+	float4 Position = GlobalValue::GetWindowScale().Half();
+	Position.Y *= -1.0f;
+
+	GetMainCamera()->Transform.SetLocalPosition(Position);
 }
 
 void TestLevel::Update(float _Delta)
@@ -34,19 +40,45 @@ void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
 
 	GlobalValue::g_CameraControler->SetCameraMode(ECAMERAMODE::Fix);
 
+	const float4 WinScale = GlobalValue::GetWindowScale();
+
+	{
+		float4 Position = WinScale.Half();
+		Position.Y *= -1.0f;
+		Position.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Back_Paint);
+
+		Map = CreateActor<GameEngineActor>(EUPDATEORDER::Objects);
+		Map->Transform.SetLocalPosition(Position);
+		std::weak_ptr<GameEngineSpriteRenderer> BaseRenderer = Map->CreateComponent<GameEngineSpriteRenderer>(0);
+		BaseRenderer.lock()->SetSprite("GroundBase.png");
+		BaseRenderer.lock()->GetImageTransform().SetLocalScale(WinScale);
+	}
+
+	float4 InitialPosition = WinScale.Half();
+	InitialPosition.Y *= -1.0f;
+
 	Player = CreateActor<Ellie>(EUPDATEORDER::Player);
+	Player->Transform.SetLocalPosition(InitialPosition);
 	Player->Init();
 
-	m_bush = CreateActor<Bush>(EUPDATEORDER::Player);
-	m_bush->Init();
+	UI = CreateActor<UIManager>(EUPDATEORDER::UIMagnaer);
+	UI->Init();
 
-	m_BushBug = CreateActor<BushBug >(EUPDATEORDER::Player);
-	m_BushBug->Init();
+	m_bush = CreateActor<Bush>(EUPDATEORDER::Objects);
+	m_bush->SetBushType(EBUSHTYPE::BushBug);
+	m_bush->Transform.SetLocalPosition(InitialPosition);
+	m_bush->Init();
 }
 
 void TestLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	ContentsLevel::LevelEnd(_NextLevel);
+
+	if (nullptr != Map)
+	{
+		Map->Death();
+		Map = nullptr;
+	}
 
 	if (nullptr != Player)
 	{
@@ -60,20 +92,9 @@ void TestLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 		m_bush = nullptr;
 	}
 
-	if (nullptr != m_BushBug)
+	if (nullptr != UI)
 	{
-		m_BushBug->Death();
-		m_BushBug = nullptr;
+		UI->Death();
+		UI = nullptr;
 	}
-}
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
-
-void TestMap::LevelStart(class GameEngineLevel* _NextLevel)
-{
-	std::shared_ptr<NormalProp> Map = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Player);
-	/*Map->m_Renderer->SetSprite();*/
 }
