@@ -131,14 +131,15 @@ ETOOLTYPE InteractiveActor::GetCollectionToolType() const
 void InteractiveActor::ApplyDepth(const float4& _Position)
 {
 	float4 Position = _Position;
-	if (nullptr == BackDrop_PlayLevel::MainBackDrop)
+	if (nullptr != BackDrop_PlayLevel::MainBackDrop)
 	{
-		MsgBoxAssert("배경 매니저를 알지 못합니다");
-		return;
+		float ZSort = GlobalUtils::CalculateObjectDepth(BackDrop_PlayLevel::MainBackDrop->GetBackGroundScale().Y, Position.Y + m_DepthBias);
+		Position.Z = ZSort;
 	}
-
-	float ZSort = GlobalUtils::CalculateObjectDepth(BackDrop_PlayLevel::MainBackDrop->GetBackGroundScale().Y, Position.Y + m_DepthBias);
-	Position.Z = ZSort;
+	else
+	{
+		Position.Z = 0.0f;
+	}
 
 	Transform.SetLocalPosition(Position);
 }

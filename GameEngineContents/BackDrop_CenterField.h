@@ -31,26 +31,24 @@ protected:
 	void CreateMap();
 	void LoadSerBin();
 	void CreatePortalActor();
-	void CreateAurea(GameEngineLevel* _Level);
+	void CreateAurea();
 
-	void CreateCreature(GameEngineLevel* _Level);
-	void CreateDayNightTimeCreature(GameEngineLevel* _Level);
-	void CreateDayTimeCreature(GameEngineLevel* _Level);
+	void CreateCreature();
+	void CreateDayNightTimeCreature();
+	void CreateDayTimeCreature();
 
-	void CreateBush(GameEngineLevel* _Level);
-	void CreateWitchFlower(GameEngineLevel* _Level);
-	void CreateSilverStarFlower(GameEngineLevel* _Level);
-	void CreateBranchTree(GameEngineLevel* _Level);
-	void CreateMongSiriPopulation(GameEngineLevel* _Level);
-	void CreateFlowerBird(GameEngineLevel* _Level);
-	void CreatePumpkinTerrier(GameEngineLevel* _Level);
+	void CreateBush();
+	void CreateWitchFlower();
+	void CreateSilverStarFlower();
+	void CreateBranchTree();
+	void CreateMongSiriPopulation();
+	void CreateFlowerBird();
+	void CreatePumpkinTerrier();
 
 
 	void PopulationRelease();
 
 private:
-	std::vector<std::shared_ptr<class MongSiri_Population>> PopulationVec;
-
 
 };
 

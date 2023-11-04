@@ -78,7 +78,7 @@ private:
 	float m_BranchStateTime = 0.0f;
 	float BranchFallInter = 0.8f;
 	float BranchTotalInter = 0.0f;
-	const float TreeRenderBias = 112.0f;
+	const float TreeRenderCorrection = 112.0f;
 
 };
 

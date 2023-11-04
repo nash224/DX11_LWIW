@@ -64,13 +64,12 @@ void BackDrop_CenterField::Init()
 	CreatePortalActor();
 
 
-	GameEngineLevel* CurLevel = GetLevel();
-	CreateAurea(CurLevel);
+	/*CreateAurea();*/
 
 	static bool IsCreatedCreature = false;
 	if (false == IsCreatedCreature)
 	{
-		CreateCreature(CurLevel);
+		CreateCreature();
 
 		IsCreatedCreature = true;
 	}
@@ -173,9 +172,9 @@ void BackDrop_CenterField::LoadSerBin()
 }
 
 
-void BackDrop_CenterField::CreateAurea(GameEngineLevel* _Level)
+void BackDrop_CenterField::CreateAurea()
 {
-	std::shared_ptr<Aurea> Object = _Level->CreateActor<Aurea>(EUPDATEORDER::Entity);
+	std::shared_ptr<Aurea> Object = GetLevel()->CreateActor<Aurea>(EUPDATEORDER::Entity);
 	float4 Position = float4(700.0f, -300.0f);
 	Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y, Position.Y);
 	Object->Transform.SetLocalPosition(Position);
@@ -184,34 +183,34 @@ void BackDrop_CenterField::CreateAurea(GameEngineLevel* _Level)
 
 
 // 날이 바뀌면 생성됩니다.
-void BackDrop_CenterField::CreateCreature(GameEngineLevel* _Level)
+void BackDrop_CenterField::CreateCreature()
 {
-	CreateDayNightTimeCreature(_Level);
-	CreateDayTimeCreature(_Level);
+	CreateDayNightTimeCreature();
+	CreateDayTimeCreature();
 }
 
-void BackDrop_CenterField::CreateDayNightTimeCreature(GameEngineLevel* _Level)
+void BackDrop_CenterField::CreateDayNightTimeCreature()
 {
-	CreateBush(_Level);
-	CreateWitchFlower(_Level);
-	CreateSilverStarFlower(_Level);
-	CreateBranchTree(_Level);
-	CreateFlowerBird(_Level);
-	CreatePumpkinTerrier(_Level);
-}
-
-
-void BackDrop_CenterField::CreateDayTimeCreature(GameEngineLevel* _Level)
-{
-	/*CreateMongSiriPopulation(_Level);*/
+	CreateBush();
+	CreateWitchFlower();
+	CreateSilverStarFlower();
+	CreateBranchTree();
+	CreateFlowerBird();
+	/*CreatePumpkinTerrier();*/
 }
 
 
+void BackDrop_CenterField::CreateDayTimeCreature()
+{
+	CreateMongSiriPopulation();
+}
 
-void BackDrop_CenterField::CreateBush(GameEngineLevel* _Level)
+
+
+void BackDrop_CenterField::CreateBush()
 {
 	{
-		std::shared_ptr<Bush> BushObject = _Level->CreateActor<Bush>(EUPDATEORDER::Entity);
+		std::shared_ptr<Bush> BushObject = GetLevel()->CreateActor<Bush>(EUPDATEORDER::Entity);
 		BushObject->Transform.SetLocalPosition({ 300.0f , -150.0f });
 		BushObject->SetBushType(EBUSHTYPE::Bush);
 		BushObject->Init();
@@ -220,7 +219,7 @@ void BackDrop_CenterField::CreateBush(GameEngineLevel* _Level)
 	}
 
 	{
-		std::shared_ptr<Bush> BushObject = _Level->CreateActor<Bush>(EUPDATEORDER::Entity);
+		std::shared_ptr<Bush> BushObject = GetLevel()->CreateActor<Bush>(EUPDATEORDER::Entity);
 		BushObject->Transform.SetLocalPosition({ 400.0f , -150.0f });
 		BushObject->SetBushType(EBUSHTYPE::BushApple);
 		BushObject->Init();
@@ -229,7 +228,7 @@ void BackDrop_CenterField::CreateBush(GameEngineLevel* _Level)
 	}
 
 	{
-		std::shared_ptr<Bush> BushObject = _Level->CreateActor<Bush>(EUPDATEORDER::Entity);
+		std::shared_ptr<Bush> BushObject = GetLevel()->CreateActor<Bush>(EUPDATEORDER::Entity);
 		BushObject->Transform.SetLocalPosition({ 500.0f , -150.0f });
 		BushObject->SetBushType(EBUSHTYPE::BushBug);
 		BushObject->Init();
@@ -238,69 +237,114 @@ void BackDrop_CenterField::CreateBush(GameEngineLevel* _Level)
 	}
 }
 
-void BackDrop_CenterField::CreateWitchFlower(GameEngineLevel* _Level)
+void BackDrop_CenterField::CreateWitchFlower()
 {
 	{
-		std::shared_ptr<WitchFlower> Object = _Level->CreateActor<WitchFlower>(EUPDATEORDER::Entity);
-		Object->Transform.SetLocalPosition({ 300.0f , -350.0f });
+		std::shared_ptr<WitchFlower> Object = GetLevel()->CreateActor<WitchFlower>(EUPDATEORDER::Entity);
+		Object->Transform.SetLocalPosition({ 1652.0f , -165.0f });
+		Object->Init();
+	}
+
+	{
+		std::shared_ptr<WitchFlower> Object = GetLevel()->CreateActor<WitchFlower>(EUPDATEORDER::Entity);
+		Object->Transform.SetLocalPosition({ 157.0f , -803.0f });
+		Object->Init();
+	}
+
+	{
+		std::shared_ptr<WitchFlower> Object = GetLevel()->CreateActor<WitchFlower>(EUPDATEORDER::Entity);
+		Object->Transform.SetLocalPosition({ 614.0f , -406.0f });
 		Object->Init();
 	}
 }
 
-void BackDrop_CenterField::CreateSilverStarFlower(GameEngineLevel* _Level)
+void BackDrop_CenterField::CreateSilverStarFlower()
 {
 	{
-		std::shared_ptr<SilverStarFlower> Object = _Level->CreateActor<SilverStarFlower>(EUPDATEORDER::Entity);
-		Object->Transform.SetLocalPosition({ 100.0f , -450.0f });
+		std::shared_ptr<SilverStarFlower> Object = GetLevel()->CreateActor<SilverStarFlower>(EUPDATEORDER::Entity);
+		Object->Transform.SetLocalPosition({ 1248.0f , -170.0f });
+		Object->Init();
+	}
+
+	{
+		std::shared_ptr<SilverStarFlower> Object = GetLevel()->CreateActor<SilverStarFlower>(EUPDATEORDER::Entity);
+		Object->Transform.SetLocalPosition({ 1350.0f , -1072.0f });
+		Object->Init();
+	}
+
+	{
+		std::shared_ptr<SilverStarFlower> Object = GetLevel()->CreateActor<SilverStarFlower>(EUPDATEORDER::Entity);
+		Object->Transform.SetLocalPosition({ 1120.0f , -700.0f });
 		Object->Init();
 	}
 }
 
-void BackDrop_CenterField::CreateBranchTree(GameEngineLevel* _Level)
+void BackDrop_CenterField::CreateBranchTree()
 {
 	{
-		std::shared_ptr<BranchTree> Object = _Level->CreateActor<BranchTree>(EUPDATEORDER::Entity);
-		Object->Transform.SetLocalPosition({ 500.0f , -550.0f });
+		std::shared_ptr<BranchTree> Object = GetLevel()->CreateActor<BranchTree>(EUPDATEORDER::Entity);
+		Object->Transform.SetLocalPosition({ 660.0f , -275.0f });
+		Object->Init();
+	}
+
+	{
+		std::shared_ptr<BranchTree> Object = GetLevel()->CreateActor<BranchTree>(EUPDATEORDER::Entity);
+		Object->Transform.SetLocalPosition({ 505.0f , -275.0f });
+		Object->Init();
+	}
+
+	{
+		std::shared_ptr<BranchTree> Object = GetLevel()->CreateActor<BranchTree>(EUPDATEORDER::Entity);
+		Object->Transform.SetLocalPosition({ 1350.0f , -1122.0f });
+		Object->Init();
+	}
+
+	{
+		std::shared_ptr<BranchTree> Object = GetLevel()->CreateActor<BranchTree>(EUPDATEORDER::Entity);
+		Object->Transform.SetLocalPosition({ 1630.0f , -856.0f });
 		Object->Init();
 	}
 }
 
 
-void BackDrop_CenterField::CreateMongSiriPopulation(GameEngineLevel* _Level)
+void BackDrop_CenterField::CreateMongSiriPopulation()
 {
-	PopulationVec.reserve(3);
-
 	{
-		std::shared_ptr<MongSiri_Population> MongSiri1 = _Level->CreateActor<MongSiri_Population>(EUPDATEORDER::Objects);
-		MongSiri1->Transform.SetLocalPosition({ 100.0f , -100.0f });
-		MongSiri1->SetPopulationSpawnLocation({ 150.0f , -150.0f });
+		std::shared_ptr<MongSiri_Population> MongSiri1 = GetLevel()->CreateActor<MongSiri_Population>(EUPDATEORDER::Objects);
+		MongSiri1->Transform.SetLocalPosition({ 1512.0f , -760.0f });
+		MongSiri1->SetPopulationSpawnLocation({ 1458.0f , -828.0f });
 		MongSiri1->Init(3);
-		PopulationVec.push_back(MongSiri1);
+	}
+
+	{
+		std::shared_ptr<MongSiri_Population> MongSiri1 = GetLevel()->CreateActor<MongSiri_Population>(EUPDATEORDER::Objects);
+		MongSiri1->Transform.SetLocalPosition({ 173.0f , -705.0f });
+		MongSiri1->SetPopulationSpawnLocation({ 280.0f , -767.0f });
+		MongSiri1->Init(2);
 	}
 }
 
-void BackDrop_CenterField::CreateFlowerBird(GameEngineLevel* _Level)
+void BackDrop_CenterField::CreateFlowerBird()
 {
 	{
-		std::shared_ptr<FlowerBird> Object = _Level->CreateActor<FlowerBird>(EUPDATEORDER::Entity);
+		std::shared_ptr<FlowerBird> Object = GetLevel()->CreateActor<FlowerBird>(EUPDATEORDER::Entity);
 		Object->Transform.SetLocalPosition({ 400.0f , -200.0f });
 		Object->Init();
 	}
 
 	{
-		std::shared_ptr<FlowerBird> Object = _Level->CreateActor<FlowerBird>(EUPDATEORDER::Entity);
+		std::shared_ptr<FlowerBird> Object = GetLevel()->CreateActor<FlowerBird>(EUPDATEORDER::Entity);
 		Object->Transform.SetLocalPosition({ 440.0f , -200.0f });
 		Object->Init();
 	}
 }
 
-void BackDrop_CenterField::CreatePumpkinTerrier(GameEngineLevel* _Level)
+void BackDrop_CenterField::CreatePumpkinTerrier()
 {
 	{
-		std::shared_ptr<PumpkinTerrier> Object = _Level->CreateActor<PumpkinTerrier>(EUPDATEORDER::Entity);
+		std::shared_ptr<PumpkinTerrier> Object = GetLevel()->CreateActor<PumpkinTerrier>(EUPDATEORDER::Entity);
 		Object->Transform.SetLocalPosition({ 360.0f , -400.0f });
 		Object->Init();
-
 	}
 }
 
@@ -311,24 +355,8 @@ void BackDrop_CenterField::CreatePortalActor()
 		std::shared_ptr<PortalObject> Object = GetLevel()->CreateActor<PortalObject>(EUPDATEORDER::Portal);
 		Object->CreatePortalCollision(ECOLLISION::Portal);
 		Object->SetChangeLevelName("WitchHouse_Yard");
-		Object->SetCollisionRange({ 100.0f , 400.0f });
-		Object->SetLocalPosition({ 1200.0f , -200.0f });
+		Object->SetCollisionRange({ 100.0f , 50.0f });
+		Object->SetLocalPosition({ 1432.0f , 0.0f });
 		Object->SetCollisionType(ColType::AABBBOX2D);
 	}
 }
-
-
-
-#pragma region Release
-
-
-void BackDrop_CenterField::PopulationRelease()
-{
-	for (size_t i = 0; i < PopulationVec.size(); i++)
-	{
-		std::shared_ptr<MongSiri_Population> Population = PopulationVec[i];
-		Population->ActorRelaese();
-	}
-}
-
-#pragma endregion 

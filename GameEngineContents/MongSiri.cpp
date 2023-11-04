@@ -78,23 +78,10 @@ void MongSiri::CreateAndSetRenderer()
 		GameEngineSprite::CreateCut("Mongsiri_Jump.png", 5, 5);
 	}
 
+	static constexpr const int RenderOrder = 0;
 
-
-
-
-	m_Shadow = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::Shadow);
-	if (nullptr == m_Shadow)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
-
-	m_Body = CreateComponent<GameEngineSpriteRenderer>();
-	if (nullptr == m_Body)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
+	m_Shadow = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
+	m_Body = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
 
 	m_Body->CreateAnimation("Idle", "Mongsiri_IdleB.png", 0.2f, 4, 6);
 	m_Body->SetStartEvent("Idle", [&](GameEngineSpriteRenderer*)
@@ -361,21 +348,16 @@ void MongSiri::ChangeAnimationByDircetion(std::string_view _StateName)
 }
 
 
-
-
 bool MongSiri::IsPlayerAround()
 {
-	if (nullptr == Ellie::MainEllie)
+	if (nullptr != Ellie::MainEllie)
 	{
-		MsgBoxAssert("엘리가 존재하지 않습니다.");
-		return false;
-	}
-
- 	float4 PlayerPosition = Ellie::MainEllie->Transform.GetLocalPosition();
-	float PositionSize = (Transform.GetLocalPosition() - PlayerPosition).Size();
-	if (PositionSize < MongSiri_FOVSize)
-	{
-		return true;
+ 		float4 PlayerPosition = Ellie::MainEllie->Transform.GetLocalPosition();
+		float PositionSize = (Transform.GetLocalPosition() - PlayerPosition).Size();
+		if (PositionSize < MongSiri_FOVSize)
+		{
+			return true;
+		}
 	}
 
 	return false;

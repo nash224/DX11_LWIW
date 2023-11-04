@@ -79,7 +79,8 @@ class DebugTab : public UITab
 	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
 
 	void OnFPSTime(float _DeltaTime);
-	void MousePos();
+	void ScreenMousePos();
+	void WorldMousePos(GameEngineLevel* _CurLevel);
 	void SkyColor();
 	void SkyOn();
 	void TimeDebug();

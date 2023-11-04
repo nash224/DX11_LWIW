@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "ContentsGUI.h"
 
+#include <GameEngineCore/GameEngineCamera.h>
+
 #include "MapEditorLevel.h"
 #include "PlayLevel.h"
 
@@ -204,7 +206,8 @@ void DebugTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 
 	OnFPSTime(_DeltaTime);
-	MousePos();
+	ScreenMousePos();
+	WorldMousePos(_Level);
 	SkyColor();
 	SkyOn();
 	TimeDebug();
@@ -226,10 +229,18 @@ void DebugTab::OnFPSTime(float _DeltaTime)
 	ImGui::Text(FPS_String.c_str());
 }
 
-void DebugTab::MousePos()
+void DebugTab::ScreenMousePos()
 {
-	const std::string MousePos = GameEngineCore::MainWindow.GetMousePos().ToString();
-	ImGui::Text(MousePos.c_str());
+	std::string ScreenMousePos = "Screen : ";
+	ScreenMousePos += GameEngineCore::MainWindow.GetMousePos().ToString();
+	ImGui::Text(ScreenMousePos.c_str());
+}
+
+void DebugTab::WorldMousePos(GameEngineLevel* _CurLevel)
+{
+	std::string WorldMousePos = "World : ";
+	WorldMousePos += _CurLevel->GetMainCamera()->GetWorldMousePos2D().ToString();
+	ImGui::Text(WorldMousePos.c_str());
 }
 
 void DebugTab::SkyColor()
