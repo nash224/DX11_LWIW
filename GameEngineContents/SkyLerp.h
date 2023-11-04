@@ -90,7 +90,7 @@ private:
 	float TenMinuteTimeRatio = 0.0f;
 
 
-	static constexpr const int AlightStartHour = 17;
+	static constexpr const int AlightStartHour = 19;
 	float ALightStartTimeRatio = 0.0f;
 	float ALight = 0.0f;
 };

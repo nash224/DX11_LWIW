@@ -1,5 +1,6 @@
 #pragma once
 #include "DynamicEntity.h"
+#include "ALightLerp.h"
 
 #define BUSHBUG_SPEED 16.0f
 #define BUSHBUG_MAX_YANGLE 5.0f
@@ -15,7 +16,7 @@ enum class EBUSHBUGSTATE
 
 
 // Ό³Έν :
-class BushBug : public DynamicEntity
+class BushBug : public DynamicEntity, public ALightLerp
 {
 public:
 	// constrcuter destructer
@@ -41,6 +42,7 @@ protected:
 private:
 	void AnimationSetting();
 	void StateSetting();
+	void ALightSetting();
 
 
 	void StartMove(GameEngineState* _Parent);

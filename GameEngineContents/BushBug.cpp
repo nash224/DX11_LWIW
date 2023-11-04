@@ -23,12 +23,14 @@ void BushBug::Update(float _Delta)
 	DynamicEntity::Update(_Delta);
 
 	MoveState.Update(_Delta);
+	UpdateLightLerp();
 }
 
 void BushBug::Release()
 {
 	m_Body = nullptr;
 	m_InteractiveCol = nullptr;
+	LightRenderer = nullptr;
 }
 
 void BushBug::LevelStart(class GameEngineLevel* _NextLevel)
@@ -50,6 +52,7 @@ void BushBug::Init()
 {
 	AnimationSetting();
 	StateSetting();
+	ALightSetting();
 
 	SpawnPosition = Transform.GetLocalPosition();
 	SpawnPosition.Z = 0.0f;
@@ -71,6 +74,16 @@ void BushBug::AnimationSetting()
 	m_Shadow = CreateComponent<GameEngineSpriteRenderer>();
 	m_Shadow->SetSprite("Bushbug_Standing.png", 1);
 	m_Shadow->Transform.SetLocalPosition(float4(0.0f , -7.0f, GlobalUtils::CalculateFixDepth(ERENDERDEPTH::ObjectShadow) ));
+}
+
+void BushBug::ALightSetting()
+{
+	LightRenderer = CreateComponent<GameEngineSpriteRenderer>();
+	SetLightRendererSetting();
+	SetColor(float4(0.8f, 0.8f, 0.0f, 0.9f));
+	LightRenderer->SetSprite("cookie_1.png");
+	LightRenderer->Transform.AddLocalPosition(float4(-3.0f, 24.0f));
+	LightRenderer->GetImageTransform().SetLocalScale(float4(50.0f, 50.0f));
 }
 
 void BushBug::StateSetting()

@@ -95,7 +95,7 @@ void SkyLerp::Init()
 	SunsetStartTimeRatio = CalculateTimeRatio((SunsetStartHour - PlayLevel::s_TimeManager->GetStartHour()) * 6);
 	SunsetEndTimeRatio = CalculateTimeRatio(static_cast<int>(SkyData.size()) - 1) + SunsetStartTimeRatio;
 
-	ALightStartTimeRatio = CalculateTimeRatio(AlightStartHour);
+	ALightStartTimeRatio = CalculateTimeRatio((AlightStartHour - PlayLevel::s_TimeManager->GetStartHour()) * 6);
 
 	LerpSky(SkyData[0]);
 }
@@ -136,7 +136,7 @@ void SkyLerp::UpdateSkyLerp()
 	{
 		float SunSetRatio = (TimeRatio - SunsetStartTimeRatio) / (SunsetEndTimeRatio - SunsetStartTimeRatio);
 
-		UpdateALightRatio(SunSetRatio);
+		UpdateALightRatio(TimeRatio);
 
 		SunSetRatio *= static_cast<float>(SkyData.size() - 1);
 		float fRefNumber;
@@ -206,11 +206,18 @@ void SkyLerp::FollowCamera()
 
 void SkyLerp::UpdateALightRatio(const float _TimeRatio)
 {
-	float ALightValue = (_TimeRatio - ALightStartTimeRatio) / (SunsetEndTimeRatio - ALightStartTimeRatio);
-	ALight = powf(ALightValue, 2.0f);
-
-	if (ALight >= 1.0f)
+	if (_TimeRatio > ALightStartTimeRatio)
 	{
-		ALight = 1.0f;
+		float ALightValue = (_TimeRatio - ALightStartTimeRatio) / (SunsetEndTimeRatio - ALightStartTimeRatio);
+		ALight = powf(ALightValue, 2.0f);
+
+		if (ALight >= 1.0f)
+		{
+			ALight = 1.0f;
+		}
+	}
+	else
+	{
+		ALight = 0.0f;
 	}
 }

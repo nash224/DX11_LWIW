@@ -505,6 +505,9 @@
     <ClInclude Include="UI_Hub_Calender.h">
       <Filter>2.Object\2.Actor\0.Manager\UIManager\3.Hub</Filter>
     </ClInclude>
+    <ClInclude Include="ALightLerp.h">
+      <Filter>2.Object\2.Actor\0.Manager\AlertManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -838,6 +841,9 @@
     </ClCompile>
     <ClCompile Include="UI_Hub_Calender.cpp">
       <Filter>2.Object\2.Actor\0.Manager\UIManager\3.Hub</Filter>
+    </ClCompile>
+    <ClCompile Include="ALightLerp.cpp">
+      <Filter>2.Object\2.Actor\0.Manager\AlertManager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
