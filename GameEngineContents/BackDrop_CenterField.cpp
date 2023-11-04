@@ -211,16 +211,7 @@ void BackDrop_CenterField::CreateBush()
 {
 	{
 		std::shared_ptr<Bush> BushObject = GetLevel()->CreateActor<Bush>(EUPDATEORDER::Entity);
-		BushObject->Transform.SetLocalPosition({ 300.0f , -150.0f });
-		BushObject->SetBushType(EBUSHTYPE::Bush);
-		BushObject->Init();
-
-		PixelStaticEntityVec.push_back(BushObject);
-	}
-
-	{
-		std::shared_ptr<Bush> BushObject = GetLevel()->CreateActor<Bush>(EUPDATEORDER::Entity);
-		BushObject->Transform.SetLocalPosition({ 400.0f , -150.0f });
+		BushObject->Transform.SetLocalPosition({ 590.0f , -274.0f });
 		BushObject->SetBushType(EBUSHTYPE::BushApple);
 		BushObject->Init();
 
@@ -229,7 +220,25 @@ void BackDrop_CenterField::CreateBush()
 
 	{
 		std::shared_ptr<Bush> BushObject = GetLevel()->CreateActor<Bush>(EUPDATEORDER::Entity);
-		BushObject->Transform.SetLocalPosition({ 500.0f , -150.0f });
+		BushObject->Transform.SetLocalPosition({ 1244.0f , -1117.0f });
+		BushObject->SetBushType(EBUSHTYPE::BushApple);
+		BushObject->Init();
+
+		PixelStaticEntityVec.push_back(BushObject);
+	}
+
+	{
+		std::shared_ptr<Bush> BushObject = GetLevel()->CreateActor<Bush>(EUPDATEORDER::Entity);
+		BushObject->Transform.SetLocalPosition({ 1374.0f , -723.0f });
+		BushObject->SetBushType(EBUSHTYPE::BushBug);
+		BushObject->Init();
+
+		PixelStaticEntityVec.push_back(BushObject);
+	}
+
+	{
+		std::shared_ptr<Bush> BushObject = GetLevel()->CreateActor<Bush>(EUPDATEORDER::Entity);
+		BushObject->Transform.SetLocalPosition({ 1645.0f , -212.0f });
 		BushObject->SetBushType(EBUSHTYPE::BushBug);
 		BushObject->Init();
 
@@ -275,6 +284,12 @@ void BackDrop_CenterField::CreateSilverStarFlower()
 	{
 		std::shared_ptr<SilverStarFlower> Object = GetLevel()->CreateActor<SilverStarFlower>(EUPDATEORDER::Entity);
 		Object->Transform.SetLocalPosition({ 1120.0f , -700.0f });
+		Object->Init();
+	}
+
+	{
+		std::shared_ptr<SilverStarFlower> Object = GetLevel()->CreateActor<SilverStarFlower>(EUPDATEORDER::Entity);
+		Object->Transform.SetLocalPosition({ 1622.0f , -886.0f });
 		Object->Init();
 	}
 }

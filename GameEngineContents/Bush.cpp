@@ -74,26 +74,14 @@ void Bush::CreateBushAnimation()
 		GameEngineSprite::CreateCut("BushBug_Appearing.png", 5, 5);
 	}
 
+	static constexpr const int RenderOrder = 0;
 
 
-
-	m_Bush_FX = CreateComponent<GameEngineSpriteRenderer>();
-	if (nullptr == m_Bush_FX)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
-
+	m_Bush_FX = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
 	m_Bush_FX->AutoSpriteSizeOn();
 	m_Bush_FX->Off();
 
-	m_Bush = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::Effect);
-	if (nullptr == m_Bush)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
-
+	m_Bush = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
 	m_Bush->AutoSpriteSizeOn();
 	m_Bush->CreateAnimation("Normal", "Bush_0.png", 5.0f, 9, 9);					// 평상시
 
@@ -107,7 +95,7 @@ void Bush::CreateBushAnimation()
 	if (EBUSHTYPE::BushBug == m_BushType)
 	{
 		m_Bush->CreateAnimation("Rustle", "Bush_Animation_1.png", 0.1f, 1, 5, true);				
-		m_Bush->SetStartEvent("Rustle",[=](GameEngineSpriteRenderer* _Renderer)
+		m_Bush->SetStartEvent("Rustle",[&](GameEngineSpriteRenderer* _Renderer)
 			{
 				if (nullptr == m_Bush_FX)
 				{
@@ -121,7 +109,7 @@ void Bush::CreateBushAnimation()
 
 
 		m_Bush_FX->CreateAnimation("Rustle_FX", "Bush_Animation_1.png", 0.1f, 6, 13, false);		// 부스럭
-		m_Bush_FX->SetEndEvent("Rustle_FX", [=](GameEngineSpriteRenderer* _Renderer)
+		m_Bush_FX->SetEndEvent("Rustle_FX", [&](GameEngineSpriteRenderer* _Renderer)
 			{
 				if (nullptr == m_Bush_FX)
 				{
@@ -133,7 +121,7 @@ void Bush::CreateBushAnimation()
 
 
 		m_Bush->CreateAnimation("AppearBug", "BushBug_Appearing.png", 0.1f, 1, 18, false);	
-		m_Bush->SetFrameEvent("AppearBug", 6, [=](GameEngineSpriteRenderer* _Renderer)
+		m_Bush->SetFrameEvent("AppearBug", 6, [&](GameEngineSpriteRenderer* _Renderer)
 			{
 				if (nullptr == m_Bush_FX)
 				{
@@ -145,7 +133,7 @@ void Bush::CreateBushAnimation()
 			});
 
 		m_Bush_FX->CreateAnimation("AppearBug_FX", "BushBug_Appearing.png", 0.1f, 19, 24, false);	// 벌레 등장
-		m_Bush_FX->SetEndEvent("AppearBug_FX", [=](GameEngineSpriteRenderer* _Renderer)
+		m_Bush_FX->SetEndEvent("AppearBug_FX", [&](GameEngineSpriteRenderer* _Renderer)
 			{
 				if (nullptr == m_Bush_FX)
 				{
