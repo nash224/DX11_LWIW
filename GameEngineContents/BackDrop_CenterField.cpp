@@ -343,13 +343,25 @@ void BackDrop_CenterField::CreateFlowerBird()
 {
 	{
 		std::shared_ptr<FlowerBird> Object = GetLevel()->CreateActor<FlowerBird>(EUPDATEORDER::Entity);
-		Object->Transform.SetLocalPosition({ 400.0f , -200.0f });
+		Object->Transform.SetLocalPosition({ 1323.0f , -265.0f });
 		Object->Init();
 	}
 
 	{
 		std::shared_ptr<FlowerBird> Object = GetLevel()->CreateActor<FlowerBird>(EUPDATEORDER::Entity);
-		Object->Transform.SetLocalPosition({ 440.0f , -200.0f });
+		Object->Transform.SetLocalPosition({ 1440.0f , -313.0f });
+		Object->Init();
+	}
+
+	{
+		std::shared_ptr<FlowerBird> Object = GetLevel()->CreateActor<FlowerBird>(EUPDATEORDER::Entity);
+		Object->Transform.SetLocalPosition({ 640.0f , -863.0f });
+		Object->Init();
+	}
+
+	{
+		std::shared_ptr<FlowerBird> Object = GetLevel()->CreateActor<FlowerBird>(EUPDATEORDER::Entity);
+		Object->Transform.SetLocalPosition({ 775.0f , -908.0f });
 		Object->Init();
 	}
 }

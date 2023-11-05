@@ -171,3 +171,18 @@ void ContentsCore::InitBlendResources()
 		OverRayMaterial->SetBlendState("Test_Blend");
 	}
 }
+
+void ContentsCore::InitAutoCompile()
+{
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\Shader");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile({ ".fx" });
+
+		for (GameEngineFile& pFile : Files)
+		{
+			GameEngineShader::AutoCompile(pFile);
+		}
+	}
+}

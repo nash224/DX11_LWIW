@@ -59,26 +59,16 @@ void WitchFlower::CreateAndSetWitchFlowerRenderer()
 		GameEngineSprite::CreateCut("WitchFlower.png", 4, 4);
 	}
 
-	m_Plant = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
-	if (nullptr == m_Plant)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
+	static constexpr const int RenderOrder = 0;
 
+	m_Plant = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
 	m_Plant->CreateAnimation("Idle", "WitchFlower.png", 5.0f, 5, 5, false);
 	m_Plant->CreateAnimation("UpRoot", "WitchFlower.png", 0.2f, 5, 13, false);
 	m_Plant->AutoSpriteSizeOn();
 	m_Plant->Transform.AddLocalPosition({ 0.0f, WitchFlowerRenderBias , 0.0f });
 
 
-	m_Shadow = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::Shadow);
-	if (nullptr == m_Shadow)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
-
+	m_Shadow = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
 	m_Shadow->SetSprite("WitchFlower.png", 1);
 	m_Shadow->Transform.AddLocalPosition({ 0.0f, WitchFlowerRenderBias, 0.0f });
 
@@ -147,18 +137,9 @@ void WitchFlower::CreateAndSetWitchFlowerRenderer()
 // 여기 재정의
 void WitchFlower::ChildUpRoot()
 {
-	if (nullptr == UI_Inventory::MainInventory)
+	if (nullptr != UI_Inventory::MainInventory)
 	{
-		MsgBoxAssert("메인 인벤토리가 존재하지 않습니다.");
-		return;
-	}
-	
-	UI_Inventory::MainInventory->PushItem("WitchFlower_Collect");
-
-	if (nullptr == BackDrop_PlayLevel::MainBackDrop)
-	{
-		MsgBoxAssert("현재 배경매니저가 존재하지 않습니다.");
-		return;
+		UI_Inventory::MainInventory->PushItem("WitchFlower_Collect");
 	}
 
 	Death();

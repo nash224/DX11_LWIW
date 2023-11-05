@@ -134,7 +134,6 @@ private:
 	void UpdateInteractionCollsiion();
 
 	void UpdateTestCode();
-	void UpdateOutPutDebug(float _Delta);
 
 	// FSM
 	void ChangeState(EELLIE_STATE _State);

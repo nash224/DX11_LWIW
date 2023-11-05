@@ -34,6 +34,9 @@ FlowerBird::~FlowerBird()
 void FlowerBird::Start()
 {
 	DynamicEntity::Start();
+
+	SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Gloves);
+	CreateAndSetCollision(ECOLLISION::Entity, { 300.0f }, float4::ZERO, ColType::SPHERE2D);
 }
 
 void FlowerBird::Update(float _Delta)
@@ -52,12 +55,12 @@ void FlowerBird::Release()
 
 void FlowerBird::LevelStart(class GameEngineLevel* _NextLevel)
 {
-	DynamicEntity::LevelStart(_NextLevel);
+
 }
 
 void FlowerBird::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-	DynamicEntity::LevelEnd(_NextLevel);
+
 }
 
 
@@ -67,9 +70,7 @@ void FlowerBird::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void FlowerBird::Init()
 {
-	SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Gloves);
 	ApplyDepth(Transform.GetLocalPosition());
-	CreateAndSetCollision(ECOLLISION::Entity, { 300.0f }, float4::ZERO, ColType::SPHERE2D);
 	AnimationSetting();
 	DirectionSetting();
 	ChangeState(EFLOWERBIRDSTATE::Idle);
@@ -91,13 +92,9 @@ void FlowerBird::AnimationSetting()
 		GameEngineSprite::CreateCut("FlowerBird_Standing.png", 2, 2);
 	}
 
-	m_Body = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
-	if (nullptr == m_Body)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
+	static constexpr const int RenderOrder = 0;
 
+	m_Body = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
 	m_Body->CreateAnimation("Idle", "FlowerBird_Standing.png", 5.0f, 2, 2, false);
 	m_Body->CreateAnimation("Turn", "FlowerBird_IdleA.png", 0.03f, 3, 5, false);
 	m_Body->CreateAnimation("Pick", "FlowerBird_IdleC.png", 0.08f, 4, 5, false);
@@ -115,16 +112,9 @@ void FlowerBird::AnimationSetting()
 	m_Body->AutoSpriteSizeOn();
 
 
-	m_Shadow = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::Shadow);
-	if (nullptr == m_Shadow)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
-
+	m_Shadow = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
 	m_Shadow->SetSprite("FlowerBird_Standing.png", 1);
 	m_Shadow->Transform.AddLocalPosition({ 0.0f,30.0f });
-
 
 	m_Body->SetFrameEvent("Pick", 4, [&](GameEngineSpriteRenderer* _Renderer)
 		{

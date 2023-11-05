@@ -42,6 +42,7 @@ void ContentsCore::Start()
 
 	InitResources();
 	InitBlendResources();
+	InitAutoCompile();
 	
 
 	

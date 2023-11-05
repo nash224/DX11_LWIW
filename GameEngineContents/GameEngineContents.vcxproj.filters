@@ -133,9 +133,6 @@
     <Filter Include="2.Object\2.Actor\0.Manager\UIManager\1.Inventory\DropManager">
       <UniqueIdentifier>{19127daf-627f-4b09-965e-1769ea63e8c4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2.Object\3.Level\99.Test">
-      <UniqueIdentifier>{b11e4423-561b-42c5-8cc9-d5076dfd357d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2.Object\2.Actor\2.Interactive\Dynamic\MongSiri\Population">
       <UniqueIdentifier>{b0b918d1-638e-439e-a55e-6dceadad57d3}</UniqueIdentifier>
     </Filter>
@@ -189,6 +186,12 @@
     </Filter>
     <Filter Include="2.Object\2.Actor\0.Manager\AlertManager">
       <UniqueIdentifier>{e86bc8e0-b21f-4dd1-88ce-35732e7132fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5.Contents">
+      <UniqueIdentifier>{4c0502f9-437b-49d8-879d-f3922837d2a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="100.Z_Test\0.Level">
+      <UniqueIdentifier>{b11e4423-561b-42c5-8cc9-d5076dfd357d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -407,7 +410,7 @@
       <Filter>2.Object\2.Actor\0.Manager\UIManager\1.Inventory\DropManager</Filter>
     </ClInclude>
     <ClInclude Include="TestLevel.h">
-      <Filter>2.Object\3.Level\99.Test</Filter>
+      <Filter>100.Z_Test\0.Level</Filter>
     </ClInclude>
     <ClInclude Include="MongSiri_Population.h">
       <Filter>2.Object\2.Actor\2.Interactive\Dynamic\MongSiri\Population</Filter>
@@ -507,6 +510,9 @@
     </ClInclude>
     <ClInclude Include="ALightLerp.h">
       <Filter>2.Object\2.Actor\0.Manager\AlertManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsRenderer.h">
+      <Filter>5.Contents</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -731,7 +737,7 @@
       <Filter>2.Object\2.Actor\0.Manager\UIManager\1.Inventory\DropManager</Filter>
     </ClCompile>
     <ClCompile Include="TestLevel.cpp">
-      <Filter>2.Object\3.Level\99.Test</Filter>
+      <Filter>100.Z_Test\0.Level</Filter>
     </ClCompile>
     <ClCompile Include="ChubHole.cpp">
       <Filter>2.Object\2.Actor\2.Interactive\Dynamic\MongSiri\Population</Filter>
@@ -844,6 +850,9 @@
     </ClCompile>
     <ClCompile Include="ALightLerp.cpp">
       <Filter>2.Object\2.Actor\0.Manager\AlertManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsRenderer.cpp">
+      <Filter>5.Contents</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

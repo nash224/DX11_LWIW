@@ -1,13 +1,13 @@
 #include "PreCompile.h"
 #include "TestLevel.h"
 
-
 #include "CameraControler.h"
-
-#include "Ellie.h"
 #include "UIManager.h"
 
+#include "Ellie.h"
 #include "Bush.h"
+#include "WitchFlower.h"
+
 #include "NormalProp.h"
 
 TestLevel::TestLevel() 
@@ -57,17 +57,32 @@ void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
 	float4 InitialPosition = WinScale.Half();
 	InitialPosition.Y *= -1.0f;
 
-	Player = CreateActor<Ellie>(EUPDATEORDER::Player);
-	Player->Transform.SetLocalPosition(InitialPosition);
-	Player->Init();
+	{
+		Player = CreateActor<Ellie>(EUPDATEORDER::Player);
+		Player->Transform.SetLocalPosition(InitialPosition);
+		Player->Init();
+	}
 
-	UI = CreateActor<UIManager>(EUPDATEORDER::UIMagnaer);
-	UI->Init();
+	{
+		UI = CreateActor<UIManager>(EUPDATEORDER::UIMagnaer);
+		UI->Init();
+	}
 
-	m_bush = CreateActor<Bush>(EUPDATEORDER::Objects);
-	m_bush->SetBushType(EBUSHTYPE::BushBug);
-	m_bush->Transform.SetLocalPosition(InitialPosition);
-	m_bush->Init();
+	{
+		m_bush = CreateActor<Bush>(EUPDATEORDER::Objects);
+		m_bush->SetBushType(EBUSHTYPE::BushBug);
+		m_bush->Transform.SetLocalPosition(InitialPosition);
+		m_bush->Init();
+	}
+
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			const std::shared_ptr<WitchFlower>& witchflower = CreateActor<WitchFlower>(EUPDATEORDER::Objects);
+			witchflower->Transform.SetLocalPosition(float4(100.0f + (100.0f * i), -100.0f));
+			witchflower->Init();
+		}
+	}
 }
 
 void TestLevel::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -90,6 +105,12 @@ void TestLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 	{
 		m_bush->Death();
 		m_bush = nullptr;
+	}
+
+	std::vector<std::shared_ptr<WitchFlower>> WFGroup = GetObjectGroupConvert<WitchFlower>(0);
+	for (std::weak_ptr<WitchFlower> WF : WFGroup)
+	{
+		WF.lock()->Death();
 	}
 
 	if (nullptr != UI)

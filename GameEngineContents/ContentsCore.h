@@ -40,6 +40,7 @@ private:
 	void InitResources();
 	void LoadContentsData();
 	void InitBlendResources();
+	void InitAutoCompile();
 
 	
 };

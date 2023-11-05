@@ -28,8 +28,6 @@ void Ellie::Update(float _Delta)
 	UpdateState(_Delta);
 	UpdateTestCode();
 	UpdateCollision();
-	UpdateOutPutDebug(_Delta);
-
 }
 
 void Ellie::UpdateTestCode()
@@ -38,25 +36,6 @@ void Ellie::UpdateTestCode()
 	{
 		BackDrop_PlayLevel::MainBackDrop->CreateItem("Mongsiri_Collect", Transform.GetLocalPosition());
 	}
-}
-
-void Ellie::UpdateOutPutDebug(float _Delta)
-{
-#ifdef _DEBUG
-	if (true == GameEngineInput::IsPress(VK_F6, this))
-	{
-		static float OUTPUTDEBUGTIME = 0.0f;
-		OUTPUTDEBUGTIME += _Delta;
-		if (OUTPUTDEBUGTIME > 0.1f)
-		{
-			OUTPUTDEBUGTIME = 0.0f;
-
-			float4 MyPos = Transform.GetLocalPosition();
-			OutputDebugStringA(MyPos.ToString("\n").c_str());
-		}
-	}
-
-#endif
 }
 
 
@@ -923,7 +902,7 @@ EDIRECTION Ellie::ReturnDirectionCheckBothSide(EDIRECTION _Direction, const floa
 {
 	if (nullptr == BackDrop_PlayLevel::MainBackDrop)
 	{
-		return EDIRECTION::DOWN;
+		return m_Dir;
 	}
 
 	int DirNum = static_cast<int>(_Direction);
