@@ -8,8 +8,13 @@ void Ellie::RendererSetting()
 {
 	static std::uint32_t EllieGroupOrder = 0;
 
+	const float ShadowDepth = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::ObjectShadow);
+
+
 	m_Body = CreateComponent<GameEngineSpriteRenderer>(EllieGroupOrder);
 	Shadow = CreateComponent<GameEngineSpriteRenderer>(EllieGroupOrder);
+	
+	Shadow->Transform.SetLocalPosition(float4(0.0f, Shadow_Renderer_Y_Correction, ShadowDepth));
 
 	if (nullptr == GameEngineSprite::Find("Ellie_Basic_Idle.png"))
 	{
@@ -213,13 +218,45 @@ void Ellie::RendererSetting()
 		m_Body->CreateAnimation("Cheer", "Ellie_Basic_Cheer.png", 0.1f, 4, 15);
 		m_Body->CreateAnimation("Fail", "Ellie_Basic_Fail.png", 0.1f, 5, 14);
 		m_Body->CreateAnimation("Drink", "Ellie_Basic_Drink.png", 0.1f, 3, 16);
+
+		m_Body->SetStartEvent("Cheer", [&](GameEngineSpriteRenderer* _Renderer)
+			{
+				Shadow->ChangeCurSprite(1);
+			});
+		m_Body->SetFrameEvent("Cheer", 5, [&](GameEngineSpriteRenderer* _Renderer)
+			{
+				Shadow->ChangeCurSprite(2);
+			});
+		m_Body->SetFrameEvent("Cheer", 6, [&](GameEngineSpriteRenderer* _Renderer)
+			{
+				Shadow->ChangeCurSprite(3);
+			});
+		m_Body->SetFrameEvent("Cheer", 8,[&](GameEngineSpriteRenderer* _Renderer)
+			{
+				Shadow->ChangeCurSprite(2);
+			});
+		m_Body->SetFrameEvent("Cheer", 9,[&](GameEngineSpriteRenderer* _Renderer)
+			{
+				Shadow->ChangeCurSprite(1);
+			});
+
+
+		m_Body->SetStartEvent("Fail", [&](GameEngineSpriteRenderer* _Renderer)
+			{
+				Shadow->SetSprite("Ellie_Basic_Fail.png", 1);
+			});
+		m_Body->SetFrameEvent("Fail", 11, [&](GameEngineSpriteRenderer* _Renderer)
+			{
+				Shadow->ChangeCurSprite(3);
+			});
+		m_Body->SetFrameEvent("Fail", 12, [&](GameEngineSpriteRenderer* _Renderer)
+			{
+				Shadow->ChangeCurSprite(4);
+			});
 	}
 
 	m_Body->AutoSpriteSizeOn();
 	m_Body->Transform.SetLocalPosition({ 0.0f , 30.0f });
-
-
-	RideFxSetting();
 }
 
 void Ellie::ChangeFrameAnimationInterAllDirection(std::string_view _AnimationName, const std::vector<float>& _Inter)
@@ -247,36 +284,4 @@ void Ellie::ChangeFrameAnimationInterAllDirection(std::string_view _AnimationNam
 
 		Animation.lock()->Inter = _Inter;
 	}
-}
-
-
-void Ellie::RideFxSetting()
-{
-	static std::uint32_t FxGroupOrder = 0;
-
-	m_Fx = CreateComponent<GameEngineSpriteRenderer>(FxGroupOrder);
-	if (nullptr == m_Fx)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
-
-
-	float4 Renderer = Transform.GetLocalPosition();
-	Renderer.Y += Ellie_Bias;
-	Renderer.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::FX);
-
-	m_Fx->Transform.SetLocalPosition(Renderer);
-	m_Fx->CreateAnimation("FX", "Broom_Ride_Fx_Sample.png", 0.12f, 0, 8, false);
-	m_Fx->AutoSpriteSizeOn();
-	m_Fx->SetStartEvent("FX", [=](GameEngineSpriteRenderer* _Renderer)
-		{
-			m_Fx->On();
-		});
-	m_Fx->SetEndEvent("FX", [=](GameEngineSpriteRenderer* _Renderer)
-		{
-			m_Fx->Off();
-		});
-
-	m_Fx->Off();
 }

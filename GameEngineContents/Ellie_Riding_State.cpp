@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "Ellie.h"
+#include "RidingFx.h"
 
 
 
@@ -19,14 +20,9 @@ void Ellie::StartRiding_Standing()
 
 void Ellie::OnRideFx()
 {
-	if (nullptr == m_Fx)
-	{
-		MsgBoxAssert("효과 렌더러가 존재하지 않습니다.");
-		return;
-	}
-
-	m_Fx->ChangeAnimation("FX", true);
-	m_Fx->On();
+	std::weak_ptr<RidingFx> riding_FX = GetLevel()->CreateActor<RidingFx>(EUPDATEORDER::Objects);
+	riding_FX.lock()->Init(Transform.GetLocalPosition());
+	
 }
 
 

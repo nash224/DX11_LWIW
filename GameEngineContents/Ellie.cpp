@@ -77,8 +77,8 @@ void Ellie::CollisionSetting()
 
 	m_NetCol = CreateComponent<GameEngineCollision>(ECOLLISION::Net);
 	m_NetCol->Transform.SetLocalScale(float4(140.0f, 4.0f));
-	m_NetCol->Off();
 	m_NetCol->SetCollisionType(ColType::SPHERE2D);
+	m_NetCol->Off();
 }
 
 
@@ -248,6 +248,8 @@ void Ellie::ChangeState(EELLIE_STATE _State)
 			break;
 		}
 
+		m_State = _State;
+
 		switch (_State)
 		{
 		case EELLIE_STATE::None:
@@ -277,8 +279,6 @@ void Ellie::ChangeState(EELLIE_STATE _State)
 		default:
 			break;
 		}
-
-		m_State = _State;
 	}
 	else
 	{
@@ -291,38 +291,38 @@ void Ellie::ChangeState(EELLIE_STATE _State)
 // 호출하면 방향에 따라 애니메이션 출력을 다르게 바꿔줍니다.
 void Ellie::ChangeAnimationByDirection(std::string_view _StateName, bool _DirectionInfluence /*= true*/, bool _Force /*= false*/, unsigned int _Index /*= 0*/)
 {
-	std::string SpriteName = "Ellie_Basic_";
-	SpriteName += _StateName.data();
+	std::string AnimaitonName = "Ellie_Basic_";
+	AnimaitonName += _StateName.data();
 
-	ChangeShawdowSprite(SpriteName);
+	ChangeShawdowSprite(AnimaitonName);
 
 	if (true == _DirectionInfluence)
 	{
 		switch (m_Dir)
 		{
 		case EDIRECTION::UP:
-			SpriteName += "_UP";
+			AnimaitonName += "_UP";
 			break;
 		case EDIRECTION::LEFTUP:
-			SpriteName += "_LEFTUP";
+			AnimaitonName += "_LEFTUP";
 			break;
 		case EDIRECTION::LEFT:
-			SpriteName += "_LEFT";
+			AnimaitonName += "_LEFT";
 			break;
 		case EDIRECTION::LEFTDOWN:
-			SpriteName += "_LEFTDOWN";
+			AnimaitonName += "_LEFTDOWN";
 			break;
 		case EDIRECTION::DOWN:
-			SpriteName += "_DOWN";
+			AnimaitonName += "_DOWN";
 			break;
 		case EDIRECTION::RIGHTDOWN:
-			SpriteName += "_RIGHTDOWN";
+			AnimaitonName += "_RIGHTDOWN";
 			break;
 		case EDIRECTION::RIGHT:
-			SpriteName += "_RIGHT";
+			AnimaitonName += "_RIGHT";
 			break;
 		case EDIRECTION::RIGHTUP:
-			SpriteName += "_RIGHTUP";
+			AnimaitonName += "_RIGHTUP";
 			break;
 		default:
 			break;
@@ -337,51 +337,41 @@ void Ellie::ChangeAnimationByDirection(std::string_view _StateName, bool _Direct
 		return;
 	}
 
-	m_Body->ChangeAnimation(SpriteName, _Force, _Index);
+	m_Body->ChangeAnimation(AnimaitonName, _Force, _Index);
 }
 
 void Ellie::ChangeShawdowSprite(std::string_view _AnimationName)
 {
 	std::string ShadowSpriteName = _AnimationName.data() + std::string(".png");
 
+	static constexpr const int OnlySpriteUse = 0;
+
 	switch (m_State)
 	{
 	case EELLIE_STATE::Idle:
-		break;
 	case EELLIE_STATE::SlowWalk:
-		break;
 	case EELLIE_STATE::Walk:
-		break;
 	case EELLIE_STATE::Run:
-		break;
 	case EELLIE_STATE::Throw:
-		break;
 	case EELLIE_STATE::Riding_Standing:
-		break;
 	case EELLIE_STATE::Riding_Moving:
-		break;
 	case EELLIE_STATE::Riding_Boosting:
-		break;
 	case EELLIE_STATE::Approach:
-		break;
-	case EELLIE_STATE::ButterflyNet:
-		break;
 	case EELLIE_STATE::RootUp:
-		break;
-	case EELLIE_STATE::Sit:
-		break;
+	case EELLIE_STATE::Wait:
 	case EELLIE_STATE::MongSiri:
+	case EELLIE_STATE::Drink:
 		Shadow->SetSprite(ShadowSpriteName, 1);
 		break;
-	case EELLIE_STATE::Wait:
+	case EELLIE_STATE::ButterflyNet:
+		Shadow->SetSprite(ShadowSpriteName, 2);
+		break;
+	case EELLIE_STATE::Sit:
+	case EELLIE_STATE::Fail:
+	case EELLIE_STATE::Cheer:
+		Shadow->SetSprite(ShadowSpriteName, OnlySpriteUse);
 		break;
 	case EELLIE_STATE::Juicy:
-		break;
-	case EELLIE_STATE::Cheer:
-		break;
-	case EELLIE_STATE::Fail:
-		break;
-	case EELLIE_STATE::Drink:
 		break;
 	default:
 		break;

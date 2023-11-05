@@ -116,24 +116,36 @@ void Ellie::StartWait()
 
 void Ellie::StartJuicy()
 {
-	if (nullptr != m_Body && nullptr == m_Body->FindAnimation("Juicy"))
+	if (nullptr != m_Body && nullptr == m_Body->FindAnimation("Ellie_Basic_Juicy"))
 	{
-		m_Body->CreateAnimation("Juicy", "DownFloor_Extractor_0.png", 0.2f, 12, 19, false);
-		m_Body->FindAnimation("Juicy")->Inter = { 0.14f, 0.14f, 0.12f, 0.18f, 0.19f, 0.2f, 0.21f, 0.2f };
-		m_Body->SetFrameEvent("Juicy", 15, [&](GameEngineSpriteRenderer* _Renerer)
+		m_Body->CreateAnimation("Ellie_Basic_Juicy", "DownFloor_Extractor_0.png", 0.2f, 12, 19, false);
+		m_Body->FindAnimation("Ellie_Basic_Juicy")->Inter = { 0.14f, 0.14f, 0.12f, 0.18f, 0.19f, 0.2f, 0.21f, 0.2f };
+		m_Body->SetFrameEvent("Ellie_Basic_Juicy", 15, [&](GameEngineSpriteRenderer* _Renerer)
 			{
-				Extractor* ExtractorPtr = dynamic_cast<Extractor*>(OtherEntity);
+				Extractor* ExtractorPtr = static_cast<Extractor*>(OtherEntity);
 				if (nullptr == ExtractorPtr)
 				{
-					MsgBoxAssert("다이나믹 캐스팅을 하지 못했습니다.");
+					MsgBoxAssert("형변환에 실패했습니다.");
 					return;
 				}
 
 				// 착즙기에게 당겨지라고 요청합니다.
 				ExtractorPtr->PullThis();
 			});
-	}
 
+		m_Body->SetStartEvent("Ellie_Basic_Juicy", [&](GameEngineSpriteRenderer* _Renderer)
+			{
+				Shadow->SetSprite("DownFloor_Extractor_0.png", 10);
+			});
+		m_Body->SetFrameEvent("Ellie_Basic_Juicy", 14, [&](GameEngineSpriteRenderer* _Renderer)
+			{
+				Shadow->ChangeCurSprite(11);
+			});
+		m_Body->SetFrameEvent("Ellie_Basic_Juicy", 19, [&](GameEngineSpriteRenderer* _Renderer)
+			{
+				Shadow->ChangeCurSprite(10);
+			});
+	}
 
 	ChangeAnimationByDirection("Juicy", false);
 }
@@ -457,6 +469,8 @@ void Ellie::UpdateSit(float _Delta)
 		ChangeState(EELLIE_STATE::Idle);
 		return;
 	}
+
+	SitShadowUpdate();
 }
 
 
@@ -607,6 +621,46 @@ void Ellie::EndJuicy()
 
 
 
+void Ellie::SitShadowUpdate()
+{
+	if (nullptr == m_Body)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
+
+	if (nullptr == Shadow)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
+
+	const int CurBodyIndex = m_Body->GetCurIndex();
+
+	switch (CurBodyIndex)
+	{
+	case 0:
+		Shadow->ChangeCurSprite(1);
+		break;
+	case 1:
+		Shadow->ChangeCurSprite(1);
+		break;
+	case 2:
+		Shadow->ChangeCurSprite(2);
+		break;
+	case 3:
+		Shadow->ChangeCurSprite(3);
+		break;
+	case 4:
+		Shadow->ChangeCurSprite(3);
+		break;
+	case 5:
+		Shadow->ChangeCurSprite(2);
+		break;
+	default:
+		break;
+	}
+}
 
 
 
@@ -641,3 +695,4 @@ bool Ellie::UsingTool()
 
 	return false;
 }
+

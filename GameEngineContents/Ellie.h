@@ -102,7 +102,6 @@ public:
 	void RendererSetting();
 	void ChangeFrameAnimationInterAllDirection(std::string_view _AnimationName, const std::vector<float>& _Inter);
 	void ChangeShawdowSprite(std::string_view _AnimationName);
-	void RideFxSetting();
 	void CollisionSetting();
 
 
@@ -134,6 +133,7 @@ private:
 	void UpdateCollision();
 	void UpdatePortalCollsiion();
 	void UpdateInteractionCollsiion();
+	void NetCollision();
 
 	void UpdateTestCode();
 
@@ -197,9 +197,9 @@ private:
 
 	void OnRideFx();
 
-	void NetCollision();
-
 	bool UsingTool();
+
+	void SitShadowUpdate();
 
 
 private:
@@ -249,6 +249,8 @@ private:
 	bool IsWaitDone = false;
 	bool isRootup = false;
 
+
+	static constexpr const float Shadow_Renderer_Y_Correction = 30.0f;
 	
 };
 

@@ -514,6 +514,9 @@
     <ClInclude Include="ContentsRenderer.h">
       <Filter>5.Contents</Filter>
     </ClInclude>
+    <ClInclude Include="RidingFx.h">
+      <Filter>2.Object\2.Actor\2.Interactive\Dynamic\Ellie\Ride_Fx</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -856,6 +859,9 @@
     </ClCompile>
     <ClCompile Include="Ellie_Resources.cpp">
       <Filter>2.Object\2.Actor\2.Interactive\Dynamic\Ellie</Filter>
+    </ClCompile>
+    <ClCompile Include="RidingFx.cpp">
+      <Filter>2.Object\2.Actor\2.Interactive\Dynamic\Ellie\Ride_Fx</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

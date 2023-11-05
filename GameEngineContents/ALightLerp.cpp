@@ -15,12 +15,11 @@ public:
 
 };
 
-
-
 void AlightInitial::SetLightDepth()
 {
 	ALightLerp::LightDepth = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::illuminant);
 }
+
 
 float ALightLerp::LightDepth = 0.0f;
 AlightInitial AlightInit;
@@ -34,6 +33,7 @@ void ALightLerp::SetColor(const float4& _Color)
 
 	LightColor = _Color;
 	LightRenderer->GetColorData().MulColor = _Color;
+	UpdateLightLerp();
 }
 
 void ALightLerp::SetLightRendererSetting()
