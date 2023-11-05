@@ -93,7 +93,7 @@ void MongSiri::CreateAndSetRenderer()
 	m_Body->CreateAnimation("Look_Back", "Mongsiri_Idle.png", 0.2f, 6, 7);
 	m_Body->CreateAnimation("Collected", "Mongsiri_Collected.png", 0.2f, 3, 8, false);
 	m_Body->FindAnimation("Collected")->Inter = { 0.1f, 0.1f, 0.1f, 0.2f, 0.3f, 0.4f };
-	m_Body->CreateAnimation("CollectedA", "Mongsiri_CollectedA.png", 0.1f, -1, -1, false);
+	m_Body->CreateAnimation("CollectedA", "Mongsiri_CollectedA.png", 0.06f, -1, -1, false);
 	m_Body->CreateAnimation("CollectedB", "Mongsiri_Collected.png", 0.12f, 6, 4, false);
 	m_Body->CreateAnimation("Disappear", "Mongsiri_Disappear.png", 0.1f, 10, 33, false);
 	std::weak_ptr<GameEngineFrameAnimation> Animation = m_Body->FindAnimation("Disappear");

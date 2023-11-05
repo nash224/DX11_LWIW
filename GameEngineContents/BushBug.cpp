@@ -2,6 +2,7 @@
 #include "BushBug.h"
 
 #include "BackDrop_PlayLevel.h"
+#include "UI_Inventory.h"
 
 BushBug::BushBug() 
 {
@@ -114,13 +115,10 @@ void BushBug::UPdateMove(float _Delta, GameEngineState* _Parent)
 {
 	if (true == IsEnalbeActive)
 	{
-		if (nullptr == BackDrop_PlayLevel::MainBackDrop)
+		if (nullptr != UI_Inventory::MainInventory)
 		{
-			MsgBoxAssert("배경매니저가 존재하지 않습니다.");
-			return;
+			UI_Inventory::MainInventory->PushItem("BushBug_Collect");
 		}
-
-		BackDrop_PlayLevel::MainBackDrop->CreateItem("BushBug_Collect");
 
 		Death();
 	}

@@ -3,7 +3,7 @@
 
 
 
-void Ellie::StartRiding_Idle()
+void Ellie::StartRiding_Standing()
 {
 	if (EELLIE_STATUS::Normal == g_Status)
 	{
@@ -14,7 +14,7 @@ void Ellie::StartRiding_Idle()
 
 	g_Status = EELLIE_STATUS::Riding;
 
-	ChangeAnimationByDirection("Riding_Idle");
+	ChangeAnimationByDirection("Riding_Standing");
 }
 
 void Ellie::OnRideFx()
@@ -30,7 +30,7 @@ void Ellie::OnRideFx()
 }
 
 
-void Ellie::UpdateRiding_Idle(float _Delta)
+void Ellie::UpdateRiding_Standing(float _Delta)
 {
 	if (true == IsControl)
 	{
@@ -44,11 +44,11 @@ void Ellie::UpdateRiding_Idle(float _Delta)
 
 			if (true == GameEngineInput::IsPress(VK_SPACE, this))
 			{
-				ChangeState(EELLIE_STATE::Riding_Boost);
+				ChangeState(EELLIE_STATE::Riding_Boosting);
 				return;
 			}
 
-			ChangeState(EELLIE_STATE::Riding_Move);
+			ChangeState(EELLIE_STATE::Riding_Moving);
 			return;
 		}
 		// 움직이지 않았다면
@@ -67,12 +67,12 @@ void Ellie::UpdateRiding_Idle(float _Delta)
 }
 
 
-void Ellie::StartRiding_Move()
+void Ellie::StartRiding_Moving()
 {
-	ChangeAnimationByDirection("Riding_Move");
+	ChangeAnimationByDirection("Riding_Moving");
 }
 
-void Ellie::UpdateRiding_Move(float _Delta)
+void Ellie::UpdateRiding_Moving(float _Delta)
 {
 	if (true == DetectMovement())
 	{
@@ -84,7 +84,7 @@ void Ellie::UpdateRiding_Move(float _Delta)
 
 		if (true == GameEngineInput::IsPress(VK_SPACE, this))
 		{
-			ChangeState(EELLIE_STATE::Riding_Boost);
+			ChangeState(EELLIE_STATE::Riding_Boosting);
 			return;
 		}
 	}
@@ -97,11 +97,11 @@ void Ellie::UpdateRiding_Move(float _Delta)
 			return;
 		}
 
-		ChangeState(EELLIE_STATE::Riding_Idle);
+		ChangeState(EELLIE_STATE::Riding_Standing);
 		return;
 	}
 
-	ChangeDirectionAnimation("Riding_Move");
+	ChangeDirectionAnimation("Riding_Moving");
 
 	// 방향을 넣으면 방향 기저벡터를 반환 해줍니다.
 	float4 MoveVector = ReturnPostMoveVector(_Delta, CONST_Ellie_Riding_Move_Speed, CONST_Ellie_Riding_Move_Acceleration_Time);
@@ -131,12 +131,12 @@ void Ellie::UpdateRiding_Move(float _Delta)
 }
 
 
-void Ellie::StartRiding_Boost()
+void Ellie::StartRiding_Boosting()
 {
-	ChangeAnimationByDirection("Riding_Boost");
+	ChangeAnimationByDirection("Riding_Boosting");
 }
 
-void Ellie::UpdateRiding_Boost(float _Delta)
+void Ellie::UpdateRiding_Boosting(float _Delta)
 {
 	if (true == DetectMovement())
 	{
@@ -148,7 +148,7 @@ void Ellie::UpdateRiding_Boost(float _Delta)
 
 		if (true == GameEngineInput::IsFree(VK_SPACE, this))
 		{
-			ChangeState(EELLIE_STATE::Riding_Move);
+			ChangeState(EELLIE_STATE::Riding_Moving);
 			return;
 		}
 	}
@@ -161,12 +161,12 @@ void Ellie::UpdateRiding_Boost(float _Delta)
 			return;
 		}
 
-		ChangeState(EELLIE_STATE::Riding_Idle);
+		ChangeState(EELLIE_STATE::Riding_Standing);
 		return;
 	}
 
 
-	ChangeDirectionAnimation("Riding_Boost");
+	ChangeDirectionAnimation("Riding_Boosting");
 
 
 	// 방향을 넣으면 방향 기저벡터를 반환 해줍니다.

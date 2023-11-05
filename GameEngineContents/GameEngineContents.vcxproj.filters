@@ -854,5 +854,8 @@
     <ClCompile Include="ContentsRenderer.cpp">
       <Filter>5.Contents</Filter>
     </ClCompile>
+    <ClCompile Include="Ellie_Resources.cpp">
+      <Filter>2.Object\2.Actor\2.Interactive\Dynamic\Ellie</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

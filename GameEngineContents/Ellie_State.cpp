@@ -70,7 +70,7 @@ void Ellie::StartApproach()
 	ChangeAnimationByDirection("Walk");
 }
 
-void Ellie::StartNet()
+void Ellie::StartButterflyNet()
 {
 	if (nullptr == m_NetCol)
 	{
@@ -79,7 +79,7 @@ void Ellie::StartNet()
 	}
 	m_NetCol->On();
 
-	ChangeAnimationByDirection("Net");
+	ChangeAnimationByDirection("ButterflyNet");
 }
 void Ellie::StartRootUp()
 {
@@ -193,7 +193,7 @@ void Ellie::UpdateIdle(float _Delta)
 
 		if (true == GameEngineInput::IsDown(VK_CONTROL, this))
 		{
-			ChangeState(EELLIE_STATE::Riding_Idle);
+			ChangeState(EELLIE_STATE::Riding_Standing);
 			return;
 		}
 	}
@@ -231,7 +231,7 @@ void Ellie::UpdateSlowWalk(float _Delta)
 
 	if (true == GameEngineInput::IsDown(VK_CONTROL, this))
 	{
-		ChangeState(EELLIE_STATE::Riding_Idle);
+		ChangeState(EELLIE_STATE::Riding_Standing);
 		return;
 	}
 
@@ -275,7 +275,7 @@ void Ellie::UpdateWalk(float _Delta)
 
 	if (true == GameEngineInput::IsDown(VK_CONTROL, this))
 	{
-		ChangeState(EELLIE_STATE::Riding_Idle);
+		ChangeState(EELLIE_STATE::Riding_Standing);
 		return;
 	}
 
@@ -317,7 +317,7 @@ void Ellie::UpdateRun(float _Delta)
 
 	if (true == GameEngineInput::IsDown(VK_CONTROL, this))
 	{
-		ChangeState(EELLIE_STATE::Riding_Idle);
+		ChangeState(EELLIE_STATE::Riding_Standing);
 		return;
 	}
 
@@ -388,7 +388,7 @@ void Ellie::UpdateApproach(float _Delta)
 }
 
 
-void Ellie::UpdateNet(float _Delta)
+void Ellie::UpdateButterflyNet(float _Delta)
 {
 	if (nullptr == m_Body)
 	{
@@ -561,7 +561,7 @@ void Ellie::EndApproach()
 
 }
 
-void Ellie::EndNet()
+void Ellie::EndButterflyNet()
 {
 	m_NetCol->Off();
 }
@@ -634,7 +634,7 @@ bool Ellie::UsingTool()
 	{
 		if (ETOOLTYPE::Dragonfly == UI_Hub_Tool::m_CurrentTool)
 		{
-			ChangeState(EELLIE_STATE::Net);
+			ChangeState(EELLIE_STATE::ButterflyNet);
 			return true;
 		}
 	}

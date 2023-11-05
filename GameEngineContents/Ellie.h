@@ -38,11 +38,11 @@ enum class EELLIE_STATE
 	Walk,
 	Run,
 	Throw,
-	Riding_Idle,
-	Riding_Move,
-	Riding_Boost,
+	Riding_Standing,
+	Riding_Moving,
+	Riding_Boosting,
 	Approach,
-	Net,
+	ButterflyNet,
 	RootUp,
 	Sit,
 	MongSiri,
@@ -101,6 +101,7 @@ public:
 	void Init();
 	void RendererSetting();
 	void ChangeFrameAnimationInterAllDirection(std::string_view _AnimationName, const std::vector<float>& _Inter);
+	void ChangeShawdowSprite(std::string_view _AnimationName);
 	void RideFxSetting();
 	void CollisionSetting();
 
@@ -148,11 +149,11 @@ private:
 	void StartWalk();
 	void StartRun();
 	void StartThrow();
-	void StartRiding_Idle();
-	void StartRiding_Move();
-	void StartRiding_Boost();
+	void StartRiding_Standing();
+	void StartRiding_Moving();
+	void StartRiding_Boosting();
 	void StartApproach();
-	void StartNet();
+	void StartButterflyNet();
 	void StartRootUp();
 	void StartSit();
 	void StartMongSiri();
@@ -168,11 +169,11 @@ private:
 	void UpdateWalk(float _Delta);
 	void UpdateRun(float _Delta);
 	void UpdateThrow(float _Delta);
-	void UpdateRiding_Idle(float _Delta);
-	void UpdateRiding_Move(float _Delta);
-	void UpdateRiding_Boost(float _Delta);
+	void UpdateRiding_Standing(float _Delta);
+	void UpdateRiding_Moving(float _Delta);
+	void UpdateRiding_Boosting(float _Delta);
 	void UpdateApproach(float _Delta);
-	void UpdateNet(float _Delta);
+	void UpdateButterflyNet(float _Delta);
 	void UpdateRootUp(float _Delta);
 	void UpdateSit(float _Delta);
 	void UpdateMongSiri(float _Delta);
@@ -184,7 +185,7 @@ private:
 
 
 	void EndApproach();
-	void EndNet();
+	void EndButterflyNet();
 	void EndRootUp();
 	void EndSit();
 	void EndMongSiri();
@@ -231,6 +232,7 @@ private:
 	EELLIE_STATE m_State = EELLIE_STATE::None;
 	EELLIE_STATE m_WaitState = EELLIE_STATE::None;
 
+	std::shared_ptr<GameEngineSpriteRenderer> Shadow = nullptr;
 	std::shared_ptr<GameEngineSpriteRenderer> m_Fx = nullptr;
 	std::shared_ptr<GameEngineCollision> m_EllieCol = nullptr;
 	std::shared_ptr<GameEngineCollision> m_NetCol = nullptr;
