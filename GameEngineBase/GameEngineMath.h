@@ -43,11 +43,11 @@ public:
 	static const float4 GREEN;
 	static const float4 BLUE;
 
-	union 
+	union
 	{
 		float Arr1D[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
 
-		struct 
+		struct
 		{
 			float X;
 			float Y;
@@ -262,7 +262,7 @@ public:
 
 	float4 operator/(const float _Value) const
 	{
-		float4 OtherVecter = { _Value , _Value , _Value , 1.0f};
+		float4 OtherVecter = { _Value , _Value , _Value , 1.0f };
 		float4 ReturnValue = DirectX::XMVectorDivide(DirectXVector, OtherVecter.DirectXVector);
 		ReturnValue.W = W;
 
@@ -512,7 +512,31 @@ public:
 		return Result;
 	}
 
+	inline float4 RoundUpReturn() const
+	{
+		float4 Result = *this;
+		Result.X = round(Result.X);
+		Result.Y = round(Result.Y);
+		Result.Z = round(Result.Z);
+		return Result;
+	}
 
+	inline void RoundUp()
+	{
+		float4& Result = *this;
+		Result.X = round(Result.X);
+		Result.Y = round(Result.Y);
+		Result.Z = round(Result.Z);
+	}
+
+	inline float4 RoundDownReturn() const
+	{
+		float4 Result = *this;
+		Result.X = floor(Result.X);
+		Result.Y = floor(Result.Y);
+		Result.Z = floor(Result.Z);
+		return Result;
+	}
 
 	float4 operator*(const class float4x4& _Other) const;
 	float4& operator*=(const class float4x4& _Other);
@@ -638,7 +662,7 @@ public:
 		return *this;
 	}
 
-	float4x4() 
+	float4x4()
 	{
 		Identity();
 	}
@@ -653,7 +677,7 @@ public:
 	{
 	}
 
-	void Identity() 
+	void Identity()
 	{
 		DirectXMatrix = DirectX::XMMatrixIdentity();
 		return;
@@ -673,7 +697,7 @@ public:
 	{
 		RotationRad(_Value * GameEngineMath::D2R);
 	}
-	
+
 	void RotationRad(const float4& _Value)
 	{
 		float4x4 X;
@@ -788,11 +812,11 @@ public:
 		//					    [20][21][22][23]
 		//					    [30][31][32][33]
 		// [x][y][z][w]        = rx  ry  rz  rw
-		
+
 		// [x]*[00] + [y] *[10] + [z] * [20] + [w] * [30]
 
 		//float4 Rot * За·Д;
-		
+
 		//Rot.X = _Value.X * cosf(_Rad) - _Value.Y * sinf(_Rad);
 		//Rot.Y = _Value.X * sinf(_Rad) + _Value.Y * cosf(_Rad);
 		//Rot.Z = _Value.Z;

@@ -68,19 +68,6 @@ void MongSiri_Population::Init(unsigned int _Population)
 void MongSiri_Population::SetUpChubHole(GameEngineLevel* _CurLevel)
 {
 	m_ChubHole = _CurLevel->CreateActor<ChubHole>(EUPDATEORDER::Objects);
-	if (nullptr == m_ChubHole)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
-
-	if (nullptr == BackDrop_PlayLevel::MainBackDrop)
-	{
-		MsgBoxAssert("nullptr == BackDrop_PlayLevel::MainBackDrop");
-		return;
-	}
-
-
 	float4 CurrentPosition = Transform.GetLocalPosition();
 	CurrentPosition.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Hole);
 	m_ChubHole->Transform.SetLocalPosition(CurrentPosition);
@@ -106,12 +93,6 @@ void MongSiri_Population::ExploreSpawnLocation()
 	if (float4::ZERO == m_HoleScale)
 	{
 		MsgBoxAssert("범위가 0인 텍스처는 사용할 수 없습니다.");
-		return;
-	}
-
-	if (nullptr == BackDrop_PlayLevel::MainBackDrop)
-	{
-		MsgBoxAssert("배경 매니저가 존재하지 않습니다.");
 		return;
 	}
 
@@ -146,10 +127,13 @@ void MongSiri_Population::CheckInstallationHoleSpace()
 			break;
 		}
 
-		if (true == BackDrop_PlayLevel::MainBackDrop->IsColorAtPosition(CheckPoint, GameEngineColor::RED))
+		if (nullptr != BackDrop_PlayLevel::MainBackDrop)
 		{
-			MsgBoxAssert("현재 지역에는 설치할 수 없습니다.");
-			return;
+			if (true == BackDrop_PlayLevel::MainBackDrop->IsColorAtPosition(CheckPoint, GameEngineColor::RED))
+			{
+				MsgBoxAssert("현재 지역에는 설치할 수 없습니다.");
+				return;
+			}
 		}
 	}
 }
@@ -168,22 +152,15 @@ void MongSiri_Population::CreateMongSiri(GameEngineLevel* _CurLevel, unsigned in
 	for (size_t i = 0; i < _Population; i++)
 	{
 		std::shared_ptr<MongSiri> Object = _CurLevel->CreateActor<MongSiri>(EUPDATEORDER::Entity);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("액터를 생성하지 못했습니다.");
-			return;
-		}
-
-		Object->MongSiriParant = this;
 		SetMongSiriSeed(Object, RandomClass);
 		Object->Init();
+		Object->MongSiriParant = this;
 		MongSiriEntityList.push_back(Object);
 	}
 }
 
 void MongSiri_Population::SetMongSiriSeed(std::shared_ptr<MongSiri> _Actor, GameEngineRandom& _RandomClass)
 {
-	// 시드설정 
 	_RandomClass.SetSeed(reinterpret_cast<__int64>(_Actor.get()));
 
 	float MongSiriSpawnDistance = _RandomClass.RandomFloat(0.0f, MonSiriSpawnRangeSize);		// 스폰 랜덤 거리 : 0 ~ 120.0f 
@@ -191,15 +168,12 @@ void MongSiri_Population::SetMongSiriSeed(std::shared_ptr<MongSiri> _Actor, Game
 	float4 MongSiriSpawnUnitVector = float4::GetUnitVectorFromDeg(MongSiriSpawnAngle);			// 각도 단위 백터
 	float4 MonSiriPosition = m_PopulationLocation + MongSiriSpawnUnitVector * MongSiriSpawnDistance;		// 스폰 위치 = 개체군 위치 + 스폰각도 * 랜덤 거리
 
-	// 적용
 	_Actor->ApplyDepth(MonSiriPosition);
 }
 
 
 void MongSiri_Population::UpdateEntityMiddlePoint()
 {
-	m_MiddlePoint = float4::ZERO;
-
 	float4 MiddlePoint = float4::ZERO;
 
 	for (std::shared_ptr<MongSiri> Entity : MongSiriEntityList)
@@ -208,11 +182,10 @@ void MongSiri_Population::UpdateEntityMiddlePoint()
 	}
 
 	MiddlePoint /= static_cast<float>(MongSiriEntityList.size());
-
 	m_MiddlePoint = MiddlePoint;
 }
 
-void MongSiri_Population::EscapeHole()
+void MongSiri_Population::EscapeHoleToOtherMonsiri()
 {
 	std::list<std::shared_ptr<MongSiri>>::iterator StarIter = MongSiriEntityList.begin();
 	std::list<std::shared_ptr<MongSiri>>::iterator EndIter = MongSiriEntityList.end();
@@ -226,9 +199,9 @@ void MongSiri_Population::EscapeHole()
 
 void MongSiri_Population::ActorRelaese()
 {
-	for (std::shared_ptr<MongSiri> Object : MongSiriEntityList)
+	for (std::weak_ptr<MongSiri> Object : MongSiriEntityList)
 	{
-		Object->Death();
+		Object.lock()->Death();
 	}
 
 	m_ChubHole->Death();

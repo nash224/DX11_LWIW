@@ -83,8 +83,7 @@ void Ellie::StartNet()
 }
 void Ellie::StartRootUp()
 {
-	OtherEntity->IsReach = true;
-
+	isRootup = false;
 	ChangeAnimationByDirection("RootUp");
 }
 
@@ -350,17 +349,10 @@ void Ellie::UpdateApproach(float _Delta)
 
 	float4 OtherPosition = OtherEntity->GetInteractiveLocalPositon();
 	float4 TargetDistance = OtherPosition - Transform.GetLocalPosition();
-
-	// 목표거리까지 이동합니다.
-	TargetDistance.Z = 0.0f;
-	float4 TargetDircetion = TargetDistance.NormalizeReturn();
-	m_MoveVector = TargetDircetion * CONST_Ellie_Walk_Speed;
 	
-
-	ApplyMovement(_Delta);
-
-	// 지정범위 안으로 들어가면 실행합니다.
-	if (fabs(TargetDistance.Size()) < OtherEntity->GetInteractiveRange())
+	const float4 Dist = DirectX::XMVector2Length(TargetDistance.DirectXVector);
+	bool isInInterationRange = Dist.X < OtherEntity->GetInteractiveRange();
+	if (isInInterationRange)
 	{
 		if (ECOLLECTION_METHOD::Sit == OtherEntity->GetCollectionMethod())
 		{
@@ -385,6 +377,13 @@ void Ellie::UpdateApproach(float _Delta)
 			ChangeState(EELLIE_STATE::Wait);
 			return;
 		}
+	}
+	else
+	{
+		TargetDistance.Z = 0.0f;
+		float4 TargetDircetion = TargetDistance.NormalizeReturn();
+		m_MoveVector = TargetDircetion * CONST_Ellie_Walk_Speed;
+		ApplyMovement(_Delta);
 	}
 }
 
@@ -412,6 +411,19 @@ void Ellie::UpdateNet(float _Delta)
 
 void Ellie::UpdateRootUp(float _Delta)
 {
+	if (nullptr == m_Body)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
+
+	bool isRootStart = (false == isRootup && m_Body->GetCurIndex() >= 4);
+	if (isRootStart)
+	{
+		isRootup = true;
+		OtherEntity->IsReach = true;
+	}
+
 	if (true == m_Body->IsCurAnimationEnd())
 	{
 		ChangeState(EELLIE_STATE::Idle);
@@ -470,7 +482,6 @@ void Ellie::UpdateMongSiri(float _Delta)
 
 	if (true == m_Body->IsCurAnimationEnd())
 	{
-
 		ChangeState(EELLIE_STATE::Idle);
 		return;
 	}

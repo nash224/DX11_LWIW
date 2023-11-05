@@ -40,7 +40,7 @@ private:
 private:
 	void UpdateEntityMiddlePoint();
 
-	void EscapeHole();
+	void EscapeHoleToOtherMonsiri();
 
 private:
 	std::list<std::shared_ptr<class MongSiri>> MongSiriEntityList;

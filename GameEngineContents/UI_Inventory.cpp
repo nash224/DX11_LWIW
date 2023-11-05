@@ -57,10 +57,17 @@ void Inventory::PushItem(std::string_view _ItemName, unsigned int _Count)
 void Inventory::PopItem(std::string_view _ItemName, unsigned int _Count)
 {
 	InventoryInfo* SlotInfo = Find(_ItemName);
+	bool isNotEnoughItem = (SlotInfo->ItemCount < static_cast<int>(_Count));
+	if (isNotEnoughItem)
+	{
+		MsgBoxAssert("사용하려는 아이템의 수보다 적습니다. ");
+		return;
+	}
+
  	int SlotNumber = ReturnSlotNumber(_ItemName);
 	InventoryData[SlotNumber].ItemCount -= _Count;
 
-	bool isZeroCount = (0 <= InventoryData[SlotNumber].ItemCount);
+	bool isZeroCount = (InventoryData[SlotNumber].ItemCount <= 0);
 	if (isZeroCount)
 	{
 		ClearData(SlotNumber);
@@ -486,20 +493,6 @@ void UI_Inventory::PopItem(std::string_view _ItemName, unsigned int _Count)
 	if (nullptr == Data)
 	{
 		MsgBoxAssert("데이터가 존재하지 않습니다.");
-		return;
-	}
-
-	InventoryInfo* SlotInfo  = Data->Find(_ItemName);
-	if (nullptr == SlotInfo)
-	{
-		MsgBoxAssert("아이템 정보가 존재하지 않습니다.");
-		return;
-	}
-
-	bool isNotEnoughItem = (SlotInfo->ItemCount < static_cast<int>(_Count));
-	if (isNotEnoughItem)
-	{
-		MsgBoxAssert("사용하려는 아이템의 수보다 적습니다. ");
 		return;
 	}
 

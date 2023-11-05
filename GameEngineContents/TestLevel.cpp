@@ -7,6 +7,7 @@
 #include "Ellie.h"
 #include "Bush.h"
 #include "WitchFlower.h"
+#include "MongSiri_Population.h"
 
 #include "NormalProp.h"
 
@@ -73,6 +74,14 @@ void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
 		m_bush->SetBushType(EBUSHTYPE::BushBug);
 		m_bush->Transform.SetLocalPosition(InitialPosition);
 		m_bush->Init();
+	}
+
+
+	{
+		std::shared_ptr<MongSiri_Population> MongSiri1 = CreateActor<MongSiri_Population>(EUPDATEORDER::Objects);
+		MongSiri1->Transform.SetLocalPosition({ 1512.0f , -760.0f });
+		MongSiri1->SetPopulationSpawnLocation({ 1458.0f , -828.0f });
+		MongSiri1->Init(3);
 	}
 
 	{

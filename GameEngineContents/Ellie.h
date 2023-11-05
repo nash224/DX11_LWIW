@@ -16,7 +16,7 @@ constexpr float Ellie_Riding_Idle_Inter = 0.1f;
 constexpr float Ellie_Riding_Move_Inter = 0.1f;
 constexpr float Ellie_Riding_Boost_Inter = 0.1f;
 constexpr float Ellie_ButterflyNet_Inter = 0.1f;
-constexpr float Ellie_RootUp_Inter = 0.15f;
+constexpr float Ellie_RootUp_Inter = 0.12f;
 constexpr float Ellie_Sit_Inter = 0.12f;
 constexpr float Ellie_MongSiri_Inter = 0.2f;
 
@@ -100,6 +100,7 @@ public:
 	// ¿Ã¥œº»
 	void Init();
 	void RendererSetting();
+	void ChangeFrameAnimationInterAllDirection(std::string_view _AnimationName, const std::vector<float>& _Inter);
 	void RideFxSetting();
 	void CollisionSetting();
 
@@ -244,6 +245,7 @@ private:
 	bool IsCollected = false;
 	bool IsHolding = false;
 	bool IsWaitDone = false;
+	bool isRootup = false;
 
 	
 };

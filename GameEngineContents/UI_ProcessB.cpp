@@ -113,11 +113,7 @@ void UI_ProcessB::ProductInfoSetting(std::string_view _ProductName)
 void UI_ProcessB::SourceInfoSetting(std::string_view _ProductName, int _ScrCount)
 {
 	std::shared_ptr<IngredientData> Data = IngredientData::Find(_ProductName);
-
-	
 	m_ProcessBSourceInfo.ScrName = Data->SourceName;
-
-
 	m_ProcessBSourceInfo.NeedCount = Data->SourceCount;
 	m_ProcessBSourceInfo.ScrCount = _ScrCount;
 

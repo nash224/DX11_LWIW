@@ -188,4 +188,9 @@ void NormalProp::DeSerializer(GameEngineSerializer& _Data)
 			SetPixelCollision(PixelSpriteName);
 		}
 	}
+
+
+	float4 Position = Transform.GetLocalPosition();
+	Position.RoundUp();
+	Transform.SetLocalPosition(Position);
 }

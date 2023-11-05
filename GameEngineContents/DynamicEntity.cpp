@@ -149,12 +149,6 @@ void DynamicEntity::ApplyMovement(float _Delta)
 	m_MoveVector.Z = 0.0f;
 	float4 MoveVector = m_MoveVector* _Delta;								// 이동값
 	float4 MovePosition = CurrentPosition + MoveVector;						// 미래 위치
-
-	if (nullptr != BackDrop_PlayLevel::MainBackDrop)
-	{
-		float Depth = GlobalUtils::CalculateObjectDepth(BackDrop_PlayLevel::MainBackDrop->GetBackGroundScale().Y, MovePosition.Y + m_DepthBias);	// 깊이 계산
-		MovePosition.Z = Depth;
-	}
-	
-	Transform.SetLocalPosition(MovePosition);
+	ApplyDepth(MovePosition);
+	return;
 }

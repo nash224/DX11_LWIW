@@ -16,6 +16,9 @@ WitchFlower::~WitchFlower()
 void WitchFlower::Start()
 {
 	Plant::Start();
+
+	CreateAndSetCollision(ECOLLISION::Entity, { 100.0f, }, 0.0f, ColType::SPHERE2D);
+
 }
 
 void WitchFlower::Update(float _Delta)
@@ -47,12 +50,11 @@ void WitchFlower::LevelEnd(class GameEngineLevel* _NextLevel)
 void WitchFlower::Init()
 {
 	ApplyDepth(Transform.GetLocalPosition());
-	CreateAndSetCollision(ECOLLISION::Entity, { 100.0f, }, 0.0f, ColType::SPHERE2D);
-	CreateAndSetWitchFlowerRenderer();
+	RendererSetting();
 	ChangeState(EPLANTSTATE::Idle);
 }
 
-void WitchFlower::CreateAndSetWitchFlowerRenderer()
+void WitchFlower::RendererSetting()
 {
 	if (nullptr == GameEngineSprite::Find("WitchFlower.png"))
 	{
@@ -62,15 +64,16 @@ void WitchFlower::CreateAndSetWitchFlowerRenderer()
 	static constexpr const int RenderOrder = 0;
 
 	m_Plant = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
-	m_Plant->CreateAnimation("Idle", "WitchFlower.png", 5.0f, 5, 5, false);
-	m_Plant->CreateAnimation("UpRoot", "WitchFlower.png", 0.2f, 5, 13, false);
+	m_Plant->Transform.AddLocalPosition({ 0.0f, RenderYCorrection , 0.0f });
 	m_Plant->AutoSpriteSizeOn();
-	m_Plant->Transform.AddLocalPosition({ 0.0f, WitchFlowerRenderBias , 0.0f });
+	m_Plant->CreateAnimation("Idle", "WitchFlower.png", 5.0f, 5, 5, false);
+	m_Plant->CreateAnimation("UpRoot", "WitchFlower.png", 0.12f, 6, 13, false);
+	m_Plant->FindAnimation("UpRoot")->Inter[7] = 0.24f;
 
 
 	m_Shadow = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
 	m_Shadow->SetSprite("WitchFlower.png", 1);
-	m_Shadow->Transform.AddLocalPosition({ 0.0f, WitchFlowerRenderBias, 0.0f });
+	m_Shadow->Transform.AddLocalPosition({ 0.0f, RenderYCorrection, 0.0f });
 
 
 
@@ -135,7 +138,7 @@ void WitchFlower::CreateAndSetWitchFlowerRenderer()
 
 
 // 여기 재정의
-void WitchFlower::ChildUpRoot()
+void WitchFlower::ChildRooting()
 {
 	if (nullptr != UI_Inventory::MainInventory)
 	{

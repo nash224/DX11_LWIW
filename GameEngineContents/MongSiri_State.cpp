@@ -1,8 +1,10 @@
 #include "PreCompile.h"
 #include "MongSiri.h"
 
-#include "MongSiri_Population.h"
 #include "BackDrop_PlayLevel.h"
+#include "UI_Inventory.h"
+
+#include "MongSiri_Population.h"
 #include "ChubHole.h"
 
 
@@ -263,8 +265,13 @@ void MongSiri::UpdateCaught(float _Delta)
 
 void MongSiri::StartCollected()
 {
-	m_CollectionTool = ETOOLTYPE::None;
+	if (nullptr == m_InteractiveCol)
+	{
+		MsgBoxAssert("충돌체가 존재하지 않는데 사용하려 했습니다.");
+		return;
+	}
 
+	m_InteractiveCol->Off();
 	ChangeAnimation("Collected");
 }
 
@@ -278,14 +285,6 @@ void MongSiri::UpdateCollected(float _Delta)
 
 	if (true == m_Body->IsCurAnimationEnd() && true == m_Body->IsCurAnimation("CollectedA"))
 	{
-		if (nullptr == MongSiriParant)
-		{
-			MsgBoxAssert("몽시리 개체군이 존재하지 않습니다.");
-			return;
-		}
-
-		MongSiriParant->EscapeHole();
-
 		ChangeState(EMONGSIRISTATE::Idle);
 		return;
 	}
@@ -293,6 +292,16 @@ void MongSiri::UpdateCollected(float _Delta)
 
 void MongSiri::EndCollected()
 {
+	if (nullptr != UI_Inventory::MainInventory)
+	{
+		UI_Inventory::MainInventory->PushItem("Mongsiri_Collect");
+	}
+
+	if (nullptr != MongSiriParant)
+	{
+		MongSiriParant->EscapeHoleToOtherMonsiri();
+	}
+
 	m_Status = EMONGSIRISTATUS::Escape;
 }
 

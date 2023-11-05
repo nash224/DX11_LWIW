@@ -44,7 +44,7 @@ private:
 	void UpdateUpRoot(float _Delta);
 	// 뿌리를 뽑을때 어떻게 할꺼냐 
 	// 자식에서 재정의합니다.
-	virtual void ChildUpRoot() {}
+	virtual void ChildRooting() {}
 
 
 protected:

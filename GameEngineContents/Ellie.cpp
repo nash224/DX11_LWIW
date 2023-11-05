@@ -215,6 +215,22 @@ void Ellie::RendererSetting()
 		m_Body->CreateAnimation("RootUp_LEFTUP", "Ellie_Basic_Colleciton_RootUp.png", Ellie_RootUp_Inter, 43, 50);
 		m_Body->CreateAnimation("RootUp_UP", "Ellie_Basic_Colleciton_RootUp.png", Ellie_RootUp_Inter, 43, 50);
 		m_Body->CreateAnimation("RootUp_RIGHTUP", "Ellie_Basic_Colleciton_RootUp.png", Ellie_RootUp_Inter, 51, 58);
+
+		const float AnimationInter5To7 = Ellie_RootUp_Inter * 2.0f;
+
+		const std::vector<float> FrameInters =
+		{
+			Ellie_RootUp_Inter,
+			Ellie_RootUp_Inter,
+			Ellie_RootUp_Inter,
+			Ellie_RootUp_Inter,
+			AnimationInter5To7,
+			AnimationInter5To7,
+			AnimationInter5To7,
+			AnimationInter5To7,
+		};
+
+		ChangeFrameAnimationInterAllDirection("RootUp_", FrameInters);
 	}
 
 	{
@@ -252,6 +268,33 @@ void Ellie::RendererSetting()
 
 
 	RideFxSetting();
+}
+
+void Ellie::ChangeFrameAnimationInterAllDirection(std::string_view _AnimationName, const std::vector<float>& _Inter)
+{
+	std::vector<std::string> DiectionStirng =
+	{
+		"LEFT",
+		"LEFTDOWN",
+		"DOWN",
+		"RIGHT",
+		"RIGHTDOWN",
+		"LEFTUP",
+		"UP",
+		"RIGHTUP"
+	};
+
+	for (int i = 0; i < DiectionStirng.size(); i++)
+	{
+		std::weak_ptr<GameEngineFrameAnimation> Animation = m_Body->FindAnimation(_AnimationName.data() + DiectionStirng[i]);
+		if (true == Animation.expired())
+		{
+			MsgBoxAssert("애니메이션이 존재하지 않습니다.");
+			return;
+		}
+
+		Animation.lock()->Inter = _Inter;
+	}
 }
 
 

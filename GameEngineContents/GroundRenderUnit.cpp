@@ -81,4 +81,8 @@ void GroundRenderUnit::DeSerializer(GameEngineSerializer& _Data)
 		_Data >> SpriteName;
 		m_Renderer->SetSprite(SpriteName);
 	}
+
+	float4 Position = Transform.GetLocalPosition();
+	Position.RoundUp();
+	Transform.SetLocalPosition(Position);
 }

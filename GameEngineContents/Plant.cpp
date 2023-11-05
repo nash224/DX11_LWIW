@@ -15,7 +15,7 @@ void Plant::Start()
 	StaticEntity::Start();
 
 	SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::Near, ECOLLECTION_METHOD::RootUp, ETOOLTYPE::Gloves);
-	SetNearInteractivePositionAndRange(float4::ZERO, 3.0f);
+	SetNearInteractivePositionAndRange(float4::ZERO, 6.0f);
 }
 
 void Plant::Update(float _Delta)
@@ -135,6 +135,6 @@ void Plant::UpdateUpRoot(float _Delta)
 {
 	if (true == m_Plant->IsCurAnimationEnd())
 	{
-		ChildUpRoot();
+		ChildRooting();
 	}
 }

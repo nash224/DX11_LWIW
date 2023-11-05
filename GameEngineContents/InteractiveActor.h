@@ -117,7 +117,7 @@ protected:
 
 	float4 m_InteractiveLocalPosition = float4::ZERO;											
 
-	float m_InteractiveRange = 1.0f;
+	float m_InteractiveRange = 3.0f;
 	float m_DepthBias = 0.0f;				
 	
 	bool IsReach = false;

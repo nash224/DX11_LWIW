@@ -17,7 +17,7 @@ public:
 
 	
 	void Init();
-	void CreateAndSetWitchFlowerRenderer();
+	void RendererSetting();
 
 protected:
 	void Start() override;
@@ -28,13 +28,13 @@ protected:
 
 
 private:
-	void ChildUpRoot() override;
+	void ChildRooting() override;
 
 
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> m_Shadow = nullptr;
 
-	const float WitchFlowerRenderBias = 34.0f;
+	const float RenderYCorrection = 34.0f;
 
 };
 

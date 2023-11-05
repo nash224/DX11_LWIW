@@ -68,9 +68,9 @@ void InteractiveActor::SetNearInteractivePositionAndRange(const float4& _Interac
 
 	m_InteractiveRange = _Range;
 
-	if (_Range < 0.0f)
+	if (_Range < 3.0f)
 	{
-		m_InteractiveRange = 0.0f;
+		m_InteractiveRange = 3.0f;
 	}
 }
 
@@ -130,8 +130,6 @@ ETOOLTYPE InteractiveActor::GetCollectionToolType() const
 
 void InteractiveActor::ApplyDepth(const float4& _Position)
 {
-	const float4 WinScale = GlobalValue::GetWindowScale();
-	float4 Position = _Position;
 	float BackYScale = 0.0f;
 	if (nullptr != BackDrop_PlayLevel::MainBackDrop)
 	{
@@ -139,9 +137,11 @@ void InteractiveActor::ApplyDepth(const float4& _Position)
 	}
 	else
 	{
+		const float4 WinScale = GlobalValue::GetWindowScale();
 		BackYScale = WinScale.Y;
 	}
 
+	float4 Position = _Position;
 	float ZSort = GlobalUtils::CalculateObjectDepth(BackYScale, Position.Y + m_DepthBias);
 	Position.Z = ZSort;
 	
