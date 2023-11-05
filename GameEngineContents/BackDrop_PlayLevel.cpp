@@ -46,7 +46,6 @@ void BackDrop_PlayLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 	BackDrop::LevelEnd(_NextLevel);
 
 	PixelVec.clear();
-	PixelStaticEntityVec.clear();
 }
 
 
@@ -57,21 +56,39 @@ void BackDrop_PlayLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 // 특정 위치에 픽셀데이터가 있는지 반환해줍니다.
 bool BackDrop_PlayLevel::IsColorAtPosition(const float4& _Position, GameEngineColor _CheckColor)
 {
-	for (size_t i = 0; i < PixelVec.size(); i++)
+	for (std::weak_ptr<NormalProp> Object : PixelVec)
 	{
-		std::shared_ptr<NormalProp> Object = PixelVec[i];
-		if (nullptr == Object)
+		if (true == Object.expired())
 		{
 			MsgBoxAssert("생성되지 않은 액터를 참조하려고 했습니다.");
 			return false;
 		}
 
-		if (false == Object->GetPixelCheck())
+		if (false == Object.lock()->GetPixelCheck())
 		{
 			continue;
 		}
 
-		if (_CheckColor == Object->GetColor(_Position))
+		if (_CheckColor == Object.lock()->GetColor(_Position))
+		{
+			return true;
+		}
+	}
+
+	for (std::weak_ptr<StaticEntity> Entity : PixelStaticEntityVec)
+	{
+		if (true == Entity.expired())
+		{
+			MsgBoxAssert("생성되지 않은 액터를 참조하려고 했습니다.");
+			return false;
+		}
+
+		if (false == Entity.lock()->GetPixelCheck())
+		{
+			continue;
+		}
+
+		if (_CheckColor == Entity.lock()->GetColor(_Position))
 		{
 			return true;
 		}

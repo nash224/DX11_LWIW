@@ -1,6 +1,8 @@
 #pragma once
 #include "InteractiveActor.h"
 
+#include "PixelCollision.h"
+
 
 // Ό³Έν :
 class StaticEntity : public InteractiveActor
@@ -16,17 +18,25 @@ public:
 	StaticEntity& operator=(const StaticEntity& _Other) = delete;
 	StaticEntity& operator=(StaticEntity&& _Other) noexcept = delete;
 
+	bool GetPixelCheck();
+	void UpdatePixelCollision();
+	void SetPixelCollision(std::string_view _FileName);
+
+	GameEngineColor GetColor(const float4& _Position, GameEngineColor _DefaultColor = GameEngineColor::WHITE);
+
 
 protected:
-	void Start() override;
+	void Start() override {}
 	void Update(float _Delta) override;
 	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
-	void LevelEnd(class GameEngineLevel* _NextLevel) override;
-
-
+	void LevelStart(class GameEngineLevel* _NextLevel) override{}
+	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 private:
+	PixelCollision PixelCol;
+	std::shared_ptr<GameEngineSpriteRenderer> PixelRenderer;
+
+	bool isPixelSet = false;
 
 };
 

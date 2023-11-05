@@ -13,6 +13,8 @@ Bush::~Bush()
 void Bush::Start()
 {
 	StaticEntity::Start();
+
+	StaticEntity::SetPixelCollision("Bush_S_1_Pixel.png");
 }
 
 void Bush::Update(float _Delta)
@@ -20,6 +22,8 @@ void Bush::Update(float _Delta)
 	StaticEntity::Update(_Delta);
 
 	UpdateState(_Delta);
+
+	StaticEntity::UpdatePixelCollision();
 }
 
 void Bush::Release()
@@ -53,7 +57,7 @@ void Bush::SetBushType(EBUSHTYPE _Type)
 // Ω√¿€
 void Bush::Init()
 {
-	SetDepthBias(-30.0f);
+	SetDepthBias(-20.0f);
 	ApplyDepth(Transform.GetLocalPosition());
 	CreateBushAnimation();
 	InteractiveOptionSetting();

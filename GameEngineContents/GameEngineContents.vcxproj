@@ -254,6 +254,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="PixelCollision.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="RendererActor.cpp">
       <SubType>
       </SubType>
@@ -678,6 +682,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="NPCEntity.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PixelCollision.h">
       <SubType>
       </SubType>
     </ClInclude>

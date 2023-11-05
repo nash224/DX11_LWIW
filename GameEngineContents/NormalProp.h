@@ -1,5 +1,7 @@
 #pragma once
 #include "RendererActor.h"
+#include "PixelCollision.h"
+
 
 
 // 설명 : Props 기능을 물려받는 일반 소품입니다.
@@ -40,11 +42,11 @@ protected:
 
 
 protected:
+	PixelCollision PixelCol;
+
 	std::shared_ptr<GameEngineSpriteRenderer> m_DebugRenderer = nullptr;
 
 	bool IsRendererOn = true;
 	bool PixelRendererCheck = false;
-	std::string m_PixelFileName = "";
 
 };
-

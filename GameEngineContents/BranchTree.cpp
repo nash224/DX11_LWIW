@@ -16,6 +16,7 @@ BranchTree::~BranchTree()
 void BranchTree::Start()
 {
 	StaticEntity::Start();
+	StaticEntity::SetPixelCollision("Tree_Pixel.png");
 
 	SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Nothing);
 	CreateAndSetCollision(ECOLLISION::Entity, { 84.0f , 32.0f }, float4::ZERO, ColType::SPHERE2D);
@@ -25,8 +26,10 @@ void BranchTree::Start()
 void BranchTree::Update(float _Delta)
 {
 	StaticEntity::Update(_Delta);
+
 	UpdateState(_Delta);
 	UpdateBranch(_Delta);
+	UpdatePixelCollision();
 }
 
 void BranchTree::Release()

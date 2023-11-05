@@ -58,6 +58,7 @@ void BackDrop_CenterField::Init()
 	SpriteFileLoad();
 
 	PixelVec.reserve(256);
+	PixelStaticEntityVec.reserve(32);
 
 	CreateMap();
 	LoadSerBin();
@@ -300,24 +301,28 @@ void BackDrop_CenterField::CreateBranchTree()
 		std::shared_ptr<BranchTree> Object = GetLevel()->CreateActor<BranchTree>(EUPDATEORDER::Entity);
 		Object->Transform.SetLocalPosition({ 660.0f , -275.0f });
 		Object->Init();
+		PixelStaticEntityVec.push_back(Object);
 	}
 
 	{
 		std::shared_ptr<BranchTree> Object = GetLevel()->CreateActor<BranchTree>(EUPDATEORDER::Entity);
 		Object->Transform.SetLocalPosition({ 505.0f , -275.0f });
 		Object->Init();
+		PixelStaticEntityVec.push_back(Object);
 	}
 
 	{
 		std::shared_ptr<BranchTree> Object = GetLevel()->CreateActor<BranchTree>(EUPDATEORDER::Entity);
 		Object->Transform.SetLocalPosition({ 1350.0f , -1122.0f });
 		Object->Init();
+		PixelStaticEntityVec.push_back(Object);
 	}
 
 	{
 		std::shared_ptr<BranchTree> Object = GetLevel()->CreateActor<BranchTree>(EUPDATEORDER::Entity);
 		Object->Transform.SetLocalPosition({ 1630.0f , -856.0f });
 		Object->Init();
+		PixelStaticEntityVec.push_back(Object);
 	}
 }
 
