@@ -2,7 +2,6 @@
 #include "MongSiri.h"
 
 #include "BackDrop_PlayLevel.h"
-#include "UI_Inventory.h"
 
 #include "MongSiri_Population.h"
 #include "ChubHole.h"
@@ -207,18 +206,17 @@ void MongSiri::UpdateJump(float _Delta)
 
 	if (m_Body->GetCurIndex() > 2 && m_Body->GetCurIndex() < 9)
 	{
-		if (nullptr == BackDrop_PlayLevel::MainBackDrop)
+		if (nullptr != BackDrop_PlayLevel::MainBackDrop)
 		{
-			MsgBoxAssert("배경 매니저가 존재하지 않습니다.");
-			return;
-		}
-
-		if (false == BackDrop_PlayLevel::MainBackDrop->IsColorAtPosition(Transform.GetLocalPosition() + m_TargetForce * _Delta, GameEngineColor::RED))
-		{
-			m_MoveVector = m_TargetForce;
-			ApplyMovement(_Delta);
+			if (true == BackDrop_PlayLevel::MainBackDrop->IsColorAtPosition(Transform.GetLocalPosition() + m_TargetForce * _Delta, GameEngineColor::RED))
+			{
+				m_TargetForce = float4::ZERO;
+			}
 		}
 	}
+
+	m_MoveVector = m_TargetForce;
+	ApplyMovement(_Delta);
 }
 
 void MongSiri::EndJump()
@@ -283,7 +281,7 @@ void MongSiri::UpdateCollected(float _Delta)
 		return;
 	}
 
-	if (true == m_Body->IsCurAnimationEnd() && true == m_Body->IsCurAnimation("CollectedA"))
+	if (true == m_Body->IsCurAnimationEnd() && true == m_Body->IsCurAnimation("CollectedB"))
 	{
 		ChangeState(EMONGSIRISTATE::Idle);
 		return;
@@ -292,11 +290,6 @@ void MongSiri::UpdateCollected(float _Delta)
 
 void MongSiri::EndCollected()
 {
-	if (nullptr != UI_Inventory::MainInventory)
-	{
-		UI_Inventory::MainInventory->PushItem("Mongsiri_Collect");
-	}
-
 	if (nullptr != MongSiriParant)
 	{
 		MongSiriParant->EscapeHoleToOtherMonsiri();

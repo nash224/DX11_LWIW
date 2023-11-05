@@ -521,14 +521,6 @@ public:
 		return Result;
 	}
 
-	inline void RoundUp()
-	{
-		float4& Result = *this;
-		Result.X = round(Result.X);
-		Result.Y = round(Result.Y);
-		Result.Z = round(Result.Z);
-	}
-
 	inline float4 RoundDownReturn() const
 	{
 		float4 Result = *this;
@@ -536,6 +528,27 @@ public:
 		Result.Y = floor(Result.Y);
 		Result.Z = floor(Result.Z);
 		return Result;
+	}
+
+	inline void RoundUp()
+	{
+		X = ceil(X);
+		Y = ceil(Y);
+		Z = ceil(Z);
+	}
+
+	inline void Round()
+	{
+		X = round(X);
+		Y = round(Y);
+		Z = round(Z);
+	}
+
+	inline void RoundDown()
+	{
+		X = floor(X);
+		Y = floor(Y);
+		Z = floor(Z);
 	}
 
 	float4 operator*(const class float4x4& _Other) const;

@@ -1,13 +1,13 @@
 #pragma once
 #include "UI_ToggleActor.h"
 
-#define Max_XSlot  4
-#define Max_YSlot  6
+static constexpr const int Max_XSlot = 4;
+static constexpr const int Max_YSlot = 6;
 
 #define INVENTORY_POSITION { -288.0f , 28.0f }
 
-constexpr float GridSpacing = 12.0f;
-constexpr float CursorInter = 0.4f;
+static constexpr const float GridSpacing = 12.0f;
+static constexpr const float CursorInter = 0.4f;
 
 
 
