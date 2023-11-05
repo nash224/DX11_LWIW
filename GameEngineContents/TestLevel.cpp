@@ -79,8 +79,8 @@ void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
 
 	{
 		std::shared_ptr<MongSiri_Population> MongSiri1 = CreateActor<MongSiri_Population>(EUPDATEORDER::Objects);
-		MongSiri1->Transform.SetLocalPosition({ 1512.0f , -760.0f });
-		MongSiri1->SetPopulationSpawnLocation({ 1458.0f , -828.0f });
+		MongSiri1->Transform.SetLocalPosition({ 300.0f , -400.0f });
+		MongSiri1->SetPopulationSpawnLocation({ 400.0f , -400.0f });
 		MongSiri1->Init(3);
 	}
 

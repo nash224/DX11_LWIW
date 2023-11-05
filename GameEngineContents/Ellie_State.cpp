@@ -468,7 +468,7 @@ void Ellie::UpdateMongSiri(float _Delta)
 		return;
 	}
 
-	if (false == IsCollected)
+	if (false == IsCollected && m_Body->GetCurIndex() >= 3)
 	{
 		if (nullptr == OtherEntity)
 		{

@@ -189,8 +189,7 @@ void NormalProp::DeSerializer(GameEngineSerializer& _Data)
 		}
 	}
 
-
 	float4 Position = Transform.GetLocalPosition();
-	Position.RoundUp();
+	Position.Round();
 	Transform.SetLocalPosition(Position);
 }

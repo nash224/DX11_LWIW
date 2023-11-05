@@ -114,33 +114,21 @@ void MongSiri::SearchJumpLocation()
 		{
 			JumpAngle = RandomClass.RandomFloat(0.0f, 360.0f);
 		}
-		// 스폰 위치점 기준
-		// 작은 원보다 밖에 있다면
 		else if (SpawnToDistance > MongSiriParant->m_PopulationMinCircle)
 		{
-			// 점프력 측정
 			float JumpChangeRatio = RandomClass.RandomFloat(0.0f, 1.0f);
-			// 높은 확률로
 			JumpChangeRatio = static_cast<float>(pow(JumpChangeRatio, 2));
 			JumpChangeRatio *= 180.f;
+
 			int MultiValue = RandomClass.RandomInt(0, 1);
-			if (1 == MultiValue)
+
+			bool isReverseJumpChange = (1 == MultiValue);
+			if (isReverseJumpChange)
 			{
 				JumpChangeRatio *= -1.0f;
 			}
 
-			// 이 각도로 뛰어라
 			JumpAngle = Degree + JumpChangeRatio;
-
-			if (JumpAngle > 360.0f)
-			{
-				JumpAngle -= 360.0f;
-			}
-
-			if (JumpAngle < 0.0f)
-			{
-				JumpAngle += 360.0f;
-			}
 		}
 
 		float MongSiriJumpPower = RandomClass.RandomFloat(0.0f, MongSiri_JumpMaxSpeed);
@@ -168,7 +156,9 @@ void MongSiri::SearchJumpLocation()
 		TargetPosition.Z = 0.0f;
 		float TargetDistance = TargetPosition.Size();
 		
-		if (TargetDistance < MongSiri_JumpMaxSpeed)
+		static constexpr const float Last_Leaping_Power = 40.0f;
+		bool isReachHole = (TargetDistance < Last_Leaping_Power);
+		if (isReachHole)
 		{
 			IsOnTheHole = true;
 			m_TargetForce = TargetPosition.NormalizeReturn() * TargetDistance * 1.66f;
@@ -213,10 +203,11 @@ void MongSiri::UpdateJump(float _Delta)
 				m_TargetForce = float4::ZERO;
 			}
 		}
+
+		m_MoveVector = m_TargetForce;
+		ApplyMovement(_Delta);
 	}
 
-	m_MoveVector = m_TargetForce;
-	ApplyMovement(_Delta);
 }
 
 void MongSiri::EndJump()

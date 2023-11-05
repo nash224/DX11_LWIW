@@ -6,11 +6,11 @@
 #include "Ellie.h"
 #include "UI_Inventory.h"
 
-MongSiri::MongSiri() 
+MongSiri::MongSiri()
 {
 }
 
-MongSiri::~MongSiri() 
+MongSiri::~MongSiri()
 {
 }
 
@@ -85,16 +85,32 @@ void MongSiri::CreateAndSetRenderer()
 	m_Body = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
 
 	m_Body->AutoSpriteSizeOn();
-	m_Body->CreateAnimation("Idle", "Mongsiri_IdleB.png", 0.2f, 4, 6);
-	m_Body->CreateAnimation("Idle_Back", "Mongsiri_IdleB.png", 0.2f, 7, 9);
+	m_Body->CreateAnimation("Idle", "Mongsiri_IdleB.png", 0.2f, 4, 7);
+	m_Body->CreateAnimation("Idle_Back", "Mongsiri_IdleB.png", 0.2f, 8, 11);
 	m_Body->CreateAnimation("Jump", "Mongsiri_Jump.png", 0.1f, 5, 14);
 	m_Body->CreateAnimation("Jump_Back", "Mongsiri_Jump.png", 0.1f, 15, 24);
 	m_Body->CreateAnimation("Look", "Mongsiri_Idle.png", 0.05f, 4, 5);
 	m_Body->CreateAnimation("Look_Back", "Mongsiri_Idle.png", 0.2f, 6, 7);
-	m_Body->CreateAnimation("Collected", "Mongsiri_Collected.png", 0.2f, 3, 9, false);
-	m_Body->CreateAnimation("CollectedA", "Mongsiri_CollectedA.png", 0.08f, -1, -1, false);
-	m_Body->CreateAnimation("CollectedB", "Mongsiri_Collected.png", 0.2f, 7, 4, false);
-	m_Body->CreateAnimation("Disappear", "Mongsiri_Disappear.png", 0.2f, 10, 33, false);
+	m_Body->CreateAnimation("Collected", "Mongsiri_Collected.png", 0.2f, 3, 8, false);
+	m_Body->FindAnimation("Collected")->Inter = { 0.1f, 0.1f, 0.1f, 0.2f, 0.3f, 0.4f };
+	m_Body->CreateAnimation("CollectedA", "Mongsiri_CollectedA.png", 0.1f, -1, -1, false);
+	m_Body->CreateAnimation("CollectedB", "Mongsiri_Collected.png", 0.12f, 6, 4, false);
+	m_Body->CreateAnimation("Disappear", "Mongsiri_Disappear.png", 0.1f, 10, 33, false);
+	std::weak_ptr<GameEngineFrameAnimation> Animation = m_Body->FindAnimation("Disappear");
+	if (true == Animation.expired())
+	{
+		MsgBoxAssert("애니메이션을 찾지 못했습니다.");
+		return;
+	}
+
+	Animation.lock()->Inter =
+	{ 0.2f, 0.2f,
+		0.2f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f,
+		0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f,
+		0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f,
+		0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f,
+		0.1f, 0.1f, 0.1f, 0.1f
+	};
 
 
 	m_Body->SetStartEvent("Idle", [&](GameEngineSpriteRenderer*)
@@ -103,29 +119,33 @@ void MongSiri::CreateAndSetRenderer()
 		});
 	m_Body->SetFrameEvent("Idle", 5, [&](GameEngineSpriteRenderer*)
 		{
-			m_Shadow->SetSprite("Mongsiri_IdleB.png", 1);
+			m_Shadow->SetSprite("Mongsiri_IdleB.png", 2);
 		});
 	m_Body->SetFrameEvent("Idle", 6, [&](GameEngineSpriteRenderer*)
 		{
-			m_Shadow->SetSprite("Mongsiri_IdleB.png", 2);
+			m_Shadow->SetSprite("Mongsiri_IdleB.png", 3);
 		});
 	m_Body->SetFrameEvent("Idle", 7, [&](GameEngineSpriteRenderer*)
 		{
-			m_Shadow->SetSprite("Mongsiri_IdleB.png", 3);
+			m_Shadow->SetSprite("Mongsiri_IdleB.png", 2);
 		});
 
 
-	m_Body->SetFrameEvent("Idle_Back", 7, [&](GameEngineSpriteRenderer*)
+	m_Body->SetStartEvent("Idle_Back", [&](GameEngineSpriteRenderer*)
 		{
 			m_Shadow->SetSprite("Mongsiri_IdleB.png", 1);
 		});
-	m_Body->SetFrameEvent("Idle_Back", 8, [&](GameEngineSpriteRenderer*)
+	m_Body->SetFrameEvent("Idle_Back", 9, [&](GameEngineSpriteRenderer*)
 		{
 			m_Shadow->SetSprite("Mongsiri_IdleB.png", 2);
 		});
-	m_Body->SetFrameEvent("Idle_Back", 9, [&](GameEngineSpriteRenderer*)
+	m_Body->SetFrameEvent("Idle_Back", 8, [&](GameEngineSpriteRenderer*)
 		{
 			m_Shadow->SetSprite("Mongsiri_IdleB.png", 3);
+		});
+	m_Body->SetFrameEvent("Idle_Back", 9, [&](GameEngineSpriteRenderer*)
+		{
+			m_Shadow->SetSprite("Mongsiri_IdleB.png", 2);
 		});
 
 
@@ -172,13 +192,13 @@ void MongSiri::CreateAndSetRenderer()
 			m_Shadow->SetSprite("Mongsiri_Jump.png", 1);
 		});
 
-	
+
 	m_Body->SetStartEvent("Look", [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			m_Shadow->SetSprite("Mongsiri_Jump.png", 1);
 		});
 
-	
+
 	m_Body->SetStartEvent("Look_Back", [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			m_Shadow->SetSprite("Mongsiri_Idle.png", 1);
@@ -208,8 +228,6 @@ void MongSiri::CreateAndSetRenderer()
 			_Renderer->ChangeAnimation("CollectedB");
 		});
 
-
-
 	m_Body->SetStartEvent("Disappear", [&](GameEngineSpriteRenderer*)
 		{
 			m_Shadow->SetSprite("Mongsiri_Disappear.png", 1);
@@ -226,12 +244,26 @@ void MongSiri::CreateAndSetRenderer()
 		{
 			m_Shadow->SetSprite("Mongsiri_Disappear.png", 4);
 		});
-	m_Body->SetFrameEvent("Disappear", 13, [&](GameEngineSpriteRenderer*)
+	m_Body->SetFrameEvent("Disappear", 18, [&](GameEngineSpriteRenderer*)
 		{
-			m_Shadow->SetSprite("Mongsiri_Disappear.png", 4);
+			m_Shadow->SetSprite("Mongsiri_Disappear.png", 6);
 		});
-
-	m_Body->ChangeAnimation("Collected");
+	m_Body->SetFrameEvent("Disappear", 24, [&](GameEngineSpriteRenderer*)
+		{
+			m_Shadow->SetSprite("Mongsiri_Disappear.png", 7);
+		});
+	m_Body->SetFrameEvent("Disappear", 25, [&](GameEngineSpriteRenderer*)
+		{
+			m_Shadow->SetSprite("Mongsiri_Disappear.png", 8);
+		});
+	m_Body->SetFrameEvent("Disappear", 26, [&](GameEngineSpriteRenderer*)
+		{
+			m_Shadow->SetSprite("Mongsiri_Disappear.png", 9);
+		});
+	m_Body->SetFrameEvent("Disappear", 28, [&](GameEngineSpriteRenderer*)
+		{
+			m_Shadow->Off();
+		});
 }
 
 void MongSiri::InitDirection()
@@ -304,7 +336,7 @@ void MongSiri::ChangeState(EMONGSIRISTATE _State)
 		{
 			MsgBoxAssert("행동패턴을 지정해주세요.");
 		}
-			break;
+		break;
 		default:
 			break;
 		}
@@ -366,7 +398,7 @@ void MongSiri::ChangeAnimationByDircetion(std::string_view _StateName)
 	default:
 		break;
 	}
-	
+
 	m_Body->ChangeAnimation(AnimationName);
 }
 
@@ -375,7 +407,7 @@ bool MongSiri::IsPlayerAround()
 {
 	if (nullptr != Ellie::MainEllie)
 	{
- 		float4 PlayerPosition = Ellie::MainEllie->Transform.GetLocalPosition();
+		float4 PlayerPosition = Ellie::MainEllie->Transform.GetLocalPosition();
 		float PositionSize = (Transform.GetLocalPosition() - PlayerPosition).Size();
 		if (PositionSize < MongSiri_FOVSize)
 		{
