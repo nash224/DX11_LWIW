@@ -14,9 +14,13 @@ void Ellie::RendererSetting()
 	m_Body = CreateComponent<GameEngineSpriteRenderer>(EllieGroupOrder);
 	Shadow = CreateComponent<GameEngineSpriteRenderer>(EllieGroupOrder);
 	EllieFx = CreateComponent<GameEngineSpriteRenderer>(EllieGroupOrder);
+	Virgil = CreateComponent<GameEngineSpriteRenderer>(EllieGroupOrder);
 	
 	Shadow->Transform.SetLocalPosition(float4(0.0f, LWIW_Ellie_Y_Correction, ShadowDepth));
-	EllieFx->Transform.SetLocalPosition(float4(0.0f, LWIW_Ellie_Y_Correction, -1.0f));
+	EllieFx->Transform.SetLocalPosition(float4(0.0f, LWIW_Ellie_Y_Correction, -2.0f));
+	Virgil->Transform.SetLocalPosition(float4(0.0f, LWIW_Ellie_Y_Correction, -1.0f));
+	
+	
 
 	EllieFx->Off();
 
@@ -310,6 +314,8 @@ void Ellie::RendererSetting()
 
 	m_Body->AutoSpriteSizeOn();
 	m_Body->Transform.SetLocalPosition({ 0.0f , 30.0f });
+
+	VirgilSetting();
 }
 
 void Ellie::ChangeFrameAnimationInterAllDirection(std::string_view _AnimationName, const std::vector<float>& _Inter)

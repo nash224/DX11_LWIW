@@ -872,5 +872,8 @@
     <ClCompile Include="PixelCollision.cpp">
       <Filter>2.Object\2.Actor\0.Manager\PixelCollision</Filter>
     </ClCompile>
+    <ClCompile Include="Ellie_Virgil.cpp">
+      <Filter>2.Object\2.Actor\2.Interactive\Dynamic\Ellie</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

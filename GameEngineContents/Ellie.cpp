@@ -55,6 +55,7 @@ void Ellie::Release()
 	DynamicEntity::Release();
 
 	Shadow = nullptr;
+	Virgil = nullptr;
 	EllieFx = nullptr;
 
 	m_EllieCol = nullptr;
@@ -238,7 +239,7 @@ void Ellie::ChangeState(EELLIE_STATE _State)
 		switch (m_State)
 		{
 		case EELLIE_STATE::None:																	break;
-		case EELLIE_STATE::Idle:																	break;
+		case EELLIE_STATE::Idle:									EndIdle();						break;
 		case EELLIE_STATE::SlowWalk:																break;
 		case EELLIE_STATE::Walk:																	break;
 		case EELLIE_STATE::Run:																		break;

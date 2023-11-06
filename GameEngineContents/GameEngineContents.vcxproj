@@ -233,6 +233,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Ellie_Resources.cpp" />
+    <ClCompile Include="Ellie_Virgil.cpp" />
     <ClCompile Include="EndLevel.cpp">
       <SubType>
       </SubType>

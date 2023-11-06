@@ -101,6 +101,7 @@ public:
 	// ¿Ã¥œº»
 	void Init();
 	void RendererSetting();
+	void VirgilSetting();
 	void ChangeFrameAnimationInterAllDirection(std::string_view _AnimationName, const std::vector<float>& _Inter);
 	void ChangeShawdowSprite(std::string_view _AnimationName);
 	void CollisionSetting();
@@ -185,6 +186,7 @@ private:
 	void UpdateDrink(float _Delta);
 
 
+	void EndIdle();
 	void EndApproach();
 	void EndButterflyNet();
 	void EndRootUp();
@@ -235,6 +237,7 @@ private:
 
 	std::shared_ptr<GameEngineSpriteRenderer> Shadow = nullptr;
 	std::shared_ptr<GameEngineSpriteRenderer> EllieFx = nullptr;
+	std::shared_ptr<GameEngineSpriteRenderer> Virgil = nullptr;
 	std::shared_ptr<GameEngineCollision> m_EllieCol = nullptr;
 	std::shared_ptr<GameEngineCollision> m_NetCol = nullptr;
 	InteractiveActor* OtherEntity = nullptr;
