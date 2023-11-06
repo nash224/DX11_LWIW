@@ -390,7 +390,7 @@ void Ellie::ChangeShawdowSprite(std::string_view _AnimationName)
 		Shadow->SetSprite(ShadowSpriteName, 7);
 		break;
 	case EELLIE_STATE::ButterflyNet:
-		Shadow->SetSprite(ShadowSpriteName, 2);
+		Shadow->SetSprite(ShadowSpriteName, 1);
 		break;
 	case EELLIE_STATE::Sit:
 	case EELLIE_STATE::Fail:
@@ -414,7 +414,10 @@ void Ellie::ChangeVirgilSprite(std::string_view _AnimationName)
 	}
 
 	std::string ShadowSpriteName = _AnimationName.data() + std::string(".png");
-	Virgil->SetSprite(ShadowSpriteName);
+	if ("Ellie_Basic_SlowWalk.png" == ShadowSpriteName)
+	{
+		ShadowSpriteName = "Ellie_Basic_Walk.png";
+	}
 
 	bool isNeedVirgil = true;
 
@@ -427,9 +430,7 @@ void Ellie::ChangeVirgilSprite(std::string_view _AnimationName)
 	case EELLIE_STATE::ButterflyNet:
 	case EELLIE_STATE::RootUp:
 	case EELLIE_STATE::Sit:
-		break;
 	case EELLIE_STATE::Throw:
-		isNeedVirgil = false;
 		break;
 	case EELLIE_STATE::Riding_Standing:
 		isNeedVirgil = false;
@@ -441,21 +442,12 @@ void Ellie::ChangeVirgilSprite(std::string_view _AnimationName)
 		isNeedVirgil = false;
 		break;
 	case EELLIE_STATE::Approach:
-		isNeedVirgil = false;
-		break;
 	case EELLIE_STATE::MongSiri:
-		isNeedVirgil = false;
-		break;
 	case EELLIE_STATE::Wait:
-		isNeedVirgil = false;
+	case EELLIE_STATE::Cheer:
+	case EELLIE_STATE::Fail:
 		break;
 	case EELLIE_STATE::Juicy:
-		isNeedVirgil = false;
-		break;
-	case EELLIE_STATE::Cheer:
-		isNeedVirgil = false;
-		break;
-	case EELLIE_STATE::Fail:
 		isNeedVirgil = false;
 		break;
 	case EELLIE_STATE::Drink:
@@ -467,6 +459,7 @@ void Ellie::ChangeVirgilSprite(std::string_view _AnimationName)
 
 	if (true == isNeedVirgil)
 	{
+		Virgil->SetSprite(ShadowSpriteName);
 		Virgil->On();
 	}
 }
