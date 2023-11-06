@@ -5,7 +5,7 @@
 #include "GameEngineCore.h"
 #include "GameEngineRenderTarget.h"
 
-std::shared_ptr<class GameEngineRenderTarget> GameEngineCamera::AllRenderTarget = nullptr;
+// std::shared_ptr<class GameEngineRenderTarget> GameEngineCamera::AllRenderTarget = nullptr;
 
 float GameEngineCamera::FreeRotSpeed = 180.0f;
 float GameEngineCamera::FreeSpeed = 200.0f;
@@ -38,20 +38,20 @@ void GameEngineCamera::Start()
 	{
 		// 이녀석이 깊이 버퍼도 가집니다.
 		AllRenderTarget = GameEngineRenderTarget::Create();
-		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
-		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
-		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
-		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
-		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
-		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
-		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
-		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R8G8B8A8_UNORM, WindowScale, float4::ZERONULL);
+		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R8G8B8A8_UNORM, WindowScale, float4::ZERONULL);
+		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R8G8B8A8_UNORM, WindowScale, float4::ZERONULL);
+		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R8G8B8A8_UNORM, WindowScale, float4::ZERONULL);
+		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R8G8B8A8_UNORM, WindowScale, float4::ZERONULL);
+		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R8G8B8A8_UNORM, WindowScale, float4::ZERONULL);
+		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R8G8B8A8_UNORM, WindowScale, float4::ZERONULL);
+		AllRenderTarget->AddNewTexture(DXGI_FORMAT_R8G8B8A8_UNORM, WindowScale, float4::ZERONULL);
 		AllRenderTarget->CreateDepthTexture();
 	}
 
 	// 이건 최종 타겟일 뿐입니다.
-	CameraTarget = GameEngineRenderTarget::Create();
-	CameraTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
+	/*CameraTarget = GameEngineRenderTarget::Create();
+	CameraTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);*/
 
 	IsFreeCameraValue = false;
 }
@@ -199,11 +199,11 @@ void GameEngineCamera::Render(float _DeltaTime)
 	}
 
 	// 기존에 그려진걸 싹다 지우고 복사
-	CameraTarget->Copy(0, AllRenderTarget, 0);
+	// CameraTarget->Copy(0, AllRenderTarget, 0);
 
-	GetLevel()->LevelRenderTarget->Merge(0, CameraTarget, 0);
+	AllRenderTarget->PostEffect(_DeltaTime);
 
-	// AllRenderTarget->
+	GetLevel()->LevelRenderTarget->Merge(0, AllRenderTarget, 0);
 }
 
 void GameEngineCamera::AllReleaseCheck()

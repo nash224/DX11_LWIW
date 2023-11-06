@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "ContentsCore.h"
 
+#include <GameEngineCore/GameEngineCoreWindow.h>
 #include <GameEngineCore/GameEngineRenderTarget.h>
 #include <GameEngineCore/GameEngineBlend.h>
 
@@ -60,4 +61,5 @@ void ContentsCore::Start()
 
 
 	GameEngineGUI::CreateGUIWindow<ContentsGUI>("ContentsGUI");
+	GameEngineGUI::CreateGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
 }

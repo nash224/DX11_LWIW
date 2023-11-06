@@ -64,7 +64,7 @@ enum class MaskMode
 	DynamicMask, // 스크린좌표계인데 랜더러의 위치에 따라서 마스크 위치를 변경한다.
 };
 
-struct SpriteRendererInfo 
+struct SpriteRendererInfo
 {
 	int FlipLeft = 0;
 	int FlipUp = 0;
@@ -72,7 +72,7 @@ struct SpriteRendererInfo
 	float Temp2;
 };
 
-struct ColorData 
+struct ColorData
 {
 	float4 PlusColor = float4::ZERONULL; // 최종색상에 더한다.
 	float4 MulColor = float4::ONE; // 최종색상에 곱한다.
@@ -97,7 +97,7 @@ public:
 	// 스프라이트는 기본적으로 
 	// 강제로 애니메이션을 정지한다는 뜻으로 받아들이겠다.
 	void SetSprite(std::string_view _Name, unsigned int index = 0);
-	void ChangeCurSprite(int _Index);
+	void ChangeCurSprite(int _Index = 0);
 
 	void CreateAnimation(
 		std::string_view _AnimationName,
@@ -149,7 +149,7 @@ public:
 		SpriteRendererInfoValue.FlipUp = 0;
 	}
 
-	bool IsCurAnimationEnd() 
+	bool IsCurAnimationEnd()
 	{
 		return CurFrameAnimations->IsEnd;
 	}
@@ -180,6 +180,7 @@ public:
 	void SetFrameEvent(std::string_view _AnimationName, int _Frame, std::function<void(GameEngineSpriteRenderer*)> _Function);
 
 	void SetFrameChangeFunction(std::string_view _AnimationName, std::function<void(const SpriteData& CurSprite, int _SpriteIndex)> _Function);
+	void SetFrameChangeFunctionAll(std::function<void(const SpriteData& CurSprite, int _SpriteIndex)> _Function);
 
 	// "EngineBaseWRAPSampler"
 	void SetSampler(std::string_view _Name);
@@ -240,6 +241,7 @@ protected:
 	void SetMaterialEvent(std::string_view _Name, int _Index) override;
 
 	int Index = 0;
+	
 
 private:
 	// 부모인 actor를 기준으로한
@@ -258,7 +260,7 @@ private:
 	float4 AutoScaleRatio = { 1.0f,1.0f,1.0f };
 	bool IsPause = false;
 
-	float4 Pivot = {0.5f, 0.5f};
+	float4 Pivot = { 0.5f, 0.5f };
 
 	ColorData ColorDataValue;
 
