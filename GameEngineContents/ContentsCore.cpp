@@ -61,5 +61,5 @@ void ContentsCore::Start()
 
 
 	GameEngineGUI::CreateGUIWindow<ContentsGUI>("ContentsGUI");
-	GameEngineGUI::CreateGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
+	/*GameEngineGUI::CreateGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");*/
 }

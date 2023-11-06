@@ -102,9 +102,10 @@ public:
 	void Init();
 	void RendererSetting();
 	void VirgilSetting();
+	void CollisionSetting();
 	void ChangeFrameAnimationInterAllDirection(std::string_view _AnimationName, const std::vector<float>& _Inter);
 	void ChangeShawdowSprite(std::string_view _AnimationName);
-	void CollisionSetting();
+	void ChangeVirgilSprite(std::string_view _AnimationName);
 
 
 	void OnControl();

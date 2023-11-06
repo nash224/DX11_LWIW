@@ -261,6 +261,11 @@ void Ellie::ChangeState(EELLIE_STATE _State)
 			break;
 		}
 
+		if (nullptr != Virgil)
+		{
+			Virgil->Off();
+		}
+
 		m_State = _State;
 
 		switch (_State)
@@ -308,6 +313,7 @@ void Ellie::ChangeAnimationByDirection(std::string_view _StateName, bool _Direct
 	AnimaitonName += _StateName.data();
 
 	ChangeShawdowSprite(AnimaitonName);
+	ChangeVirgilSprite(AnimaitonName);
 
 	if (true == _DirectionInfluence)
 	{
@@ -355,6 +361,12 @@ void Ellie::ChangeAnimationByDirection(std::string_view _StateName, bool _Direct
 
 void Ellie::ChangeShawdowSprite(std::string_view _AnimationName)
 {
+	if (nullptr == Shadow)
+	{
+		MsgBoxAssert("그림자 렌더러가 존재하지 않습니다.");
+		return;
+	}
+
 	std::string ShadowSpriteName = _AnimationName.data() + std::string(".png");
 
 	static constexpr const int OnlySpriteUse = 0;
@@ -388,6 +400,77 @@ void Ellie::ChangeShawdowSprite(std::string_view _AnimationName)
 		break;
 	default:
 		break;
+	}
+}
+
+void Ellie::ChangeVirgilSprite(std::string_view _AnimationName)
+{
+	if (nullptr == Virgil)
+	{
+		MsgBoxAssert("버질 렌더러가 존재하지 않습니다.");
+		return;
+	}
+
+	std::string ShadowSpriteName = _AnimationName.data() + std::string(".png");
+	Virgil->SetSprite(ShadowSpriteName);
+
+	bool isNeedVirgil = true;
+
+	switch (m_State)
+	{
+	case EELLIE_STATE::Idle:
+	case EELLIE_STATE::SlowWalk:
+	case EELLIE_STATE::Walk:
+	case EELLIE_STATE::Run:
+		break;
+	case EELLIE_STATE::Throw:
+		break;
+	case EELLIE_STATE::Riding_Standing:
+		isNeedVirgil = false;
+		break;
+	case EELLIE_STATE::Riding_Moving:
+		isNeedVirgil = false;
+		break;
+	case EELLIE_STATE::Riding_Boosting:
+		isNeedVirgil = false;
+		break;
+	case EELLIE_STATE::Approach:
+		isNeedVirgil = false;
+		break;
+	case EELLIE_STATE::ButterflyNet:
+		isNeedVirgil = false;
+		break;
+	case EELLIE_STATE::RootUp:
+		isNeedVirgil = false;
+		break;
+	case EELLIE_STATE::Sit:
+		isNeedVirgil = false;
+		break;
+	case EELLIE_STATE::MongSiri:
+		isNeedVirgil = false;
+		break;
+	case EELLIE_STATE::Wait:
+		isNeedVirgil = false;
+		break;
+	case EELLIE_STATE::Juicy:
+		isNeedVirgil = false;
+		break;
+	case EELLIE_STATE::Cheer:
+		isNeedVirgil = false;
+		break;
+	case EELLIE_STATE::Fail:
+		isNeedVirgil = false;
+		break;
+	case EELLIE_STATE::Drink:
+		isNeedVirgil = false;
+		break;
+	default:
+		break;
+	}
+
+	if (true == isNeedVirgil)
+	{
+		Virgil->On();
 	}
 }
 
