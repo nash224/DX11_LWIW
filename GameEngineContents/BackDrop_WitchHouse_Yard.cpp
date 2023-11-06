@@ -137,7 +137,7 @@ void BackDrop_WitchHouse_Yard::LoadSerBin()
 
 		GameEngineFile File;
 		File.MoveParentToExistsChild("Resources");
-		File.MoveChild("Resources\\Data\\Yard\\Yard_Grass\\YardGrassData.map");
+		File.MoveChild("Resources\\Data\\Yard\\Yard_Grass\\SaveYardGrassThis.map");
 
 		File.Open(FileOpenType::Read, FileDataType::Binary);
 		File.DataAllRead(LoadBin);

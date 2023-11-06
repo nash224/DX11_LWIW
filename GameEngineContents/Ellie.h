@@ -7,6 +7,7 @@ constexpr float CheckPointGap = 2.0f;
 constexpr float FOVAngle = 60.0f;
 constexpr float Ellie_Bias = 30.0f;
 constexpr float FrictionForce = 0.5f;
+static constexpr const float LWIW_Ellie_Y_Correction = 30.0f;
 
 constexpr float EllieIdleInter = 0.2f;
 constexpr float Ellie_SlowWalk_Inter = 0.2f;
@@ -233,7 +234,7 @@ private:
 	EELLIE_STATE m_WaitState = EELLIE_STATE::None;
 
 	std::shared_ptr<GameEngineSpriteRenderer> Shadow = nullptr;
-	std::shared_ptr<GameEngineSpriteRenderer> m_Fx = nullptr;
+	std::shared_ptr<GameEngineSpriteRenderer> EllieFx = nullptr;
 	std::shared_ptr<GameEngineCollision> m_EllieCol = nullptr;
 	std::shared_ptr<GameEngineCollision> m_NetCol = nullptr;
 	InteractiveActor* OtherEntity = nullptr;

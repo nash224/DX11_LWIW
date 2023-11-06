@@ -13,8 +13,12 @@ void Ellie::RendererSetting()
 
 	m_Body = CreateComponent<GameEngineSpriteRenderer>(EllieGroupOrder);
 	Shadow = CreateComponent<GameEngineSpriteRenderer>(EllieGroupOrder);
+	EllieFx = CreateComponent<GameEngineSpriteRenderer>(EllieGroupOrder);
 	
-	Shadow->Transform.SetLocalPosition(float4(0.0f, Shadow_Renderer_Y_Correction, ShadowDepth));
+	Shadow->Transform.SetLocalPosition(float4(0.0f, LWIW_Ellie_Y_Correction, ShadowDepth));
+	EllieFx->Transform.SetLocalPosition(float4(0.0f, LWIW_Ellie_Y_Correction, -1.0f));
+
+	EllieFx->Off();
 
 	if (nullptr == GameEngineSprite::Find("Ellie_Basic_Idle.png"))
 	{
@@ -215,43 +219,92 @@ void Ellie::RendererSetting()
 #pragma endregion
 
 	{
-		m_Body->CreateAnimation("Cheer", "Ellie_Basic_Cheer.png", 0.1f, 4, 15);
-		m_Body->CreateAnimation("Fail", "Ellie_Basic_Fail.png", 0.1f, 5, 14);
-		m_Body->CreateAnimation("Drink", "Ellie_Basic_Drink.png", 0.1f, 3, 16);
+		m_Body->CreateAnimation("Ellie_Basic_Cheer", "Ellie_Basic_Cheer.png", 0.1f, 4, 15);
+		m_Body->CreateAnimation("Ellie_Basic_Fail", "Ellie_Basic_Fail.png", 0.1f, 5, 14);
+		m_Body->FindAnimation("Ellie_Basic_Fail")->Inter = { 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.2f, 0.16f, 0.14f, 0.12f, 0.24f };
+		m_Body->CreateAnimation("Ellie_Basic_Drink", "Ellie_Basic_Drink.png", 0.1f, 3, 16);
 
-		m_Body->SetStartEvent("Cheer", [&](GameEngineSpriteRenderer* _Renderer)
+		m_Body->SetStartEvent("Ellie_Basic_Cheer", [&](GameEngineSpriteRenderer* _Renderer)
 			{
 				Shadow->ChangeCurSprite(1);
 			});
-		m_Body->SetFrameEvent("Cheer", 5, [&](GameEngineSpriteRenderer* _Renderer)
+		m_Body->SetFrameEvent("Ellie_Basic_Cheer", 5, [&](GameEngineSpriteRenderer* _Renderer)
 			{
 				Shadow->ChangeCurSprite(2);
 			});
-		m_Body->SetFrameEvent("Cheer", 6, [&](GameEngineSpriteRenderer* _Renderer)
+		m_Body->SetFrameEvent("Ellie_Basic_Cheer", 6, [&](GameEngineSpriteRenderer* _Renderer)
 			{
 				Shadow->ChangeCurSprite(3);
 			});
-		m_Body->SetFrameEvent("Cheer", 8,[&](GameEngineSpriteRenderer* _Renderer)
+		m_Body->SetFrameEvent("Ellie_Basic_Cheer", 8,[&](GameEngineSpriteRenderer* _Renderer)
 			{
 				Shadow->ChangeCurSprite(2);
 			});
-		m_Body->SetFrameEvent("Cheer", 9,[&](GameEngineSpriteRenderer* _Renderer)
+		m_Body->SetFrameEvent("Ellie_Basic_Cheer", 9,[&](GameEngineSpriteRenderer* _Renderer)
 			{
 				Shadow->ChangeCurSprite(1);
 			});
+		m_Body->SetFrameEvent("Ellie_Basic_Cheer", 10, [&](GameEngineSpriteRenderer* _Renderer)
+			{
+				EllieFx->SetSprite("Ellie_Basic_Cheer.png", 28);
+				EllieFx->On();
+			});
+		m_Body->SetFrameEvent("Ellie_Basic_Cheer", 11, [&](GameEngineSpriteRenderer* _Renderer)
+			{
+				EllieFx->ChangeCurSprite(29);
+			});
+		m_Body->SetFrameEvent("Ellie_Basic_Cheer", 12, [&](GameEngineSpriteRenderer* _Renderer)
+			{
+				EllieFx->ChangeCurSprite(30);
+			});
+		m_Body->SetFrameEvent("Ellie_Basic_Cheer", 13, [&](GameEngineSpriteRenderer* _Renderer)
+			{
+				EllieFx->ChangeCurSprite(31);
+			});
+		m_Body->SetFrameEvent("Ellie_Basic_Cheer", 14, [&](GameEngineSpriteRenderer* _Renderer)
+			{
+				EllieFx->ChangeCurSprite(32);
+			});
+		m_Body->SetFrameEvent("Ellie_Basic_Cheer", 15, [&](GameEngineSpriteRenderer* _Renderer)
+			{
+				EllieFx->ChangeCurSprite(33);
+			});
+		m_Body->SetEndEvent("Ellie_Basic_Cheer", [&](GameEngineSpriteRenderer* _Renderer)
+			{
+				EllieFx->Off();
+			});
 
 
-		m_Body->SetStartEvent("Fail", [&](GameEngineSpriteRenderer* _Renderer)
+		m_Body->SetStartEvent("Ellie_Basic_Fail", [&](GameEngineSpriteRenderer* _Renderer)
 			{
 				Shadow->SetSprite("Ellie_Basic_Fail.png", 1);
 			});
-		m_Body->SetFrameEvent("Fail", 11, [&](GameEngineSpriteRenderer* _Renderer)
+		m_Body->SetFrameEvent("Ellie_Basic_Fail", 10, [&](GameEngineSpriteRenderer* _Renderer)
 			{
+				EllieFx->SetSprite("Ellie_Basic_Fail.png", 21);
+				EllieFx->On();
+			});
+		m_Body->SetFrameEvent("Ellie_Basic_Fail", 11, [&](GameEngineSpriteRenderer* _Renderer)
+			{
+				EllieFx->ChangeCurSprite(22);
 				Shadow->ChangeCurSprite(3);
 			});
-		m_Body->SetFrameEvent("Fail", 12, [&](GameEngineSpriteRenderer* _Renderer)
+		m_Body->SetFrameEvent("Ellie_Basic_Fail", 12, [&](GameEngineSpriteRenderer* _Renderer)
 			{
+				EllieFx->ChangeCurSprite(23);
 				Shadow->ChangeCurSprite(4);
+			});
+		m_Body->SetFrameEvent("Ellie_Basic_Fail", 13, [&](GameEngineSpriteRenderer* _Renderer)
+			{
+				EllieFx->ChangeCurSprite(24);
+			});
+		m_Body->SetFrameEvent("Ellie_Basic_Fail", 14, [&](GameEngineSpriteRenderer* _Renderer)
+			{
+				EllieFx->ChangeCurSprite(25);
+			});
+		m_Body->SetEndEvent("Ellie_Basic_Fail", [&](GameEngineSpriteRenderer* _Renderer)
+			{
+				EllieFx->Off();
 			});
 	}
 

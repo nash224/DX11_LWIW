@@ -32,6 +32,17 @@ void Ellie::Update(float _Delta)
 
 void Ellie::UpdateTestCode()
 {
+	if (true == GameEngineInput::IsDown('2', this))
+	{
+		ChangeState(EELLIE_STATE::Fail);
+		return;
+	}
+	if (true == GameEngineInput::IsDown('3', this))
+	{
+		ChangeState(EELLIE_STATE::Cheer);
+		return;
+	}
+
 	if (true == GameEngineInput::IsDown('1', this))
 	{
 		BackDrop_PlayLevel::MainBackDrop->CreateItem("Mongsiri_Collect", Transform.GetLocalPosition());
@@ -44,7 +55,8 @@ void Ellie::Release()
 	DynamicEntity::Release();
 
 	Shadow = nullptr;
-	m_Fx = nullptr;
+	EllieFx = nullptr;
+
 	m_EllieCol = nullptr;
 	m_InteractiveCol = nullptr;
 	m_NetCol = nullptr;
@@ -349,7 +361,6 @@ void Ellie::ChangeShawdowSprite(std::string_view _AnimationName)
 	switch (m_State)
 	{
 	case EELLIE_STATE::Idle:
-	case EELLIE_STATE::SlowWalk:
 	case EELLIE_STATE::Walk:
 	case EELLIE_STATE::Run:
 	case EELLIE_STATE::Throw:
@@ -371,6 +382,7 @@ void Ellie::ChangeShawdowSprite(std::string_view _AnimationName)
 	case EELLIE_STATE::Cheer:
 		Shadow->SetSprite(ShadowSpriteName, OnlySpriteUse);
 		break;
+	case EELLIE_STATE::SlowWalk:
 	case EELLIE_STATE::Juicy:
 		break;
 	default:
