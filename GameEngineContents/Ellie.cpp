@@ -381,11 +381,13 @@ void Ellie::ChangeShawdowSprite(std::string_view _AnimationName)
 	case EELLIE_STATE::Riding_Moving:
 	case EELLIE_STATE::Riding_Boosting:
 	case EELLIE_STATE::Approach:
-	case EELLIE_STATE::RootUp:
 	case EELLIE_STATE::Wait:
 	case EELLIE_STATE::MongSiri:
 	case EELLIE_STATE::Drink:
 		Shadow->SetSprite(ShadowSpriteName, 1);
+		break;
+	case EELLIE_STATE::RootUp:
+		Shadow->SetSprite(ShadowSpriteName, 7);
 		break;
 	case EELLIE_STATE::ButterflyNet:
 		Shadow->SetSprite(ShadowSpriteName, 2);
@@ -422,8 +424,12 @@ void Ellie::ChangeVirgilSprite(std::string_view _AnimationName)
 	case EELLIE_STATE::SlowWalk:
 	case EELLIE_STATE::Walk:
 	case EELLIE_STATE::Run:
+	case EELLIE_STATE::ButterflyNet:
+	case EELLIE_STATE::RootUp:
+	case EELLIE_STATE::Sit:
 		break;
 	case EELLIE_STATE::Throw:
+		isNeedVirgil = false;
 		break;
 	case EELLIE_STATE::Riding_Standing:
 		isNeedVirgil = false;
@@ -435,15 +441,6 @@ void Ellie::ChangeVirgilSprite(std::string_view _AnimationName)
 		isNeedVirgil = false;
 		break;
 	case EELLIE_STATE::Approach:
-		isNeedVirgil = false;
-		break;
-	case EELLIE_STATE::ButterflyNet:
-		isNeedVirgil = false;
-		break;
-	case EELLIE_STATE::RootUp:
-		isNeedVirgil = false;
-		break;
-	case EELLIE_STATE::Sit:
 		isNeedVirgil = false;
 		break;
 	case EELLIE_STATE::MongSiri:
