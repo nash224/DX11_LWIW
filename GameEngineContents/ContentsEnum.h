@@ -9,12 +9,12 @@ enum class EUPDATEORDER
 	Entity,
 	Projectile,
 	Objects,
+	Event,
 	Portal,
 	CameraControler,
 	UIMagnaer,
 	UIComponent,
 	Sky,
-	Event,
 	Fade,
 };
 
@@ -62,6 +62,7 @@ enum class ETITLERENDERDEPTH
 	TrainSmoke_Big,
 	Props_0,
 	Props_1,
+	Light_,
 	Water_blur,
 	Train_Light_blur,
 	Train_blur,

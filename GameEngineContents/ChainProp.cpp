@@ -45,10 +45,6 @@ void ChainProp::LevelEnd(class GameEngineLevel* _NextLevel)
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-
-// 배치가 되고
-// 시간이 되면 소품을 생성한다
-
 void ChainProp::SetSprite(std::string_view _FileName)
 {
 	m_SpriteFileName = _FileName.data();
@@ -61,6 +57,16 @@ void ChainProp::SetSprite(std::string_view _FileName)
 	}
 
 	m_TextureScale = Texture->GetScale();
+}
+
+void ChainProp::SetMaterial(std::string_view _MaterialName)
+{
+	MaterialName = _MaterialName;
+}
+
+void ChainProp::SetColor(const float4& _Color)
+{
+	Color = _Color;
 }
 
 void ChainProp::SetFirstLocation(const float4& _Position)
@@ -181,25 +187,23 @@ void ChainProp::UpdateSeries()
 
 void ChainProp::RegenProp(const float4& _Position /*= float4::ZERO*/)
 {
-	GameEngineLevel* CurLevel = GetLevel();
-	if (nullptr == CurLevel)
+	float4 Position = _Position;
+	Position.Z = GlobalUtils::CalculateFixDepth(m_Depth);
+
+	std::shared_ptr<SequentialProp> Object = GetLevel()->CreateActor<SequentialProp>(EUPDATEORDER::Objects);
+	Object->Transform.SetLocalPosition(Position);
+	Object->Init();
+
+	if (false == MaterialName.empty())
 	{
-		MsgBoxAssert("레벨을 불러오지 못했습니다.");
-		return;
+		Object->Renderer->SetMaterial(MaterialName);
 	}
 
-	std::shared_ptr<SequentialProp> Object = CurLevel->CreateActor<SequentialProp>(EUPDATEORDER::Objects);
-	if (nullptr == Object)
-	{
-		MsgBoxAssert("액털를 생성하지 못했습니다.");
-		return;
-	}
+	Object->Renderer->SetSprite(m_SpriteFileName); 
+	Object->Renderer->GetColorData().MulColor = Color;
 
-	Object->CreateRenderer(m_Order);
-	Object->SetSprite(m_SpriteFileName);
 	Object->SetTextureScale(m_TextureScale);
 	Object->SetSpeed(m_Speed);
-	Object->SetPositionAndDepth(_Position, m_Depth);
 
 	listProps.push_back(Object);
 }

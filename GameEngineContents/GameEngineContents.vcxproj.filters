@@ -523,6 +523,9 @@
     <ClInclude Include="PixelCollision.h">
       <Filter>2.Object\2.Actor\0.Manager\PixelCollision</Filter>
     </ClInclude>
+    <ClInclude Include="UI_MainMenu_Button.h">
+      <Filter>2.Object\2.Actor\1.BackManager\LevelBackDrop\1.MainMenu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -874,6 +877,9 @@
     </ClCompile>
     <ClCompile Include="Ellie_Virgil.cpp">
       <Filter>2.Object\2.Actor\2.Interactive\Dynamic\Ellie</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_MainMenu_Button.cpp">
+      <Filter>2.Object\2.Actor\1.BackManager\LevelBackDrop\1.MainMenu</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

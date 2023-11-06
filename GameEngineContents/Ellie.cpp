@@ -32,16 +32,16 @@ void Ellie::Update(float _Delta)
 
 void Ellie::UpdateTestCode()
 {
-	if (true == GameEngineInput::IsDown('2', this))
-	{
-		ChangeState(EELLIE_STATE::Fail);
-		return;
-	}
-	if (true == GameEngineInput::IsDown('3', this))
-	{
-		ChangeState(EELLIE_STATE::Cheer);
-		return;
-	}
+	//if (true == GameEngineInput::IsDown('2', this))
+	//{
+	//	ChangeState(EELLIE_STATE::Fail);
+	//	return;
+	//}
+	//if (true == GameEngineInput::IsDown('3', this))
+	//{
+	//	ChangeState(EELLIE_STATE::Cheer);
+	//	return;
+	//}
 
 	if (true == GameEngineInput::IsDown('1', this))
 	{

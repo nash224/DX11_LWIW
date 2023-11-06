@@ -126,22 +126,10 @@ void MainMenu::LoadSprite()
 void MainMenu::InitActor()
 {
 	m_BackDrop = CreateActor<BackDrop_MainMenu>(EUPDATEORDER::Objects);
-	if (nullptr == m_BackDrop)
-	{
-		MsgBoxAssert("액터를 생성하지 못했습니다");
-		return;
-	}
-
 	m_BackDrop->Init();
 
 
 	std::shared_ptr<TitleUI> Title_UI = CreateActor<TitleUI>(EUPDATEORDER::Objects);
-	if (nullptr == Title_UI)
-	{
-		MsgBoxAssert("액터를 생성하지 못했습니다");
-		return;
-	}
-
 	Title_UI->Init();
 }
 

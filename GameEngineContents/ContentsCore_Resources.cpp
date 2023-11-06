@@ -156,19 +156,21 @@ void ContentsCore::InitBlendResources()
 		Desc.IndependentBlendEnable = false;
 		Desc.RenderTarget[0].BlendEnable = true;
 		Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+		Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA; // src∆—≈Õ
+		Desc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;
 		Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
-		Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA; 
-		Desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
-		Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;	
-		Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;	
-		Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;	
 
-		const std::shared_ptr<GameEngineBlend> Blend = GameEngineBlend::Create("Test_Blend", Desc);
+		Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ZERO;
+		Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
+		Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
 
-		std::shared_ptr<GameEngineMaterial> OverRayMaterial = GameEngineMaterial::Create("Test2DTextureBelnd");
+		const std::shared_ptr<GameEngineBlend> Blend = GameEngineBlend::Create("Overlay", Desc);
+
+		std::shared_ptr<GameEngineMaterial> OverRayMaterial = GameEngineMaterial::Create("Texture2D_Overlay");
 		OverRayMaterial->SetVertexShader("TextureShader_VS");
 		OverRayMaterial->SetPixelShader("TextureShader_PS");
-		OverRayMaterial->SetBlendState("Test_Blend");
+		OverRayMaterial->SetBlendState("Overlay");
 	}
 }
 

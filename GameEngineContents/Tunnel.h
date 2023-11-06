@@ -3,6 +3,14 @@
 // Ό³Έν :
 class Tunnel : public GameEngineActor
 {
+private:
+	enum class ETUNNELSTATE
+	{
+		EnterTunnel,
+		Wait,
+		None,
+	};
+
 public:
 	// constrcuter destructer
 	Tunnel();
@@ -17,20 +25,25 @@ public:
 	void Init(std::string_view _NextLevelName);
 
 protected:
-	void Start() override;
 	void Update(float _Delta) override;
 	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
-private:
-	void UpdateTunnel(float _Delta);
+	void StateSetting();
+
+	void StartEnterTunnel(GameEngineState* _Parent);
+
+	void UpdateEnterTunnel(float _Delta, GameEngineState* _Parent);
+	void UpdateWait(float _Delta, GameEngineState* _Parent);
+
+
 
 private:
-	std::shared_ptr<GameEngineSpriteRenderer> m_Renderer = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> m_Renderer = nullptr;
 	std::string NextLevelName = "";
 
+	GameEngineState TunnelState;
 
-	float TunnelSpeed = 2800.0f;
+	static constexpr const float TunnelSpeed = 2800.0f;
 };
 

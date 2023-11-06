@@ -83,6 +83,6 @@ void GroundRenderUnit::DeSerializer(GameEngineSerializer& _Data)
 	}
 
 	float4 Position = Transform.GetLocalPosition();
-	Position.RoundDown();
+	Position.Round();
 	Transform.SetLocalPosition(Position);
 }

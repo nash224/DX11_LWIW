@@ -28,6 +28,8 @@ protected:
 public:
 	// Init
 	void SetSprite(std::string_view _FileName);
+	void SetMaterial(std::string_view _MaterialName);
+	void SetColor(const float4& _Color);
 	void SetFirstLocation(const float4& _Position);
 	void SetRegenLocation(const float4& _Position);
 	void SetSpawnPoint(float _Value);
@@ -63,12 +65,14 @@ private:
 	std::list<std::shared_ptr<SequentialProp>> listProps;
 
 private:
+	std::string MaterialName;
+
 	std::string m_SpriteFileName = "";
 	float4 m_TextureScale = float4::ZERO;
 	int m_Depth = 0;
 	int m_Order = 0;
 
-
+	float4 Color = float4::ONE;
 	float4 m_FirstLocation = float4::ZERO;	
 	float4 m_RegenLocation = float4::ZERO;
 	float m_RegenPoint = 0.0f;

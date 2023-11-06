@@ -530,7 +530,7 @@ public:
 		return Result;
 	}
 
-	inline void RoundUp()
+	inline void Ceil()
 	{
 		X = ceil(X);
 		Y = ceil(Y);
@@ -544,7 +544,7 @@ public:
 		Z = round(Z);
 	}
 
-	inline void RoundDown()
+	inline void Floor()
 	{
 		X = floor(X);
 		Y = floor(Y);

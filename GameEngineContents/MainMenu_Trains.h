@@ -16,6 +16,14 @@ class MainMenu_Trains : public GameEngineActor
 {
 	friend class BackDrop_MainMenu;
 
+private:
+	enum class ETRAINSOUNDSTATE
+	{
+		Onplay,
+		TurnDown,
+		None,
+	};
+
 public:
 	// constrcuter destructer
 	MainMenu_Trains();
@@ -37,6 +45,9 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
+
+	void SoundStateSetting();
+
 private:
 	void UpdateTrainFSM(float _Delta);
 	void ChangeState(TrainState _State);
@@ -51,12 +62,12 @@ private:
 	void StartWait();
 	void UpdateWait(float _Delta);
 
-
+	void TrainSound();
 
 private:
 	std::vector<std::shared_ptr<class TrainPart>> vecTrain;
 
-	const int CONST_TrainCount = 5;
+	static constexpr const int TrainCount = 5;
 
 private:
 	int m_TrainState;					// 진행중인 객차
@@ -72,7 +83,9 @@ private:
 	const float CONST_WaitTime = 1.0f;
 
 
-	
+	GameEngineSoundPlayer TrainSoundPlayer;
+	GameEngineState TrainSoundState;
+	float TrainSoundTime = 0.0f;
 
 
 private:

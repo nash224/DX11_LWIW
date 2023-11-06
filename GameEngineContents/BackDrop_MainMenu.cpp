@@ -1,11 +1,9 @@
 #include "PreCompile.h"
 #include "BackDrop_MainMenu.h"
 
-#include "GlobalUtils.h"
-
-#include "Scenery.h"
 #include "Prop.h"
 #include "ChainProp.h"
+#include "RendererActor.h"
 #include "MainMenu_Trains.h"
 
 BackDrop_MainMenu::BackDrop_MainMenu() 
@@ -53,10 +51,6 @@ void BackDrop_MainMenu::Init()
 {
 	GameEngineLevel* CurLevel = GetLevel();
 
-	CreateProp(CurLevel);
-	CreateTrain(CurLevel);
-	CreateChainProp(CurLevel);
-
 	std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Find("Title_Train_Sky.png");
 	if (nullptr == Texture)
 	{
@@ -65,6 +59,25 @@ void BackDrop_MainMenu::Init()
 	}
 
 	m_BackScale = Texture->GetScale();
+
+
+
+	if (nullptr == GameEngineSound::FindSound("BGM_MainTheme.wav"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\Sound\\MainMenu");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile pFile : Files)
+		{
+			GameEngineSound::SoundLoad(pFile.GetStringPath());
+		}
+	}
+
+	CreateProp(CurLevel);
+	CreateTrain(CurLevel);
+	CreateChainProp(CurLevel);
+	CreateButton();
 }
 
 
@@ -181,6 +194,16 @@ void BackDrop_MainMenu::CreateProp(class GameEngineLevel* _CurLevel)
 		Object->SetRendererPivotType(PivotType::LeftTop);
 		Object->SetPositionAndDepth({ 0.0f , 0.0f }, ETITLERENDERDEPTH::Shadow);
 	}
+
+	{
+		const float4& Position = float4(300.0f, 100.0f, GlobalUtils::CalculateFixDepth(ETITLERENDERDEPTH::Logo));
+
+		std::shared_ptr<GameEngineSpriteRenderer> _Logo = CreateComponent<GameEngineSpriteRenderer>();
+		_Logo->SetSprite("Logo.png");
+		_Logo->Transform.SetLocalPosition(Position);
+		_Logo->AutoSpriteSizeOn();
+		_Logo->SetAutoScaleRatio(0.5f);
+	}
 }
 
 #pragma endregion 
@@ -251,7 +274,6 @@ void BackDrop_MainMenu::CreateChainProp(class GameEngineLevel* _CurLevel)
 	
 	{
 		std::shared_ptr<ChainProp> Object = _CurLevel->CreateActor<ChainProp>(EUPDATEORDER::Objects);
-
 		Object->SetSprite("Title_Train_Mountain.png");
 		Object->SetSpeed(CONST_MountainSpeed);
 		Object->SetDepth(ETITLERENDERDEPTH::Props_0);
@@ -262,6 +284,7 @@ void BackDrop_MainMenu::CreateChainProp(class GameEngineLevel* _CurLevel)
 	{
 		std::shared_ptr<ChainProp> Object = _CurLevel->CreateActor<ChainProp>(EUPDATEORDER::Objects);
 
+		Object->SetMaterial("Texture2D_Overlay");
 		Object->SetSprite("Title_Train_MountainWater_blur.png");
 		Object->SetSpeed(CONST_MountainSpeed);
 		Object->SetDepth(ETITLERENDERDEPTH::Mountain_blur);
@@ -292,9 +315,22 @@ void BackDrop_MainMenu::CreateChainProp(class GameEngineLevel* _CurLevel)
 	{
 		std::shared_ptr<ChainProp> Object = _CurLevel->CreateActor<ChainProp>(EUPDATEORDER::Objects);
 
+		Object->SetMaterial("Texture2D_Overlay");
 		Object->SetSprite("Title_Train_WaterShine_blur.png");
 		Object->SetSpeed(-400.0f);
 		Object->SetDepth(ETITLERENDERDEPTH::Water_blur);
+		Object->CalculateAndSetRegenLocation(float4{ 544.0f , -483.0f });
+		Object->SetAutoSpawnPoint();
+	}
+
+	{
+		std::shared_ptr<ChainProp> Object = _CurLevel->CreateActor<ChainProp>(EUPDATEORDER::Objects);
+
+		Object->SetMaterial("Texture2D_Overlay");
+		Object->SetSprite("cookie_1.png");
+		Object->SetColor(float4(0.7f, 0.6f, 0.8f, 0.2f));
+		Object->SetSpeed(-450.0f);
+		Object->SetDepth(ETITLERENDERDEPTH::Light_);
 		Object->CalculateAndSetRegenLocation(float4{ 544.0f , -483.0f });
 		Object->SetAutoSpawnPoint();
 	}
@@ -324,7 +360,13 @@ void BackDrop_MainMenu::CreateChainProp(class GameEngineLevel* _CurLevel)
 		Object->SetRegenLocation(float4{ COSNT_TreeSpawnDistance , -418.0f });
 		Object->SetAutoSpawnPoint();
 	}
+
 }
 
 #pragma endregion 
+
+void BackDrop_MainMenu::CreateButton() 
+{
+
+}
 

@@ -33,6 +33,7 @@ private:
 	void CreateProp(class GameEngineLevel* _CurLevel);
 	void CreateTrain(class GameEngineLevel* _CurLevel);
 	void CreateChainProp(class GameEngineLevel* _CurLevel);
+	void CreateButton();
 
 private:
 
