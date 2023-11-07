@@ -89,32 +89,35 @@ void BranchTree::CreateBranchRenderer()
 	BranchVector.resize(static_cast<int>(EBRANCHFALLORDER::Max));
 
 	{
-		std::shared_ptr<GameEngineSpriteRenderer> BranchRenderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
-		BranchRenderer->SetSprite("Branch.png");
 		float4 Position = { -20.0f , -14.0f };
 		Position.Y += TreeRenderCorrection;
 		Position.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Roof);
+
+		std::shared_ptr<GameEngineSpriteRenderer> BranchRenderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
+		BranchRenderer->SetSprite("Branch.png");
 		BranchRenderer->Transform.SetLocalPosition(Position);
 		BranchRenderer->LeftFlip();
 		BranchVector[static_cast<int>(EBRANCHFALLORDER::First)] = BranchRenderer;
 	}
 
 	{
-		std::shared_ptr<GameEngineSpriteRenderer> BranchRenderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
-		BranchRenderer->SetSprite("Branch.png");
 		float4 Position = { 50.0f , 26.0f };
 		Position.Y += TreeRenderCorrection;
 		Position.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Roof);
+
+		std::shared_ptr<GameEngineSpriteRenderer> BranchRenderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
+		BranchRenderer->SetSprite("Branch.png");
 		BranchRenderer->Transform.SetLocalPosition(Position);
 		BranchVector[static_cast<int>(EBRANCHFALLORDER::Second)] = BranchRenderer;
 	}
 
 	{
-		std::shared_ptr<GameEngineSpriteRenderer> BranchRenderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
-		BranchRenderer->SetSprite("Branch_1.png");
 		float4 Position = { -22.0f , 54.0f };
 		Position.Y += TreeRenderCorrection;
 		Position.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Roof);
+
+		std::shared_ptr<GameEngineSpriteRenderer> BranchRenderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
+		BranchRenderer->SetSprite("Branch_1.png");
 		BranchRenderer->Transform.SetLocalPosition(Position);
 		BranchVector[static_cast<int>(EBRANCHFALLORDER::Third)] = BranchRenderer;
 	}

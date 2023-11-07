@@ -1,7 +1,7 @@
 #pragma once
 
 // Ό³Έν :
-class PixelCollision
+class PixelCollision : public GameEngineComponent
 {
 public:
 	// constrcuter destructer

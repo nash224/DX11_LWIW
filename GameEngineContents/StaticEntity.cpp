@@ -21,6 +21,7 @@ void StaticEntity::Release()
 {
 	InteractiveActor::Release();
 	PixelRenderer = nullptr;
+	PixelCol = nullptr;
 }
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
@@ -33,7 +34,10 @@ bool StaticEntity::GetPixelCheck()
 
 void StaticEntity::SetPixelCollision(std::string_view _FileName)
 {
-	PixelCol.SetPixelFileName(_FileName);
+	PixelCol = CreateComponent<PixelCollision>();
+	
+
+	PixelCol->SetPixelFileName(_FileName);
 
 	PixelRenderer = CreateComponent<GameEngineSpriteRenderer>();
 	PixelRenderer->Off();
@@ -43,7 +47,7 @@ void StaticEntity::SetPixelCollision(std::string_view _FileName)
 
 GameEngineColor StaticEntity::GetColor(const float4& _Position, GameEngineColor _DefaultColor /*= GameEngineColor::WHITE*/)
 {
-	return PixelCol.GetColor(_Position, Transform.GetLocalPosition(), _DefaultColor);
+	return PixelCol->GetColor(_Position, Transform.GetLocalPosition(), _DefaultColor);
 }
 
 void StaticEntity::UpdatePixelCollision()

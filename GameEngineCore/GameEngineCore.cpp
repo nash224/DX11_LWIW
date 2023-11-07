@@ -16,21 +16,21 @@ std::map<std::string, std::shared_ptr<GameEngineLevel>> GameEngineCore::AllLevel
 
 
 
-GameEngineCore::GameEngineCore() 
+GameEngineCore::GameEngineCore()
 {
 }
 
-GameEngineCore::~GameEngineCore() 
+GameEngineCore::~GameEngineCore()
 {
 }
 
-void GameEngineCore::Start() 
+void GameEngineCore::Start()
 {
 	GameEngineGUI::Start();
 	CoreObject->Start();
 }
 
-void GameEngineCore::Update() 
+void GameEngineCore::Update()
 {
 
 
@@ -93,7 +93,7 @@ void GameEngineCore::Update()
 	CurLevel->AllReleaseCheck();
 }
 
-void GameEngineCore::Release() 
+void GameEngineCore::Release()
 {
 	CoreObject->Release();
 	GameEngineGUI::Release();
@@ -119,5 +119,8 @@ void GameEngineCore::EngineProcess(HINSTANCE _Inst, const std::string& _WindowNa
 void GameEngineCore::LevelInit(std::shared_ptr<GameEngineLevel> _Level, std::string_view _Name)
 {
 	_Level->SetName(_Name);
+
+
+
 	_Level->Start();
 }

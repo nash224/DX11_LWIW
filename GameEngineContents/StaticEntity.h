@@ -33,7 +33,7 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 private:
-	PixelCollision PixelCol;
+	std::shared_ptr<PixelCollision> PixelCol;
 	std::shared_ptr<GameEngineSpriteRenderer> PixelRenderer;
 
 	bool isPixelSet = false;

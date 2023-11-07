@@ -6,17 +6,25 @@ bool GameEngineRenderTarget::IsDepth = true;
 
 GameEngineRenderUnit GameEngineRenderTarget::MergeUnit;
 
+void GameEngineRenderTarget::RenderTargetReset()
+{
+	ID3D11RenderTargetView* ArrRenderTarget[MAX_RENDER_TARGET_SETTING_COUNT] = { nullptr, };
+
+	GameEngineCore::GetContext()->OMSetRenderTargets(MAX_RENDER_TARGET_SETTING_COUNT, ArrRenderTarget, nullptr);
+	// GameEngineCore::GetContext()->RSSetViewports(static_cast<UINT>(ViewPorts.size()), &ViewPorts[0]);
+}
+
 void GameEngineRenderTarget::MergeRenderUnitInit()
 {
 	GameEngineRenderTarget::MergeUnit.SetMesh("FullRect");
 	GameEngineRenderTarget::MergeUnit.SetMaterial("TargetMerge");
 };
 
-GameEngineRenderTarget::GameEngineRenderTarget() 
+GameEngineRenderTarget::GameEngineRenderTarget()
 {
 }
 
-GameEngineRenderTarget::~GameEngineRenderTarget() 
+GameEngineRenderTarget::~GameEngineRenderTarget()
 {
 }
 
@@ -41,7 +49,7 @@ void GameEngineRenderTarget::Setting()
 {
 	ID3D11DepthStencilView* DSV = DepthTexture != nullptr ? DepthTexture->GetDSV() : nullptr;
 
-	if (0 >=  RTV.size())
+	if (0 >= RTV.size())
 	{
 		MsgBoxAssert("만들어지지 않은 랜더타겟을 세팅하려고 했습니다.");
 		return;
@@ -104,7 +112,7 @@ void GameEngineRenderTarget::AddNewTexture(std::shared_ptr<GameEngineTexture> _T
 void GameEngineRenderTarget::CreateDepthTexture(int _Index/* = 0*/)
 {
 	// 텍스처를 직접 만드는 첫번째 작업
-	D3D11_TEXTURE2D_DESC Desc = {0,};
+	D3D11_TEXTURE2D_DESC Desc = { 0, };
 
 	// 텍스처를 3차원으로 만들것이냐인데.
 	Desc.ArraySize = 1;
@@ -147,6 +155,8 @@ void GameEngineRenderTarget::Merge(unsigned int ThisTarget, std::shared_ptr<Game
 
 void GameEngineRenderTarget::PostEffect(float _DeltaTime)
 {
+	RenderTargetReset();
+
 	for (std::shared_ptr<Effect>& Effect : Effects)
 	{
 		if (false == Effect->IsUpdate())
@@ -164,4 +174,19 @@ void GameEngineRenderTarget::EffectInit(Effect* _Effect)
 {
 	_Effect->EffectTarget = this;
 	_Effect->Start();
+}
+
+std::shared_ptr<GameEngineRenderTarget> GameEngineRenderTarget::CreateChildRenderTarget(std::vector<int> _Index)
+{
+	std::shared_ptr<GameEngineRenderTarget> NewRenderTarget = std::make_shared<GameEngineRenderTarget>();
+
+	for (size_t i = 0; i < _Index.size(); i++)
+	{
+		NewRenderTarget->RTV.push_back(RTV[_Index[i]]);
+		NewRenderTarget->SRV.push_back(SRV[_Index[i]]);
+		NewRenderTarget->ClearColor.push_back(ClearColor[_Index[i]]);
+		NewRenderTarget->ViewPorts.push_back(ViewPorts[_Index[i]]);
+	}
+
+	return NewRenderTarget;
 }
