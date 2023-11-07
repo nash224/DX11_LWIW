@@ -569,9 +569,10 @@ void BackDrop_WitchHouse_DownFloor::CreatePixelMap(GameEngineLevel* _Level)
 void BackDrop_WitchHouse_DownFloor::CreateStaticActor(GameEngineLevel* _Level)
 {
 	{
-		std::shared_ptr<AlchemyPot> Object = _Level->CreateActor<AlchemyPot>(EUPDATEORDER::Objects);
 		float4 Position = float4(m_DownFloorWholePosition + float4(409.0f, -299.0f));
 		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y,Position.Y);
+
+		std::shared_ptr<AlchemyPot> Object = GetLevel()->CreateActor<AlchemyPot>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 
@@ -579,18 +580,21 @@ void BackDrop_WitchHouse_DownFloor::CreateStaticActor(GameEngineLevel* _Level)
 	}
 
 	{
-		std::shared_ptr<Roaster> Object = _Level->CreateActor<Roaster>(EUPDATEORDER::Objects);
-		float4 Position = float4(m_DownFloorWholePosition + float4(230.0f, -394.0f));
+		float4 Position = float4(m_DownFloorWholePosition + float4(220.0f, -344.0f));
 		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y,Position.Y);
+
+		std::shared_ptr<Roaster> Object = GetLevel()->CreateActor<Roaster>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(Position);
+		Object->Init();
 
 		PixelStaticEntityVec.push_back(Object);
 	}
 
 	{
-		std::shared_ptr<Extractor> Object = _Level->CreateActor<Extractor>(EUPDATEORDER::Objects);
 		float4 Position = float4(m_DownFloorWholePosition + float4(296.0f, -186.0f));
 		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y,Position.Y);
+
+		std::shared_ptr<Extractor> Object = GetLevel()->CreateActor<Extractor>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(Position);
 
 		PixelStaticEntityVec.push_back(Object);

@@ -44,15 +44,7 @@ void BackDrop_CenterField::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	BackDrop_Field::LevelEnd(_NextLevel);
 
-
-	GameEngineDirectory Dir;
-	Dir.MoveParentToExistsChild("Resources");
-	Dir.MoveChild("Resources\\PlayContents\\FieldCenter");
-	const std::vector<GameEngineFile> Files = Dir.GetAllFile();
-	for (GameEngineFile pFile : Files)
-	{
-		GameEngineSprite::Release(pFile.GetFileName());
-	}
+	ReleaseSpriteFile();
 }
 
 
@@ -75,6 +67,8 @@ void BackDrop_CenterField::Init()
 
 }
 
+#pragma region SpriteFile
+
 void BackDrop_CenterField::SpriteFileLoad()
 {
 	GameEngineDirectory Dir;
@@ -87,6 +81,22 @@ void BackDrop_CenterField::SpriteFileLoad()
 	}
 }
 
+void BackDrop_CenterField::ReleaseSpriteFile()
+{
+	GameEngineDirectory Dir;
+	Dir.MoveParentToExistsChild("Resources");
+	Dir.MoveChild("Resources\\PlayContents\\FieldCenter");
+	const std::vector<GameEngineFile> Files = Dir.GetAllFile();
+	for (GameEngineFile pFile : Files)
+	{
+		GameEngineSprite::Release(pFile.GetFileName());
+	}
+}
+
+#pragma endregion
+
+#pragma region Map
+
 void BackDrop_CenterField::CreateMap()
 {
 	const std::int32_t GroupZero = 0;
@@ -95,7 +105,7 @@ void BackDrop_CenterField::CreateMap()
 	const float4 MapScale = MapTexture->GetScale();
 
 	m_BackScale = MapScale;
-	
+
 
 	{
 		float4 MapPos = MapScale.Half();
@@ -170,6 +180,8 @@ void BackDrop_CenterField::LoadSerBin()
 	}
 }
 
+#pragma endregion
+
 
 void BackDrop_CenterField::CreateAurea()
 {
@@ -206,10 +218,6 @@ void BackDrop_CenterField::CreatePortalActor()
 
 
 
-void BackDrop_CenterField::ReleaseAllCreature()
-{
-
-}
 
 void BackDrop_CenterField::CreateCreatureWhenDayChange()
 {
@@ -249,6 +257,12 @@ void BackDrop_CenterField::DisappearDayCreature()
 }
 
 void BackDrop_CenterField::AppearNightCreature()
+{
+
+}
+
+
+void BackDrop_CenterField::ReleaseAllCreature()
 {
 
 }

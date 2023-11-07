@@ -26,22 +26,18 @@ public:
 	Roaster& operator=(Roaster&& _Other) noexcept = delete;
 
 
+	void Init();
 
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
-
 private:
-	void InitRoaster();
+	void RendererSetting();
 
-	void CreateRendererAndAnimation();
-
-
-private:
 	void UpdateState(float _Delta);
 	void ChangeState(EROASTERSTATE _State);
 	void ChangeRoasterCompositionAnimation(std::string_view _StateName);

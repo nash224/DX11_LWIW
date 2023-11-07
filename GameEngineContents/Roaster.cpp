@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "Roaster.h"
 
+#include "BackDrop_PlayLevel.h"
+
 Roaster::Roaster() 
 {
 }
@@ -13,11 +15,9 @@ Roaster::~Roaster()
 void Roaster::Start()
 {
 	StaticEntity::Start();
-	CreateAndSetCollision(ECOLLISION::Entity, { 150.0f , 150.0f }, float4::ZERO, ColType::SPHERE2D);
+	CreateAndSetCollision(ECOLLISION::Entity, { 120.0f , 80.0f }, float4(0.0f, -40.0f), ColType::AABBBOX2D);
 	SetInteractionType(EINTERACTION_TYPE::Far);
 	SetInteractionButtonType(EINTERACTION_BUTTONTYPE::Gear);
-
-	InitRoaster();
 }
 
 void Roaster::Update(float _Delta)
@@ -36,14 +36,9 @@ void Roaster::Release()
 	m_RoasterFXSteam = nullptr;
 }
 
-void Roaster::LevelStart(class GameEngineLevel* _NextLevel)
-{
-	StaticEntity::LevelStart(_NextLevel);
-}
-
 void Roaster::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-	StaticEntity::LevelEnd(_NextLevel);
+	Death();
 }
 
 
@@ -51,36 +46,36 @@ void Roaster::LevelEnd(class GameEngineLevel* _NextLevel)
 /////////////////////////////////////////////////////////////////////////////////////
 
 
-void Roaster::InitRoaster()
+void Roaster::Init()
 {
-	CreateRendererAndAnimation();
+	ApplyDepth(Transform.GetLocalPosition());
+
+	RendererSetting();
 }
 
-void Roaster::CreateRendererAndAnimation()
+void Roaster::RendererSetting()
 {
 	if (nullptr == GameEngineSprite::Find("Roaster_0.png"))
 	{
-		// Roaster
 		GameEngineSprite::CreateCut("Roaster_0.png", 7, 7);
 		GameEngineSprite::CreateCut("Roaster_0_Top.png", 7, 6);
 	}
 
+	static constexpr const int RenderOrder = 0;
+
+	m_Roaster = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
+	m_RoasterFXSteam = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
+	m_Shadow = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
 
 
-	m_Roaster = CreateComponent<GameEngineSpriteRenderer>(0);
 	m_Roaster->CreateAnimation("Broken", "Roaster_0.png", 5.0f, 7, 7);
 	m_Roaster->CreateAnimation("Idle", "Roaster_0.png", 0.1f, 2, 6);
 	m_Roaster->CreateAnimation("Roasting", "Roaster_0.png", 0.1f, 8, 43);
 	m_Roaster->AutoSpriteSizeOn();
 
-
-
-
-	m_RoasterFXSteam = CreateComponent<GameEngineSpriteRenderer>(0);
 	m_RoasterFXSteam->CreateAnimation("Roasting", "Roaster_0_Top.png", 0.1f, 1, 23);
 	m_RoasterFXSteam->AutoSpriteSizeOn();
 
-	m_Shadow = CreateComponent<GameEngineSpriteRenderer>(0);
 	m_Shadow->SetSprite("Roaster_0.png", 1);
 
 	m_Roaster->ChangeAnimation("Roasting");

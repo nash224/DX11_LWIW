@@ -26,22 +26,19 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
+	void CreateCreatureWhenDayChange() override;
 	void DisappearDayCreature() override;
 	void AppearNightCreature() override;
 	void ReleaseAllCreature() override;
-	void CreateCreatureWhenDayChange() override;
 
 protected:
 	void SpriteFileLoad();
+	void ReleaseSpriteFile();
 
 	void CreateMap();
 	void LoadSerBin();
 	void CreatePortalActor();
 	void CreateAurea();
-
-	void CreateCreature();
-	void CreateDayNightTimeCreature();
-	void CreateDayTimeCreature();
 
 	void CreatePumpkinTerrier();
 
