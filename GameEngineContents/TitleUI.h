@@ -15,8 +15,8 @@ public:
 	TitleUI& operator=(TitleUI&& _Other) noexcept = delete;
 
 	void Init();
-	void ButtonSetting(GameEngineLevel* _Level);
-	void StateSetting(GameEngineLevel* _Level);
+	void ButtonSetting();
+	void StateSetting();
 
 
 protected:

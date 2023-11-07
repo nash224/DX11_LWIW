@@ -151,20 +151,6 @@ void Ellie::BroomSetting()
 	m_Body->SetFrameEvent("Ellie_Basic_Riding_Moving_RIGHTUP", 34, [&](GameEngineSpriteRenderer* _Renderer) {ChangeBroomAndVirgilIndexToRidingMode(16, 32, 50); });
 #pragma endregion
 
-
-
-	//{
-	//	m_Body->CreateAnimation("Ellie_Basic_Riding_Moving_LEFT", "Ellie_Basic_Riding_Moving.png", Ellie_Riding_Move_Inter, 3, 6);
-	//	m_Body->CreateAnimation("Ellie_Basic_Riding_Moving_LEFTDOWN", "Ellie_Basic_Riding_Moving.png", Ellie_Riding_Move_Inter, 7, 10);
-	//	m_Body->CreateAnimation("Ellie_Basic_Riding_Moving_DOWN", "Ellie_Basic_Riding_Moving.png", Ellie_Riding_Move_Inter, 11, 14);
-	//	m_Body->CreateAnimation("Ellie_Basic_Riding_Moving_RIGHTDOWN", "Ellie_Basic_Riding_Moving.png", Ellie_Riding_Move_Inter, 19, 22);
-	//	m_Body->CreateAnimation("Ellie_Basic_Riding_Moving_RIGHT", "Ellie_Basic_Riding_Moving.png", Ellie_Riding_Move_Inter, 15, 18);
-	//	m_Body->CreateAnimation("Ellie_Basic_Riding_Moving_LEFTUP", "Ellie_Basic_Riding_Moving.png", Ellie_Riding_Move_Inter, 23, 26);
-	//	m_Body->CreateAnimation("Ellie_Basic_Riding_Moving_UP", "Ellie_Basic_Riding_Moving.png", Ellie_Riding_Move_Inter, 27, 30);
-	//	m_Body->CreateAnimation("Ellie_Basic_Riding_Moving_RIGHTUP", "Ellie_Basic_Riding_Moving.png", Ellie_Riding_Move_Inter, 31, 34);
-	//}
-
-
 }
 
 void Ellie::ChangeBroomAndVirgilIndexToRidingMode(int _HeadIndex, int _BodyIndex, int _VirgilIndex)

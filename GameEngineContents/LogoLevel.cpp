@@ -1,10 +1,10 @@
 #include "PreCompile.h"
 #include "LogoLevel.h"
 
-#include "NormalProp.h"
+#include "CameraControler.h"
 
 #include "FadeObject.h"
-#include "CameraControler.h"
+#include "RendererActor.h"
 
 LogoLevel::LogoLevel() 
 {
@@ -31,8 +31,6 @@ void LogoLevel::Start()
 
 void LogoLevel::Update(float _Delta)
 {
-	ContentsLevel::Update(_Delta);
-
 	UpdateFade(_Delta);
 }
 
@@ -43,11 +41,6 @@ void LogoLevel::LevelStart(class GameEngineLevel* _NextLevel)
 	Init();
 
 	std::shared_ptr<FadeObject> Fade = CreateActor<FadeObject>(EUPDATEORDER::Fade);
-	if (nullptr == Fade)
-	{
-		MsgBoxAssert("액터를 생성하지 못했습니다.");
-		return;
-	}
 	Fade-> CallFadeIn(1.2f);
 }
 
@@ -102,54 +95,41 @@ void LogoLevel::LoadActor()
 {
 	float4 WinScale = GlobalValue::GetWindowScale();
 
-	std::shared_ptr<NormalProp> m_BackPaint = CreateActor<NormalProp>();
-	if (nullptr == m_BackPaint)
-	{
-		MsgBoxAssert("로고를 생성하지 못했습니다.");
-		return;
-	}
-
-	m_BackPaint->Transform.SetLocalScale(WinScale);
 	float4 Position = WinScale.Half();
 	Position.Y *= -1.0f;
-	m_BackPaint->Transform.SetLocalPosition(Position);
-	m_BackPaint->Transform.AddLocalPosition({ 0.0f, 0.0f, 1.0f });
-	m_BackPaint->Init();
-	m_BackPaint->m_Renderer->SetSprite("Fade_Texture.png");
 
-	std::shared_ptr<NormalProp> m_Logo = CreateActor<NormalProp>();
-	if (nullptr == m_Logo)
 	{
-		MsgBoxAssert("로고를 생성하지 못했습니다.");
-		return;
+		std::shared_ptr<RendererActor> m_BackPaint = CreateActor<RendererActor>();
+		m_BackPaint->Transform.SetLocalScale(WinScale);
+		m_BackPaint->Transform.SetLocalPosition(Position);
+		m_BackPaint->Transform.AddLocalPosition({ 0.0f, 0.0f, 1.0f });
+		m_BackPaint->Init();
+		m_BackPaint->m_Renderer->GetColorData().MulColor = float4::ZERO;
 	}
 
-	m_Logo->Transform.SetLocalPosition(Position);
-	m_Logo->Init();
-	m_Logo->m_Renderer->SetSprite("logo_1080p_0.png");
-
+	{
+		std::shared_ptr<RendererActor> m_Logo = CreateActor<RendererActor>();
+		m_Logo->Transform.SetLocalPosition(Position);
+		m_Logo->Init();
+		m_Logo->m_Renderer->SetSprite("logo_1080p_0.png");
+	}
 }
 
 
 void LogoLevel::UpdateFade(float _Delta)
 {
+	static constexpr const float FadeOutStartTime = 3.0f;
+
 	m_LogoTime += _Delta;
-	if (m_LogoTime >= 3.0f)
+	if (m_LogoTime > FadeOutStartTime)
 	{
-		if (true == IsFadeOn)
+		if (false == IsFadeOn)
 		{
-			return;
+			std::shared_ptr<FadeObject> Fade = CreateActor<FadeObject>(EUPDATEORDER::Fade);
+			Fade->CallFadeOut("MainMenu", 1.2f);
 		}
 
 		IsFadeOn = true;
-
-		std::shared_ptr<FadeObject> Fade = CreateActor<FadeObject>(EUPDATEORDER::Fade);
-		if (nullptr == Fade)
-		{
-			MsgBoxAssert("액터를 생성하지 못했습니다.");
-			return;
-		}
-		Fade->CallFadeOut("MainMenu", 1.2f);
 	}
 }
 

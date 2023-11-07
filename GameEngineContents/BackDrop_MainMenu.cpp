@@ -198,7 +198,7 @@ void BackDrop_MainMenu::CreateProp(class GameEngineLevel* _CurLevel)
 	{
 		const float4& Position = float4(300.0f, 100.0f, GlobalUtils::CalculateFixDepth(ETITLERENDERDEPTH::Logo));
 
-		std::shared_ptr<GameEngineSpriteRenderer> _Logo = CreateComponent<GameEngineSpriteRenderer>();
+		std::shared_ptr<GameEngineUIRenderer> _Logo = CreateComponent<GameEngineUIRenderer>();
 		_Logo->SetSprite("Logo.png");
 		_Logo->Transform.SetLocalPosition(Position);
 		_Logo->AutoSpriteSizeOn();

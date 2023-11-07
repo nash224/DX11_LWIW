@@ -42,45 +42,26 @@ void TitleUI::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void TitleUI::Init()
 {
-	GameEngineLevel* CurLevel = GetLevel();
-	if (nullptr == CurLevel)
-	{
-		MsgBoxAssert("레벨을 불러오지 못했습니다.");
-		return;
-	}
-
-	ButtonSetting(CurLevel);
-	StateSetting(CurLevel);
+	ButtonSetting();
+	StateSetting();
 }
 
 
-void TitleUI::ButtonSetting(GameEngineLevel* _Level)
+void TitleUI::ButtonSetting()
 {
-	std::shared_ptr<NormalProp> ZButton = _Level->CreateActor<NormalProp>();
-	if (nullptr == ZButton)
-	{
-		MsgBoxAssert("액터를 생성하지 못했습니다.");
-		return;
-	}
-
+	std::shared_ptr<NormalProp> ZButton = GetLevel()->CreateActor<NormalProp>();
 	ZButton->Transform.SetLocalPosition({100.0f, -480.0f, GlobalUtils::CalculateFixDepth(ETITLERENDERDEPTH::UI)});
 	ZButton->Init();
 	ZButton->m_Renderer->SetSprite("ButtonSet_Keyboard_Z_PressHold.png");
 
 
-	std::shared_ptr<NormalProp> ArrowButton = _Level->CreateActor<NormalProp>();
-	if (nullptr == ArrowButton)
-	{
-		MsgBoxAssert("액터를 생성하지 못했습니다.");
-		return;
-	}
-
+	std::shared_ptr<NormalProp> ArrowButton = GetLevel()->CreateActor<NormalProp>();
 	ArrowButton->Transform.SetLocalPosition({ 270.0f, -480.0f, GlobalUtils::CalculateFixDepth(ETITLERENDERDEPTH::UI) });
 	ArrowButton->Init();
 	ArrowButton->m_Renderer->SetSprite("ButtonSet_Keyboard_Arrow_Vertical.png");
 }
 
-void TitleUI::StateSetting(GameEngineLevel* _Level)
+void TitleUI::StateSetting()
 {
 	//CreateStateParameter PressButtonState;
 	//PressButtonState.Start = [=](GameEngineState* _Parent)

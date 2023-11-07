@@ -21,6 +21,7 @@ private:
 	};
 
 
+
 public:
 	// constrcuter destructer
 	UI_MainMenu_Button();
@@ -43,14 +44,11 @@ protected:
 	void StateSetting();
 
 	void StartAnyPress(GameEngineState* _Parent);
-	void StartTitle(GameEngineState* _Parent);
 	void StartNone(GameEngineState* _Parent);
 
 	void UpdateAnyPress(float _Delta, GameEngineState* _Parent);
-	void UpdateTitle(float _Delta, GameEngineState* _Parent);
 
 	void EndAnyPress(GameEngineState* _Parent);
-	void EndTitle(GameEngineState* _Parent);
 
 
 

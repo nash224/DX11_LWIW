@@ -10,7 +10,7 @@
 #include "CameraControler.h"
 
 // Actor
-#include "Tunnel.h"
+#include "UI_MainMenu_Button.h"
 #include "TitleUI.h"
 
 
@@ -37,17 +37,9 @@ void MainMenu::Start()
 
 void MainMenu::Update(float _Delta)
 {
-	std::string NextLevelName = "WitchHouse_Yard";
-
-	if (true == GameEngineInput::IsDown('R', this))
-	{
-		std::shared_ptr<Tunnel> TunnelPtr = CreateActor<Tunnel>(EUPDATEORDER::Fade);
-		TunnelPtr->Init(NextLevelName);
-	}
-
 	if (true == GameEngineInput::IsDown('T', this))
 	{
-		GameEngineCore::ChangeLevel(NextLevelName);
+		GameEngineCore::ChangeLevel("WitchHouse_Yard");
 	}
 }
 
@@ -66,10 +58,9 @@ void MainMenu::LevelStart(GameEngineLevel* _PrevLevel)
 			return;
 		}
 
-		std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Find("Title_Train_Sky.png");
-		float4 HScale = Texture->GetScale().Half();
-		HScale.Y *= -1.0f;
-		GlobalValue::g_CameraControler->SetLocalPostion(HScale);
+		float4 CameraPosition = GlobalValue::GetWindowScale().Half();
+		CameraPosition.Y *= -1.0f;
+		GlobalValue::g_CameraControler->SetLocalPostion(CameraPosition);
 	}
 }
 
@@ -128,8 +119,7 @@ void MainMenu::InitActor()
 	m_BackDrop = CreateActor<BackDrop_MainMenu>(EUPDATEORDER::Objects);
 	m_BackDrop->Init();
 
-
-	std::shared_ptr<TitleUI> Title_UI = CreateActor<TitleUI>(EUPDATEORDER::Objects);
+	std::shared_ptr<UI_MainMenu_Button> Title_UI = CreateActor<UI_MainMenu_Button>(EUPDATEORDER::Objects);
 	Title_UI->Init();
 }
 

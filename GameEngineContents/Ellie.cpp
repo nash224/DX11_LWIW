@@ -406,13 +406,11 @@ void Ellie::ChangeShawdowSprite(std::string_view _AnimationName)
 	case EELLIE_STATE::Wait:
 	case EELLIE_STATE::MongSiri:
 	case EELLIE_STATE::Drink:
+	case EELLIE_STATE::ButterflyNet:
 		Shadow->SetSprite(ShadowSpriteName, 1);
 		break;
 	case EELLIE_STATE::RootUp:
 		Shadow->SetSprite(ShadowSpriteName, 7);
-		break;
-	case EELLIE_STATE::ButterflyNet:
-		Shadow->SetSprite(ShadowSpriteName, 1);
 		break;
 	case EELLIE_STATE::Sit:
 	case EELLIE_STATE::Fail:
