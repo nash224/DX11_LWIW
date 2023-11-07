@@ -1,4 +1,4 @@
-#include "../../GameEngineCoreShader/Transform.fx"
+#include "../GameEngineCoreShader/Transform.fx"
 #include "ContentsRenderBase.fx"
 
 struct GameEngineVertex2D

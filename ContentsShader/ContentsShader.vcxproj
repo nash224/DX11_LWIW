@@ -127,8 +127,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <FxCompile Include="..\Resources\Shader\ContentsRenderBase.fx" />
-    <FxCompile Include="..\Resources\Shader\GlowMaskShader.fx" />
+    <FxCompile Include="ContentsRenderBase.fx" />
+    <FxCompile Include="GlowMaskShader.fx" />
+    <FxCompile Include="TestShader.fx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

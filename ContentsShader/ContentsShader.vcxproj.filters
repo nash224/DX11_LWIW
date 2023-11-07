@@ -6,10 +6,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\Resources\Shader\ContentsRenderBase.fx">
+    <FxCompile Include="TestShader.fx">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="..\Resources\Shader\GlowMaskShader.fx">
+    <FxCompile Include="GlowMaskShader.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="ContentsRenderBase.fx">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>

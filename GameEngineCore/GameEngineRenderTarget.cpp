@@ -154,7 +154,7 @@ void GameEngineRenderTarget::Merge(unsigned int ThisTarget, std::shared_ptr<Game
 }
 
 void GameEngineRenderTarget::PostEffect(float _DeltaTime)
-{
+{ 
 	RenderTargetReset();
 
 	for (std::shared_ptr<Effect>& Effect : Effects)

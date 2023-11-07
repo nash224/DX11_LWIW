@@ -8,8 +8,12 @@
 #include "Bush.h"
 #include "WitchFlower.h"
 #include "MongSiri_Population.h"
-
 #include "NormalProp.h"
+
+
+#include "PlayerEffect.h"
+
+
 
 TestLevel::TestLevel() 
 {
@@ -28,6 +32,11 @@ void TestLevel::Start()
 	Position.Y *= -1.0f;
 
 	GetMainCamera()->Transform.SetLocalPosition(Position);
+
+
+	{
+		GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<PlayerEffect>();
+	}
 }
 
 void TestLevel::Update(float _Delta)
@@ -50,6 +59,9 @@ void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
 
 		Map = CreateActor<GameEngineActor>(EUPDATEORDER::Objects);
 		Map->Transform.SetLocalPosition(Position);
+
+
+
 		std::weak_ptr<GameEngineSpriteRenderer> BaseRenderer = Map->CreateComponent<GameEngineSpriteRenderer>(0);
 		BaseRenderer.lock()->SetSprite("GroundBase.png");
 		BaseRenderer.lock()->GetImageTransform().SetLocalScale(WinScale);
@@ -88,7 +100,7 @@ void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
 		for (int i = 0; i < 5; i++)
 		{
 			const std::shared_ptr<WitchFlower>& witchflower = CreateActor<WitchFlower>(EUPDATEORDER::Objects);
-			witchflower->Transform.SetLocalPosition(float4(100.0f + (100.0f * i), -100.0f));
+			witchflower->Transform.SetLocalPosition(float4(100.0f + (100.0f * static_cast<float>(i)), -100.0f));
 			witchflower->Init();
 		}
 	}

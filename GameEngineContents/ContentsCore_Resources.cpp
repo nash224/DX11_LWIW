@@ -176,7 +176,7 @@ void ContentsCore::InitAutoCompile()
 	{
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExistsChild("Resources");
-		Dir.MoveChild("Resources\\Shader");
+		Dir.MoveChild("ContentsShader");
 		std::vector<GameEngineFile> Files = Dir.GetAllFile({ ".fx" });
 
 		for (GameEngineFile& pFile : Files)

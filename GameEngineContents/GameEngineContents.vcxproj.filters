@@ -523,6 +523,9 @@
     <ClInclude Include="UI_MainMenu_Button.h">
       <Filter>2.Object\2.Actor\1.BackManager\LevelBackDrop\1.MainMenu</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerEffect.h">
+      <Filter>100.Z_Test\0.Level</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -877,6 +880,9 @@
     </ClCompile>
     <ClCompile Include="Ellie_Broom_Resources.cpp">
       <Filter>2.Object\2.Actor\2.Interactive\Dynamic\Ellie\Broom</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerEffect.cpp">
+      <Filter>100.Z_Test\0.Level</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
