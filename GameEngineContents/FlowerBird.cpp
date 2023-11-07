@@ -159,6 +159,10 @@ void FlowerBird::DirectionSetting()
 	}
 }
 
+void FlowerBird::Leave()
+{
+	ChangeState(EFLOWERBIRDSTATE::Fly);
+}
 
 void FlowerBird::UpdateState(float _Delta)
 {

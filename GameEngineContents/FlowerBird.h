@@ -64,6 +64,8 @@ public:
 	void AnimationSetting();
 	void DirectionSetting();
 
+	void Leave();
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;

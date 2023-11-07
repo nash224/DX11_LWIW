@@ -184,9 +184,6 @@
     <Filter Include="100.Z_Test\0.Level">
       <UniqueIdentifier>{b11e4423-561b-42c5-8cc9-d5076dfd357d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2.Object\2.Actor\0.Manager\PixelCollision">
-      <UniqueIdentifier>{d928dca4-c18a-4aca-a403-4ca423afc340}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2.Object\2.Actor\2.Interactive\Dynamic\Ellie\Broom">
       <UniqueIdentifier>{53d7c11a-9686-454b-9dc1-ad1451b99e92}</UniqueIdentifier>
     </Filter>
@@ -195,6 +192,9 @@
     </Filter>
     <Filter Include="2.Object\2.Actor\2.Interactive\Dynamic\Ellie\Broom\Ride_Fx">
       <UniqueIdentifier>{2f14f9c3-c420-477c-99e0-bf1cc2395e0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PixelCollision">
+      <UniqueIdentifier>{8a668e94-d491-4242-b5ac-e210bb340594}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -517,14 +517,17 @@
     <ClInclude Include="RidingFx.h">
       <Filter>2.Object\2.Actor\2.Interactive\Dynamic\Ellie\Broom\Ride_Fx</Filter>
     </ClInclude>
-    <ClInclude Include="PixelCollision.h">
-      <Filter>2.Object\2.Actor\0.Manager\PixelCollision</Filter>
-    </ClInclude>
     <ClInclude Include="UI_MainMenu_Button.h">
       <Filter>2.Object\2.Actor\1.BackManager\LevelBackDrop\1.MainMenu</Filter>
     </ClInclude>
     <ClInclude Include="PlayerEffect.h">
       <Filter>100.Z_Test\0.Level</Filter>
+    </ClInclude>
+    <ClInclude Include="PixelCollision.h">
+      <Filter>PixelCollision</Filter>
+    </ClInclude>
+    <ClInclude Include="BackDrop_Field.h">
+      <Filter>2.Object\2.Actor\1.BackManager\LevelBackDrop\2.Play</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -866,9 +869,6 @@
     <ClCompile Include="RidingFx.cpp">
       <Filter>2.Object\2.Actor\2.Interactive\Dynamic\Ellie\Broom\Ride_Fx</Filter>
     </ClCompile>
-    <ClCompile Include="PixelCollision.cpp">
-      <Filter>2.Object\2.Actor\0.Manager\PixelCollision</Filter>
-    </ClCompile>
     <ClCompile Include="Ellie_Virgil.cpp">
       <Filter>2.Object\2.Actor\2.Interactive\Dynamic\Ellie</Filter>
     </ClCompile>
@@ -883,6 +883,12 @@
     </ClCompile>
     <ClCompile Include="PlayerEffect.cpp">
       <Filter>100.Z_Test\0.Level</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelCollision.cpp">
+      <Filter>PixelCollision</Filter>
+    </ClCompile>
+    <ClCompile Include="BackDrop_Field.cpp">
+      <Filter>2.Object\2.Actor\1.BackManager\LevelBackDrop\2.Play</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

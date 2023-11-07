@@ -52,12 +52,6 @@ void MongSiri_Population::LevelEnd(class GameEngineLevel* _NextLevel)
 void MongSiri_Population::Init(unsigned int _Population)
 {
 	GameEngineLevel* CurLevel = GetLevel();
-	if (nullptr == CurLevel)
-	{
-		MsgBoxAssert("레벨을 불러오지 못했습니다.");
-		return;
-	}
-
 	SetUpChubHole(CurLevel);
 	GetHoleScale();
 	ExploreSpawnLocation();
@@ -67,9 +61,10 @@ void MongSiri_Population::Init(unsigned int _Population)
 // 구멍을 설치합니다.
 void MongSiri_Population::SetUpChubHole(GameEngineLevel* _CurLevel)
 {
-	m_ChubHole = _CurLevel->CreateActor<ChubHole>(EUPDATEORDER::Objects);
 	float4 CurrentPosition = Transform.GetLocalPosition();
 	CurrentPosition.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Hole);
+
+	m_ChubHole = _CurLevel->CreateActor<ChubHole>(EUPDATEORDER::Objects);
 	m_ChubHole->Transform.SetLocalPosition(CurrentPosition);
 	m_ChubHole->Init();
 }

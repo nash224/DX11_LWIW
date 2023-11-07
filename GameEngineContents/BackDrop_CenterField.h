@@ -1,8 +1,9 @@
 #pragma once
-#include "BackDrop_PlayLevel.h"
+#include "BackDrop_Field.h"
+
 
 // Ό³Έν :
-class BackDrop_CenterField : public BackDrop_PlayLevel
+class BackDrop_CenterField : public BackDrop_Field
 {
 public:
 	// constrcuter destructer
@@ -19,11 +20,16 @@ public:
 	void Init();
 
 protected:
-	void Start() override {}
-	void Update(float _Delta) override {}
+	void Start() override;
+	void Update(float _Delta) override;
 	void Release() override {}
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
+
+	void DisappearDayCreature() override;
+	void AppearNightCreature() override;
+	void ReleaseAllCreature() override;
+	void CreateCreatureWhenDayChange() override;
 
 protected:
 	void SpriteFileLoad();
@@ -37,16 +43,7 @@ protected:
 	void CreateDayNightTimeCreature();
 	void CreateDayTimeCreature();
 
-	void CreateBush();
-	void CreateWitchFlower();
-	void CreateSilverStarFlower();
-	void CreateBranchTree();
-	void CreateMongSiriPopulation();
-	void CreateFlowerBird();
 	void CreatePumpkinTerrier();
-
-
-	void PopulationRelease();
 
 private:
 

@@ -19,6 +19,8 @@ public:
 	void Init(unsigned int _Population);
 	void SetPopulationSpawnLocation(const float4& _Location);
 
+	void EscapeHoleToOtherMonsiri();
+
 	void ActorRelaese();
 
 private:
@@ -39,8 +41,6 @@ private:
 
 private:
 	void UpdateEntityMiddlePoint();
-
-	void EscapeHoleToOtherMonsiri();
 
 private:
 	std::list<std::shared_ptr<class MongSiri>> MongSiriEntityList;
