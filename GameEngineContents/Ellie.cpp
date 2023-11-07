@@ -63,6 +63,8 @@ void Ellie::Release()
 	m_NetCol = nullptr;
 
 	OtherEntity = nullptr;
+
+	Broom.BroomRenderer.clear();
 }
 
 
@@ -100,7 +102,7 @@ void Ellie::Init()
 {
 	if (false == FirstInitCheck)
 	{
-		ChangeStatus(EELLIE_STATUS::Normal);
+		g_Status = EELLIE_STATUS::Normal;
 		FirstInitCheck = true;
 	}
 
@@ -266,6 +268,18 @@ void Ellie::ChangeState(EELLIE_STATE _State)
 			Virgil->Off();
 		}
 
+		if (true == Broom.BroomRenderer.empty())
+		{
+			MsgBoxAssert("빗자루 렌더러가 존재하지 않습니다.");
+			return;
+		}
+
+		for (std::weak_ptr<GameEngineSpriteRenderer> BroomRenderer : Broom.BroomRenderer)
+		{
+			BroomRenderer.lock()->Off();
+		}
+
+
 		m_State = _State;
 
 		switch (_State)
@@ -300,8 +314,10 @@ void Ellie::ChangeState(EELLIE_STATE _State)
 	}
 	else
 	{
-		MsgBoxAssert("같은 행동으로 바꾸려고 했습니다.");
+#ifdef DEBUG
+			ssert("같은 행동으로 바꾸려고 했습니다.");
 		return;
+#endif // DEBUG
 	}	
 }
 
@@ -314,6 +330,12 @@ void Ellie::ChangeAnimationByDirection(std::string_view _StateName, bool _Direct
 
 	ChangeShawdowSprite(AnimaitonName);
 	ChangeVirgilSprite(AnimaitonName);
+
+	if (g_Status == EELLIE_STATUS::Riding)
+	{
+		ChangeBroomSprite();
+	}
+
 
 	if (true == _DirectionInfluence)
 	{
@@ -431,15 +453,11 @@ void Ellie::ChangeVirgilSprite(std::string_view _AnimationName)
 	case EELLIE_STATE::RootUp:
 	case EELLIE_STATE::Sit:
 	case EELLIE_STATE::Throw:
+	case EELLIE_STATE::Riding_Boosting:
 		break;
 	case EELLIE_STATE::Riding_Standing:
-		isNeedVirgil = false;
 		break;
 	case EELLIE_STATE::Riding_Moving:
-		isNeedVirgil = false;
-		break;
-	case EELLIE_STATE::Riding_Boosting:
-		isNeedVirgil = false;
 		break;
 	case EELLIE_STATE::Approach:
 	case EELLIE_STATE::MongSiri:
@@ -461,6 +479,51 @@ void Ellie::ChangeVirgilSprite(std::string_view _AnimationName)
 	{
 		Virgil->SetSprite(ShadowSpriteName);
 		Virgil->On();
+	}
+}
+
+void Ellie::ChangeBroomSprite()
+{
+	if (nullptr == GameEngineSprite::Find("Broomstick_Basic_Boosting.png"))
+	{
+		GameEngineSprite::CreateCut("Broomstick_Basic_Boosting.png", 6, 6);
+		GameEngineSprite::CreateCut("Broomstick_Basic_Moving.png", 6, 6);
+		GameEngineSprite::CreateCut("Broomstick_Basic_Standing.png", 6, 6);
+	}
+
+	if (true == Broom.BroomRenderer.empty())
+	{
+		MsgBoxAssert("빗자루 렌더러가 존재하지 않습니다.");
+		return;
+	}
+
+	std::string BroomSpriteName = "Broomstick_Basic_";
+
+	switch (m_State)
+	{
+	case EELLIE_STATE::Riding_Standing:
+		BroomSpriteName += "Boosting.png";
+		break;
+	case EELLIE_STATE::Riding_Moving:
+		BroomSpriteName += "Moving.png";
+		break;
+	case EELLIE_STATE::Riding_Boosting:
+		BroomSpriteName += "Boosting.png";
+		break;
+	default:
+		break;
+	}
+
+	for (std::weak_ptr<GameEngineSpriteRenderer> BroomRenderer : Broom.BroomRenderer)
+	{
+		if (true == BroomRenderer.expired())
+		{
+			MsgBoxAssert("빗자루 렌더러가 존재하지 않습니다.");
+			return;
+		}
+
+		BroomRenderer.lock()->SetSprite(BroomSpriteName);
+		BroomRenderer.lock()->On();
 	}
 }
 

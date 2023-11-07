@@ -87,6 +87,23 @@ private:
 	static EELLIE_STATUS g_Status;
 	static bool FirstInitCheck;
 
+private:
+	class EllieBroom
+	{
+	public:
+		enum class EBROOMSTRUCT
+		{
+			Head,
+			Body,
+			Max,
+		};
+
+	public:
+		std::vector<std::shared_ptr<GameEngineSpriteRenderer>> BroomRenderer;
+
+	};
+
+
 public:
 	// constrcuter destructer
 	Ellie();
@@ -100,13 +117,6 @@ public:
 
 	// 이니셜
 	void Init();
-	void RendererSetting();
-	void VirgilSetting();
-	void CollisionSetting();
-	void ChangeFrameAnimationInterAllDirection(std::string_view _AnimationName, const std::vector<float>& _Inter);
-	void ChangeShawdowSprite(std::string_view _AnimationName);
-	void ChangeVirgilSprite(std::string_view _AnimationName);
-
 
 	void OnControl();
 	void OffControl();
@@ -126,7 +136,19 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
-private:
+	void RendererSetting();
+	void VirgilSetting();
+	void BroomSetting();
+	void CollisionSetting();
+
+	void ChangeBroomAndVirgilIndexToRidingMode(int _HeadIndex, int _BodyIndex, int _VirgilIndex);
+
+	void ChangeFrameAnimationInterAllDirection(std::string_view _AnimationName, const std::vector<float>& _Inter);
+	void ChangeShawdowSprite(std::string_view _AnimationName);
+	void ChangeVirgilSprite(std::string_view _AnimationName);
+	void ChangeBroomSprite();
+
+
 	// 레벨 시작 초기화 함수
 	void OnLevelStart();
 	void RenewStatus();
@@ -236,6 +258,7 @@ private:
 	EELLIE_STATE m_State = EELLIE_STATE::None;
 	EELLIE_STATE m_WaitState = EELLIE_STATE::None;
 
+	EllieBroom Broom;
 	std::shared_ptr<GameEngineSpriteRenderer> Shadow = nullptr;
 	std::shared_ptr<GameEngineSpriteRenderer> EllieFx = nullptr;
 	std::shared_ptr<GameEngineSpriteRenderer> Virgil = nullptr;

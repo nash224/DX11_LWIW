@@ -219,10 +219,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="ContentsRenderer.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
+    <ClCompile Include="Ellie_Broom_Resources.cpp" />
     <ClCompile Include="Conversation.cpp">
       <SubType>
       </SubType>
@@ -655,10 +652,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="BackDrop_WitchHouse_Yard.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="ContentsRenderer.h">
       <SubType>
       </SubType>
     </ClInclude>

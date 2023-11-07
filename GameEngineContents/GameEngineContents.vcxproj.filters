@@ -58,12 +58,6 @@
     <Filter Include="2.Object\2.Actor\2.Interactive\Dynamic\Ellie">
       <UniqueIdentifier>{cbb55847-2201-4890-b2cb-4340bd12c511}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2.Object\2.Actor\2.Interactive\Dynamic\Ellie\Ride_Particle">
-      <UniqueIdentifier>{989c26f1-1f17-4d7e-8449-823531de4c78}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2.Object\2.Actor\2.Interactive\Dynamic\Ellie\Ride_Fx">
-      <UniqueIdentifier>{2f14f9c3-c420-477c-99e0-bf1cc2395e0b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="2.Object\2.Actor\2.Interactive\Dynamic\MongSiri">
       <UniqueIdentifier>{523ad1c7-d8ca-4084-bf97-71f810474987}</UniqueIdentifier>
     </Filter>
@@ -187,14 +181,20 @@
     <Filter Include="2.Object\2.Actor\0.Manager\AlertManager">
       <UniqueIdentifier>{e86bc8e0-b21f-4dd1-88ce-35732e7132fc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="5.Contents">
-      <UniqueIdentifier>{4c0502f9-437b-49d8-879d-f3922837d2a9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="100.Z_Test\0.Level">
       <UniqueIdentifier>{b11e4423-561b-42c5-8cc9-d5076dfd357d}</UniqueIdentifier>
     </Filter>
     <Filter Include="2.Object\2.Actor\0.Manager\PixelCollision">
       <UniqueIdentifier>{d928dca4-c18a-4aca-a403-4ca423afc340}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2.Object\2.Actor\2.Interactive\Dynamic\Ellie\Broom">
+      <UniqueIdentifier>{53d7c11a-9686-454b-9dc1-ad1451b99e92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2.Object\2.Actor\2.Interactive\Dynamic\Ellie\Broom\Ride_Particle">
+      <UniqueIdentifier>{989c26f1-1f17-4d7e-8449-823531de4c78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2.Object\2.Actor\2.Interactive\Dynamic\Ellie\Broom\Ride_Fx">
+      <UniqueIdentifier>{2f14f9c3-c420-477c-99e0-bf1cc2395e0b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -362,7 +362,7 @@
       <Filter>2.Object\2.Actor\2.Interactive\Dynamic\BushBug</Filter>
     </ClInclude>
     <ClInclude Include="Ellie_Ride_Particle.h">
-      <Filter>2.Object\2.Actor\2.Interactive\Dynamic\Ellie\Ride_Particle</Filter>
+      <Filter>2.Object\2.Actor\2.Interactive\Dynamic\Ellie\Broom\Ride_Particle</Filter>
     </ClInclude>
     <ClInclude Include="PlayLevel.h">
       <Filter>2.Object\3.Level\2.Play\0.PlayLevel</Filter>
@@ -514,11 +514,8 @@
     <ClInclude Include="ALightLerp.h">
       <Filter>2.Object\2.Actor\0.Manager\AlertManager</Filter>
     </ClInclude>
-    <ClInclude Include="ContentsRenderer.h">
-      <Filter>5.Contents</Filter>
-    </ClInclude>
     <ClInclude Include="RidingFx.h">
-      <Filter>2.Object\2.Actor\2.Interactive\Dynamic\Ellie\Ride_Fx</Filter>
+      <Filter>2.Object\2.Actor\2.Interactive\Dynamic\Ellie\Broom\Ride_Fx</Filter>
     </ClInclude>
     <ClInclude Include="PixelCollision.h">
       <Filter>2.Object\2.Actor\0.Manager\PixelCollision</Filter>
@@ -698,7 +695,7 @@
       <Filter>2.Object\2.Actor\2.Interactive\Dynamic\BushBug</Filter>
     </ClCompile>
     <ClCompile Include="Ellie_Ride_Particle.cpp">
-      <Filter>2.Object\2.Actor\2.Interactive\Dynamic\Ellie\Ride_Particle</Filter>
+      <Filter>2.Object\2.Actor\2.Interactive\Dynamic\Ellie\Broom\Ride_Particle</Filter>
     </ClCompile>
     <ClCompile Include="PlayLevel.cpp">
       <Filter>2.Object\3.Level\2.Play\0.PlayLevel</Filter>
@@ -761,9 +758,6 @@
       <Filter>2.Object\2.Actor\2.Interactive\Static\BranchTree</Filter>
     </ClCompile>
     <ClCompile Include="ContentsCore_Resources.cpp" />
-    <ClCompile Include="Ellie_Riding_State.cpp">
-      <Filter>2.Object\2.Actor\2.Interactive\Dynamic\Ellie</Filter>
-    </ClCompile>
     <ClCompile Include="UI_Dispensation.cpp">
       <Filter>2.Object\2.Actor\2.Interactive\Static\Machine\AlchemyPot\Dispensation</Filter>
     </ClCompile>
@@ -863,14 +857,11 @@
     <ClCompile Include="ALightLerp.cpp">
       <Filter>2.Object\2.Actor\0.Manager\AlertManager</Filter>
     </ClCompile>
-    <ClCompile Include="ContentsRenderer.cpp">
-      <Filter>5.Contents</Filter>
-    </ClCompile>
     <ClCompile Include="Ellie_Resources.cpp">
       <Filter>2.Object\2.Actor\2.Interactive\Dynamic\Ellie</Filter>
     </ClCompile>
     <ClCompile Include="RidingFx.cpp">
-      <Filter>2.Object\2.Actor\2.Interactive\Dynamic\Ellie\Ride_Fx</Filter>
+      <Filter>2.Object\2.Actor\2.Interactive\Dynamic\Ellie\Broom\Ride_Fx</Filter>
     </ClCompile>
     <ClCompile Include="PixelCollision.cpp">
       <Filter>2.Object\2.Actor\0.Manager\PixelCollision</Filter>
@@ -880,6 +871,12 @@
     </ClCompile>
     <ClCompile Include="UI_MainMenu_Button.cpp">
       <Filter>2.Object\2.Actor\1.BackManager\LevelBackDrop\1.MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="Ellie_Riding_State.cpp">
+      <Filter>2.Object\2.Actor\2.Interactive\Dynamic\Ellie\Broom</Filter>
+    </ClCompile>
+    <ClCompile Include="Ellie_Broom_Resources.cpp">
+      <Filter>2.Object\2.Actor\2.Interactive\Dynamic\Ellie\Broom</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -15,12 +15,14 @@ void Ellie::RendererSetting()
 	Shadow = CreateComponent<GameEngineSpriteRenderer>(EllieGroupOrder);
 	EllieFx = CreateComponent<GameEngineSpriteRenderer>(EllieGroupOrder);
 	Virgil = CreateComponent<GameEngineSpriteRenderer>(EllieGroupOrder);
+
 	
+	m_Body->Transform.SetLocalPosition(float4(0.0f, LWIW_Ellie_Y_Correction));
 	Shadow->Transform.SetLocalPosition(float4(0.0f, LWIW_Ellie_Y_Correction, ShadowDepth));
 	EllieFx->Transform.SetLocalPosition(float4(0.0f, LWIW_Ellie_Y_Correction, -1.0f));
 	Virgil->Transform.SetLocalPosition(float4(0.0f, LWIW_Ellie_Y_Correction, -0.2f));
-	
-	
+
+	m_Body->AutoSpriteSizeOn();
 
 	EllieFx->Off();
 
@@ -112,33 +114,33 @@ void Ellie::RendererSetting()
 	}
 
 	{
-		m_Body->CreateAnimation("Ellie_Basic_Riding_Standing_LEFT", "Ellie_Basic_Riding_Standing.png", Ellie_Riding_Idle_Inter, 7, 10);
+		m_Body->CreateAnimation("Ellie_Basic_Riding_Standing_LEFT", "Ellie_Basic_Riding_Standing.png", Ellie_Riding_Idle_Inter, 3, 6);
 		m_Body->CreateAnimation("Ellie_Basic_Riding_Standing_LEFTDOWN", "Ellie_Basic_Riding_Standing.png", Ellie_Riding_Idle_Inter, 7, 10);
 		m_Body->CreateAnimation("Ellie_Basic_Riding_Standing_DOWN", "Ellie_Basic_Riding_Standing.png", Ellie_Riding_Idle_Inter, 11, 14);
-		m_Body->CreateAnimation("Ellie_Basic_Riding_Standing_RIGHT", "Ellie_Basic_Riding_Standing.png", Ellie_Riding_Idle_Inter, 15, 18);
 		m_Body->CreateAnimation("Ellie_Basic_Riding_Standing_RIGHTDOWN", "Ellie_Basic_Riding_Standing.png", Ellie_Riding_Idle_Inter, 15, 18);
-		m_Body->CreateAnimation("Ellie_Basic_Riding_Standing_LEFTUP", "Ellie_Basic_Riding_Standing.png", Ellie_Riding_Idle_Inter, 23, 26);
+		m_Body->CreateAnimation("Ellie_Basic_Riding_Standing_RIGHT", "Ellie_Basic_Riding_Standing.png", Ellie_Riding_Idle_Inter, 19, 22);
+		m_Body->CreateAnimation("Ellie_Basic_Riding_Standing_LEFTUP", "Ellie_Basic_Riding_Standing.png", Ellie_Riding_Idle_Inter, 31, 34);
 		m_Body->CreateAnimation("Ellie_Basic_Riding_Standing_UP", "Ellie_Basic_Riding_Standing.png", Ellie_Riding_Idle_Inter, 27, 30);
-		m_Body->CreateAnimation("Ellie_Basic_Riding_Standing_RIGHTUP", "Ellie_Basic_Riding_Standing.png", Ellie_Riding_Idle_Inter, 31, 34);
+		m_Body->CreateAnimation("Ellie_Basic_Riding_Standing_RIGHTUP", "Ellie_Basic_Riding_Standing.png", Ellie_Riding_Idle_Inter, 23, 26);
 	}
 
 	{
-		m_Body->CreateAnimation("Ellie_Basic_Riding_Moving_LEFT", "Ellie_Basic_Riding_Moving.png", Ellie_Riding_Move_Inter, 7, 10);
+		m_Body->CreateAnimation("Ellie_Basic_Riding_Moving_LEFT", "Ellie_Basic_Riding_Moving.png", Ellie_Riding_Move_Inter, 3, 6);
 		m_Body->CreateAnimation("Ellie_Basic_Riding_Moving_LEFTDOWN", "Ellie_Basic_Riding_Moving.png", Ellie_Riding_Move_Inter, 7, 10);
 		m_Body->CreateAnimation("Ellie_Basic_Riding_Moving_DOWN", "Ellie_Basic_Riding_Moving.png", Ellie_Riding_Move_Inter, 11, 14);
+		m_Body->CreateAnimation("Ellie_Basic_Riding_Moving_RIGHTDOWN", "Ellie_Basic_Riding_Moving.png", Ellie_Riding_Move_Inter, 19,22);
 		m_Body->CreateAnimation("Ellie_Basic_Riding_Moving_RIGHT", "Ellie_Basic_Riding_Moving.png", Ellie_Riding_Move_Inter, 15, 18);
-		m_Body->CreateAnimation("Ellie_Basic_Riding_Moving_RIGHTDOWN", "Ellie_Basic_Riding_Moving.png", Ellie_Riding_Move_Inter, 15, 18);
 		m_Body->CreateAnimation("Ellie_Basic_Riding_Moving_LEFTUP", "Ellie_Basic_Riding_Moving.png", Ellie_Riding_Move_Inter, 23, 26);
 		m_Body->CreateAnimation("Ellie_Basic_Riding_Moving_UP", "Ellie_Basic_Riding_Moving.png", Ellie_Riding_Move_Inter, 27, 30);
 		m_Body->CreateAnimation("Ellie_Basic_Riding_Moving_RIGHTUP", "Ellie_Basic_Riding_Moving.png", Ellie_Riding_Move_Inter, 31, 34);
 	}
 
 	{
-		m_Body->CreateAnimation("Ellie_Basic_Riding_Boosting_LEFT", "Ellie_Basic_Riding_Boosting.png", Ellie_Riding_Boost_Inter, 7, 10);
+		m_Body->CreateAnimation("Ellie_Basic_Riding_Boosting_LEFT", "Ellie_Basic_Riding_Boosting.png", Ellie_Riding_Boost_Inter, 3, 6);
 		m_Body->CreateAnimation("Ellie_Basic_Riding_Boosting_LEFTDOWN", "Ellie_Basic_Riding_Boosting.png", Ellie_Riding_Boost_Inter, 7, 10);
 		m_Body->CreateAnimation("Ellie_Basic_Riding_Boosting_DOWN", "Ellie_Basic_Riding_Boosting.png", Ellie_Riding_Boost_Inter, 11, 14);
+		m_Body->CreateAnimation("Ellie_Basic_Riding_Boosting_RIGHTDOWN", "Ellie_Basic_Riding_Boosting.png", Ellie_Riding_Boost_Inter, 19, 22);
 		m_Body->CreateAnimation("Ellie_Basic_Riding_Boosting_RIGHT", "Ellie_Basic_Riding_Boosting.png", Ellie_Riding_Boost_Inter, 15, 18);
-		m_Body->CreateAnimation("Ellie_Basic_Riding_Boosting_RIGHTDOWN", "Ellie_Basic_Riding_Boosting.png", Ellie_Riding_Boost_Inter, 15, 18);
 		m_Body->CreateAnimation("Ellie_Basic_Riding_Boosting_LEFTUP", "Ellie_Basic_Riding_Boosting.png", Ellie_Riding_Boost_Inter, 23, 26);
 		m_Body->CreateAnimation("Ellie_Basic_Riding_Boosting_UP", "Ellie_Basic_Riding_Boosting.png", Ellie_Riding_Boost_Inter, 27, 30);
 		m_Body->CreateAnimation("Ellie_Basic_Riding_Boosting_RIGHTUP", "Ellie_Basic_Riding_Boosting.png", Ellie_Riding_Boost_Inter, 31, 34);
@@ -229,10 +231,9 @@ void Ellie::RendererSetting()
 		m_Body->CreateAnimation("Ellie_Basic_Drink", "Ellie_Basic_Drink.png", 0.1f, 3, 16);
 	}
 
-	m_Body->AutoSpriteSizeOn();
-	m_Body->Transform.SetLocalPosition({ 0.0f , 30.0f });
 
 	VirgilSetting();
+	BroomSetting();
 }
 
 void Ellie::ChangeFrameAnimationInterAllDirection(std::string_view _AnimationName, const std::vector<float>& _Inter)

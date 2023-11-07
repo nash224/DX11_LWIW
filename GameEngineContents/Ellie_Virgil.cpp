@@ -702,6 +702,4 @@ void Ellie::VirgilSetting()
 
 #pragma endregion
 
-
-
 }

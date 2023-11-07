@@ -13,15 +13,14 @@
 
 void ContentsCore::InitResources()
 {
-	if (nullptr == GameEngineTexture::Find("Ellie_Basic_ButterflyNet.png"))
-	{
-		// ÇÃ·¹ÀÌ ¾×ÅÍ
-		GlobalUtils::LoadAllDirFile("Resources\\PlayContents\\PlayResourecs\\Creature");				// Å©¸®Ã³
-		GlobalUtils::LoadAllDirFile("Resources\\PlayContents\\PlayResourecs\\Map");						// ¸Ê
-		GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\Ellie\\EillieBody");	// ¾Ù¸®
-		GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\Ellie\\Broom");			// ºøÀÚ·ç
-		GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\NPC");					// NPC 
+	// ÇÃ·¹ÀÌ ¾×ÅÍ
+	GlobalUtils::LoadAllDirFile("Resources\\PlayContents\\PlayResourecs\\Creature");				// Å©¸®Ã³
+	GlobalUtils::LoadAllDirFile("Resources\\PlayContents\\PlayResourecs\\Map");						// ¸Ê
+	GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\Ellie\\EillieBody");	// ¾Ù¸®
+	GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\Ellie\\Broom");			// ºøÀÚ·ç
+	GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\NPC");					// NPC 
 
+	{
 		//UI
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExistsChild("Resources");
@@ -39,10 +38,8 @@ void ContentsCore::InitResources()
 		}
 	}
 
-
-	// Map
-	if (nullptr == GameEngineSprite::Find("GroundBase.png"))
 	{
+		// Map
 		GameEngineDirectory Dir;
 		Dir.MoveParentToExistsChild("Resources");
 		Dir.MoveChild("Resources\\PlayContents\\PlayResourecs\\Map\\");
