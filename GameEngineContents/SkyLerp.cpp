@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "SkyLerp.h"
 
+#include "EffectEnum.h"
+
 #include "PlayLevel.h"
 
 #include "TimeManager.h"
@@ -50,6 +52,8 @@ void SkyLerp::Init()
 	Sun_Renderer->SetSprite("SkyBox.png");
 	Sun_Renderer->GetImageTransform().SetLocalScale(GlobalValue::GetWindowScale() + float4(30.0f, 30.0f));
 	Sun_Renderer->GetColorData().MulColor.A = 0.0f;
+	Sun_Renderer->RenderBaseInfoValue.Target0 = 0;
+	Sun_Renderer->RenderBaseInfoValue.Target2 = 1;
 
 
 	SkyData.reserve(32);
@@ -108,6 +112,7 @@ void SkyLerp::SetSkyColor()
 
 	Sun_Renderer->GetColorData().MulColor = SkyColor;
 }
+
 
 float SkyLerp::GetALightValue() const
 {

@@ -123,7 +123,7 @@ void ContentsCore::LoadContentsData()
 
 
 
-void ContentsCore::InitBlendResources()
+void ContentsCore::InitMaterialResoruces()
 {
 	{
 		D3D11_BLEND_DESC Desc = {};
@@ -135,9 +135,9 @@ void ContentsCore::InitBlendResources()
 		Desc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;
 		Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
 
-		Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ZERO;
+		Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
 		Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
-		Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_MAX;
+		Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
 
 		const std::shared_ptr<GameEngineBlend> Blend = GameEngineBlend::Create("Blend_Light", Desc);
 
@@ -168,6 +168,21 @@ void ContentsCore::InitBlendResources()
 		OverRayMaterial->SetVertexShader("TextureShader_VS");
 		OverRayMaterial->SetPixelShader("TextureShader_PS");
 		OverRayMaterial->SetBlendState("Overlay");
+	}
+
+
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("VirgilEffect2D");
+		Mat->SetVertexShader("VirgilEffect_VS");
+		Mat->SetPixelShader("VirgilEffect_PS");
+		Mat->SetDepthState("AlwaysDepth");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("SkyLightEffect2D");
+		Mat->SetVertexShader("SkyLightEffect_VS");
+		Mat->SetPixelShader("SkyLightEffect_PS");
+		Mat->SetDepthState("AlwaysDepth");
 	}
 }
 

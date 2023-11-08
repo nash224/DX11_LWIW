@@ -81,15 +81,15 @@ void Ellie::BroomSetting()
 	m_Body->SetFrameEvent("Ellie_Basic_Riding_Standing_DOWN", 13, [&](GameEngineSpriteRenderer* _Renderer) {ChangeBroomAndVirgilIndexToRidingMode(5, 21, 41); });
 	m_Body->SetFrameEvent("Ellie_Basic_Riding_Standing_DOWN", 14, [&](GameEngineSpriteRenderer* _Renderer) {ChangeBroomAndVirgilIndexToRidingMode(6, 22, 42); });
 
-	m_Body->SetFrameEvent("Ellie_Basic_Riding_Standing_RIGHTDOWN", 15, [&](GameEngineSpriteRenderer* _Renderer) {ChangeBroomAndVirgilIndexToRidingMode(8, 24, 43); });
-	m_Body->SetFrameEvent("Ellie_Basic_Riding_Standing_RIGHTDOWN", 16, [&](GameEngineSpriteRenderer* _Renderer) {ChangeBroomAndVirgilIndexToRidingMode(7, 23, 44); });
-	m_Body->SetFrameEvent("Ellie_Basic_Riding_Standing_RIGHTDOWN", 17, [&](GameEngineSpriteRenderer* _Renderer) {ChangeBroomAndVirgilIndexToRidingMode(7, 23, 44); });
-	m_Body->SetFrameEvent("Ellie_Basic_Riding_Standing_RIGHTDOWN", 18, [&](GameEngineSpriteRenderer* _Renderer) {ChangeBroomAndVirgilIndexToRidingMode(8, 24, 43); });
+	m_Body->SetFrameEvent("Ellie_Basic_Riding_Standing_RIGHTDOWN", 15, [&](GameEngineSpriteRenderer* _Renderer) {ChangeBroomAndVirgilIndexToRidingMode(10, 26, 43); });
+	m_Body->SetFrameEvent("Ellie_Basic_Riding_Standing_RIGHTDOWN", 16, [&](GameEngineSpriteRenderer* _Renderer) {ChangeBroomAndVirgilIndexToRidingMode(9, 25, 44); });
+	m_Body->SetFrameEvent("Ellie_Basic_Riding_Standing_RIGHTDOWN", 17, [&](GameEngineSpriteRenderer* _Renderer) {ChangeBroomAndVirgilIndexToRidingMode(9, 25, 44); });
+	m_Body->SetFrameEvent("Ellie_Basic_Riding_Standing_RIGHTDOWN", 18, [&](GameEngineSpriteRenderer* _Renderer) {ChangeBroomAndVirgilIndexToRidingMode(10, 26, 43); });
 
-	m_Body->SetFrameEvent("Ellie_Basic_Riding_Standing_RIGHT", 19, [&](GameEngineSpriteRenderer* _Renderer) {ChangeBroomAndVirgilIndexToRidingMode(10, 26, 45); });
-	m_Body->SetFrameEvent("Ellie_Basic_Riding_Standing_RIGHT", 20, [&](GameEngineSpriteRenderer* _Renderer) {ChangeBroomAndVirgilIndexToRidingMode(9, 25, 46); });
-	m_Body->SetFrameEvent("Ellie_Basic_Riding_Standing_RIGHT", 21, [&](GameEngineSpriteRenderer* _Renderer) {ChangeBroomAndVirgilIndexToRidingMode(9, 25, 46); });
-	m_Body->SetFrameEvent("Ellie_Basic_Riding_Standing_RIGHT", 22, [&](GameEngineSpriteRenderer* _Renderer) {ChangeBroomAndVirgilIndexToRidingMode(10, 26, 45); });
+	m_Body->SetFrameEvent("Ellie_Basic_Riding_Standing_RIGHT", 19, [&](GameEngineSpriteRenderer* _Renderer) {ChangeBroomAndVirgilIndexToRidingMode(8, 24, 45); });
+	m_Body->SetFrameEvent("Ellie_Basic_Riding_Standing_RIGHT", 20, [&](GameEngineSpriteRenderer* _Renderer) {ChangeBroomAndVirgilIndexToRidingMode(7, 23, 46); });
+	m_Body->SetFrameEvent("Ellie_Basic_Riding_Standing_RIGHT", 21, [&](GameEngineSpriteRenderer* _Renderer) {ChangeBroomAndVirgilIndexToRidingMode(7, 23, 46); });
+	m_Body->SetFrameEvent("Ellie_Basic_Riding_Standing_RIGHT", 22, [&](GameEngineSpriteRenderer* _Renderer) {ChangeBroomAndVirgilIndexToRidingMode(8, 24, 45); });
 
 	m_Body->SetFrameEvent("Ellie_Basic_Riding_Standing_LEFTUP", 31, [&](GameEngineSpriteRenderer* _Renderer) {ChangeBroomAndVirgilIndexToRidingMode(12, 28, 47); });
 	m_Body->SetFrameEvent("Ellie_Basic_Riding_Standing_LEFTUP", 32, [&](GameEngineSpriteRenderer* _Renderer) {ChangeBroomAndVirgilIndexToRidingMode(11, 27, 48); });

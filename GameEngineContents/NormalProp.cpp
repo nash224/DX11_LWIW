@@ -34,6 +34,13 @@ void NormalProp::LevelEnd(class GameEngineLevel* _NextLevel)
 /////////////////////////////////////////////////////////////////////////////////////
 
 
+void NormalProp::Init(int _Order /*= 0*/)
+{
+	m_Renderer = CreateComponent<GameEngineSpriteRenderer>(_Order);
+	m_Renderer->RenderBaseInfoValue.Target1 = 1;
+}
+
+
 void NormalProp::UpdateDebug()
 {
 	if (true == IsRendererOn && true == ContentsLevel::PixelDebugMode)
@@ -67,8 +74,6 @@ void NormalProp::UpdateDebug()
 	}
 }
 
-
-
 bool NormalProp::GetPixelCheck()
 {
 	return PixelRendererCheck;
@@ -83,7 +88,6 @@ void NormalProp::SetPixelCollision(std::string_view _FileName)
 
 	PixelRendererCheck = true;
 }
-
 
 void NormalProp::ChangePixeldata(std::string_view _PixelName)
 {

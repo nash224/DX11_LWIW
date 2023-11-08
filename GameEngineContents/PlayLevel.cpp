@@ -14,6 +14,8 @@
 #include "Ellie.h"
 #include "FadeObject.h"
 
+#include "VirgilHat.h"
+
 
 
 
@@ -49,13 +51,9 @@ void PlayLevel::Start()
 		MainPlaySound = std::make_unique<PlaySoundInfo>();
 	}
 
-
-	std::shared_ptr<GameEngineCoreWindow> Window = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
-	if (nullptr != Window)
 	{
-		Window->AddDebugRenderTarget(0, "PlayLevelRenderTarget", GetMainCamera()->GetCameraAllRenderTarget());
+		GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<VirgilHat>();
 	}
-
 }
 
 void PlayLevel::Update(float _Delta)

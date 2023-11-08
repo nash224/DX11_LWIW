@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "WitchHouse_Yard.h"
 
+#include <GameEngineCore/GameEngineCoreWindow.h>
 
 #include "CameraControler.h"
 #include "TimeManager.h"

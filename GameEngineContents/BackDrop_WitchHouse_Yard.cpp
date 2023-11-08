@@ -176,7 +176,7 @@ void BackDrop_WitchHouse_Yard::CreateNormalProp()
 	{
 		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition({ 700.0f , -214.0f , GlobalUtils::CalculateObjectDepth(m_BackScale.Y, -234.0f) });
-		Object->Init(ERENDERORDER::NonAlphaBlend);
+		Object->Init();
 		Object->m_Renderer->SetSprite("Yard_Pumpkins.png");
 		Object->m_Renderer->Transform.SetLocalPosition(float4(0.0f, 10.0f));
 	}
@@ -184,7 +184,7 @@ void BackDrop_WitchHouse_Yard::CreateNormalProp()
 	{
 		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition({ 700.0f , -228.0f , GlobalUtils::CalculateObjectDepth(m_BackScale.Y,-228.0f) });
-		Object->Init(ERENDERORDER::NonAlphaBlend);
+		Object->Init();
 		Object->m_Renderer->SetSprite("Yard_Stone_L_0.png");
 		Object->SetPixelCollision("Yard_Stone_L_0_Pixel.png");
 		PixelVec.push_back(Object);

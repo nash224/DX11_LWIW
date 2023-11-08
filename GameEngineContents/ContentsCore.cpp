@@ -42,8 +42,8 @@ void ContentsCore::Start()
 	GlobalValue::SetSoundVolume(0.5f);
 
 	InitResources();
-	InitBlendResources();
 	InitAutoCompile();
+	InitMaterialResoruces();
 	
 
 	

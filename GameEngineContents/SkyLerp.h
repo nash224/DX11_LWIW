@@ -56,7 +56,7 @@ public:
 	void Init();
 
 	void SetSkyColor();
-	
+
 	float GetALightValue() const;
 
 protected:
@@ -77,6 +77,7 @@ protected:
 
 public:
 	float4 SkyColor = float4::ZERONULL;
+	float4 ReflectionColor = float4::ZERONULL;
 
 private:
 	std::vector<float4> SkyData;

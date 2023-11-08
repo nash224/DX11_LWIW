@@ -455,6 +455,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="SkyLightEffect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="StaticEntity.cpp">
       <SubType>
       </SubType>
@@ -679,6 +683,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="EffectEnum.h" />
     <ClInclude Include="EndLevel.h">
       <SubType>
       </SubType>
@@ -884,6 +889,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="SkyLerp.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SkyLightEffect.h">
       <SubType>
       </SubType>
     </ClInclude>

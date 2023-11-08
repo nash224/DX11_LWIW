@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "Ellie.h"
 
+#include "EffectEnum.h"
 
 
 
@@ -16,8 +17,7 @@ void Ellie::RendererSetting()
 	EllieFx = CreateComponent<GameEngineSpriteRenderer>(EllieGroupOrder);
 	Virgil = CreateComponent<GameEngineSpriteRenderer>(EllieGroupOrder);
 
-
-	Virgil->RenderBaseInfoValue.Target1 = 1;
+	Virgil->RenderBaseInfoValue.Target3 = 1;
 
 	
 	m_Body->Transform.SetLocalPosition(float4(0.0f, LWIW_Ellie_Y_Correction));

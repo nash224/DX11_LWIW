@@ -11,9 +11,11 @@
 #include "MongSiri_Population.h"
 #include "NormalProp.h"
 
-
+#include "SkyLightEffect.h"
 #include "PlayerEffect.h"
 #include "VirgilHat.h"
+
+#include <GameEngineCore/GameEngineCoreWindow.h>
 
 
 
@@ -35,10 +37,17 @@ void TestLevel::Start()
 
 	GetMainCamera()->Transform.SetLocalPosition(Position);
 
+	std::shared_ptr<GameEngineCoreWindow> Window = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
+	if (nullptr != Window)
+	{
+		Window->AddDebugRenderTarget(0, "TestRenderTarget", GetMainCamera()->GetCameraAllRenderTarget());
+	}
+
 
 	{
-		/*GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<PlayerEffect>();*/
 		GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<VirgilHat>();
+		GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<SkyLightEffect>();
+		/*GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<PlayerEffect>();*/
 	}
 }
 
@@ -50,6 +59,8 @@ void TestLevel::Update(float _Delta)
 void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	ContentsLevel::LevelStart(_NextLevel);
+
+
 
 	GlobalValue::g_CameraControler->SetCameraMode(ECAMERAMODE::Fix);
 
@@ -134,10 +145,16 @@ void TestLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 		m_bush = nullptr;
 	}
 
-	std::vector<std::shared_ptr<WitchFlower>> WFGroup = GetObjectGroupConvert<WitchFlower>(0);
+	std::vector<std::shared_ptr<WitchFlower>> WFGroup = GetObjectGroupConvert<WitchFlower>(EUPDATEORDER::Objects);
 	for (std::weak_ptr<WitchFlower> WF : WFGroup)
 	{
 		WF.lock()->Death();
+	}
+
+	std::vector<std::shared_ptr<MongSiri_Population>> PopulationGroup = GetObjectGroupConvert<MongSiri_Population>(EUPDATEORDER::Objects);
+	for (std::weak_ptr<MongSiri_Population> Population : PopulationGroup)
+	{
+		Population.lock()->ActorRelaese();
 	}
 
 	if (nullptr != UI)
@@ -149,11 +166,9 @@ void TestLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void TestLevel::TestCode()
 {
-	std::shared_ptr<RendererActor> TestMap =  CreateActor<RendererActor>(EUPDATEORDER::Objects);
-	TestMap->Transform.SetLocalPosition(float4(200.0f, -400.0f, GlobalUtils::CalculateObjectDepth(GlobalValue::GetWindowScale().Y, -400.0f)));
-
-	std::shared_ptr<GameEngineSpriteRenderer> Tree = TestMap->CreateComponent<GameEngineSpriteRenderer>();
-	Tree->Transform.SetLocalPosition(float4(0.0f, 110.0f));
-	Tree->SetSprite("Tree_2.png");
-	Tree->RenderBaseInfoValue.Target2 = 1;
+	std::shared_ptr<NormalProp> TestTree =  CreateActor<NormalProp>(EUPDATEORDER::Objects);
+	TestTree->Transform.SetLocalPosition(float4(200.0f, -400.0f, GlobalUtils::CalculateObjectDepth(GlobalValue::GetWindowScale().Y, -400.0f)));
+	TestTree->Init();
+	TestTree->m_Renderer->Transform.SetLocalPosition(float4(0.0f, 110.0f));
+	TestTree->m_Renderer->SetSprite("Tree_2.png");
 }

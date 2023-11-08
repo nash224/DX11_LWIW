@@ -46,6 +46,7 @@ void ALightLerp::SetLightRendererSetting()
 
 	LightRenderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, LightDepth));
 	LightRenderer->SetMaterial("2DTexture_Light");
+	LightRenderer->RenderBaseInfoValue.Target3 = 1;
 }
 
 void ALightLerp::UpdateLightLerp()

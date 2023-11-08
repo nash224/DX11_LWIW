@@ -81,10 +81,10 @@ void BushBug::ALightSetting()
 {
 	LightRenderer = CreateComponent<GameEngineSpriteRenderer>();
 	SetLightRendererSetting();
-	SetColor(float4(0.8f, 0.8f, 0.0f, 0.9f));
-	LightRenderer->SetSprite("cookie_1.png");
+	SetColor(float4(0.1f, 0.1f, 0.0f, 1.0f));
+	LightRenderer->SetSprite("Default_Particle.png");
 	LightRenderer->Transform.AddLocalPosition(float4(-3.0f, 24.0f));
-	LightRenderer->GetImageTransform().SetLocalScale(float4(50.0f, 50.0f));
+	LightRenderer->GetImageTransform().SetLocalScale(float4(100.0f, 100.0f));
 }
 
 void BushBug::StateSetting()

@@ -21,7 +21,7 @@ public:
 		Init(static_cast<int>(_Order));
 	}
 
-	void Init(int _Order = 0);
+	virtual void Init(int _Order = 0);
 
 
 protected:

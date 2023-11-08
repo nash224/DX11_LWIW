@@ -18,6 +18,8 @@ public:
 	NormalProp& operator=(const NormalProp& _Other) = delete;
 	NormalProp& operator=(NormalProp&& _Other) noexcept = delete;
 
+	void Init(int _Order = 0) override;
+
 
 
 	void Serializer(GameEngineSerializer& _Data) override;

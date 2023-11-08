@@ -96,7 +96,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 		}
 
 		Object->Transform.SetLocalPosition({ RYWinScale.X, RYWinScale.Y, GlobalUtils::CalculateFixDepth(EHOUSEDEPTH::BackPaint)});
-		Object->Init(ERENDERORDER::NonAlphaBlend);
+		Object->Init();
 		Object->m_Renderer->SetSprite("UpFloor_Back.png");
 		Object->m_Renderer->GetImageTransform().SetLocalScale(float4(GlobalValue::GetWindowScale()));
 	}
@@ -116,7 +116,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 		float4 Position = m_HouseLocation + float4{ 174.0f , -79.0f };
 		Position.Z = GlobalUtils::CalculateFixDepth(EHOUSEDEPTH::BackWindow);
 		Object->Transform.SetLocalPosition(Position);
-		Object->Init(ERENDERORDER::NonAlphaBlend);
+		Object->Init();
 		Object->m_Renderer->SetSprite("UpFloor_Circle.png");
 		Object->m_Renderer->GetImageTransform().SetLocalScale(float4(64.0f, 64.0f));
 	}
@@ -130,7 +130,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 		}
 
 		Object->Transform.SetLocalPosition(m_HouseLocation + float4{ 126.0f , -238.0f, GlobalUtils::CalculateFixDepth(EHOUSEDEPTH::HouseComposition) });
-		Object->Init(ERENDERORDER::NonAlphaBlend);
+		Object->Init();
 		Object->m_Renderer->SetSprite("UpFloor_Floor.png");
 	}
 
@@ -143,7 +143,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 		}
 
 		Object->Transform.SetLocalPosition(m_HouseLocation + float4{ 174.0f , -78.0f, GlobalUtils::CalculateFixDepth(EHOUSEDEPTH::HouseComposition) });
-		Object->Init(ERENDERORDER::NonAlphaBlend);
+		Object->Init();
 		Object->m_Renderer->SetSprite("UpFloor_WallPaper_1.png");
 	}
 
@@ -156,7 +156,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 		}
 
 		Object->Transform.SetLocalPosition(m_HouseLocation + float4{ 126.0f , -110.0f, GlobalUtils::CalculateFixDepth(EHOUSEDEPTH::HouseComposition) });
-		Object->Init(ERENDERORDER::NonAlphaBlend);
+		Object->Init();
 		Object->m_Renderer->SetSprite("UpFloor_WallPaper.png");
 	}
 
@@ -187,7 +187,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 		}
 
 		Object->Transform.SetLocalPosition(m_HouseLocation + float4{ 124.0f , -305.0f, GlobalUtils::CalculateFixDepth(EHOUSEDEPTH::Rug) });
-		Object->Init(ERENDERORDER::NonAlphaBlend);
+		Object->Init();
 		Object->m_Renderer->SetSprite("UpFloor_Carpet_0.png");
 
 	}
@@ -203,7 +203,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 		float4 Position = m_HouseLocation + float4{ 228.0f , -163.0f };
 		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y, Position.Y - 70.0f );
 		Object->Transform.SetLocalPosition(Position);
-		Object->Init(ERENDERORDER::NonAlphaBlend);
+		Object->Init();
 		Object->m_Renderer->SetSprite("UpFloor_Cabinet.png");
 	}
 
@@ -218,7 +218,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 		float4 Position = m_HouseLocation + float4{ 208.0f , -263.0f };
 		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y, Position.Y -20.0f);
 		Object->Transform.SetLocalPosition(Position);
-		Object->Init(ERENDERORDER::NonAlphaBlend);
+		Object->Init();
 		Object->m_Renderer->SetSprite("UpFloor_Plant_L.png");
 	}
 
@@ -234,7 +234,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 		float4 Position = m_HouseLocation + float4{ 175.0f , -76.0f };
 		Position.Z = GlobalUtils::CalculateFixDepth(EHOUSEDEPTH::Rug);
 		Object->Transform.SetLocalPosition(Position);
-		Object->Init(ERENDERORDER::NonAlphaBlend);
+		Object->Init();
 		Object->m_Renderer->SetSprite("UpFloor_window.png");
 	}
 
@@ -249,7 +249,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 		float4 Position = m_HouseLocation + float4{ 49.0f , -192.0f };
 		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
-		Object->Init(ERENDERORDER::NonAlphaBlend);
+		Object->Init();
 		Object->m_Renderer->SetSprite("UpFloor_bed.png");
 	}
 
@@ -264,7 +264,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 		float4 Position = m_HouseLocation + float4{ 104.0f , -106.0f };
 		Position.Z = GlobalUtils::CalculateFixDepth(EHOUSEDEPTH::Rug);
 		Object->Transform.SetLocalPosition(Position);
-		Object->Init(ERENDERORDER::NonAlphaBlend);
+		Object->Init();
 		Object->m_Renderer->SetSprite("book_shelf_empty.png");
 	}
 
@@ -279,7 +279,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 		float4 Position = m_HouseLocation + float4{ 174.0f , -175.0f };
 		Position.Z = GlobalUtils::CalculateFixDepth(EHOUSEDEPTH::Rug);
 		Object->Transform.SetLocalPosition(Position);
-		Object->Init(ERENDERORDER::NonAlphaBlend);
+		Object->Init();
 		Object->m_Renderer->SetSprite("UpFloor_Carpet_1.png");
 	}
 
@@ -299,7 +299,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 		float4 Position = m_HouseLocation + float4{ 174.0f , -51.0f };
 		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
-		Object->Init(ERENDERORDER::NonAlphaBlend);
+		Object->Init();
 		Object->m_Renderer->SetSprite("UpFloor_plants.png");
 	}
 
@@ -314,7 +314,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 		float4 Position = m_HouseLocation + float4{ 33.0f , -285.0f };
 		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
-		Object->Init(ERENDERORDER::NonAlphaBlend);
+		Object->Init();
 		Object->m_Renderer->SetSprite("UpFloor_drawer_under.png");
 	}
 
@@ -329,7 +329,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 		float4 Position = m_HouseLocation + float4{ 175.0f , -145.0f };
 		Position.Z = GlobalUtils::CalculateFixDepth(EHOUSEDEPTH::Chair);
 		Object->Transform.SetLocalPosition(Position);
-		Object->Init(ERENDERORDER::NonAlphaBlend);
+		Object->Init();
 		Object->m_Renderer->SetSprite("UpFloor_Chair.png");
 	}
 
@@ -351,7 +351,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 		float4 Position = m_HouseLocation + float4{ 174.0f , -127.0f };
 		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
-		Object->Init(ERENDERORDER::NonAlphaBlend);
+		Object->Init();
 		Object->m_Renderer->SetSprite("UpFloor_desk.png");
 	}
 
@@ -360,7 +360,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 		float4 Position = m_HouseLocation + float4{ 101.0f , -151.0f };
 		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
-		Object->Init(ERENDERORDER::NonAlphaBlend);
+		Object->Init();
 		Object->m_Renderer->SetSprite("hanger.png");
 	}
 
@@ -369,7 +369,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 		float4 Position = m_HouseLocation + float4{ 14.0f , -259.0f };
 		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
-		Object->Init(ERENDERORDER::NonAlphaBlend);
+		Object->Init();
 		Object->m_Renderer->SetSprite("PhotoFrame_0.png");
 	}
 
@@ -379,7 +379,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 		float4 Position = m_HouseLocation + float4{ 27.0f , -275.0f };
 		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y, Position.Y - 14.0f);
 		Object->Transform.SetLocalPosition(Position);
-		Object->Init(ERENDERORDER::NonAlphaBlend);
+		Object->Init();
 		Object->m_Renderer->SetSprite("SaveProp.png");
 	}
 
@@ -388,7 +388,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 		float4 Position = m_HouseLocation + float4{ 117.0f , -84.0f };
 		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
-		Object->Init(ERENDERORDER::NonAlphaBlend);
+		Object->Init();
 		Object->m_Renderer->SetSprite("UpFloor_Flower_0.png");
 	}
 
@@ -397,7 +397,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 		float4 Position = m_HouseLocation + float4{ 90.0f , -85.0f };
 		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
-		Object->Init(ERENDERORDER::NonAlphaBlend);
+		Object->Init();
 		Object->m_Renderer->SetSprite("UpFloor_Flower_1.png");
 	}
 
@@ -411,7 +411,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 		float4 Position = m_HouseLocation + float4{ 113.0f , -168.0f };
 		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
-		Object->Init(ERENDERORDER::NonAlphaBlend);
+		Object->Init();
 		Object->m_Renderer->SetSprite("UpFloor_bag.png");
 	}
 
@@ -420,7 +420,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 		float4 Position = m_HouseLocation + float4{ 175.0f , -127.0f };
 		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
-		Object->Init(ERENDERORDER::NonAlphaBlend);
+		Object->Init();
 		Object->m_Renderer->SetSprite("book_open.png");
 	}
 
@@ -429,7 +429,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 		float4 Position = m_HouseLocation + float4{ 32.0f , -116.0f };
 		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
-		Object->Init(ERENDERORDER::NonAlphaBlend);
+		Object->Init();
 		Object->m_Renderer->SetSprite("DreamCapture.png");
 	}
 
@@ -438,7 +438,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 		float4 Position = m_HouseLocation + float4{ 58.0f , -119.0f };
 		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
-		Object->Init(ERENDERORDER::NonAlphaBlend);
+		Object->Init();
 		Object->m_Renderer->SetSprite("UpFloor_PhotoFrame_1.png");
 	}
 
@@ -447,7 +447,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 		float4 Position = m_HouseLocation + float4{ 58.0f , -98.0f };
 		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
-		Object->Init(ERENDERORDER::NonAlphaBlend);
+		Object->Init();
 		Object->m_Renderer->SetSprite("UpFloor_PhotoFrame_2.png");
 	}
 
@@ -456,7 +456,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 		float4 Position = m_HouseLocation + float4{ 98.0f , -126.0f };
 		Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
-		Object->Init(ERENDERORDER::NonAlphaBlend);
+		Object->Init();
 		Object->m_Renderer->SetSprite("hanger_light.png");
 	}
 
@@ -465,7 +465,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 		float4 Position = m_HouseLocation + float4{ 58.0f , -75.0f };
 		Position.Z = GlobalUtils::CalculateFixDepth(EHOUSEDEPTH::Rug);
 		Object->Transform.SetLocalPosition(Position);
-		Object->Init(ERENDERORDER::NonAlphaBlend);
+		Object->Init();
 		Object->m_Renderer->SetSprite("book_shelf.png");
 	}
 
@@ -485,7 +485,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 		float4 Position = m_HouseLocation + float4{ 126.0f , -171.0f };
 		Position.Z = GlobalUtils::CalculateFixDepth(EHOUSEDEPTH::FRAME);
 		Object->Transform.SetLocalPosition(Position);
-		Object->Init(ERENDERORDER::NonAlphaBlend);
+		Object->Init();
 		Object->m_Renderer->SetSprite("UpFloor_Frame.png");
 	}
 

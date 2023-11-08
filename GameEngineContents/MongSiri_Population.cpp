@@ -200,4 +200,5 @@ void MongSiri_Population::ActorRelaese()
 	}
 
 	m_ChubHole->Death();
+	Death();
 }

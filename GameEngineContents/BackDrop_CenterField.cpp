@@ -125,7 +125,7 @@ void BackDrop_CenterField::CreateMap()
 		BasePosition.Y *= -1.0f;
 		BasePosition.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Back_Paint);
 
-		std::shared_ptr<NormalProp> BaseGorund = GetLevel()->CreateActor<NormalProp>(GroupZero);
+		std::shared_ptr<RendererActor> BaseGorund = GetLevel()->CreateActor<RendererActor>(GroupZero);
 		BaseGorund->Transform.SetLocalPosition(BasePosition);
 		BaseGorund->Init();
 		BaseGorund->m_Renderer->SetSprite("GroundBase.png");

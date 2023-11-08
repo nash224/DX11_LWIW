@@ -17,6 +17,8 @@ void GroundRenderUnit::Start()
 
 void GroundRenderUnit::Update(float _Delta)
 {
+	RendererActor::Update(_Delta);
+
 }
 
 void GroundRenderUnit::Release()

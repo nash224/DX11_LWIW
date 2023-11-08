@@ -48,6 +48,7 @@ private:
 	void StartMove(GameEngineState* _Parent);
 	void SearchFlyDirection();
 	void UPdateMove(float _Delta, GameEngineState* _Parent);
+	
 
 
 private:

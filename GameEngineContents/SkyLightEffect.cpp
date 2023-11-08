@@ -1,12 +1,14 @@
 #include "PreCompile.h"
-#include "VirgilHat.h"
+#include "SkyLightEffect.h"
 
 
-VirgilHat::VirgilHat() 
+#include "EffectEnum.h"
+
+SkyLightEffect::SkyLightEffect()
 {
 }
 
-VirgilHat::~VirgilHat() 
+SkyLightEffect::~SkyLightEffect()
 {
 }
 
@@ -17,31 +19,29 @@ VirgilHat::~VirgilHat()
 
 
 
-void VirgilHat::Start()
+void SkyLightEffect::Start()
 {
 	std::shared_ptr<GameEngineRenderTarget> Target = GameEngineCore::GetCurLevel()->GetMainCamera()->GetCameraAllRenderTarget();
-
 	if (nullptr != Target)
 	{
 		ResultTarget = Target->CreateChildRenderTarget({ 0 });
 	}
 
 	EffectUnit.SetMesh("fullrect");
-	EffectUnit.SetMaterial("VirgilEffect2D");
+	EffectUnit.SetMaterial("SKyLightEffect2D");
 
-	EffectUnit.ShaderResHelper.SetTexture("Texure0", Target->GetTexture(1));
-	EffectUnit.ShaderResHelper.SetTexture("Texure1", Target->GetTexture(2));
+	EffectUnit.ShaderResHelper.SetTexture("SkyTex", Target->GetTexture(static_cast<int>(EEFFECTENUM::SkyLight)));
+	EffectUnit.ShaderResHelper.SetTexture("LightTex", Target->GetTexture(static_cast<int>(EEFFECTENUM::Illuminant)));
 
-	EffectUnit.ShaderResHelper.SetSampler("Tex0Sampler", "POINT");
-	EffectUnit.ShaderResHelper.SetSampler("Tex1Sampler", "POINT");
+	EffectUnit.ShaderResHelper.SetSampler("SkySampler", "POINT");
+	EffectUnit.ShaderResHelper.SetSampler("LightSampler", "POINT");
 }
 
-void VirgilHat::EffectProcess(float _DeltaTime)
+void SkyLightEffect::EffectProcess(float _DeltaTime)
 {
 	ResultTarget->Setting();
 	EffectUnit.Render();
 
 	EffectUnit.ShaderResHelper.AllShaderResourcesReset();
-
 	GameEngineRenderTarget::RenderTargetReset();
 }

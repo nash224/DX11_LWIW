@@ -1,11 +1,13 @@
 #include "PreCompile.h"
 #include "Field_Center.h"
 
+#include <GameEngineCore/GameEngineCoreWindow.h>
 
 #include "CameraControler.h"
 #include "BackDrop_CenterField.h"
 #include "Ellie.h"
 #include "PortalObject.h"
+
 
 
 Field_Center::Field_Center() 
@@ -24,6 +26,13 @@ void Field_Center::Start()
 	if (nullptr != m_LevelCameraControler)
 	{
 		m_LevelCameraControler->SetCameraMode(ECAMERAMODE::Play);
+	}
+
+
+	std::shared_ptr<GameEngineCoreWindow> Window = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
+	if (nullptr != Window)
+	{
+		Window->AddDebugRenderTarget(2, "CenterRenderTarget", GetMainCamera()->GetCameraAllRenderTarget());
 	}
 }
 

@@ -39,7 +39,7 @@ protected:
 private:
 	void InitResources();
 	void LoadContentsData();
-	void InitBlendResources();
+	void InitMaterialResoruces();
 	void InitAutoCompile();
 
 	
