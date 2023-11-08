@@ -1,8 +1,8 @@
 #pragma once
-#include "ContentsLevel.h"
+#include "PlayLevel.h"	
 
 // Ό³Έν :
-class TestLevel : public ContentsLevel
+class TestLevel : public PlayLevel
 {
 public:
 	// constrcuter destructer
@@ -21,9 +21,12 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
+	void TestCode();
+
 private:
 	std::shared_ptr<class Ellie> Player = nullptr;
 	std::shared_ptr<class UIManager> UI = nullptr;
+	std::shared_ptr<class SkyLerp> m_SkyLerp;
 	std::shared_ptr<class Bush> m_bush = nullptr;
 
 	std::shared_ptr<GameEngineActor> Map = nullptr;

@@ -64,26 +64,14 @@ void PumpkinTerrier::RendererSetting()
 	}
 
 
-	m_Body = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::Object);
-	if (nullptr == m_Body)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
-
+	m_Body = CreateComponent<GameEngineSpriteRenderer>();
 	m_Body->AutoSpriteSizeOn();
 	m_Body->Transform.SetLocalPosition({ 0.0f, RendererBias });
 	m_Body->CreateAnimation("Idle_Down", "PumpkinTerrier_Vine_IdleA.png", 0.12f, 2, 5, true);
 	m_Body->CreateAnimation("Idle_Up", "PumpkinTerrier_Vine_IdleA.png", 0.12f, 6, 9, true);
 	m_Body->ChangeAnimation("Idle_Down");
 
-	m_Shadow = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::Shadow);
-	if (nullptr == m_Shadow)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
-
+	m_Shadow = CreateComponent<GameEngineSpriteRenderer>();
 	m_Shadow->Transform.SetLocalPosition({ 0.0f, RendererBias });
 	m_Shadow->SetSprite("PumpkinTerrier_Vine_IdleA.png", 1);
 }

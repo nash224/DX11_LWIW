@@ -3,6 +3,7 @@
 
 #include "CameraControler.h"
 #include "UIManager.h"
+#include "SkyLerp.h"
 
 #include "Ellie.h"
 #include "Bush.h"
@@ -12,6 +13,7 @@
 
 
 #include "PlayerEffect.h"
+#include "VirgilHat.h"
 
 
 
@@ -26,7 +28,7 @@ TestLevel::~TestLevel()
 
 void TestLevel::Start()
 {
-	ContentsLevel::Start();
+	PlayLevel::Start();
 
 	float4 Position = GlobalValue::GetWindowScale().Half();
 	Position.Y *= -1.0f;
@@ -35,13 +37,14 @@ void TestLevel::Start()
 
 
 	{
-		GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<PlayerEffect>();
+		/*GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<PlayerEffect>();*/
+		GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<VirgilHat>();
 	}
 }
 
 void TestLevel::Update(float _Delta)
 {
-	ContentsLevel::Update(_Delta); 
+	PlayLevel::Update(_Delta);
 }
 
 void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
@@ -69,6 +72,9 @@ void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
 
 	float4 InitialPosition = WinScale.Half();
 	InitialPosition.Y *= -1.0f;
+
+	m_SkyLerp = CreateActor<SkyLerp>(EUPDATEORDER::Sky);
+	m_SkyLerp->Init();
 
 	{
 		Player = CreateActor<Ellie>(EUPDATEORDER::Player);
@@ -104,12 +110,12 @@ void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
 			witchflower->Init();
 		}
 	}
+
+	TestCode();
 }
 
 void TestLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-	ContentsLevel::LevelEnd(_NextLevel);
-
 	if (nullptr != Map)
 	{
 		Map->Death();
@@ -139,4 +145,15 @@ void TestLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 		UI->Death();
 		UI = nullptr;
 	}
+}
+
+void TestLevel::TestCode()
+{
+	std::shared_ptr<RendererActor> TestMap =  CreateActor<RendererActor>(EUPDATEORDER::Objects);
+	TestMap->Transform.SetLocalPosition(float4(200.0f, -400.0f, GlobalUtils::CalculateObjectDepth(GlobalValue::GetWindowScale().Y, -400.0f)));
+
+	std::shared_ptr<GameEngineSpriteRenderer> Tree = TestMap->CreateComponent<GameEngineSpriteRenderer>();
+	Tree->Transform.SetLocalPosition(float4(0.0f, 110.0f));
+	Tree->SetSprite("Tree_2.png");
+	Tree->RenderBaseInfoValue.Target2 = 1;
 }

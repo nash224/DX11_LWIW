@@ -21,11 +21,8 @@ enum class EUPDATEORDER
 enum class ERENDERORDER
 {
 	NonAlphaBlend,
-	Object,
-	AlphaBlend,
-	Shadow,
 	Effect,
-	UI_AlphaBlend,
+	SkyLight,
 	Fade = 100,
 };
 

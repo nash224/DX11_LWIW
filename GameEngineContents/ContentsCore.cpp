@@ -47,6 +47,8 @@ void ContentsCore::Start()
 	
 
 	
+	GameEngineGUI::CreateGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
+
 
 	GameEngineCore::CreateLevel<LogoLevel>("LogoLevel");
 	GameEngineCore::CreateLevel<MainMenu>("MainMenu");
@@ -61,5 +63,4 @@ void ContentsCore::Start()
 
 
 	GameEngineGUI::CreateGUIWindow<ContentsGUI>("ContentsGUI");
-	/*GameEngineGUI::CreateGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");*/
 }

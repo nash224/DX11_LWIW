@@ -1,15 +1,20 @@
 #include "PreCompile.h"
 #include "PlayLevel.h"
 
+// GUI
+#include <GameEngineCore/GameEngineCoreWindow.h>
 
-// Actor
-#include "Ellie.h"
-#include "FadeObject.h"
 
 // Manager
 #include "CameraControler.h"
 #include "UIManager.h"
 #include "TimeManager.h"
+
+// Actor
+#include "Ellie.h"
+#include "FadeObject.h"
+
+
 
 
 
@@ -43,6 +48,14 @@ void PlayLevel::Start()
 	{
 		MainPlaySound = std::make_unique<PlaySoundInfo>();
 	}
+
+
+	std::shared_ptr<GameEngineCoreWindow> Window = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
+	if (nullptr != Window)
+	{
+		Window->AddDebugRenderTarget(0, "PlayLevelRenderTarget", GetMainCamera()->GetCameraAllRenderTarget());
+	}
+
 }
 
 void PlayLevel::Update(float _Delta)

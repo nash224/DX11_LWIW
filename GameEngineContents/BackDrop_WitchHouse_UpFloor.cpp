@@ -168,14 +168,8 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 	// HouseShadow
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		Object->Transform.SetLocalPosition(m_HouseLocation + float4{ 126.0f , -177.0f, GlobalUtils::CalculateFixDepth(EHOUSEDEPTH::Shadow )});
-		Object->Init(ERENDERORDER::Shadow);
+		Object->Init();
 		Object->m_Renderer->SetSprite("UpFloor_Shadow.png");
 	}
 
@@ -345,16 +339,10 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 	// ThirdObjects
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("오브젝트를 생성하지 못했습니다.");
-			return;
-		}
-
 		float4 Position = m_HouseLocation + float4{ 174.0f , -149.0f };
 		Position.Z = GlobalUtils::CalculateFixDepth(EHOUSEDEPTH::Shadow);
 		Object->Transform.SetLocalPosition(Position);
-		Object->Init(ERENDERORDER::Shadow);
+		Object->Init();
 		Object->m_Renderer->SetSprite("Chair_Shadow.png");
 	}
 

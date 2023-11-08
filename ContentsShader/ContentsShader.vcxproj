@@ -130,6 +130,7 @@
     <FxCompile Include="ContentsRenderBase.fx" />
     <FxCompile Include="GlowMaskShader.fx" />
     <FxCompile Include="TestShader.fx" />
+    <FxCompile Include="VirgilEffect.fx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

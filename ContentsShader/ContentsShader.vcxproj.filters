@@ -15,5 +15,8 @@
     <FxCompile Include="ContentsRenderBase.fx">
       <Filter>Shader</Filter>
     </FxCompile>
+    <FxCompile Include="VirgilEffect.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

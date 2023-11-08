@@ -529,6 +529,9 @@
     <ClInclude Include="BackDrop_Field.h">
       <Filter>2.Object\2.Actor\1.BackManager\LevelBackDrop\2.Play</Filter>
     </ClInclude>
+    <ClInclude Include="VirgilHat.h">
+      <Filter>100.Z_Test\0.Level</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -889,6 +892,9 @@
     </ClCompile>
     <ClCompile Include="BackDrop_Field.cpp">
       <Filter>2.Object\2.Actor\1.BackManager\LevelBackDrop\2.Play</Filter>
+    </ClCompile>
+    <ClCompile Include="VirgilHat.cpp">
+      <Filter>100.Z_Test\0.Level</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

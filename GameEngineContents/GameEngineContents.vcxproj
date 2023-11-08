@@ -596,6 +596,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="VirgilHat.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="WitchFlower.cpp">
       <SubType>
       </SubType>
@@ -1024,6 +1028,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="UI_ToggleActor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="VirgilHat.h">
       <SubType>
       </SubType>
     </ClInclude>
