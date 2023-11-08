@@ -16,6 +16,8 @@
 
 #include "SkyLightEffect.h"
 
+#include "UI_Alert_Enter.h"
+
 
 
 
@@ -76,11 +78,16 @@ void PlayLevel::LevelStart(GameEngineLevel* _NextLevel)
 		CreateUIManager();		// UI »ý¼º
 	}
 
+	LevelInitCheck = true;
 
 	std::shared_ptr<FadeObject> Fade = CreateActor<FadeObject>(EUPDATEORDER::Fade);
 	Fade->CallFadeIn(0.2f);
 
-	LevelInitCheck = true;
+
+	if (false == LocationKRName.empty())
+	{
+		UI_Alert_Enter::AlertLevelEnter(this, LocationKRName);
+	}
 }
 
 void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
@@ -106,6 +113,11 @@ void PlayLevel::CreateEllie()
 {
 	m_Ellie = CreateActor<Ellie>(EUPDATEORDER::Player);
 	m_Ellie->Init();
+}
+
+void PlayLevel::SetLocationName(std::string_view _KRName)
+{
+	LocationKRName = _KRName;
 }
 
 

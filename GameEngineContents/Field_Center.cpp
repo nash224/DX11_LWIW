@@ -34,6 +34,8 @@ void Field_Center::Start()
 	{
 		Window->AddDebugRenderTarget(2, "CenterRenderTarget", GetMainCamera()->GetCameraAllRenderTarget());
 	}
+
+	SetLocationName("Áß¾Ó ÇÊµå");
 }
 
 void Field_Center::Update(float _Delta)

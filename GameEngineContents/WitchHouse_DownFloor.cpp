@@ -24,6 +24,8 @@ void WitchHouse_DownFloor::Start()
 	{
 		m_LevelCameraControler->SetCameraMode(ECAMERAMODE::Fix);
 	}
+
+	SetLocationName("마녀의 작업실");
 }
 
 void WitchHouse_DownFloor::Update(float _Delta)

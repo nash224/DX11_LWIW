@@ -59,18 +59,22 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
+	void SetLocationName(std::string_view _KRName);
 
 
 private:
 	void CreateUIManager();
 	void CreateEllie();
 
+	
 
 protected:
 	std::shared_ptr<Ellie> m_Ellie = nullptr;
 	std::shared_ptr<UIManager> m_UIManager = nullptr;
 
-
 	bool LevelInitCheck = false;
+
+private:
+	std::string LocationKRName;
 
 };
