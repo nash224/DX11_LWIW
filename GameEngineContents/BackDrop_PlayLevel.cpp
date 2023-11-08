@@ -12,26 +12,11 @@
 BackDrop_PlayLevel* BackDrop_PlayLevel::MainBackDrop = nullptr;
 BackDrop_PlayLevel::BackDrop_PlayLevel() 
 {
+	MainBackDrop = this;
 }
 
 BackDrop_PlayLevel::~BackDrop_PlayLevel() 
 {
-}
-
-
-void BackDrop_PlayLevel::Start()
-{
-	BackDrop::Start();
-}
-
-void BackDrop_PlayLevel::Update(float _Delta)
-{
-	BackDrop::Update(_Delta);
-}
-
-void BackDrop_PlayLevel::Release()
-{
-	BackDrop::Release();
 }
 
 void BackDrop_PlayLevel::LevelStart(class GameEngineLevel* _NextLevel)

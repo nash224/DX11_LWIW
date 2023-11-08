@@ -26,8 +26,6 @@ BackDrop_Field::~BackDrop_Field()
 void BackDrop_Field::Start()
 {
 	StateSetting();
-
-	FieldState.ChangeState(EDAYSTATE::Day);
 }
 
 
@@ -162,6 +160,8 @@ void BackDrop_Field::StateSetting()
 	NightState.Stay = std::bind(&BackDrop_Field::UpdateDay, this, std::placeholders::_1, std::placeholders::_2);
 	NightState.End = std::bind(&BackDrop_Field::EndDay, this, std::placeholders::_1);
 	FieldState.CreateState(EDAYSTATE::Day, NightState);
+
+	FieldState.ChangeState(EDAYSTATE::Day);
 }
 
 

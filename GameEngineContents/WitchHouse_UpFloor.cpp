@@ -25,7 +25,6 @@ void WitchHouse_UpFloor::Start()
 		m_LevelCameraControler->SetCameraMode(ECAMERAMODE::Fix);
 	}
 
-	SetLocationName("¸¶³àÀÇ Áý");
 }
 
 void WitchHouse_UpFloor::Update(float _Delta)

@@ -25,6 +25,8 @@ BackDrop_CenterField::~BackDrop_CenterField()
 
 void BackDrop_CenterField::Start()
 {
+	m_BackScale = float4(1920.0f, 1280.0f);
+
 	BackDrop_Field::Start();
 }
 
