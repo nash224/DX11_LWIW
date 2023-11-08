@@ -24,14 +24,14 @@ void BushBug::Update(float _Delta)
 	DynamicEntity::Update(_Delta);
 
 	MoveState.Update(_Delta);
-	UpdateLightLerp();
+	Alight.UpdateLightLerp();
 }
 
 void BushBug::Release()
 {
 	m_Body = nullptr;
 	m_InteractiveCol = nullptr;
-	LightRenderer = nullptr;
+	Alight.LightRenderer = nullptr;
 }
 
 void BushBug::LevelStart(class GameEngineLevel* _NextLevel)
@@ -68,23 +68,62 @@ void BushBug::AnimationSetting()
 
 	m_Body = CreateComponent<GameEngineSpriteRenderer>();
 	m_Body->AutoSpriteSizeOn();
-	m_Body->Transform.SetLocalPosition(float4( 0.0f, 12.0f));
 	m_Body->CreateAnimation("Idle", "Bushbug_Standing.png", 0.1f, 2, 9, true);
 	m_Body->ChangeAnimation("Idle");
 
+
 	m_Shadow = CreateComponent<GameEngineSpriteRenderer>();
 	m_Shadow->SetSprite("Bushbug_Standing.png", 1);
-	m_Shadow->Transform.SetLocalPosition(float4(0.0f , -7.0f, GlobalUtils::CalculateFixDepth(ERENDERDEPTH::ObjectShadow) ));
+	m_Shadow->Transform.SetLocalPosition(float4(0.0f , 0.0f, GlobalUtils::CalculateFixDepth(ERENDERDEPTH::ObjectShadow) ));
 }
 
 void BushBug::ALightSetting()
 {
-	LightRenderer = CreateComponent<GameEngineSpriteRenderer>();
-	SetLightRendererSetting();
-	SetColor(float4(0.1f, 0.1f, 0.0f, 1.0f));
-	LightRenderer->SetSprite("Default_Particle.png");
-	LightRenderer->Transform.AddLocalPosition(float4(-3.0f, 24.0f));
-	LightRenderer->GetImageTransform().SetLocalScale(float4(100.0f, 100.0f));
+	Alight.LightRenderer = CreateComponent<GameEngineSpriteRenderer>();
+	Alight.SetLightRendererSetting(float4(0.1f, 0.1f, 0.0f, 0.8f));
+	Alight.LightRenderer->SetSprite("Default_Particle.png");
+	Alight.LightRenderer->GetImageTransform().SetLocalScale(float4(100.0f, 100.0f));
+	Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 24.0f, -1000.0f));
+
+	std::weak_ptr<GameEngineFrameAnimation> Animation = m_Body->FindAnimation("Idle");
+	if (true == Animation.expired())
+	{
+		MsgBoxAssert("애니메이션을 찾지 못했습니다.");
+		return;
+	}
+
+	m_Body->SetFrameEvent("Idle",2,[&](GameEngineSpriteRenderer* _Renderer)
+		{
+			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 19.0f));
+		});
+	m_Body->SetFrameEvent("Idle", 3, [&](GameEngineSpriteRenderer* _Renderer)
+		{
+			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 17.0f));
+		});
+	m_Body->SetFrameEvent("Idle", 4, [&](GameEngineSpriteRenderer* _Renderer)
+		{
+			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 17.0f));
+		});
+	m_Body->SetFrameEvent("Idle", 5, [&](GameEngineSpriteRenderer* _Renderer)
+		{
+			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 19.0f));
+		});
+	m_Body->SetFrameEvent("Idle", 6, [&](GameEngineSpriteRenderer* _Renderer)
+		{
+			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 23.0f));
+		});
+	m_Body->SetFrameEvent("Idle", 7, [&](GameEngineSpriteRenderer* _Renderer)
+		{
+			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 25.0f));
+		});
+	m_Body->SetFrameEvent("Idle", 8, [&](GameEngineSpriteRenderer* _Renderer)
+		{
+			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 25.0f));
+		});
+	m_Body->SetFrameEvent("Idle", 9, [&](GameEngineSpriteRenderer* _Renderer)
+		{
+			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 21.0f));
+		});
 }
 
 void BushBug::StateSetting()

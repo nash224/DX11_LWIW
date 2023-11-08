@@ -5,8 +5,7 @@ class ALightLerp
 {
 	friend class AlightInitial;
 public:
-	void SetColor(const float4& _Color);
-	void SetLightRendererSetting();
+	void SetLightRendererSetting(const float4& _Color);
 	void UpdateLightLerp();
 
 

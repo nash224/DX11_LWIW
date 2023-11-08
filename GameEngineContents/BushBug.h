@@ -16,7 +16,7 @@ enum class EBUSHBUGSTATE
 
 
 // Ό³Έν :
-class BushBug : public DynamicEntity, public ALightLerp
+class BushBug : public DynamicEntity
 {
 public:
 	// constrcuter destructer
@@ -53,6 +53,8 @@ private:
 
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> m_Shadow = nullptr;
+	ALightLerp Alight;
+
 
 	GameEngineState MoveState;
 

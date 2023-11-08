@@ -141,10 +141,11 @@ void ContentsCore::InitMaterialResoruces()
 
 		const std::shared_ptr<GameEngineBlend> Blend = GameEngineBlend::Create("Blend_Light", Desc);
 
-		std::shared_ptr<GameEngineMaterial> OverRayMaterial = GameEngineMaterial::Create("2DTexture_Light");
-		OverRayMaterial->SetVertexShader("TextureShader_VS");
-		OverRayMaterial->SetPixelShader("TextureShader_PS");
-		OverRayMaterial->SetBlendState("Blend_Light");
+		std::shared_ptr<GameEngineMaterial> LightMaterial = GameEngineMaterial::Create("2DTexture_Light");
+		LightMaterial->SetVertexShader("TextureShader_VS");
+		LightMaterial->SetPixelShader("TextureShader_PS");
+		LightMaterial->SetBlendState("Blend_Light");
+		LightMaterial->SetDepthState("AlwaysDepth");
 	}
 
 
@@ -169,6 +170,7 @@ void ContentsCore::InitMaterialResoruces()
 		OverRayMaterial->SetPixelShader("TextureShader_PS");
 		OverRayMaterial->SetBlendState("Overlay");
 	}
+
 
 
 	{
