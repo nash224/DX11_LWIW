@@ -167,4 +167,5 @@ void GameEngineRenderUnit::Render()
 {
 	ResSetting();
 	Draw();
+	// ShaderResHelper.AllShaderResourcesReset();
 }

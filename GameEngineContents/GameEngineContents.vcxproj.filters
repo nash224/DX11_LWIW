@@ -196,6 +196,12 @@
     <Filter Include="PixelCollision">
       <UniqueIdentifier>{8a668e94-d491-4242-b5ac-e210bb340594}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Rendering">
+      <UniqueIdentifier>{5453e01f-eb5f-42b2-b353-29bd4e644d5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering\Effect">
+      <UniqueIdentifier>{44106ce4-14e0-4893-be3f-c26a2c93aaea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -520,9 +526,6 @@
     <ClInclude Include="UI_MainMenu_Button.h">
       <Filter>2.Object\2.Actor\1.BackManager\LevelBackDrop\1.MainMenu</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerEffect.h">
-      <Filter>100.Z_Test\0.Level</Filter>
-    </ClInclude>
     <ClInclude Include="PixelCollision.h">
       <Filter>PixelCollision</Filter>
     </ClInclude>
@@ -530,7 +533,10 @@
       <Filter>2.Object\2.Actor\1.BackManager\LevelBackDrop\2.Play</Filter>
     </ClInclude>
     <ClInclude Include="VirgilHat.h">
-      <Filter>100.Z_Test\0.Level</Filter>
+      <Filter>Rendering\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerEffect.h">
+      <Filter>Rendering\Effect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -884,9 +890,6 @@
     <ClCompile Include="Ellie_Broom_Resources.cpp">
       <Filter>2.Object\2.Actor\2.Interactive\Dynamic\Ellie\Broom</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerEffect.cpp">
-      <Filter>100.Z_Test\0.Level</Filter>
-    </ClCompile>
     <ClCompile Include="PixelCollision.cpp">
       <Filter>PixelCollision</Filter>
     </ClCompile>
@@ -894,7 +897,10 @@
       <Filter>2.Object\2.Actor\1.BackManager\LevelBackDrop\2.Play</Filter>
     </ClCompile>
     <ClCompile Include="VirgilHat.cpp">
-      <Filter>100.Z_Test\0.Level</Filter>
+      <Filter>Rendering\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerEffect.cpp">
+      <Filter>Rendering\Effect</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

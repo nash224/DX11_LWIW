@@ -25,7 +25,7 @@ public:
 
 	// GameEngineCoreObject를 상속받은 클래스만 템플릿으로 사용 가능하다.
 	template<typename ObjectType>
-	static void EngineStart(HINSTANCE _Inst)
+	static void EngineStart(HINSTANCE _Inst) 
 	{
 		CoreObject = std::make_shared<ObjectType>();
 		EngineProcess(_Inst, ObjectType::GetWindowTitle(), ObjectType::GetStartWindowPos(), ObjectType::GetStartWindowSize());
@@ -73,7 +73,7 @@ public:
 		return MainDevice.GetBackBufferRenderTarget();
 	}
 
-	static ID3D11Device* GetDevice()
+	static ID3D11Device* GetDevice() 
 	{
 		return MainDevice.GetDevice();
 	}
@@ -83,12 +83,12 @@ public:
 		return MainDevice.GetContext();
 	}
 
-	static std::map<std::string, std::shared_ptr<GameEngineLevel>>& GetAllLevel()
+	static std::map<std::string, std::shared_ptr<GameEngineLevel>>& GetAllLevel() 
 	{
 		return AllLevel;
 	}
 
-	static std::shared_ptr<GameEngineLevel> GetCurLevel()
+	static std::shared_ptr<GameEngineLevel> GetCurLevel() 
 	{
 		return CurLevel;
 	}
@@ -111,7 +111,7 @@ private:
 	static void Start();
 	static void Update();
 	static void Release();
-
+	
 
 
 };

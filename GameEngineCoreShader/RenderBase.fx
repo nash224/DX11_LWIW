@@ -11,6 +11,7 @@
 // 0 슬롯의 index 실행시켜보니 14 까지 허용한다.
 cbuffer RenderBaseInfo : register(b11)
 {
+    float4 ScreenSize;
     float4 BaseColor;
     int IsMask;
     int BaseColorOnly;

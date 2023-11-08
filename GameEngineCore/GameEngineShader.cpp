@@ -68,6 +68,12 @@ bool GameEngineShader::AutoCompile(GameEngineFile& _File)
 
 	// 이 파일의 경로로 
 	_File.Open(FileOpenType::Read, FileDataType::Text);
+	uintmax_t size = _File.GetFileSize();
+
+	if (0 == size)
+	{
+		return false;
+	}
 
 	GameEngineSerializer Ser;
 	_File.DataAllRead(Ser);

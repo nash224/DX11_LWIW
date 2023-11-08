@@ -98,6 +98,16 @@ public:
 		return AllRenderTarget;
 	}
 
+	void SetFar(float _Far)
+	{
+		Far = _Far;
+	}
+
+	void SetNear(float _Near)
+	{
+		Near = _Near;
+	}
+
 protected:
 	void Start() override;
 
@@ -116,7 +126,7 @@ private:
 
 	EPROJECTIONTYPE ProjectionType = EPROJECTIONTYPE::Orthographic;
 	float Far = 10000.0f;
-	float Near = 0.1f;
+	float Near = 10.0f;
 	float FOV = 60.0f;
 	float ZoomValue = 0.0f;
 

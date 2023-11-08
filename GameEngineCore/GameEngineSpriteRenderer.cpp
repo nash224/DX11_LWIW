@@ -182,6 +182,7 @@ void GameEngineSpriteRenderer::SetSprite(std::string_view _Name, unsigned int in
 	SetImageScale(CurSprite.GetScale() * AutoScaleRatio);
 }
 
+
 void GameEngineSpriteRenderer::ChangeCurSprite(int _Index /*= 0*/)
 {
 	CurFrameAnimations = nullptr;
@@ -193,7 +194,6 @@ void GameEngineSpriteRenderer::ChangeCurSprite(int _Index /*= 0*/)
 
 	CurSprite = Sprite->GetSpriteData(_Index);
 }
-
 
 void GameEngineSpriteRenderer::CreateAnimation(
 	std::string_view _AnimationName,

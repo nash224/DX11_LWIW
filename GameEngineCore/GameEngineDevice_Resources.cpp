@@ -501,6 +501,27 @@ void GameEngineDevice::ResourcesInit()
 		std::shared_ptr<GameEngineSampler> Rasterizer = GameEngineSampler::Create("POINT", Desc);
 	}
 
+	{
+
+		D3D11_SAMPLER_DESC Desc = {};
+		// 일반적인 보간형식 <= 뭉개진다.
+		// D3D11_FILTER_MIN_MAG_MIP_
+		// 그 밉맵에서 색상가져올때 다 뭉개는 방식으로 가져오겠다.
+		Desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+		Desc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+		Desc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+		Desc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+
+		Desc.MipLODBias = 0.0f;
+		Desc.MaxAnisotropy = 1;
+		Desc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+		Desc.MinLOD = -FLT_MAX;
+		Desc.MaxLOD = FLT_MAX;
+
+		std::shared_ptr<GameEngineSampler> Rasterizer = GameEngineSampler::Create("LINEAR", Desc);
+	}
+
+
 
 	{
 		// 엔진용 쉐이더를 전부다 전부다 로드하는 코드를 친다.
@@ -556,6 +577,13 @@ void GameEngineDevice::ResourcesInit()
 		Mat->SetRasterizer("EngineRasterizer");
 	}
 
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("BlurPostEffect");
+		Mat->SetVertexShader("BlurPostEffect_VS");
+		Mat->SetPixelShader("BlurPostEffect_PS");
+		Mat->SetDepthState("AlwaysDepth");
+		Mat->SetRasterizer("EngineRasterizer");
+	}
 
 
 	GameEngineRenderTarget::MergeRenderUnitInit();
