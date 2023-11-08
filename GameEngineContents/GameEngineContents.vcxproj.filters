@@ -541,6 +541,9 @@
     <ClInclude Include="EffectEnum.h">
       <Filter>Rendering\Effect</Filter>
     </ClInclude>
+    <ClInclude Include="SilverStarPollen.h">
+      <Filter>3.Actor\2.Interactive\Static\Plant</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -907,6 +910,9 @@
     </ClCompile>
     <ClCompile Include="SkyLightEffect.cpp">
       <Filter>Rendering\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="SilverStarPollen.cpp">
+      <Filter>3.Actor\2.Interactive\Static\Plant</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

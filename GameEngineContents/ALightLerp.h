@@ -18,6 +18,5 @@ private:
 public:
 	std::shared_ptr<GameEngineSpriteRenderer> LightRenderer;
 
-
 };
 

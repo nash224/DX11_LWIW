@@ -31,17 +31,6 @@ void DynamicEntity::Release()
 }
 
 
-void DynamicEntity::LevelStart(class GameEngineLevel* _NextLevel)
-{
-	InteractiveActor::LevelStart(_NextLevel);
-}
-
-void DynamicEntity::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-	InteractiveActor::LevelEnd(_NextLevel);
-}
-
-
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 

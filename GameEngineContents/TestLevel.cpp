@@ -45,8 +45,7 @@ void TestLevel::Start()
 
 
 	{
-		GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<VirgilHat>();
-		GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<SkyLightEffect>();
+		/*GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<VirgilHat>();*/
 		/*GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<PlayerEffect>();*/
 	}
 }

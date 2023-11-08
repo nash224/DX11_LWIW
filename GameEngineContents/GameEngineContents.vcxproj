@@ -451,6 +451,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="SilverStarPollen.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="SkyLerp.cpp">
       <SubType>
       </SubType>
@@ -885,6 +889,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="SilverStarFlower.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SilverStarPollen.h">
       <SubType>
       </SubType>
     </ClInclude>

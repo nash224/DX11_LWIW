@@ -14,7 +14,7 @@
 #include "Ellie.h"
 #include "FadeObject.h"
 
-#include "VirgilHat.h"
+#include "SkyLightEffect.h"
 
 
 
@@ -52,7 +52,7 @@ void PlayLevel::Start()
 	}
 
 	{
-		GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<VirgilHat>();
+		GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<SkyLightEffect>();
 	}
 }
 
