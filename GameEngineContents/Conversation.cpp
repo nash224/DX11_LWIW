@@ -48,7 +48,7 @@ void Conversation::SetConversationEvent(int _Topic, int _index, std::function<vo
 
 void Conversation::SetConversationEndEvent(int _Topic, std::function<void()> _Function)
 {
-	if (nullptr == Topics[_Topic])
+ 	if (nullptr == Topics[_Topic])
 	{
 		MsgBoxAssert("존재하지 않는 주제에 이벤트를 설정하려 했습니다.");
 		return;
@@ -158,10 +158,14 @@ void Conversation::EndConversation()
 	UI_Conversation::MainConversationUI->EndConversation();
 
 	UIManager::MainUIManager->DoneUIComponent();
-
+	
+	std::shared_ptr<Topic> TempTopic = CurTopic;
 	EndConversationEvent();
 
-	CurTopic = nullptr;
+	if (TempTopic == CurTopic)
+	{
+		CurTopic = nullptr;
+	}
 }
 
 

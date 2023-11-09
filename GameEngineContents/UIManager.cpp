@@ -141,13 +141,10 @@ void UIManager::DoneUIComponent()
 	m_Hub->Open();
 	IsOtherComponentUsed = false;
 
-	if (nullptr == Ellie::MainEllie)
+	if (nullptr != Ellie::MainEllie)
 	{
-		MsgBoxAssert("존재하지않는 앨리를 이용하려 했습니다.");
-		return;
+		Ellie::MainEllie->FinishWork();
 	}
-
-	Ellie::MainEllie->FinishWork();
 
 	SetEllieControl(true);
 }

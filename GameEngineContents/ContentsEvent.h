@@ -6,16 +6,12 @@ enum class EEVENTTYPE
 	Dian_Quest_1,
 	Dian_Quest_2,
 	Dian_Quest_3,
-	Dian_Quest_4,
+	Dian_Cracker,
 	Dian_Quest_5,
 	Aurea_Quest_1,
 	Aurea_Quest_2,
 	Aurea_Quest_3,
 	Aurea_Quest_4,
-	Virgil_Quest_1,
-	Virgil_Quest_2,
-	Virgil_Quest_3,
-	Virgil_Quest_4,
 	Guide_Machine_Juicy,
 	Guide_Machine_Dispensation,
 	Guide_Machine_Roaster,
@@ -46,7 +42,7 @@ public:
 			return isQuestCompleted;
 		}
 
-		void QuestComplete()
+		virtual void QuestComplete()
 		{
 			isQuestCompleted = true;
 		}
@@ -88,11 +84,11 @@ public:
 
 	};
 
-	class Dian_Quest_4 : public QuestUnitBase
+	class Dian_Cracker : public QuestUnitBase
 	{
 	public:
 		bool CheckPrerequisiteQuest() override;
-
+		void QuestComplete() override;
 	};
 
 	class Dian_Quest_5 : public QuestUnitBase

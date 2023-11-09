@@ -8,6 +8,7 @@
 #include "UI_Alert_Quest.h"
 #include "PlayLevel.h"
 #include "AlertManager.h"
+#include "FadeObject.h"
 
 
 bool ContentsEvent::Crow_Meet::CheckPrerequisiteQuest()
@@ -77,7 +78,7 @@ bool ContentsEvent::Dian_Quest_3::CheckPrerequisiteQuest()
 	return false;
 }
 
-bool ContentsEvent::Dian_Quest_4::CheckPrerequisiteQuest()
+bool ContentsEvent::Dian_Cracker::CheckPrerequisiteQuest()
 {
 	const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest3 = ContentsEvent::FindQuest(EEVENTTYPE::Dian_Quest_3);
 	if (nullptr == Quest3)
@@ -90,8 +91,7 @@ bool ContentsEvent::Dian_Quest_4::CheckPrerequisiteQuest()
 	{
 		if (nullptr != PlayLevel::s_AlertManager)
 		{
-			PlayLevel::s_AlertManager->RegisterAlert(AlertData("ºÒ²É³îÀÌ Æ÷¼Ç Ä«Å»·Î±×", EALERTTYPE::QuestClear));
-			PlayLevel::s_AlertManager->RegisterAlert(AlertData("ºÒ²É³îÀÌ Æ÷¼Ç Á¦Á¶", EALERTTYPE::QuestAccept));
+			
 		}
 
 		return true;
@@ -100,9 +100,16 @@ bool ContentsEvent::Dian_Quest_4::CheckPrerequisiteQuest()
 	return false;
 }
 
+void ContentsEvent::Dian_Cracker::QuestComplete()
+{
+	isQuestCompleted = true;
+	PlayLevel::s_AlertManager->RegisterAlert(AlertData("ºÒ²É³îÀÌ Æ÷¼Ç Ä«Å»·Î±×", EALERTTYPE::QuestClear));
+	PlayLevel::s_AlertManager->RegisterAlert(AlertData("ºÒ²É³îÀÌ Æ÷¼Ç Á¦Á¶", EALERTTYPE::QuestAccept));
+}
+
 bool ContentsEvent::Dian_Quest_5::CheckPrerequisiteQuest()
 {
-	const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest4 = ContentsEvent::FindQuest(EEVENTTYPE::Dian_Quest_4);
+	const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest4 = ContentsEvent::FindQuest(EEVENTTYPE::Dian_Cracker);
 	if (nullptr == Quest4)
 	{
 		MsgBoxAssert("Á¸ÀçÇÏÁö ¾Ê´Â Äù½ºÆ®ÀÔ´Ï´Ù.");

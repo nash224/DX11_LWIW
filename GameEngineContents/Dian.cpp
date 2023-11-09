@@ -4,6 +4,9 @@
 #include "UIManager.h"
 #include "UI_Alert_Quest.h"
 
+#include "ContentsEvent.h"
+
+#include "FadeObject.h"
 
 
 Dian::Dian() 
@@ -101,14 +104,14 @@ void Dian::ConversationSetting()
 		{ L"제약이 없던 시절에 폭죽 물약을 맞고 엉덩이가 터지거나 집이 불에 탄 사례가 많아서..." , ECONVERSATIONENTITY::NPC, 0},
 		{ L"어떤 용도로, 몇 개 만드는지 마녀 행정부에 보고 해야 합니다." , ECONVERSATIONENTITY::NPC, 0},
 		{ L"해, 행정부..." , ECONVERSATIONENTITY::Ellie , 1},
-		{ L"엘리, 이 만들다 만 모자 같은 녀석아." , ECONVERSATIONENTITY::Virgil , 2},
-		{ L"아직도 조제법을 못 구했니?." , ECONVERSATIONENTITY::Virgil , 2},
+		{ L"엘리, 이 만들다 만 모자 같은 녀석아." , ECONVERSATIONENTITY::Virgil , 2, FireCrackerTopic.Color_BLACK, GlobalValue::Font_JejuHanlasan},
+		{ L"아직도 조제법을 못 구했니?." , ECONVERSATIONENTITY::Virgil , 2, FireCrackerTopic.Color_BLACK, GlobalValue::Font_JejuHanlasan},
 		{ L"그, 그게 행정부에 보고를 해야 한다는데요..." , ECONVERSATIONENTITY::Ellie , 1},
 		{ L"아, 주인 마녀님 이름으로 해도 무관합니다." , ECONVERSATIONENTITY::NPC, 1},
 		{ L"여기에 주인 마녀님 이름과 엘리 이름, 그리고 용도와 개수를 적어주시죠." , ECONVERSATIONENTITY::NPC, 1},
 		{ L"주, 주인 마녀님 이..이름이요?" , ECONVERSATIONENTITY::Ellie , 1},
-		{ L"뭐! 엘리 이 터진 털모자 같은 녀석!" , ECONVERSATIONENTITY::Virgil },
-		{ L"내 이름을 네 불지옥지렁이 같은 글씨체로 쓰겠다는 거냐!" , ECONVERSATIONENTITY::Virgil },
+		{ L"뭐! 엘리 이 터진 털모자 같은 녀석!" , ECONVERSATIONENTITY::Virgil ,2, FireCrackerTopic.Color_BLACK, GlobalValue::Font_JejuHanlasan},
+		{ L"내 이름을 네 불지옥지렁이 같은 글씨체로 쓰겠다는 거냐!" , ECONVERSATIONENTITY::Virgil, 2,FireCrackerTopic.Color_BLACK, GlobalValue::Font_JejuHanlasan },
 		{ L"주인 마녀님 성격이 화통하시군요." , ECONVERSATIONENTITY::NPC, 2},
 		{ L"정 그러시면 다른 보증인의 이름을 적으셔도 괜찮습니다." , ECONVERSATIONENTITY::NPC, 1},
 		{ L"아리아..그리고 앨리. 1개. 마을 파티용..." , ECONVERSATIONENTITY::Ellie , 1},
@@ -122,7 +125,7 @@ void Dian::ConversationSetting()
 
 	NPCConversation.SetConversationEndEvent(EDIANTOPICTYPE::FireCracker, [&]()
 		{
-			State.ChangeState(EDIANTOPICTYPE::FireCrackerAfter);
+			NPCConversation.StartConversation(EDIANTOPICTYPE::FireCrackerAfter);
 		});
 
 
@@ -132,20 +135,30 @@ void Dian::ConversationSetting()
 	FireCrackerAfterTopic.Data =
 	{
 		{ L"휴...이럴 때마다 심장이 쿵쾅거려." , ECONVERSATIONENTITY::Ellie , 1},
-		{ L"발연기좀 그만해. 들키겠어.  " , ECONVERSATIONENTITY::Virgil , 1},
+		{ L"발연기좀 그만해. 들키겠어.  " , ECONVERSATIONENTITY::Virgil , 1, FireCrackerTopic.Color_BLACK, GlobalValue::Font_JejuHanlasan},
 		{ L"어쩔 수 없잖아." , ECONVERSATIONENTITY::Ellie, 2 },
 		{ L"일단 당장 생각나는 게 엄마 이름이라서 적었는데...괜찮겠지?." , ECONVERSATIONENTITY::Ellie, 5 },
 		{ L"목적은 달성했으니 폭죽 물약을 만들러 가자고." , ECONVERSATIONENTITY::Ellie , 1},
-		{ L"걱정된다. 정말." , ECONVERSATIONENTITY::Virgil , 1},
+		{ L"걱정된다. 정말." , ECONVERSATIONENTITY::Virgil , 1, FireCrackerTopic.Color_BLACK, GlobalValue::Font_JejuHanlasan},
 	};
 
 	FireCrackerAfterTopic.Data.shrink_to_fit();
 	NPCConversation.CreateTopic(EDIANTOPICTYPE::FireCrackerAfter, FireCrackerAfterTopic);
 
 
-	NPCConversation.SetConversationEndEvent(EDIANTOPICTYPE::FireCracker, [&]()
+	NPCConversation.SetConversationEndEvent(EDIANTOPICTYPE::FireCrackerAfter, [&]()
 		{
+			std::weak_ptr<GameEngineLevel> CurLevel = GameEngineCore::GetCurLevel();
+			if (true == CurLevel.expired())
+			{
+				MsgBoxAssert("포인터가 존재하지 않습니다.");
+				return;
+			}
+
+			std::shared_ptr<FadeObject> FadeOutObject = CurLevel.lock().get()->CreateActor<FadeObject>(EUPDATEORDER::Fade);
+			FadeOutObject->CallFadeOut("EndLevel");
 			
+			const std::shared_ptr<ContentsEvent::QuestUnitBase> CrackerQuest = ContentsEvent::FindQuest(EEVENTTYPE::Dian_Cracker);
 		});
 }
 
@@ -187,6 +200,6 @@ void Dian::NormalUpdate(float _DeltaTime, GameEngineState* _Parent)
 {
 	if (true == IsEnalbeActive)
 	{
-		NPCEntity::InteractWithEllie(EDIANTOPICTYPE::Hello);
+		NPCEntity::InteractWithEllie(EDIANTOPICTYPE::FireCracker);
 	}
 }

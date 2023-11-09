@@ -41,7 +41,7 @@ void ContentsEvent::Init()
 	CreateQuest<ContentsEvent::Dian_Quest_1>(EEVENTTYPE::Dian_Quest_1);
 	CreateQuest<ContentsEvent::Dian_Quest_2>(EEVENTTYPE::Dian_Quest_2);
 	CreateQuest<ContentsEvent::Dian_Quest_3>(EEVENTTYPE::Dian_Quest_3);
-	CreateQuest<ContentsEvent::Dian_Quest_4>(EEVENTTYPE::Dian_Quest_4);
+	CreateQuest<ContentsEvent::Dian_Cracker>(EEVENTTYPE::Dian_Cracker);
 	CreateQuest<ContentsEvent::Dian_Quest_5>(EEVENTTYPE::Dian_Quest_5);
 }
 
