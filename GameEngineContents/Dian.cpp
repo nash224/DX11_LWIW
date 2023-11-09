@@ -158,7 +158,7 @@ void Dian::ConversationSetting()
 			std::shared_ptr<FadeObject> FadeOutObject = CurLevel.lock().get()->CreateActor<FadeObject>(EUPDATEORDER::Fade);
 			FadeOutObject->CallFadeOut("EndLevel");
 			
-			const std::shared_ptr<ContentsEvent::QuestUnitBase> CrackerQuest = ContentsEvent::FindQuest(EEVENTTYPE::Dian_Cracker);
+			const std::shared_ptr<ContentsEvent::QuestUnitBase> CrackerQuest = ContentsEvent::FindQuest(EQUESTTYPE::Dian_Cracker);
 		});
 }
 
@@ -191,10 +191,6 @@ void Dian::RendererSetting()
 	m_Shadow->Transform.SetLocalPosition({ 0.0f, RendererYCorrection, ShadowDepth });
 	m_Shadow->SetSprite("Dian_idle.png", 0);
 }
-
-
-
-
 
 void Dian::NormalUpdate(float _DeltaTime, GameEngineState* _Parent)
 {

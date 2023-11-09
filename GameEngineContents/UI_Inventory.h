@@ -124,6 +124,7 @@ public:
 	void PopItem(std::string_view _ItemName, unsigned int _Count);
 
 	bool IsEmptySlot(std::string_view _ItemName);
+	bool IsItem(std::string_view _ItemName, unsigned int _ItemCount = 1);
 
 	void UnlockSlot(const unsigned int _Count = 1);
 

@@ -510,6 +510,28 @@ bool UI_Inventory::IsEmptySlot(std::string_view _ItemName)
 	return Data->CheckEmptySlot(_ItemName);
 }
 
+bool UI_Inventory::IsItem(std::string_view _ItemName, unsigned int _ItemCount /*= 1*/)
+{
+	if (nullptr == Data)
+	{
+		MsgBoxAssert("인벤토리가 존재하지 않습니다.");
+		return false;
+	}
+
+	InventoryInfo* FindItem = Data->Find(_ItemName);
+	if (nullptr == FindItem)
+	{
+		return false;
+	}
+
+	if (FindItem->ItemCount >= _ItemCount)
+	{
+		return true;
+	}
+
+	return false;
+}
+
 // 슬롯 줄 잠금해제
 void UI_Inventory::UnlockSlot(const unsigned int _Count /*= 1*/)
 {

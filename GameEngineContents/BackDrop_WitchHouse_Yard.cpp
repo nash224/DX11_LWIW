@@ -229,7 +229,7 @@ void BackDrop_WitchHouse_Yard::CreateDian()
 
 void BackDrop_WitchHouse_Yard::CheckCrowEvent()
 {
-	const std::shared_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest(EEVENTTYPE::Crow_Meet);
+	const std::shared_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest(EQUESTTYPE::Crow_Meet);
 	if (nullptr == Quest)
 	{
 		MsgBoxAssert("생성되지 않은 퀘스트입니다.");

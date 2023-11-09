@@ -2,9 +2,30 @@
 #include "NPCEntity.h"
 
 
+enum class EAUREASTATE
+{
+	Curse,
+	Normal,
+};
+
+
 // Ό³Έν :
 class Aurea : public NPCEntity
 {
+private:
+
+	enum class EAUREATOPICTYPE
+	{
+		Curse,
+		CurseAfter,
+		CursedNatural,
+		Normal,
+	};
+
+
+private:
+	static EAUREASTATE CurState;
+
 public:
 	// constrcuter destructer
 	Aurea();
@@ -29,12 +50,23 @@ protected:
 
 
 private:
+	void ConversationSetting();
+	void StateSetting();
+
+	void StartCurse(GameEngineState* _Parent);
+	void StartNormal(GameEngineState* _Parent);
+
+	void UpdateCurse(float _Delta, GameEngineState* _Parent);
+	void UpdateNormal(float _Delta, GameEngineState* _Parent);
+
 	void ShowFindAureaEvent();
 	void CheckAureaCurseEvent();
 
 private:
-	std::shared_ptr<GameEngineSpriteRenderer> m_Body = nullptr;
+	std::shared_ptr<GameEngineSpriteRenderer> AureaRenderer = nullptr;
 	std::shared_ptr<GameEngineSpriteRenderer> m_Shadow = nullptr;
+	GameEngineState State;
+
 
 	static constexpr const float RendererCorrection = 30.0f;
 

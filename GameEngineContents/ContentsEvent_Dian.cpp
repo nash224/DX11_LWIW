@@ -29,7 +29,7 @@ bool ContentsEvent::Crow_Meet::CheckPrerequisiteQuest()
 
 bool ContentsEvent::Dian_Quest_1::CheckPrerequisiteQuest()
 {
-	const std::shared_ptr<ContentsEvent::QuestUnitBase>& CrowQuest = ContentsEvent::FindQuest(EEVENTTYPE::Crow_Meet);
+	const std::shared_ptr<ContentsEvent::QuestUnitBase>& CrowQuest = ContentsEvent::FindQuest(EQUESTTYPE::Crow_Meet);
 	if (nullptr == CrowQuest)
 	{
 		MsgBoxAssert("존재하지 않는 퀘스트입니다.");
@@ -46,7 +46,7 @@ bool ContentsEvent::Dian_Quest_1::CheckPrerequisiteQuest()
 
 bool ContentsEvent::Dian_Quest_2::CheckPrerequisiteQuest()
 {
-	const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest1 = ContentsEvent::FindQuest(EEVENTTYPE::Dian_Quest_1);
+	const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest1 = ContentsEvent::FindQuest(EQUESTTYPE::Dian_Quest_1);
 	if (nullptr == Quest1)
 	{
 		MsgBoxAssert("존재하지 않는 퀘스트입니다.");
@@ -63,7 +63,7 @@ bool ContentsEvent::Dian_Quest_2::CheckPrerequisiteQuest()
 
 bool ContentsEvent::Dian_Quest_3::CheckPrerequisiteQuest()
 {
-	const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest2 = ContentsEvent::FindQuest(EEVENTTYPE::Dian_Quest_2);
+	const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest2 = ContentsEvent::FindQuest(EQUESTTYPE::Dian_Quest_2);
 	if (nullptr == Quest2)
 	{
 		MsgBoxAssert("존재하지 않는 퀘스트입니다.");
@@ -80,7 +80,7 @@ bool ContentsEvent::Dian_Quest_3::CheckPrerequisiteQuest()
 
 bool ContentsEvent::Dian_Cracker::CheckPrerequisiteQuest()
 {
-	const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest3 = ContentsEvent::FindQuest(EEVENTTYPE::Dian_Quest_3);
+	const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest3 = ContentsEvent::FindQuest(EQUESTTYPE::Dian_Quest_3);
 	if (nullptr == Quest3)
 	{
 		MsgBoxAssert("존재하지 않는 퀘스트입니다.");
@@ -105,21 +105,4 @@ void ContentsEvent::Dian_Cracker::QuestComplete()
 	isQuestCompleted = true;
 	PlayLevel::s_AlertManager->RegisterAlert(AlertData("불꽃놀이 포션 카탈로그", EALERTTYPE::QuestClear));
 	PlayLevel::s_AlertManager->RegisterAlert(AlertData("불꽃놀이 포션 제조", EALERTTYPE::QuestAccept));
-}
-
-bool ContentsEvent::Dian_Quest_5::CheckPrerequisiteQuest()
-{
-	const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest4 = ContentsEvent::FindQuest(EEVENTTYPE::Dian_Cracker);
-	if (nullptr == Quest4)
-	{
-		MsgBoxAssert("존재하지 않는 퀘스트입니다.");
-		return false;
-	}
-
-	if (true == Quest4->isQuestComplete())
-	{
-		return true;
-	}
-
-	return false;
 }
