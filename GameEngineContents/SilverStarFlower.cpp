@@ -25,6 +25,8 @@ void SilverStarFlower::Start()
 void SilverStarFlower::Update(float _Delta)
 {
 	StaticEntity::Update(_Delta);
+
+	State.Update(_Delta);
 }
 
 void SilverStarFlower::Release()
@@ -75,11 +77,26 @@ void SilverStarFlower::RendererSetting()
 	m_Shadow = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
 	m_Shadow->Transform.SetLocalPosition({ 0.0f, RendererYCorrection });
 	m_Shadow->SetSprite("SilverStarFlower.png", 1);
+	
 }
 
 void SilverStarFlower::LightSetting()
 {
+	static constexpr const int RenderOrder = 0;
 
+	
+	UpperALight.LightRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
+	UpperALight.SetLightRendererSetting(float4(0.0f, 0.1f, 0.2f, 0.8f));
+	UpperALight.LightRenderer->SetSprite("Default_Particle.png");
+	UpperALight.LightRenderer->GetImageTransform().SetLocalScale(float4(60.0f, 60.0f));
+	UpperALight.LightRenderer->Transform.SetLocalPosition(float4(-10.0f, 30.0f));
+
+
+	LowerALight.LightRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
+	LowerALight.SetLightRendererSetting(float4(0.0f, 0.1f, 0.2f, 0.8f));
+	LowerALight.LightRenderer->SetSprite("Default_Particle.png");
+	LowerALight.LightRenderer->GetImageTransform().SetLocalScale(float4(30.0f, 30.0f));
+	LowerALight.LightRenderer->Transform.SetLocalPosition(float4(-4.0f, 14.0f));
 }
 
 void SilverStarFlower::StateSetting()
@@ -147,4 +164,7 @@ void SilverStarFlower::LightUpdate(float _Delta, GameEngineState* _Parent)
 			return;
 		}
 	}
+
+	UpperALight.UpdateLightLerp();
+	LowerALight.UpdateLightLerp();
 }

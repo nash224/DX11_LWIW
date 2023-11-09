@@ -9,6 +9,7 @@
 #include "CameraControler.h"
 #include "UIManager.h"
 #include "TimeManager.h"
+#include "AlertManager.h"
 
 // Actor
 #include "Ellie.h"
@@ -23,6 +24,7 @@
 
 
 std::unique_ptr<TimeManager> PlayLevel::s_TimeManager;
+std::unique_ptr<AlertManager> PlayLevel::s_AlertManager;
 std::unique_ptr<PlayLevel::PlaySoundInfo> PlayLevel::MainPlaySound;
 PlayLevel::PlayLevel()
 {
@@ -45,7 +47,11 @@ void PlayLevel::Start()
 	{
 		s_TimeManager = std::make_unique<TimeManager>();
 		s_TimeManager->Init();
+	}
 
+	if (nullptr == s_AlertManager)
+	{
+		s_AlertManager = std::make_unique<AlertManager>();
 	}
 
 	if (nullptr == MainPlaySound)

@@ -38,7 +38,7 @@ float UI_Alert_Enter::AlertLevelEnter(GameEngineLevel* _Level, std::string_view 
 	const std::shared_ptr<UI_Alert_Enter>& Alert = _Level->CreateActor<UI_Alert_Enter>(EUPDATEORDER::Objects);
 	Alert->Init(_LevelName);
 
-	return 0.0f;
+	return Fade_Change_Time * 2.0f + WaitTime;
 }
 
 void UI_Alert_Enter::Init(std::string_view _LevelName)
@@ -116,12 +116,12 @@ void UI_Alert_Enter::StartFadeIn(GameEngineState* _Parent)
 
 void UI_Alert_Enter::UpdateFadeIn(float _DeltaTime, GameEngineState* _Parent)
 {
-	float MulColorValue = _Parent->GetStateTime() / AlertInfo.Fade_Change_Time;
+	float MulColorValue = _Parent->GetStateTime() / Fade_Change_Time;
 
 	ChangeFontAlpha(AlertInfo.Font, MulColorValue);
 	ChangeMulColor(AlertInfo.Black, MulColorValue);
 
-	if (_Parent->GetStateTime() > AlertInfo.Fade_Change_Time)
+	if (_Parent->GetStateTime() > Fade_Change_Time)
 	{
 		ChangeFontAlpha(AlertInfo.Font, 1.0f);
 		ChangeMulColor(AlertInfo.Black, 1.0f);
@@ -131,8 +131,6 @@ void UI_Alert_Enter::UpdateFadeIn(float _DeltaTime, GameEngineState* _Parent)
 
 void UI_Alert_Enter::UpdateStay(float _DeltaTime, GameEngineState* _Parent)
 {
-	static constexpr const float WaitTime = 1.6f;
-
 	if (_Parent->GetStateTime() > WaitTime)
 	{
 		ChangeState(EENTERSTATE::FadeOut);
@@ -141,13 +139,13 @@ void UI_Alert_Enter::UpdateStay(float _DeltaTime, GameEngineState* _Parent)
 
 void UI_Alert_Enter::UpdateFadeOut(float _DeltaTime, GameEngineState* _Parent)
 {
-	float MulColorValue = 1.0f - _Parent->GetStateTime() / AlertInfo.Fade_Change_Time;
+	float MulColorValue = 1.0f - _Parent->GetStateTime() / Fade_Change_Time;
 
 	ChangeFontAlpha(AlertInfo.Font, MulColorValue);
 	ChangeMulColor(AlertInfo.ZoneFrame, MulColorValue);
 	ChangeMulColor(AlertInfo.Black, MulColorValue);
 
-	if (_Parent->GetStateTime() > AlertInfo.Fade_Change_Time)
+	if (_Parent->GetStateTime() > Fade_Change_Time)
 	{
 		ChangeFontAlpha(AlertInfo.Font, 0.0f);
 		ChangeMulColor(AlertInfo.ZoneFrame, 0.0f);

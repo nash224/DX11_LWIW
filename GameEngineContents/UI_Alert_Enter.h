@@ -13,8 +13,6 @@ private:
 		std::shared_ptr<GameEngineUIRenderer> Font;
 
 	public:
-		static constexpr const float Fade_Change_Time = 1.0f;
-
 		static constexpr const float FontScale = 23.0f;
 
 	};
@@ -53,6 +51,9 @@ protected:
 
 private:
 	AlertEnterInfo AlertInfo;
+
+	static constexpr const float WaitTime = 1.6f;
+	static constexpr const float Fade_Change_Time = 1.0f;
 
 };
 

@@ -43,9 +43,9 @@ public:
 	int Default_Npc_Sprite_Index = -1;
 
 public:
-	static constexpr const char* Aurea_Expression_Sprite_Name = "Aurea_Expression.png";
-	static constexpr const char* Crow_Expression_Sprite_Name = "Crow_Expression.png";
-	static constexpr const char* Dian_Expression_Sprite_Name = "Dian_Expression.png";
+	static constexpr const char* Expression_Aurea_Sprite_Name = "Aurea_Expression.png";
+	static constexpr const char* Expression_Crow_Sprite_Name = "Crow_Expression.png";
+	static constexpr const char* Expression_Dian_Sprite_Name = "Dian_Expression.png";
 
 	// ConversationData에서 사용하는 변수입니다. 
 	const float4 Color_RED = float4(0.6f, 0.1f, 0.1f, 1.0f);

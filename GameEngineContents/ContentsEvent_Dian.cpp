@@ -5,6 +5,10 @@
 #include "PlayLevel.h"
 #include "TimeManager.h"
 
+#include "UI_Alert_Quest.h"
+#include "PlayLevel.h"
+#include "AlertManager.h"
+
 
 bool ContentsEvent::Crow_Meet::CheckPrerequisiteQuest()
 {
@@ -84,6 +88,12 @@ bool ContentsEvent::Dian_Quest_4::CheckPrerequisiteQuest()
 
 	if (true == Quest3->isQuestComplete())
 	{
+		if (nullptr != PlayLevel::s_AlertManager)
+		{
+			PlayLevel::s_AlertManager->RegisterAlert(AlertData("불꽃놀이 포션 카탈로그", EALERTTYPE::QuestClear));
+			PlayLevel::s_AlertManager->RegisterAlert(AlertData("불꽃놀이 포션 제조", EALERTTYPE::QuestAccept));
+		}
+
 		return true;
 	}
 

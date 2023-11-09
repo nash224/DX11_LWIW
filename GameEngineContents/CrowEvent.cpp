@@ -168,7 +168,7 @@ void CrowEvent::UpdateDisappear(float _DeltaTime, GameEngineState* _Parent)
 void CrowEvent::ConversationSetting()
 {
 	Topic CrowTopic;
-	CrowTopic.EntitySpriteName = CrowTopic.Crow_Expression_Sprite_Name;
+	CrowTopic.EntitySpriteName = CrowTopic.Expression_Crow_Sprite_Name;
 	CrowTopic.Default_Npc_Sprite_Index = 0;
 
 	CrowTopic.Data.reserve(64);

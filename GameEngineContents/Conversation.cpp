@@ -172,8 +172,20 @@ void Conversation::UpdateConversation(float _Delta)
 		return;
 	}
 
-	if (false == UI_Conversation::MainConversationUI->IsConversation() && true == GameEngineInput::IsDown('Z', this))
+	bool IsEndPrintMessage = (false == UI_Conversation::MainConversationUI->IsConversation());
+
+	bool isKeyDownSkip = (IsEndPrintMessage && true == GameEngineInput::IsDown('T', this));
+	if (isKeyDownSkip)
+	{
+		EndConversation();
+		return;
+	}
+
+
+	bool isKeyDownNextConversation = (IsEndPrintMessage && true == GameEngineInput::IsDown('Z', this));
+	if (isKeyDownNextConversation)
 	{
 		NextConversationLine();
+		return;
 	}
 }

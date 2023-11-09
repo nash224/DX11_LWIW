@@ -37,6 +37,11 @@ void MainMenu::Start()
 
 void MainMenu::Update(float _Delta)
 {
+	if (true == GameEngineInput::IsDown('Q', this))
+	{
+		GameEngineCore::ChangeLevel("TestLevel");
+	}
+
 	if (true == GameEngineInput::IsDown('T', this))
 	{
 		GameEngineCore::ChangeLevel("WitchHouse_Yard");

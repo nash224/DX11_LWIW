@@ -25,12 +25,12 @@ private:
 		std::shared_ptr<GameEngineUIRenderer> Font;
 
 	public:
-		static constexpr const float Fade_Change_Time = 1.0f;
 		static constexpr const float UnderLine_Initial_X_Scale_Ratio = 0.7f;
 
 		const float4 Stamp_Initial_Scale_Ratio_Size = float4(1.8f, 1.8f);
 
 		static constexpr const float Stamp_Change_FadeIn_Time = 0.2f;
+		
 
 		bool isStamped = false;
 
@@ -47,7 +47,7 @@ public:
 	UI_Alert_Quest& operator=(const UI_Alert_Quest& _Other) = delete;
 	UI_Alert_Quest& operator=(UI_Alert_Quest&& _Other) noexcept = delete;
 
-	static void AlertQuestClear(GameEngineLevel* _Level, std::string_view _QuestName, EALERTTYPE _Type);
+	static float CallAlertQuest(GameEngineLevel* _Level, std::string_view _QuestName, EALERTTYPE _Type);
 
 protected:
 	void Start() override {}
@@ -72,9 +72,12 @@ protected:
 
 private:
 	AlertQuestInfo QuestInfo;
-
 	GameEngineState StampState;
 
+	static constexpr const float Fade_Change_Time = 1.0f;
+	static constexpr const float WaitTime = 1.4f;
+
+private:
 	void FSMStampSetting();
 
 	void StartAppear(GameEngineState* _Parent);

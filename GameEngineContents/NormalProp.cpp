@@ -37,7 +37,6 @@ void NormalProp::LevelEnd(class GameEngineLevel* _NextLevel)
 void NormalProp::Init(int _Order /*= 0*/)
 {
 	m_Renderer = CreateComponent<GameEngineSpriteRenderer>(_Order);
-	m_Renderer->RenderBaseInfoValue.Target1 = 1;
 }
 
 

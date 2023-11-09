@@ -10,6 +10,8 @@ public:
 	enum class EDIANTOPICTYPE
 	{
 		Hello,
+		FireCracker,
+		FireCrackerAfter,
 		None,
 	};
 
@@ -47,7 +49,7 @@ protected:
 	void NormalUpdate(float _DeltaTime, GameEngineState* _Parent);
 
 private:
-	std::shared_ptr<GameEngineSpriteRenderer> m_Body = nullptr;
+	std::shared_ptr<GameEngineSpriteRenderer> DianRenderer = nullptr;
 	std::shared_ptr<GameEngineSpriteRenderer> m_Shadow = nullptr;
 	
 	GameEngineState State;

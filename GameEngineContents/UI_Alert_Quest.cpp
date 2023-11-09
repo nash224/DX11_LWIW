@@ -39,7 +39,7 @@ void UI_Alert_Quest::LevelEnd(class GameEngineLevel* _NextLevel)
 
 
 
-void  UI_Alert_Quest::AlertQuestClear(GameEngineLevel* _Level, std::string_view _QuestName, EALERTTYPE _Type)
+float UI_Alert_Quest::CallAlertQuest(GameEngineLevel* _Level, std::string_view _QuestName, EALERTTYPE _Type)
 {
 	const std::shared_ptr<UI_Alert_Quest>& Alert = _Level->CreateActor<UI_Alert_Quest>(EUPDATEORDER::Objects);
 
@@ -50,7 +50,7 @@ void  UI_Alert_Quest::AlertQuestClear(GameEngineLevel* _Level, std::string_view 
 	case EALERTTYPE::None:
 	{
 		MsgBoxAssert("잘못된 값이 들어왔습니다.");
-		return;
+		return 0.0f;
 	}
 		break;
 	case EALERTTYPE::QuestAccept:
@@ -62,6 +62,8 @@ void  UI_Alert_Quest::AlertQuestClear(GameEngineLevel* _Level, std::string_view 
 	default:
 		break;
 	}
+
+	return Fade_Change_Time * 2.0f + WaitTime;
 }
 
 void UI_Alert_Quest::SameInit(std::string_view _QuestName)
@@ -189,7 +191,7 @@ void UI_Alert_Quest::StartFadeIn(GameEngineState* _Parent)
 
 void UI_Alert_Quest::UpdateFadeIn(float _DeltaTime, GameEngineState* _Parent)
 {
-	float SettingValue = _Parent->GetStateTime() / QuestInfo.Fade_Change_Time;
+	float SettingValue = _Parent->GetStateTime() / Fade_Change_Time;
 
 	ChangeFontAlpha(QuestInfo.Font, SettingValue);
 	ChangeMulColor(QuestInfo.Black, SettingValue);
@@ -200,7 +202,7 @@ void UI_Alert_Quest::UpdateFadeIn(float _DeltaTime, GameEngineState* _Parent)
 
 	ChangeAutoScaleRatio(QuestInfo.UnderLine, ScaleRatio);
 
-	if (_Parent->GetStateTime() > QuestInfo.Fade_Change_Time)
+	if (_Parent->GetStateTime() > Fade_Change_Time)
 	{
 		ChangeFontAlpha(QuestInfo.Font, 1.0f);
 		ChangeMulColor(QuestInfo.Black, 1.0f);
@@ -215,9 +217,9 @@ void UI_Alert_Quest::UpdateFadeIn(float _DeltaTime, GameEngineState* _Parent)
 void UI_Alert_Quest::UpdateStay(float _DeltaTime, GameEngineState* _Parent)
 {
 	static constexpr const float StampTime = 0.2f;
-	static constexpr const float WaitTime = 1.4f;
 
-	if (_Parent->GetStateTime() > StampTime && false == QuestInfo.isStamped)
+	bool isStampDone = (_Parent->GetStateTime() > StampTime && false == QuestInfo.isStamped);
+	if (isStampDone)
 	{
 		if (nullptr != QuestInfo.Stamp)
 		{
@@ -235,7 +237,7 @@ void UI_Alert_Quest::UpdateStay(float _DeltaTime, GameEngineState* _Parent)
 
 void UI_Alert_Quest::UpdateFadeOut(float _DeltaTime, GameEngineState* _Parent)
 {
-	float MulColorValue = 1.0f - _Parent->GetStateTime() / QuestInfo.Fade_Change_Time;
+	float MulColorValue = 1.0f - _Parent->GetStateTime() / Fade_Change_Time;
 
 	ChangeFontAlpha(QuestInfo.Font, MulColorValue);
 	ChangeMulColor(QuestInfo.Black, MulColorValue);
@@ -247,7 +249,7 @@ void UI_Alert_Quest::UpdateFadeOut(float _DeltaTime, GameEngineState* _Parent)
 		ChangeMulColor(QuestInfo.Stamp, MulColorValue);
 	}
 
-	if (_Parent->GetStateTime() > QuestInfo.Fade_Change_Time)
+	if (_Parent->GetStateTime() > Fade_Change_Time)
 	{
 		ChangeFontAlpha(QuestInfo.Font, 0.0f);
 		ChangeMulColor(QuestInfo.QuestFrame, 0.0f);

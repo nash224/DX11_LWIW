@@ -36,6 +36,7 @@ public:
 
 public:
 	static std::unique_ptr<class TimeManager> s_TimeManager;
+	static std::unique_ptr<class AlertManager> s_AlertManager;
 	static std::unique_ptr<PlaySoundInfo> MainPlaySound;
 
 

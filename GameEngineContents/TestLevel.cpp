@@ -8,6 +8,7 @@
 #include "Ellie.h"
 #include "Bush.h"
 #include "WitchFlower.h"
+#include "SilverStarFlower.h"
 #include "MongSiri_Population.h"
 #include "NormalProp.h"
 
@@ -121,6 +122,15 @@ void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
 		}
 	}
 
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			const std::shared_ptr<SilverStarFlower>& SilverBellFlower = CreateActor<SilverStarFlower>(EUPDATEORDER::Objects);
+			SilverBellFlower->Transform.SetLocalPosition(float4(100.0f + (100.0f * static_cast<float>(i)), -200.0f));
+			SilverBellFlower->Init();
+		}
+	}
+
 	TestCode();
 }
 
@@ -142,6 +152,12 @@ void TestLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 	{
 		m_bush->Death();
 		m_bush = nullptr;
+	}
+
+	std::vector<std::shared_ptr<SilverStarFlower>> SBFGroup = GetObjectGroupConvert<SilverStarFlower>(EUPDATEORDER::Objects);
+	for (std::weak_ptr<SilverStarFlower> SBF : SBFGroup)
+	{
+		SBF.lock()->Death();
 	}
 
 	std::vector<std::shared_ptr<WitchFlower>> WFGroup = GetObjectGroupConvert<WitchFlower>(EUPDATEORDER::Objects);
