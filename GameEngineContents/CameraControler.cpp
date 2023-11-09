@@ -90,6 +90,15 @@ void CameraControler::SetBackDropScale(const float4& _Scale)
 	m_BackScale = _Scale;
 }
 
+void CameraControler::AddCameraPos(const float4& _Position)
+{
+	float4 CameraPos = m_MainCamera->Transform.GetLocalPosition();
+	float4 CameraMovePosition = CameraPos + _Position;
+	CameraMovePosition.Z = CAMERA_DEPTH;
+
+	m_MainCamera->Transform.SetLocalPosition(CameraMovePosition);
+}
+
 float4 CameraControler::GetCameraWorldPosition() const
 {
 	if (nullptr == m_MainCamera)
@@ -326,6 +335,9 @@ void CameraControler::UpdateCameraMode(float _Delta)
 	case ECAMERAMODE::Fix:
 		UpdateCameraFixMode();
 		break;
+	case ECAMERAMODE::Cinematic:
+		UpdateCameraCinematicMode(_Delta);
+		break;
 	case ECAMERAMODE::Editor:
 		UpdateCameraEditorMode(_Delta);
 		break;
@@ -404,6 +416,11 @@ void CameraControler::LockCamera(float4& _pCameraMovePos, const float4& _CurCame
 
 
 void CameraControler::UpdateCameraFixMode()
+{
+
+}
+
+void CameraControler::UpdateCameraCinematicMode(float _Delta)
 {
 
 }

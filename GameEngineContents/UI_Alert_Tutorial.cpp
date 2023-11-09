@@ -17,9 +17,11 @@ void UI_Alert_Tutorial::Update(float _Delta)
 
 void UI_Alert_Tutorial::Release()
 {
-	AlertInfo.ZoneFrame = nullptr;
-	AlertInfo.Black = nullptr;
-	AlertInfo.Font = nullptr;
+	AlertInfo.Base = nullptr;
+	AlertInfo.Img = nullptr;
+	AlertInfo.Fade = nullptr;
+	AlertInfo.TitleFont = nullptr;
+	AlertInfo.ContentFont = nullptr;
 }
 
 void UI_Alert_Tutorial::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -57,58 +59,66 @@ void UI_Alert_Tutorial::RendererSetting(std::string_view _LevelName)
 
 	const int RenderOrder = 0;
 
-	const float ShadowDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Shadow);
 	const float BaseDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Base);
+	const float ShadowDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Shadow);
 	const float FontDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Font);
+	const float ImgDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Img);
 
-	const float4& fShadowDepth = float4(0.0f, 0.0f, ShadowDepth);
-	const float4& fZoneFrameDepth = float4(0.0f, 0.0f, BaseDepth);
+	const float4& fFadeDepth = float4(0.0f, 0.0f, ShadowDepth);
+	const float4& fBaseDepth = float4(0.0f, 0.0f, BaseDepth);
+	const float4& fImgDepth = float4(0.0f, 0.0f, FontDepth);
 	const float4& fFontDepth = float4(0.0f, 0.0f, FontDepth);
 
 
 	{
-		AlertInfo.Black = CreateComponent<GameEngineUIRenderer>(RenderOrder);
-		AlertInfo.Black->Transform.SetLocalPosition(fShadowDepth);
-		AlertInfo.Black->GetColorData().MulColor = float4::ZERO;
-		AlertInfo.Black->SetSprite("Default_Particle.png");
-		AlertInfo.Black->GetImageTransform().SetLocalScale(float4(300.0f, 200.0f));
+		AlertInfo.Base = CreateComponent<GameEngineUIRenderer>(RenderOrder);
+		AlertInfo.Base->Transform.SetLocalPosition(fBaseDepth);
+		AlertInfo.Base->SetSprite("Popup_Keyword_Base.png");
 	}
 
 	{
-		static constexpr const float ZoneFrame_Animation_Inter = 0.045f;
+		AlertInfo.Fade = CreateComponent<GameEngineUIRenderer>(RenderOrder);
+		AlertInfo.Fade->Transform.SetLocalPosition(fFadeDepth);
+		AlertInfo.Fade->GetColorData().MulColor = FadeMulColor;
+		AlertInfo.Fade->GetImageTransform().SetLocalScale(GlobalValue::GetWindowScale());
+	}
 
-		AlertInfo.ZoneFrame = CreateComponent<GameEngineUIRenderer>(RenderOrder);
-		AlertInfo.ZoneFrame->Transform.SetLocalPosition(fZoneFrameDepth);
-		AlertInfo.ZoneFrame->AutoSpriteSizeOn();
-		AlertInfo.ZoneFrame->CreateAnimation("Alert", "ZoneName_Animation.png", ZoneFrame_Animation_Inter, 0, 36, false);
-		AlertInfo.ZoneFrame->ChangeAnimation("Alert");
+
+	{
+		static constexpr const float FontScale = 21.0f;
+
+		/*float4 TitleFontPosition = float4( 3.0f,  ) + fFontDepth;*/
+
+		AlertInfo.TitleFont = CreateComponent<GameEngineUIRenderer>(RenderOrder);
+		AlertInfo.TitleFont->Transform.SetLocalPosition(fFontDepth);
+		AlertInfo.TitleFont->SetText(GlobalValue::Font_Sandoll, _LevelName.data(), FontScale, InitialFontColor, FW1_TEXT_FLAG::FW1_CENTER);
 	}
 
 	{
 		static constexpr const float FontScale = 21.0f;
 
-		AlertInfo.Font = CreateComponent<GameEngineUIRenderer>(RenderOrder);
-		AlertInfo.Font->Transform.SetLocalPosition(fFontDepth);
-		AlertInfo.Font->SetText(GlobalValue::Font_Sandoll, _LevelName.data(), FontScale, InitialFontColor, FW1_TEXT_FLAG::FW1_CENTER);
+		AlertInfo.ContentFont = CreateComponent<GameEngineUIRenderer>(RenderOrder);
+		AlertInfo.ContentFont->Transform.SetLocalPosition(fFontDepth);
+		AlertInfo.ContentFont->SetText(GlobalValue::Font_Sandoll, _LevelName.data(), FontScale, InitialFontColor, FW1_TEXT_FLAG::FW1_CENTER);
 	}
 }
 
 void UI_Alert_Tutorial::StartFadeIn(GameEngineState* _Parent)
 {
-	if (nullptr == AlertInfo.Font)
+	if (nullptr == AlertInfo.Base)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	if (nullptr == AlertInfo.Black)
+	if (nullptr == AlertInfo.Fade)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	ChangeFontAlpha(AlertInfo.Font, 0.0f);
-	ChangeMulColor(AlertInfo.Black, 0.0f);
+	ChangeFontAlpha(AlertInfo.Base, 0.0f);
+	ChangeMulColor(AlertInfo.Fade, 0.0f);
 }
 
 
@@ -116,15 +126,6 @@ void UI_Alert_Tutorial::UpdateFadeIn(float _DeltaTime, GameEngineState* _Parent)
 {
 	float MulColorValue = _Parent->GetStateTime() / AlertInfo.Fade_Change_Time;
 
-	ChangeFontAlpha(AlertInfo.Font, MulColorValue);
-	ChangeMulColor(AlertInfo.Black, MulColorValue);
-
-	if (_Parent->GetStateTime() > AlertInfo.Fade_Change_Time)
-	{
-		ChangeFontAlpha(AlertInfo.Font, 1.0f);
-		ChangeMulColor(AlertInfo.Black, 1.0f);
-		ChangeState(EENTERSTATE::Stay);
-	}
 }
 
 void UI_Alert_Tutorial::UpdateStay(float _DeltaTime, GameEngineState* _Parent)
@@ -141,15 +142,4 @@ void UI_Alert_Tutorial::UpdateFadeOut(float _DeltaTime, GameEngineState* _Parent
 {
 	float MulColorValue = 1.0f - _Parent->GetStateTime() / AlertInfo.Fade_Change_Time;
 
-	ChangeFontAlpha(AlertInfo.Font, MulColorValue);
-	ChangeMulColor(AlertInfo.ZoneFrame, MulColorValue);
-	ChangeMulColor(AlertInfo.Black, MulColorValue);
-
-	if (_Parent->GetStateTime() > AlertInfo.Fade_Change_Time)
-	{
-		ChangeFontAlpha(AlertInfo.Font, 0.0f);
-		ChangeMulColor(AlertInfo.ZoneFrame, 0.0f);
-		ChangeMulColor(AlertInfo.Black, 0.0f);
-		Death();
-	}
 }

@@ -40,9 +40,5 @@ protected:
 	void CreatePortalActor();
 	void CreateAurea();
 
-	void CreatePumpkinTerrier();
-
-private:
-
 };
 

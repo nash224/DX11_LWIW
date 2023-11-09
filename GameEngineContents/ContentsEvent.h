@@ -8,7 +8,7 @@ enum class EEVENTTYPE
 	Dian_Quest_3,
 	Dian_Cracker,
 	Dian_Quest_5,
-	Aurea_Quest_1,
+	Aurea_Find,
 	Aurea_Quest_2,
 	Aurea_Quest_3,
 	Aurea_Quest_4,
@@ -19,10 +19,6 @@ enum class EEVENTTYPE
 	Guide_Tool_DragonFly,
 	Max,
 };
-
-
-
-
 
 
 // 설명 : Bool자료형의 이벤트 변수를 전역으로 제공합니다. 
@@ -55,6 +51,13 @@ public:
 
 	};
 
+
+	class Aurea_Find : public QuestUnitBase
+	{
+	public:
+		bool CheckPrerequisiteQuest() override;
+
+	};
 
 	class Crow_Meet : public QuestUnitBase
 	{

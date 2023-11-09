@@ -5,12 +5,26 @@
 class UI_Alert_Tutorial : public UI_Alert_Base
 {
 private:
+	enum class ETUTORIALTYPE
+	{
+		Move,
+		Interact,
+		SlowWalk,
+		Sprint,
+		SwapTool,
+		Direction,
+	};
+
+
+private:
 	class UIAlertTutorialInfo
 	{
 	public:
-		std::shared_ptr<GameEngineUIRenderer> ZoneFrame;
-		std::shared_ptr<GameEngineUIRenderer> Black;
-		std::shared_ptr<GameEngineUIRenderer> Font;
+		std::shared_ptr<GameEngineUIRenderer> Base;
+		std::shared_ptr<GameEngineUIRenderer> Img;
+		std::shared_ptr<GameEngineUIRenderer> Fade;
+		std::shared_ptr<GameEngineUIRenderer> TitleFont;
+		std::shared_ptr<GameEngineUIRenderer> ContentFont;
 
 	public:
 		static constexpr const float Fade_Change_Time = 1.0f;
@@ -53,6 +67,11 @@ protected:
 
 private:
 	UIAlertTutorialInfo AlertInfo;
+
+	const float4 FadeMulColor = float4(0.0f, 0.0f, 0.0f, 0.4f);
+
+	static constexpr const float StartAlphaRatio = 0.7f;
+	static constexpr const float PopupTime = 0.3f;
 
 };
 

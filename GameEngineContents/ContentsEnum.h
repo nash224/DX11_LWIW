@@ -94,7 +94,12 @@ enum class EHOUSEDEPTH
 
 enum class EUI_RENDERORDERDEPTH
 {
-	Cursor = -400,
+	Alert_Font = -400,
+	Alert_Img,
+	Alert_Stamp,
+	Alert_Base,
+	Alert_Shadow,
+	Cursor ,
 	CursorOutLine,
 	Icon_Mask,
 	Icon,
@@ -113,10 +118,6 @@ enum class EUI_RENDERORDERDEPTH
 	HUB_Gauge2,
 	HUB_Gauge1,
 	HUB_Frame,
-	Alert_Font,
-	Alert_Stamp,
-	Alert_Base,
-	Alert_Shadow,
 	Mark,
 };
 

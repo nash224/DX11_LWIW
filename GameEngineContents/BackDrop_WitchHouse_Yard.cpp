@@ -70,8 +70,6 @@ void BackDrop_WitchHouse_Yard::Init()
 	CreateNormalProp();
 	CreatePortalActor();
 	CreateDian();
-
-	TestLightShader();
 }
 
 void BackDrop_WitchHouse_Yard::LoadSprite()
@@ -89,23 +87,6 @@ void BackDrop_WitchHouse_Yard::LoadSprite()
 	}
 }
 
-void BackDrop_WitchHouse_Yard::TestLightShader()
-{
-	const float4 Winscale = GlobalValue::GetWindowScale();
-	float4 LightPosition = Winscale.Half();
-	LightPosition.Y = -400.0f;
-	LightPosition.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::illuminant);
-
-	const std::uint32_t LightOrder = 0;
-
-	std::shared_ptr<RendererActor> LightActor = GetLevel()->CreateActor<RendererActor>(LightOrder);
-	LightActor->Transform.SetLocalPosition(LightPosition);
-	LightActor->Init();
-	LightActor->m_Renderer->SetMaterial("2DTexture_Light");
-	LightActor->m_Renderer->SetSprite("cookie_1.png");
-	LightActor->m_Renderer->GetImageTransform().SetLocalScale(float4(96.0f, 96.0f));
-	LightActor->m_Renderer->GetColorData().MulColor = float4( 0.2f, 0.2f, 0.4f);
-}
 
 void BackDrop_WitchHouse_Yard::LoadSerBin()
 {
@@ -244,9 +225,6 @@ void BackDrop_WitchHouse_Yard::CreateDian()
 	Object->Transform.SetLocalPosition({ 700.0f , -400.0f });
 	Object->Init();
 }
-
-
-
 
 
 void BackDrop_WitchHouse_Yard::CheckCrowEvent()

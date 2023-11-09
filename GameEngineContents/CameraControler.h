@@ -8,6 +8,7 @@ enum class ECAMERAMODE
 	None,
 	Play,
 	Fix,
+	Cinematic,
 	Editor,
 };
 
@@ -50,6 +51,8 @@ public:
 	void SetFocusActor(GameEngineActor* _Actor);
 	void SetBackDropScale(const float4& _Scale);
 
+	void AddCameraPos(const float4& _Position);
+
 	float4 GetCameraWorldPosition() const;
 
 	void Reset();
@@ -68,6 +71,7 @@ protected:
 private:
 	void UpdateCameraMode(float _Delta);
 	void UpdateCameraPlayMode(float _Delta);
+	void UpdateCameraCinematicMode(float _Delta);
 	void LockCamera(float4& _pCameraMovePos, const float4& _CurCameraPos);
 
 	void UpdateCameraFixMode();

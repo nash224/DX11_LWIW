@@ -37,6 +37,8 @@ void ContentsEvent::Init()
 	ToolData[static_cast<int>(ETOOLTYPE::FeaturePan)] = true;
 
 
+	CreateQuest<ContentsEvent::Aurea_Find>(EEVENTTYPE::Aurea_Find);
+
 	CreateQuest<ContentsEvent::Crow_Meet>(EEVENTTYPE::Crow_Meet);
 	CreateQuest<ContentsEvent::Dian_Quest_1>(EEVENTTYPE::Dian_Quest_1);
 	CreateQuest<ContentsEvent::Dian_Quest_2>(EEVENTTYPE::Dian_Quest_2);

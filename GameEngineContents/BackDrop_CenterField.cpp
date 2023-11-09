@@ -4,14 +4,16 @@
 #include "GroundRenderUnit.h"
 #include "NormalProp.h"
 #include "PortalObject.h"
+#include "ContentsEvent.h"
 
+#include "Aurea.h"
+#include "Aurea.h"
 #include "MongSiri_Population.h"
 #include "Bush.h"
 #include "WitchFlower.h"
 #include "SilverStarFlower.h"
 #include "FlowerBird.h"
 #include "BranchTree.h"
-#include "Aurea.h"
 #include "PumpkinTerrier.h"
 
 
@@ -63,6 +65,7 @@ void BackDrop_CenterField::Init()
 	PixelVec.reserve(256);
 	PixelStaticEntityVec.reserve(32);
 
+	CreateAurea();
 	CreateMap();
 	LoadSerBin();
 	CreatePortalActor();
@@ -185,26 +188,6 @@ void BackDrop_CenterField::LoadSerBin()
 #pragma endregion
 
 
-void BackDrop_CenterField::CreateAurea()
-{
-	std::shared_ptr<Aurea> Object = GetLevel()->CreateActor<Aurea>(EUPDATEORDER::Entity);
-	float4 Position = float4(700.0f, -300.0f);
-	Position.Z = GlobalUtils::CalculateObjectDepth(m_BackScale.Y, Position.Y);
-	Object->Transform.SetLocalPosition(Position);
-	Object->Init();
-}
-
-
-void BackDrop_CenterField::CreatePumpkinTerrier()
-{
-	{
-		std::shared_ptr<PumpkinTerrier> Object = GetLevel()->CreateActor<PumpkinTerrier>(EUPDATEORDER::Entity);
-		Object->Transform.SetLocalPosition({ 360.0f , -400.0f });
-		Object->Init();
-	}
-}
-
-
 void BackDrop_CenterField::CreatePortalActor()
 {
 	{
@@ -217,6 +200,12 @@ void BackDrop_CenterField::CreatePortalActor()
 	}
 }
 
+void BackDrop_CenterField::CreateAurea()
+{
+	std::weak_ptr<Aurea> Npc_Aurea = GetLevel()->CreateActor<Aurea>(EUPDATEORDER::Entity);
+	Npc_Aurea.lock()->Transform.SetLocalPosition(float4(940.0f, -235.0f));
+	Npc_Aurea.lock()->Init();
+}
 
 
 
@@ -233,7 +222,7 @@ void BackDrop_CenterField::CreateCreatureWhenDayChange()
 	BackDrop_Field::CreateWitchFlower(float4(614.0f, -406.0f));
 
 	BackDrop_Field::CreateSilverStarFlower(float4(1248.0f, -170.0f));
-	BackDrop_Field::CreateSilverStarFlower(float4(1350.0f, -1072.0f));
+	BackDrop_Field::CreateSilverStarFlower(float4(1150.0f, -1002.0f));
 	BackDrop_Field::CreateSilverStarFlower(float4(1120.0f, -700.0f));
 	BackDrop_Field::CreateSilverStarFlower(float4(1622.0f, -886.0f));
 
@@ -247,9 +236,13 @@ void BackDrop_CenterField::CreateCreatureWhenDayChange()
 	BackDrop_Field::CreateFlowerBird(float4(640.0f, -863.0f));
 	BackDrop_Field::CreateFlowerBird(float4(775.0f, -908.0f));
 
-
 	BackDrop_Field::CreateMongSiriPopulation(3, float4(1512.0f, -760.0f), float4(1458.0f, -828.0f));
 	BackDrop_Field::CreateMongSiriPopulation(2, float4(173.0f, -705.0f), float4(280.0f, -767.0f));
+
+
+	CreateItem("MapleHerb_Collect", float4(1100.0f, -760.0f));
+	CreateItem("MapleHerb_Collect", float4(675.0f, -610.0f));
+	CreateItem("MapleHerb_Collect", float4(310.0f, -260.0f));
 }
 
 void BackDrop_CenterField::DisappearDayCreature()

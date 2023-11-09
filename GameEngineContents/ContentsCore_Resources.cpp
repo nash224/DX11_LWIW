@@ -76,6 +76,7 @@ void ContentsCore::LoadContentsData()
 	ItemData::CreateData("BushBug_Collect", { "BushBug_Collect", "¸ù½Ã¸®ÅÐ", EITEM_TYPE::Ingredient });
 	ItemData::CreateData("WitchFlower_Collect", { "WitchFlower_Collect", "¸¶³àÀÇ ²É", EITEM_TYPE::Ingredient });
 	ItemData::CreateData("FlowerBird_Collect", { "FlowerBird_Collect", "²É", EITEM_TYPE::Ingredient });
+	ItemData::CreateData("MapleHerb_Collect", { "MapleHerb_Collect", "¸ÞÀÌÇÃ Çãºê", EITEM_TYPE::Ingredient });
 
 	// Æ÷¼Ç
 	ItemData::CreateData("BadGrassPotion", { "BadGrassPotion", "³ª»Û Ç® Á¦°Å¹°¾à", EITEM_TYPE::Ingredient });

@@ -37,7 +37,5 @@ private:
 	void ShowCrowEvent();
 
 	void ReleaseYardSprite();
-
-	void TestLightShader();
 };
 

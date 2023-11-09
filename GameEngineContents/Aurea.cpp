@@ -2,8 +2,8 @@
 #include "Aurea.h"
 
 
-#include "BackDrop_PlayLevel.h"
-#include "Ellie.h"
+#include "ContentsEvent.h"
+#include "AureaFindEvent.h"
 
 Aurea::Aurea()
 {
@@ -23,6 +23,8 @@ void Aurea::Start()
 void Aurea::Update(float _Delta)
 {
 	NPCEntity::Update(_Delta);
+
+	/*CheckAureaCurseEvent();*/
 }
 
 void Aurea::Release()
@@ -30,6 +32,14 @@ void Aurea::Release()
 	NPCEntity::Release();
 }
 
+void Aurea::LevelStart(class GameEngineLevel* _NextLevel)
+{
+}
+
+void Aurea::LevelEnd(class GameEngineLevel* _NextLevel)
+{
+	Death();
+}
 
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -50,8 +60,6 @@ void Aurea::RendererSetting()
 		GameEngineSprite::CreateCut("merchant_creature.png", 7, 1);
 	}
 
-
-
 	m_Body = CreateComponent<GameEngineSpriteRenderer>();
 	m_Body->CreateAnimation("Idle", "Aurea_idle.png", 0.15f, 2, 5, true);
 	m_Body->AutoSpriteSizeOn();
@@ -62,14 +70,28 @@ void Aurea::RendererSetting()
 	m_Shadow = CreateComponent<GameEngineSpriteRenderer>();
 	m_Shadow->Transform.SetLocalPosition({ 0.0f, RendererCorrection , GlobalUtils::CalculateFixDepth(ERENDERDEPTH::ObjectShadow)});
 	m_Shadow->SetSprite("Aurea_idle.png", 1);
+}
 
 
-	float4 CreaturePos = float4(0.0f, CreatureYPos);
-	CreaturePos.Z = BackDrop_PlayLevel::MainBackDrop->ReturnPlusDepth(CreaturePos.Y);
+void Aurea::CheckAureaCurseEvent()
+{
+	const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = ContentsEvent::FindQuest(EEVENTTYPE::Aurea_Find);
+	if (nullptr == Quest)
+	{
+		MsgBoxAssert("생성되지 않은 퀘스트입니다.");
+		return;
+	}
 
-	m_MerchantCreature = CreateComponent<GameEngineSpriteRenderer>();
-	m_MerchantCreature->Transform.SetLocalPosition(CreaturePos);
-	m_MerchantCreature->CreateAnimation("Idle", "merchant_creature.png", 0.12f);
-	m_MerchantCreature->AutoSpriteSizeOn();
-	m_MerchantCreature->ChangeAnimation("Idle");
+	if (false == Quest->isQuestComplete())
+	{
+		ShowFindAureaEvent();
+		Quest->QuestComplete();
+	}
+}
+
+void Aurea::ShowFindAureaEvent()
+{
+	std::shared_ptr<AureaFindEvent> Event = GetLevel()->CreateActor<AureaFindEvent>(EUPDATEORDER::Event);
+	Event->AureaPtr = this;
+	Event->Init();
 }

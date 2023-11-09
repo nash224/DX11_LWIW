@@ -199,6 +199,9 @@
     <Filter Include="3.Actor\4.Portal">
       <UniqueIdentifier>{0b367fee-0d15-47ce-83bf-b9af5cab23d3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3.Actor\1.BackManager\LevelBackDrop\2.Play\CenterField">
+      <UniqueIdentifier>{11d30a68-7047-48f3-810a-b975f15773e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -320,9 +323,6 @@
       <Filter>3.Actor\1.BackManager\LevelBackDrop\2.Play</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_WitchHouse_UpFloor.h">
-      <Filter>3.Actor\1.BackManager\LevelBackDrop\2.Play</Filter>
-    </ClInclude>
-    <ClInclude Include="BackDrop_CenterField.h">
       <Filter>3.Actor\1.BackManager\LevelBackDrop\2.Play</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_MainMenu.h">
@@ -544,6 +544,12 @@
     <ClInclude Include="SilverStarPollen.h">
       <Filter>3.Actor\2.Interactive\Static\Plant</Filter>
     </ClInclude>
+    <ClInclude Include="BackDrop_CenterField.h">
+      <Filter>3.Actor\1.BackManager\LevelBackDrop\2.Play\CenterField</Filter>
+    </ClInclude>
+    <ClInclude Include="AureaFindEvent.h">
+      <Filter>3.Actor\1.BackManager\LevelBackDrop\2.Play\CenterField</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -665,9 +671,6 @@
       <Filter>3.Actor\1.BackManager\LevelBackDrop\2.Play</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_WitchHouse_UpFloor.cpp">
-      <Filter>3.Actor\1.BackManager\LevelBackDrop\2.Play</Filter>
-    </ClCompile>
-    <ClCompile Include="BackDrop_CenterField.cpp">
       <Filter>3.Actor\1.BackManager\LevelBackDrop\2.Play</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_MainMenu.cpp">
@@ -913,6 +916,15 @@
     </ClCompile>
     <ClCompile Include="SilverStarPollen.cpp">
       <Filter>3.Actor\2.Interactive\Static\Plant</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsEvent_Aurea.cpp">
+      <Filter>0.Data\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="BackDrop_CenterField.cpp">
+      <Filter>3.Actor\1.BackManager\LevelBackDrop\2.Play\CenterField</Filter>
+    </ClCompile>
+    <ClCompile Include="AureaFindEvent.cpp">
+      <Filter>3.Actor\1.BackManager\LevelBackDrop\2.Play\CenterField</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
