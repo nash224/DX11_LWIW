@@ -24,9 +24,9 @@ public:
 
 	bool Collision(std::shared_ptr<GameEngineCollision> _Collision, const float4& _NextPos);
 
-	bool Collision(std::shared_ptr<GameEngineCollision> _Collision, std::function<void(std::vector<std::shared_ptr<GameEngineCollision>>& _Collisions)> _Function);
+	bool Collision(std::shared_ptr<GameEngineCollision> _Collision, std::function<void(std::vector<GameEngineCollision*>& _Collisions)> _Function);
 
-	bool Collision(std::shared_ptr<GameEngineCollision> _Collision, const float4& _NextPos, std::function<void(std::vector<std::shared_ptr<GameEngineCollision>>& _Collisions)> _Function);
+	bool Collision(std::shared_ptr<GameEngineCollision> _Collision, const float4& _NextPos, std::function<void(std::vector<GameEngineCollision*>& _Collisions)> _Function);
 
 	bool CollisionEvent(std::shared_ptr<GameEngineCollision> _Collision, const EventParameter& _Event);
 
@@ -36,6 +36,6 @@ protected:
 private:
 	void PushCollision(std::shared_ptr<class GameEngineCollision> _Collision);
 
-	std::list<std::shared_ptr<class GameEngineCollision>> Collisions;
+	std::list<class GameEngineCollision*> Collisions;
 };
 

@@ -15,7 +15,7 @@ void Ellie::UpdateCollision()
 
 void Ellie::UpdatePortalCollsiion()
 {
-	m_EllieCol->Collision(ECOLLISION::Portal, [](std::vector<std::shared_ptr<GameEngineCollision>>& _Collision)
+	m_EllieCol->Collision(ECOLLISION::Portal, [](std::vector<GameEngineCollision*>& _Collision)
 		{
 			for (size_t i = 0; i < _Collision.size(); i++)
 			{
@@ -74,7 +74,7 @@ void Ellie::UpdateInteractionCollsiion()
 		EllieRightFOVAngle += 360.0f;
 	}
 
-	m_EllieCol->Collision(ECOLLISION::Entity, [&](std::vector<std::shared_ptr<GameEngineCollision>>& _Collisions)
+	m_EllieCol->Collision(ECOLLISION::Entity, [&](std::vector<GameEngineCollision*>& _Collisions)
 		{
 			// 가장 가까운 객체만 참조하겠습니다.
 			std::vector<float> vecDistance;
@@ -87,7 +87,7 @@ void Ellie::UpdateInteractionCollsiion()
 				// 1. 각도 캐릭터 기준 양 옆 특정 각도
 				// 2. 거리 가까운 액터 기준
 
-				std::shared_ptr<GameEngineCollision>& Collision = _Collisions[i];
+				GameEngineCollision* Collision = _Collisions[i];
 
 				bool IsAngle = false;
 
@@ -154,7 +154,7 @@ void Ellie::UpdateInteractionCollsiion()
 			// 콜리전이 켜져있지만 버튼이 없는 경우 상호작용할 수 없는 버그가 생김
 			if (-1 != ShortestNumber)
 			{
-				std::shared_ptr<GameEngineCollision>& Collision = _Collisions[ShortestNumber];
+				GameEngineCollision* Collision = _Collisions[ShortestNumber];
 
 				GameEngineActor* Object = Collision->GetActor();
 
@@ -248,11 +248,11 @@ void Ellie::UpdateInteractionCollsiion()
 
 void Ellie::NetCollision()
 {
-	m_NetCol->Collision(ECOLLISION::Entity, [&](std::vector<std::shared_ptr<GameEngineCollision>>& _OtherGroup)
+	m_NetCol->Collision(ECOLLISION::Entity, [&](std::vector<GameEngineCollision*>& _OtherGroup)
 		{
 			for (size_t i = 0; i < _OtherGroup.size(); i++)
 			{
-				std::shared_ptr<GameEngineCollision> Collision = _OtherGroup[i];
+				GameEngineCollision* Collision = _OtherGroup[i];
 				GameEngineActor* Actor = Collision->GetActor();
 				InteractiveActor* Entity = dynamic_cast<InteractiveActor*>(Actor);
 				if (ETOOLTYPE::Dragonfly == Entity->GetCollectionToolType())

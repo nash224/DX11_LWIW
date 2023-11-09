@@ -311,9 +311,9 @@ void BranchTree::CreateBranchItem()
 	GameEngineRandom RandomClass;
 	RandomClass.SetSeed(reinterpret_cast<__int64>(this) + GlobalValue::GetSeedValue());
 
-	const float4& FallingPoint = float4{ 60.0f, 40.0f };
+	const float4& FallingPoint = float4{ 30.0f, 30.0f };
 
 	float4 FallingPosition = RandomClass.RandomVectorBox2D(FallingPositionBranchMinRange, FallingPositionBranchMaxRange, FallingPositionBranchMinRange, FallingPositionBranchMaxRange);
 	FallingPosition += Transform.GetLocalPosition() + FallingPoint;
-	BackDrop_PlayLevel::MainBackDrop->CreateItem("Branch_Collect", FallingPosition, 1, 60.0f);
+	BackDrop_PlayLevel::MainBackDrop->CreateItem("Branch_Collect", FallingPosition, 1, 80.0f);
 }

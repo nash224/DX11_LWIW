@@ -4,7 +4,7 @@
 #include <vector>
 #include <set>
 
-class EventParameter 
+class EventParameter
 {
 public:
 	std::function<void(class GameEngineCollision* _This, class GameEngineCollision* _Collisions)> Enter = nullptr;
@@ -48,22 +48,22 @@ public:
 	bool Collision(int _Order, const float4& _NextPos);
 
 	template<typename EnumType>
-	bool Collision(EnumType _Order, std::function<void(std::vector<std::shared_ptr<GameEngineCollision>>& _Collisions)> _Collision)
+	bool Collision(EnumType _Order, std::function<void(std::vector<GameEngineCollision*>& _Collisions)> _Collision)
 	{
 		return Collision(static_cast<int>(_Order), _Collision);
 	}
 
 	// 담을 필요 없다.
-	bool Collision(int _Order, std::function<void(std::vector<std::shared_ptr<GameEngineCollision>>& _Collisions)> _Collision);
+	bool Collision(int _Order, std::function<void(std::vector<GameEngineCollision*>& _Collisions)> _Collision);
 
 	template<typename EnumType>
-	bool Collision(EnumType _Order, const float4& _Next, std::function<void(std::vector<std::shared_ptr<GameEngineCollision>>& _Collisions)> _Collision)
+	bool Collision(EnumType _Order, const float4& _Next, std::function<void(std::vector<GameEngineCollision*>& _Collisions)> _Collision)
 	{
 		return Collision(static_cast<int>(_Order), _Next, _Collision);
 	}
 
 	// 담을 필요 없다.
-	bool Collision(int _Order, const float4& _Next, std::function<void(std::vector<std::shared_ptr<GameEngineCollision>>& _Collisions)> _Collision);
+	bool Collision(int _Order, const float4& _Next, std::function<void(std::vector<GameEngineCollision*>& _Collisions)> _Collision);
 
 	template<typename EnumType>
 	bool CollisionEvent(EnumType _Order, const EventParameter& _Event)
@@ -101,6 +101,6 @@ protected:
 
 private:
 	ColType CollisionType = ColType::SPHERE2D;
-	std::set<std::shared_ptr<GameEngineCollision>> Others;
+	std::set<GameEngineCollision*> Others;
 };
 

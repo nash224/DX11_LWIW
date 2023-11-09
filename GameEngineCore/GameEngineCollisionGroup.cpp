@@ -2,11 +2,11 @@
 #include "GameEngineCollisionGroup.h"
 #include "GameEngineCollision.h"
 
-GameEngineCollisionGroup::GameEngineCollisionGroup() 
+GameEngineCollisionGroup::GameEngineCollisionGroup()
 {
 }
 
-GameEngineCollisionGroup::~GameEngineCollisionGroup() 
+GameEngineCollisionGroup::~GameEngineCollisionGroup()
 {
 }
 
@@ -14,10 +14,10 @@ GameEngineCollisionGroup::~GameEngineCollisionGroup()
 
 void GameEngineCollisionGroup::AllReleaseCheck()
 {
-	std::list<std::shared_ptr<class GameEngineCollision>>::iterator StartIter = Collisions.begin();
-	std::list<std::shared_ptr<class GameEngineCollision>>::iterator EndIter = Collisions.end();
+	std::list<GameEngineCollision*>::iterator StartIter = Collisions.begin();
+	std::list<GameEngineCollision*>::iterator EndIter = Collisions.end();
 
-	for ( ; StartIter != EndIter; )
+	for (; StartIter != EndIter; )
 	{
 		if (false == (*StartIter)->IsDeath())
 		{
@@ -39,9 +39,9 @@ bool GameEngineCollisionGroup::Collision(std::shared_ptr<GameEngineCollision> _C
 	}
 
 
-	for (std::shared_ptr<class GameEngineCollision> Collision : Collisions)
+	for (GameEngineCollision* Collision : Collisions)
 	{
-		if (Collision == _Collision)
+		if (Collision == _Collision.get())
 		{
 			continue;
 		}
@@ -73,9 +73,9 @@ bool GameEngineCollisionGroup::Collision(std::shared_ptr<GameEngineCollision> _C
 	Data.OBB.Center.y += _NextPos.Y;
 	Data.OBB.Center.z += _NextPos.Z;
 
-	for (std::shared_ptr<class GameEngineCollision> Collision : Collisions)
+	for (GameEngineCollision* Collision : Collisions)
 	{
-		if (Collision == _Collision)
+		if (Collision == _Collision.get())
 		{
 			continue;
 		}
@@ -94,7 +94,7 @@ bool GameEngineCollisionGroup::Collision(std::shared_ptr<GameEngineCollision> _C
 	return false;
 }
 
-bool GameEngineCollisionGroup::Collision(std::shared_ptr<GameEngineCollision> _Collision, std::function<void(std::vector<std::shared_ptr<GameEngineCollision>>& _Collisions)> _Function)
+bool GameEngineCollisionGroup::Collision(std::shared_ptr<GameEngineCollision> _Collision, std::function<void(std::vector<GameEngineCollision*>& _Collisions)> _Function)
 {
 	if (false == _Collision->IsUpdate())
 	{
@@ -105,12 +105,12 @@ bool GameEngineCollisionGroup::Collision(std::shared_ptr<GameEngineCollision> _C
 	// static 지역변수로 만들면
 	// std::list Nodes delete를 한다.
 	// 쓰레드나 이런것에서 위험하지만
-	static std::vector<std::shared_ptr<GameEngineCollision>> ResultCollision;
+	static std::vector<GameEngineCollision*> ResultCollision;
 	ResultCollision.clear();
 
-	for (std::shared_ptr<class GameEngineCollision> Collision : Collisions)
+	for (GameEngineCollision* Collision : Collisions)
 	{
-		if (Collision == _Collision)
+		if (Collision == _Collision.get())
 		{
 			continue;
 		}
@@ -137,14 +137,14 @@ bool GameEngineCollisionGroup::Collision(std::shared_ptr<GameEngineCollision> _C
 }
 
 
-bool GameEngineCollisionGroup::Collision(std::shared_ptr<GameEngineCollision> _Collision, const float4& _NextPos, std::function<void(std::vector<std::shared_ptr<GameEngineCollision>>& _Collisions)> _Function)
+bool GameEngineCollisionGroup::Collision(std::shared_ptr<GameEngineCollision> _Collision, const float4& _NextPos, std::function<void(std::vector<GameEngineCollision*>& _Collisions)> _Function)
 {
 	if (false == _Collision->IsUpdate())
 	{
 		return false;
 	}
 
-	static std::vector<std::shared_ptr<GameEngineCollision>> ResultCollision;
+	static std::vector<GameEngineCollision*> ResultCollision;
 	ResultCollision.clear();
 
 	CollisionData Data = _Collision->Transform.ColData;
@@ -153,9 +153,9 @@ bool GameEngineCollisionGroup::Collision(std::shared_ptr<GameEngineCollision> _C
 	Data.OBB.Center.y += _NextPos.Y;
 	Data.OBB.Center.z += _NextPos.Z;
 
-	for (std::shared_ptr<class GameEngineCollision> Collision : Collisions)
+	for (GameEngineCollision* Collision : Collisions)
 	{
-		if (Collision == _Collision)
+		if (Collision == _Collision.get())
 		{
 			continue;
 		}
@@ -188,12 +188,12 @@ bool GameEngineCollisionGroup::CollisionEvent(std::shared_ptr<GameEngineCollisio
 		return false;
 	}
 
-	static std::vector<std::shared_ptr<GameEngineCollision>> ResultCollision;
+	static std::vector<GameEngineCollision*> ResultCollision;
 	ResultCollision.clear();
 
-	for (std::shared_ptr<class GameEngineCollision> Collision : Collisions)
+	for (GameEngineCollision* Collision : Collisions)
 	{
-		if (Collision == _Collision)
+		if (Collision == _Collision.get())
 		{
 			continue;
 		}
@@ -214,7 +214,7 @@ bool GameEngineCollisionGroup::CollisionEvent(std::shared_ptr<GameEngineCollisio
 		{
 			if (_Event.Exit)
 			{
-				_Event.Exit(_Collision.get(), Collision.get());
+				_Event.Exit(_Collision.get(), Collision);
 			}
 
 			_Collision->Others.erase(Collision);
@@ -224,24 +224,24 @@ bool GameEngineCollisionGroup::CollisionEvent(std::shared_ptr<GameEngineCollisio
 	if (0 != ResultCollision.size())
 	{
 		// ResultCollision 나랑 충돌한 애들.
-		
+
 		for (size_t i = 0; i < ResultCollision.size(); i++)
 		{
-			std::shared_ptr<GameEngineCollision> Other = ResultCollision[i];
+			GameEngineCollision* Other = ResultCollision[i];
 			if (false == _Collision->Others.contains(Other))
 			{
 				if (_Event.Enter)
 				{
-					_Event.Enter(_Collision.get(), Other.get());
+					_Event.Enter(_Collision.get(), Other);
 				}
 
 				_Collision->Others.insert(Other);
 			}
-			else 
+			else
 			{
 				if (_Event.Stay)
 				{
-					_Event.Stay(_Collision.get(), Other.get());
+					_Event.Stay(_Collision.get(), Other);
 				}
 			}
 		}
@@ -260,5 +260,5 @@ void GameEngineCollisionGroup::PushCollision(std::shared_ptr<GameEngineCollision
 		return;
 	}
 
-	Collisions.push_back(_Collision);
+	Collisions.push_back(_Collision.get());
 }

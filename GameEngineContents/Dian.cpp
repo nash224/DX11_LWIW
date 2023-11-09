@@ -180,7 +180,7 @@ void Dian::RendererSetting()
 
 	DianRenderer = CreateComponent<GameEngineSpriteRenderer>(RendererOrder);
 	DianRenderer->Transform.SetLocalPosition({0.0f, RendererYCorrection });
-	DianRenderer->CreateAnimation("Idle", "Dian_idle.png", 0.15f, 3, 7, true);
+	DianRenderer->CreateAnimation("Idle", "Dian_idle.png", 0.2f, 4, 7, true);
 	DianRenderer->AutoSpriteSizeOn();
 	DianRenderer->ChangeAnimation("Idle");
 	
