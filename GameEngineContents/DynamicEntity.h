@@ -4,6 +4,9 @@
 // Ό³Έν :
 class DynamicEntity : public InteractiveActor
 {
+private:
+	friend class UI_InterativeMark;
+
 public:
 	// constrcuter destructer
 	DynamicEntity();
@@ -28,8 +31,6 @@ protected:
 	void ApplyMovement(float _Delta);
 
 protected:
-	std::shared_ptr<GameEngineSpriteRenderer> m_Body = nullptr;
-
 	EDIRECTION m_Dir = EDIRECTION::LEFT;
 	EDIRECTION m_RenderDir = EDIRECTION::CENTER;
 

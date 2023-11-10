@@ -99,6 +99,11 @@ void UI_InterativeMark::PointThis(InteractiveActor* _ActorPtr)
 
 		if (EINTERACTION_BUTTONTYPE::Gathering == Pointer->GetInteractionButtonType())
 		{
+			if (nullptr != _ActorPtr->m_Body)
+			{
+				_ActorPtr->m_Body->RenderBaseInfoValue.Target1 = 1;
+			}
+
 			UI_Mark->m_MarkRenderer->On();
 		}
 		else if (EINTERACTION_BUTTONTYPE::Gear == Pointer->GetInteractionButtonType())
@@ -138,6 +143,11 @@ void UI_InterativeMark::Reset()
 
 	m_ButtonRenderer->Off();
 
+
+	if (nullptr != Pointer && nullptr != Pointer->m_Body)
+	{
+		Pointer->m_Body->RenderBaseInfoValue.Target1 = 0;
+	}
 
 	UI_Mark = this;
 	Pointer = nullptr;

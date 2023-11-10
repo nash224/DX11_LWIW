@@ -19,7 +19,7 @@
 #define Sky_520 { 0.86f, 0.0f, 0.0f, 0.26f }
 #define Sky_530 { 0.81f, 0.0f, 0.0f, 0.27f }
 #define Sky_540 { 0.77f, 0.0f, 0.0f, 0.28f }
-#define Sky_550 { 0.71, 0.0f, 0.01f, 0.29f }
+#define Sky_550 { 0.71f, 0.0f, 0.01f, 0.29f }
 #define Sky_600 { 0.64f, 0.0f, 0.02f, 0.3f }
 #define Sky_610 { 0.53f, 0.0f, 0.03f, 0.31f }
 #define Sky_620 { 0.41f, 0.0f, 0.05f, 0.32f }

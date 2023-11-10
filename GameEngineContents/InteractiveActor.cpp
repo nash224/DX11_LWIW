@@ -30,6 +30,7 @@ void InteractiveActor::Update(float _Delta)
 
 void InteractiveActor::Release()
 {
+	m_Body = nullptr;
 	m_InteractiveCol = nullptr;
 }
 

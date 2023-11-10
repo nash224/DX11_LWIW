@@ -559,6 +559,9 @@
     <ClInclude Include="SilverBellSpawner.h">
       <Filter>3.Actor\2.Interactive\Static\Plant\SilverBellFlower</Filter>
     </ClInclude>
+    <ClInclude Include="OutLineEffect.h">
+      <Filter>Rendering\Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -940,6 +943,9 @@
     </ClCompile>
     <ClCompile Include="SilverBellSpawner.cpp">
       <Filter>3.Actor\2.Interactive\Static\Plant\SilverBellFlower</Filter>
+    </ClCompile>
+    <ClCompile Include="OutLineEffect.cpp">
+      <Filter>Rendering\Effect</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

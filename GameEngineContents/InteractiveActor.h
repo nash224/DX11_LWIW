@@ -26,7 +26,7 @@ enum class EINTERACTION_PRESSTYPE
 // 설명 :
 class InteractiveActor : public GameEngineActor
 {
-	friend class UI_InteractiveMark;
+	friend class UI_InterativeMark;
 	friend class BackDrop;
 	friend class Ellie;
 
@@ -107,6 +107,7 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 protected:
+	std::shared_ptr<GameEngineSpriteRenderer> m_Body = nullptr;
 	std::shared_ptr<GameEngineCollision> m_InteractiveCol = nullptr;
 
 	EINTERACTION_BUTTONTYPE m_InteractionButtonType = EINTERACTION_BUTTONTYPE::None;				// UI 상호작용시 버튼 타입

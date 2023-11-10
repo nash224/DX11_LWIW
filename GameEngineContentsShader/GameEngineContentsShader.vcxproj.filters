@@ -10,11 +10,14 @@
     <FxCompile Include="GlowMaskShader.fx">
       <Filter>Test</Filter>
     </FxCompile>
-    <FxCompile Include="VirgilEffect.fx">
+    <FxCompile Include="SkyLightEffect.fx">
       <Filter>Effect</Filter>
     </FxCompile>
-    <FxCompile Include="SkyLightEffect.fx">
+    <FxCompile Include="VirgilEffect.fx">
       <Filter>Test</Filter>
+    </FxCompile>
+    <FxCompile Include="OutLineEffect.fx">
+      <Filter>Effect</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

@@ -4,6 +4,8 @@
 #include "GlobalValue.h"
 #include "CameraControler.h"
 
+#include "OutLineEffect.h"
+
 
 bool ContentsLevel::PixelDebugMode = false;
 ContentsLevel::ContentsLevel() 
@@ -12,6 +14,8 @@ ContentsLevel::ContentsLevel()
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Orthographic);
 	GetMainCamera()->SetZSort(0);
 	GetCamera(static_cast<int>(ECAMERAORDER::UI))->Transform.SetLocalPosition({ 0.0f, 0.0f, -500.0f });
+
+	GameEngineLevel::IsDebug = false;
 }
 
 ContentsLevel::~ContentsLevel() 
@@ -25,6 +29,8 @@ void ContentsLevel::Start()
 
 	// 카메라 컨트롤러 생성
 	m_LevelCameraControler = CreateActor<CameraControler>(EUPDATEORDER::CameraControler);
+
+	GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<OutLineEffect>();
 }
 
 void ContentsLevel::Update(float _Delta)

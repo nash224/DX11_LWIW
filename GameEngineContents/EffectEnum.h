@@ -4,7 +4,7 @@
 enum class EEFFECTENUM
 {
 	None0,
-	Prop,
+	OutLine,
 	SkyLight,
 	Illuminant,
 	None4,

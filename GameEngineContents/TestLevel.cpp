@@ -15,6 +15,7 @@
 #include "SkyLightEffect.h"
 #include "PlayerEffect.h"
 #include "VirgilHat.h"
+#include "OutLineEffect.h"
 
 #include <GameEngineCore/GameEngineCoreWindow.h>
 
@@ -46,7 +47,7 @@ void TestLevel::Start()
 
 
 	{
-		/*GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<VirgilHat>();*/
+		/*GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<OutLineEffect>();*/
 		/*GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<PlayerEffect>();*/
 	}
 }
@@ -186,4 +187,5 @@ void TestLevel::TestCode()
 	TestTree->Init();
 	TestTree->m_Renderer->Transform.SetLocalPosition(float4(0.0f, 110.0f));
 	TestTree->m_Renderer->SetSprite("Tree_2.png");
+	TestTree->m_Renderer->RenderBaseInfoValue.Target1 = 1;
 }

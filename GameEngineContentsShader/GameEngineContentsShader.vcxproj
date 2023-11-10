@@ -133,6 +133,7 @@
   <ItemGroup>
     <FxCompile Include="ContentsRenderBase.fx" />
     <FxCompile Include="GlowMaskShader.fx" />
+    <FxCompile Include="OutLineEffect.fx" />
     <FxCompile Include="SkyLightEffect.fx" />
     <FxCompile Include="TestShader.fx" />
     <FxCompile Include="VirgilEffect.fx" />

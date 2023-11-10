@@ -39,7 +39,6 @@ void SilverStarFlower::Release()
 {
 	StaticEntity::Release();
 
-	m_Plant = nullptr;
 	m_Shadow = nullptr;
 	UpperALight.LightRenderer = nullptr;
 	LowerALight.LightRenderer = nullptr;
@@ -72,12 +71,12 @@ void SilverStarFlower::RendererSetting()
 
 	static constexpr const int RenderOrder = 0;
 
-	m_Plant = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
-	m_Plant->CreateAnimation("Idle", "SilverStarFlower.png", 0.15f, 3, 3, false);
-	m_Plant->CreateAnimation("Touch", "SilverStarFlower.png", 0.15f, 4, 9, false);
-	m_Plant->AutoSpriteSizeOn();
-	m_Plant->Transform.SetLocalPosition({ 0.0f, RendererYCorrection });
-	m_Plant->ChangeAnimation("Idle");
+	m_Body = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
+	m_Body->CreateAnimation("Idle", "SilverStarFlower.png", 0.15f, 3, 3, false);
+	m_Body->CreateAnimation("Touch", "SilverStarFlower.png", 0.15f, 4, 9, false);
+	m_Body->AutoSpriteSizeOn();
+	m_Body->Transform.SetLocalPosition({ 0.0f, RendererYCorrection });
+	m_Body->ChangeAnimation("Idle");
 
 
 	m_Shadow = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);

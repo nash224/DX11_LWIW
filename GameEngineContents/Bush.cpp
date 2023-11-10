@@ -30,7 +30,6 @@ void Bush::Release()
 {
 	StaticEntity::Release();
 
-	m_Bush = nullptr;
 	m_Bush_FX = nullptr;
 }
 
@@ -85,21 +84,21 @@ void Bush::CreateBushAnimation()
 	m_Bush_FX->AutoSpriteSizeOn();
 	m_Bush_FX->Off();
 
-	m_Bush = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
-	m_Bush->AutoSpriteSizeOn();
-	m_Bush->CreateAnimation("Normal", "Bush_0.png", 5.0f, 9, 9);					// 평상시
+	m_Body = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
+	m_Body->AutoSpriteSizeOn();
+	m_Body->CreateAnimation("Normal", "Bush_0.png", 5.0f, 9, 9);					// 평상시
 
 
 	if (EBUSHTYPE::BushApple == m_BushType)
 	{
-		m_Bush->CreateAnimation("Shake", "Bush_0.png", 0.1f, 0, 7, false);			// 흔듬
-		m_Bush->CreateAnimation("Apple", "Bush_0.png", 5.0f, 10, 10, true);			// 사과
+		m_Body->CreateAnimation("Shake", "Bush_0.png", 0.1f, 0, 7, false);			// 흔듬
+		m_Body->CreateAnimation("Apple", "Bush_0.png", 5.0f, 10, 10, true);			// 사과
 	}
 
 	if (EBUSHTYPE::BushBug == m_BushType)
 	{
-		m_Bush->CreateAnimation("Rustle", "Bush_Animation_1.png", 0.1f, 1, 5, true);				
-		m_Bush->SetStartEvent("Rustle",[&](GameEngineSpriteRenderer* _Renderer)
+		m_Body->CreateAnimation("Rustle", "Bush_Animation_1.png", 0.1f, 1, 5, true);
+		m_Body->SetStartEvent("Rustle",[&](GameEngineSpriteRenderer* _Renderer)
 			{
 				if (nullptr == m_Bush_FX)
 				{
@@ -109,7 +108,7 @@ void Bush::CreateBushAnimation()
 				m_Bush_FX->On();
 				m_Bush_FX->ChangeAnimation("Rustle_FX", true);
 			});
-		m_Bush->FindAnimation("Rustle")->Inter = { 0.1f, 0.1f, 0.1f, 0.1f, 0.8f };
+		m_Body->FindAnimation("Rustle")->Inter = { 0.1f, 0.1f, 0.1f, 0.1f, 0.8f };
 
 
 		m_Bush_FX->CreateAnimation("Rustle_FX", "Bush_Animation_1.png", 0.1f, 6, 13, false);		// 부스럭
@@ -124,8 +123,8 @@ void Bush::CreateBushAnimation()
 			});
 
 
-		m_Bush->CreateAnimation("AppearBug", "BushBug_Appearing.png", 0.1f, 1, 18, false);	
-		m_Bush->SetFrameEvent("AppearBug", 6, [&](GameEngineSpriteRenderer* _Renderer)
+		m_Body->CreateAnimation("AppearBug", "BushBug_Appearing.png", 0.1f, 1, 18, false);
+		m_Body->SetFrameEvent("AppearBug", 6, [&](GameEngineSpriteRenderer* _Renderer)
 			{
 				if (nullptr == m_Bush_FX)
 				{
@@ -247,11 +246,11 @@ void Bush::ChangeState(EBUSHSTATE _State)
 
 void Bush::ChangeBushAnimation(std::string_view _Name)
 {
-	if (nullptr == m_Bush)
+	if (nullptr == m_Body)
 	{
 		MsgBoxAssert("렌더러를 생성하지 않았습니다.");
 		return;
 	}
 
-	m_Bush->ChangeAnimation(_Name);
+	m_Body->ChangeAnimation(_Name);
 }

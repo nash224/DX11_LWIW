@@ -60,13 +60,13 @@ void Bush::StartShake()
 
 void Bush::UpdateShake(float _Delta)
 {
-	if (nullptr == m_Bush)
+	if (nullptr == m_Body)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	if (true == m_Bush->IsCurAnimationEnd())
+	if (true == m_Body->IsCurAnimationEnd())
 	{
 		ChangeState(EBUSHSTATE::Normal);
 		return;
@@ -104,13 +104,13 @@ void Bush::StartAppearBug()
 
 void Bush::UpdateAppearBug(float _Delta)
 {
-	if (nullptr == m_Bush)
+	if (nullptr == m_Body)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	if (true == m_Bush->IsCurAnimationEnd())
+	if (true == m_Body->IsCurAnimationEnd())
 	{
 		CreateBushBug();
 		ChangeState(EBUSHSTATE::Normal);

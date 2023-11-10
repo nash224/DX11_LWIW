@@ -43,8 +43,6 @@ private:
 	void UpdateItemInteraction();
 
 private:
-	std::shared_ptr<GameEngineSpriteRenderer> m_ItemRenderer = nullptr;
-
 	std::string m_ItemName = "";
 	int m_Stack = 0;
 

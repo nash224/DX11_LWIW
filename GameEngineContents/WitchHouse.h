@@ -1,4 +1,5 @@
 #pragma once
+#include "ALightLerp.h"
 
 // Ό³Έν :
 class WitchHouse : public GameEngineActor
@@ -18,10 +19,10 @@ public:
 	void RendererSetting();
 
 protected:
-	void Start() override;
+	void Start() override {}
 	void Update(float _Delta) override;
 	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
@@ -29,8 +30,10 @@ private:
 
 private:
 	std::vector<std::shared_ptr<GameEngineSpriteRenderer>> m_HouseVec;
+	ALightLerp WindowALight;
+	ALightLerp WindowRayALight;
 
-	const float HouseRenderBias = 148.0f;
+	const float YRenderCorrection = 148.0f;
 
 	bool IsRendererDebug = false;
 };

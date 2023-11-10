@@ -77,7 +77,6 @@ private:
 
 
 private:
-	std::shared_ptr<GameEngineSpriteRenderer> m_Bush = nullptr;
 	std::shared_ptr<GameEngineSpriteRenderer> m_Bush_FX = nullptr;
 
 	EBUSHTYPE m_BushType = EBUSHTYPE::None;

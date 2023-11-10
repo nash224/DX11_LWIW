@@ -28,8 +28,6 @@ void LootedItem::Update(float _Delta)
 void LootedItem::Release()
 {
 	StaticEntity::Release();
-
-	m_ItemRenderer = nullptr;
 }
 
 void LootedItem::LevelStart(class GameEngineLevel* _NextLevel)
@@ -80,8 +78,8 @@ void LootedItem::Init(std::string_view _ItemName)
 // 아이템 렌더러 생성
 void LootedItem::CreateItemRenderer(std::string_view _ItemName)
 {
-	m_ItemRenderer = CreateComponent<GameEngineSpriteRenderer>();
-	if (nullptr == m_ItemRenderer)
+	m_Body = CreateComponent<GameEngineSpriteRenderer>();
+	if (nullptr == m_Body)
 	{
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
 		return;
@@ -89,7 +87,7 @@ void LootedItem::CreateItemRenderer(std::string_view _ItemName)
 
 	std::string ItemName = _ItemName.data();
 	ItemName += ".png";
-	m_ItemRenderer->SetSprite(ItemName);
+	m_Body->SetSprite(ItemName);
 
 	m_ItemName = _ItemName;
 }

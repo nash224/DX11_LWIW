@@ -36,7 +36,7 @@ void BranchTree::Release()
 {
 	StaticEntity::Release();
 
-	m_Tree = nullptr;
+	m_Body = nullptr;
 
 	BranchVector.clear();
 }
@@ -77,11 +77,11 @@ void BranchTree::CreateBranchTreehAnimation()
 	}
 
 
-	m_Tree = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
-	m_Tree->CreateAnimation("Idle", "Tree_Branch.png", 5.0f, 0, 0, false);
-	m_Tree->CreateAnimation("Shake", "Tree_Branch.png", 0.1f, 2, 4, false);
-	m_Tree->AutoSpriteSizeOn();
-	m_Tree->Transform.AddLocalPosition({0.0f , TreeRenderCorrection , 0.0f});
+	m_Body = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
+	m_Body->CreateAnimation("Idle", "Tree_Branch.png", 5.0f, 0, 0, false);
+	m_Body->CreateAnimation("Shake", "Tree_Branch.png", 0.1f, 2, 4, false);
+	m_Body->AutoSpriteSizeOn();
+	m_Body->Transform.AddLocalPosition({0.0f , TreeRenderCorrection , 0.0f});
 }
 
 void BranchTree::CreateBranchRenderer()
@@ -181,13 +181,13 @@ void BranchTree::ChangeState(EBRANCHTREESTATE _State)
 
 void BranchTree::ChangeBranchTreeAnimation(std::string_view _SpriteName)
 {
-	if (nullptr == m_Tree)
+	if (nullptr == m_Body)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	m_Tree->ChangeAnimation(_SpriteName);
+	m_Body->ChangeAnimation(_SpriteName);
 }
 
 
@@ -216,13 +216,13 @@ void BranchTree::StartShake()
 
 void BranchTree::UpdateShake(float _Delta)
 {
-	if (nullptr == m_Tree)
+	if (nullptr == m_Body)
 	{
 		MsgBoxAssert("렌더러가 하지 않습니다.");
 		return;
 	}
 
-	if (true == m_Tree->IsCurAnimationEnd())
+	if (true == m_Body->IsCurAnimationEnd())
 	{
 		ChangeState(EBRANCHTREESTATE::Idle);
 		return;

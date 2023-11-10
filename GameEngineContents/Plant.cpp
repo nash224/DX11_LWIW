@@ -29,7 +29,7 @@ void Plant::Release()
 {
 	StaticEntity::Release();
 
-	m_Plant = nullptr;
+	m_Body = nullptr;
 }
 
 void Plant::LevelStart(class GameEngineLevel* _NextLevel)
@@ -98,13 +98,13 @@ void Plant::ChangeState(EPLANTSTATE _State)
 
 void Plant::ChangePlantAnimation(std::string_view _Name)
 {
-	if (nullptr == m_Plant)
+	if (nullptr == m_Body)
 	{
 		MsgBoxAssert("존재하지않는 렌더러를 사용하려 했습니다.");
 		return;
 	}
 	
-	m_Plant->ChangeAnimation(_Name);
+	m_Body->ChangeAnimation(_Name);
 }
 
 
@@ -133,7 +133,7 @@ void Plant::StartUpRoot()
 
 void Plant::UpdateUpRoot(float _Delta)
 {
-	if (true == m_Plant->IsCurAnimationEnd())
+	if (true == m_Body->IsCurAnimationEnd())
 	{
 		ChildRooting();
 	}

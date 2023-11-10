@@ -69,7 +69,6 @@ private:
 
 private:
 	std::vector<std::shared_ptr<GameEngineSpriteRenderer>> BranchVector;
-	std::shared_ptr<GameEngineSpriteRenderer> m_Tree = nullptr;
 
 	EBRANCHTREESTATE m_State = EBRANCHTREESTATE::None;
 

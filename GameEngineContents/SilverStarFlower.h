@@ -53,7 +53,6 @@ protected:
 	void CreatePollenSpawner();
 
 private:
-	std::shared_ptr<GameEngineSpriteRenderer> m_Plant = nullptr;
 	std::shared_ptr<GameEngineSpriteRenderer> m_Shadow = nullptr;
 	// std::shared_ptr<GameEngineCollision> FlowerCol;
 

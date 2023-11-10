@@ -48,9 +48,6 @@ private:
 
 
 protected:
-	std::shared_ptr<GameEngineSpriteRenderer> m_Plant = nullptr;
-
-protected:
 	EPLANTSTATE m_State = EPLANTSTATE::None;
 
 
