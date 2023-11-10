@@ -194,7 +194,7 @@ private:
 	InventoryCursorComposition m_CursorComposition;
 
 	GameEngineState m_InventoryState;
-	EINVENTORYMODE m_Mode = EINVENTORYMODE::None;
+	EINVENTORYMODE InventoryMode = EINVENTORYMODE::None;
 
 	float4 m_GridScale = float4::ZERO;
 	float4 FirstGridPosition = float4::ZERO;

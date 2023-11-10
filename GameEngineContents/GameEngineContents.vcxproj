@@ -191,6 +191,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="AureaEvent.cpp" />
     <ClCompile Include="AureaFindEvent.cpp">
       <SubType>
       </SubType>

@@ -202,6 +202,9 @@
     <Filter Include="3.Actor\1.BackManager\LevelBackDrop\2.Play\CenterField">
       <UniqueIdentifier>{11d30a68-7047-48f3-810a-b975f15773e1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3.Actor\2.Interactive\NPC\Aurea">
+      <UniqueIdentifier>{3578f941-8de8-41f5-b58b-4137b0dd72f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -371,9 +374,6 @@
       <Filter>10.GUI</Filter>
     </ClInclude>
     <ClInclude Include="Dian.h">
-      <Filter>3.Actor\2.Interactive\NPC</Filter>
-    </ClInclude>
-    <ClInclude Include="Aurea.h">
       <Filter>3.Actor\2.Interactive\NPC</Filter>
     </ClInclude>
     <ClInclude Include="SilverStarFlower.h">
@@ -549,6 +549,9 @@
     </ClInclude>
     <ClInclude Include="AureaFindEvent.h">
       <Filter>3.Actor\1.BackManager\LevelBackDrop\2.Play\CenterField</Filter>
+    </ClInclude>
+    <ClInclude Include="Aurea.h">
+      <Filter>3.Actor\2.Interactive\NPC\Aurea</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -728,9 +731,6 @@
       <Filter>10.GUI</Filter>
     </ClCompile>
     <ClCompile Include="Dian.cpp">
-      <Filter>3.Actor\2.Interactive\NPC</Filter>
-    </ClCompile>
-    <ClCompile Include="Aurea.cpp">
       <Filter>3.Actor\2.Interactive\NPC</Filter>
     </ClCompile>
     <ClCompile Include="SilverStarFlower.cpp">
@@ -925,6 +925,12 @@
     </ClCompile>
     <ClCompile Include="AureaFindEvent.cpp">
       <Filter>3.Actor\1.BackManager\LevelBackDrop\2.Play\CenterField</Filter>
+    </ClCompile>
+    <ClCompile Include="AureaEvent.cpp">
+      <Filter>3.Actor\2.Interactive\NPC\Aurea</Filter>
+    </ClCompile>
+    <ClCompile Include="Aurea.cpp">
+      <Filter>3.Actor\2.Interactive\NPC\Aurea</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

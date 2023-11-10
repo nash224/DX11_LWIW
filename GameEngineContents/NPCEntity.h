@@ -25,12 +25,12 @@ protected:
 
 
 	template<typename TopicType>
-	void InteractWithEllie(TopicType _Topic)
+	void ConverseWithEllie(TopicType _Topic)
 	{
-		InteractWithEllie(static_cast<int>(_Topic));
+		ConverseWithEllie(static_cast<int>(_Topic));
 	}
 
-	void InteractWithEllie(int _Topic);
+	void ConverseWithEllie(int _Topic);
 
 
 protected:

@@ -116,7 +116,7 @@ bool Inventory::IsContain(unsigned int _X, unsigned int _Y)
 	int MaxSlot = Max_XSlot;
 	unsigned int Value  = _Y * MaxSlot + _X;
 
-	bool isContain = ("" != InventoryData[Value].SourceName);
+	bool isContain = (false == InventoryData[Value].SourceName.empty());
 	if (isContain)
 	{
 		return true;
@@ -216,7 +216,7 @@ void Inventory::RenewInventory()
 
 	for (size_t i = 0; i < InventoryData.size(); i++)
 	{
-		if ("" != InventoryData[i].SourceName)
+		if (false == InventoryData[i].SourceName.empty())
 		{
 			InventoryParent->DisplayItem(i, InventoryData[i].SourceName);
 		}
@@ -362,12 +362,12 @@ void UI_Inventory::CreateSlotArray()
 void UI_Inventory::StateSetting()
 {
 	CreateStateParameter NormalPara;
-	NormalPara.Start = [&](GameEngineState* _Parent) {m_Mode = EINVENTORYMODE::Normal; };
+	NormalPara.Start = [&](GameEngineState* _Parent) {InventoryMode = EINVENTORYMODE::Normal; };
 	NormalPara.Stay = std::bind(&UI_Inventory::UpdateInventory, this, std::placeholders::_1, std::placeholders::_2);
 	m_InventoryState.CreateState(EINVENTORYMODE::Normal, NormalPara);
 
 	CreateStateParameter DispensationPara;
-	DispensationPara.Start = [&](GameEngineState* _Parent) {IsJustOpen = true , m_Mode = EINVENTORYMODE::Dispensation; };
+	DispensationPara.Start = [&](GameEngineState* _Parent) {IsJustOpen = true , InventoryMode = EINVENTORYMODE::Dispensation; };
 	DispensationPara.Stay = std::bind(&UI_Inventory::UpdateDispensation, this, std::placeholders::_1, std::placeholders::_2);
 	m_InventoryState.CreateState(EINVENTORYMODE::Dispensation, DispensationPara);
 
@@ -470,7 +470,6 @@ void UI_Inventory::PushItem(std::string_view _ItemName, unsigned int _Count/* = 
 		return;
 	}
 
-	// 빈슬롯이 있는지 검사하고
 	if (false == Data->CheckEmptySlot(_ItemName))
 	{
 		// UI Dont Empty Slot Alert!!
@@ -640,7 +639,7 @@ void UI_Inventory::OpenInternal()
 
 void UI_Inventory::CloseInternal()
 {
-	if (EINVENTORYMODE::Dispensation == m_Mode)
+	if (EINVENTORYMODE::Dispensation == InventoryMode)
 	{
 		UnSelectAll();
 	}
@@ -758,7 +757,6 @@ void UI_Inventory::ClearAllSlotImg()
 
 void UI_Inventory::OpenUpdate()
 {
-	// 레벨이 바뀔때마다 갱신해줍니다.
 	ChangeDataParent();
 	ClearAllSlotImg();
 	RenewInventory();
@@ -987,7 +985,7 @@ int UI_Inventory::ReturnEmptySelectSlot()
 {
 	for (size_t i = 0; i < SelectItem.size(); i++)
 	{
-		if ("" == SelectItem[i].ItemName)
+		if (true == SelectItem[i].ItemName.empty())
 		{
 			return static_cast<int>(i);
 		}
@@ -1015,7 +1013,7 @@ void UI_Inventory::UnSelectAll()
 {
 	for (int i = 0; i < SelectItem.size(); i++)
 	{
-		if ("" != SelectItem[i].ItemName)
+		if (false == SelectItem[i].ItemName.empty())
 		{
 			DispensationUnSelectThis(i);
 		}

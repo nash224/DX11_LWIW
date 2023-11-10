@@ -9,7 +9,10 @@ class Dian : public NPCEntity
 public:
 	enum class EDIANTOPICTYPE
 	{
-		Hello,
+		Natural,
+		WitchCatalogue,
+		PotionVerification,
+		DragonFly,
 		FireCracker,
 		FireCrackerAfter,
 		None,

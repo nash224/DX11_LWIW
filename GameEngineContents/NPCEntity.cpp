@@ -28,7 +28,7 @@ void NPCEntity::Release()
 /////////////////////////////////////////////////////////////////////////////////////
 
 
-void NPCEntity::InteractWithEllie(int _Topic)
+void NPCEntity::ConverseWithEllie(int _Topic)
 { 
 	NPCConversation.StartConversation(_Topic);
 }

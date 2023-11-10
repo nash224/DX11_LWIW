@@ -19,6 +19,7 @@ private:
 		Curse,
 		CurseAfter,
 		CursedNatural,
+		CurseCure,
 		Normal,
 	};
 
