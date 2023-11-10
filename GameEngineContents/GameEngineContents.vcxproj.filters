@@ -205,6 +205,9 @@
     <Filter Include="3.Actor\2.Interactive\NPC\Aurea">
       <UniqueIdentifier>{3578f941-8de8-41f5-b58b-4137b0dd72f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3.Actor\2.Interactive\Static\Plant\SilverBellFlower">
+      <UniqueIdentifier>{ef2cf91a-b5b9-4066-a22c-448abcd8977f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -376,9 +379,6 @@
     <ClInclude Include="Dian.h">
       <Filter>3.Actor\2.Interactive\NPC</Filter>
     </ClInclude>
-    <ClInclude Include="SilverStarFlower.h">
-      <Filter>3.Actor\2.Interactive\Static\Plant</Filter>
-    </ClInclude>
     <ClInclude Include="PumpkinTerrier.h">
       <Filter>3.Actor\2.Interactive\Dynamic\PumpkinTerrier</Filter>
     </ClInclude>
@@ -541,9 +541,6 @@
     <ClInclude Include="EffectEnum.h">
       <Filter>Rendering\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="SilverStarPollen.h">
-      <Filter>3.Actor\2.Interactive\Static\Plant</Filter>
-    </ClInclude>
     <ClInclude Include="BackDrop_CenterField.h">
       <Filter>3.Actor\1.BackManager\LevelBackDrop\2.Play\CenterField</Filter>
     </ClInclude>
@@ -552,6 +549,15 @@
     </ClInclude>
     <ClInclude Include="Aurea.h">
       <Filter>3.Actor\2.Interactive\NPC\Aurea</Filter>
+    </ClInclude>
+    <ClInclude Include="SilverStarPollen.h">
+      <Filter>3.Actor\2.Interactive\Static\Plant\SilverBellFlower</Filter>
+    </ClInclude>
+    <ClInclude Include="SilverStarFlower.h">
+      <Filter>3.Actor\2.Interactive\Static\Plant\SilverBellFlower</Filter>
+    </ClInclude>
+    <ClInclude Include="SilverBellSpawner.h">
+      <Filter>3.Actor\2.Interactive\Static\Plant\SilverBellFlower</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -733,9 +739,6 @@
     <ClCompile Include="Dian.cpp">
       <Filter>3.Actor\2.Interactive\NPC</Filter>
     </ClCompile>
-    <ClCompile Include="SilverStarFlower.cpp">
-      <Filter>3.Actor\2.Interactive\Static\Plant</Filter>
-    </ClCompile>
     <ClCompile Include="PumpkinTerrier.cpp">
       <Filter>3.Actor\2.Interactive\Dynamic\PumpkinTerrier</Filter>
     </ClCompile>
@@ -914,9 +917,6 @@
     <ClCompile Include="SkyLightEffect.cpp">
       <Filter>Rendering\Effect</Filter>
     </ClCompile>
-    <ClCompile Include="SilverStarPollen.cpp">
-      <Filter>3.Actor\2.Interactive\Static\Plant</Filter>
-    </ClCompile>
     <ClCompile Include="ContentsEvent_Aurea.cpp">
       <Filter>0.Data\Event</Filter>
     </ClCompile>
@@ -931,6 +931,15 @@
     </ClCompile>
     <ClCompile Include="Aurea.cpp">
       <Filter>3.Actor\2.Interactive\NPC\Aurea</Filter>
+    </ClCompile>
+    <ClCompile Include="SilverStarFlower.cpp">
+      <Filter>3.Actor\2.Interactive\Static\Plant\SilverBellFlower</Filter>
+    </ClCompile>
+    <ClCompile Include="SilverStarPollen.cpp">
+      <Filter>3.Actor\2.Interactive\Static\Plant\SilverBellFlower</Filter>
+    </ClCompile>
+    <ClCompile Include="SilverBellSpawner.cpp">
+      <Filter>3.Actor\2.Interactive\Static\Plant\SilverBellFlower</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

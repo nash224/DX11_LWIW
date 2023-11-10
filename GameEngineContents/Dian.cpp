@@ -219,7 +219,6 @@ void Dian::ConversationSetting()
 			{ L"고마워요, 엘리. 덕분에 테스트를 할 수 있게 됐어요!" , ECONVERSATIONENTITY::NPC , 1},
 			{ L"여기 보사응로 약속한 잠자리채입니다." , ECONVERSATIONENTITY::NPC , 0},
 			{ L"오늘도 이용해주셔서 감사합니다." , ECONVERSATIONENTITY::NPC, 1},
-
 		};
 
 		DragonFlyTopic.Data.shrink_to_fit();

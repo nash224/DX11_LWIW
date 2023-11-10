@@ -453,6 +453,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="SilverBellSpawner.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="SilverStarFlower.cpp">
       <SubType>
       </SubType>
@@ -895,6 +899,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="SequentialProp.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SilverBellSpawner.h">
       <SubType>
       </SubType>
     </ClInclude>

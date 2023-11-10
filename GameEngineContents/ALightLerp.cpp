@@ -39,6 +39,11 @@ void ALightLerp::SetLightRendererSetting(const float4& _Color)
 	UpdateLightLerp();
 }
 
+void ALightLerp::SetPlusAlpha(float _Alpha)
+{
+	PlusAlpha = _Alpha;
+}
+
 void ALightLerp::UpdateLightLerp()
 {
 	if (nullptr == LightRenderer)
@@ -49,6 +54,6 @@ void ALightLerp::UpdateLightLerp()
 
 	const float ALightValue = SkyLerp::MainSkyManager->GetALightValue();
 
-	float Alpha = LightColor.A * ALightValue;
+	float Alpha = LightColor.A * ALightValue * PlusAlpha;
 	LightRenderer->GetColorData().MulColor.A = Alpha;
 }

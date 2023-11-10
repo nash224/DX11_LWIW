@@ -2,7 +2,7 @@
 #include "DynamicEntity.h"
 
 // Ό³Έν :
-class SilverStarPollen : public DynamicEntity
+class SilverStarPollen : public GameEngineActor
 {
 public:
 	// constrcuter destructer
@@ -25,15 +25,19 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 	void RendererSetting();
+	void MoveSetting();
 
 	void UpdateState(float _Delta);
-	void UpdateMovement(float _Delta);
 
 private:
-	
+	std::shared_ptr<GameEngineSpriteRenderer> PollenRenderer;
+	std::shared_ptr<GameEngineSpriteRenderer> ParticleRenderer;
 
-	static constexpr const float RenderYCorrection = 30.0f;
-	static constexpr const float MovementRadius = 80.0f;
+	float MovePower = 0.0f;
+
+	static constexpr const float MovementRadius = 12.0f;
+
+	static constexpr const float LiveTime = 1.0f;
 
 };
 

@@ -12,6 +12,7 @@ private:
 		Day,
 		Light,
 		Touch,
+		UnLight,
 	};
 
 
@@ -40,11 +41,16 @@ protected:
 	void StateSetting();
 
 	//void DayStart(GameEngineState* _Parent);
-	void LightStart(GameEngineState* _Parent);
 	void TouchStart(GameEngineState* _Parent);
+	void UnLightStart(GameEngineState* _Parent);
 
 	void DayUpdate(float _Delta, GameEngineState* _Parent);
 	void LightUpdate(float _Delta, GameEngineState* _Parent);
+	void TouchUpdate(float _Delta, GameEngineState* _Parent);
+
+	float CalculateDistanceToEllie();
+	void UpdateFlowerLostLight(GameEngineState* _Parent);
+	void CreatePollenSpawner();
 
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> m_Plant = nullptr;
@@ -56,10 +62,15 @@ private:
 	ALightLerp UpperALight;
 	ALightLerp LowerALight;
 
+
 	static constexpr const float RendererYCorrection = 36.0f;
 
 	static constexpr const float RecognitionRange = 10.0f;
 	static constexpr const float NetRecognitionRange = 20.0f;
+	
+	static constexpr const float Light_Off_Time = 0.6f;
+
+	static constexpr const float Limit_Collectable_Time = 2.0f;
 
 };
 

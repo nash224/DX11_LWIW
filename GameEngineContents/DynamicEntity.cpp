@@ -134,10 +134,10 @@ EDIRECTION DynamicEntity::GetDiagonalDirectionFromVector(const float4& _MoveVect
 // 위치 적용 (깊이 적용)
 void DynamicEntity::ApplyMovement(float _Delta)
 {
-	float4 CurrentPosition = Transform.GetLocalPosition();					// 현재위치
+	float4 CurrentPosition = Transform.GetLocalPosition();
 	m_MoveVector.Z = 0.0f;
-	float4 MoveVector = m_MoveVector* _Delta;								// 이동값
-	float4 MovePosition = CurrentPosition + MoveVector;						// 미래 위치
+	float4 MoveVector = m_MoveVector* _Delta;
+	float4 MovePosition = CurrentPosition + MoveVector;
 	ApplyDepth(MovePosition);
 	return;
 }

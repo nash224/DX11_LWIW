@@ -77,6 +77,7 @@ void ContentsCore::LoadContentsData()
 	ItemData::CreateData("WitchFlower_Collect", { "WitchFlower_Collect", "¸¶³àÀÇ ²É", EITEM_TYPE::Ingredient });
 	ItemData::CreateData("FlowerBird_Collect", { "FlowerBird_Collect", "²É", EITEM_TYPE::Ingredient });
 	ItemData::CreateData("MapleHerb_Collect", { "MapleHerb_Collect", "¸ÞÀÌÇÃ Çãºê", EITEM_TYPE::Ingredient });
+	ItemData::CreateData("SilverStarFlower_Collect", { "SilverStarFlower_Collect", "½Ç¹öº§ ²É", EITEM_TYPE::Ingredient });
 
 	// Æ÷¼Ç
 	ItemData::CreateData("BadGrassPotion", { "BadGrassPotion", "³ª»Û Ç® Á¦°Å¹°¾à", EITEM_TYPE::Ingredient });
@@ -147,6 +148,13 @@ void ContentsCore::InitMaterialResoruces()
 		LightMaterial->SetPixelShader("TextureShader_PS");
 		LightMaterial->SetBlendState("Blend_Light");
 		LightMaterial->SetDepthState("AlwaysDepth");
+	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> LightMaterial = GameEngineMaterial::Create("2DTexture_DepthLight");
+		LightMaterial->SetVertexShader("TextureShader_VS");
+		LightMaterial->SetPixelShader("TextureShader_PS");
+		LightMaterial->SetBlendState("Blend_Light");
 	}
 
 
