@@ -1,20 +1,20 @@
 #include "PreCompile.h"
-#include "Ellie_Ride_Particle.h"
+#include "BroomParticle.h"
 
-Ellie_Ride_Particle::Ellie_Ride_Particle() 
+BroomParticle::BroomParticle() 
 {
 }
 
-Ellie_Ride_Particle::~Ellie_Ride_Particle() 
+BroomParticle::~BroomParticle() 
 {
 }
 
 
-void Ellie_Ride_Particle::Start()
+void BroomParticle::Start()
 {
 }
 
-void Ellie_Ride_Particle::Update(float _Delta)
+void BroomParticle::Update(float _Delta)
 {
 	if (GetLiveTime() > BroomFxLiveTime)
 	{
@@ -22,16 +22,16 @@ void Ellie_Ride_Particle::Update(float _Delta)
 	}
 }
 
-void Ellie_Ride_Particle::Release()
+void BroomParticle::Release()
 { 
 	m_FxRenderer = nullptr;
 }
 
-void Ellie_Ride_Particle::LevelStart(class GameEngineLevel* _NextLevel)
+void BroomParticle::LevelStart(class GameEngineLevel* _NextLevel)
 {
 }
 
-void Ellie_Ride_Particle::LevelEnd(class GameEngineLevel* _NextLevel)
+void BroomParticle::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	Death();
 }
@@ -40,13 +40,13 @@ void Ellie_Ride_Particle::LevelEnd(class GameEngineLevel* _NextLevel)
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-void Ellie_Ride_Particle::Init()
+void BroomParticle::Init()
 {
 	// ±Ì¿Ã¿˚øÎ
 	RendererSetting();
 }
 
-void Ellie_Ride_Particle::RendererSetting()
+void BroomParticle::RendererSetting()
 {
 	m_FxRenderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
 	if (nullptr == m_FxRenderer)

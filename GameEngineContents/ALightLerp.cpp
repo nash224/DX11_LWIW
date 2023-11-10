@@ -32,9 +32,10 @@ void ALightLerp::SetLightRendererSetting(const float4& _Color)
 	}
 
 	LightRenderer->SetMaterial("2DTexture_Light");
+	/*LightRenderer->SetMaterial("2DTexture_Light");*/
 	LightRenderer->GetColorData().MulColor = _Color;
 	LightRenderer->RenderBaseInfoValue.Target3 = 1;
-	LightRenderer->Transform.AddLocalPosition(float4(0.0f, 0.0f, -0.00009f));
+	LightRenderer->Transform.AddLocalPosition(float4(0.0f, 0.0f, -0.01f));
 	LightColor = _Color;
 	UpdateLightLerp();
 }

@@ -83,7 +83,6 @@ void BushBug::ALightSetting()
 	Alight.SetLightRendererSetting(float4(0.1f, 0.1f, 0.0f, 0.8f));
 	Alight.LightRenderer->SetSprite("Default_Particle.png");
 	Alight.LightRenderer->GetImageTransform().SetLocalScale(float4(100.0f, 100.0f));
-	Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 24.0f, -1000.0f));
 
 	std::weak_ptr<GameEngineFrameAnimation> Animation = m_Body->FindAnimation("Idle");
 	if (true == Animation.expired())
@@ -94,35 +93,35 @@ void BushBug::ALightSetting()
 
 	m_Body->SetFrameEvent("Idle",2,[&](GameEngineSpriteRenderer* _Renderer)
 		{
-			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 19.0f));
+			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 19.0f, -0.01f));
 		});
 	m_Body->SetFrameEvent("Idle", 3, [&](GameEngineSpriteRenderer* _Renderer)
 		{
-			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 17.0f));
+			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 17.0f, -0.01f));
 		});
 	m_Body->SetFrameEvent("Idle", 4, [&](GameEngineSpriteRenderer* _Renderer)
 		{
-			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 17.0f));
+			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 17.0f, -0.01f));
 		});
 	m_Body->SetFrameEvent("Idle", 5, [&](GameEngineSpriteRenderer* _Renderer)
 		{
-			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 19.0f));
+			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 19.0f, -0.01f));
 		});
 	m_Body->SetFrameEvent("Idle", 6, [&](GameEngineSpriteRenderer* _Renderer)
 		{
-			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 23.0f));
+			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 23.0f, -0.01f));
 		});
 	m_Body->SetFrameEvent("Idle", 7, [&](GameEngineSpriteRenderer* _Renderer)
 		{
-			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 25.0f));
+			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 25.0f, -0.01f));
 		});
 	m_Body->SetFrameEvent("Idle", 8, [&](GameEngineSpriteRenderer* _Renderer)
 		{
-			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 25.0f));
+			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 25.0f, -0.01f));
 		});
 	m_Body->SetFrameEvent("Idle", 9, [&](GameEngineSpriteRenderer* _Renderer)
 		{
-			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 21.0f));
+			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 21.0f, -0.01f));
 		});
 }
 

@@ -364,7 +364,7 @@
     <ClInclude Include="BushBug.h">
       <Filter>3.Actor\2.Interactive\Dynamic\BushBug</Filter>
     </ClInclude>
-    <ClInclude Include="Ellie_Ride_Particle.h">
+    <ClInclude Include="BroomParticle.h">
       <Filter>3.Actor\2.Interactive\Dynamic\Ellie\Broom\Ride_Particle</Filter>
     </ClInclude>
     <ClInclude Include="PlayLevel.h">
@@ -724,7 +724,7 @@
     <ClCompile Include="BushBug.cpp">
       <Filter>3.Actor\2.Interactive\Dynamic\BushBug</Filter>
     </ClCompile>
-    <ClCompile Include="Ellie_Ride_Particle.cpp">
+    <ClCompile Include="BroomParticle.cpp">
       <Filter>3.Actor\2.Interactive\Dynamic\Ellie\Broom\Ride_Particle</Filter>
     </ClCompile>
     <ClCompile Include="PlayLevel.cpp">

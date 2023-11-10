@@ -73,7 +73,7 @@ void WitchFlower::RendererSetting()
 
 	m_Shadow = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
 	m_Shadow->SetSprite("WitchFlower.png", 1);
-	m_Shadow->Transform.AddLocalPosition({ 0.0f, RenderYCorrection, 0.0f });
+	m_Shadow->Transform.AddLocalPosition({ 0.0f, RenderYCorrection, GlobalUtils::CalculateFixDepth(ERENDERDEPTH::ObjectShadow)});
 
 
 

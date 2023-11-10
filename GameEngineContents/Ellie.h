@@ -5,7 +5,6 @@
 
 constexpr float CheckPointGap = 2.0f;
 constexpr float FOVAngle = 60.0f;
-constexpr float Ellie_Bias = 30.0f;
 constexpr float FrictionForce = 0.5f;
 static constexpr const float LWIW_Ellie_Y_Correction = 30.0f;
 
@@ -221,11 +220,14 @@ private:
 
 	bool InputTestPattern();
 
-	void OnRideFx();
 
 	bool UsingTool();
 
 	void SitShadowUpdate();
+
+	void OnRideFx();
+	void GenerateBroomParticle();
+	float4 GetBroomParticlePosition();
 
 
 private:
@@ -270,6 +272,8 @@ private:
 	const float4 m_PixelCheckScale = { 10.0f , 10.0f };
 	const float4 m_PixelCheckPosBaseOnCenter = float4::ZERO;
 
+	float Broom_Particle_Time = 0.0f;
+
 	bool isFinishWork = false;
 	bool IsControl = true;
 	bool IsCollected = false;
@@ -277,6 +281,7 @@ private:
 	bool IsWaitDone = false;
 	bool isRootup = false;
 
+	static constexpr const float Broom_Particle_Cool_Down = 0.08f;
 
 	static constexpr const float Shadow_Renderer_Y_Correction = 30.0f;
 	

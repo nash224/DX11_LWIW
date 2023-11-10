@@ -5,18 +5,18 @@ constexpr float BroomFxLiveTime = 0.6f;
 
 
 // Ό³Έν :
-class Ellie_Ride_Particle : public GameEngineActor
+class BroomParticle : public GameEngineActor
 {
 public:
 	// constrcuter destructer
-	Ellie_Ride_Particle();
-	~Ellie_Ride_Particle();
+	BroomParticle();
+	~BroomParticle();
 
 	// delete Function
-	Ellie_Ride_Particle(const Ellie_Ride_Particle& _Other) = delete;
-	Ellie_Ride_Particle(Ellie_Ride_Particle&& _Other) noexcept = delete;
-	Ellie_Ride_Particle& operator=(const Ellie_Ride_Particle& _Other) = delete;
-	Ellie_Ride_Particle& operator=(Ellie_Ride_Particle&& _Other) noexcept = delete;
+	BroomParticle(const BroomParticle& _Other) = delete;
+	BroomParticle(BroomParticle&& _Other) noexcept = delete;
+	BroomParticle& operator=(const BroomParticle& _Other) = delete;
+	BroomParticle& operator=(BroomParticle&& _Other) noexcept = delete;
 
 
 	void Init();

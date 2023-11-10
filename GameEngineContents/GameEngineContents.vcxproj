@@ -309,7 +309,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Ellie_Collision.cpp" />
-    <ClCompile Include="Ellie_Ride_Particle.cpp">
+    <ClCompile Include="BroomParticle.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -766,7 +766,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Ellie_Ride_Particle.h">
+    <ClInclude Include="BroomParticle.h">
       <SubType>
       </SubType>
     </ClInclude>

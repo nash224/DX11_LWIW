@@ -147,16 +147,7 @@ void ContentsCore::InitMaterialResoruces()
 		LightMaterial->SetVertexShader("TextureShader_VS");
 		LightMaterial->SetPixelShader("TextureShader_PS");
 		LightMaterial->SetBlendState("Blend_Light");
-		LightMaterial->SetDepthState("AlwaysDepth");
 	}
-
-	{
-		std::shared_ptr<GameEngineMaterial> LightMaterial = GameEngineMaterial::Create("2DTexture_DepthLight");
-		LightMaterial->SetVertexShader("TextureShader_VS");
-		LightMaterial->SetPixelShader("TextureShader_PS");
-		LightMaterial->SetBlendState("Blend_Light");
-	}
-
 
 	{
 		D3D11_BLEND_DESC Desc = {};

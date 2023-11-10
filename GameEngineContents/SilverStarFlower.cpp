@@ -96,14 +96,14 @@ void SilverStarFlower::LightSetting()
 	UpperALight.SetLightRendererSetting(LightColor);
 	UpperALight.LightRenderer->SetSprite("Default_Particle.png");
 	UpperALight.LightRenderer->GetImageTransform().SetLocalScale(float4(60.0f, 60.0f));
-	UpperALight.LightRenderer->Transform.SetLocalPosition(float4(-10.0f, 30.0f));
+	UpperALight.LightRenderer->Transform.AddLocalPosition(float4(-10.0f, 30.0f));
 
 
 	LowerALight.LightRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
 	LowerALight.SetLightRendererSetting(LightColor);
 	LowerALight.LightRenderer->SetSprite("Default_Particle.png");
 	LowerALight.LightRenderer->GetImageTransform().SetLocalScale(float4(30.0f, 30.0f));
-	LowerALight.LightRenderer->Transform.SetLocalPosition(float4(-4.0f, 14.0f));
+	LowerALight.LightRenderer->Transform.AddLocalPosition(float4(-4.0f, 14.0f));
 }
 
 void SilverStarFlower::StateSetting()

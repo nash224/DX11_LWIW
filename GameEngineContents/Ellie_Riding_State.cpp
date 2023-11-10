@@ -1,8 +1,8 @@
 #include "PreCompile.h"
 #include "Ellie.h"
+
 #include "RidingFx.h"
-
-
+#include "BroomParticle.h"
 
 void Ellie::StartRiding_Standing()
 {
@@ -192,5 +192,22 @@ void Ellie::UpdateRiding_Boosting(float _Delta)
 	ApplyMovement(_Delta);
 }
 
-
 #pragma endregion 
+
+void Ellie::GenerateBroomParticle()
+{
+	const float4& ParticlePosition = GetBroomParticlePosition();
+
+	const std::shared_ptr<BroomParticle>& Particle = GetLevel()->CreateActor<BroomParticle>(EUPDATEORDER::Objects);
+	Particle->Transform.SetLocalPosition(ParticlePosition);
+	/*Particle->SetPivot();*/
+	Particle->Init();
+}
+
+float4 Ellie::GetBroomParticlePosition()
+{
+	static constexpr const float ParticleDistance = 30.0f;
+	float4 DirVector = CalculateDirectionVectorToDir(m_Dir);
+	const float4& ReturnValue = float4(0.0f, 15.0f) - DirVector * ParticleDistance;
+	return ReturnValue;
+}
