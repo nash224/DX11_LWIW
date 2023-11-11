@@ -16,7 +16,7 @@ Dust::~Dust()
 
 void Dust::Start()
 {
-	CreateAndSetCollision(ECOLLISION::Entity, float4(80.0f), float4::ZERO, ColType::SPHERE2D);
+	CreateAndSetCollision(ECOLLISION::Entity, float4(90.0f), float4::ZERO, ColType::SPHERE2D);
 	SetInteractionOption(EINTERACTION_BUTTONTYPE::Gear, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Nothing);
 }
 
@@ -36,12 +36,24 @@ void Dust::Release()
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-void Dust::Init(std::string_view _DustSpriteName)
+void Dust::Init(std::string_view _DustSpriteName, bool _isGroundDust /*= false*/)
 {
-	ApplyDepth(Transform.GetLocalScale());
+	if (true == _isGroundDust)
+	{
+		GlobalUtils::CalculateFixDepth(EHOUSEDEPTH::GroundDust);
+	}
+	else
+	{
+		ApplyDepth(Transform.GetLocalPosition());
+	}
 	RendererSetting(_DustSpriteName);
 	ConversationSetting();
 	StateSetting();
+}
+
+void Dust::AddDepth(float _PlusDepth)
+{
+	Transform.AddLocalPosition(float4(0.0f, 0.0f, _PlusDepth));
 }
 
 void Dust::RendererSetting(std::string_view _DustSpriteName)
@@ -105,6 +117,8 @@ void Dust::StartRemove(GameEngineState* _Parent)
 	{
 		UIManager::MainUIManager->UseUIComponent();
 	}
+
+	InteractiveActor::m_Body->Off();
 
 	std::shared_ptr<DustFx> Dust = GetLevel()->CreateActor<DustFx>(EUPDATEORDER::Objects);
 	Dust->Init(Transform.GetLocalPosition());

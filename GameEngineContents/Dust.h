@@ -5,17 +5,18 @@
 // Ό³Έν :
 class Dust : public StaticEntity
 {
-	enum class EDUSTTOPICTYPE
-	{
-		About,
-		None,
-	};
-
 	enum class EDUSTSTATE
 	{
 		Idle,
 		Remove,
 		Converse,
+		None,
+	};
+	
+protected:
+	enum class EDUSTTOPICTYPE
+	{
+		About,
 		None,
 	};
 
@@ -30,7 +31,8 @@ public:
 	Dust& operator=(const Dust& _Other) = delete;
 	Dust& operator=(Dust&& _Other) noexcept = delete;
 
-	void Init(std::string_view _DustSpriteName);
+	void Init(std::string_view _DustSpriteName, bool _isGroundDust = false);
+	void AddDepth(float _PlusDepth);
 
 protected:
 	void Start() override;
@@ -39,7 +41,7 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
-	virtual void SetConversationData(const std::vector<ConversationData>& _ConversationDatas);
+	void SetConversationData(const std::vector<ConversationData>& _ConversationDatas);
 
 private:
 
@@ -60,7 +62,7 @@ private:
 	Conversation AboutConversation;
 	std::vector<ConversationData> ConversationDatas;
 
-	static constexpr const float RemoveDustTime = 1.2f;
+	static constexpr const float RemoveDustTime = 1.6f;
 
 };
 

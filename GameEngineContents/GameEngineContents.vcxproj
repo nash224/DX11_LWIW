@@ -234,6 +234,18 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Dust_Bag.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Dust_Elevator.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Dust_HandBook.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Ellie_Broom_Resources.cpp" />
     <ClCompile Include="Conversation.cpp">
       <SubType>
@@ -723,6 +735,18 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Dust.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Dust_Bag.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Dust_Elevator.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Dust_HandBook.h">
       <SubType>
       </SubType>
     </ClInclude>

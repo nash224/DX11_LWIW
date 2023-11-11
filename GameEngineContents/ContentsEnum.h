@@ -81,6 +81,7 @@ enum class EHOUSEDEPTH
 {
 	FRAME = -1,
 	Object,
+	GroundDust = 2000,
 	Shadow = 3000,
 	UnderBook,
 	Chair,

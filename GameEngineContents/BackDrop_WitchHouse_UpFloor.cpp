@@ -4,10 +4,15 @@
 #include "ContentsEvent.h"
 #include "HouseDustEvent.h"
 
+#include "Dust_HandBook.h"
+#include "Dust_Bag.h"
+#include "Dust_Elevator.h"
+
 
 #include "PortalObject.h"
 #include "RendererActor.h"
 #include "NormalProp.h"
+
 
 BackDrop_WitchHouse_UpFloor::BackDrop_WitchHouse_UpFloor() 
 {
@@ -18,12 +23,13 @@ BackDrop_WitchHouse_UpFloor::~BackDrop_WitchHouse_UpFloor()
 {
 }
 
+void BackDrop_WitchHouse_UpFloor::Start()
+{
+}
 
 void BackDrop_WitchHouse_UpFloor::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	MainBackDrop = this;
-
-	EventSetting();
 }
 
 void BackDrop_WitchHouse_UpFloor::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -49,7 +55,14 @@ void BackDrop_WitchHouse_UpFloor::Init()
 	CreateProp(CurLevel);
 	CreatePixelMap(CurLevel);
 	LoadPortalActor(CurLevel);
+	
+	DustEventSetting();
 
+	if (false == isInitDustEvent)
+	{
+		/*CheckHouseDustEvent();*/
+		isInitDustEvent = true;
+	}
 }
 
 #pragma region Resource
@@ -412,10 +425,37 @@ void BackDrop_WitchHouse_UpFloor::LoadPortalActor(GameEngineLevel* _Level)
 #pragma endregion 
 
 
+void BackDrop_WitchHouse_UpFloor::DustEventSetting()
+{
+	{
+		const float4& DustPosition = float4(370.0f, -320.0f);
+		std::weak_ptr<Dust_HandBook> DustHandBook = GetLevel()->CreateActor<Dust_HandBook>(EUPDATEORDER::Entity);
+		DustHandBook.lock()->Transform.SetLocalPosition(DustPosition);
+		DustHandBook.lock()->Init("WitchHouse_Dust_10.png");
+		DustHandBook.lock()->AddDepth(-2.0f);
+	}
+
+	{
+		const float4& DustPosition = float4(445.0f, -241.0f);
+		std::weak_ptr<Dust_Bag> DustHandBook = GetLevel()->CreateActor<Dust_Bag>(EUPDATEORDER::Entity);
+		DustHandBook.lock()->Transform.SetLocalPosition(DustPosition);
+		DustHandBook.lock()->Init("WitchHouse_Dust_11.png");
+		DustHandBook.lock()->AddDepth(-1.0f);
+	}
+
+	{
+		const float4& DustPosition = float4(510.0f, -240.0f);
+		std::weak_ptr<Dust_Elevator> DustHandBook = GetLevel()->CreateActor<Dust_Elevator>(EUPDATEORDER::Entity);
+		DustHandBook.lock()->Transform.SetLocalPosition(DustPosition);
+		DustHandBook.lock()->Init("paper.png", true);
+	}
+
+}
+
 
 void BackDrop_WitchHouse_UpFloor::EventSetting()
 {
-	CheckHouseDustEvent();
+	
 }
 
 void BackDrop_WitchHouse_UpFloor::CheckHouseDustEvent()

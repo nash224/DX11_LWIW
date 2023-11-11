@@ -14,7 +14,6 @@
 
 #include "SkyLightEffect.h"
 #include "PlayerEffect.h"
-#include "VirgilHat.h"
 #include "OutLineEffect.h"
 
 #include <GameEngineCore/GameEngineCoreWindow.h>

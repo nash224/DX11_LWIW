@@ -592,6 +592,15 @@
     <ClInclude Include="HouseDustEvent.h">
       <Filter>3.Actor\5.Event</Filter>
     </ClInclude>
+    <ClInclude Include="Dust_HandBook.h">
+      <Filter>3.Actor\2.Interactive\Static\Dust</Filter>
+    </ClInclude>
+    <ClInclude Include="Dust_Bag.h">
+      <Filter>3.Actor\2.Interactive\Static\Dust</Filter>
+    </ClInclude>
+    <ClInclude Include="Dust_Elevator.h">
+      <Filter>3.Actor\2.Interactive\Static\Dust</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -991,6 +1000,15 @@
     </ClCompile>
     <ClCompile Include="HouseDustEvent.cpp">
       <Filter>3.Actor\5.Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Dust_HandBook.cpp">
+      <Filter>3.Actor\2.Interactive\Static\Dust</Filter>
+    </ClCompile>
+    <ClCompile Include="Dust_Bag.cpp">
+      <Filter>3.Actor\2.Interactive\Static\Dust</Filter>
+    </ClCompile>
+    <ClCompile Include="Dust_Elevator.cpp">
+      <Filter>3.Actor\2.Interactive\Static\Dust</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

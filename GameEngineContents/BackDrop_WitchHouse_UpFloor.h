@@ -18,7 +18,7 @@ public:
 	void Init();
 
 protected:
-	void Start() override {}
+	void Start() override;
 	void Update(float _Delta) override {}
 	void Release() override {}
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
@@ -33,6 +33,8 @@ private:
 	void CreatePixelMap(GameEngineLevel* _Level);
 	void LoadPortalActor(GameEngineLevel* _Level);
 
+	void DustEventSetting();
+
 	void EventSetting();
 
 	void CheckHouseDustEvent();
@@ -40,6 +42,8 @@ private:
 
 public:
 	float4 m_HouseLocation = float4{340.0f , -50.0f };
+
+	bool isInitDustEvent = false;
 
 };
 

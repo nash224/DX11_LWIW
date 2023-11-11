@@ -33,12 +33,12 @@ void DustFx::Init(const float4& _ParentPosition)
 
 	static std::uint32_t FxGroupOrder = 0;
 	float4 FxPosition = _ParentPosition;
-	FxPosition.Z -= 1.0f;
+	FxPosition.Z -= 3.0f;
 
 	DustRenderer = CreateComponent<GameEngineSpriteRenderer>(FxGroupOrder);
 	DustRenderer->Transform.SetLocalPosition(FxPosition);
 	DustRenderer->AutoSpriteSizeOn();
-	DustRenderer->CreateAnimation("FX", "Broom_Ride_Fx_Sample.png", 0.12f);
+	DustRenderer->CreateAnimation("FX", "dust_remove.png", 0.06f);
 	DustRenderer->ChangeAnimation("FX");
 	DustRenderer->SetEndEvent("FX", [&](GameEngineSpriteRenderer* _Renderer)
 		{
