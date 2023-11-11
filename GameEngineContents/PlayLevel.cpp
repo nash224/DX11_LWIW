@@ -65,6 +65,11 @@ void PlayLevel::Update(float _Delta)
 	{
 		s_TimeManager->Update(_Delta);
 	}
+
+	if (nullptr != s_AlertManager)
+	{
+		s_AlertManager->Update(_Delta);
+	}
 }
 
 void PlayLevel::LevelStart(GameEngineLevel* _NextLevel)
@@ -87,7 +92,7 @@ void PlayLevel::LevelStart(GameEngineLevel* _NextLevel)
 
 	if (false == LocationKRName.empty())
 	{
-		UI_Alert_Enter::AlertLevelEnter(this, LocationKRName);
+		s_AlertManager->RegisterAlert(AlertData(LocationKRName, EALERTTYPE::Enter));
 	}
 }
 

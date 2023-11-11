@@ -19,6 +19,7 @@ void ContentsCore::InitResources()
 	GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\Ellie\\EillieBody");	// ¾Ù¸®
 	GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\Ellie\\Broom");			// ºøÀÚ·ç
 	GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\NPC");					// NPC 
+	GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\Fx");					// Fx
 
 	{
 		//UI
@@ -180,12 +181,6 @@ void ContentsCore::InitMaterialResoruces()
 
 
 
-	{
-		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("VirgilEffect2D");
-		Mat->SetVertexShader("VirgilEffect_VS");
-		Mat->SetPixelShader("VirgilEffect_PS");
-		Mat->SetDepthState("AlwaysDepth");
-	}
 
 	{
 		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("SkyLightEffect2D");

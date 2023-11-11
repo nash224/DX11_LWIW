@@ -4,7 +4,7 @@
 #include "UI_Alert_Enter.h"
 #include "UI_Alert_Quest.h"
 
-
+bool AlertManager::isAlerting = false;
 AlertManager::AlertManager() 
 {
 }
@@ -35,13 +35,12 @@ void AlertManager::RegisterAlert(const AlertData& _Data)
 
 void AlertManager::Update(float _Delta)
 {
-	if (false == Data.empty())
+	if (true == Data.empty())
 	{
 		return;
 	}
 
-	AlertTime -= _Delta;
-	if (AlertTime < 0.0f)
+	if (false == isAlerting)
 	{
 		const std::shared_ptr<AlertData>& data = Data.front();
 		AlertCall(data);
@@ -61,13 +60,13 @@ void AlertManager::AlertCall(const std::shared_ptr<AlertData>& _Data)
 	switch (_Data->Type)
 	{
 	case EALERTTYPE::Enter:
-		AlertTime = UI_Alert_Enter::AlertLevelEnter(CurLevel.lock().get(), _Data->AlertName);
+		UI_Alert_Enter::AlertLevelEnter(CurLevel.lock().get(), _Data->AlertName);
 		break;
 	case EALERTTYPE::QuestAccept:
-		AlertTime = UI_Alert_Quest::CallAlertQuest(CurLevel.lock().get(), _Data->AlertName, EALERTTYPE::QuestAccept);
+		UI_Alert_Quest::CallAlertQuest(CurLevel.lock().get(), _Data->AlertName, EALERTTYPE::QuestAccept);
 		break;
 	case EALERTTYPE::QuestClear:
-		AlertTime = UI_Alert_Quest::CallAlertQuest(CurLevel.lock().get(), _Data->AlertName, EALERTTYPE::QuestClear);
+		UI_Alert_Quest::CallAlertQuest(CurLevel.lock().get(), _Data->AlertName, EALERTTYPE::QuestClear);
 		break;
 	case EALERTTYPE::Tutorial:
 		break;
@@ -80,4 +79,6 @@ void AlertManager::AlertCall(const std::shared_ptr<AlertData>& _Data)
 	default:
 		break;
 	}
+
+	isAlerting = true;
 }

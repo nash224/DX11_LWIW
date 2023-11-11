@@ -1,15 +1,16 @@
 #include "PreCompile.h"
 #include "BackDrop_WitchHouse_Yard.h"
 
-#include "PortalObject.h"
-#include "Dian.h"
-#include "WitchHouse.h"
-
-#include "NormalProp.h"
-#include "GroundRenderUnit.h"
-
 #include "ContentsEvent.h"
 #include "CrowEvent.h"
+#include "InteractiveLetter.h"
+
+#include "Dian.h"
+#include "GroundRenderUnit.h"
+#include "NormalProp.h"
+#include "PortalObject.h"
+#include "WitchHouse.h"
+
 
 
 BackDrop_WitchHouse_Yard::BackDrop_WitchHouse_Yard() 
@@ -20,33 +21,20 @@ BackDrop_WitchHouse_Yard::~BackDrop_WitchHouse_Yard()
 {
 }
 
-
-void BackDrop_WitchHouse_Yard::Start()
-{
-}
-
 void BackDrop_WitchHouse_Yard::Update(float _Delta)
 {
-
-}
-
-void BackDrop_WitchHouse_Yard::Release()
-{
-
+	
 }
 
 void BackDrop_WitchHouse_Yard::LevelStart(class GameEngineLevel* _NextLevel)
 {
-	MainBackDrop = this;                  
-
-	CheckCrowEvent();
+	MainBackDrop = this;
 }
 
 
 void BackDrop_WitchHouse_Yard::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	BackDrop_PlayLevel::LevelEnd(_NextLevel);
-
 
 	ReleaseYardSprite();
 }
@@ -70,6 +58,7 @@ void BackDrop_WitchHouse_Yard::Init()
 	CreateNormalProp();
 	CreatePortalActor();
 	CreateDian();
+	EventSetting();
 }
 
 void BackDrop_WitchHouse_Yard::LoadSprite()
@@ -87,6 +76,7 @@ void BackDrop_WitchHouse_Yard::LoadSprite()
 	}
 }
 
+#pragma region MapLoad
 
 void BackDrop_WitchHouse_Yard::LoadSerBin()
 {
@@ -149,8 +139,9 @@ void BackDrop_WitchHouse_Yard::CreateBase()
 	}
 }
 
-#pragma region CreateProp
+#pragma endregion
 
+#pragma region CreateProp
 
 void BackDrop_WitchHouse_Yard::CreateNormalProp()
 {
@@ -172,11 +163,6 @@ void BackDrop_WitchHouse_Yard::CreateNormalProp()
 	}
 }
 
-#pragma endregion 
-
-
-
-
 void BackDrop_WitchHouse_Yard::CreateHouse()
 {
 	std::shared_ptr<WitchHouse> Object = GetLevel()->CreateActor<WitchHouse>(EUPDATEORDER::Objects);
@@ -189,6 +175,8 @@ void BackDrop_WitchHouse_Yard::CreateHouse()
 		PixelVec.push_back(PixelObject);
 	}
 }
+
+#pragma endregion 
 
 #pragma region CreatePortal
 
@@ -218,12 +206,43 @@ void BackDrop_WitchHouse_Yard::CreatePortalActor()
 
 #pragma endregion 
 
-
 void BackDrop_WitchHouse_Yard::CreateDian()
 {
 	std::shared_ptr<Dian> Object = GetLevel()->CreateActor<Dian>(EUPDATEORDER::Entity);
 	Object->Transform.SetLocalPosition({ 700.0f , -400.0f });
 	Object->Init();
+}
+
+
+void BackDrop_WitchHouse_Yard::EventSetting()
+{
+	CheckLetterEvent();
+	/*CheckCrowEvent();*/
+}
+
+void BackDrop_WitchHouse_Yard::CheckLetterEvent()
+{
+	std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Letter_Read");
+	if (true == Quest.expired())
+	{
+		MsgBoxAssert("생성되지 않은 퀘스트입니다.");
+		return;
+	}
+
+	if (false == Quest.lock()->isQuestComplete())
+	{
+		if (Quest.lock()->CheckPrerequisiteQuest())
+		{
+			CreateLetter();
+		}
+	}
+}
+
+void BackDrop_WitchHouse_Yard::CreateLetter()
+{
+	std::weak_ptr<InteractiveLetter> Letter = GetLevel()->CreateActor<InteractiveLetter>(EUPDATEORDER::Entity); 
+	Letter.lock()->Transform.SetLocalPosition(float4(262.0f, -144.0f));
+	Letter.lock()->Init();
 }
 
 

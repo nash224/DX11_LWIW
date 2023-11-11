@@ -208,6 +208,21 @@
     <Filter Include="100.Z_Test\Effect">
       <UniqueIdentifier>{ff7ca997-bcf9-4aa5-a743-8142eecac38c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3.Actor\5.Event">
+      <UniqueIdentifier>{2a2e54c6-cae2-4438-8f5a-6a7525b9396b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3.Actor\2.Interactive\Static\LootedItem">
+      <UniqueIdentifier>{b6d2005a-f0e8-4da1-acd3-a2da54859902}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3.Actor\2.Interactive\Static\Letter">
+      <UniqueIdentifier>{3b14c426-c2d7-4ad5-877c-3e5211f4e208}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3.Actor\6.Fx">
+      <UniqueIdentifier>{b122b208-6ffc-4cda-a312-00519f376a15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3.Actor\7.UI">
+      <UniqueIdentifier>{5e5632f7-a19b-44da-a59b-7eb2b399937c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -337,9 +352,6 @@
     <ClInclude Include="BackDrop_PlayLevel.h">
       <Filter>3.Actor\1.BackManager\2.Play</Filter>
     </ClInclude>
-    <ClInclude Include="LootedItem.h">
-      <Filter>3.Actor\2.Interactive\Static</Filter>
-    </ClInclude>
     <ClInclude Include="ItemData.h">
       <Filter>0.Data\Contents</Filter>
     </ClInclude>
@@ -463,9 +475,6 @@
     <ClInclude Include="BackDrop_WitchHouse_Yard.h">
       <Filter>3.Actor\1.BackManager\2.Play\Yard</Filter>
     </ClInclude>
-    <ClInclude Include="CrowEvent.h">
-      <Filter>3.Actor\1.BackManager\2.Play\Yard</Filter>
-    </ClInclude>
     <ClInclude Include="FieldLevel.h">
       <Filter>2.Level\2.Play\0.PlayLevel</Filter>
     </ClInclude>
@@ -535,9 +544,6 @@
     <ClInclude Include="BackDrop_CenterField.h">
       <Filter>3.Actor\1.BackManager\2.Play\CenterField</Filter>
     </ClInclude>
-    <ClInclude Include="AureaFindEvent.h">
-      <Filter>3.Actor\1.BackManager\2.Play\CenterField</Filter>
-    </ClInclude>
     <ClInclude Include="Aurea.h">
       <Filter>3.Actor\2.Interactive\NPC\Aurea</Filter>
     </ClInclude>
@@ -559,8 +565,23 @@
     <ClInclude Include="PlayerEffect.h">
       <Filter>100.Z_Test\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="VirgilHat.h">
-      <Filter>100.Z_Test\Effect</Filter>
+    <ClInclude Include="CrowEvent.h">
+      <Filter>3.Actor\5.Event</Filter>
+    </ClInclude>
+    <ClInclude Include="AureaFindEvent.h">
+      <Filter>3.Actor\5.Event</Filter>
+    </ClInclude>
+    <ClInclude Include="LootedItem.h">
+      <Filter>3.Actor\2.Interactive\Static\LootedItem</Filter>
+    </ClInclude>
+    <ClInclude Include="InteractiveLetter.h">
+      <Filter>3.Actor\2.Interactive\Static\Letter</Filter>
+    </ClInclude>
+    <ClInclude Include="DustFx.h">
+      <Filter>3.Actor\6.Fx</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Frame.h">
+      <Filter>3.Actor\7.UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -690,9 +711,6 @@
     </ClCompile>
     <ClCompile Include="BackDrop_PlayLevel.cpp">
       <Filter>3.Actor\1.BackManager\2.Play</Filter>
-    </ClCompile>
-    <ClCompile Include="LootedItem.cpp">
-      <Filter>3.Actor\2.Interactive\Static</Filter>
     </ClCompile>
     <ClCompile Include="ItemData.cpp">
       <Filter>0.Data\Contents</Filter>
@@ -833,9 +851,6 @@
     <ClCompile Include="BackDrop_WitchHouse_Yard.cpp">
       <Filter>3.Actor\1.BackManager\2.Play\Yard</Filter>
     </ClCompile>
-    <ClCompile Include="CrowEvent.cpp">
-      <Filter>3.Actor\1.BackManager\2.Play\Yard</Filter>
-    </ClCompile>
     <ClCompile Include="FieldLevel.cpp">
       <Filter>2.Level\2.Play\0.PlayLevel</Filter>
     </ClCompile>
@@ -917,9 +932,6 @@
     <ClCompile Include="BackDrop_CenterField.cpp">
       <Filter>3.Actor\1.BackManager\2.Play\CenterField</Filter>
     </ClCompile>
-    <ClCompile Include="AureaFindEvent.cpp">
-      <Filter>3.Actor\1.BackManager\2.Play\CenterField</Filter>
-    </ClCompile>
     <ClCompile Include="AureaEvent.cpp">
       <Filter>3.Actor\2.Interactive\NPC\Aurea</Filter>
     </ClCompile>
@@ -944,8 +956,26 @@
     <ClCompile Include="PlayerEffect.cpp">
       <Filter>100.Z_Test\Effect</Filter>
     </ClCompile>
-    <ClCompile Include="VirgilHat.cpp">
-      <Filter>100.Z_Test\Effect</Filter>
+    <ClCompile Include="CrowEvent.cpp">
+      <Filter>3.Actor\5.Event</Filter>
+    </ClCompile>
+    <ClCompile Include="AureaFindEvent.cpp">
+      <Filter>3.Actor\5.Event</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsEvent_Other.cpp">
+      <Filter>0.Data\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="LootedItem.cpp">
+      <Filter>3.Actor\2.Interactive\Static\LootedItem</Filter>
+    </ClCompile>
+    <ClCompile Include="InteractiveLetter.cpp">
+      <Filter>3.Actor\2.Interactive\Static\Letter</Filter>
+    </ClCompile>
+    <ClCompile Include="DustFx.cpp">
+      <Filter>3.Actor\6.Fx</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Frame.cpp">
+      <Filter>3.Actor\7.UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

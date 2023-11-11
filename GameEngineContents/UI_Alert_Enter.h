@@ -29,7 +29,7 @@ public:
 	UI_Alert_Enter& operator=(const UI_Alert_Enter& _Other) = delete;
 	UI_Alert_Enter& operator=(UI_Alert_Enter&& _Other) noexcept = delete;
 
-	static float AlertLevelEnter(GameEngineLevel* _Level, std::string_view _LevelName);
+	static void AlertLevelEnter(GameEngineLevel* _Level, std::string_view _LevelName);
 
 protected:
 	void Start() override {}

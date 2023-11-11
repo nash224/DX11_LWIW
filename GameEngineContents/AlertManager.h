@@ -30,6 +30,13 @@ public:
 // Ό³Έν :
 class AlertManager
 {
+	friend class PlayLevel;
+	friend class UI_Alert_Quest;
+	friend class UI_Alert_Enter;
+
+private:
+	static bool isAlerting;
+
 public:
 	// constrcuter destructer
 	AlertManager();

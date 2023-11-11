@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "UI_Alert_Quest.h"
 
+#include "AlertManager.h"
+
 UI_Alert_Quest::UI_Alert_Quest() 
 {
 }
@@ -25,6 +27,8 @@ void UI_Alert_Quest::Release()
 	QuestInfo.QuestFrame = nullptr;
 	QuestInfo.Stamp = nullptr;
 	QuestInfo.UnderLine = nullptr;
+
+	AlertManager::isAlerting = false;
 }
 
 void UI_Alert_Quest::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -39,7 +43,7 @@ void UI_Alert_Quest::LevelEnd(class GameEngineLevel* _NextLevel)
 
 
 
-float UI_Alert_Quest::CallAlertQuest(GameEngineLevel* _Level, std::string_view _QuestName, EALERTTYPE _Type)
+void UI_Alert_Quest::CallAlertQuest(GameEngineLevel* _Level, std::string_view _QuestName, EALERTTYPE _Type)
 {
 	const std::shared_ptr<UI_Alert_Quest>& Alert = _Level->CreateActor<UI_Alert_Quest>(EUPDATEORDER::Objects);
 
@@ -50,7 +54,7 @@ float UI_Alert_Quest::CallAlertQuest(GameEngineLevel* _Level, std::string_view _
 	case EALERTTYPE::None:
 	{
 		MsgBoxAssert("잘못된 값이 들어왔습니다.");
-		return 0.0f;
+		return;
 	}
 		break;
 	case EALERTTYPE::QuestAccept:
@@ -62,8 +66,6 @@ float UI_Alert_Quest::CallAlertQuest(GameEngineLevel* _Level, std::string_view _
 	default:
 		break;
 	}
-
-	return Fade_Change_Time * 2.0f + WaitTime;
 }
 
 void UI_Alert_Quest::SameInit(std::string_view _QuestName)

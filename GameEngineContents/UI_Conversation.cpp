@@ -450,7 +450,6 @@ void UI_Conversation::SetNPCExpression(unsigned int _SpriteIndex)
 {
 	if (true == Portrait.isNoNpc)
 	{
-		MsgBoxAssert("NPC가 없다는데 대화를 하려 했습니다.");
 		return;
 	}
 
@@ -626,6 +625,11 @@ void UI_Conversation::LoseSpeechControlVirgil()
 void UI_Conversation::OnRightTail()
 {
 	ResetAllTail();
+
+	if (true == Portrait.isNoNpc)
+	{
+		return;
+	}
 
 	Dialogue.Right_Tail->On();
 }

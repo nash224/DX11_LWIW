@@ -47,7 +47,7 @@ public:
 	UI_Alert_Quest& operator=(const UI_Alert_Quest& _Other) = delete;
 	UI_Alert_Quest& operator=(UI_Alert_Quest&& _Other) noexcept = delete;
 
-	static float CallAlertQuest(GameEngineLevel* _Level, std::string_view _QuestName, EALERTTYPE _Type);
+	static void CallAlertQuest(GameEngineLevel* _Level, std::string_view _QuestName, EALERTTYPE _Type);
 
 protected:
 	void Start() override {}
