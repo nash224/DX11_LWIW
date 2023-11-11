@@ -79,7 +79,7 @@ void Conversation::StartConversation(int _ConversationType)
 	CurTopic = FindTopic(_ConversationType);
 	CurLine = 0;
 
-	UI_Conversation::MainConversationUI->StartConversation(CurTopic->EntitySpriteName, CurTopic->Default_Npc_Sprite_Index);
+	UI_Conversation::MainConversationUI->StartConversation(CurTopic->EntitySpriteName, CurTopic->Default_Npc_Sprite_Index, CurTopic->Elli_First_Sprite_Index);
 
 	ConverseLine();
 }

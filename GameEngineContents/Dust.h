@@ -39,7 +39,7 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
-	virtual void SetConversationData();
+	virtual void SetConversationData(const std::vector<ConversationData>& _ConversationDatas);
 
 private:
 

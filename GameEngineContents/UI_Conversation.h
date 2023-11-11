@@ -100,7 +100,7 @@ public:
 
 	void Init();
 
-	void StartConversation(std::string_view _NPCSpriteName, int _Default_Sprite_Index = -1);
+	void StartConversation(std::string_view _NPCSpriteName, int _NPC_Default_Sprite_Index = -1, int _Ellie_First_Sprite_Index = 1);
 	void ShowConversation(const ConversationData& _Data);
 	void EndConversation();
 

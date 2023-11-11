@@ -18,19 +18,28 @@ public:
 	void Init();
 
 protected:
-	void Start() override;
-	void Update(float _Delta) override;
-	void Release() override;
+	void Start() override {}
+	void Update(float _Delta) override {}
+	void Release() override {}
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 
 private:
+	void LoadResources();
+	void ReleaseResources();
+
 	void CreateProp(GameEngineLevel* _Level);
 	void CreatePixelMap(GameEngineLevel* _Level);
 	void LoadPortalActor(GameEngineLevel* _Level);
 
+	void EventSetting();
+
+	void CheckHouseDustEvent();
+	void ShowHouseDustEvent();
+
 public:
 	float4 m_HouseLocation = float4{340.0f , -50.0f };
+
 };
 

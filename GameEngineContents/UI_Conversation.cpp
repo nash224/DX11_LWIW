@@ -305,7 +305,7 @@ void UI_Conversation::ResetVirgil()
 }
 
 
-void UI_Conversation::StartConversation(std::string_view _NPCSpriteName, int _Default_Sprite_Index)
+void UI_Conversation::StartConversation(std::string_view _NPCSpriteName, int _NPC_Default_Sprite_Index, int _Ellie_First_Sprite_Index /*= 1*/)
 {
 	if (nullptr == Portrait.Other)
 	{
@@ -336,10 +336,10 @@ void UI_Conversation::StartConversation(std::string_view _NPCSpriteName, int _De
 	Portrait.Virgil->On();
 
 
-	const int Virgil_Default_Index = ReturnVirgilIndexToElliePortrait(Portrait.Ellie_Portrait_Default_Index);
+	const int Virgil_Default_Index = ReturnVirgilIndexToElliePortrait(_Ellie_First_Sprite_Index);
 	Portrait.VirgilIndex = Virgil_Default_Index;
 
-	Portrait.Ellie->ChangeCurSprite(Portrait.Ellie_Portrait_Default_Index);
+	Portrait.Ellie->ChangeCurSprite(_Ellie_First_Sprite_Index);
 	Portrait.Virgil->ChangeCurSprite(Virgil_Default_Index);
 
 	if (true == _NPCSpriteName.empty())
@@ -354,7 +354,7 @@ void UI_Conversation::StartConversation(std::string_view _NPCSpriteName, int _De
 		bool isDeaultIndexSetting = (-1 != Portrait.Default_Index);
 		if (isDeaultIndexSetting)
 		{
-			Portrait.Default_Index = _Default_Sprite_Index;
+			Portrait.Default_Index = _NPC_Default_Sprite_Index;
 		}
 		else
 		{

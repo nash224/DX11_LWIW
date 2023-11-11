@@ -4,6 +4,7 @@ enum class EQUESTTYPE
 {
 	Find_Letter,
 	Letter_Read,
+	House_Dust,
 	Clean_Dust,
 	Aurea_Find,
 	Aurea_Curse,
@@ -55,6 +56,13 @@ public:
 	};
 
 	class Aurea_Find : public QuestUnitBase
+	{
+	public:
+		bool CheckPrerequisiteQuest() override;
+
+	};
+
+	class House_Dust : public QuestUnitBase
 	{
 	public:
 		bool CheckPrerequisiteQuest() override;

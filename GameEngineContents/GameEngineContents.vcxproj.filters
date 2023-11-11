@@ -589,6 +589,9 @@
     <ClInclude Include="Dust.h">
       <Filter>3.Actor\2.Interactive\Static\Dust</Filter>
     </ClInclude>
+    <ClInclude Include="HouseDustEvent.h">
+      <Filter>3.Actor\5.Event</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -985,6 +988,9 @@
     </ClCompile>
     <ClCompile Include="Dust.cpp">
       <Filter>3.Actor\2.Interactive\Static\Dust</Filter>
+    </ClCompile>
+    <ClCompile Include="HouseDustEvent.cpp">
+      <Filter>3.Actor\5.Event</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

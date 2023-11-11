@@ -16,7 +16,7 @@ Dust::~Dust()
 
 void Dust::Start()
 {
-	CreateAndSetCollision(ECOLLISION::Entity, float4(60.0f), float4::ZERO, ColType::SPHERE2D);
+	CreateAndSetCollision(ECOLLISION::Entity, float4(80.0f), float4::ZERO, ColType::SPHERE2D);
 	SetInteractionOption(EINTERACTION_BUTTONTYPE::Gear, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Nothing);
 }
 
@@ -50,7 +50,7 @@ void Dust::RendererSetting(std::string_view _DustSpriteName)
 
 	InteractiveActor::m_Body = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
 	InteractiveActor::m_Body->SetSprite(_DustSpriteName);
-	InteractiveActor::m_Body->Transform.AddLocalPosition(float4(0.0f, 0.0f, -5.0f));
+	InteractiveActor::m_Body->Transform.AddLocalPosition(float4(0.0f, 0.0f, -2.0f));
 }
 
 
@@ -72,14 +72,9 @@ void Dust::ConversationSetting()
 	}
 }
 
-void Dust::SetConversationData()
+void Dust::SetConversationData(const std::vector<ConversationData>& _ConversationDatas)
 {
-	ConversationDatas = 
-	{
-		{ { L"이렇게 갑자기?" , ECONVERSATIONENTITY::Ellie, 1 },
-		{ L"마녀 까마귀는 그렇게 말이 잘 통하는 편은 아니지." , ECONVERSATIONENTITY::Virgil, 1 ,{ConversationFont::Color_BLACK , GlobalValue::Font_JejuHanlasan}},
-		 },
-	};
+	ConversationDatas = _ConversationDatas;
 }
 
 

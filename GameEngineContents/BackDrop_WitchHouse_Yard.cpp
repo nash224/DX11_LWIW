@@ -3,6 +3,7 @@
 
 #include "ContentsEvent.h"
 #include "CrowEvent.h"
+#include "HouseDustEvent.h"
 #include "InteractiveLetter.h"
 
 #include "Dian.h"
@@ -214,6 +215,7 @@ void BackDrop_WitchHouse_Yard::CreateDian()
 }
 
 
+
 void BackDrop_WitchHouse_Yard::EventSetting()
 {
 	CheckLetterEvent();
@@ -238,14 +240,6 @@ void BackDrop_WitchHouse_Yard::CheckLetterEvent()
 	}
 }
 
-void BackDrop_WitchHouse_Yard::CreateLetter()
-{
-	std::weak_ptr<InteractiveLetter> Letter = GetLevel()->CreateActor<InteractiveLetter>(EUPDATEORDER::Entity); 
-	Letter.lock()->Transform.SetLocalPosition(float4(262.0f, -144.0f));
-	Letter.lock()->Init();
-}
-
-
 void BackDrop_WitchHouse_Yard::CheckCrowEvent()
 {
 	const std::shared_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Crow_Meet");
@@ -263,6 +257,13 @@ void BackDrop_WitchHouse_Yard::CheckCrowEvent()
 			Quest->QuestComplete();
 		}
 	}
+}
+
+void BackDrop_WitchHouse_Yard::CreateLetter()
+{
+	std::weak_ptr<InteractiveLetter> Letter = GetLevel()->CreateActor<InteractiveLetter>(EUPDATEORDER::Entity); 
+	Letter.lock()->Transform.SetLocalPosition(float4(262.0f, -144.0f));
+	Letter.lock()->Init();
 }
 
 void BackDrop_WitchHouse_Yard::ShowCrowEvent()

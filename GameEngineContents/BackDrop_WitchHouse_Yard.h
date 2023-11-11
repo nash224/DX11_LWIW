@@ -36,10 +36,11 @@ private:
 	void EventSetting();
 
 	void CheckLetterEvent();
-	void CreateLetter();
-
 	void CheckCrowEvent();
+
+	void CreateLetter();
 	void ShowCrowEvent();
+
 
 	void ReleaseYardSprite();
 };

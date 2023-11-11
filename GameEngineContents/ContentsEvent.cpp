@@ -39,6 +39,7 @@ void ContentsEvent::Init()
 
 
 	CreateQuest<ContentsEvent::Letter_Read>("Letter_Read");
+	CreateQuest<ContentsEvent::House_Dust>("House_Dust");
 
 	CreateQuest<ContentsEvent::Aurea_Find>("Aurea_Find");
 	CreateQuest<ContentsEvent::Aurea_UnCurse>("Aurea_UnCurse");

@@ -60,6 +60,7 @@ public:
 	std::string EntitySpriteName;
 	
 	int Default_Npc_Sprite_Index = -1;
+	int Elli_First_Sprite_Index = 1;
 
 public:
 	static constexpr const char* Expression_Aurea_Sprite_Name = "Aurea_Expression.png";
