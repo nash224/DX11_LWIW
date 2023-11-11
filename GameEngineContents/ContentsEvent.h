@@ -126,27 +126,16 @@ public:
 
 	static void Init();
 
-	template<typename QuestType, typename EnumType>
-	static void CreateQuest(EnumType _Enum)
-	{
-		CreateQuest<QuestType>(static_cast<int>(_Enum));
-	}
-
 	template<typename QuestType>
-	static void CreateQuest(int _Enum)
+	static void CreateQuest(std::string_view _QuestName)
 	{
+		std::string UpperName = GameEngineString::ToUpperReturn(_QuestName);
+
 		std::shared_ptr<QuestUnitBase> questUnit = std::make_shared<QuestType>();
-		QuestData.insert(std::make_pair(static_cast<int>(_Enum), questUnit));
+		QuestData.insert(std::make_pair(UpperName, questUnit));
 	}
 
-
-	template<typename EnumType>
-	static const std::shared_ptr<ContentsEvent::QuestUnitBase> FindQuest(EnumType _Enum)
-	{
-		return FindQuest(static_cast<int>(_Enum));
-	}
-
-	static const std::shared_ptr<ContentsEvent::QuestUnitBase> FindQuest(int _Enum);
+	static const std::shared_ptr<ContentsEvent::QuestUnitBase> FindQuest(std::string_view _QuestName);
 
 
 	static void Release();
@@ -156,7 +145,7 @@ protected:
 public:
 	static std::vector<bool> ToolData;
 	static std::vector<bool> EventData;
-	static std::map<int, std::shared_ptr<QuestUnitBase>> QuestData;
+	static std::map<std::string, std::shared_ptr<QuestUnitBase>> QuestData;
 
 };
 

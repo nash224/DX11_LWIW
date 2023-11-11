@@ -18,7 +18,7 @@ public:
 
 std::vector<bool> ContentsEvent::ToolData;
 std::vector<bool> ContentsEvent::EventData;
-std::map<int, std::shared_ptr<ContentsEvent::QuestUnitBase>> ContentsEvent::QuestData;
+std::map<std::string, std::shared_ptr<ContentsEvent::QuestUnitBase>> ContentsEvent::QuestData;
 
 EventDataCreator EventDataInit;
 
@@ -44,21 +44,23 @@ void ContentsEvent::Init()
 	}
 
 
-	CreateQuest<ContentsEvent::Aurea_Find>(EQUESTTYPE::Aurea_Find);
-	CreateQuest<ContentsEvent::Aurea_UnCurse>(EQUESTTYPE::Aurea_UnCurse);
-	CreateQuest<ContentsEvent::Aurea_Curse>(EQUESTTYPE::Aurea_Curse);
+	CreateQuest<ContentsEvent::Aurea_Find>("Aurea_Find");
+	CreateQuest<ContentsEvent::Aurea_UnCurse>("Aurea_UnCurse");
+	CreateQuest<ContentsEvent::Aurea_Curse>("Aurea_Curse");
 
-	CreateQuest<ContentsEvent::Crow_Meet>(EQUESTTYPE::Crow_Meet);
-	CreateQuest<ContentsEvent::Dian_Quest_1>(EQUESTTYPE::Dian_Quest_1);
-	CreateQuest<ContentsEvent::Dian_Quest_2>(EQUESTTYPE::Dian_Quest_2);
-	CreateQuest<ContentsEvent::Dian_Quest_3>(EQUESTTYPE::Dian_Quest_3);
-	CreateQuest<ContentsEvent::Dian_Cracker>(EQUESTTYPE::Dian_Cracker);
+	CreateQuest<ContentsEvent::Crow_Meet>("Crow_Meet");
+	CreateQuest<ContentsEvent::Dian_Quest_1>("Dian_Quest_1");
+	CreateQuest<ContentsEvent::Dian_Quest_2>("Dian_Quest_2");
+	CreateQuest<ContentsEvent::Dian_Quest_3>("Dian_Quest_3");
+	CreateQuest<ContentsEvent::Dian_Cracker>("Dian_Cracker");
 	
 }
 
-const std::shared_ptr<ContentsEvent::QuestUnitBase> ContentsEvent::FindQuest(int _Enum)
+const std::shared_ptr<ContentsEvent::QuestUnitBase> ContentsEvent::FindQuest(std::string_view _QuestName)
 {
-	const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = QuestData.find(static_cast<int>(EQUESTTYPE::Crow_Meet))->second;
+	std::string UpperName = GameEngineString::ToUpperReturn(_QuestName);
+
+	const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = QuestData.find(UpperName)->second;
 	if (nullptr == Quest)
 	{
 		return nullptr;

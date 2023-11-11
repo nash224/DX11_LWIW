@@ -290,7 +290,7 @@ void Dian::ConversationSetting()
 
 		NPCConversation.SetConversationEndEvent(EDIANTOPICTYPE::FireCrackerAfter, [&]()
 			{
-				const std::shared_ptr<ContentsEvent::QuestUnitBase> CrackerQuest = ContentsEvent::FindQuest(EQUESTTYPE::Dian_Cracker);
+				const std::shared_ptr<ContentsEvent::QuestUnitBase> CrackerQuest = ContentsEvent::FindQuest("Dian_Cracker");
 			});
 	}
 }

@@ -98,16 +98,6 @@ void CheatTab::Start()
 			ItemContainer[static_cast<int>(ItemData->ItemType)].push_back(ItemData->Name);
 		}
 	}
-
-
-	{
-		QeustContainer.resize(ContentsEvent::QuestData.size());
-		
-		for (const auto& [Index, Quest] : ContentsEvent::QuestData)
-		{
-			QeustContainer[Index] = Quest;
-		}
-	}
 }
 
 void CheatTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
@@ -130,17 +120,14 @@ void CheatTab::QuestCheat()
 {
 	if (ImGui::BeginTabItem("Quest"))
 	{
-		for (size_t i = 0; i < QeustContainer.size(); i++)
+		for (const std::pair<std::string, std::weak_ptr<ContentsEvent::QuestUnitBase>>& pair : ContentsEvent::QuestData)
 		{
-			if (true == QeustContainer[i].expired())
+			if (true == pair.second.expired())
 			{
 				continue;
 			}
 
-			std::string QuestName = "Quest";
-			QuestName += std::to_string(i);
-
-			ImGui::Checkbox(QuestName.c_str(), &QeustContainer[i].lock()->isQuestCompleted);
+			ImGui::Checkbox(pair.first.c_str(), &pair.second.lock()->isQuestCompleted);
 		}
 
 		ImGui::EndTabItem();

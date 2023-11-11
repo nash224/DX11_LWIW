@@ -9,7 +9,7 @@
 
 void Aurea::CheckAureaCurseEvent()
 {
-	const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = ContentsEvent::FindQuest(EQUESTTYPE::Aurea_Find);
+	const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = ContentsEvent::FindQuest("Aurea_Find");
 	if (nullptr == Quest)
 	{
 		MsgBoxAssert("생성되지 않은 퀘스트입니다.");

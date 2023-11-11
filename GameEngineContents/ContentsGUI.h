@@ -62,7 +62,6 @@ public:
 	int SelectItem = 0;
 
 	std::map<int, std::list<std::string>> ItemContainer;
-	std::vector<std::weak_ptr<ContentsEvent::QuestUnitBase>> QeustContainer;
 	
 
 public:
