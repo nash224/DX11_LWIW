@@ -2,6 +2,9 @@
 
 #include <GameEngineCore/PreCompile.h>
 
+// Sound
+#include <GameEnginePlatform/GameEngineSound.h>
+
 // Object
 #include <GameEngineCore/GameEngineCore.h>
 #include <GameEngineCore/GameEngineObject.h>

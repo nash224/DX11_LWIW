@@ -449,7 +449,6 @@ void BackDrop_WitchHouse_UpFloor::DustEventSetting()
 		DustHandBook.lock()->Transform.SetLocalPosition(DustPosition);
 		DustHandBook.lock()->Init("paper.png", true);
 	}
-
 }
 
 

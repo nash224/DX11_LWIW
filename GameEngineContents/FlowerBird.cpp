@@ -3,6 +3,17 @@
 
 FlowerBird::FlowerBird() 
 {
+	if (nullptr == GameEngineSound::FindSound("SFX_FlowerBirdBloom_01.wav"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\Sound\\Actor\\FlowerBird");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pfile : Files)
+		{
+			GameEngineSound::SoundLoad(pfile.GetStringPath());
+		}
+	}
 }
 
 FlowerBird::~FlowerBird() 
@@ -53,16 +64,6 @@ void FlowerBird::Release()
 	m_Shadow = nullptr;
 }
 
-void FlowerBird::LevelStart(class GameEngineLevel* _NextLevel)
-{
-
-}
-
-void FlowerBird::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-
-}
-
 
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
@@ -111,16 +112,26 @@ void FlowerBird::AnimationSetting()
 	m_Body->Transform.AddLocalPosition({ 0.0f,30.0f });
 	m_Body->AutoSpriteSizeOn();
 
-
 	m_Shadow = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
 	m_Shadow->SetSprite("FlowerBird_Standing.png", 1);
 	m_Shadow->Transform.AddLocalPosition({ 0.0f,30.0f });
+
+
+
+	m_Body->SetStartEvent("Turn", [&](GameEngineSpriteRenderer* _Renderer)
+		{
+			PlaySFX(RandomBirdCrySoundName());
+		});
 
 	m_Body->SetFrameEvent("Pick", 4, [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			m_Shadow->SetSprite("FlowerBird_IdleC.png", 2);
 		});
 
+	m_Body->SetFrameEvent("Bloom", 6, [&](GameEngineSpriteRenderer* _Renderer)
+		{
+			PlaySFX("SFX_FlowerBirdBloom_01.wav");
+		});
 
 	m_Body->SetEndEvent("Pick", [&](GameEngineSpriteRenderer* _Renderer)
 		{
@@ -130,6 +141,8 @@ void FlowerBird::AnimationSetting()
 
 	m_Body->SetStartEvent("Fly", [&](GameEngineSpriteRenderer* _Renderer)
 		{
+			PlaySFX("SFX_BirdFly_01.wav");
+
 			m_Shadow->Off();
 		});
 
@@ -251,4 +264,29 @@ void FlowerBird::ChangeFlowerBirdAnimation(std::string_view _AnimationName)
 	}
 
 	m_Body->ChangeAnimation(_AnimationName);
+}
+
+std::string FlowerBird::RandomBirdCrySoundName()
+{
+	GameEngineRandom RandomClass;
+	int SelectValue = RandomClass.RandomInt(2, 4);
+
+	std::string_view FileName;
+
+	switch (SelectValue)
+	{
+	case 2:
+		FileName = "SFX_BirdCrying_02.wav";
+		break;
+	case 3:
+		FileName = "SFX_BirdCrying_03.wav";
+		break;
+	case 4:
+		FileName = "SFX_BirdCrying_04.wav";
+		break;
+	default:
+		break;
+	}
+
+	return FileName.data();
 }

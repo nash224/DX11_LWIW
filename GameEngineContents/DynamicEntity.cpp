@@ -2,6 +2,7 @@
 #include "DynamicEntity.h"
 
 #include "BackDrop_PlayLevel.h"
+#include "CameraControler.h"
 
 DynamicEntity::DynamicEntity() 
 {
@@ -138,4 +139,34 @@ void DynamicEntity::ApplyMovement(float _Delta)
 	float4 MovePosition = CurrentPosition + MoveVector;
 	ApplyDepth(MovePosition);
 	return;
+}
+
+float DynamicEntity::GetVolumeReductionByDistance()
+{
+	const float4& CameraPos = GlobalValue::g_CameraControler->GetCameraCurrentPostion();
+	const float4& MyPos = Transform.GetLocalPosition();
+	const float4& VectorToEllie = MyPos - CameraPos;
+
+	const float4& Size = DirectX::XMVector2Length(VectorToEllie.DirectXVector);
+	float Distance = Size.X;
+
+	if (Max_Volume_Distance > Distance)
+	{
+		return 1.0f;
+	}
+	else if (Max_Volume_Distance < Distance && Distance < Min_Volume_Distance)
+	{
+		float Volume = (Min_Volume_Distance - Distance) / (Min_Volume_Distance - Max_Volume_Distance);
+		return Volume;
+	}
+
+	return 0.0f;
+}
+
+void DynamicEntity::PlaySFX(std::string_view _FileName)
+{
+	float Volume = GlobalValue::GetSFXVolume() * GetVolumeReductionByDistance();
+
+	GameEngineSoundPlayer SoundPlayer = GameEngineSound::SoundPlay(_FileName);
+	SoundPlayer.SetVolume(Volume);
 }

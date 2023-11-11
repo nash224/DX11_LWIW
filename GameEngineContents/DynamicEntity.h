@@ -30,6 +30,9 @@ protected:
 	EDIRECTION GetDiagonalDirectionFromVector(const float4& _MoveVector);
 	void ApplyMovement(float _Delta);
 
+	float GetVolumeReductionByDistance();
+	void PlaySFX(std::string_view _FileName);
+
 protected:
 	EDIRECTION m_Dir = EDIRECTION::LEFT;
 	EDIRECTION m_RenderDir = EDIRECTION::CENTER;
@@ -38,6 +41,9 @@ protected:
 	float4 m_MoveForce = float4::ZERO;
 
 	float m_StateTime = 0.0f;
+
+	static constexpr const float Max_Volume_Distance = 150.0f;
+	static constexpr const float Min_Volume_Distance = 300.0f;
 
 };
 

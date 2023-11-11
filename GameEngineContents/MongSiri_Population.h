@@ -52,7 +52,7 @@ private:
 
 	const float MonSiriSpawnRangeSize = 80.0f;			// 몽시리 설치범위
 	const float m_PopulationMinCircle = 60.0f;
-	const float m_PopulationMaxCircle = 120.0f;
+	const float m_PopulationMaxRange = 120.0f;
 
 };
 

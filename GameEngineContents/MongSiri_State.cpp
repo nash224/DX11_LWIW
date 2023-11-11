@@ -71,9 +71,11 @@ void MongSiri::EndIdle()
 	m_IdleCount = 0;
 }
 
+
 void MongSiri::StartJump()
 {
 	SearchJumpLocation();
+	PlayJumpSound();
 	ChangeAnimationByDircetion("Jump");
 }
 
@@ -92,29 +94,29 @@ void MongSiri::SearchJumpLocation()
 			return;
 		}
 
-		float4 MyPosition = Transform.GetLocalPosition();
-		MyPosition.Z = 0.0f;
-		float4 PopulationSpawnPosition = MongSiriParant->m_PopulationLocation;
-		PopulationSpawnPosition.Z = 0.0f;
+		const float4& MyPosition = Transform.GetLocalPosition();
+		const float4& PopulationPosition = MongSiriParant->m_PopulationLocation;
 		
-		float4 TargetDistance = PopulationSpawnPosition - MyPosition;			// 스폰위치와 내 거리
-		float Degree = DirectX::XMConvertToDegrees(atan2f(TargetDistance.Y, TargetDistance.X));
+		float4 VectorToPopulation = PopulationPosition - MyPosition;			// 스폰위치와 내 거리
+		float Degree = DirectX::XMConvertToDegrees(atan2f(VectorToPopulation.Y, VectorToPopulation.X));
+
+		const float4& Size = DirectX::XMVector2Length(VectorToPopulation.DirectXVector);
+		float Distance = Size.X;
 
 		float JumpAngle = 0.0f;
 
-		// 만약 최대 범위면 구멍으로 뛰어라
-		float SpawnToDistance = TargetDistance.Size();
-		if (SpawnToDistance > MongSiriParant->m_PopulationMaxCircle)
+		bool isOutMaxRange = (Distance > MongSiriParant->m_PopulationMaxRange);
+		if (isOutMaxRange)
 		{
 			JumpAngle = Degree;
 		}
 		// 스폰 위치점 기준
 		// 작은원 안에 있다면 완전 랜덤 
-		else if (SpawnToDistance < MongSiriParant->m_PopulationMinCircle)
+		else if (Distance < MongSiriParant->m_PopulationMinCircle)
 		{
 			JumpAngle = RandomClass.RandomFloat(0.0f, 360.0f);
 		}
-		else if (SpawnToDistance > MongSiriParant->m_PopulationMinCircle)
+		else if (Distance > MongSiriParant->m_PopulationMinCircle)
 		{
 			float JumpChangeRatio = RandomClass.RandomFloat(0.0f, 1.0f);
 			JumpChangeRatio = static_cast<float>(pow(JumpChangeRatio, 2));
@@ -260,6 +262,8 @@ void MongSiri::StartCollected()
 		return;
 	}
 
+	
+
 	m_InteractiveCol->Off();
 	ChangeAnimation("Collected");
 }
@@ -315,4 +319,10 @@ void MongSiri::UpdateDisappear(float _Delta)
 		MongSiriParant->MongSiriEntityList.remove(GetDynamic_Cast_This<MongSiri>());
 		Death();
 	}
+}
+
+
+void MongSiri::PlayJumpSound()
+{
+
 }

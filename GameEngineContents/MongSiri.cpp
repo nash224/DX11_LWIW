@@ -6,8 +6,20 @@
 #include "Ellie.h"
 #include "UI_Inventory.h"
 
+
 MongSiri::MongSiri()
 {
+	if (nullptr == GameEngineSound::FindSound("SFX_MongsiriJump_01.wav"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\Sound\\Actor\\Mongsiri");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pfile : Files)
+		{
+			GameEngineSound::SoundLoad(pfile.GetStringPath());
+		}
+	}
 }
 
 MongSiri::~MongSiri()
@@ -166,6 +178,7 @@ void MongSiri::CreateAndSetRenderer()
 		});
 	m_Body->SetFrameEvent("Jump", 8, [&](GameEngineSpriteRenderer*)
 		{
+			PlaySFX("SFX_MongsiriJump_01.wav");
 			m_Shadow->SetSprite("Mongsiri_Jump.png", 4);
 		});
 	m_Body->SetFrameEvent("Jump", 13, [&](GameEngineSpriteRenderer*)
@@ -188,6 +201,7 @@ void MongSiri::CreateAndSetRenderer()
 		});
 	m_Body->SetFrameEvent("Jump_Back", 18, [&](GameEngineSpriteRenderer*)
 		{
+			PlaySFX("SFX_MongsiriJump_01.wav");
 			m_Shadow->SetSprite("Mongsiri_Jump.png", 4);
 		});
 	m_Body->SetFrameEvent("Jump_Back", 23, [&](GameEngineSpriteRenderer*)
@@ -213,6 +227,7 @@ void MongSiri::CreateAndSetRenderer()
 		});
 	m_Body->SetFrameEvent("Collected", 4, [&](GameEngineSpriteRenderer* _Renderer)
 		{
+			PlaySFX("SFX_MongsiriRootUp.wav");
 			m_Shadow->SetSprite("Mongsiri_Jump.png", 4);
 		});
 
@@ -250,6 +265,10 @@ void MongSiri::CreateAndSetRenderer()
 	m_Body->SetFrameEvent("Disappear", 18, [&](GameEngineSpriteRenderer*)
 		{
 			m_Shadow->SetSprite("Mongsiri_Disappear.png", 6);
+		});
+	m_Body->SetFrameEvent("Disappear", 21, [&](GameEngineSpriteRenderer*)
+		{
+			PlaySFX("SFX_MongsiriHoleIn_01.wav");
 		});
 	m_Body->SetFrameEvent("Disappear", 24, [&](GameEngineSpriteRenderer*)
 		{
