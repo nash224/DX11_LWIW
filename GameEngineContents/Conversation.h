@@ -1,5 +1,27 @@
 #pragma once
 
+class ConversationFont
+{
+public:
+	ConversationFont(
+		float4 _Color = float4(0.0f, 0.0f, 0.0f, 1.0f),
+		std::string_view _FontName = GlobalValue::Font_Sandoll
+	)
+		:
+		Color(_Color),
+		FontName(_FontName)
+	{
+
+	}
+
+public:
+	std::string FontName;
+	float4 Color;
+
+	static const float4 Color_RED;
+	static const float4 Color_BLACK;
+
+};
 
 class ConversationData
 {
@@ -8,14 +30,12 @@ public:
 		std::wstring_view _Question,
 		ECONVERSATIONENTITY _ConversationEntity,
 		int _FileIndex = 0,
-		float4 _Color = float4(0.0f, 0.0f, 0.0f, 1.0f),
-		std::string_view _Font = GlobalValue::Font_Sandoll
+		const ConversationFont& _Font = {}
 		)
 		:
 		Question(_Question),
 		ConversationEntity(_ConversationEntity),
 		FileIndex(_FileIndex),
-		Color(_Color),
 		Font(_Font)
 	{
 
@@ -26,8 +46,7 @@ public:
 	ECONVERSATIONENTITY ConversationEntity = ECONVERSATIONENTITY::None;
 	int FileIndex = 0;
 	std::wstring Question;
-	std::string Font;
-	float4 Color;
+	ConversationFont Font;
 	std::function<void()> Event;
 
 };
@@ -46,11 +65,6 @@ public:
 	static constexpr const char* Expression_Aurea_Sprite_Name = "Aurea_Expression.png";
 	static constexpr const char* Expression_Crow_Sprite_Name = "Crow_Expression.png";
 	static constexpr const char* Expression_Dian_Sprite_Name = "Dian_Expression.png";
-
-	// ConversationData에서 사용하는 변수입니다. 
-	const float4 Color_RED = float4(0.6f, 0.1f, 0.1f, 1.0f);
-	const float4 Color_BLACK = float4(0.0f, 0.0f, 0.0f, 1.0f);
-
 
 };
 

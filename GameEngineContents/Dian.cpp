@@ -281,7 +281,7 @@ void Dian::ConversationSetting()
 			{ L"휴...이럴 때마다 심장이 쿵쾅거려." , ECONVERSATIONENTITY::Ellie , 1},
 			{ L"일단 당장 생각나는 게 엄마 이름이라서 적었는데...괜찮겠지?." , ECONVERSATIONENTITY::Ellie, 5 },
 			{ L"우선 목적은 달성했으니 폭죽 물약을 만들러 가자고." , ECONVERSATIONENTITY::Ellie , 1},
-			{ L"걱정된다. 정말." , ECONVERSATIONENTITY::Virgil , 1, FireCrackerAfterTopic.Color_BLACK, GlobalValue::Font_JejuHanlasan},
+			{ L"걱정된다. 정말." , ECONVERSATIONENTITY::Virgil , 1, {ConversationFont::Color_BLACK, GlobalValue::Font_JejuHanlasan}},
 		};
 
 		FireCrackerAfterTopic.Data.shrink_to_fit();

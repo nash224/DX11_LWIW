@@ -6,7 +6,8 @@
 #include "UI_Conversation.h"
 
 
-
+const float4 ConversationFont::Color_RED = float4(0.6f, 0.1f, 0.1f, 1.0f);
+const float4 ConversationFont::Color_BLACK = float4(0.0f, 0.0f, 0.0f, 1.0f);
 Conversation::Conversation()
 {
 	GameEngineInput::AddInputObject(this);

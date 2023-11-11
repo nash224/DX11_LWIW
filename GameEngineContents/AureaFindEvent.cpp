@@ -170,7 +170,7 @@ void AureaFindEvent::ConversationSetting()
 	LookTopic.Data.reserve(64);
 	LookTopic.Data =
 	{
-		{ L"응? 저기 누가 있는 것 같은데?" , ECONVERSATIONENTITY::Virgil , 1, LookTopic.Color_BLACK, GlobalValue::Font_JejuHanlasan},
+		{ L"응? 저기 누가 있는 것 같은데?" , ECONVERSATIONENTITY::Virgil , 1, {ConversationFont::Color_BLACK, GlobalValue::Font_JejuHanlasan}},
 	};
 
 	LookTopic.Data.shrink_to_fit();

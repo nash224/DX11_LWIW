@@ -77,7 +77,7 @@ void Dust::SetConversationData()
 	ConversationDatas = 
 	{
 		{ { L"이렇게 갑자기?" , ECONVERSATIONENTITY::Ellie, 1 },
-		{ L"마녀 까마귀는 그렇게 말이 잘 통하는 편은 아니지." , ECONVERSATIONENTITY::Virgil, 1 ,CrowTopic.Color_BLACK, GlobalValue::Font_JejuHanlasan},
+		{ L"마녀 까마귀는 그렇게 말이 잘 통하는 편은 아니지." , ECONVERSATIONENTITY::Virgil, 1 ,{ConversationFont::Color_BLACK , GlobalValue::Font_JejuHanlasan}},
 		 },
 	};
 }

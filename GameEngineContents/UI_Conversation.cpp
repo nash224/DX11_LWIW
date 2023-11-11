@@ -368,8 +368,8 @@ void UI_Conversation::StartConversation(std::string_view _NPCSpriteName, int _De
 
 void UI_Conversation::ShowConversation(const ConversationData& _Data)
 {
-	Dialogue.FontName = _Data.Font;
-	Dialogue.FontColor = _Data.Color;
+	Dialogue.FontName = _Data.Font.FontName;
+	Dialogue.FontColor = _Data.Font.Color;
 
 	bool VirgilNotConverse = (ECONVERSATIONENTITY::Virgil != _Data.ConversationEntity);
 	if (true == isJustVirgilTalked && VirgilNotConverse)

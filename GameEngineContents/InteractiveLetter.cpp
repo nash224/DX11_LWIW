@@ -80,16 +80,16 @@ void InteractiveLetter::ConversationSetting()
 
 		StartTrainingTopic.Data.reserve(64);
 		StartTrainingTopic.Data =
-		{
+		{ 
 			{ L"편지다!" , ECONVERSATIONENTITY::Ellie, 1},
-			{ L"누가 이렇게 친절한 사람이 있지." , ECONVERSATIONENTITY::Virgil, 1, StartTrainingTopic.Color_BLACK, GlobalValue::Font_JejuHanlasan },
+			{ L"누가 이렇게 친절한 사람이 있지." , ECONVERSATIONENTITY::Virgil, 1, {ConversationFont::Color_BLACK, GlobalValue::Font_JejuHanlasan} },
 			{ L"어디보자, 마녀 수습에 대한 내용같아." , ECONVERSATIONENTITY::Ellie, 11},
 			{ L"정식으로 마녀가 되는 조건은 폭죽 물약을 제조하는 것입니다." , ECONVERSATIONENTITY::NPC },
 			{ L"마녀의 작업실에서 폭죽 물약을 제조하면 수습기간이 종료됩니다." , ECONVERSATIONENTITY::NPC },
-			{ L"(스토리는 원작과 다릅니다.)" , ECONVERSATIONENTITY::NPC, 3, StartTrainingTopic.Color_RED },
+			{ L"(스토리는 원작과 다릅니다.)" , ECONVERSATIONENTITY::NPC, 3, ConversationFont::Color_RED },
 			{ L"폭죽 물약을 만들면 정식 마녀가 될 수 있대!" , ECONVERSATIONENTITY::Ellie, 8},
-			{ L"마녀의 집을 한 번 청소하는 건 어때." , ECONVERSATIONENTITY::Virgil, 1, StartTrainingTopic.Color_BLACK, GlobalValue::Font_JejuHanlasan },
-			{ L"수습기간은 그곳에서 지내야 할 것 같은데." , ECONVERSATIONENTITY::Virgil, 1, StartTrainingTopic.Color_BLACK, GlobalValue::Font_JejuHanlasan },
+			{ L"마녀의 집을 한 번 청소하는 건 어때." , ECONVERSATIONENTITY::Virgil, 1, {ConversationFont::Color_BLACK, GlobalValue::Font_JejuHanlasan} },
+			{ L"수습기간은 그곳에서 지내야 할 것 같은데." , ECONVERSATIONENTITY::Virgil, 1, {ConversationFont::Color_BLACK, GlobalValue::Font_JejuHanlasan} },
 			{ L"그래!" , ECONVERSATIONENTITY::Ellie, 8},
 		};
 
