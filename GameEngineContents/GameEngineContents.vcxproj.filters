@@ -223,6 +223,9 @@
     <Filter Include="3.Actor\7.UI">
       <UniqueIdentifier>{5e5632f7-a19b-44da-a59b-7eb2b399937c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3.Actor\2.Interactive\Static\Dust">
+      <UniqueIdentifier>{db8df703-58b8-401b-bbb9-81f78c5a5d4c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -582,6 +585,9 @@
     </ClInclude>
     <ClInclude Include="UI_Frame.h">
       <Filter>3.Actor\7.UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Dust.h">
+      <Filter>3.Actor\2.Interactive\Static\Dust</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -976,6 +982,9 @@
     </ClCompile>
     <ClCompile Include="UI_Frame.cpp">
       <Filter>3.Actor\7.UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Dust.cpp">
+      <Filter>3.Actor\2.Interactive\Static\Dust</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

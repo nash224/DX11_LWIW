@@ -230,6 +230,10 @@
     </ClCompile>
     <ClCompile Include="ContentsEvent_Aurea.cpp" />
     <ClCompile Include="ContentsEvent_Other.cpp" />
+    <ClCompile Include="Dust.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Ellie_Broom_Resources.cpp" />
     <ClCompile Include="Conversation.cpp">
       <SubType>
@@ -711,6 +715,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="CrowEvent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Dust.h">
       <SubType>
       </SubType>
     </ClInclude>

@@ -57,6 +57,9 @@ void CrowEvent::Init()
 		GameEngineSprite::CreateCut("Crow.png", 4, 4);
 	}
 
+	const float4 CrowPosition = float4(435.0f, -250.0f, GlobalUtils::CalculateFixDepth(ERENDERDEPTH::FX));
+	Transform.SetLocalPosition(CrowPosition);
+
 	RendererSetting();
 	StateSetting();
 	ConversationSetting();
@@ -65,10 +68,6 @@ void CrowEvent::Init()
 	{
 		UIManager::MainUIManager->UseUIComponent();
 	}
-
-
-	const float4 CrowPosition = float4(435.0f, -250.0f, GlobalUtils::CalculateFixDepth(ERENDERDEPTH::FX));
-	Transform.SetLocalPosition(CrowPosition);
 }
 
 void CrowEvent::RendererSetting()
@@ -83,6 +82,8 @@ void CrowEvent::RendererSetting()
 	CrowRenderer->CreateAnimation("CawReverse", "Crow.png", Caw_Animation_Inter, 4, 2, false);
 	CrowRenderer->CreateAnimation("Disappear", "Crow.png", Disappear_Animation_Inter, 5, 15, false);
 	CrowRenderer->FindAnimation("Disappear")->Inter[10] = 1.0f;
+
+
 
 	CrowRenderer->SetEndEvent("Caw", [&](GameEngineSpriteRenderer* _Parent)
 		{
@@ -216,7 +217,6 @@ void CrowEvent::ConversationSetting()
 				MsgBoxAssert("UI매니저가 존재하지 않습니다.");
 				return;
 			}
-
 
 			UIManager::MainUIManager->UseUIComponent();
 
