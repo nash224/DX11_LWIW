@@ -52,11 +52,6 @@ void ContentsLevel::LevelStart(class GameEngineLevel* _NextLevel)
 	}
 }
 
-void ContentsLevel::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-	
-}
-
 
 // 디버그 모드 전환
 void ContentsLevel::ChangeDebugMode()

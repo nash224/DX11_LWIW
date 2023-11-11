@@ -13,7 +13,6 @@
 #include "UI_MainMenu_Button.h"
 #include "TitleUI.h"
 
-
 MainMenu::MainMenu()
 	: m_BackDrop(nullptr)
 {

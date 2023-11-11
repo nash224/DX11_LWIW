@@ -79,7 +79,6 @@ void UI_Hub_Calender::RendererSetting()
 	Calender.Symbol->AutoSpriteSizeOn();
 	Calender.Symbol->SetAutoScaleRatio(0.76f);
 
-
 	Calender.Font_Day = CreateComponent<GameEngineUIRenderer>(RendererOrder);
 	Calender.Font_Day->Transform.SetLocalPosition(float4(-26.0f, 42.0f, CalenderDepth));
 	Calender.Font_Day->GetColorData().MulColor = float4::ONE;

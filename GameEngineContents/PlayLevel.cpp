@@ -14,14 +14,9 @@
 // Actor
 #include "Ellie.h"
 #include "FadeObject.h"
-
-#include "SkyLightEffect.h"
-
 #include "UI_Alert_Enter.h"
 
-
-
-
+#include "SkyLightEffect.h"
 
 std::unique_ptr<TimeManager> PlayLevel::s_TimeManager;
 std::unique_ptr<AlertManager> PlayLevel::s_AlertManager;
@@ -59,9 +54,7 @@ void PlayLevel::Start()
 		MainPlaySound = std::make_unique<PlaySoundInfo>();
 	}
 
-	{
-		GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<SkyLightEffect>();
-	}
+	EffectSetting();
 }
 
 void PlayLevel::Update(float _Delta)
@@ -86,8 +79,10 @@ void PlayLevel::LevelStart(GameEngineLevel* _NextLevel)
 
 	LevelInitCheck = true;
 
-	std::shared_ptr<FadeObject> Fade = CreateActor<FadeObject>(EUPDATEORDER::Fade);
-	Fade->CallFadeIn(0.2f);
+	{
+		std::shared_ptr<FadeObject> Fade = CreateActor<FadeObject>(EUPDATEORDER::Fade);
+		Fade->CallFadeIn(0.2f);
+	}
 
 
 	if (false == LocationKRName.empty())
@@ -192,4 +187,11 @@ void PlayLevel::PlaySoundInfo::SetVolume(float _Value)
 	}
 
 	BGMVolume = _Value;
+}
+
+void PlayLevel::EffectSetting()
+{
+	{
+		GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<SkyLightEffect>();
+	}
 }

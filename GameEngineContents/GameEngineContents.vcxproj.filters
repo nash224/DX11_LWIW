@@ -100,18 +100,6 @@
     <Filter Include="3.Actor\1.BackManager">
       <UniqueIdentifier>{1b0dee99-207d-445b-aa25-16e8f1c21756}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3.Actor\1.BackManager\LevelBackDrop">
-      <UniqueIdentifier>{ab990094-0a41-46ab-8fd7-2d6165e2048a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3.Actor\1.BackManager\LevelBackDrop\1.MainMenu">
-      <UniqueIdentifier>{e95f5b82-f9b3-4125-9c6f-0af11164f6dc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3.Actor\1.BackManager\LevelBackDrop\2.Play">
-      <UniqueIdentifier>{7225245d-3e89-4098-9cfd-3cfb1d98b3d0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3.Actor\1.BackManager\LevelBackDrop\2.Play\Yard">
-      <UniqueIdentifier>{9b1df275-f0ef-483d-b8d9-45c1837233dc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="3.Actor\2.Interactive">
       <UniqueIdentifier>{e2fea63f-3b07-4ea3-a0c6-8afed64b65e4}</UniqueIdentifier>
     </Filter>
@@ -199,14 +187,26 @@
     <Filter Include="3.Actor\4.Portal">
       <UniqueIdentifier>{0b367fee-0d15-47ce-83bf-b9af5cab23d3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3.Actor\1.BackManager\LevelBackDrop\2.Play\CenterField">
-      <UniqueIdentifier>{11d30a68-7047-48f3-810a-b975f15773e1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="3.Actor\2.Interactive\NPC\Aurea">
       <UniqueIdentifier>{3578f941-8de8-41f5-b58b-4137b0dd72f3}</UniqueIdentifier>
     </Filter>
     <Filter Include="3.Actor\2.Interactive\Static\Plant\SilverBellFlower">
       <UniqueIdentifier>{ef2cf91a-b5b9-4066-a22c-448abcd8977f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3.Actor\1.BackManager\1.MainMenu">
+      <UniqueIdentifier>{e95f5b82-f9b3-4125-9c6f-0af11164f6dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3.Actor\1.BackManager\2.Play">
+      <UniqueIdentifier>{7225245d-3e89-4098-9cfd-3cfb1d98b3d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3.Actor\1.BackManager\2.Play\Yard">
+      <UniqueIdentifier>{9b1df275-f0ef-483d-b8d9-45c1837233dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3.Actor\1.BackManager\2.Play\CenterField">
+      <UniqueIdentifier>{11d30a68-7047-48f3-810a-b975f15773e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="100.Z_Test\Effect">
+      <UniqueIdentifier>{ff7ca997-bcf9-4aa5-a743-8142eecac38c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -326,19 +326,16 @@
       <Filter>3.Actor\0.Manager\UIManager\5.Mark</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_WitchHouse_DownFloor.h">
-      <Filter>3.Actor\1.BackManager\LevelBackDrop\2.Play</Filter>
+      <Filter>3.Actor\1.BackManager\2.Play</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_WitchHouse_UpFloor.h">
-      <Filter>3.Actor\1.BackManager\LevelBackDrop\2.Play</Filter>
+      <Filter>3.Actor\1.BackManager\2.Play</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_MainMenu.h">
-      <Filter>3.Actor\1.BackManager\LevelBackDrop\1.MainMenu</Filter>
+      <Filter>3.Actor\1.BackManager\1.MainMenu</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_PlayLevel.h">
-      <Filter>3.Actor\1.BackManager\LevelBackDrop\2.Play</Filter>
-    </ClInclude>
-    <ClInclude Include="BackDrop.h">
-      <Filter>3.Actor\1.BackManager\LevelBackDrop</Filter>
+      <Filter>3.Actor\1.BackManager\2.Play</Filter>
     </ClInclude>
     <ClInclude Include="LootedItem.h">
       <Filter>3.Actor\2.Interactive\Static</Filter>
@@ -464,10 +461,10 @@
       <Filter>3.Actor\0.Manager\ConversationManager</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_WitchHouse_Yard.h">
-      <Filter>3.Actor\1.BackManager\LevelBackDrop\2.Play\Yard</Filter>
+      <Filter>3.Actor\1.BackManager\2.Play\Yard</Filter>
     </ClInclude>
     <ClInclude Include="CrowEvent.h">
-      <Filter>3.Actor\1.BackManager\LevelBackDrop\2.Play\Yard</Filter>
+      <Filter>3.Actor\1.BackManager\2.Play\Yard</Filter>
     </ClInclude>
     <ClInclude Include="FieldLevel.h">
       <Filter>2.Level\2.Play\0.PlayLevel</Filter>
@@ -515,19 +512,13 @@
       <Filter>3.Actor\2.Interactive\Dynamic\Ellie\Broom\Ride_Fx</Filter>
     </ClInclude>
     <ClInclude Include="UI_MainMenu_Button.h">
-      <Filter>3.Actor\1.BackManager\LevelBackDrop\1.MainMenu</Filter>
+      <Filter>3.Actor\1.BackManager\1.MainMenu</Filter>
     </ClInclude>
     <ClInclude Include="PixelCollision.h">
       <Filter>PixelCollision</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_Field.h">
-      <Filter>3.Actor\1.BackManager\LevelBackDrop\2.Play</Filter>
-    </ClInclude>
-    <ClInclude Include="VirgilHat.h">
-      <Filter>Rendering\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerEffect.h">
-      <Filter>Rendering\Effect</Filter>
+      <Filter>3.Actor\1.BackManager\2.Play</Filter>
     </ClInclude>
     <ClInclude Include="ContentsLevel.h">
       <Filter>2.Level</Filter>
@@ -542,10 +533,10 @@
       <Filter>Rendering\Effect</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_CenterField.h">
-      <Filter>3.Actor\1.BackManager\LevelBackDrop\2.Play\CenterField</Filter>
+      <Filter>3.Actor\1.BackManager\2.Play\CenterField</Filter>
     </ClInclude>
     <ClInclude Include="AureaFindEvent.h">
-      <Filter>3.Actor\1.BackManager\LevelBackDrop\2.Play\CenterField</Filter>
+      <Filter>3.Actor\1.BackManager\2.Play\CenterField</Filter>
     </ClInclude>
     <ClInclude Include="Aurea.h">
       <Filter>3.Actor\2.Interactive\NPC\Aurea</Filter>
@@ -561,6 +552,15 @@
     </ClInclude>
     <ClInclude Include="OutLineEffect.h">
       <Filter>Rendering\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="BackDrop.h">
+      <Filter>3.Actor\1.BackManager</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerEffect.h">
+      <Filter>100.Z_Test\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="VirgilHat.h">
+      <Filter>100.Z_Test\Effect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -680,19 +680,16 @@
       <Filter>3.Actor\0.Manager\UIManager\5.Mark</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_WitchHouse_DownFloor.cpp">
-      <Filter>3.Actor\1.BackManager\LevelBackDrop\2.Play</Filter>
+      <Filter>3.Actor\1.BackManager\2.Play</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_WitchHouse_UpFloor.cpp">
-      <Filter>3.Actor\1.BackManager\LevelBackDrop\2.Play</Filter>
+      <Filter>3.Actor\1.BackManager\2.Play</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_MainMenu.cpp">
-      <Filter>3.Actor\1.BackManager\LevelBackDrop\1.MainMenu</Filter>
+      <Filter>3.Actor\1.BackManager\1.MainMenu</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_PlayLevel.cpp">
-      <Filter>3.Actor\1.BackManager\LevelBackDrop\2.Play</Filter>
-    </ClCompile>
-    <ClCompile Include="BackDrop.cpp">
-      <Filter>3.Actor\1.BackManager\LevelBackDrop</Filter>
+      <Filter>3.Actor\1.BackManager\2.Play</Filter>
     </ClCompile>
     <ClCompile Include="LootedItem.cpp">
       <Filter>3.Actor\2.Interactive\Static</Filter>
@@ -834,10 +831,10 @@
       <Filter>0.Data\Event</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_WitchHouse_Yard.cpp">
-      <Filter>3.Actor\1.BackManager\LevelBackDrop\2.Play\Yard</Filter>
+      <Filter>3.Actor\1.BackManager\2.Play\Yard</Filter>
     </ClCompile>
     <ClCompile Include="CrowEvent.cpp">
-      <Filter>3.Actor\1.BackManager\LevelBackDrop\2.Play\Yard</Filter>
+      <Filter>3.Actor\1.BackManager\2.Play\Yard</Filter>
     </ClCompile>
     <ClCompile Include="FieldLevel.cpp">
       <Filter>2.Level\2.Play\0.PlayLevel</Filter>
@@ -894,7 +891,7 @@
       <Filter>3.Actor\2.Interactive\Dynamic\Ellie</Filter>
     </ClCompile>
     <ClCompile Include="UI_MainMenu_Button.cpp">
-      <Filter>3.Actor\1.BackManager\LevelBackDrop\1.MainMenu</Filter>
+      <Filter>3.Actor\1.BackManager\1.MainMenu</Filter>
     </ClCompile>
     <ClCompile Include="Ellie_Riding_State.cpp">
       <Filter>3.Actor\2.Interactive\Dynamic\Ellie\Broom</Filter>
@@ -906,13 +903,7 @@
       <Filter>PixelCollision</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_Field.cpp">
-      <Filter>3.Actor\1.BackManager\LevelBackDrop\2.Play</Filter>
-    </ClCompile>
-    <ClCompile Include="VirgilHat.cpp">
-      <Filter>Rendering\Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerEffect.cpp">
-      <Filter>Rendering\Effect</Filter>
+      <Filter>3.Actor\1.BackManager\2.Play</Filter>
     </ClCompile>
     <ClCompile Include="ContentsLevel.cpp">
       <Filter>2.Level</Filter>
@@ -924,10 +915,10 @@
       <Filter>0.Data\Event</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_CenterField.cpp">
-      <Filter>3.Actor\1.BackManager\LevelBackDrop\2.Play\CenterField</Filter>
+      <Filter>3.Actor\1.BackManager\2.Play\CenterField</Filter>
     </ClCompile>
     <ClCompile Include="AureaFindEvent.cpp">
-      <Filter>3.Actor\1.BackManager\LevelBackDrop\2.Play\CenterField</Filter>
+      <Filter>3.Actor\1.BackManager\2.Play\CenterField</Filter>
     </ClCompile>
     <ClCompile Include="AureaEvent.cpp">
       <Filter>3.Actor\2.Interactive\NPC\Aurea</Filter>
@@ -946,6 +937,15 @@
     </ClCompile>
     <ClCompile Include="OutLineEffect.cpp">
       <Filter>Rendering\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="BackDrop.cpp">
+      <Filter>3.Actor\1.BackManager</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerEffect.cpp">
+      <Filter>100.Z_Test\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="VirgilHat.cpp">
+      <Filter>100.Z_Test\Effect</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

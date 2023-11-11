@@ -64,6 +64,8 @@ protected:
 
 
 private:
+	void EffectSetting();
+
 	void CreateUIManager();
 	void CreateEllie();
 
