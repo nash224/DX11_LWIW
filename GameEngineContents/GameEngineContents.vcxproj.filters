@@ -226,6 +226,9 @@
     <Filter Include="3.Actor\2.Interactive\Static\Dust">
       <UniqueIdentifier>{db8df703-58b8-401b-bbb9-81f78c5a5d4c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Rendering\Renderer">
+      <UniqueIdentifier>{b71b1228-45b1-49bf-9216-c4f6589117ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -600,6 +603,12 @@
     </ClInclude>
     <ClInclude Include="Dust_Elevator.h">
       <Filter>3.Actor\2.Interactive\Static\Dust</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsSpriteRenderer.h">
+      <Filter>Rendering\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsUIRenderer.h">
+      <Filter>Rendering\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1009,6 +1018,12 @@
     </ClCompile>
     <ClCompile Include="Dust_Elevator.cpp">
       <Filter>3.Actor\2.Interactive\Static\Dust</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsSpriteRenderer.cpp">
+      <Filter>Rendering\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsUIRenderer.cpp">
+      <Filter>Rendering\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

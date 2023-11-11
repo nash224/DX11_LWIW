@@ -13,24 +13,16 @@ UI_Hub_Stamina::~UI_Hub_Stamina()
 }
 
 
-void UI_Hub_Stamina::Start()
-{
-
-}
-
 void UI_Hub_Stamina::Update(float _Delta)
 {
+	float LiveTime = GetLiveTime();
+	float GaugeValue = 1.0f - LiveTime / 5.0f;
+	if (GaugeValue < 0.0f)
+	{
+		GaugeValue = 0.0f;
+	}
 
-}
-
-void UI_Hub_Stamina::LevelStart(class GameEngineLevel* _NextLevel)
-{
-
-}
-
-void UI_Hub_Stamina::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-
+	m_GaugeComposition.StaminaGauge->GetGaugeInfo().Gauge = GaugeValue;
 }
 
 
@@ -45,8 +37,9 @@ void UI_Hub_Stamina::Init()
 	m_GaugeComposition.Frame->SetSprite("HUD_Gauge_Frame.png");
 
 
-	m_GaugeComposition.StaminaGauge = CreateComponent<GameEngineUIRenderer>();
+	m_GaugeComposition.StaminaGauge = CreateComponent<ContentsUIRenderer>();
 	m_GaugeComposition.StaminaGauge->Transform.SetLocalPosition({ 0.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Gauge2) });
+	m_GaugeComposition.StaminaGauge->SetMaterial("LineGaugeTexture2D");
 	m_GaugeComposition.StaminaGauge->SetSprite("HUD_Gauge_1.png");
 
 

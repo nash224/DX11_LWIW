@@ -1,11 +1,12 @@
 #pragma once
 #include "UI_Hub_Actor.h"
+#include "ContentsUIRenderer.h"
 
 struct GaugeComposition
 {
 public:
 	std::shared_ptr<GameEngineUIRenderer> Frame = nullptr;
-	std::shared_ptr<GameEngineUIRenderer> StaminaGauge = nullptr;
+	std::shared_ptr<ContentsUIRenderer> StaminaGauge = nullptr;
 	std::shared_ptr<GameEngineUIRenderer> RecoverableGauge = nullptr;
 	std::shared_ptr<GameEngineUIRenderer> Indicator = nullptr;
 
@@ -33,10 +34,10 @@ public:
 	static void AddGauge(int _Value);
 
 protected:
-	void Start() override;
+	void Start() override {}
 	void Update(float _Delta) override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
-	void LevelEnd(class GameEngineLevel* _NextLevel) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
+	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 private:
 	GaugeComposition m_GaugeComposition;

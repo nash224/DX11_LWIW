@@ -132,6 +132,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <FxCompile Include="ContentsRenderBase.fx" />
+    <FxCompile Include="LineGaugeShader.fx" />
     <FxCompile Include="OutLineEffect.fx" />
     <FxCompile Include="SkyLightEffect.fx" />
     <FxCompile Include="TestShader.fx" />

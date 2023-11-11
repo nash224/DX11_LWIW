@@ -1,13 +1,13 @@
 #pragma once
-#include "GameEngineRenderer.h"
-#include "GameEngineSprite.h"
+#include <GameEngineCore/GameEngineRenderer.h>
+#include <GameEngineCore/GameEngineSprite.h>
 
-class GameEngineFrameAnimation
+class ContentsFrameAnimation
 {
-	friend class GameEngineSpriteRenderer;
+	friend class ContentsSpriteRenderer;
 
 public:
-	GameEngineSpriteRenderer* Parent = nullptr;
+	ContentsSpriteRenderer* Parent = nullptr;
 
 	std::string AnimationName;
 	std::string SpriteName;
@@ -15,15 +15,15 @@ public:
 	std::shared_ptr<GameEngineSprite> Sprite = nullptr;
 
 	// float Inter;
-	bool Loop;
-	bool IsEnd;
+	bool Loop = true;
+	bool IsEnd = false;
 
 	bool EventCheck = false;
 
-	int Start;
-	int End;
-	int InterIndex;
-	int CurIndex;
+	int Start = -1;
+	int End = -1;
+	int InterIndex = 0;
+	int CurIndex = 0;
 	float CurTime = 0.0f;
 
 	std::vector<int> Index;
@@ -32,9 +32,9 @@ public:
 
 	std::function<void(const SpriteData& CurSprite, int _SpriteIndex)> FrameChangeFunction;
 
-	std::map<int, std::function<void(GameEngineSpriteRenderer*)>> FrameEventFunction;
+	std::map<int, std::function<void(ContentsSpriteRenderer*)>> FrameEventFunction;
 
-	std::function<void(GameEngineSpriteRenderer*)> EndEvent;
+	std::function<void(ContentsSpriteRenderer*)> EndEvent;
 
 	SpriteData Update(float _DeltaTime);
 
@@ -44,55 +44,31 @@ public:
 	std::vector<float> Inter;
 };
 
-enum class PivotType
-{
-	Center,
-	Top,
-	RightUp,
-	Right,
-	RightBottom,
-	Bottom,
-	LeftBottom,
-	Left,
-	LeftTop,
-};
 
 
-enum class MaskMode
+struct GaugeInfo
 {
-	StaticMask, // 스크린 좌표계로 마스크를 
-	DynamicMask, // 스크린좌표계인데 랜더러의 위치에 따라서 마스크 위치를 변경한다.
-};
-
-struct SpriteRendererInfo
-{
-	int FlipLeft = 0;
-	int FlipUp = 0;
-	float Temp1 = 0.0f;
-	float Temp2 = 0.0f;
-};
-
-struct ColorData
-{
-	float4 PlusColor = float4::ZERONULL; // 최종색상에 더한다.
-	float4 MulColor = float4::ONE; // 최종색상에 곱한다.
+	float Gauge = 1.0f;
+	int FromLeft = 0;
+	float GaugeTemp1 = 0.0f;
+	float GaugeTemp2 = 0.0f;
 };
 
 // 설명 :
-class GameEngineSpriteRenderer : public GameEngineRenderer
+class ContentsSpriteRenderer : public GameEngineRenderer
 {
-	friend GameEngineFrameAnimation;
+	friend ContentsFrameAnimation;
 
 public:
 	// constrcuter destructer
-	GameEngineSpriteRenderer();
-	~GameEngineSpriteRenderer();
+	ContentsSpriteRenderer();
+	~ContentsSpriteRenderer();
 
 	// delete Function
-	GameEngineSpriteRenderer(const GameEngineSpriteRenderer& _Other) = delete;
-	GameEngineSpriteRenderer(GameEngineSpriteRenderer&& _Other) noexcept = delete;
-	GameEngineSpriteRenderer& operator=(const GameEngineSpriteRenderer& _Other) = delete;
-	GameEngineSpriteRenderer& operator=(GameEngineSpriteRenderer&& _Other) noexcept = delete;
+	ContentsSpriteRenderer(const ContentsSpriteRenderer& _Other) = delete;
+	ContentsSpriteRenderer(ContentsSpriteRenderer&& _Other) noexcept = delete;
+	ContentsSpriteRenderer& operator=(const ContentsSpriteRenderer& _Other) = delete;
+	ContentsSpriteRenderer& operator=(ContentsSpriteRenderer&& _Other) noexcept = delete;
 
 	// 스프라이트는 기본적으로 
 	// 강제로 애니메이션을 정지한다는 뜻으로 받아들이겠다.
@@ -159,7 +135,7 @@ public:
 		return CurFrameAnimations->AnimationName == _AnimationName;
 	}
 
-	std::shared_ptr<GameEngineFrameAnimation> FindAnimation(std::string_view _AnimationName)
+	std::shared_ptr<ContentsFrameAnimation> FindAnimation(std::string_view _AnimationName)
 	{
 		std::string UpperName = GameEngineString::ToUpperReturn(_AnimationName);
 
@@ -175,9 +151,9 @@ public:
 	void AnimationPauseOn();
 	void AnimationPauseOff();
 
-	void SetStartEvent(std::string_view _AnimationName, std::function<void(GameEngineSpriteRenderer*)> _Function);
-	void SetEndEvent(std::string_view _AnimationName, std::function<void(GameEngineSpriteRenderer*)> _Function);
-	void SetFrameEvent(std::string_view _AnimationName, int _Frame, std::function<void(GameEngineSpriteRenderer*)> _Function);
+	void SetStartEvent(std::string_view _AnimationName, std::function<void(ContentsSpriteRenderer*)> _Function);
+	void SetEndEvent(std::string_view _AnimationName, std::function<void(ContentsSpriteRenderer*)> _Function);
+	void SetFrameEvent(std::string_view _AnimationName, int _Frame, std::function<void(ContentsSpriteRenderer*)> _Function);
 
 	void SetFrameChangeFunction(std::string_view _AnimationName, std::function<void(const SpriteData& CurSprite, int _SpriteIndex)> _Function);
 	void SetFrameChangeFunctionAll(std::function<void(const SpriteData& CurSprite, int _SpriteIndex)> _Function);
@@ -213,7 +189,7 @@ public:
 		return CurFrameAnimations->CurIndex;
 	}
 
-	std::shared_ptr<GameEngineFrameAnimation> CurAnimation()
+	std::shared_ptr<ContentsFrameAnimation> CurAnimation()
 	{
 		return CurFrameAnimations;
 	}
@@ -234,6 +210,11 @@ public:
 	void SetTextColor(const float4& _Color = float4::RED, unsigned int _Index = 0);
 	void SetTextAlpha(float _AlphaValue = 1.0f, unsigned int _Index = 0);
 
+	GaugeInfo& GetGaugeInfo()
+	{
+		return GaugeInfoValue;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -241,14 +222,12 @@ protected:
 	void SetMaterialEvent(std::string_view _Name, int _Index) override;
 
 	int Index = 0;
-	
+
 
 private:
-	// 부모인 actor를 기준으로한
+	std::map<std::string, std::shared_ptr<ContentsFrameAnimation>> FrameAnimations;
 
-	std::map<std::string, std::shared_ptr<GameEngineFrameAnimation>> FrameAnimations;
-
-	std::shared_ptr<GameEngineFrameAnimation> CurFrameAnimations;
+	std::shared_ptr<ContentsFrameAnimation> CurFrameAnimations;
 
 	std::shared_ptr<GameEngineSprite> Sprite;
 	SpriteData CurSprite;
@@ -263,6 +242,7 @@ private:
 	float4 Pivot = { 0.5f, 0.5f };
 
 	ColorData ColorDataValue;
+	GaugeInfo GaugeInfoValue;
 
 	GameEngineTransform ImageTransform;
 

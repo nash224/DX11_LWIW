@@ -230,6 +230,14 @@
     </ClCompile>
     <ClCompile Include="ContentsEvent_Aurea.cpp" />
     <ClCompile Include="ContentsEvent_Other.cpp" />
+    <ClCompile Include="ContentsSpriteRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ContentsUIRenderer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Dust.cpp">
       <SubType>
       </SubType>
@@ -723,6 +731,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="BackDrop_WitchHouse_Yard.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ContentsSpriteRenderer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ContentsUIRenderer.h">
       <SubType>
       </SubType>
     </ClInclude>

@@ -195,6 +195,12 @@ void ContentsCore::InitMaterialResoruces()
 		Mat->SetPixelShader("OutLineEffect_PS");
 		Mat->SetDepthState("AlwaysDepth");
 	}
+
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("LineGaugeTexture2D");
+		Mat->SetVertexShader("LineGaugeShader_VS");
+		Mat->SetPixelShader("LineGaugeShader_PS");
+	}
 }
 
 void ContentsCore::InitAutoCompile()

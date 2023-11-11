@@ -13,6 +13,9 @@
     <FxCompile Include="OutLineEffect.fx">
       <Filter>Effect</Filter>
     </FxCompile>
+    <FxCompile Include="LineGaugeShader.fx">
+      <Filter>2D</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Effect">
@@ -23,6 +26,9 @@
     </Filter>
     <Filter Include="Buffer">
       <UniqueIdentifier>{4010c7f6-f021-4aef-94c4-8f8f46c72803}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2D">
+      <UniqueIdentifier>{d26b2f98-f3e7-44f4-a197-6716b12de78e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

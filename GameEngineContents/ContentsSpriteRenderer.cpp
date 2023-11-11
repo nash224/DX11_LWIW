@@ -1,11 +1,11 @@
 #include "PreCompile.h"
-#include "GameEngineSpriteRenderer.h"
-#include "GameEngineTexture.h"
-#include "GameEngineSampler.h"
-#include "GameEngineConstantBuffer.h"
+#include "ContentsSpriteRenderer.h"
+#include <GameEngineCore/GameEngineTexture.h>
+#include <GameEngineCore/GameEngineSampler.h>
+#include <GameEngineCore/GameEngineConstantBuffer.h>
 
 
-void GameEngineFrameAnimation::EventCall(int _Frame)
+void ContentsFrameAnimation::EventCall(int _Frame)
 {
 	if (true == FrameEventFunction.contains(Index[_Frame]))
 	{
@@ -13,7 +13,7 @@ void GameEngineFrameAnimation::EventCall(int _Frame)
 	}
 }
 
-void GameEngineFrameAnimation::Reset()
+void ContentsFrameAnimation::Reset()
 {
 	CurTime = 0.0f;
 	CurIndex = 0;
@@ -22,7 +22,7 @@ void GameEngineFrameAnimation::Reset()
 
 }
 
-SpriteData GameEngineFrameAnimation::Update(float _DeltaTime)
+SpriteData ContentsFrameAnimation::Update(float _DeltaTime)
 {
 	if (true == Parent->IsPause)
 	{
@@ -39,13 +39,6 @@ SpriteData GameEngineFrameAnimation::Update(float _DeltaTime)
 		EventCall(CurIndex);
 		EventCheck = false;
 	}
-
-	//if (nullptr != FrameChangeFunction && Once == false)
-	//{
-	//	SpriteData Data = Sprite->GetSpriteData(Index[CurIndex]);
-	//	FrameChangeFunction(Data, CurIndex);
-	//	Once = true; 
-	//}
 
 
 	CurTime += _DeltaTime;
@@ -93,26 +86,26 @@ SpriteData GameEngineFrameAnimation::Update(float _DeltaTime)
 	return Sprite->GetSpriteData(Index[CurIndex]);
 }
 
-GameEngineSpriteRenderer::GameEngineSpriteRenderer()
+ContentsSpriteRenderer::ContentsSpriteRenderer()
 {
 }
 
-GameEngineSpriteRenderer::~GameEngineSpriteRenderer()
+ContentsSpriteRenderer::~ContentsSpriteRenderer()
 {
 }
 
-void GameEngineSpriteRenderer::Start()
+void ContentsSpriteRenderer::Start()
 {
 	GameEngineRenderer::Start();
 
 	ImageTransform.SetParent(Transform);
 
 	GameEngineRenderer::SetMesh("Rect");
-	GameEngineRenderer::SetMaterial("2DTexture");
+
 }
 
 // Update Order에 영향을 받는다.
-void GameEngineSpriteRenderer::Update(float _Delta)
+void ContentsSpriteRenderer::Update(float _Delta)
 {
 	if (nullptr != CurFrameAnimations)
 	{
@@ -131,18 +124,18 @@ void GameEngineSpriteRenderer::Update(float _Delta)
 	RenderBaseInfoValue.RenderScreenScale = CurSprite.GetScale();
 }
 
-void GameEngineSpriteRenderer::SetImageScale(const float4& _Scale)
+void ContentsSpriteRenderer::SetImageScale(const float4& _Scale)
 {
 	ImageTransform.SetLocalScale(_Scale);
 }
 
-void GameEngineSpriteRenderer::AddImageScale(const float4& _Scale)
+void ContentsSpriteRenderer::AddImageScale(const float4& _Scale)
 {
 	ImageTransform.AddLocalScale(_Scale);
 }
 
 
-void GameEngineSpriteRenderer::Render(GameEngineCamera* _Camera, float _Delta)
+void ContentsSpriteRenderer::Render(GameEngineCamera* _Camera, float _Delta)
 {
 	float4 ParentScale = Transform.GetLocalScale();
 	float4 Scale = ImageTransform.GetLocalScale();
@@ -166,7 +159,7 @@ void GameEngineSpriteRenderer::Render(GameEngineCamera* _Camera, float _Delta)
 
 }
 
-void GameEngineSpriteRenderer::SetSprite(std::string_view _Name, unsigned int index /*= 0*/)
+void ContentsSpriteRenderer::SetSprite(std::string_view _Name, unsigned int index /*= 0*/)
 {
 	CurFrameAnimations = nullptr;
 
@@ -182,7 +175,7 @@ void GameEngineSpriteRenderer::SetSprite(std::string_view _Name, unsigned int in
 }
 
 
-void GameEngineSpriteRenderer::ChangeCurSprite(int _Index /*= 0*/)
+void ContentsSpriteRenderer::ChangeCurSprite(int _Index /*= 0*/)
 {
 	CurFrameAnimations = nullptr;
 
@@ -194,7 +187,7 @@ void GameEngineSpriteRenderer::ChangeCurSprite(int _Index /*= 0*/)
 	CurSprite = Sprite->GetSpriteData(_Index);
 }
 
-void GameEngineSpriteRenderer::CreateAnimation(
+void ContentsSpriteRenderer::CreateAnimation(
 	std::string_view _AnimationName,
 	std::string_view _SpriteName,
 	float _Inter /*= 0.1f*/,
@@ -219,7 +212,7 @@ void GameEngineSpriteRenderer::CreateAnimation(
 		return;
 	}
 
-	std::shared_ptr<GameEngineFrameAnimation> NewAnimation = std::make_shared<GameEngineFrameAnimation>();
+	std::shared_ptr<ContentsFrameAnimation> NewAnimation = std::make_shared<ContentsFrameAnimation>();
 	FrameAnimations[UpperName] = NewAnimation;
 	NewAnimation->AnimationName = _AnimationName;
 	NewAnimation->SpriteName = _SpriteName;
@@ -282,11 +275,11 @@ void GameEngineSpriteRenderer::CreateAnimation(
 	NewAnimation->CurIndex = 0;
 }
 
-void GameEngineSpriteRenderer::ChangeAnimation(std::string_view _AnimationName, bool _Force /*= false*/, unsigned int _FrameIndex /*= 0*/)
+void ContentsSpriteRenderer::ChangeAnimation(std::string_view _AnimationName, bool _Force /*= false*/, unsigned int _FrameIndex /*= 0*/)
 {
 	std::string UpperName = GameEngineString::ToUpperReturn(_AnimationName);
 
-	std::map<std::string, std::shared_ptr<GameEngineFrameAnimation>>::iterator FindIter
+	std::map<std::string, std::shared_ptr<ContentsFrameAnimation>>::iterator FindIter
 		= FrameAnimations.find(UpperName);
 
 	if (FindIter == FrameAnimations.end())
@@ -313,23 +306,23 @@ void GameEngineSpriteRenderer::ChangeAnimation(std::string_view _AnimationName, 
 	}
 }
 
-void GameEngineSpriteRenderer::AutoSpriteSizeOn()
+void ContentsSpriteRenderer::AutoSpriteSizeOn()
 {
 	IsImageSize = true;
 }
 
-void GameEngineSpriteRenderer::AutoSpriteSizeOff()
+void ContentsSpriteRenderer::AutoSpriteSizeOff()
 {
 	IsImageSize = false;
 }
 
-void GameEngineSpriteRenderer::SetFrameEvent(std::string_view _AnimationName, int _Frame, std::function<void(GameEngineSpriteRenderer*)> _Function)
+void ContentsSpriteRenderer::SetFrameEvent(std::string_view _AnimationName, int _Frame, std::function<void(ContentsSpriteRenderer*)> _Function)
 {
 	std::string UpperName = GameEngineString::ToUpperReturn(_AnimationName);
 
-	std::map<std::string, std::shared_ptr<GameEngineFrameAnimation>>::iterator FindIter = FrameAnimations.find(UpperName);
+	std::map<std::string, std::shared_ptr<ContentsFrameAnimation>>::iterator FindIter = FrameAnimations.find(UpperName);
 
-	std::shared_ptr<GameEngineFrameAnimation> Animation = FindIter->second;
+	std::shared_ptr<ContentsFrameAnimation> Animation = FindIter->second;
 
 	if (nullptr == Animation)
 	{
@@ -339,13 +332,13 @@ void GameEngineSpriteRenderer::SetFrameEvent(std::string_view _AnimationName, in
 	Animation->FrameEventFunction[_Frame] = _Function;
 }
 
-void GameEngineSpriteRenderer::SetStartEvent(std::string_view _AnimationName, std::function<void(GameEngineSpriteRenderer*)> _Function)
+void ContentsSpriteRenderer::SetStartEvent(std::string_view _AnimationName, std::function<void(ContentsSpriteRenderer*)> _Function)
 {
 	std::string UpperName = GameEngineString::ToUpperReturn(_AnimationName);
 
-	std::map<std::string, std::shared_ptr<GameEngineFrameAnimation>>::iterator FindIter = FrameAnimations.find(UpperName);
+	std::map<std::string, std::shared_ptr<ContentsFrameAnimation>>::iterator FindIter = FrameAnimations.find(UpperName);
 
-	std::shared_ptr<GameEngineFrameAnimation> Animation = FindIter->second;
+	std::shared_ptr<ContentsFrameAnimation> Animation = FindIter->second;
 
 	if (nullptr == Animation)
 	{
@@ -355,13 +348,13 @@ void GameEngineSpriteRenderer::SetStartEvent(std::string_view _AnimationName, st
 	Animation->FrameEventFunction[Animation->Index[0]] = _Function;
 }
 
-void GameEngineSpriteRenderer::SetEndEvent(std::string_view _AnimationName, std::function<void(GameEngineSpriteRenderer*)> _Function)
+void ContentsSpriteRenderer::SetEndEvent(std::string_view _AnimationName, std::function<void(ContentsSpriteRenderer*)> _Function)
 {
 	std::string UpperName = GameEngineString::ToUpperReturn(_AnimationName);
 
-	std::map<std::string, std::shared_ptr<GameEngineFrameAnimation>>::iterator FindIter = FrameAnimations.find(UpperName);
+	std::map<std::string, std::shared_ptr<ContentsFrameAnimation>>::iterator FindIter = FrameAnimations.find(UpperName);
 
-	std::shared_ptr<GameEngineFrameAnimation> Animation = FindIter->second;
+	std::shared_ptr<ContentsFrameAnimation> Animation = FindIter->second;
 
 	if (nullptr == Animation)
 	{
@@ -371,21 +364,21 @@ void GameEngineSpriteRenderer::SetEndEvent(std::string_view _AnimationName, std:
 	Animation->EndEvent = _Function;
 }
 
-void GameEngineSpriteRenderer::SetFrameChangeFunctionAll(std::function<void(const SpriteData& CurSprite, int _SpriteIndex)> _Function)
+void ContentsSpriteRenderer::SetFrameChangeFunctionAll(std::function<void(const SpriteData& CurSprite, int _SpriteIndex)> _Function)
 {
-	for (std::pair<const std::string, std::shared_ptr<GameEngineFrameAnimation>>& _Pair : FrameAnimations)
+	for (std::pair<const std::string, std::shared_ptr<ContentsFrameAnimation>>& _Pair : FrameAnimations)
 	{
 		_Pair.second->FrameChangeFunction = _Function;
 	}
 }
 
-void GameEngineSpriteRenderer::SetFrameChangeFunction(std::string_view _AnimationName, std::function<void(const SpriteData& CurSprite, int _SpriteIndex)> _Function)
+void ContentsSpriteRenderer::SetFrameChangeFunction(std::string_view _AnimationName, std::function<void(const SpriteData& CurSprite, int _SpriteIndex)> _Function)
 {
 	std::string UpperName = GameEngineString::ToUpperReturn(_AnimationName);
 
-	std::map<std::string, std::shared_ptr<GameEngineFrameAnimation>>::iterator FindIter = FrameAnimations.find(UpperName);
+	std::map<std::string, std::shared_ptr<ContentsFrameAnimation>>::iterator FindIter = FrameAnimations.find(UpperName);
 
-	std::shared_ptr<GameEngineFrameAnimation> Animation = FindIter->second;
+	std::shared_ptr<ContentsFrameAnimation> Animation = FindIter->second;
 
 	if (nullptr == Animation)
 	{
@@ -395,22 +388,22 @@ void GameEngineSpriteRenderer::SetFrameChangeFunction(std::string_view _Animatio
 	Animation->FrameChangeFunction = _Function;
 }
 
-void GameEngineSpriteRenderer::AnimationPauseSwitch()
+void ContentsSpriteRenderer::AnimationPauseSwitch()
 {
 	IsPause = !IsPause;
 }
 
-void GameEngineSpriteRenderer::AnimationPauseOn()
+void ContentsSpriteRenderer::AnimationPauseOn()
 {
 	IsPause = true;
 }
 
-void GameEngineSpriteRenderer::AnimationPauseOff()
+void ContentsSpriteRenderer::AnimationPauseOff()
 {
 	IsPause = false;
 }
 
-void GameEngineSpriteRenderer::SetPivotType(PivotType _Type)
+void ContentsSpriteRenderer::SetPivotType(PivotType _Type)
 {
 	switch (_Type)
 	{
@@ -446,36 +439,19 @@ void GameEngineSpriteRenderer::SetPivotType(PivotType _Type)
 	}
 }
 
-void GameEngineSpriteRenderer::SetMaterialEvent(std::string_view _Name, int _Index)
+void ContentsSpriteRenderer::SetMaterialEvent(std::string_view _Name, int _Index)
 {
 	const TransformData& Data = ImageTransform.GetConstTransformDataRef();
 	GetShaderResHelper().SetConstantBufferLink("TransformData", Data);
 	GetShaderResHelper().SetConstantBufferLink("SpriteData", CurSprite.SpritePivot);
 	GetShaderResHelper().SetConstantBufferLink("SpriteRendererInfo", SpriteRendererInfoValue);
 	GetShaderResHelper().SetConstantBufferLink("ColorData", ColorDataValue);
+	GetShaderResHelper().SetConstantBufferLink("GaugeInfo", GaugeInfoValue);
 	SetSprite("NSet.png");
 }
 
-
-void GameEngineSpriteRenderer::SetMaskTexture(std::string_view _Texture, MaskMode _Mask)
+void ContentsSpriteRenderer::SetMaskTexture(std::string_view _Texture, MaskMode _Mask)
 {
-	//std::shared_ptr<GameEngineFrameAnimation> TempCurFrameAnimation = CurFrameAnimations;
-	//std::shared_ptr<GameEngineSprite> TempSprite = Sprite;
-	//SpriteData TempCurSprite = CurSprite;
-
-	//GameEngineRenderer::SetMaterial("2DTextureMask");
-
-	//if (CurFrameAnimations != TempCurFrameAnimation)
-	//{
-	//	CurFrameAnimations = TempCurFrameAnimation;
-	//}
-
-	//if (Sprite != TempSprite)
-	//{
-	//	Sprite = TempSprite;
-	//	CurSprite = TempCurSprite;
-	//}
-
 	RenderBaseInfoValue.IsMask = 1;
 	RenderBaseInfoValue.MaskMode = static_cast<int>(_Mask);
 	GetShaderResHelper().SetTexture("MaskTex", _Texture);
@@ -483,26 +459,26 @@ void GameEngineSpriteRenderer::SetMaskTexture(std::string_view _Texture, MaskMod
 	RenderBaseInfoValue.MaskScreeneScale = Ptr->GetScale();
 }
 
-void GameEngineSpriteRenderer::SetText(const std::string& _Font, const std::string& _Text, float _Scale /*= 20.0f*/, float4 Color /*= float4::RED*/, FW1_TEXT_FLAG Flag /*= FW1_LEFT*/)
+void ContentsSpriteRenderer::SetText(const std::string& _Font, const std::string& _Text, float _Scale /*= 20.0f*/, float4 Color /*= float4::RED*/, FW1_TEXT_FLAG Flag /*= FW1_LEFT*/)
 {
 	std::shared_ptr<GameEngineRenderUnit> Unit = CreateAndFindRenderUnit(0);
 	Unit->SetText(_Font, _Text, _Scale, Color, Flag);
 }
 
-void GameEngineSpriteRenderer::SetTextColor(const float4& _Color /*= float4::RED*/, unsigned int _Index /*= 0*/)
+void ContentsSpriteRenderer::SetTextColor(const float4& _Color /*= float4::RED*/, unsigned int _Index /*= 0*/)
 {
 	std::weak_ptr<GameEngineRenderUnit> Unit = CreateAndFindRenderUnit(_Index);
 	Unit.lock()->SetTextColor(_Color);
 }
 
-void GameEngineSpriteRenderer::SetTextAlpha(float _AlphaValue /*= 1.0f*/, unsigned int _Index /*= 0*/)
+void ContentsSpriteRenderer::SetTextAlpha(float _AlphaValue /*= 1.0f*/, unsigned int _Index /*= 0*/)
 {
 	std::weak_ptr<GameEngineRenderUnit> Unit = CreateAndFindRenderUnit(_Index);
 	Unit.lock()->SetTextAlpha(_AlphaValue);
 }
 
 
-void GameEngineSpriteRenderer::SetSampler(std::string_view _Name)
+void ContentsSpriteRenderer::SetSampler(std::string_view _Name)
 {
 	std::shared_ptr<GameEngineRenderUnit> Unit = CreateAndFindRenderUnit(0);
 	Unit->ShaderResHelper.SetSampler("DiffuseTexSampler", _Name);
