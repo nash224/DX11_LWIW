@@ -15,8 +15,8 @@ public:
 // Ό³Έν :
 class UI_Hub_Stamina : public UI_Hub_Actor
 {
-	static int CurrentStamina;
-	static int RecoverableStamina;
+	static float RenderStamina;
+	static float RecoverableStamina;
 
 public:
 	// constrcuter destructer
@@ -31,17 +31,18 @@ public:
 
 	void Init();
 
-	static void AddGauge(int _Value);
-
 protected:
 	void Start() override {}
 	void Update(float _Delta) override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
+	void RendererSetting();
+
+	void UpdateGauge();
+
 private:
 	GaugeComposition m_GaugeComposition;
 
-	const int MaxStamina = 100;
 };
 

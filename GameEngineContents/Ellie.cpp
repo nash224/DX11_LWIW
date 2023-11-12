@@ -1,12 +1,17 @@
 ﻿#include "PreCompile.h"
 #include "Ellie.h"
 
+#include "PlayLevel.h"
+#include "TimeManager.h"
 
-#include "PortalObject.h"
 #include "BackDrop_PlayLevel.h"
+
+
 
 Ellie* Ellie::MainEllie = nullptr;
 EELLIE_STATUS Ellie::g_Status = EELLIE_STATUS::None;
+float Ellie::Stamina = 0.0f;
+int Ellie::Day = -1;
 bool Ellie::FirstInitCheck = false;
 Ellie::Ellie() 
 {
@@ -33,6 +38,8 @@ Ellie::Ellie()
 			GameEngineSound::SoundLoad(pfile.GetStringPath());
 		}
 	}
+
+	CheckDayChange();
 }
 
 Ellie::~Ellie() 
@@ -55,17 +62,6 @@ void Ellie::Update(float _Delta)
 
 void Ellie::UpdateTestCode()
 {
-	//if (true == GameEngineInput::IsDown('2', this))
-	//{
-	//	ChangeState(EELLIE_STATE::Fail);
-	//	return;
-	//}
-	//if (true == GameEngineInput::IsDown('3', this))
-	//{
-	//	ChangeState(EELLIE_STATE::Cheer);
-	//	return;
-	//}
-
 	if (true == GameEngineInput::IsDown('1', this))
 	{
 		BackDrop_PlayLevel::MainBackDrop->CreateItem("Mongsiri_Collect", Transform.GetLocalPosition());
@@ -95,6 +91,7 @@ void Ellie::Release()
 void Ellie::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	OnLevelStart();
+	CheckDayChange();
 }
 
 void Ellie::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -207,7 +204,11 @@ void Ellie::WaitDone(EELLIE_STATE _State)
 // 액터의 중앙기준으로 초기화 되며 각 방향에 필요한 체크포인트를 설정합니다.
 void Ellie::SetPixelPointBaseOnCenter()
 {
-	float4 HalfPixelCheckScale = m_PixelCheckScale.Half();
+	static constexpr const float CheckPointGap = 2.0f;
+
+	const float4& m_PixelCheckScale = { 10.0f , 10.0f };
+
+	const float4& HalfPixelCheckScale = m_PixelCheckScale.Half();
 
 	m_PixelCheckPoint.TopLeft = m_PixelCheckPosBaseOnCenter + float4{ -HalfPixelCheckScale.X + CheckPointGap , HalfPixelCheckScale.Y };
 	m_PixelCheckPoint.TopRight = m_PixelCheckPosBaseOnCenter + float4{ HalfPixelCheckScale.X - CheckPointGap , HalfPixelCheckScale.Y };
@@ -934,13 +935,6 @@ EDIRECTION Ellie::ReturnDirectionCheckBothSide(EDIRECTION _Direction, const floa
 	return static_cast<EDIRECTION>(DirNum);
 }
 
-
-
-// 가속도로 이동한다. 
-// 한계치를 넘기면 속도 제한이 걸린다.
-// 키가 정방향이면 속도가 가속한다.
-// 키가 Center면 속도가 줄어든다.
-// 키가 역방향이면 속도가 빨리 줄어든다.
 float4 Ellie::ReturnPostMoveVector(float _Delta, float _MAXMoveForce, float _Acceleration_Time)
 {
 	float4 Dir = CalculateDirectionVectorToDir(m_Dir);
@@ -1054,4 +1048,21 @@ void Ellie::PlaySFX(std::string_view _FileName)
 {
 	GameEngineSoundPlayer SoundPlayer = GameEngineSound::SoundPlay(_FileName);
 	SoundPlayer.SetVolume(GlobalValue::GetSFXVolume());
+}
+
+void Ellie::DayChangeEvent()
+{
+	Stamina = MAX_STAMINA;
+}
+
+void Ellie::CheckDayChange()
+{
+	if (nullptr != PlayLevel::s_TimeManager)
+	{
+		if (Day != PlayLevel::s_TimeManager->GetDayCount())
+		{
+			Day = PlayLevel::s_TimeManager->GetDayCount();
+			DayChangeEvent();
+		}
+	}
 }

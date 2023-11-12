@@ -3,31 +3,19 @@
 #include "ActorEnum.h"
 
 
-constexpr float CheckPointGap = 2.0f;
 constexpr float FOVAngle = 60.0f;
 constexpr float FrictionForce = 0.5f;
-static constexpr const float LWIW_Ellie_Y_Correction = 30.0f;
 
-constexpr float EllieIdleInter = 0.2f;
-constexpr float Ellie_SlowWalk_Inter = 0.2f;
-constexpr float Ellie_Run_Inter = 0.1f;
-constexpr float Ellie_Throw_Inter = 0.1f;
-constexpr float Ellie_Riding_Idle_Inter = 0.1f;
-constexpr float Ellie_Riding_Move_Inter = 0.1f;
-constexpr float Ellie_Riding_Boost_Inter = 0.1f;
-constexpr float Ellie_ButterflyNet_Inter = 0.1f;
-constexpr float Ellie_RootUp_Inter = 0.12f;
-constexpr float Ellie_Sit_Inter = 0.12f;
-constexpr float Ellie_MongSiri_Inter = 0.2f;
+static constexpr const float MAX_STAMINA = 1000.0f;
 
 constexpr float CONST_Ellie_SlowWalk_Speed = 100.0f;
 constexpr float CONST_Ellie_Walk_Speed = 160.0f;
 constexpr float CONST_Ellie_Run_Speed = 220.0f;
 constexpr float CONST_Ellie_NonRiding_Acceleration_Time = 1.0f;
-constexpr float CONST_Ellie_Riding_Move_Acceleration_Time = 1.2f;
-constexpr float CONST_Ellie_Riding_Boosting_Acceleration_Time = 1.0f;
-constexpr float CONST_Ellie_Riding_Move_Speed = 500.0f;
-constexpr float CONST_Ellie_Riding_Boost_Speed = 700.0f;
+constexpr float CONST_Ellie_Riding_Move_Acceleration_Time = 0.8f;
+constexpr float CONST_Ellie_Riding_Boosting_Acceleration_Time = 0.7f;
+constexpr float CONST_Ellie_Riding_Move_Speed = 300.0f;
+constexpr float CONST_Ellie_Riding_Boost_Speed = 500.0f;
 
 
 enum class EELLIE_STATE
@@ -84,6 +72,8 @@ public:
 
 private:
 	static EELLIE_STATUS g_Status;
+	static int Day;
+	static float Stamina;
 	static bool FirstInitCheck;
 
 private:
@@ -127,6 +117,12 @@ public:
 	{
 		return m_State;
 	}
+
+	float GetStamina() const
+	{
+		return Stamina;
+	}
+
 
 protected:
 	void Start() override;
@@ -252,6 +248,9 @@ private:
 
 	void PlaySFX(std::string_view _FileName);
 
+	void DayChangeEvent();
+	void CheckDayChange();
+
 private:
 	// πÊ«‚≈∞
 	EHORIZONTAL_KEY_STATE m_HorizontalKey = EHORIZONTAL_KEY_STATE::Center;
@@ -270,7 +269,7 @@ private:
 	InteractiveActor* OtherEntity = nullptr;
 	PixelCheckPoint m_PixelCheckPoint;
 
-	const float4 m_PixelCheckScale = { 10.0f , 10.0f };
+
 	const float4 m_PixelCheckPosBaseOnCenter = float4::ZERO;
 
 	float Broom_Particle_Time = 0.0f;
@@ -284,7 +283,7 @@ private:
 
 	static constexpr const float Broom_Particle_Cool_Down = 0.08f;
 
-	static constexpr const float Shadow_Renderer_Y_Correction = 30.0f;
+	static constexpr const float LWIW_Ellie_Y_Correction = 30.0f;
 	
 };
 

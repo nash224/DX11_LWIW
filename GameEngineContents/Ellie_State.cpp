@@ -36,6 +36,8 @@ void Ellie::StartWalk()
 
 void Ellie::StartRun()
 {
+	m_StateTime = 0.0f;
+
 	ChangeAnimationByDirection("Run");
 }
 
@@ -73,6 +75,10 @@ void Ellie::StartApproach()
 
 void Ellie::StartButterflyNet()
 {
+	static constexpr const float NetCost = 5.0f;
+
+	Stamina -= NetCost;
+
 	if (nullptr == m_NetCol)
 	{
 		MsgBoxAssert("충돌체가 존재하지 않습니다.");
@@ -84,6 +90,10 @@ void Ellie::StartButterflyNet()
 }
 void Ellie::StartRootUp()
 {
+	static constexpr const float RootUpCost = 20.0f;
+
+	Stamina -= RootUpCost;
+
 	isRootup = false;
 	ChangeAnimationByDirection("RootUp");
 }
@@ -96,6 +106,10 @@ void Ellie::StartSit()
 
 void Ellie::StartMongSiri()
 {
+	static constexpr const float MongsiriCost = 20.0f;
+
+	Stamina -= MongsiriCost;
+
 	ChangeAnimationByDirection("MongSiri");
 }
 
@@ -117,6 +131,10 @@ void Ellie::StartWait()
 
 void Ellie::StartJuicy()
 {
+	static constexpr const float JuicyCost = 10.0f;
+
+	Stamina -= JuicyCost;
+
 	if (nullptr != m_Body && nullptr == m_Body->FindAnimation("Ellie_Basic_Juicy"))
 	{
 		m_Body->CreateAnimation("Ellie_Basic_Juicy", "DownFloor_Extractor_0.png", 0.2f, 12, 19, false);
@@ -337,6 +355,18 @@ void Ellie::UpdateRun(float _Delta)
 	}
 
 	ChangeDirectionAnimation("Run");
+
+
+	static constexpr const float RunCostCoolDown = 0.5f;
+
+	m_StateTime += _Delta;
+	if (m_StateTime > RunCostCoolDown)
+	{
+		static constexpr const float RunCost = 2.0f;
+
+		m_StateTime -= RunCostCoolDown;
+		Stamina -= RunCost;
+	}
 
 
 	CalulationMoveForceToNormalStatus(_Delta, CONST_Ellie_Run_Speed);

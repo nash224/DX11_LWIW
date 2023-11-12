@@ -1,11 +1,17 @@
 #include "PreCompile.h"
 #include "UI_Hub_Stamina.h"
 
+#include "Ellie.h"
 
-int UI_Hub_Stamina::CurrentStamina = -1;
-int UI_Hub_Stamina::RecoverableStamina = -1;
+
+float UI_Hub_Stamina::RenderStamina = -1;
+float UI_Hub_Stamina::RecoverableStamina = -1;
 UI_Hub_Stamina::UI_Hub_Stamina() 
 {
+	if (nullptr != Ellie::MainEllie)
+	{
+		RenderStamina = Ellie::MainEllie->GetStamina();
+	}
 }
 
 UI_Hub_Stamina::~UI_Hub_Stamina() 
@@ -15,14 +21,7 @@ UI_Hub_Stamina::~UI_Hub_Stamina()
 
 void UI_Hub_Stamina::Update(float _Delta)
 {
-	float LiveTime = GetLiveTime();
-	float GaugeValue = 1.0f - LiveTime / 5.0f;
-	if (GaugeValue < 0.0f)
-	{
-		GaugeValue = 0.0f;
-	}
-
-	m_GaugeComposition.StaminaGauge->GetGaugeInfo().Gauge = GaugeValue;
+	UpdateGauge();
 }
 
 
@@ -32,8 +31,17 @@ void UI_Hub_Stamina::Update(float _Delta)
 
 void UI_Hub_Stamina::Init()
 {
+	Transform.AddLocalPosition({ -369.0f , -232.0f });
+
+	RendererSetting();
+
+	Off();
+}
+
+void UI_Hub_Stamina::RendererSetting()
+{
 	m_GaugeComposition.Frame = CreateComponent<GameEngineUIRenderer>();
-	m_GaugeComposition.Frame->Transform.SetLocalPosition({ 0.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Frame)});
+	m_GaugeComposition.Frame->Transform.SetLocalPosition({ 0.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Frame) });
 	m_GaugeComposition.Frame->SetSprite("HUD_Gauge_Frame.png");
 
 
@@ -50,20 +58,19 @@ void UI_Hub_Stamina::Init()
 	m_GaugeComposition.Indicator = CreateComponent<GameEngineUIRenderer>();
 	m_GaugeComposition.Indicator->Transform.SetLocalPosition({ 0.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Indicator) });
 	m_GaugeComposition.Indicator->SetSprite("HUD_Gauge_Indicator.png");
-
-	Transform.AddLocalPosition({ -369.0f , -232.0f });
-
-
-	if (CurrentStamina < 0)
-	{
-		CurrentStamina = MaxStamina;
-		RecoverableStamina = MaxStamina;
-	}
-
-	Off();
 }
 
-void UI_Hub_Stamina::AddGauge(int _Value)
+
+void UI_Hub_Stamina::UpdateGauge()
 {
-	CurrentStamina = _Value;
+	if (nullptr != Ellie::MainEllie)
+	{
+		if (Ellie::MainEllie->GetStamina() != RenderStamina)
+		{
+			RenderStamina = Ellie::MainEllie->GetStamina();
+
+ 			float StaminaGauge = RenderStamina / MAX_STAMINA;
+			m_GaugeComposition.StaminaGauge->GetGaugeInfo().Gauge = StaminaGauge;
+		}
+	}
 }
