@@ -6,6 +6,17 @@
 
 Extractor::Extractor() 
 {
+	if (nullptr == GameEngineSound::FindSound("SFX_JucierActive_02.wav"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\Sound\\Actor\\Machine\\Jucier");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pfile : Files)
+		{
+			GameEngineSound::SoundLoad(pfile.GetStringPath());
+		}
+	}
 }
 
 Extractor::~Extractor() 
@@ -31,7 +42,7 @@ void Extractor::Update(float _Delta)
 {
 	StaticEntity::Update(_Delta);
 
-	UpdateState(_Delta);
+	State.Update(_Delta);
 }
 
 void Extractor::Release()
@@ -63,12 +74,13 @@ void Extractor::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void Extractor::InitExtractor()
 {
-	CreateRendererAndAnimation();
+	RendererSetting();
 	UIProcessSetting();
+	StateSetting();
 
 }
 
-void Extractor::CreateRendererAndAnimation()
+void Extractor::RendererSetting()
 {
 	if (nullptr == GameEngineSprite::Find("DownFloor_Extractor_0.png"))
 	{
@@ -78,21 +90,19 @@ void Extractor::CreateRendererAndAnimation()
 	}
 
 	m_Extractor = CreateComponent<GameEngineSpriteRenderer>();
-	if (nullptr == m_Extractor)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
+	m_Extractor->AutoSpriteSizeOn();
+	m_Extractor->Transform.SetLocalPosition(float4(0.0f, 46.0f));
 
 	m_Extractor->CreateAnimation("Broken", "DownFloor_Extractor_Idle_Broken.png");
 	m_Extractor->CreateAnimation("Idle", "DownFloor_Extractor_0.png", 5.0f, 1, 1, false);
 	m_Extractor->CreateAnimation("Juicy", "DownFloor_Extractor_0.png", 0.1f, 2, 9, false);
 	m_Extractor->FindAnimation("Juicy")->Inter = { 0.2f, 0.18f, 0.19f, 0.2f, 0.19f, 0.19f, 0.12f, 0.12f, 0.12f };
-	
-	m_Extractor->Transform.SetLocalPosition(float4(0.0f, 46.0f));
-	m_Extractor->AutoSpriteSizeOn();
 
-	ChangeState(EJUICERSTATE::Idle);
+
+	m_Extractor->SetFrameEvent("Juicy", 3, [&](GameEngineSpriteRenderer* _Renderer)
+		{
+			PlaySFX("SFX_JucierActive_02.wav");
+		});
 }
 
 void Extractor::UIProcessSetting()
@@ -101,57 +111,34 @@ void Extractor::UIProcessSetting()
 	m_ProcessManager->Init();
 }
 
+void Extractor::StateSetting()
+{
+	CreateStateParameter IdleState;
+	IdleState.Start = std::bind(&Extractor::StartIdle, this, std::placeholders::_1);
+	IdleState.Stay = std::bind(&Extractor::UpdateIdle, this, std::placeholders::_1, std::placeholders::_2);
+	State.CreateState(EJUICERSTATE::Idle, IdleState);
+
+	CreateStateParameter JuicyState;
+	JuicyState.Start = std::bind(&Extractor::StartJuicy, this, std::placeholders::_1);
+	JuicyState.Stay = std::bind(&Extractor::UpdateJuicy, this, std::placeholders::_1, std::placeholders::_2);
+	JuicyState.End = std::bind(&Extractor::EndJuicy, this, std::placeholders::_1);
+	State.CreateState(EJUICERSTATE::Juicy, JuicyState);
+
+	/*CreateStateParameter ConverseState;
+	ConverseState.Start = std::bind(&Extractor::StartConverse, this, std::placeholders::_1);
+	ConverseState.End = std::bind(&Extractor::EndConverse, this, std::placeholders::_1);
+	State.CreateState(EJUICERSTATE::Converse, ConverseState);*/
+
+	State.ChangeState(EJUICERSTATE::Idle);
+}
+
 
 void Extractor::PullThis()
 {
-	ChangeState(EJUICERSTATE::Juicy);
+	State.ChangeState(EJUICERSTATE::Juicy);
 }
 
-
-
-
-void Extractor::UpdateState(float _Delta)
-{
-	switch (m_State)
-	{
-	case EJUICERSTATE::None:
-	{
-		MsgBoxAssert("None으로 세팅했습니다.");
-		return;
-	}
-	break;
-	case EJUICERSTATE::Idle:
-		UpdateIdle(_Delta);
-		break;
-	case EJUICERSTATE::Juicy:
-		UpdateJuicy(_Delta);
-		break;
-	default:
-		break;
-	}
-}
-
-void Extractor::ChangeState(EJUICERSTATE _State)
-{
-	if (_State != m_State)
-	{
-		switch (_State)
-		{
-		case EJUICERSTATE::Idle:
-			StartIdle();
-			break;
-		case EJUICERSTATE::Juicy:
-			StartJuicy();
-			break;
-		default:
-			break;
-		}
-
-		m_State = _State;
-	}
-}
-
-void Extractor::ChangeExtractorCompositionAnimation(std::string_view _StateName)
+void Extractor::ChangeExtractorAnimation(std::string_view _StateName)
 {
 	if (nullptr == m_Extractor)
 	{
@@ -163,12 +150,20 @@ void Extractor::ChangeExtractorCompositionAnimation(std::string_view _StateName)
 }
 
 
-void Extractor::StartIdle()
+void Extractor::StartIdle(GameEngineState* _Parent)
 {
-	ChangeExtractorCompositionAnimation("Idle");
+	ChangeExtractorAnimation("Idle");
 }
 
-void Extractor::UpdateIdle(float _Delta)
+void Extractor::StartJuicy(GameEngineState* _Parent)
+{
+	PlaySFX(RandomOpenJuicySoundFilleName());
+	ChangeExtractorAnimation("Juicy");
+}
+
+
+
+void Extractor::UpdateIdle(float _Delta, GameEngineState* _Parent)
 {
 	if (true == IsEnalbeActive)
 	{
@@ -179,16 +174,42 @@ void Extractor::UpdateIdle(float _Delta)
 	}
 }
  
-void Extractor::StartJuicy()
-{
-	ChangeExtractorCompositionAnimation("Juicy");
-}
-
-void Extractor::UpdateJuicy(float _Delta)
+void Extractor::UpdateJuicy(float _Delta, GameEngineState* _Parent)
 {
 	if (true == m_Extractor->IsCurAnimationEnd())
 	{
-		ChangeState(EJUICERSTATE::Idle);
+		State.ChangeState(EJUICERSTATE::Idle);
 		return;
 	}
+}
+
+
+
+void Extractor::EndJuicy(GameEngineState* _Parent)
+{
+	PlaySFX("SFX_JucierClose_01.wav");
+}
+
+
+
+std::string Extractor::RandomOpenJuicySoundFilleName()
+{
+	GameEngineRandom RandomClass;
+	int SelectValue = RandomClass.RandomInt(1, 2);
+
+	std::string_view FileName;
+
+	switch (SelectValue)
+	{
+	case 1:
+		FileName = "SFX_JucierOpen_01.wav";
+		break;
+	case 2:
+		FileName = "SFX_JucierOpen_02.wav";
+		break;
+	default:
+		break;
+	}
+
+	return FileName.data();
 }

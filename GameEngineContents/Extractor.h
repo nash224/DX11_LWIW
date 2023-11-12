@@ -3,10 +3,10 @@
 
 enum class EJUICERSTATE
 {
-	None,
 	Broken,
 	Idle,
 	Juicy,
+	None,
 };
 
 
@@ -38,32 +38,31 @@ protected:
 private:
 	void InitExtractor();
 
-	void CreateRendererAndAnimation();
+	void RendererSetting();
 	void UIProcessSetting();
+	void StateSetting();
 
 
 private:
-	void UpdateState(float _Delta);
-	void ChangeState(EJUICERSTATE _State);
-	void ChangeExtractorCompositionAnimation(std::string_view _StateName);
+	void ChangeExtractorAnimation(std::string_view _StateName);
 
+	void StartBroken(GameEngineState* _Parent);
+	void UpdateBroken(float _Delta ,GameEngineState* _Parent);
 
-	void StartBroken();
-	void UpdateBroken(float _Delta);
+	void StartIdle(GameEngineState* _Parent);
+	void UpdateIdle(float _Delta, GameEngineState* _Parent);
 
-	void StartIdle();
-	void UpdateIdle(float _Delta);
+	void StartJuicy(GameEngineState* _Parent);
+	void UpdateJuicy(float _Delta, GameEngineState* _Parent);
+	void EndJuicy(GameEngineState* _Parent);
 
-	void StartJuicy();
-	void UpdateJuicy(float _Delta);
+	std::string RandomOpenJuicySoundFilleName();
 
 private:
+	GameEngineState State;
+
 	std::shared_ptr<GameEngineSpriteRenderer> m_Extractor;
 	std::shared_ptr<class UI_ProcessManager> m_ProcessManager;
-
-private:
-	EJUICERSTATE m_State = EJUICERSTATE::None;
-
 
 };
 
