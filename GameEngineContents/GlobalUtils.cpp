@@ -134,3 +134,9 @@ float GlobalUtils::CalculateFixDepth(const float _Value)
 {
 	return _Value;
 }
+
+void GlobalUtils::PlaySFX(std::string_view _SoundFileName)
+{
+	GameEngineSoundPlayer SoundPlayer = GameEngineSound::SoundPlay(_SoundFileName);
+	SoundPlayer.SetVolume(GlobalValue::GetSFXVolume());
+}

@@ -45,6 +45,8 @@ public:
 
 	static float CalculateFixDepth(const float _Value);
 
+	static void PlaySFX(std::string_view _SoundFileName);
+
 protected:
 
 private:

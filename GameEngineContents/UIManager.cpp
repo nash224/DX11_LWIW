@@ -15,6 +15,17 @@
 UIManager* UIManager::MainUIManager = nullptr;
 UIManager::UIManager() 
 {
+	if (nullptr == GameEngineSound::FindSound("SFX_Open_01.wav"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\Sound\\UI\\Common");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pfile : Files)
+		{
+			GameEngineSound::SoundLoad(pfile.GetStringPath());
+		}
+	}
 }
 
 UIManager::~UIManager() 

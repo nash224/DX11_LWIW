@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "UI_Inventory.h"
 
+#include "GlobalUtils.h"
 
 #include "UI_DropManager.h"
 #include "UI_Dispensation.h"
@@ -16,7 +17,7 @@ void Inventory::Init()
 
 // 아이템을 데이터에 넣습니다. 
 // 인벤토리에 동일한 이름의 아이템이 있으면 아이템의 수를 더하고, 아이템이 없으면 빈 슬롯에 넣습니다.
-void Inventory::PushItem(std::string_view _ItemName, unsigned int _Count)
+bool Inventory::PushItem(std::string_view _ItemName, unsigned int _Count)
 {
 	size_t LockNumber = Max_XSlot * static_cast<size_t>(InventoryParent->UnlockSlotY);
 
@@ -28,7 +29,7 @@ void Inventory::PushItem(std::string_view _ItemName, unsigned int _Count)
 		// 빈자리가 있으면 빈자리를 찾아서
 		for (size_t i = 0; i < LockNumber; i++)
 		{
-			if ("" == InventoryData[i].SourceName)
+			if (true == InventoryData[i].SourceName.empty())
 			{
 				InventoryData[i].SourceName = _ItemName;
 				InventoryData[i].ItemCount += _Count;
@@ -41,7 +42,7 @@ void Inventory::PushItem(std::string_view _ItemName, unsigned int _Count)
 			{
 				// 인벤토리가 다 찼다는 의미로 PopUp UI를 요청합니다.
 				// PopUp UI
-				return;
+				return false;
 			}
 		}
 	}
@@ -51,6 +52,8 @@ void Inventory::PushItem(std::string_view _ItemName, unsigned int _Count)
 	}
 
 	InventoryParent->DisplayItem(static_cast<size_t>(Value), _ItemName);
+
+	return true;
 }
 
 // 아이템을 지정수만큼 뺍니다.
@@ -229,6 +232,17 @@ UI_Inventory* UI_Inventory::MainInventory = nullptr;
 unsigned int UI_Inventory::UnlockSlotY = 0;
 UI_Inventory::UI_Inventory() 
 {
+	if (nullptr == GameEngineSound::FindSound("SFX_Getltem_01.wav"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\Sound\\UI\\Getltem");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pfile : Files)
+		{
+			GameEngineSound::SoundLoad(pfile.GetStringPath());
+		}
+	}
 }
 
 UI_Inventory::~UI_Inventory() 
@@ -291,7 +305,6 @@ void UI_Inventory::Init()
 	}
 
 
-	// 렌더 배열 만들고
 	CreateBase();
 	CreateSlotArray();
 	CreateCursor();
@@ -305,11 +318,9 @@ void UI_Inventory::Init()
 	LockSlot(UnlockSlotY);
 	Transform.AddLocalPosition(INVENTORY_POSITION);
 
-	// 부모 설정 후, 그립니다.
 	OpenUpdate();
 }
 
-// Base Create
 void UI_Inventory::CreateBase()
 {
 	float4 BasePosition = { 0.0f , 0.0f , GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Base) };
@@ -319,7 +330,6 @@ void UI_Inventory::CreateBase()
 	m_InventoryBase->Transform.AddLocalPosition(BasePosition);
 }
 
-// 렌더 2차원 배열을 생성합니다.
 void UI_Inventory::CreateSlotArray()
 {
 	std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Find("Inventory_Empty_Slot.png");
@@ -444,7 +454,6 @@ void UI_Inventory::ExternUISetting()
 
 /////////////////////////////////////////////////////////////////////////////////////
 
-// UnlockSlot을 넣어주면 사용하지 못하는 슬롯에 잠금장치 이미지가 생성됩니다.
 void UI_Inventory::LockSlot(const unsigned int _Y)
 {
 	for (size_t y = _Y; y < InventorySlotArray.size(); y++)
@@ -458,9 +467,6 @@ void UI_Inventory::LockSlot(const unsigned int _Y)
 	}
 }
 
-
-
-// 아이템을 넣어달라고 UI를 통해 Data에 요청합니다.
 void UI_Inventory::PushItem(std::string_view _ItemName, unsigned int _Count/* = 1*/)
 {
 	if (nullptr == Data)
@@ -476,13 +482,13 @@ void UI_Inventory::PushItem(std::string_view _ItemName, unsigned int _Count/* = 
 		return;
 	}
 
-	Data->PushItem(_ItemName, _Count);
 
-
-	if (nullptr != UI_DropManager::DropManager)
+	if (Data->PushItem(_ItemName, _Count))
 	{
-		// 알림 시스템이기 때문에 터트리진 않습니다.
-		UI_DropManager::DropManager->NoticeItemDrop(_ItemName);
+		if (nullptr != UI_DropManager::DropManager)
+		{
+			UI_DropManager::DropManager->NoticeItemDrop(_ItemName);
+		}
 	}
 }
 
@@ -530,7 +536,6 @@ bool UI_Inventory::IsItem(std::string_view _ItemName, unsigned int _ItemCount /*
 	return false;
 }
 
-// 슬롯 줄 잠금해제
 void UI_Inventory::UnlockSlot(const unsigned int _Count /*= 1*/)
 {
 	unsigned int PrevUnlockSlotY = UnlockSlotY;
@@ -584,8 +589,6 @@ int UI_Inventory::ReturnItemCount(std::string_view _ItemName)
 }
 
 
-
-// 같은 부모로 설정해두면 이전레벨에 렌더링 될수있음으로 레벨이 바뀔때 부모를 바꿉니다. 
 void UI_Inventory::ChangeDataParent()
 {
 	if (nullptr == Data)
@@ -597,7 +600,6 @@ void UI_Inventory::ChangeDataParent()
 	Data->InventoryParent = this;
 }
 
-// 아이템을 띄웁니다.
 void UI_Inventory::DisplayItem(const size_t _SlotNumber, std::string_view _FileName)
 {
 	size_t Number = _SlotNumber;
@@ -615,7 +617,6 @@ void UI_Inventory::DisplayItem(const size_t _SlotNumber, std::string_view _FileN
 	Slot->On();
 }
 
-// 인벤토리를 갱신하라고 요청받습니다.
 void UI_Inventory::RenewInventory()
 {
 	if (nullptr == Data)
@@ -633,6 +634,7 @@ void UI_Inventory::RenewInventory()
 // 자식에서 해주고 싶은 행동을 수행합니다.
 void UI_Inventory::OpenInternal()
 {
+	GlobalUtils::PlaySFX("SFX_Open_01.wav");
 	CursorThis(0, 0);
 }
 
@@ -646,8 +648,6 @@ void UI_Inventory::CloseInternal()
 	m_InventoryState.ChangeState(EINVENTORYMODE::Normal);
 }
 
-
-// 좌표의 위치를 계산해줍니다.
 float4 UI_Inventory::CalculateIndexToPos(const size_t _x, const size_t _y)
 {
 	if (false == IsFirstPosCalculated)
@@ -694,7 +694,6 @@ void UI_Inventory::CursorThis(const unsigned int _X, const unsigned int _Y)
 	}
 
 
-
 	{
 		if (nullptr == m_CursorComposition.NameTooltip)
 		{
@@ -702,7 +701,6 @@ void UI_Inventory::CursorThis(const unsigned int _X, const unsigned int _Y)
 			return;
 		}
 
-		// 데이터가 있으면
 		if (true == Data->IsContain(_X, _Y))
 		{
 			CursorPosition = CalculateIndexToPos(_X, _Y) + NameTagPosition;
@@ -832,6 +830,8 @@ bool UI_Inventory::UpdateCursor()
 
 void UI_Inventory::MoveCursor(const int _X, const int _Y)
 {
+	GlobalUtils::PlaySFX("SFX_InventoryMove_01.wav");
+
 	m_CurrentSlotX += _X;
 	m_CurrentSlotY += _Y;
 
@@ -918,7 +918,6 @@ bool UI_Inventory::UpdateDispensationSelect()
 }
 
 
-// -1이면 선택되지 않았습니다.
 int UI_Inventory::ReturnSelectNumber(int _XSlot, int _YSlot)
 {
 	InventoryInfo& InventoryData = Data->ReturnInventoryInfo(m_CurrentSlotX, m_CurrentSlotY);
@@ -951,10 +950,9 @@ void UI_Inventory::DispensationSelectThis()
 
 	InventoryInfo& InventoryData = Data->ReturnInventoryInfo(m_CurrentSlotX, m_CurrentSlotY);
 
-	// 저장된 아이템이 없으면 
-	if ("" != InventoryData.SourceName)
+	bool isIteminSelectedSlot = (false == InventoryData.SourceName.empty());
+	if (isIteminSelectedSlot)
 	{
-		// 인벤토리에서 연금 페이지로 선택됐다고 알립니다.
 		if (nullptr == UI_Dispensation::MainDispensation)
 		{
 			MsgBoxAssert("메인 연금 페이지를 모릅니다.");
@@ -963,7 +961,7 @@ void UI_Inventory::DispensationSelectThis()
 
 		if (false == UI_Dispensation::MainDispensation->SelectThis(InventoryData.SourceName, InventoryData.ItemCount))
 		{
-			MsgBoxAssert("연금 페이지에 남는 슬롯이 없는데 추가하려했습니다. 안전장치로 터트립니다. ");
+			MsgBoxAssert("연금 페이지에 남는 슬롯이 없는데 추가하려했습니다.");
 			return;
 		}
 			
@@ -978,8 +976,6 @@ void UI_Inventory::DispensationSelectThis()
 	}
 }
 
-// 슬롯이 3개가 넘어가지 않도록 합니다.
-// 빈 슬롯이 없으면 -1 을 반환합니다.
 int UI_Inventory::ReturnEmptySelectSlot()
 {
 	for (size_t i = 0; i < SelectItem.size(); i++)

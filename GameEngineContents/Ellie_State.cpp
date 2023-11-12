@@ -15,6 +15,7 @@ void Ellie::StartIdle()
 	if (EELLIE_STATUS::Riding == g_Status)
 	{
 		OnRideFx();
+		Ellie::PlaySFX("SFX_Broomstick_Ride_03.wav");
 	}
 
 	g_Status = EELLIE_STATUS::Normal;

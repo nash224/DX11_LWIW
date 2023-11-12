@@ -101,7 +101,7 @@ void Extractor::RendererSetting()
 
 	m_Extractor->SetFrameEvent("Juicy", 3, [&](GameEngineSpriteRenderer* _Renderer)
 		{
-			PlaySFX("SFX_JucierActive_02.wav");
+			StaticEntity::PlaySFX("SFX_JucierActive_02.wav");
 		});
 }
 
@@ -157,7 +157,7 @@ void Extractor::StartIdle(GameEngineState* _Parent)
 
 void Extractor::StartJuicy(GameEngineState* _Parent)
 {
-	PlaySFX(RandomOpenJuicySoundFilleName());
+	StaticEntity::PlaySFX(RandomOpenJuicySoundFilleName());
 	ChangeExtractorAnimation("Juicy");
 }
 
@@ -187,7 +187,7 @@ void Extractor::UpdateJuicy(float _Delta, GameEngineState* _Parent)
 
 void Extractor::EndJuicy(GameEngineState* _Parent)
 {
-	PlaySFX("SFX_JucierClose_01.wav");
+	StaticEntity::PlaySFX("SFX_JucierClose_01.wav");
 }
 
 

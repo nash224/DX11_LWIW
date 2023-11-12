@@ -23,8 +23,8 @@ public:
 	std::list<std::shared_ptr<class UI_Drop>>& GetSystemNoticeList();
 
 protected:
-	void Start() override;
-	void Update(float _Delta) override;
+	void Start() override {}
+	void Update(float _Delta) override {}
 	void Release() override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;

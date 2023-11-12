@@ -229,7 +229,6 @@ private:
 	void GenerateBroomParticle();
 	float4 GetBroomParticlePosition();
 
-
 private:
 	// 방향 키 감지
 	bool DetectMovement();
@@ -250,6 +249,8 @@ private:
 	void DecelerateMoveVector(float _Delta, const float _MaxMoveForce, const float _DecelerationTime);
 	void DecelerateAtMidpoint(float _Delta, const float _MaxMoveForce, const float _Time);
 	void ApplyMovementToTransform(float _DElta);
+
+	void PlaySFX(std::string_view _FileName);
 
 private:
 	// 방향키

@@ -137,12 +137,12 @@ void Bush::CreateBushAnimation()
 		m_Body->CreateAnimation("AppearBug", "BushBug_Appearing.png", 0.1f, 1, 18, false);
 		m_Body->SetStartEvent("AppearBug", [&](GameEngineSpriteRenderer* _Renderer)
 			{
-				PlaySFX(RandomBushShakingSoundFilleName());
+				StaticEntity::PlaySFX(RandomBushShakingSoundFilleName());
 			});
 
 		m_Body->SetFrameEvent("AppearBug", 6, [&](GameEngineSpriteRenderer* _Renderer)
 			{
-				PlaySFX("SFX_BushShake_01.wav");
+				StaticEntity::PlaySFX("SFX_BushShake_01.wav");
 
 				if (nullptr == m_Bush_FX)
 				{
@@ -159,7 +159,7 @@ void Bush::CreateBushAnimation()
 		m_Bush_FX->CreateAnimation("AppearBug_FX", "BushBug_Appearing.png", 0.1f, 19, 24, false);	// ¹ú·¹ µîÀå
 		m_Bush_FX->SetStartEvent("AppearBug_FX", [&](GameEngineSpriteRenderer* _Renderer) 
 			{
-				PlaySFX(RandomBushBugAppearSoundFilleName());
+				StaticEntity::PlaySFX(RandomBushBugAppearSoundFilleName());
 			});
 
 		m_Bush_FX->SetEndEvent("AppearBug_FX", [&](GameEngineSpriteRenderer* _Renderer)

@@ -10,6 +10,17 @@ EELLIE_STATUS Ellie::g_Status = EELLIE_STATUS::None;
 bool Ellie::FirstInitCheck = false;
 Ellie::Ellie() 
 {
+	if (nullptr == GameEngineSound::FindSound("SFX_Broomstick_Boosting_01.wav"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\Sound\\Actor\\Ellie\\Broom");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pfile : Files)
+		{
+			GameEngineSound::SoundLoad(pfile.GetStringPath());
+		}
+	}
 }
 
 Ellie::~Ellie() 
@@ -1025,3 +1036,10 @@ void Ellie::ApplyMovementToTransform(float _Delta)
 }
 
 #pragma endregion 
+
+
+void Ellie::PlaySFX(std::string_view _FileName)
+{
+	GameEngineSoundPlayer SoundPlayer = GameEngineSound::SoundPlay(_FileName);
+	SoundPlayer.SetVolume(GlobalValue::GetSFXVolume());
+}

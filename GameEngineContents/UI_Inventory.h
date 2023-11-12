@@ -33,7 +33,7 @@ private:
 	void Init();
 
 private:
-	void PushItem(std::string_view _ItemName, unsigned int _Count);
+	bool PushItem(std::string_view _ItemName, unsigned int _Count);
 	void PopItem(std::string_view _ItemName, unsigned int _Count);
 
 	void ClearData(const unsigned int _X, const unsigned int _Y);

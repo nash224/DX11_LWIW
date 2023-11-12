@@ -10,6 +10,8 @@ void Ellie::StartRiding_Standing()
 	{
 		m_MoveVector = float4::ZERO;
 		m_MoveForce = float4::ZERO;
+
+		Ellie::PlaySFX("SFX_Broomstick_Ride_02.wav");
 		OnRideFx();
 	}
 
@@ -65,6 +67,7 @@ void Ellie::UpdateRiding_Standing(float _Delta)
 
 void Ellie::StartRiding_Moving()
 {
+	Ellie::PlaySFX("SFX_Broomstick_Moving_01.wav");
 	ChangeAnimationByDirection("Riding_Moving");
 }
 
@@ -129,6 +132,7 @@ void Ellie::UpdateRiding_Moving(float _Delta)
 
 void Ellie::StartRiding_Boosting()
 {
+	Ellie::PlaySFX("SFX_Broomstick_Boosting_01.wav");
 	ChangeAnimationByDirection("Riding_Boosting");
 }
 
