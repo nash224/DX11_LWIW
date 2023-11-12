@@ -141,6 +141,7 @@ private:
 	float4 m_BirdFlyDirection = float4::ZERO;
 
 
+	GameEngineSoundPlayer BirdSoundPlayer;
 
 };
 

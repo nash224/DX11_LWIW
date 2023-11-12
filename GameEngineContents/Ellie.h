@@ -14,8 +14,8 @@ constexpr float CONST_Ellie_Run_Speed = 220.0f;
 constexpr float CONST_Ellie_NonRiding_Acceleration_Time = 1.0f;
 constexpr float CONST_Ellie_Riding_Move_Acceleration_Time = 0.8f;
 constexpr float CONST_Ellie_Riding_Boosting_Acceleration_Time = 0.7f;
-constexpr float CONST_Ellie_Riding_Move_Speed = 300.0f;
-constexpr float CONST_Ellie_Riding_Boost_Speed = 500.0f;
+constexpr float CONST_Ellie_Riding_Move_Speed = 260.0f;
+constexpr float CONST_Ellie_Riding_Boost_Speed = 320.0f;
 
 
 enum class EELLIE_STATE
