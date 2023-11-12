@@ -24,10 +24,10 @@ public:
 	static void RegisterForQuickSlot(std::string_view _ItemName);
 
 protected:
-	void Start() override;
-	void Update(float _Delta) override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
-	void LevelEnd(class GameEngineLevel* _NextLevel) override;
+	void Start() override {}
+	void Update(float _Delta) override {}
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
+	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 private:
 	std::shared_ptr<GameEngineUIRenderer> m_Slot = nullptr;

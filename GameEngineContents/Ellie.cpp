@@ -21,6 +21,18 @@ Ellie::Ellie()
 			GameEngineSound::SoundLoad(pfile.GetStringPath());
 		}
 	}
+
+	if (nullptr == GameEngineSound::FindSound("SFX_PenCompleteMelody.wav"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\Sound\\Actor\\Ellie\\Pen");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pfile : Files)
+		{
+			GameEngineSound::SoundLoad(pfile.GetStringPath());
+		}
+	}
 }
 
 Ellie::~Ellie() 

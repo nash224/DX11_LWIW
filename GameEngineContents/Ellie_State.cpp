@@ -154,6 +154,8 @@ void Ellie::StartJuicy()
 
 void Ellie::StartCheer()
 {
+	Ellie::PlaySFX("SFX_PenCompleteMelody.wav");
+
 	ChangeAnimationByDirection("Cheer", false);
 }
 

@@ -7,6 +7,17 @@
 ETOOLTYPE UI_Hub_Tool::m_CurrentTool = ETOOLTYPE::None;
 UI_Hub_Tool::UI_Hub_Tool() 
 {
+	if (nullptr == GameEngineSound::FindSound("SFX_ToolSwap_01.wav"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\Sound\\UI\\ToolChange");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pfile : Files)
+		{
+			GameEngineSound::SoundLoad(pfile.GetStringPath());
+		}
+	}
 }
 
 UI_Hub_Tool::~UI_Hub_Tool() 
@@ -21,24 +32,14 @@ void UI_Hub_Tool::Start()
 
 void UI_Hub_Tool::Update(float _Delta)
 {
-	UI_Hub_Actor::Update(_Delta);
-
 	DetectToolChange();
 	UpdateToolArrow(_Delta);
 }
 
 void UI_Hub_Tool::LevelStart(class GameEngineLevel* _NextLevel)
 {
-	UI_Hub_Actor::LevelStart(_NextLevel);
-
-	ChangeToolImg();
+	ChangeToolImg(m_CurrentTool);
 }
-
-void UI_Hub_Tool::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-	UI_Hub_Actor::LevelEnd(_NextLevel);
-}
-
 
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
@@ -88,30 +89,13 @@ void UI_Hub_Tool::DetectToolChange()
 
 void UI_Hub_Tool::NextTool()
 {
-	int TrueValue = 0;
-
-	// 데이터에 true가 1개면 움직이지 않는다는 것으로 리턴해줍니다.
-	for (size_t i = 0; i < ContentsEvent::ToolData.size(); i++)
+	if (false == RemainToolCheck())
 	{
-		if (true == ContentsEvent::ToolData[i])
-		{
-			++TrueValue;
-		}
-
-		if (TrueValue >= 2)
-		{
-			break;
-		}
-
-		if (i == ContentsEvent::ToolData.size() - 1)
-		{
-			return;
-		}
+		return;
 	}
 
 	int ToolValue = static_cast<int>(m_CurrentTool);
 
-	// 얻지 못한 도구는 선택을 못하게 합니다.
 	while (true)
 	{
 		++ToolValue;
@@ -135,25 +119,9 @@ void UI_Hub_Tool::NextTool()
 
 void UI_Hub_Tool::PrevTool()
 {
-	int TrueValue = 0;
-
-	// 데이터에 true가 1개면 움직이지 않는다는 것으로 리턴해줍니다.
-	for (size_t i = 0; i < ContentsEvent::ToolData.size(); i++)
+	if (false == RemainToolCheck())
 	{
-		if (true == ContentsEvent::ToolData[i])
-		{
-			++TrueValue;
-		}
-
-		if (TrueValue >= 2)
-		{
-			break;
-		}
-
-		if (i == ContentsEvent::ToolData.size() - 1)
-		{
-			return;
-		}
+		return;
 	}
 
 	int ToolValue = static_cast<int>(m_CurrentTool);
@@ -179,7 +147,30 @@ void UI_Hub_Tool::PrevTool()
 	IsChangeTool = true;
 }
 
-// 현재 도구 이미지와 다르면 변경합니다.
+bool UI_Hub_Tool::RemainToolCheck()
+{
+	int TrueValue = 0;
+
+	for (size_t i = 0; i < ContentsEvent::ToolData.size(); i++)
+	{
+		if (true == ContentsEvent::ToolData[i])
+		{
+			++TrueValue;
+		}
+
+		if (TrueValue >= 2)
+		{
+			break;
+		}
+
+		if (i == ContentsEvent::ToolData.size() - 1)
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
 
 void UI_Hub_Tool::ChangeToolImg()
 {
@@ -197,9 +188,11 @@ void UI_Hub_Tool::ChangeToolImg()
 	m_Tool->SetSprite("Tool_Icon.png", static_cast<int>(m_CurrentTool));
 
 	m_CurrentToolRenderNumber = static_cast<int>(m_CurrentTool);
+
+	GlobalUtils::PlaySFX("SFX_ToolSwap_01.wav");
 }
 
-// 도구 이미지를 변경합니다.
+
 void UI_Hub_Tool::ChangeToolImg(ETOOLTYPE _Type)
 {
 	if (nullptr == m_Tool)

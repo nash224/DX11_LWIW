@@ -82,7 +82,6 @@ void UI_Dictionary::Init()
 	CreatePage(EDICTIONARYCATEGORY::PlantPage, "MapleHerb");
 
 
-
 	// PotionPage
 	CreatePage(EDICTIONARYCATEGORY::PotionPage, "BadGrassPotion");
 	CreatePage(EDICTIONARYCATEGORY::PotionPage, "NutritionPotion");
@@ -106,16 +105,10 @@ void UI_Dictionary::Init()
 // 책 생성
 void UI_Dictionary::CreateBase()
 {
-	// Base
-	m_BaseRenderer = CreateComponent<GameEngineUIRenderer>();
-	if (nullptr == m_BaseRenderer)
-	{
-		MsgBoxAssert("Base를 생성하지 못했습니다.");
-		return;
-	}
+	const float Depth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Base);
 
-	float ZOrder = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Base);
-	m_BaseRenderer->Transform.SetLocalPosition({ 0.0f , 0.0f, ZOrder });
+	m_BaseRenderer = CreateComponent<GameEngineUIRenderer>();
+	m_BaseRenderer->Transform.SetLocalPosition({ 0.0f , 0.0f, Depth });
 	m_BaseRenderer->SetSprite("Base.png");
 }
 
@@ -125,12 +118,6 @@ void UI_Dictionary::CreateCategory()
 	float4 SetLocalPos = float4{ -345.0f , 128.0f };
 
 	m_CategoryRenderer.Creature = CreateComponent<GameEngineUIRenderer>();
-	if (nullptr == m_CategoryRenderer.Creature)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
-
 	m_CategoryRenderer.Creature->SetSprite("Tag_Creature_Normal.png");
 	m_CategoryRenderer.Creature->SetPivotType(PivotType::Right);
 
@@ -160,12 +147,6 @@ void UI_Dictionary::CreateCategory()
 
 
 	m_CategoryRenderer.Plant = CreateComponent<GameEngineUIRenderer>();
-	if (nullptr == m_CategoryRenderer.Plant)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
-
 	m_CategoryRenderer.Plant->SetSprite("Tag_Plant_Normal.png");
 	m_CategoryRenderer.Plant->SetPivotType(PivotType::Right);
 
@@ -187,12 +168,6 @@ void UI_Dictionary::CreateCategory()
 
 
 	m_CategoryRenderer.Potion = CreateComponent<GameEngineUIRenderer>();
-	if (nullptr == m_CategoryRenderer.Potion)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
-
 	m_CategoryRenderer.Potion->SetSprite("Tag_Potion_Normal.png");
 	m_CategoryRenderer.Potion->SetPivotType(PivotType::Right);
 
@@ -215,12 +190,6 @@ void UI_Dictionary::CreateCategory()
 
 
 	m_CategoryRenderer.Candy = CreateComponent<GameEngineUIRenderer>();
-	if (nullptr == m_CategoryRenderer.Candy)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
-	 
 	m_CategoryRenderer.Candy->SetSprite("Tag_Candy_Normal.png");
 	m_CategoryRenderer.Candy->SetPivotType(PivotType::Right);
 
@@ -231,65 +200,34 @@ void UI_Dictionary::CreateCategory()
 // 카테고리 페이지를 추가합니다.
 void UI_Dictionary::CreatePage(EDICTIONARYCATEGORY _Type, std::string_view Name)
 {
-	GameEngineLevel* CurLevel = GetLevel();
-	if (nullptr == CurLevel)
-	{
-		MsgBoxAssert("레벨을 불러오지 못했습니다.");
-		return;
-	}
-	
 	switch (_Type)
 	{
 	case EDICTIONARYCATEGORY::None:
 		break;
 	case EDICTIONARYCATEGORY::CreaturePage:
 	{
-		std::shared_ptr<UI_BiologyPage> Page = CurLevel->CreateActor<UI_BiologyPage>(EUPDATEORDER::UIComponent);
-		if (nullptr == Page)
-		{
-			MsgBoxAssert("액터를 생성하지 못했습니다.");
-			return;
-		}
-
+		std::shared_ptr<UI_BiologyPage> Page = GetLevel()->CreateActor<UI_BiologyPage>(EUPDATEORDER::UIComponent);
 		Page->CreatePage(Name, m_CreaturePageCount);
 		vecCreaturePage.push_back(Page);
 	}
 		break;
 	case EDICTIONARYCATEGORY::PlantPage:
 	{
-		std::shared_ptr<UI_BiologyPage> Page = CurLevel->CreateActor<UI_BiologyPage>(EUPDATEORDER::UIComponent);
-		if (nullptr == Page)
-		{
-			MsgBoxAssert("액터를 생성하지 못했습니다.");
-			return;
-		}
-
+		std::shared_ptr<UI_BiologyPage> Page = GetLevel()->CreateActor<UI_BiologyPage>(EUPDATEORDER::UIComponent);
 		Page->CreatePage(Name, m_PlantPageCount);
 		vecPlantPage.push_back(Page);
 	}
 		break;
 	case EDICTIONARYCATEGORY::PotionPage:
 	{
-		std::shared_ptr<UI_ProductPage> Page = CurLevel->CreateActor<UI_ProductPage>(EUPDATEORDER::UIComponent);
-		if (nullptr == Page)
-		{
-			MsgBoxAssert("액터를 생성하지 못했습니다.");
-			return;
-		}
-
+		std::shared_ptr<UI_ProductPage> Page = GetLevel()->CreateActor<UI_ProductPage>(EUPDATEORDER::UIComponent);
 		Page->CreatePage(Name, m_PotionPageCount);
 		vecPotionPage.push_back(Page);
 	}
 		break;
 	case EDICTIONARYCATEGORY::CandyPage:
 	{
-		std::shared_ptr<UI_ProductPage> Page = CurLevel->CreateActor<UI_ProductPage>(EUPDATEORDER::UIComponent);
-		if (nullptr == Page)
-		{
-			MsgBoxAssert("액터를 생성하지 못했습니다.");
-			return;
-		}
-
+		std::shared_ptr<UI_ProductPage> Page = GetLevel()->CreateActor<UI_ProductPage>(EUPDATEORDER::UIComponent);
 		Page->CreatePage(Name, m_CandyPageCount);
 		vecCandyPage.push_back(Page);
 	}
@@ -305,6 +243,7 @@ void UI_Dictionary::CreatePage(EDICTIONARYCATEGORY _Type, std::string_view Name)
 // 부모의 Open함수에 자식에서 해줘야할 행동을 선언합니다.
 void UI_Dictionary::OpenInternal()
 {
+	GlobalUtils::PlaySFX("SFX_Open_01.wav");
 	OpenNextPage(g_CurrentCategory);
 }
 
@@ -319,13 +258,14 @@ void UI_Dictionary::CloseInternal()
 // 현재 장을 펼칩니다.
 void UI_Dictionary::OpenNextPage(EDICTIONARYCATEGORY _Type)
 {
+	GlobalUtils::PlaySFX("SFX_PenCompleteTearPaper.wav");
+
 	if (g_CurrentLeftPage < 1)
 	{
 		MsgBoxAssert("0페이지는 존재하지 않습니다.");
 		return;
 	}
 
-	// OpenPage는 2가 나오면 3,4 페이지가 열립니다.
 	int OpenPage = g_CurrentLeftPage - 1;
 
 	switch (g_CurrentCategory)
@@ -570,8 +510,6 @@ bool UI_Dictionary::CheckTurningPage()
 // 페이지가 다음장으로 넘어갑니다.
 void UI_Dictionary::NextPage()
 {
-	// SFX
-
 	int MaxPage = -1;
 
 	switch (g_CurrentCategory)
@@ -612,8 +550,6 @@ void UI_Dictionary::NextPage()
 // 페이지가 이전장으로 넘어갑니다.
 void UI_Dictionary::PrevPage()
 {
-	// SFX
-
 	if (g_CurrentLeftPage <= 2)
 	{
 		return;

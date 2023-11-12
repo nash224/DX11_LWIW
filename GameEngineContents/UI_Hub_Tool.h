@@ -24,12 +24,13 @@ protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
-	void LevelEnd(class GameEngineLevel* _NextLevel) override;
+	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 private:
 	void NextTool();
 	void PrevTool();
 
+	bool RemainToolCheck();
 	
 	void ChangeToolImg();							// 이미지와 현재 변수가 다르면 변경
 	void ChangeToolImg(ETOOLTYPE _Type);			// 같던 다르던 변경
