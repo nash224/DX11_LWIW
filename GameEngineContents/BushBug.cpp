@@ -6,6 +6,17 @@
 
 BushBug::BushBug() 
 {
+	if (nullptr == GameEngineSound::FindSound("SFX_BushBug_Fly.wav"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\Sound\\Actor\\BushBug");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pfile : Files)
+		{
+			GameEngineSound::SoundLoad(pfile.GetStringPath());
+		}
+	}
 }
 
 BushBug::~BushBug() 
@@ -97,6 +108,7 @@ void BushBug::ALightSetting()
 		});
 	m_Body->SetFrameEvent("Idle", 3, [&](GameEngineSpriteRenderer* _Renderer)
 		{
+			PlaySFX("SFX_BushBug_Fly.wav");
 			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 17.0f, -0.01f));
 		});
 	m_Body->SetFrameEvent("Idle", 4, [&](GameEngineSpriteRenderer* _Renderer)

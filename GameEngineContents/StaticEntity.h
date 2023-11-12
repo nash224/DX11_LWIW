@@ -32,6 +32,8 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override{}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
+	void PlaySFX(std::string_view _FileName);
+
 private:
 	std::shared_ptr<PixelCollision> PixelCol;
 	std::shared_ptr<GameEngineSpriteRenderer> PixelRenderer;

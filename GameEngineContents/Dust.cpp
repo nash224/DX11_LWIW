@@ -40,7 +40,8 @@ void Dust::Init(std::string_view _DustSpriteName, bool _isGroundDust /*= false*/
 {
 	if (true == _isGroundDust)
 	{
-		GlobalUtils::CalculateFixDepth(EHOUSEDEPTH::GroundDust);
+		const float Depth = GlobalUtils::CalculateFixDepth(EHOUSEDEPTH::GroundDust);
+		Transform.AddLocalPosition(float4(0.0f, 0.0f, Depth));
 	}
 	else
 	{

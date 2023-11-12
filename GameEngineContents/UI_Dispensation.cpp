@@ -176,7 +176,7 @@ void UI_Dispensation::Reset()
 	}
 
 	ChangeAllDirectionReset();
-	CurDirection = EBREWING_DIRECTION::StirNone;
+	CurStir = EBREWING_DIRECTION::StirNone;
 	Direction_None->SetSprite("Dispensation_Direction_None_Check.png");
 
 	ClearSlotInfo();
@@ -218,7 +218,7 @@ int UI_Dispensation::ReturnEmptySlot()
 {
 	for (int i = 0; i < m_DispensationSlotInfo.size(); i++)
 	{
-		if ("" == m_DispensationSlotInfo[i].ItemName)
+		if (true == m_DispensationSlotInfo[i].ItemName.empty())
 		{
 			return i;
 		}
@@ -286,15 +286,13 @@ void UI_Dispensation::Dispensation()
 		{m_DispensationSlotInfo[1].ItemName, m_DispensationSlotInfo[1].ItemCount},
 		{m_DispensationSlotInfo[2].ItemName, m_DispensationSlotInfo[2].ItemCount}
 	};
-	const ProductRecipeData CurRecipeData = ProductRecipeData{ infoArray, EBREWING_DIFFICULTY::Normal, CurDirection,CurFire};
+	const ProductRecipeData CurRecipeData = ProductRecipeData{ infoArray, EBREWING_DIFFICULTY::Normal, CurStir, CurFire};
 
-	// 연금 레시피와 일치하는게 있으면
 	if (true == CheckDispensation(CurRecipeData))
 	{
 		for (size_t i = 0; i < m_DispensationSlotInfo.size(); i++)
 		{
-			// 해당 아이템을 뺴줌
-			PopDispensationMaterial(m_DispensationSlotInfo[i].ItemName, m_DispensationSlotInfo[i].ItemCount);
+			PopDispensationMaterial(m_DispensationSlotInfo[i].ItemName);
 		}
 	}
 	else
@@ -334,9 +332,9 @@ bool UI_Dispensation::CheckDispensation(const ProductRecipeData& _Data)
 }
 
 // 연금된 아이템을 제거합니다.
-void UI_Dispensation::PopDispensationMaterial(std::string_view _ItemName, int ItemCount)
+void UI_Dispensation::PopDispensationMaterial(std::string_view _ItemName)
 {
-	if ("" != _ItemName)
+	if (false == _ItemName.empty())
 	{
 		if (nullptr == UI_Inventory::MainInventory)
 		{
@@ -344,7 +342,9 @@ void UI_Dispensation::PopDispensationMaterial(std::string_view _ItemName, int It
 			return;
 		}
 
-		UI_Inventory::MainInventory->PopItem(_ItemName, ItemCount);
+		const std::uint32_t _ItemCount = ProductRecipeData::GetNeedMaterialCount(CreatedProductName, _ItemName);
+
+		UI_Inventory::MainInventory->PopItem(_ItemName, _ItemCount);
 	}
 }
 
@@ -380,13 +380,13 @@ void UI_Dispensation::UpdateKey()
 
 	if (true == GameEngineInput::IsDown('E', this))
 	{
-		PrevDirection();
+		PrevStirOption();
 		return;
 	}
 
 	if (true == GameEngineInput::IsDown('R', this))
 	{
-		NextDirection();
+		NextStirOption();
 		return;
 	}
 }
@@ -454,48 +454,48 @@ void UI_Dispensation::HighHit()
 }
 
 // 이전방향
-void UI_Dispensation::PrevDirection()
+void UI_Dispensation::PrevStirOption()
 {
-	if (EBREWING_DIRECTION::StirLeft == CurDirection)
+	if (EBREWING_DIRECTION::StirLeft == CurStir)
 	{
 		return;
 	}
 
 	ChangeAllDirectionReset();
 
-	if (EBREWING_DIRECTION::StirNone == CurDirection)
+	if (EBREWING_DIRECTION::StirNone == CurStir)
 	{
 		Direction_CounterClockwise->SetSprite("Dispensation_Direction_CounterClockwise_Check.png");
-		CurDirection = EBREWING_DIRECTION::StirLeft;
+		CurStir = EBREWING_DIRECTION::StirLeft;
 	}
 
-	if (EBREWING_DIRECTION::StirRight == CurDirection)
+	if (EBREWING_DIRECTION::StirRight == CurStir)
 	{
 		Direction_None->SetSprite("Dispensation_Direction_None_Check.png");
-		CurDirection = EBREWING_DIRECTION::StirNone;
+		CurStir = EBREWING_DIRECTION::StirNone;
 	}
 }
 
 // 다음 방향
-void UI_Dispensation::NextDirection()
+void UI_Dispensation::NextStirOption()
 {
-	if (EBREWING_DIRECTION::StirRight == CurDirection)
+	if (EBREWING_DIRECTION::StirRight == CurStir)
 	{
 		return;
 	}
 
 	ChangeAllDirectionReset();
 
-	if (EBREWING_DIRECTION::StirNone == CurDirection)
+	if (EBREWING_DIRECTION::StirNone == CurStir)
 	{
 		Direction_Clockwise->SetSprite("Dispensation_Direction_Clockwise_Check.png");
-		CurDirection = EBREWING_DIRECTION::StirRight;
+		CurStir = EBREWING_DIRECTION::StirRight;
 	}
 
-	if (EBREWING_DIRECTION::StirLeft == CurDirection)
+	if (EBREWING_DIRECTION::StirLeft == CurStir)
 	{
 		Direction_None->SetSprite("Dispensation_Direction_None_Check.png");
-		CurDirection = EBREWING_DIRECTION::StirNone;
+		CurStir = EBREWING_DIRECTION::StirNone;
 	}
 }
 

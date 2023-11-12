@@ -90,8 +90,6 @@ private:
 	void StartDisappear();
 	void UpdateDisappear(float _Delta);
 
-	void PlayJumpSound();
-
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> m_Shadow = nullptr;
 

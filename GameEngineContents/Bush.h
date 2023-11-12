@@ -48,12 +48,15 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
+	std::string RandomBushShakingSoundFilleName();
+	std::string RandomBushBugAppearSoundFilleName();
+
 private:
 	void CreateBushAnimation();
 	void InteractiveOptionSetting();
 	void BushStateSetting();
 
-private:
+
 	void UpdateState(float _Delta);
 	void ChangeState(EBUSHSTATE _State);
 	void ChangeBushAnimation(std::string_view _Name);
@@ -73,7 +76,6 @@ private:
 	void StartAppearBug();
 	void UpdateAppearBug(float _Delta);
 	void CreateBushBug();
-
 
 
 private:

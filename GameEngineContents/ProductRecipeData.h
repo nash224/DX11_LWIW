@@ -87,6 +87,8 @@ public:
 		return true;
 	}
 
+	static unsigned int GetNeedMaterialCount(std::string_view _ProductName, std::string_view _MaterialName);
+
 protected:
 
 public:

@@ -19,3 +19,23 @@ ProductRecipeData::ProductRecipeData(const std::vector<MaterialInfo>& MaterialAr
 	Material(MaterialArray)
 {
 }
+
+unsigned int ProductRecipeData::GetNeedMaterialCount(std::string_view _ProductName, std::string_view _MaterialName)
+{
+	std::weak_ptr<ProductRecipeData> recipe = Find(_ProductName);
+	if (recipe.expired())
+	{
+		MsgBoxAssert("등록되지 않은 레시피를 참조하려 했습니다.");
+		return 0;
+	}
+
+	for (const MaterialInfo& Info : recipe.lock()->Material)
+	{
+		if (Info.MaterialName == _MaterialName)
+		{
+			return Info.MaterialCount;
+		}
+	}
+
+	return 0;
+}

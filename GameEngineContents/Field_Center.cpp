@@ -102,11 +102,11 @@ void Field_Center::SetEllieLevelChangeLocation(class GameEngineLevel* _NextLevel
 
 	if (_NextLevel->GetName() == "WitchHouse_Yard")
 	{
-		SpawnPosition = { 500.0f , -400.0f };
+		SpawnPosition = { 1430.0f , -50.0f };
 	}
 	else
 	{
-		SpawnPosition = { 500.0f , -400.0f };
+		SpawnPosition = { 1430.0f , -50.0f };
 	}
 
 	if (nullptr != m_Ellie)

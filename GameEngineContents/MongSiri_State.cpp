@@ -75,7 +75,6 @@ void MongSiri::EndIdle()
 void MongSiri::StartJump()
 {
 	SearchJumpLocation();
-	PlayJumpSound();
 	ChangeAnimationByDircetion("Jump");
 }
 
@@ -319,10 +318,4 @@ void MongSiri::UpdateDisappear(float _Delta)
 		MongSiriParant->MongSiriEntityList.remove(GetDynamic_Cast_This<MongSiri>());
 		Death();
 	}
-}
-
-
-void MongSiri::PlayJumpSound()
-{
-
 }

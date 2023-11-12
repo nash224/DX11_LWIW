@@ -64,3 +64,10 @@ void StaticEntity::UpdatePixelCollision()
 		}
 	}
 }
+
+
+void StaticEntity::PlaySFX(std::string_view _FileName)
+{
+	GameEngineSoundPlayer SoundPlayer = GameEngineSound::SoundPlay(_FileName);
+	SoundPlayer.SetVolume(GlobalValue::GetSFXVolume());
+}

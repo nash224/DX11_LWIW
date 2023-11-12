@@ -64,13 +64,12 @@ void Inventory::PopItem(std::string_view _ItemName, unsigned int _Count)
 		return;
 	}
 
- 	int SlotNumber = ReturnSlotNumber(_ItemName);
-	InventoryData[SlotNumber].ItemCount -= _Count;
+	SlotInfo->ItemCount -= _Count;
 
-	bool isZeroCount = (InventoryData[SlotNumber].ItemCount <= 0);
+	bool isZeroCount = (SlotInfo->ItemCount <= 0);
 	if (isZeroCount)
 	{
-		ClearData(SlotNumber);
+		ClearData(ReturnSlotNumber(_ItemName));
 	}
 }
 

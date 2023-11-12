@@ -6,6 +6,17 @@
 
 BranchTree::BranchTree() 
 {
+	if (nullptr == GameEngineSound::FindSound("SFX_TreeShake.wav"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\Sound\\Actor\\TreeShaking");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pfile : Files)
+		{
+			GameEngineSound::SoundLoad(pfile.GetStringPath());
+		}
+	}
 }
 
 BranchTree::~BranchTree() 
@@ -39,16 +50,6 @@ void BranchTree::Release()
 	m_Body = nullptr;
 
 	BranchVector.clear();
-}
-
-void BranchTree::LevelStart(class GameEngineLevel* _NextLevel)
-{
-	StaticEntity::LevelStart(_NextLevel);
-}
-
-void BranchTree::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-	StaticEntity::LevelEnd(_NextLevel);
 }
 
 
@@ -125,7 +126,7 @@ void BranchTree::CreateBranchRenderer()
 
 void BranchTree::SetBranchInter()
 {
-	BranchTotalInter = BranchFallInter * 4.0f;
+	BranchTotalTime = DropBranchCoolDown * 4.0f;
 }
 
 
@@ -212,6 +213,7 @@ void BranchTree::StartShake()
 	IsShaked = false;
 
 	ChangeBranchTreeAnimation("Shake");
+	PlaySFX("SFX_TreeShake.wav");
 }
 
 void BranchTree::UpdateShake(float _Delta)
@@ -229,29 +231,26 @@ void BranchTree::UpdateShake(float _Delta)
 	}
 }
 
-
-
-
 void BranchTree::UpdateBranch(float _Delta)
 {
 	if (true == IsEnalbeActive)
 	{
-		m_BranchStateTime += _Delta;
+		ShakingTime += _Delta;
 
-		if (m_BranchStateTime > BranchFallInter)
+		if (ShakingTime > DropBranchCoolDown)
 		{
-			BranchTotalInter -= BranchFallInter;
-			m_BranchStateTime -= BranchFallInter;
+			BranchTotalTime -= DropBranchCoolDown;
+			ShakingTime -= DropBranchCoolDown;
 
 			FallBranch();
 			IsShaked = true;
 
-			if (1 == m_BranchCount)
+			if (1 == BranchCount)
 			{
-				BranchFallInter = BranchTotalInter;
+				DropBranchCoolDown = BranchTotalTime;
 			}
 
-			if (0 == m_BranchCount)
+			if (0 == BranchCount)
 			{
 				if (nullptr == m_InteractiveCol)
 				{
@@ -265,13 +264,13 @@ void BranchTree::UpdateBranch(float _Delta)
 	}
 	else
 	{
-		if (m_BranchStateTime > 0.0f)
+		if (ShakingTime > 0.0f)
 		{
-			m_BranchStateTime -= _Delta;
+			ShakingTime -= _Delta;
 			
-			if (m_BranchStateTime < 0.0f)
+			if (ShakingTime < 0.0f)
 			{
-				m_BranchStateTime = 0.0f;
+				ShakingTime = 0.0f;
 			}
 		}
 	}
@@ -281,15 +280,14 @@ void BranchTree::UpdateBranch(float _Delta)
 void BranchTree::FallBranch()
 {
 	EraseBranch();
-	CreateBranchItem();
-	--m_BranchCount;
+	DropBranchItem();
+	--BranchCount;
 }
 
-// 나뭇가지 지우고
 void BranchTree::EraseBranch()
 {
-	int FallOrder = m_BranchCount - 1;
-	std::shared_ptr<GameEngineSpriteRenderer> BrachRenderer = BranchVector[FallOrder];
+	int BranchOrder = BranchCount - 1;
+	std::shared_ptr<GameEngineSpriteRenderer> BrachRenderer = BranchVector[BranchOrder];
 	if (nullptr == BrachRenderer)
 	{
 		MsgBoxAssert("존재하지 않는 렌더러를 참조하려 했습니다.");
@@ -299,8 +297,7 @@ void BranchTree::EraseBranch()
 	BrachRenderer->Off();
 }
 
-// 아이템 생성시키고
-void BranchTree::CreateBranchItem()
+void BranchTree::DropBranchItem()
 {
 	if (nullptr == BackDrop_PlayLevel::MainBackDrop)
 	{
@@ -313,7 +310,7 @@ void BranchTree::CreateBranchItem()
 
 	const float4& FallingPoint = float4{ 30.0f, 30.0f };
 
-	float4 FallingPosition = RandomClass.RandomVectorBox2D(FallingPositionBranchMinRange, FallingPositionBranchMaxRange, FallingPositionBranchMinRange, FallingPositionBranchMaxRange);
-	FallingPosition += Transform.GetLocalPosition() + FallingPoint;
+	const float4& RandomFallingPosition = RandomClass.RandomVectorBox2D(FallingPositionBranchMinRange, FallingPositionBranchMaxRange, FallingPositionBranchMinRange, FallingPositionBranchMaxRange);
+	const float4& FallingPosition = Transform.GetLocalPosition() + RandomFallingPosition;
 	BackDrop_PlayLevel::MainBackDrop->CreateItem("Branch_Collect", FallingPosition, 1, 80.0f);
 }

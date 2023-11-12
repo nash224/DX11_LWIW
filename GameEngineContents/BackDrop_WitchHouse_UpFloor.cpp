@@ -445,9 +445,9 @@ void BackDrop_WitchHouse_UpFloor::DustEventSetting()
 
 	{
 		const float4& DustPosition = float4(510.0f, -240.0f);
-		std::weak_ptr<Dust_Elevator> DustHandBook = GetLevel()->CreateActor<Dust_Elevator>(EUPDATEORDER::Entity);
-		DustHandBook.lock()->Transform.SetLocalPosition(DustPosition);
-		DustHandBook.lock()->Init("paper.png", true);
+		std::weak_ptr<Dust_Elevator> DustElevator = GetLevel()->CreateActor<Dust_Elevator>(EUPDATEORDER::Entity);
+		DustElevator.lock()->Transform.SetLocalPosition(DustPosition);
+		DustElevator.lock()->Init("paper.png", true);
 	}
 }
 

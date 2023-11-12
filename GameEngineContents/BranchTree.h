@@ -45,8 +45,8 @@ protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
-	void LevelEnd(class GameEngineLevel* _NextLevel) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
+	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 private:
 	void UpdateState(float _Delta);
@@ -64,7 +64,7 @@ private:
 	void UpdateBranch(float _Delta);
 	void FallBranch();
 	void EraseBranch();
-	void CreateBranchItem();
+	void DropBranchItem();
 
 
 private:
@@ -73,11 +73,12 @@ private:
 	EBRANCHTREESTATE m_State = EBRANCHTREESTATE::None;
 
 	bool IsShaked = false;
-	int m_BranchCount = 3;
-	float m_BranchStateTime = 0.0f;
-	float BranchFallInter = 0.8f;
-	float BranchTotalInter = 0.0f;
+	int BranchCount = 3;
+	float ShakingTime = 0.0f;
+	float DropBranchCoolDown = 0.8f;
+	float BranchTotalTime = 0.0f;
 	const float TreeRenderCorrection = 112.0f;
+
 
 };
 

@@ -227,8 +227,12 @@ void MongSiri::CreateAndSetRenderer()
 		});
 	m_Body->SetFrameEvent("Collected", 4, [&](GameEngineSpriteRenderer* _Renderer)
 		{
-			PlaySFX("SFX_MongsiriRootUp.wav");
 			m_Shadow->SetSprite("Mongsiri_Jump.png", 4);
+		});
+
+	m_Body->SetFrameEvent("Collected", 7, [&](GameEngineSpriteRenderer* _Renderer)
+		{
+			PlaySFX("SFX_MongsiriRootUp.wav");
 		});
 
 	m_Body->SetEndEvent("Collected", [&](GameEngineSpriteRenderer* _Renderer)

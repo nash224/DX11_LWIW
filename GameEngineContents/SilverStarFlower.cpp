@@ -11,6 +11,17 @@
 
 SilverStarFlower::SilverStarFlower() 
 {
+	if (nullptr == GameEngineSound::FindSound("SFX_SliverStarFlower_Ring.wav"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\Sound\\Actor\\SliverStarFlower");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pfile : Files)
+		{
+			GameEngineSound::SoundLoad(pfile.GetStringPath());
+		}
+	}
 }
 
 SilverStarFlower::~SilverStarFlower() 
@@ -135,7 +146,7 @@ void SilverStarFlower::TouchStart(GameEngineState* _Parent)
 	}
 
 	CreatePollenSpawner();
-	// SFX
+	PlaySFX("SFX_SliverStarFlower_Ring.wav");
 }
 
 void SilverStarFlower::UnLightStart(GameEngineState* _Parent)

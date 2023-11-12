@@ -55,7 +55,7 @@ public:
 	void Dispensation();
 	bool CheckDispensation(const class ProductRecipeData& _Data);
 
-	void PopDispensationMaterial(std::string_view _ItemName, int ItemCount);
+	void PopDispensationMaterial(std::string_view _ItemName);
 
 protected:
 	void Start() override;
@@ -69,8 +69,8 @@ private:
 
 	void LowHit();
 	void HighHit();
-	void PrevDirection();
-	void NextDirection();
+	void PrevStirOption();
+	void NextStirOption();
 	void ChangeAllDirectionReset();
 
 
@@ -91,7 +91,7 @@ private:
 	std::string CreatedProductName = "";
 
 	EBREWING_FIRE CurFire = EBREWING_FIRE::Three;
-	EBREWING_DIRECTION CurDirection = EBREWING_DIRECTION::StirNone;
+	EBREWING_DIRECTION CurStir = EBREWING_DIRECTION::StirNone;
 
 };
 

@@ -3,6 +3,17 @@
 
 Plant::Plant() 
 {
+	if (nullptr == GameEngineSound::FindSound("SFX_PlantsRootUp_01.wav"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\Sound\\Actor\\Plant");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pfile : Files)
+		{
+			GameEngineSound::SoundLoad(pfile.GetStringPath());
+		}
+	}
 }
 
 Plant::~Plant() 
@@ -128,6 +139,8 @@ void Plant::StartUpRoot()
 {
 	m_InteractionButtonType = EINTERACTION_BUTTONTYPE::None;
 	m_InteractiveCol->Off();
+
+	PlaySFX("SFX_PlantsRootUp_01.wav");
 	ChangePlantAnimation("UpRoot");
 }
 

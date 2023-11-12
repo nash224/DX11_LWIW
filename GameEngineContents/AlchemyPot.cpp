@@ -10,6 +10,17 @@
 
 AlchemyPot::AlchemyPot() 
 {
+	if (nullptr == GameEngineSound::FindSound("SFX_MakingPot.wav"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\Sound\\Actor\\Machine\\MakingPot");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pfile : Files)
+		{
+			GameEngineSound::SoundLoad(pfile.GetStringPath());
+		}
+	}
 }
 
 AlchemyPot::~AlchemyPot() 
@@ -285,6 +296,14 @@ void AlchemyPot::StartBoil()
 
 	m_FxRenderer->On();
 
+	PlaySFX("SFX_MakingPotPutIn_01.wav");
+	PlaySFX("SFX_MakingPotStart.wav");
+
+	if (false == CraftedPotion.empty())
+	{
+		PlaySFX("SFX_MakingPotSucces_02.wav");
+	}
+
 	ChangePotCompositionAnimation("Boil");
 }
 
@@ -292,7 +311,7 @@ void AlchemyPot::UpdateBoil(float _Delta)
 {
 	if (nullptr != m_FxRenderer && true == m_FxRenderer->IsCurAnimationEnd())
 	{
-		if ("" != CraftedPotion)
+		if (false == CraftedPotion.empty())
 		{
 			ChangeState(EPOTSTATE::Success);
 			return;
@@ -308,6 +327,8 @@ void AlchemyPot::UpdateBoil(float _Delta)
 
 void AlchemyPot::StartFail()
 {
+	PlaySFX("SFX_MakingPotFail_02.wav");
+
 	ChangePotCompositionAnimation("Fail");
 }
 
