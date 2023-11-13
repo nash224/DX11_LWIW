@@ -4,11 +4,11 @@
 #include "GameEngineLevel.h"
 #include "GameEngineCollisionGroup.h"
 
-GameEngineCollision::GameEngineCollision()
+GameEngineCollision::GameEngineCollision() 
 {
 }
 
-GameEngineCollision::~GameEngineCollision()
+GameEngineCollision::~GameEngineCollision() 
 {
 }
 

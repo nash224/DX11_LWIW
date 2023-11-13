@@ -9,11 +9,11 @@
 #include "FadeObject.h"
 
 
-Dian::Dian() 
+Dian::Dian()
 {
 }
 
-Dian::~Dian() 
+Dian::~Dian()
 {
 }
 
@@ -147,7 +147,7 @@ void Dian::ConversationSetting()
 		WitchCatalogueTopic.Data.shrink_to_fit();
 		NPCConversation.CreateTopic(EDIANTOPICTYPE::WitchCatalogue, WitchCatalogueTopic);
 
-		NPCConversation.SetConversationEvent(EDIANTOPICTYPE::WitchCatalogue, 14,[&]()
+		NPCConversation.SetConversationEvent(EDIANTOPICTYPE::WitchCatalogue, 14, [&]()
 			{
 				// 마법 빗자루
 			});
@@ -195,7 +195,7 @@ void Dian::ConversationSetting()
 		PotionVerificationTopic.Data.shrink_to_fit();
 		NPCConversation.CreateTopic(EDIANTOPICTYPE::PotionVerification, PotionVerificationTopic);
 
-		NPCConversation.SetConversationEvent(EDIANTOPICTYPE::PotionVerification, 21,[&]()
+		NPCConversation.SetConversationEvent(EDIANTOPICTYPE::PotionVerification, 21, [&]()
 			{
 				// 퀘스트 수락
 			});
@@ -217,14 +217,14 @@ void Dian::ConversationSetting()
 		{
 			{ L"안녕하세요, 나쁜 풀 제거 물약을 가져왔어요." , ECONVERSATIONENTITY::Ellie , 1},
 			{ L"고마워요, 엘리. 덕분에 테스트를 할 수 있게 됐어요!" , ECONVERSATIONENTITY::NPC , 1},
-			{ L"여기 보사응로 약속한 잠자리채입니다." , ECONVERSATIONENTITY::NPC , 0},
+			{ L"여기 보상으로 약속한 잠자리채입니다." , ECONVERSATIONENTITY::NPC , 0},
 			{ L"오늘도 이용해주셔서 감사합니다." , ECONVERSATIONENTITY::NPC, 1},
 		};
 
 		DragonFlyTopic.Data.shrink_to_fit();
 		NPCConversation.CreateTopic(EDIANTOPICTYPE::DragonFly, DragonFlyTopic);
 
-		NPCConversation.SetConversationEvent(EDIANTOPICTYPE::DragonFly, 2,[&]()
+		NPCConversation.SetConversationEvent(EDIANTOPICTYPE::DragonFly, 2, [&]()
 			{
 				// 잠자리채
 			});

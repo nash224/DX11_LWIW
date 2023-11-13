@@ -77,19 +77,6 @@ void UIManager::Init()
 		}
 	}
 
-	if (nullptr == GameEngineSound::FindSound("SFX_InventoryDrop_01.wav"))
-	{
-		std::vector<GameEngineDirectory> Dirs = GlobalUtils::GetAllDirInPath("Resources\\Sound\\UI");
-		for (GameEngineDirectory& Dir : Dirs)
-		{
-			std::vector<GameEngineFile> Files = Dir.GetAllFile();
-			for (GameEngineFile& pFile : Files)
-			{
-				GameEngineSound::SoundLoad(pFile.GetStringPath());
-			}
-		}
-	}
-
 	
 
 	m_Hub = GetLevel()->CreateActor<UI_Hub>(EUPDATEORDER::UIComponent);

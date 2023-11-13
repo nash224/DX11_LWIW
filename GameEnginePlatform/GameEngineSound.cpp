@@ -78,11 +78,11 @@ float GameEngineSound::GlobalVolume = 1.0f;
 std::map<std::string, std::shared_ptr<GameEngineSound>> GameEngineSound::AllSound;
 
 
-GameEngineSound::GameEngineSound()
+GameEngineSound::GameEngineSound() 
 {
 }
 
-GameEngineSound::~GameEngineSound()
+GameEngineSound::~GameEngineSound() 
 {
 	if (nullptr != SoundHandle)
 	{
@@ -117,7 +117,7 @@ std::shared_ptr<GameEngineSound> GameEngineSound::FindSound(std::string_view _Na
 	{
 		return nullptr;
 	}
-
+	
 	return FindIter->second;
 }
 
@@ -189,7 +189,7 @@ FMOD::Channel* GameEngineSound::Play()
 {
 	FMOD::Channel* SoundControl = nullptr;
 
-	SoundSystem->playSound(SoundHandle, nullptr, false, &SoundControl);
+ 	SoundSystem->playSound(SoundHandle, nullptr, false, &SoundControl);
 
 	return SoundControl;
 }

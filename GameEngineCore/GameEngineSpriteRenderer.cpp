@@ -109,6 +109,7 @@ void GameEngineSpriteRenderer::Start()
 
 	GameEngineRenderer::SetMesh("Rect");
 	GameEngineRenderer::SetMaterial("2DTexture");
+
 }
 
 // Update Order에 영향을 받는다.
@@ -487,6 +488,12 @@ void GameEngineSpriteRenderer::SetText(const std::string& _Font, const std::stri
 {
 	std::shared_ptr<GameEngineRenderUnit> Unit = CreateAndFindRenderUnit(0);
 	Unit->SetText(_Font, _Text, _Scale, Color, Flag);
+}
+
+void GameEngineSpriteRenderer::ChangeText(std::string_view _Text, unsigned int _Index /*= 0*/)
+{
+	std::weak_ptr<GameEngineRenderUnit> Unit = CreateAndFindRenderUnit(_Index);
+	Unit.lock()->ChangeText(_Text);
 }
 
 void GameEngineSpriteRenderer::SetTextColor(const float4& _Color /*= float4::RED*/, unsigned int _Index /*= 0*/)

@@ -68,8 +68,8 @@ struct SpriteRendererInfo
 {
 	int FlipLeft = 0;
 	int FlipUp = 0;
-	float Temp1 = 0.0f;
-	float Temp2 = 0.0f;
+	float Temp1;
+	float Temp2;
 };
 
 struct ColorData
@@ -231,6 +231,7 @@ public:
 	void SetMaskTexture(std::string_view _Texture, MaskMode _Mask = MaskMode::StaticMask);
 
 	void SetText(const std::string& _Font, const std::string& _Text, float _Scale = 20.0f, float4 Color = float4::RED, FW1_TEXT_FLAG Flag = FW1_LEFT);
+	void ChangeText(std::string_view _Text, unsigned int _Index = 0);
 	void SetTextColor(const float4& _Color = float4::RED, unsigned int _Index = 0);
 	void SetTextAlpha(float _AlphaValue = 1.0f, unsigned int _Index = 0);
 

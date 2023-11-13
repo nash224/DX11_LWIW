@@ -20,6 +20,7 @@ public:
 
 	static const float4 Color_RED;
 	static const float4 Color_BLACK;
+	static const ConversationFont VigilDefaultFont;
 
 };
 
@@ -31,7 +32,7 @@ public:
 		ECONVERSATIONENTITY _ConversationEntity,
 		int _FileIndex = 0,
 		const ConversationFont& _Font = {}
-		)
+	)
 		:
 		Question(_Question),
 		ConversationEntity(_ConversationEntity),
@@ -58,7 +59,7 @@ public:
 	std::vector<ConversationData> Data;
 	std::function<void()> EndEvent;
 	std::string EntitySpriteName;
-	
+
 	int Default_Npc_Sprite_Index = -1;
 	int Elli_First_Sprite_Index = 1;
 

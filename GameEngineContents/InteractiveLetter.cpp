@@ -11,11 +11,11 @@
 #include "UI_Frame.h"
 
 
-InteractiveLetter::InteractiveLetter() 
+InteractiveLetter::InteractiveLetter()
 {
 }
 
-InteractiveLetter::~InteractiveLetter() 
+InteractiveLetter::~InteractiveLetter()
 {
 }
 
@@ -80,7 +80,7 @@ void InteractiveLetter::ConversationSetting()
 
 		StartTrainingTopic.Data.reserve(64);
 		StartTrainingTopic.Data =
-		{ 
+		{
 			{ L"편지다!" , ECONVERSATIONENTITY::Ellie, 1},
 			{ L"누가 이렇게 친절한 사람이 있지." , ECONVERSATIONENTITY::Virgil, 1, {ConversationFont::Color_BLACK, GlobalValue::Font_JejuHanlasan} },
 			{ L"어디보자, 마녀 수습에 대한 내용같아." , ECONVERSATIONENTITY::Ellie, 11},
@@ -124,9 +124,9 @@ void InteractiveLetter::ConversationSetting()
 				{
 					PlayLevel::s_AlertManager->RegisterAlert(AlertData("수습 시작!", EALERTTYPE::QuestAccept));
 				}
-				
 
-				const std::shared_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Find_Letter");
+
+				const std::shared_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Letter_Read");
 				if (nullptr == Quest)
 				{
 					MsgBoxAssert("생성되지 않은 퀘스트입니다.");
@@ -136,13 +136,11 @@ void InteractiveLetter::ConversationSetting()
 				Quest->QuestComplete();
 
 
-				if (nullptr == UIManager::MainUIManager)
+				if (nullptr != UIManager::MainUIManager)
 				{
-					MsgBoxAssert("UI 매니저가 존재하지 않습니다.");
-					return;
+					UIManager::MainUIManager->UseUIComponent();
 				}
 
-				UIManager::MainUIManager->UseUIComponent();
 
 				State.ChangeState(ELETTERSTATE::Disappear);
 			});
@@ -163,7 +161,7 @@ void InteractiveLetter::StateSetting()
 	CreateStateParameter DisappearState;
 	DisappearState.Start = std::bind(&InteractiveLetter::StartDisappear, this, std::placeholders::_1);
 	State.CreateState(ELETTERSTATE::Disappear, DisappearState);
-	
+
 	State.ChangeState(ELETTERSTATE::Idle);
 }
 

@@ -4,7 +4,7 @@
 #include <vector>
 #include <set>
 
-class EventParameter
+class EventParameter 
 {
 public:
 	std::function<void(class GameEngineCollision* _This, class GameEngineCollision* _Collisions)> Enter = nullptr;
