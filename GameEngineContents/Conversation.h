@@ -20,6 +20,7 @@ public:
 
 	static const float4 Color_RED;
 	static const float4 Color_BLACK;
+	static const ConversationFont VigilDefaultFont;
 
 };
 

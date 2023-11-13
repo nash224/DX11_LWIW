@@ -20,9 +20,6 @@ public:
 };
 
 // 인벤토리 데이터를 관리하는 클래스입니다.
-// UI_Inventory에도 데이터를 관리하는 InventoryData를 전역으로 생성해서 관리할 수 있지만,
-// 생각하는 형태가 위화감이 느껴져서 역할을 나눴습니다.
-// 예를 들어, 가방은 하나이고 레벨마다 인벤토리를 하나씩 가지고 있는 느낌이 들어서, 레벨마다 가방을 돌려쓰는 구조로 만들었습니다.
 class Inventory
 {
 	friend class UI_Inventory;
@@ -63,25 +60,6 @@ enum class EINVENTORYMODE
 };
 
 
-struct InventorySlotComposition
-{
-public:
-	std::shared_ptr<GameEngineUIRenderer> SlotEmpty = nullptr;
-	std::shared_ptr<GameEngineUIRenderer> Slot = nullptr;
-};
-
-struct InventoryCursorComposition
-{
-public:
-	std::shared_ptr<GameEngineUIRenderer> CursorOutline = nullptr;
-	std::shared_ptr<GameEngineUIRenderer> Cursor = nullptr;
-	std::shared_ptr<GameEngineUIRenderer> NameTooltip = nullptr;
-
-};
-
-
-
-
 struct SelectItemInfo
 {
 public:
@@ -90,8 +68,6 @@ public:
 
 	int SelectCount = -1;
 };
-
-
 
 
 // 설명 :
@@ -105,6 +81,25 @@ public:
 private:
 	static std::shared_ptr<Inventory> Data;
 	static unsigned int UnlockSlotY;
+
+private:
+	struct InventoryCursorInfo
+	{
+	public:
+		std::shared_ptr<GameEngineUIRenderer> CursorOutline = nullptr;
+		std::shared_ptr<GameEngineUIRenderer> Cursor = nullptr;
+		std::shared_ptr<GameEngineUIRenderer> NameTooltip = nullptr;
+		std::shared_ptr<GameEngineUIRenderer> ItemFont = nullptr;
+
+	};
+
+	struct InventorySlotInfo
+	{
+	public:
+		std::shared_ptr<GameEngineUIRenderer> SlotEmpty = nullptr;
+		std::shared_ptr<GameEngineUIRenderer> Slot = nullptr;
+		std::shared_ptr<GameEngineUIRenderer> ItemCount = nullptr;
+	};
 
 public:
 	// constrcuter destructer
@@ -157,24 +152,20 @@ private:
 
 	void LockSlot(const unsigned int _Y);
 
-	// 데이터
 	void ChangeDataParent();
-	void DisplayItem(const size_t _SlotNumber, std::string_view _FileName);
+	void DisplayItem(const size_t _SlotNumber, std::string_view _FileName, unsigned int _Count);
 	void RenewInventory();
 
-	// Open, Close
 	void OpenInternal() override;
 	void CloseInternal() override;
 
 	float4 CalculateIndexToPos(const size_t _x, const size_t _y);
 	void CursorThis(const unsigned int _X, const unsigned int _Y);
 
-	// 슬롯 클리어
 	void ClearSlot(const unsigned int _X, const unsigned int _Y);
 	void EraseSlotImg(const int _X, const int _Y);
 	void ClearAllSlotImg();
 
-	// 레벨 초기화
 	void OpenUpdate();
 
 
@@ -185,13 +176,15 @@ private:
 	bool UpdateCursor();
 	void MoveCursor(const int _X, const int _Y);
 
+	std::string ReturnItemKRName(std::string_view _ItemName);
+
 
 private:
-	std::vector<std::vector<InventorySlotComposition>> InventorySlotArray;
+	std::vector<std::vector<InventorySlotInfo>> InventorySlotArray;
 	std::shared_ptr<class UI_DropManager> m_DropManager = nullptr;
 	std::shared_ptr<GameEngineSpriteRenderer> m_InventoryBase = nullptr;
 
-	InventoryCursorComposition m_CursorComposition;
+	InventoryCursorInfo CursorInfo;
 
 	GameEngineState m_InventoryState;
 	EINVENTORYMODE InventoryMode = EINVENTORYMODE::None;

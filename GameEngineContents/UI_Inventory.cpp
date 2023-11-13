@@ -6,6 +6,8 @@
 #include "UI_DropManager.h"
 #include "UI_Dispensation.h"
 
+#include "ItemData.h"
+
 // 데이터 배열은 1차원 배열로 설정합니다.
 void Inventory::Init()
 {
@@ -51,7 +53,7 @@ bool Inventory::PushItem(std::string_view _ItemName, unsigned int _Count)
 		InventoryData[Value].ItemCount += _Count;
 	}
 
-	InventoryParent->DisplayItem(static_cast<size_t>(Value), _ItemName);
+	InventoryParent->DisplayItem(static_cast<size_t>(Value), _ItemName, InventoryData[Value].ItemCount);
 
 	return true;
 }
@@ -73,6 +75,10 @@ void Inventory::PopItem(std::string_view _ItemName, unsigned int _Count)
 	if (isZeroCount)
 	{
 		ClearData(ReturnSlotNumber(_ItemName));
+	}
+	else
+	{
+		InventoryParent->DisplayItem(static_cast<size_t>(ReturnSlotNumber(_ItemName)), _ItemName, SlotInfo->ItemCount);
 	}
 }
 
@@ -220,7 +226,7 @@ void Inventory::RenewInventory()
 	{
 		if (false == InventoryData[i].SourceName.empty())
 		{
-			InventoryParent->DisplayItem(i, InventoryData[i].SourceName);
+			InventoryParent->DisplayItem(i, InventoryData[i].SourceName, InventoryData[i].ItemCount);
 		}
 	}
 }
@@ -272,9 +278,10 @@ void UI_Inventory::Release()
 
 	m_DropManager = nullptr;
 	m_InventoryBase = nullptr;
-	m_CursorComposition.Cursor = nullptr;
-	m_CursorComposition.CursorOutline = nullptr;
-	m_CursorComposition.NameTooltip = nullptr;
+	CursorInfo.Cursor = nullptr;
+	CursorInfo.CursorOutline = nullptr;
+	CursorInfo.NameTooltip = nullptr;
+	CursorInfo.ItemFont = nullptr;
 
 	InventorySlotArray.clear();
 }
@@ -347,22 +354,39 @@ void UI_Inventory::CreateSlotArray()
 		InventorySlotArray[y].resize(Max_XSlot);
 		for (size_t x = 0; x < Max_XSlot; x++)
 		{
-			float4 Pos = CalculateIndexToPos(x, y);
+			const float4& IndexPos = CalculateIndexToPos(x, y);
+
+			const float FrameDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
+			const float IconDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Icon);
+			const float FontDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Font);
+
+			const float4& ItemCountCorrection = float4(18.0f, -12.0f);
+
+			const float4& FramePos = float4(IndexPos.X, IndexPos.Y, FrameDepth);
+			const float4& IconPos = float4(IndexPos.X, IndexPos.Y, IconDepth);
+			const float4& ItemCountPos = float4(IndexPos.X + ItemCountCorrection.X, IndexPos.Y + ItemCountCorrection.Y, FontDepth);
+
+			const float fontSize = 8.0f;
+
 
 			std::shared_ptr<GameEngineUIRenderer> Empty = CreateComponent<GameEngineUIRenderer>();
 			Empty->SetSprite("Inventory_Empty_Slot.png");
-			Pos.Z = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
-			Empty->Transform.SetLocalPosition(Pos);
+			Empty->Transform.SetLocalPosition(FramePos);
 
 
 			InventorySlotArray[y][x].SlotEmpty = Empty;
 
 			std::shared_ptr<GameEngineUIRenderer> Slot = CreateComponent<GameEngineUIRenderer>();
-			Pos.Z = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Icon);
-			Slot->Transform.SetLocalPosition(Pos);
+			Slot->Transform.SetLocalPosition(IconPos);
 			Slot->Off();
-
 			InventorySlotArray[y][x].Slot = Slot;
+
+			std::shared_ptr<GameEngineUIRenderer> ItemCount = CreateComponent<GameEngineUIRenderer>();
+			ItemCount->Transform.SetLocalPosition(ItemCountPos);
+			ItemCount->SetText(GlobalValue::Font_Sandoll,"", fontSize, float4::ZERO, FW1_TEXT_FLAG::FW1_RIGHT);
+			ItemCount->Off();
+
+			InventorySlotArray[y][x].ItemCount = ItemCount;
 		}
 	}
 }
@@ -395,16 +419,24 @@ void UI_Inventory::CreateCursor()
 	CurSor->CreateAnimation("Cursor", "Inventory_Cursor.png", CursorInter);
 	CurSor->ChangeAnimation("Cursor");
 	CurSor->AutoSpriteSizeOn();
-	m_CursorComposition.Cursor = CurSor;
+	CursorInfo.Cursor = CurSor;
 
 	std::shared_ptr<GameEngineUIRenderer> CurSorOutLine = CreateComponent<GameEngineUIRenderer>();
 	CurSorOutLine->SetSprite("Inventory_CursorOutline.png");
-	m_CursorComposition.CursorOutline = CurSorOutLine;
+	CursorInfo.CursorOutline = CurSorOutLine;
 
 	std::shared_ptr<GameEngineUIRenderer> NameTooltip = CreateComponent<GameEngineUIRenderer>();
 	NameTooltip->SetSprite("Inventory_NameTooltip.png");
 	NameTooltip->Off();
-	m_CursorComposition.NameTooltip = NameTooltip;
+	CursorInfo.NameTooltip = NameTooltip;
+
+
+	const float FontSize = 14.0f;
+
+	std::shared_ptr<GameEngineUIRenderer> ItemFont = CreateComponent<GameEngineUIRenderer>();
+	ItemFont->SetText(GlobalValue::Font_Sandoll, "", FontSize, float4::ZERO, FW1_TEXT_FLAG::FW1_CENTER);
+	ItemFont->Off();
+	CursorInfo.ItemFont = ItemFont;
 	
 
 	CursorThis(0, 0);
@@ -600,21 +632,32 @@ void UI_Inventory::ChangeDataParent()
 	Data->InventoryParent = this;
 }
 
-void UI_Inventory::DisplayItem(const size_t _SlotNumber, std::string_view _FileName)
+void UI_Inventory::DisplayItem(const size_t _SlotNumber, std::string_view _FileName, unsigned int _Count)
 {
 	size_t Number = _SlotNumber;
 	size_t SlotX = Number % Max_XSlot;
 	size_t SlotY = Number / Max_XSlot;
 
-	std::shared_ptr<GameEngineUIRenderer> Slot = InventorySlotArray[SlotY][SlotX].Slot;
-	if (nullptr == Slot)
+	const InventorySlotInfo& SlotInfo = InventorySlotArray[SlotY][SlotX];
+	std::weak_ptr<GameEngineUIRenderer> Slot = SlotInfo.Slot;
+	if (Slot.expired())
 	{
 		MsgBoxAssert("생성되지 않았거나 존재하지 않는 슬롯입니다.");
 		return;
 	}
 
-	Slot->SetSprite(_FileName.data() + std::string(".png"));
-	Slot->On();
+	Slot.lock()->SetSprite(_FileName.data() + std::string(".png"));
+	Slot.lock()->On();
+
+	std::weak_ptr<GameEngineUIRenderer> CountFont = SlotInfo.ItemCount;
+	if (true == CountFont.expired())
+	{
+		MsgBoxAssert("생성되지 않았거나 존재하지 않는 슬롯입니다.");
+		return;
+	}
+
+	CountFont.lock()->ChangeText(std::to_string(_Count));
+	CountFont.lock()->On();
 }
 
 void UI_Inventory::RenewInventory()
@@ -667,35 +710,40 @@ float4 UI_Inventory::CalculateIndexToPos(const size_t _x, const size_t _y)
 
 void UI_Inventory::CursorThis(const unsigned int _X, const unsigned int _Y)
 {
-	float4 CursorPosition = CalculateIndexToPos(_X, _Y);
+	const float4& IndexPosition = CalculateIndexToPos(_X, _Y);
+
+
+	const float CursorDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Cursor);
+	const float OutLineDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::CursorOutLine);
+
+	const float4& CursorPosition = float4(IndexPosition.X, IndexPosition.Y, CursorDepth);
+	const float4& OutlinePosition = float4(IndexPosition.X, IndexPosition.Y, OutLineDepth);
 
 
 	{
-		if (nullptr == m_CursorComposition.Cursor)
+		if (nullptr == CursorInfo.Cursor)
 		{
 			MsgBoxAssert("커서를 생성하지 않고 사용하려 했습니다.");
 			return;
 		}
 
-		CursorPosition = { CursorPosition.X , CursorPosition.Y, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Cursor) };
-		m_CursorComposition.Cursor->Transform.SetLocalPosition(CursorPosition);
+		CursorInfo.Cursor->Transform.SetLocalPosition(CursorPosition);
 	}
 	
 
 	{
-		if (nullptr == m_CursorComposition.CursorOutline)
+		if (nullptr == CursorInfo.CursorOutline)
 		{
 			MsgBoxAssert("커서를 생성하지 않고 사용하려 했습니다.");
 			return;
 		}
 
-		CursorPosition = { CursorPosition.X , CursorPosition.Y, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::CursorOutLine) };
-		m_CursorComposition.CursorOutline->Transform.SetLocalPosition(CalculateIndexToPos(_X, _Y));
+		CursorInfo.CursorOutline->Transform.SetLocalPosition(OutlinePosition);
 	}
 
 
 	{
-		if (nullptr == m_CursorComposition.NameTooltip)
+		if (nullptr == CursorInfo.NameTooltip)
 		{
 			MsgBoxAssert("커서를 생성하지 않고 사용하려 했습니다.");
 			return;
@@ -703,14 +751,30 @@ void UI_Inventory::CursorThis(const unsigned int _X, const unsigned int _Y)
 
 		if (true == Data->IsContain(_X, _Y))
 		{
-			CursorPosition = CalculateIndexToPos(_X, _Y) + NameTagPosition;
-			CursorPosition = { CursorPosition.X , CursorPosition.Y, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Cursor) };
-			m_CursorComposition.NameTooltip->Transform.SetLocalPosition(CursorPosition);
-			m_CursorComposition.NameTooltip->On();
+			const float TooltipDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Cursor);
+			const float ItemFontDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Font);
+
+			const float FontYCorrection = 6.0f;
+
+			const float4& TooltipPosition = float4(IndexPosition.X, IndexPosition.Y + NameTagPosition.Y, TooltipDepth);
+			const float4& FontPosition = float4(IndexPosition.X, IndexPosition.Y + NameTagPosition.Y + FontYCorrection, ItemFontDepth);
+
+
+			CursorInfo.NameTooltip->Transform.SetLocalPosition(TooltipPosition);
+			CursorInfo.NameTooltip->On();
+
+
+			const InventoryInfo& ItemInfo = Data->ReturnInventoryInfo(_X, _Y);
+			std::string KRItemName = ReturnItemKRName(ItemInfo.SourceName);
+
+			CursorInfo.ItemFont->Transform.SetLocalPosition(FontPosition);
+			CursorInfo.ItemFont->ChangeText(KRItemName);
+			CursorInfo.ItemFont->On();
 		}
 		else
 		{
-			m_CursorComposition.NameTooltip->Off();
+			CursorInfo.NameTooltip->Off();
+			CursorInfo.ItemFont->Off();
 		}
 	}
 
@@ -731,13 +795,16 @@ void UI_Inventory::ClearSlot(const unsigned int _X, const unsigned int _Y)
 
 void UI_Inventory::EraseSlotImg(const int _X, const int _Y)
 {
-	if (nullptr == InventorySlotArray[_Y][_X].Slot)
+	const InventorySlotInfo& SlotData = InventorySlotArray[_Y][_X];
+
+	if (nullptr == SlotData.Slot || nullptr == SlotData.ItemCount)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	InventorySlotArray[_Y][_X].Slot->SetSprite("Inventory_None.png");
+	SlotData.Slot->SetSprite("Inventory_None.png");
+	SlotData.ItemCount->Off();
 	CursorThis(_X, _Y);
 }
 
@@ -864,6 +931,17 @@ void UI_Inventory::MoveCursor(const int _X, const int _Y)
 	CursorThis(m_CurrentSlotX, m_CurrentSlotY);
 }
 
+std::string UI_Inventory::ReturnItemKRName(std::string_view _ItemName)
+{
+	std::weak_ptr<ItemData> itemData = ItemData::Find(_ItemName);
+	if (itemData.expired())
+	{
+		MsgBoxAssert("아이템이 데이터에 존재하지 않습니다.");
+		return std::string();
+	}
+
+	return itemData.lock()->KoreanName;
+}
 
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
