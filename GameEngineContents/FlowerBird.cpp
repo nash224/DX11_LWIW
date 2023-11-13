@@ -120,8 +120,7 @@ void FlowerBird::AnimationSetting()
 
 	m_Body->SetStartEvent("Turn", [&](GameEngineSpriteRenderer* _Renderer)
 		{
-			BirdSoundPlayer.Stop();
-			BirdSoundPlayer = PlaySFX(RandomBirdCrySoundName());
+			PlaySFX(RandomBirdCrySoundName());
 		});
 
 	m_Body->SetFrameEvent("Pick", 4, [&](GameEngineSpriteRenderer* _Renderer)

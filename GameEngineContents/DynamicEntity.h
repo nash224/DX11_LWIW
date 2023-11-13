@@ -31,7 +31,7 @@ protected:
 	void ApplyMovement(float _Delta);
 
 	float GetVolumeReductionByDistance();
-	GameEngineSoundPlayer PlaySFX(std::string_view _FileName);
+	void PlaySFX(std::string_view _FileName);
 
 protected:
 	EDIRECTION m_Dir = EDIRECTION::LEFT;

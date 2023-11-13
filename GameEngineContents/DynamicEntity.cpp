@@ -163,12 +163,10 @@ float DynamicEntity::GetVolumeReductionByDistance()
 	return 0.0f;
 }
 
-GameEngineSoundPlayer DynamicEntity::PlaySFX(std::string_view _FileName)
+void DynamicEntity::PlaySFX(std::string_view _FileName)
 {
 	float Volume = GlobalValue::GetSFXVolume() * GetVolumeReductionByDistance();
 
 	GameEngineSoundPlayer SoundPlayer = GameEngineSound::SoundPlay(_FileName);
 	SoundPlayer.SetVolume(Volume);
-
-	return SoundPlayer;
 }
