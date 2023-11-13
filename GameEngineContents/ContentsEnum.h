@@ -100,7 +100,6 @@ enum class EUI_RENDERORDERDEPTH
 	Alert_Stamp,
 	Alert_Base,
 	Alert_Shadow,
-	Font,
 	Cursor ,
 	CursorOutLine,
 	Icon_Mask,

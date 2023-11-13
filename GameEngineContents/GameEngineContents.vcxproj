@@ -506,10 +506,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="SingleEvent.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="SkyLerp.cpp">
       <SubType>
       </SubType>
@@ -680,10 +676,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="WitchHouse_Yard.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="WorkplaceFindEvent.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -1003,10 +995,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="SingleEvent.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="SkyLerp.h">
       <SubType>
       </SubType>
@@ -1180,10 +1168,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="WitchHouse_Yard.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="WorkplaceFindEvent.h">
       <SubType>
       </SubType>
     </ClInclude>
