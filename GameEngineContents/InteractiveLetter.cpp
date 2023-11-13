@@ -126,7 +126,7 @@ void InteractiveLetter::ConversationSetting()
 				}
 				
 
-				const std::shared_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Letter_Read");
+				const std::shared_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Find_Letter");
 				if (nullptr == Quest)
 				{
 					MsgBoxAssert("생성되지 않은 퀘스트입니다.");
@@ -136,11 +136,13 @@ void InteractiveLetter::ConversationSetting()
 				Quest->QuestComplete();
 
 
-				if (nullptr != UIManager::MainUIManager)
+				if (nullptr == UIManager::MainUIManager)
 				{
-					UIManager::MainUIManager->UseUIComponent();
+					MsgBoxAssert("UI 매니저가 존재하지 않습니다.");
+					return;
 				}
 
+				UIManager::MainUIManager->UseUIComponent();
 
 				State.ChangeState(ELETTERSTATE::Disappear);
 			});

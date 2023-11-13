@@ -10,11 +10,11 @@
 #include "GameEngineRenderer.H"
 
 
-GameEngineRenderUnit::GameEngineRenderUnit()
+GameEngineRenderUnit::GameEngineRenderUnit() 
 {
 }
 
-GameEngineRenderUnit::~GameEngineRenderUnit()
+GameEngineRenderUnit::~GameEngineRenderUnit() 
 {
 }
 
@@ -26,7 +26,7 @@ void GameEngineRenderUnit::SetText(const std::string& _Font, const std::string& 
 	{
 		MsgBoxAssert("로드하지 않는 폰트를 사용하려고 했습니다.");
 	}
-
+	
 
 	FontText = _Text;
 	FontScale = _Scale;
@@ -94,49 +94,18 @@ void GameEngineRenderUnit::Draw()
 	if (nullptr != Font)
 	{
 		float4x4 ViewPort;
+
+		float4 ScreenPos = ParentRenderer->Transform.GetWorldPosition();
 		float4 Scale = GameEngineCore::MainWindow.GetScale();
 		ViewPort.ViewPort(Scale.X, Scale.Y, 0, 0);
 
-		GameEngineActor* Parent = ParentRenderer->GetParent<GameEngineActor>();
+		ScreenPos *= ParentRenderer->Transform.GetConstTransformDataRef().ViewMatrix;
+		ScreenPos *= ParentRenderer->Transform.GetConstTransformDataRef().ProjectionMatrix;
+		ScreenPos *= ViewPort;
+		// WindowPos
+		Font->FontDraw(FontText, FontScale, ScreenPos, FontColor, FontFlag);
 
-		if (nullptr != Parent && Parent->GetLevel()->GetMainCamera()->GetProjectionType() == EPROJECTIONTYPE::Orthographic)
-		{
-			float4 ScreenPos = ParentRenderer->Transform.GetWorldPosition();
-
-			ScreenPos *= ParentRenderer->Transform.GetConstTransformDataRef().ViewMatrix;
-			ScreenPos *= ParentRenderer->Transform.GetConstTransformDataRef().ProjectionMatrix;
-			ScreenPos *= ViewPort;
-			// WindowPos
-			Font->FontDraw(FontText, FontScale, ScreenPos, FontColor, FontFlag);
-
-			GameEngineCore::GetContext()->GSSetShader(nullptr, nullptr, 0);
-		}
-		else if (nullptr != Parent && Parent->GetLevel()->GetMainCamera()->GetProjectionType() == EPROJECTIONTYPE::Perspective)
-		{
-			float4 ScreenPos = ParentRenderer->Transform.GetWorldPosition();
-
-			ScreenPos *= ParentRenderer->Transform.GetConstTransformDataRef().ViewMatrix;
-			ScreenPos *= ParentRenderer->Transform.GetConstTransformDataRef().ProjectionMatrix;
-
-
-			const float RHW = 1.0f / ScreenPos.W;
-
-			float4 PosInScreenSpace = float4(ScreenPos.X * RHW, ScreenPos.Y * RHW, ScreenPos.Z * RHW, ScreenPos.W);
-			const float NormalizedX = (PosInScreenSpace.X / 2.f) + 0.5f;
-			const float NormalizedY = 1.f - (PosInScreenSpace.Y / 2.f) - 0.5f;
-
-			float4 RayStartViewRectSpace;
-
-			RayStartViewRectSpace.X = NormalizedX * Scale.X;
-			RayStartViewRectSpace.Y = NormalizedY * Scale.Y;
-
-			float4 Result = RayStartViewRectSpace + float4(0, 0, 0, 0);
-
-
-			Font->FontDraw(FontText, FontScale, Result, FontColor, FontFlag);
-			GameEngineCore::GetContext()->GSSetShader(nullptr, nullptr, 0);
-		}
-
+		GameEngineCore::GetContext()->GSSetShader(nullptr, nullptr, 0);
 
 		return;
 	}
@@ -188,7 +157,7 @@ void GameEngineRenderUnit::SetMaterial(std::string_view _Name)
 
 	// 이걸 회사의 약속.
 
-	if (nullptr != ParentRenderer
+	if (nullptr != ParentRenderer 
 		&& ShaderResHelper.IsConstantBuffer("TransformData"))
 	{
 		const TransformData& Data = ParentRenderer->Transform.GetConstTransformDataRef();

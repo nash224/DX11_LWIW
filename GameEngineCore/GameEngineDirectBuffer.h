@@ -18,11 +18,9 @@ public:
 	GameEngineDirectBuffer& operator=(GameEngineDirectBuffer&& _Other) noexcept = delete;
 
 protected:
-	D3D11_BUFFER_DESC BufferInfo = { 0 };
+	D3D11_BUFFER_DESC BufferInfo = {0};
 	// 모든 버퍼들은 그 용도가 무엇이건 나오는 인터페이스는 버퍼로 동일되다.
 	ID3D11Buffer* Buffer = nullptr;
-
-	void BufferRelease();
 
 private:
 

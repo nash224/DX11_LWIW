@@ -2,18 +2,11 @@
 #include "GameEngineCore.h"
 #include "GameEngineDirectBuffer.h"
 
-GameEngineDirectBuffer::GameEngineDirectBuffer()
+GameEngineDirectBuffer::GameEngineDirectBuffer() 
 {
 }
 
-GameEngineDirectBuffer::~GameEngineDirectBuffer()
-{
-	BufferRelease();
-}
-
-
-
-void GameEngineDirectBuffer::BufferRelease()
+GameEngineDirectBuffer::~GameEngineDirectBuffer() 
 {
 	if (nullptr != Buffer)
 	{
@@ -21,3 +14,4 @@ void GameEngineDirectBuffer::BufferRelease()
 		Buffer = nullptr;
 	}
 }
+
