@@ -3,8 +3,6 @@
 
 float4 ColorShader_VS(float4 pos : POSITION) : SV_Position
 {
-    
-    
     // mul¿∫ mutiply
     return mul(pos, WorldViewProjectionMatrix);
 }
