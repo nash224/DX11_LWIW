@@ -4,6 +4,8 @@
 #include "ItemData.h"
 #include "UI_DropManager.h"
 
+#include "ItemData.h"
+
 
 UI_Drop::UI_Drop() 
 {
@@ -54,24 +56,35 @@ void UI_Drop::Init(std::string_view _ItemName)
 
 void UI_Drop::RendererSetting(std::string_view _ItemName)
 {
-	std::shared_ptr<ItemData> ItemData = ItemData::Find(_ItemName);
-	if (nullptr == ItemData)
+	std::weak_ptr<ItemData> itemData = ItemData::Find(_ItemName);
+	if (true == itemData.expired())
 	{
 		MsgBoxAssert("아이템 데이터를 찾지 못했습니다.");
 		return;
 	}
 
+	const float BaseDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Base);
+	const float IconDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Icon);
+	const float NameDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Font);
 
-	float4 Position = float4(0.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Base));
+	const float4& BasePosition = float4(0.0f, 0.0f, BaseDepth);
+	const float4& IconPosition = float4(-52.0f, 0.0f, IconDepth);
+	const float4& FontPosition = float4(-30.0f, 7.0f, NameDepth);
+
 	m_ItemDropRenderer.SystemNotice_Base = CreateComponent<GameEngineUIRenderer>();
-	m_ItemDropRenderer.SystemNotice_Base->Transform.SetLocalPosition(Position);
+	m_ItemDropRenderer.SystemNotice_Base->Transform.SetLocalPosition(BasePosition);
 	m_ItemDropRenderer.SystemNotice_Base->SetSprite("SystemNotice_Item.png");
 
 
-	Position = float4(-52.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Icon));
 	m_ItemDropRenderer.Item_Img = CreateComponent<GameEngineUIRenderer>();
-	m_ItemDropRenderer.Item_Img->Transform.SetLocalPosition(Position);
-	m_ItemDropRenderer.Item_Img->SetSprite(ItemData->Name + ".png");
+	m_ItemDropRenderer.Item_Img->Transform.SetLocalPosition(IconPosition);
+	m_ItemDropRenderer.Item_Img->SetSprite(itemData.lock()->Name + ".png");
+
+	const float FontSize = 15.0f;
+
+	m_ItemDropRenderer.ItemName = CreateComponent<GameEngineUIRenderer>();
+	m_ItemDropRenderer.ItemName->SetText(GlobalValue::Font_Sandoll, itemData.lock()->KoreanName, FontSize, float4::WHITE);
+	m_ItemDropRenderer.ItemName->Transform.SetLocalPosition(FontPosition);
 
 	AddColorData(0.0f);
 }

@@ -6,6 +6,7 @@ enum class EQUESTTYPE
 	Letter_Read,
 	House_Dust,
 	Clean_Dust,
+	Craft_Potion,
 	Aurea_Find,
 	Aurea_Curse,
 	Aurea_UnCurse,
@@ -40,11 +41,25 @@ public:
 			isQuestCompleted = true;
 		}
 
+
+		bool IsQuestAccepted() const
+		{
+			return isQuestAccepted;
+		}
+
+		virtual void QuestAccept() 
+		{
+			isQuestAccepted = true;
+		}
+
 	public:
 		// ContentsGUI에서 요구합니다. 
 		// 절때 외부로 공개할 일은 없지만
 		// friend 선언을 해도 안먹혀서 public으로 둡니다.
 		bool isQuestCompleted = false;
+
+	protected:
+		bool isQuestAccepted = false;
 
 	};
 
@@ -65,6 +80,15 @@ public:
 	class House_Dust : public QuestUnitBase
 	{
 	public:
+		bool CheckPrerequisiteQuest() override;
+
+	};
+
+	class Craft_Potion : public QuestUnitBase
+	{
+	public:
+		void QuestAccept() override;
+		void QuestComplete() override;
 		bool CheckPrerequisiteQuest() override;
 
 	};

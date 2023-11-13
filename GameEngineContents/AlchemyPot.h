@@ -4,6 +4,7 @@
 enum class EPOTSTATE
 {
 	None,
+	Broken,
 	Idle,
 	Boil,
 	Fail,
@@ -32,6 +33,7 @@ public:
 	void Init();
 
 	void RendererSetting();
+	void StateSetting();
 	void DispensationSetting();
 
 	void DispensatePotion(std::string_view _CraftedPotionName);
@@ -41,28 +43,31 @@ protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
-	void UpdateState(float _Delta);
-	void ChangeState(EPOTSTATE _State);
-	void ChangePotCompositionAnimation(std::string_view _StateName);
+	void ChangePotAnimation(std::string_view _StateName);
 
-	void StartIdle();
-	void UpdateIdle(float _Delta);
+	void StartBroken(GameEngineState* _Parent);
+	void StartIdle(GameEngineState* _Parent);
+	void StartBoil(GameEngineState* _Parent);
+	void StartFail(GameEngineState* _Parent);
+	void StartSuccess(GameEngineState* _Parent);
 
-	void StartBoil();
-	void UpdateBoil(float _Delta);
+	void UpdateBroken(float _Delta, GameEngineState* _Parent);
+	void UpdateIdle(float _Delta, GameEngineState* _Parent);
+	void UpdateBoil(float _Delta, GameEngineState* _Parent);
+	void UpdateFail(float _Delta, GameEngineState* _Parent);
+	void UpdateSuccess(float _Delta, GameEngineState* _Parent);
 
-	void StartFail();
-	void UpdateFail(float _Delta);
+	void EndBroken(GameEngineState* _Parent);
+	void EndSuccess(GameEngineState* _Parent);
 
-	void StartSuccess();
-	void UpdateSuccess(float _Delta);
-	void EndSuccess();
 
 	void EndPotionCreation();
+
+
 
 
 private:
@@ -71,6 +76,8 @@ private:
 	std::shared_ptr<GameEngineSpriteRenderer> m_FxRenderer;
 	std::shared_ptr<GameEngineSpriteRenderer> m_FireRenderer;
 	std::shared_ptr<GameEngineSpriteRenderer> m_SteamRenderer;
+
+	GameEngineState State;
 
 	std::string CraftedPotion = "";
 

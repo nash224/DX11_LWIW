@@ -7,33 +7,36 @@
 #define SYSTEM_NOTICE_STAYTIME 2.4f
 
 
-enum class ENOTICECOLORSTATE
-{
-	Appear,
-	Stay,
-	Disappear,
-	None,
-};
-
-enum class ENOTICEPOSITIONSTATE
-{
-	Awake,
-	Stay,
-	None,
-};
-
-
-class ItemDropRenderer
-{
-public:
-	std::shared_ptr<GameEngineUIRenderer> SystemNotice_Base = nullptr;
-	std::shared_ptr<GameEngineUIRenderer> Item_Img = nullptr;
-};
-
-
 // Ό³Έν :
 class UI_Drop : public GameEngineActor
 {
+private:
+	class ItemDropRenderer
+	{
+	public:
+		std::shared_ptr<GameEngineUIRenderer> SystemNotice_Base = nullptr;
+		std::shared_ptr<GameEngineUIRenderer> Item_Img = nullptr;
+		std::shared_ptr<GameEngineUIRenderer> ItemName = nullptr;
+	};
+
+
+private:
+	enum class ENOTICECOLORSTATE
+	{
+		Appear,
+		Stay,
+		Disappear,
+		None,
+	};
+
+	enum class ENOTICEPOSITIONSTATE
+	{
+		Awake,
+		Stay,
+		None,
+	};
+
+
 public:
 	class UI_DropManager* ManagerPtr = nullptr;
 

@@ -250,7 +250,15 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Dust_Extractor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Dust_HandBook.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Dust_Pot.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -770,7 +778,15 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Dust_Extractor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Dust_HandBook.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Dust_Pot.h">
       <SubType>
       </SubType>
     </ClInclude>

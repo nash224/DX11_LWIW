@@ -6,6 +6,8 @@
 #include "UI_Inventory.h"
 #include "Ellie.h"
 
+#include "ContentsEvent.h"
+
 
 
 AlchemyPot::AlchemyPot() 
@@ -41,7 +43,7 @@ void AlchemyPot::Update(float _Delta)
 {
 	StaticEntity::Update(_Delta);
 
-	UpdateState(_Delta);
+	State.Update(_Delta);
 }
 
 void AlchemyPot::Release()
@@ -58,11 +60,6 @@ void AlchemyPot::Release()
 	m_Dispensation = nullptr;
 }
 
-void AlchemyPot::LevelStart(class GameEngineLevel* _NextLevel)
-{
-
-}
-
 void AlchemyPot::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	Death();
@@ -75,13 +72,24 @@ void AlchemyPot::LevelEnd(class GameEngineLevel* _NextLevel)
 void AlchemyPot::Init()
 {
 	RendererSetting();
+	StateSetting();
 	DispensationSetting();
-}
 
-void AlchemyPot::DispensationSetting()
-{
-	m_Dispensation = GetLevel()->CreateActor<UI_Dispensation>();
-	m_Dispensation->Init();
+	std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Craft_Potion");
+	if (true == Quest.expired())
+	{
+		MsgBoxAssert("존재하지 않는 퀘스트입니다.");
+		return;
+	}
+
+	if (true == Quest.lock()->IsQuestAccepted())
+	{
+		State.ChangeState(EPOTSTATE::Idle);
+	}
+	else
+	{
+		State.ChangeState(EPOTSTATE::Broken);
+	}
 }
 
 void AlchemyPot::RendererSetting()
@@ -105,16 +113,21 @@ void AlchemyPot::RendererSetting()
 
 
 	m_WaterRenderer = CreateComponent<GameEngineSpriteRenderer>();
+	m_WaterRenderer->AutoSpriteSizeOn();
 	m_WaterRenderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, -1.0f));
 	m_WaterRenderer->CreateAnimation("Idle", "Pot_Fx_IdleA.png", 0.1f, 0, 21);
-	m_WaterRenderer->AutoSpriteSizeOn();
 	m_WaterRenderer->ChangeAnimation("Idle");
 
 
 	m_FxRenderer = CreateComponent<GameEngineSpriteRenderer>();
+	m_FxRenderer->AutoSpriteSizeOn();
 	m_FxRenderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, -2.0f));
 	m_FxRenderer->CreateAnimation("Idle", "Pot_Fx_IdleA.png", 0.1f, 0, 21, false);
 	m_FxRenderer->CreateAnimation("Boil", "Pot_Fx_Boil.png", 0.1f, 0, 14, false);
+	m_FxRenderer->CreateAnimation("Fail", "Pot_Fx_Fail.png", 0.1f, 0, 18, false);
+	m_FxRenderer->CreateAnimation("Success", "Pot_Fx_Success.png", 0.1f, 0, 21, false);
+
+
 	m_FxRenderer->SetStartEvent("Boil", [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			m_FireRenderer->ChangeAnimation("Large");
@@ -122,7 +135,6 @@ void AlchemyPot::RendererSetting()
 		});
 
 
-	m_FxRenderer->CreateAnimation("Fail", "Pot_Fx_Fail.png", 0.1f, 0, 18, false);
 	m_FxRenderer->SetFrameEvent("Fail", 9, [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			if (nullptr == Ellie::MainEllie)
@@ -135,7 +147,6 @@ void AlchemyPot::RendererSetting()
 		});
 	m_FxRenderer->SetEndEvent("Fail", std::bind(&AlchemyPot::EndPotionCreation, this));
 
-	m_FxRenderer->CreateAnimation("Success", "Pot_Fx_Success.png", 0.1f, 0, 21, false);
 	m_FxRenderer->SetFrameEvent("Success", 16, [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			if (nullptr == Ellie::MainEllie)
@@ -148,7 +159,6 @@ void AlchemyPot::RendererSetting()
 		});
 	m_FxRenderer->SetEndEvent("Success", std::bind(&AlchemyPot::EndPotionCreation, this));
 
-	m_FxRenderer->AutoSpriteSizeOn();
 	m_FxRenderer->Off();
 
 
@@ -161,95 +171,48 @@ void AlchemyPot::RendererSetting()
 	m_FireRenderer->ChangeAnimation("Small");
 
 	m_SteamRenderer = CreateComponent<GameEngineSpriteRenderer>();
-	m_SteamRenderer->CreateAnimation("Steam", "Pot_Fire_Large.png", 0.1f, 1, 23);
 	m_SteamRenderer->AutoSpriteSizeOn();
-	m_SteamRenderer->ChangeAnimation("Steam");
 	m_SteamRenderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, -2.0f));
-
-	ChangeState(EPOTSTATE::Idle);
+	m_SteamRenderer->CreateAnimation("Steam", "Pot_Fire_Large.png", 0.1f, 1, 23);
+	m_SteamRenderer->ChangeAnimation("Steam");
 }
 
-
-void AlchemyPot::DispensatePotion(std::string_view _CraftedPotionName)
+void AlchemyPot::DispensationSetting()
 {
-	CraftedPotion = _CraftedPotionName;
-	ChangeState(EPOTSTATE::Boil);
+	m_Dispensation = GetLevel()->CreateActor<UI_Dispensation>();
+	m_Dispensation->Init();
 }
 
-
-void AlchemyPot::UpdateState(float _Delta)
+void AlchemyPot::StateSetting()
 {
-	switch (m_State)
-	{
-	case EPOTSTATE::None:
-	{
-		MsgBoxAssert("None으로 세팅했습니다.");
-		return;
-	}
-		break;
-	case EPOTSTATE::Idle:
-		UpdateIdle(_Delta);
-		break;
-	case EPOTSTATE::Boil:
-		UpdateBoil(_Delta);
-		break;
-	case EPOTSTATE::Fail:
-		UpdateFail(_Delta);
-		break;
-	case EPOTSTATE::Success:
-		UpdateSuccess(_Delta);
-		break;
-	default:
-		break;
-	}
+	CreateStateParameter BrokenState;
+	BrokenState.Start = std::bind(&AlchemyPot::StartBroken, this, std::placeholders::_1);
+	BrokenState.Stay = std::bind(&AlchemyPot::UpdateBroken, this, std::placeholders::_1, std::placeholders::_2);
+	BrokenState.End = std::bind(&AlchemyPot::EndBroken, this, std::placeholders::_1);
+	State.CreateState(EPOTSTATE::Broken, BrokenState);
+
+	CreateStateParameter IdleState;
+	IdleState.Start = std::bind(&AlchemyPot::StartIdle, this, std::placeholders::_1);
+	IdleState.Stay = std::bind(&AlchemyPot::UpdateIdle, this, std::placeholders::_1, std::placeholders::_2);
+	State.CreateState(EPOTSTATE::Idle, IdleState);
+
+	CreateStateParameter BoilState;
+	BoilState.Start = std::bind(&AlchemyPot::StartBoil, this, std::placeholders::_1);
+	BoilState.Stay = std::bind(&AlchemyPot::UpdateBoil, this, std::placeholders::_1, std::placeholders::_2);
+	State.CreateState(EPOTSTATE::Boil, BoilState);
+
+	CreateStateParameter FailState;
+	FailState.Start = std::bind(&AlchemyPot::StartFail, this, std::placeholders::_1);
+	FailState.Stay = std::bind(&AlchemyPot::UpdateFail, this, std::placeholders::_1, std::placeholders::_2);
+	State.CreateState(EPOTSTATE::Fail, FailState);
+
+	CreateStateParameter SuccessState;
+	SuccessState.Start = std::bind(&AlchemyPot::StartSuccess, this, std::placeholders::_1);
+	SuccessState.Stay = std::bind(&AlchemyPot::UpdateSuccess, this, std::placeholders::_1, std::placeholders::_2);
+	State.CreateState(EPOTSTATE::Success, SuccessState);
 }
 
-void AlchemyPot::ChangeState(EPOTSTATE _State)
-{
-	if (_State != m_State)
-	{
-		switch (m_State)
-		{
-		case EPOTSTATE::None:
-			break;
-		case EPOTSTATE::Idle:
-			break;
-		case EPOTSTATE::Boil:
-			break;
-		case EPOTSTATE::Fail:
-			break;
-		case EPOTSTATE::Success:
-			EndSuccess();
-			break;
-		default:
-			break;
-		}
-
-
-
-		switch (_State)
-		{
-		case EPOTSTATE::Idle:
-			StartIdle();
-			break;
-		case EPOTSTATE::Boil:
-			StartBoil();
-			break;
-		case EPOTSTATE::Fail:
-			StartFail();
-			break;
-		case EPOTSTATE::Success:
-			StartSuccess();
-			break;
-		default:
-			break;
-		}
-
-		m_State = _State;
-	}
-}
-
-void AlchemyPot::ChangePotCompositionAnimation(std::string_view _StateName)
+void AlchemyPot::ChangePotAnimation(std::string_view _StateName)
 {
 	std::string AnimationName = "";
 	AnimationName += _StateName.data();
@@ -265,28 +228,27 @@ void AlchemyPot::ChangePotCompositionAnimation(std::string_view _StateName)
 
 
 
-void AlchemyPot::StartIdle()
+void AlchemyPot::StartBroken(GameEngineState* _Parent)
 {
-	ChangePotCompositionAnimation("Idle");
-}
+	m_FireRenderer->Off();
+	m_SteamRenderer->Off();
+	m_WaterRenderer->Off();
 
-void AlchemyPot::UpdateIdle(float _Delta)
-{
-	if (true == IsEnalbeActive)
+	if (nullptr == InteractiveActor::m_InteractiveCol)
 	{
-		if (nullptr == m_Dispensation)
-		{
-			MsgBoxAssert("연금UI가 존재하지 않습니다.");
-			return;
-		}
-
-		m_Dispensation->AlchemyPotPtr = this;
-		m_Dispensation->Open();
+		MsgBoxAssert("존재하지 않는 충돌체입니다.");
+		return;
 	}
+
+	InteractiveActor::m_InteractiveCol->Off();
 }
 
+void AlchemyPot::StartIdle(GameEngineState* _Parent)
+{
+	ChangePotAnimation("Idle");
+}
 
-void AlchemyPot::StartBoil()
+void AlchemyPot::StartBoil(GameEngineState* _Parent)
 {
 	if (nullptr == m_FxRenderer)
 	{
@@ -304,71 +266,130 @@ void AlchemyPot::StartBoil()
 		PlaySFX("SFX_MakingPotSucces_02.wav");
 	}
 
-	ChangePotCompositionAnimation("Boil");
+	ChangePotAnimation("Boil");
 }
 
-void AlchemyPot::UpdateBoil(float _Delta)
+
+void AlchemyPot::StartFail(GameEngineState* _Parent)
+{
+	PlaySFX("SFX_MakingPotFail_02.wav");
+
+	ChangePotAnimation("Fail");
+}
+
+void AlchemyPot::StartSuccess(GameEngineState* _Parent)
+{
+	ChangePotAnimation("Success");
+}
+
+
+
+void AlchemyPot::UpdateBroken(float _Delta, GameEngineState* _Parent)
+{
+	std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Craft_Potion");
+	if (true == Quest.expired())
+	{
+		MsgBoxAssert("존재하지 않는 퀘스트입니다.");
+		return;
+	}
+
+	if (true == Quest.lock()->IsQuestAccepted() || true == Quest.lock()->isQuestComplete())
+	{
+		State.ChangeState(EPOTSTATE::Idle);
+	}
+}
+
+void AlchemyPot::UpdateIdle(float _Delta, GameEngineState* _Parent)
+{
+	if (true == IsEnalbeActive)
+	{
+		if (nullptr == m_Dispensation)
+		{
+			MsgBoxAssert("연금UI가 존재하지 않습니다.");
+			return;
+		}
+
+		m_Dispensation->AlchemyPotPtr = this;
+		m_Dispensation->Open();
+	}
+}
+
+void AlchemyPot::UpdateBoil(float _Delta, GameEngineState* _Parent)
 {
 	if (nullptr != m_FxRenderer && true == m_FxRenderer->IsCurAnimationEnd())
 	{
 		if (false == CraftedPotion.empty())
 		{
-			ChangeState(EPOTSTATE::Success);
+			State.ChangeState(EPOTSTATE::Success);
 			return;
 		}
 		else
 		{
-			ChangeState(EPOTSTATE::Fail);
+			State.ChangeState(EPOTSTATE::Fail);
 			return;
 		}
 	}
 }
 
-
-void AlchemyPot::StartFail()
-{
-	PlaySFX("SFX_MakingPotFail_02.wav");
-
-	ChangePotCompositionAnimation("Fail");
-}
-
-void AlchemyPot::UpdateFail(float _Delta)
+void AlchemyPot::UpdateFail(float _Delta, GameEngineState* _Parent)
 {
 	if (nullptr != m_FxRenderer && true == m_FxRenderer->IsCurAnimationEnd())
 	{
-		ChangeState(EPOTSTATE::Idle);
+		State.ChangeState(EPOTSTATE::Idle);
 		return;
 	}
 }
 
-
-void AlchemyPot::StartSuccess()
-{
-	ChangePotCompositionAnimation("Success");
-}
-
-void AlchemyPot::UpdateSuccess(float _Delta)
+void AlchemyPot::UpdateSuccess(float _Delta, GameEngineState* _Parent)
 {
 	if (nullptr != m_FxRenderer && true == m_FxRenderer->IsCurAnimationEnd())
 	{
-		ChangeState(EPOTSTATE::Idle);
+		State.ChangeState(EPOTSTATE::Idle);
 		return;
 	}
 }
 
 
-void AlchemyPot::EndSuccess()
+void AlchemyPot::EndBroken(GameEngineState* _Parent)
 {
-	if (nullptr == UI_Inventory::MainInventory)
+	if (nullptr == m_FireRenderer)
 	{
-		MsgBoxAssert("인벤토리를 모르고 아이템을 넣을 수 없습니다.");
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	// 아이템 넣기
-	UI_Inventory::MainInventory->PushItem(CraftedPotion);
+	if (nullptr == m_SteamRenderer)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
 
-	CraftedPotion = "";
+	if (nullptr == m_WaterRenderer)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
+
+	if (nullptr == InteractiveActor::m_InteractiveCol)
+	{
+		MsgBoxAssert("존재하지 않는 충돌체입니다.");
+		return;
+	}
+
+	m_FireRenderer->On();
+	m_SteamRenderer->On();
+	m_WaterRenderer->On();
+	InteractiveActor::m_InteractiveCol->On();
+}
+
+void AlchemyPot::EndSuccess(GameEngineState* _Parent)
+{
+	if (nullptr != UI_Inventory::MainInventory)
+	{
+		UI_Inventory::MainInventory->PushItem(CraftedPotion);
+	}
+
+	CraftedPotion.clear();
 }
 
 
@@ -381,16 +402,11 @@ void AlchemyPot::EndPotionCreation()
 		return;
 	}
 
-	m_FireRenderer->ChangeAnimation("Small");
-
-
 	if (nullptr == m_SteamRenderer)
 	{
 		MsgBoxAssert("있을수 없는 일입니다.");
 		return;
 	}
-
-	m_SteamRenderer->On();
 
 	if (nullptr == m_FxRenderer)
 	{
@@ -398,13 +414,20 @@ void AlchemyPot::EndPotionCreation()
 		return;
 	}
 
-	m_FxRenderer->Off();
-
 	if (nullptr == m_Dispensation)
 	{
 		MsgBoxAssert("연금페이지가 존재하지 않는데 사용하려 했습니다.");
 		return;
 	}
 
+	m_FireRenderer->ChangeAnimation("Small");
+	m_SteamRenderer->On();
+	m_FxRenderer->Off();
 	m_Dispensation->Close();
+}
+
+void AlchemyPot::DispensatePotion(std::string_view _CraftedPotionName)
+{
+	CraftedPotion = _CraftedPotionName;
+	State.ChangeState(EPOTSTATE::Boil);
 }

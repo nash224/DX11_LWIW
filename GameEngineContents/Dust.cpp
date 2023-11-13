@@ -80,6 +80,11 @@ void Dust::ConversationSetting()
 
 		AboutConversation.SetConversationEndEvent(EDUSTTOPICTYPE::About, [&]()
 			{
+				if (nullptr != EndEvent)
+				{
+					EndEvent();
+				}
+
 				State.ChangeState(EDUSTSTATE::None);
 			});
 	}
@@ -88,6 +93,11 @@ void Dust::ConversationSetting()
 void Dust::SetConversationData(const std::vector<ConversationData>& _ConversationDatas)
 {
 	ConversationDatas = _ConversationDatas;
+}
+
+void Dust::SetEndEvnet(std::function<void()> _EndEvent)
+{
+	EndEvent = _EndEvent;
 }
 
 
