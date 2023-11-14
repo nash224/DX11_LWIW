@@ -7,6 +7,7 @@ constexpr float FOVAngle = 60.0f;
 constexpr float FrictionForce = 0.5f;
 
 static constexpr const float MAX_STAMINA = 1000.0f;
+static constexpr const float MAX_FUEL = 1000.0f;
 
 constexpr float CONST_Ellie_SlowWalk_Speed = 100.0f;
 constexpr float CONST_Ellie_Walk_Speed = 160.0f;
@@ -74,6 +75,7 @@ private:
 	static EELLIE_STATUS g_Status;
 	static int Day;
 	static float Stamina;
+	static float BroomFuel;
 	static bool FirstInitCheck;
 
 private:
@@ -121,6 +123,11 @@ public:
 	float GetStamina() const
 	{
 		return Stamina;
+	}
+
+	float GetBroomFuel() const
+	{
+		return BroomFuel;
 	}
 
 
@@ -225,6 +232,8 @@ private:
 	void GenerateBroomParticle();
 	float4 GetBroomParticlePosition();
 
+	void ConsumeBroomFuel(float _Delta);
+
 private:
 	// 방향 키 감지
 	bool DetectMovement();
@@ -273,6 +282,7 @@ private:
 	const float4 m_PixelCheckPosBaseOnCenter = float4::ZERO;
 
 	float Broom_Particle_Time = 0.0f;
+	float BroomUsingTime = 0.0f;
 
 	bool isFinishWork = false;
 	bool IsControl = true;

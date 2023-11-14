@@ -11,6 +11,7 @@
 Ellie* Ellie::MainEllie = nullptr;
 EELLIE_STATUS Ellie::g_Status = EELLIE_STATUS::None;
 float Ellie::Stamina = 0.0f;
+float Ellie::BroomFuel = MAX_FUEL;
 int Ellie::Day = -1;
 bool Ellie::FirstInitCheck = false;
 Ellie::Ellie() 
@@ -56,7 +57,6 @@ void Ellie::Start()
 void Ellie::Update(float _Delta)
 {
 	UpdateState(_Delta);
-	UpdateTestCode();
 	UpdateCollision();
 }
 

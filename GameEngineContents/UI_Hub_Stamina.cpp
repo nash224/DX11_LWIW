@@ -40,24 +40,35 @@ void UI_Hub_Stamina::Init()
 
 void UI_Hub_Stamina::RendererSetting()
 {
-	m_GaugeComposition.Frame = CreateComponent<GameEngineUIRenderer>();
-	m_GaugeComposition.Frame->Transform.SetLocalPosition({ 0.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Frame) });
-	m_GaugeComposition.Frame->SetSprite("HUD_Gauge_Frame.png");
+	const float FrameDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Frame);
+	const float StaminaDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Gauge2);
+	const float RecoverableGaugeDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Gauge1);
+	const float IndicatorDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Indicator);
+
+	const float4& FramePosition = float4(0.0f, 0.0f, FrameDepth);
+	const float4& StaminaPosition = float4(0.0f, 0.0f, StaminaDepth);
+	const float4& RecoverableGaugePosition = float4(0.0f, 0.0f, RecoverableGaugeDepth);
+	const float4& IndicatorPosition = float4(0.0f, 0.0f, IndicatorDepth);
 
 
-	m_GaugeComposition.StaminaGauge = CreateComponent<ContentsUIRenderer>();
-	m_GaugeComposition.StaminaGauge->Transform.SetLocalPosition({ 0.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Gauge2) });
-	m_GaugeComposition.StaminaGauge->SetMaterial("LineGaugeTexture2D");
-	m_GaugeComposition.StaminaGauge->SetSprite("HUD_Gauge_1.png");
+	UIStamina.FrameRenderer  = CreateComponent<GameEngineUIRenderer>();
+	UIStamina.FrameRenderer ->Transform.SetLocalPosition(FramePosition);
+	UIStamina.FrameRenderer ->SetSprite("HUD_Gauge_Frame.png");
 
 
-	m_GaugeComposition.RecoverableGauge = CreateComponent<GameEngineUIRenderer>();
-	m_GaugeComposition.RecoverableGauge->Transform.SetLocalPosition({ 0.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Gauge1) });
-	m_GaugeComposition.RecoverableGauge->SetSprite("HUD_Gauge_2.png");
+	UIStamina.StaminaGaugeRenderer = CreateComponent<ContentsUIRenderer>();
+	UIStamina.StaminaGaugeRenderer->Transform.SetLocalPosition(StaminaPosition);
+	UIStamina.StaminaGaugeRenderer->SetMaterial("LineGaugeTexture2D");
+	UIStamina.StaminaGaugeRenderer->SetSprite("HUD_Gauge_1.png");
 
-	m_GaugeComposition.Indicator = CreateComponent<GameEngineUIRenderer>();
-	m_GaugeComposition.Indicator->Transform.SetLocalPosition({ 0.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Indicator) });
-	m_GaugeComposition.Indicator->SetSprite("HUD_Gauge_Indicator.png");
+
+	UIStamina.RecoverableGaugeRenderer = CreateComponent<GameEngineUIRenderer>();
+	UIStamina.RecoverableGaugeRenderer->Transform.SetLocalPosition(RecoverableGaugePosition);
+	UIStamina.RecoverableGaugeRenderer->SetSprite("HUD_Gauge_2.png");
+
+	UIStamina.IndicatorRenderer = CreateComponent<GameEngineUIRenderer>();
+	UIStamina.IndicatorRenderer->Transform.SetLocalPosition(IndicatorPosition);
+	UIStamina.IndicatorRenderer->SetSprite("HUD_Gauge_Indicator.png");
 }
 
 
@@ -70,7 +81,7 @@ void UI_Hub_Stamina::UpdateGauge()
 			RenderStamina = Ellie::MainEllie->GetStamina();
 
  			float StaminaGauge = RenderStamina / MAX_STAMINA;
-			m_GaugeComposition.StaminaGauge->GetGaugeInfo().Gauge = StaminaGauge;
+			UIStamina.StaminaGaugeRenderer->GetGaugeInfo().Gauge = StaminaGauge;
 		}
 	}
 }

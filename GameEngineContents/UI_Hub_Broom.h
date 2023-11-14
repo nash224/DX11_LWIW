@@ -1,11 +1,12 @@
 #pragma once
 #include "UI_Hub_Actor.h"
+#include "ContentsUIRenderer.h"
 
 // Ό³Έν :
 class UI_Hub_Broom : public UI_Hub_Actor
 {
 public:
-	static float BroomFuelTank;
+	static float RenderingAccFuel;
 
 public:
 	// constrcuter destructer
@@ -20,18 +21,19 @@ public:
 
 	void Init();
 
-	static void AddBroomGauge(const float _Value);
+	void UpdateGauge();
 
 protected:
-	void Start() override;
+	void Start() override {}
 	void Update(float _Delta) override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
-	void LevelEnd(class GameEngineLevel* _NextLevel) override;
+	void Release() override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
+	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 private:
-	std::shared_ptr<GameEngineUIRenderer> m_Frame = nullptr;
-	std::shared_ptr<GameEngineUIRenderer> m_Gauge = nullptr;
-	std::shared_ptr<GameEngineUIRenderer> m_Icon = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> FrameRenderer = nullptr;
+	std::shared_ptr<ContentsUIRenderer> GaugeRenderer = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> IconRenderer = nullptr;
 
 
 };

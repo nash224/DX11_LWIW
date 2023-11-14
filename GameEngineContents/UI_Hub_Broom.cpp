@@ -1,8 +1,9 @@
 #include "PreCompile.h"
 #include "UI_Hub_Broom.h"
 
+#include "Ellie.h"
 
-float UI_Hub_Broom::BroomFuelTank = 0.0f;
+float UI_Hub_Broom::RenderingAccFuel = 0.0f;
 UI_Hub_Broom::UI_Hub_Broom() 
 {
 }
@@ -12,24 +13,16 @@ UI_Hub_Broom::~UI_Hub_Broom()
 }
 
 
-void UI_Hub_Broom::Start()
-{
-
-}
-
 void UI_Hub_Broom::Update(float _Delta)
 {
-
+	UpdateGauge();
 }
 
-void UI_Hub_Broom::LevelStart(class GameEngineLevel* _NextLevel)
+void UI_Hub_Broom::Release()
 {
-
-}
-
-void UI_Hub_Broom::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-
+	FrameRenderer = nullptr;
+	GaugeRenderer = nullptr;
+	IconRenderer = nullptr;
 }
 
 
@@ -38,31 +31,45 @@ void UI_Hub_Broom::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void UI_Hub_Broom::Init()
 {
-	Transform.AddLocalPosition({ -419.0f , -156.0f });
+	Transform.AddLocalPosition(float4(-419.0f, -156.0f ));
 
-	float4 UIPosition = float4::ZERO;
+	const float FrameDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Frame);
+	const float GaugeDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Gauge1);
+	const float IconDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Frame);
 
-	m_Frame = CreateComponent<GameEngineUIRenderer>();
-	UIPosition = { 0.0f , 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Frame) };
-	m_Frame->Transform.SetLocalPosition(UIPosition);
-	m_Frame->SetSprite("HUD_Broom_Gauge_Frame.png");
+	const float4& FramePosition = float4(0.0f, 0.0f, FrameDepth);
+	const float4& GaugePosition = float4(-1.0f, 0.0f, GaugeDepth);
+	const float4& IconPosition = float4(0.0f, 32.0f, IconDepth);
 
-	m_Gauge = CreateComponent<GameEngineUIRenderer>();
-	m_Gauge->SetSprite("HUD_Broom_Gauge_1.png");
-	m_Gauge->SetPivotType(PivotType::Left);
-	UIPosition = { -26.0f  , 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Gauge1) };
-	m_Gauge->Transform.AddLocalPosition(UIPosition);
+	FrameRenderer = CreateComponent<GameEngineUIRenderer>();
+	FrameRenderer->Transform.SetLocalPosition(FramePosition);
+	FrameRenderer->SetSprite("HUD_Broom_Gauge_Frame.png");
+
+	GaugeRenderer = CreateComponent<ContentsUIRenderer>();
+	GaugeRenderer->Transform.AddLocalPosition(GaugePosition);
+	GaugeRenderer->SetMaterial("LineGaugeTexture2D");
+	GaugeRenderer->SetSprite("HUD_Broom_Gauge_1.png");
 	
-	m_Icon = CreateComponent<GameEngineUIRenderer>();
-	m_Icon->SetSprite("Tool_BroomA.png");
-	m_Icon->LeftFlip();
-	UIPosition = { 0.0f  , 32.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Frame) };
-	m_Icon->Transform.AddLocalPosition(UIPosition);
+	IconRenderer = CreateComponent<GameEngineUIRenderer>();
+	IconRenderer->Transform.AddLocalPosition(IconPosition);
+	IconRenderer->SetSprite("Tool_BroomA.png");
+	IconRenderer->LeftFlip();
+
+	UpdateGauge();
 
 	Off();
 }
 
-void UI_Hub_Broom::AddBroomGauge(const float _Value)
+void UI_Hub_Broom::UpdateGauge()
 {
-	BroomFuelTank = _Value;
+	if (nullptr != Ellie::MainEllie)
+	{
+		if (Ellie::MainEllie->GetBroomFuel() != RenderingAccFuel)
+		{
+			RenderingAccFuel = Ellie::MainEllie->GetBroomFuel();
+
+			float FuelGauge = RenderingAccFuel / MAX_FUEL;
+			GaugeRenderer->GetGaugeInfo().Gauge = FuelGauge;
+		}
+	}
 }

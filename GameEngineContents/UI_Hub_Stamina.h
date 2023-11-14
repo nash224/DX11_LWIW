@@ -2,13 +2,13 @@
 #include "UI_Hub_Actor.h"
 #include "ContentsUIRenderer.h"
 
-struct GaugeComposition
+struct StaminaInfo
 {
 public:
-	std::shared_ptr<GameEngineUIRenderer> Frame = nullptr;
-	std::shared_ptr<ContentsUIRenderer> StaminaGauge = nullptr;
-	std::shared_ptr<GameEngineUIRenderer> RecoverableGauge = nullptr;
-	std::shared_ptr<GameEngineUIRenderer> Indicator = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> FrameRenderer = nullptr;
+	std::shared_ptr<ContentsUIRenderer> StaminaGaugeRenderer = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> RecoverableGaugeRenderer = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> IndicatorRenderer = nullptr;
 
 };
 
@@ -42,7 +42,7 @@ protected:
 	void UpdateGauge();
 
 private:
-	GaugeComposition m_GaugeComposition;
+	StaminaInfo UIStamina;
 
 };
 

@@ -24,7 +24,6 @@ void Ellie::OnRideFx()
 {
 	std::weak_ptr<RidingFx> riding_FX = GetLevel()->CreateActor<RidingFx>(EUPDATEORDER::Objects);
 	riding_FX.lock()->Init(Transform.GetLocalPosition());
-	
 }
 
 
@@ -67,6 +66,8 @@ void Ellie::UpdateRiding_Standing(float _Delta)
 
 void Ellie::StartRiding_Moving()
 {
+	m_StateTime = 0.0f;
+
 	Ellie::PlaySFX("SFX_Broomstick_Moving_01.wav");
 	ChangeAnimationByDirection("Riding_Moving");
 }
@@ -127,6 +128,8 @@ void Ellie::UpdateRiding_Moving(float _Delta)
 
 	DecelerateAtMidpoint(_Delta, CONST_Ellie_Riding_Move_Speed, CONST_Ellie_Riding_Move_Acceleration_Time);
 	ApplyMovement(_Delta);
+
+	ConsumeBroomFuel(_Delta);
 }
 
 
@@ -194,6 +197,8 @@ void Ellie::UpdateRiding_Boosting(float _Delta)
 
 	DecelerateAtMidpoint(_Delta, CONST_Ellie_Riding_Boost_Speed, CONST_Ellie_Riding_Boosting_Acceleration_Time);
 	ApplyMovement(_Delta);
+
+	ConsumeBroomFuel(_Delta);
 }
 
 #pragma endregion 
@@ -214,4 +219,26 @@ float4 Ellie::GetBroomParticlePosition()
 	float4 DirVector = CalculateDirectionVectorToDir(m_Dir);
 	const float4& ReturnValue = float4(0.0f, 15.0f) - DirVector * ParticleDistance;
 	return ReturnValue;
+}
+
+void Ellie::ConsumeBroomFuel(float _Delta)
+{
+	static constexpr const float PayCostCycle = 0.2f;
+
+	BroomUsingTime += _Delta;
+	if (BroomUsingTime > PayCostCycle)
+	{
+		BroomUsingTime -= PayCostCycle;
+
+		if (EELLIE_STATE::Riding_Moving == m_State)
+		{
+			static constexpr const float MovingCost = 2.0f;
+			BroomFuel -= MovingCost;
+		}
+		else if (EELLIE_STATE::Riding_Boosting == m_State)
+		{
+			static constexpr const float BoostingCost = 4.0f;
+			BroomFuel -= BoostingCost;
+		}
+	}
 }
