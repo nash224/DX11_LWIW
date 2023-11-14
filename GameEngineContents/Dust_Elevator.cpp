@@ -1,6 +1,9 @@
 #include "PreCompile.h"
 #include "Dust_Elevator.h"
 
+#include "UpperLift.h"
+
+
 Dust_Elevator::Dust_Elevator() 
 {
 }
@@ -44,4 +47,10 @@ void Dust_Elevator::SetTopic()
 	};
 
 	SetConversationData(Datas);
+	SetEndEvnet(std::bind(&Dust_Elevator::ActiveUpperLift, this));
+}
+
+void Dust_Elevator::ActiveUpperLift()
+{
+	UpperLift::ActiveLift();
 }

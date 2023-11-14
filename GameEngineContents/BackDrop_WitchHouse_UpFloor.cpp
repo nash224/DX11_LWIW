@@ -8,10 +8,11 @@
 #include "Dust_Bag.h"
 #include "Dust_Elevator.h"
 
-
 #include "PortalObject.h"
 #include "RendererActor.h"
 #include "NormalProp.h"
+
+#include "UpperLift.h"
 
 
 BackDrop_WitchHouse_UpFloor::BackDrop_WitchHouse_UpFloor() 
@@ -56,6 +57,7 @@ void BackDrop_WitchHouse_UpFloor::Init()
 	CreateProp(CurLevel);
 	CreatePixelMap(CurLevel);
 	LoadPortalActor(CurLevel);
+	LiftSetting();
 	
 	//if (false == isInitDustEvent)
 	//{
@@ -395,20 +397,9 @@ void BackDrop_WitchHouse_UpFloor::CreatePixelMap(GameEngineLevel* _Level)
 
 #pragma endregion 
 
-#pragma region CreatePortal
-
 void BackDrop_WitchHouse_UpFloor::LoadPortalActor(GameEngineLevel* _Level)
 {
 	float4 HWinScale = GlobalValue::GetWindowScale().Half();
-
-	{
-		std::shared_ptr<PortalObject> Object = _Level->CreateActor<PortalObject>(EUPDATEORDER::Portal);
-		Object->CreatePortalCollision(ECOLLISION::Portal);
-		Object->SetChangeLevelName("WitchHouse_DownFloor");
-		Object->SetCollisionRange({ 44.0f , 20.0f });
-		Object->SetLocalPosition(m_HouseLocation + float4{ 174.0f , -184.0f });
-		Object->SetCollisionType(ColType::AABBBOX2D);
-	}
 
 	{
 		std::shared_ptr<PortalObject> Object = _Level->CreateActor<PortalObject>(EUPDATEORDER::Portal);
@@ -420,7 +411,17 @@ void BackDrop_WitchHouse_UpFloor::LoadPortalActor(GameEngineLevel* _Level)
 	}
 }
 
-#pragma endregion 
+void BackDrop_WitchHouse_UpFloor::LiftSetting()
+{
+	{
+		const float4& LiftPosition = m_HouseLocation + float4{ 174.0f , -184.0f };
+
+		std::weak_ptr<UpperLift> Object = GetLevel()->CreateActor<UpperLift>(EUPDATEORDER::Entity);
+		Object.lock()->Transform.SetLocalPosition(LiftPosition);
+		Object.lock()->Init();
+	}
+}
+
 
 
 void BackDrop_WitchHouse_UpFloor::DustEventSetting()
@@ -457,7 +458,6 @@ void BackDrop_WitchHouse_UpFloor::DustEventSetting()
 		DustElevator.lock()->Init("paper.png", true);
 	}
 }
-
 
 void BackDrop_WitchHouse_UpFloor::EventSetting()
 {

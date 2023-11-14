@@ -13,7 +13,6 @@ enum class EQUESTTYPE
 	Crow_Meet,
 	Dian_Catalogue,
 	Dian_BadWeedPotion,
-	Aurea_HealCandy,
 	Dian_Cracker_Recipe,
 	Max,
 };
@@ -114,6 +113,15 @@ public:
 	class Crow_Meet : public QuestUnitBase
 	{
 	public:
+		bool CheckPrerequisiteQuest() override;
+
+	};
+
+	class Dian_BadWeedPotion : public QuestUnitBase
+	{
+	public:
+		void QuestAccept() override;
+		void QuestComplete() override;
 		bool CheckPrerequisiteQuest() override;
 
 	};

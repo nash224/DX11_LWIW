@@ -32,6 +32,7 @@ private:
 	void CreateProp(GameEngineLevel* _Level);
 	void CreatePixelMap(GameEngineLevel* _Level);
 	void LoadPortalActor(GameEngineLevel* _Level);
+	void LiftSetting();
 
 	void DustEventSetting();
 

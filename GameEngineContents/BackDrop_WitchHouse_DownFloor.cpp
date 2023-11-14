@@ -10,6 +10,7 @@
 #include "AlchemyPot.h"
 #include "Extractor.h"
 #include "Roaster.h"
+#include "LowerLift.h"
 
 #include "Dust_Pot.h"
 #include "Dust_Extractor.h"
@@ -78,8 +79,8 @@ void BackDrop_WitchHouse_DownFloor::Init()
 
 	CreateProp(CurLevel);
 	CreatePixelMap(CurLevel);
-	CreateStaticActor(CurLevel);
-	CreatePortalActor(CurLevel);
+	CreateStaticActor();
+	/*CreatePortalActor(CurLevel);*/
 }
 
 
@@ -490,7 +491,7 @@ void BackDrop_WitchHouse_DownFloor::CreatePixelMap(GameEngineLevel* _Level)
 
 #pragma endregion 
 
-void BackDrop_WitchHouse_DownFloor::CreateStaticActor(GameEngineLevel* _Level)
+void BackDrop_WitchHouse_DownFloor::CreateStaticActor()
 {
 	{
 		float4 Position = float4(HouseMoveVector  + float4(409.0f, -299.0f));
@@ -500,7 +501,7 @@ void BackDrop_WitchHouse_DownFloor::CreateStaticActor(GameEngineLevel* _Level)
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 
-		PixelStaticEntityVec.push_back(Object);
+		BackDrop_PlayLevel::PixelStaticEntityVec.push_back(Object);
 	}
 
 	{
@@ -511,7 +512,7 @@ void BackDrop_WitchHouse_DownFloor::CreateStaticActor(GameEngineLevel* _Level)
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 
-		PixelStaticEntityVec.push_back(Object);
+		BackDrop_PlayLevel::PixelStaticEntityVec.push_back(Object);
 	}
 
 	{
@@ -520,8 +521,13 @@ void BackDrop_WitchHouse_DownFloor::CreateStaticActor(GameEngineLevel* _Level)
 
 		std::shared_ptr<Extractor> Object = GetLevel()->CreateActor<Extractor>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(Position);
+		
+		BackDrop_PlayLevel::PixelStaticEntityVec.push_back(Object);
+	}
 
-		PixelStaticEntityVec.push_back(Object);
+	{
+		std::shared_ptr<LowerLift> Object = GetLevel()->CreateActor<LowerLift>(EUPDATEORDER::Entity);
+		Object->Transform.SetLocalPosition(float4(548.0f, -172.0f));
 	}
 }
 
@@ -579,7 +585,6 @@ void BackDrop_WitchHouse_DownFloor::DustEventSetting()
 			GameEngineSprite::CreateSingle(pFile.GetFileName());
 		}
 	}
-
 
 	{
 		const float4& DustPosition = float4(560.0f, -330.0f);

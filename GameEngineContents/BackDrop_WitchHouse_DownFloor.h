@@ -27,7 +27,7 @@ protected:
 private:
 	void CreateProp(GameEngineLevel* _Level);
 	void CreatePixelMap(GameEngineLevel* _Level);
-	void CreateStaticActor(GameEngineLevel* _Level);
+	void CreateStaticActor();
 	void CreatePortalActor(GameEngineLevel* _Level);
 
 	void CreateRenderActor(int _UpdateOrder, 

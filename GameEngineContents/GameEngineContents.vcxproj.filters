@@ -232,6 +232,9 @@
     <Filter Include="3.Actor\5.Event\SingleEvent">
       <UniqueIdentifier>{211ecfb2-dbda-428b-bc2f-3ac27f8a982e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3.Actor\2.Interactive\Static\WitchLift">
+      <UniqueIdentifier>{f961e473-ad3f-40ed-a9da-f310ed861eeb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -627,6 +630,12 @@
     </ClInclude>
     <ClInclude Include="CraftPotionEvent.h">
       <Filter>3.Actor\5.Event\SingleEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="LowerLift.h">
+      <Filter>3.Actor\2.Interactive\Static\WitchLift</Filter>
+    </ClInclude>
+    <ClInclude Include="UpperLift.h">
+      <Filter>3.Actor\2.Interactive\Static\WitchLift</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1057,6 +1066,12 @@
     </ClCompile>
     <ClCompile Include="CraftPotionEvent.cpp">
       <Filter>3.Actor\5.Event\SingleEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="LowerLift.cpp">
+      <Filter>3.Actor\2.Interactive\Static\WitchLift</Filter>
+    </ClCompile>
+    <ClCompile Include="UpperLift.cpp">
+      <Filter>3.Actor\2.Interactive\Static\WitchLift</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

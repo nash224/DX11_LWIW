@@ -37,7 +37,6 @@ void ContentsEvent::Init()
 	ToolData[static_cast<int>(ETOOLTYPE::FeaturePan)] = true;
 
 
-
 	CreateQuest<ContentsEvent::Letter_Read>("Letter_Read");
 	CreateQuest<ContentsEvent::House_Dust>("House_Dust");
 	CreateQuest<ContentsEvent::Craft_Potion>("Craft_Potion");
@@ -47,6 +46,7 @@ void ContentsEvent::Init()
 	CreateQuest<ContentsEvent::Aurea_Cure>("Aurea_Cure");
 
 	CreateQuest<ContentsEvent::Crow_Meet>("Crow_Meet");
+	CreateQuest<ContentsEvent::Dian_BadWeedPotion>("Dian_BadWeedPotion");
 	CreateQuest<ContentsEvent::Dian_Cracker>("Dian_Cracker");
 }
 
