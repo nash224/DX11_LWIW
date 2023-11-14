@@ -44,8 +44,7 @@ void ContentsEvent::Init()
 	CreateQuest<ContentsEvent::Repair_Extractor>("Repair_Extractor");
 
 	CreateQuest<ContentsEvent::Aurea_Find>("Aurea_Find");
-	CreateQuest<ContentsEvent::Aurea_UnCurse>("Aurea_UnCurse");
-	CreateQuest<ContentsEvent::Aurea_Curse>("Aurea_Curse");
+	CreateQuest<ContentsEvent::Aurea_Cure>("Aurea_Cure");
 
 	CreateQuest<ContentsEvent::Crow_Meet>("Crow_Meet");
 	CreateQuest<ContentsEvent::Dian_Cracker>("Dian_Cracker");

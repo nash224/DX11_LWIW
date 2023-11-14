@@ -17,7 +17,7 @@
 
 BackDrop_WitchHouse_DownFloor::BackDrop_WitchHouse_DownFloor() 
 {
-	m_BackScale = GlobalValue::GetWindowScale();
+	BackDrop_PlayLevel::m_BackScale = GlobalValue::GetWindowScale();
 }
 
 BackDrop_WitchHouse_DownFloor::~BackDrop_WitchHouse_DownFloor() 
@@ -27,11 +27,16 @@ BackDrop_WitchHouse_DownFloor::~BackDrop_WitchHouse_DownFloor()
 void BackDrop_WitchHouse_DownFloor::Start()
 {
 	DustEventSetting();
+	
+	BackDrop_PlayLevel::CreateItem("MapleHerb_Water", float4(670.0f , -260.0f), 1);
+	BackDrop_PlayLevel::CreateItem("Mongsiri_Water", float4(450.0f, -250.0f), 1);
+	BackDrop_PlayLevel::CreateItem("Mongsiri_Water", float4(670.0f, -430.0f), 1);
+	BackDrop_PlayLevel::CreateItem("WitchFlower_Water", float4(450.0f, -430.0f), 1);
 }
 
 void BackDrop_WitchHouse_DownFloor::LevelStart(class GameEngineLevel* _NextLevel)
 {
-	MainBackDrop = this;
+	BackDrop_PlayLevel::MainBackDrop = this;
 }
 
 void BackDrop_WitchHouse_DownFloor::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -56,7 +61,7 @@ void BackDrop_WitchHouse_DownFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void BackDrop_WitchHouse_DownFloor::Init()
 {
-	MainBackDrop = this;
+	BackDrop_PlayLevel::MainBackDrop = this;
 
 
 	GameEngineDirectory Dir;

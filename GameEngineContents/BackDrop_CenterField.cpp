@@ -7,18 +7,18 @@
 #include "ContentsEvent.h"
 
 #include "Aurea.h"
-#include "Aurea.h"
-#include "MongSiri_Population.h"
-#include "Bush.h"
-#include "WitchFlower.h"
-#include "SilverStarFlower.h"
-#include "FlowerBird.h"
 #include "BranchTree.h"
+#include "Bush.h"
+#include "FlowerBird.h"
+#include "MongSiri_Population.h"
+#include "SilverStarFlower.h"
 #include "PumpkinTerrier.h"
+#include "WitchFlower.h"
 
 
 BackDrop_CenterField::BackDrop_CenterField() 
 {
+	BackDrop::m_BackScale = float4(1920.0f, 1280.0f);
 }
 
 BackDrop_CenterField::~BackDrop_CenterField() 
@@ -27,8 +27,6 @@ BackDrop_CenterField::~BackDrop_CenterField()
 
 void BackDrop_CenterField::Start()
 {
-	m_BackScale = float4(1920.0f, 1280.0f);
-
 	BackDrop_Field::Start();
 }
 
@@ -58,14 +56,14 @@ void BackDrop_CenterField::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void BackDrop_CenterField::Init()
 {
-	MainBackDrop = this;
+	BackDrop_PlayLevel::MainBackDrop = this;
 
 	SpriteFileLoad();
 
-	PixelVec.reserve(256);
-	PixelStaticEntityVec.reserve(32);
+	BackDrop_PlayLevel::PixelVec.reserve(256);
+	BackDrop_PlayLevel::PixelStaticEntityVec.reserve(32);
 
-	CreateAurea();
+	NPCSetting();
 	CreateMap();
 	LoadSerBin();
 	CreatePortalActor();
@@ -200,8 +198,20 @@ void BackDrop_CenterField::CreatePortalActor()
 	}
 }
 
-void BackDrop_CenterField::CreateAurea()
+void BackDrop_CenterField::NPCSetting()
 {
+	std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Craft_Potion");
+	if (true == Quest.expired())
+	{
+		MsgBoxAssert("생성되지 않은 퀘스트입니다.");
+		return;
+	}
+
+	if (false == Quest.lock()->isQuestComplete())
+	{
+		// return;
+	}
+
 	std::weak_ptr<Aurea> Npc_Aurea = GetLevel()->CreateActor<Aurea>(EUPDATEORDER::Entity);
 	Npc_Aurea.lock()->Transform.SetLocalPosition(float4(940.0f, -235.0f));
 	Npc_Aurea.lock()->Init();

@@ -212,6 +212,7 @@ void AlchemyPot::StateSetting()
 	CreateStateParameter SuccessState;
 	SuccessState.Start = std::bind(&AlchemyPot::StartSuccess, this, std::placeholders::_1);
 	SuccessState.Stay = std::bind(&AlchemyPot::UpdateSuccess, this, std::placeholders::_1, std::placeholders::_2);
+	SuccessState.End = std::bind(&AlchemyPot::EndSuccess, this, std::placeholders::_1);
 	State.CreateState(EPOTSTATE::Success, SuccessState);
 }
 
@@ -387,6 +388,18 @@ void AlchemyPot::EndBroken(GameEngineState* _Parent)
 
 void AlchemyPot::EndSuccess(GameEngineState* _Parent)
 {
+	std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Craft_Potion");
+	if (true == Quest.expired())
+	{
+		MsgBoxAssert("존재하지 않는 퀘스트입니다.");
+		return;
+	}
+
+	if (false == Quest.lock()->CheckPrerequisiteQuest())
+	{
+		Quest.lock()->QuestComplete();
+	}
+
 	if (nullptr != UI_Inventory::MainInventory)
 	{
 		UI_Inventory::MainInventory->PushItem(CraftedPotion);

@@ -49,6 +49,7 @@ protected:
 	void StartFirstConversation(GameEngineState* _Parent);
 	void StartAureaFocusOn(GameEngineState* _Parent);
 	void StartSecondConversation(GameEngineState* _Parent);
+	void StartAureaFocusOff(GameEngineState* _Parent);
 
 	void UpdateAureaFocusOn(float _Delta, GameEngineState* _Parent);
 	void UpdateStay(float _Delta, GameEngineState* _Parent);
@@ -68,6 +69,7 @@ private:
 	Conversation VirgilConveration;
 
 	float4 CameraDirection = float4::ZERO;
+	float4 TargetPos = float4::ZERO;
 
 	static constexpr const float CameraMovePower = 300.0f;
 

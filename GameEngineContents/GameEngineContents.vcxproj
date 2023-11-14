@@ -238,6 +238,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="CraftPotionEvent.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Dust.cpp">
       <SubType>
       </SubType>
@@ -759,6 +763,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Conversation.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CraftPotionEvent.h">
       <SubType>
       </SubType>
     </ClInclude>

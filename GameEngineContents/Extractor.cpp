@@ -95,7 +95,6 @@ void Extractor::RendererSetting()
 {
 	if (nullptr == GameEngineSprite::Find("DownFloor_Extractor_0.png"))
 	{
-		// Jucier
 		GameEngineSprite::CreateCut("DownFloor_Extractor_0.png", 5, 4);
 		GameEngineSprite::CreateCut("DownFloor_Extractor_1.png", 5, 4);
 	}

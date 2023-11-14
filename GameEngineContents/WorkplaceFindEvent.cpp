@@ -38,10 +38,10 @@ void WorkplaceFindEvent::ConversationSetting()
 	};
 
 	FindTopic.Data.shrink_to_fit();
-	EventConveration.CreateTopic(EWORKPLACEFINDTOPIC::Find, FindTopic);
+	SingleEvent::EventConveration.CreateTopic(EWORKPLACEFINDTOPIC::Find, FindTopic);
 
-	EventConveration.SetConversationEndEvent(EWORKPLACEFINDTOPIC::Find, [&]()
+	SingleEvent::EventConveration.SetConversationEndEvent(EWORKPLACEFINDTOPIC::Find, [&]()
 		{
-			State.ChangeState(ESINGLESTATE::Single);
+			SingleEvent::State.ChangeState(ESINGLESTATE::Single);
 		});
 }

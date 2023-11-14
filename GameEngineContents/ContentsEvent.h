@@ -9,8 +9,7 @@ enum class EQUESTTYPE
 	Craft_Potion,
 	Repair_Extractor,
 	Aurea_Find,
-	Aurea_Curse,
-	Aurea_UnCurse,
+	Aurea_Cure,
 	Crow_Meet,
 	Dian_Catalogue,
 	Dian_BadWeedPotion,
@@ -103,16 +102,11 @@ public:
 
 	};
 
-	class Aurea_Curse : public QuestUnitBase
+	class Aurea_Cure : public QuestUnitBase
 	{
 	public:
-		bool CheckPrerequisiteQuest() override;
-
-	};
-
-	class Aurea_UnCurse : public QuestUnitBase
-	{
-	public:
+		void QuestAccept() override;
+		void QuestComplete() override;
 		bool CheckPrerequisiteQuest() override;
 
 	};

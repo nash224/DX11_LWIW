@@ -68,6 +68,7 @@ void AureaFindEvent::StateSetting()
 	State.CreateState(ECURSEEVENTSTATE::Stay, StayState);
 
 	CreateStateParameter FocusOffState;
+	FocusOffState.Start = std::bind(&AureaFindEvent::StartAureaFocusOff, this, std::placeholders::_1);
 	FocusOffState.Stay = std::bind(&AureaFindEvent::UpdateAureaFocusOff, this, std::placeholders::_1, std::placeholders::_2);
 	State.CreateState(ECURSEEVENTSTATE::AureaFocusOff, FocusOffState);
 
@@ -87,23 +88,59 @@ void AureaFindEvent::StartFirstConversation(GameEngineState* _Parent)
 
 void AureaFindEvent::StartAureaFocusOn(GameEngineState* _Parent)
 {
-	if (nullptr != GlobalValue::g_CameraControler)
+
+	if (nullptr == GlobalValue::g_CameraControler)
 	{
-		GlobalValue::g_CameraControler->SetCameraMode(ECAMERAMODE::Cinematic);
+		MsgBoxAssert("카메라가 존재하지 않는데 사용하려 했습니다.");
+		return;
 	}
 
-	float4 MovePosition = AureaPtr->Transform.GetLocalPosition() - Ellie::MainEllie->Transform.GetLocalPosition();
-	
-	float4 ResultAngle = DirectX::XMVector2AngleBetweenVectors(MovePosition.DirectXVector, float4::RIGHT.DirectXVector);
-	float CameraMoveAngle = ResultAngle.X* GameEngineMath::R2D;
-	
-	if (MovePosition.Y < 0.0f)
+	if (nullptr == Ellie::MainEllie)
 	{
-		CameraMoveAngle = 360.0f - CameraMoveAngle;
+		MsgBoxAssert("플레이어가 존재하지 않습니다.");
+		return;
 	}
-	
-	CameraDirection = float4::GetUnitVectorFromDeg(CameraMoveAngle);
-	CameraDirection.Z = 0.0;
+
+	GlobalValue::g_CameraControler->SetCameraMode(ECAMERAMODE::Cinematic);
+
+	const float4& ElliePos = Ellie::MainEllie->Transform.GetLocalPosition();
+	const float4& CameraPos = GlobalValue::g_CameraControler->AdjustCameraInitialPosition(ElliePos);
+	const float4& NPCPos = AureaPtr->Transform.GetLocalPosition();
+	TargetPos = GlobalValue::g_CameraControler->AdjustCameraInitialPosition(NPCPos);
+	const float4& TargetVector = TargetPos - CameraPos;
+	const float Radian = std::atan2f(TargetVector.Y, TargetVector.X);
+	CameraDirection = float4::GetUnitVectorFromRad(Radian);
+}
+
+void AureaFindEvent::StartAureaFocusOff(GameEngineState* _Parent)
+{
+	std::weak_ptr<GameEngineCamera> Camera = GetLevel()->GetMainCamera();
+	if (true == Camera.expired())
+	{
+		MsgBoxAssert("존재하지 않는 카메라입니다.");
+		return;
+	}
+
+	if (nullptr == Ellie::MainEllie)
+	{
+		MsgBoxAssert("플레이어가 존재하지 않습니다.");
+		return;
+	}
+
+	const float4& WinScale = GlobalValue::GetWindowScale();
+	const float4& CameraPos = Camera.lock()->Transform.GetLocalPosition();
+	const float4& ElliePos = Ellie::MainEllie->Transform.GetLocalPosition();
+
+	TargetPos = ElliePos;
+
+	if (ElliePos.Y >= -WinScale.hY())
+	{
+		TargetPos.Y = -WinScale.hY();
+	}
+
+	const float4& TargetVector = TargetPos - CameraPos;
+	const float Radian = std::atan2f(TargetVector.Y, TargetVector.X);
+	CameraDirection = float4::GetUnitVectorFromRad(Radian);
 }
 
 void AureaFindEvent::StartSecondConversation(GameEngineState* _Parent)
@@ -116,11 +153,10 @@ void AureaFindEvent::UpdateAureaFocusOn(float _Delta, GameEngineState* _Parent)
 {
 	if (nullptr != GlobalValue::g_CameraControler)
 	{
-		std::weak_ptr<GameEngineCamera> Camera = GetLevel()->GetMainCamera();
 		const float4& MoveCameraVector = CameraDirection* CameraMovePower* _Delta;
 		GlobalValue::g_CameraControler->AddCameraPos(MoveCameraVector);
 
-		float Distance = CalculateDistanceCamemeraToActor(AureaPtr->Transform.GetLocalPosition());
+		float Distance = CalculateDistanceCamemeraToActor(TargetPos);
 		if (Distance < 4.0f)
 		{
 			State.ChangeState(ECURSEEVENTSTATE::Stay);
@@ -140,14 +176,10 @@ void AureaFindEvent::UpdateAureaFocusOff(float _Delta, GameEngineState* _Parent)
 {
 	if (nullptr != GlobalValue::g_CameraControler)
 	{
-		std::weak_ptr<GameEngineCamera> Camera = GetLevel()->GetMainCamera();
-
-		float4 ReverseCameraDirection = -CameraDirection;
-		ReverseCameraDirection.Z = 0.0f;
-		const float4& MoveCameraVector = ReverseCameraDirection * CameraMovePower * _Delta;
+		const float4& MoveCameraVector = CameraDirection * CameraMovePower * _Delta;
 		GlobalValue::g_CameraControler->AddCameraPos(MoveCameraVector);
 
-		float Distance = CalculateDistanceCamemeraToActor(Ellie::MainEllie->Transform.GetLocalPosition());
+		float Distance = CalculateDistanceCamemeraToActor(TargetPos);
 		if (Distance < 4.0f)
 		{
 			State.ChangeState(ECURSEEVENTSTATE::SecondConversation);

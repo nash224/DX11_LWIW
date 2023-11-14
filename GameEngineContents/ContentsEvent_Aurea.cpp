@@ -1,7 +1,9 @@
 #include "PreCompile.h"
 #include "ContentsEvent.h"
 
-#include "Ellie.h"
+#include "PlayLevel.h"
+
+#include "AlertManager.h"
 #include "UI_Inventory.h"
 
 
@@ -11,13 +13,19 @@ bool ContentsEvent::Aurea_Find::CheckPrerequisiteQuest()
 	return true;
 }
 
-bool ContentsEvent::Aurea_UnCurse::CheckPrerequisiteQuest()
+
+
+void ContentsEvent::Aurea_Cure::QuestAccept()
 {
-	return true;
+	if (nullptr != PlayLevel::s_AlertManager)
+	{
+		PlayLevel::s_AlertManager->RegisterAlert(AlertData("历林秦力 荤帕 力累", EALERTTYPE::QuestAccept));
+	}
+
+	isQuestAccepted = true;
 }
 
-
-bool ContentsEvent::Aurea_Curse::CheckPrerequisiteQuest()
+bool ContentsEvent::Aurea_Cure::CheckPrerequisiteQuest()
 {
 	if (nullptr != UI_Inventory::MainInventory)
 	{
@@ -28,4 +36,14 @@ bool ContentsEvent::Aurea_Curse::CheckPrerequisiteQuest()
 	}
 
 	return false;
+}
+
+void ContentsEvent::Aurea_Cure::QuestComplete()
+{
+	if (nullptr != PlayLevel::s_AlertManager)
+	{
+		PlayLevel::s_AlertManager->RegisterAlert(AlertData("历林秦力 荤帕 力累", EALERTTYPE::QuestClear));
+	}
+
+	isQuestCompleted = true;
 }

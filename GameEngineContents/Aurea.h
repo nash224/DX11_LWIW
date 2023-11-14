@@ -13,7 +13,6 @@ enum class EAUREASTATE
 class Aurea : public NPCEntity
 {
 private:
-
 	enum class EAUREATOPICTYPE
 	{
 		Curse,
@@ -22,7 +21,6 @@ private:
 		CurseCure,
 		Normal,
 	};
-
 
 private:
 	static EAUREASTATE CurState;
@@ -60,12 +58,14 @@ private:
 	void UpdateCurse(float _Delta, GameEngineState* _Parent);
 	void UpdateNormal(float _Delta, GameEngineState* _Parent);
 
-	void ShowFindAureaEvent();
 	void CheckAureaCurseEvent();
+	void ShowFindAureaEvent();
+
+	void CheckAureaCurseConversation();
 
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> AureaRenderer = nullptr;
-	std::shared_ptr<GameEngineSpriteRenderer> m_Shadow = nullptr;
+	std::shared_ptr<GameEngineSpriteRenderer> ShadowRenderer = nullptr;
 	GameEngineState State;
 
 

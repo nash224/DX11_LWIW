@@ -116,28 +116,21 @@ void CameraControler::Reset()
 	m_CameraInfo.MoveDistance = float4::ZERO;
 }
 
-// 플레이 모드 전용
-// 카메라 첫위치 조정
-void CameraControler::SetAutoInitialPosition(const float4& _Location)
+float4 CameraControler::AdjustCameraInitialPosition(const float4& _Location)
 {
-	if (ECAMERAMODE::Play != m_Mode)
-	{
-		return;
-	}
-
 	if (float4::ZERO == m_BackScale)
 	{
 		MsgBoxAssert("배경 넓이을 지정해주지 않고 카메라 플레이 모드를 사용하려 했습니다.");
-		return;
+		return float4();
 	}
 
 	if (nullptr == m_MainCamera)
 	{
 		MsgBoxAssert("카메라 액터가 존재하지 않는데 사용하려고 했습니다.");
-		return;
+		return float4();
 	}
 
- 	float4 CurCameraPos = _Location;
+	float4 CurCameraPos = _Location;
 
 
 	float4 HWinScale = m_WinScale.Half();
@@ -226,69 +219,59 @@ void CameraControler::SetAutoInitialPosition(const float4& _Location)
 	if (0 == CornerCountWithinScreen)
 	{
 		MsgBoxAssert("맵을 벗어난 위치에서 초기화할 수 없습니다.");
-		return;
+		return float4();
 	}
 
 	if (1 == CornerCountWithinScreen)
 	{
-		// 왼쪽 위 모서리가 배경 스케일 안에 있으면
 		if (true == IsLeftTopCornerInBackScale)
 		{
 			CurCameraPos = float4{ m_BackScale.X - HWinScale.X  , -m_BackScale.Y + HWinScale.Y };
 		}
 
-		// 왼쪽 아래 모서리가 배경 스케일 안에 있으면
 		if (true == IsLeftBottomCornerInBackScale)
 		{
 			CurCameraPos = float4{ m_BackScale.X - HWinScale.X , -HWinScale.Y };
 		}
 
-		// 오른쪽 위 모서리가 배경 스케일 안에 있으면
 		if (true == IsRightTopCornerInBackScale)
 		{
 			CurCameraPos = float4{ HWinScale.X , -m_BackScale.Y + HWinScale.Y };
 		}
 
-		// 오른쪽 아래 모서리가 배경 스케일 안에 있으면
 		if (true == IsRightBottomCornerInBackScale)
 		{
 			CurCameraPos = float4{ HWinScale.X , -HWinScale.Y };
 		}
 	}
 
-	// 모서리가 배경 밖으로 2개 나갔을 때
 	if (2 == CornerCountWithinScreen)
 	{
-		// 왼쪽 면이 배경 스케일 안에 있으면
 		if (true == IsLeftTopCornerInBackScale && true == IsLeftBottomCornerInBackScale)
 		{
 			CurCameraPos.X = m_BackScale.X - HWinScale.X;
 		}
 
-		// 위쪽 면이 배경 스케일 안에 있으면
 		if (true == IsLeftTopCornerInBackScale && true == IsRightTopCornerInBackScale)
 		{
 			CurCameraPos.Y = -m_BackScale.Y + HWinScale.Y;
 		}
 
-		// 오른쪽 면이 배경 스케일 안에 있으면
 		if (true == IsRightTopCornerInBackScale && true == IsRightBottomCornerInBackScale)
 		{
 			CurCameraPos.X = HWinScale.X;
 		}
 
-		// 아래쪽 면이 배경 스케일 안에 있으면
 		if (true == IsLeftBottomCornerInBackScale && true == IsRightBottomCornerInBackScale)
 		{
 			CurCameraPos.Y = -HWinScale.Y;
 		}
 	}
 
-	// 있을 수 없는 일입니다. 만약 들어오면 터집니다.
 	if (3 == CornerCountWithinScreen)
 	{
 		MsgBoxAssert("있을 수 없는 버그입니다. 값을 확인해보세요.");
-		return;
+		return float4();
 	}
 
 	// 배경 안에 4점이 위치해있다는 것으로 아무것도 해주지 않습니다.
@@ -297,7 +280,15 @@ void CameraControler::SetAutoInitialPosition(const float4& _Location)
 
 	}
 
-	m_MainCamera->Transform.SetLocalPosition(CurCameraPos);
+	return CurCameraPos;
+}
+
+// 플레이 모드 전용
+// 카메라 첫위치 조정
+void CameraControler::SetAutoInitialPosition(const float4& _Location)
+{
+	const float4& AdjustCameraPos = AdjustCameraInitialPosition(_Location);
+	m_MainCamera->Transform.SetLocalPosition(AdjustCameraPos);
 }
 
 

@@ -184,17 +184,13 @@ void UI_Dispensation::Reset()
 	MainDispensation = this;
 }
 
-// 인벤토리에서 슬롯을 지정해줍니다.
 bool UI_Dispensation::SelectThis(std::string_view _ItemName, int _ItemCount)
 {
-	// 빈 슬롯 확인하고
 	int EmptySlotNumber = ReturnEmptySlot();
 
-	// 동일한 아이템 이름이 있는지 확인해서
 	DispensationSlotInfo* SlotInfo = FindSlot(_ItemName);
 	if (-1 != EmptySlotNumber && nullptr == SlotInfo)
 	{
-		// 없으면 넣습니다.
 		m_DispensationSlotInfo[EmptySlotNumber].ItemName = _ItemName;
 		m_DispensationSlotInfo[EmptySlotNumber].ItemCount = _ItemCount;
 
@@ -297,7 +293,7 @@ void UI_Dispensation::Dispensation()
 	}
 	else
 	{
-		CreatedProductName = "";
+		CreatedProductName.clear();
 	}
 
 	// 포션제작하라고 한다.
@@ -314,7 +310,6 @@ void UI_Dispensation::Dispensation()
 	UI_Inventory::MainInventory->Off();
 }
 
-// 일치하는 레시피가 있는지 검사합니다.
 bool UI_Dispensation::CheckDispensation(const ProductRecipeData& _Data)
 {
 	std::map<std::string, std::shared_ptr<ProductRecipeData>>& NameData = ProductRecipeData::GetAllData();

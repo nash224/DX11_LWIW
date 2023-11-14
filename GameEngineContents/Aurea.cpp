@@ -1,7 +1,9 @@
 #include "PreCompile.h"
 #include "Aurea.h"
 
+#include "ContentsEvent.h"
 
+#include "UI_Inventory.h"
 
 EAUREASTATE Aurea::CurState = EAUREASTATE::Curse;
 Aurea::Aurea()
@@ -22,11 +24,16 @@ void Aurea::Start()
 void Aurea::Update(float _Delta)
 {
 	NPCEntity::Update(_Delta);
+
+	State.Update(_Delta);
 }
 
 void Aurea::Release()
 {
 	NPCEntity::Release();
+
+	AureaRenderer = nullptr;
+	ShadowRenderer = nullptr;
 }
 
 void Aurea::LevelStart(class GameEngineLevel* _NextLevel)
@@ -68,9 +75,9 @@ void Aurea::RendererSetting()
 
 	float4 ShadowPosition = float4{ 0.0f, RendererCorrection , GlobalUtils::CalculateFixDepth(ERENDERDEPTH::ObjectShadow) };
 
-	m_Shadow = CreateComponent<GameEngineSpriteRenderer>();
-	m_Shadow->Transform.SetLocalPosition(ShadowPosition);
-	m_Shadow->SetSprite("Aurea_idle.png", 1);
+	ShadowRenderer = CreateComponent<GameEngineSpriteRenderer>();
+	ShadowRenderer->Transform.SetLocalPosition(ShadowPosition);
+	ShadowRenderer->SetSprite("Aurea_idle.png", 1);
 }
 
 void Aurea::StateSetting()
@@ -91,7 +98,7 @@ void Aurea::StateSetting()
 
 void Aurea::StartCurse(GameEngineState* _Parent)
 {
-
+	CheckAureaCurseEvent();
 }
 
 void Aurea::StartNormal(GameEngineState* _Parent)
@@ -102,11 +109,9 @@ void Aurea::StartNormal(GameEngineState* _Parent)
 
 void Aurea::UpdateCurse(float _Delta, GameEngineState* _Parent)
 {
-	/*CheckAureaCurseEvent();*/
-
-	if (true == IsEnalbeActive)
+	if (true == InteractiveActor::IsEnalbeActive)
 	{
-		NPCEntity::ConverseWithEllie(EAUREATOPICTYPE::Curse);
+		CheckAureaCurseConversation();
 	}
 }
 
@@ -137,11 +142,11 @@ void Aurea::ConversationSetting()
 		};
 
 		CurseTopic.Data.shrink_to_fit();
-		NPCConversation.CreateTopic(EAUREATOPICTYPE::Curse, CurseTopic);
+		NPCEntity::NPCConversation.CreateTopic(EAUREATOPICTYPE::Curse, CurseTopic);
 
-		NPCConversation.SetConversationEndEvent(EAUREATOPICTYPE::Curse, [&]()
+		NPCEntity::NPCConversation.SetConversationEndEvent(EAUREATOPICTYPE::Curse, [&]()
 			{
-				NPCConversation.StartConversation(EAUREATOPICTYPE::CurseAfter);
+				NPCEntity::ConverseWithEllie(EAUREATOPICTYPE::CurseAfter);
 			});
 	}
 
@@ -179,11 +184,30 @@ void Aurea::ConversationSetting()
 		};
 
 		CurseAfterTopic.Data.shrink_to_fit();
-		NPCConversation.CreateTopic(EAUREATOPICTYPE::CurseAfter, CurseAfterTopic);
+		NPCEntity::NPCConversation.CreateTopic(EAUREATOPICTYPE::CurseAfter, CurseAfterTopic);
 
-		NPCConversation.SetConversationEvent(EAUREATOPICTYPE::CurseAfter, 19, [&]()
+		NPCEntity::NPCConversation.SetConversationEvent(EAUREATOPICTYPE::CurseAfter, 19, [&]()
 			{
-				// 자연주의자의 저주
+				std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Aurea_Cure");
+				if (true == Quest.expired())
+				{
+					MsgBoxAssert("생성하지 않은 퀘스트입니다.");
+					return;
+				}
+
+				Quest.lock()->QuestAccept();
+			});
+
+		NPCEntity::NPCConversation.SetConversationEndEvent(EAUREATOPICTYPE::CurseAfter, [&]()
+			{
+				std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Aurea_Cure");
+				if (true == Quest.expired())
+				{
+					MsgBoxAssert("생성하지 않은 퀘스트입니다.");
+					return;
+				}
+
+				Quest.lock()->QuestAccept();
 			});
 	}
 
@@ -234,16 +258,28 @@ void Aurea::ConversationSetting()
 		};
 
 		CurseCureTopic.Data.shrink_to_fit();
-		NPCConversation.CreateTopic(EAUREATOPICTYPE::CurseCure, CurseCureTopic);
+		NPCEntity::NPCConversation.CreateTopic(EAUREATOPICTYPE::CurseCure, CurseCureTopic);
 
-		NPCConversation.SetConversationEvent(EAUREATOPICTYPE::CurseCure, 28, [&]()
+		NPCEntity::NPCConversation.SetConversationEvent(EAUREATOPICTYPE::CurseCure, 28, [&]()
 			{
-				// 착즙기 수리도구
+				if (nullptr != UI_Inventory::MainInventory)
+				{
+					UI_Inventory::MainInventory->PushItem("Item_Etc_10", 1);
+				}
 			});
 
-		NPCConversation.SetConversationEndEvent(EAUREATOPICTYPE::CurseCure, [&]()
+		NPCEntity::NPCConversation.SetConversationEndEvent(EAUREATOPICTYPE::CurseCure, [&]()
 			{
+				if (nullptr != UI_Inventory::MainInventory)
+				{
+					if (false == UI_Inventory::MainInventory->IsItem("Item_Etc_10"))
+					{
+						UI_Inventory::MainInventory->PushItem("Item_Etc_10", 1);
+					}
+				}
+
 				CurState = EAUREASTATE::Normal;
+				State.ChangeState(EAUREASTATE::Normal);
 			});
 	}
 

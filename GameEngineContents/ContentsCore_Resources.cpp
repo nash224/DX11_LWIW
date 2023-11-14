@@ -82,7 +82,7 @@ void ContentsCore::LoadContentsData()
 	ItemData::CreateData("SilverStarFlower_Collect", { "SilverStarFlower_Collect", "Àºº°¹æ¿ï²É °¡·ç", EITEM_TYPE::Ingredient });
 	ItemData::CreateData("MoonButterfly_Collect", { "MoonButterfly_Collect", "´Þºû ³ªºñ", EITEM_TYPE::Ingredient });
 
-
+	// Äù½ºÆ®
 	ItemData::CreateData("Item_Etc_10", { "Item_Etc_10", "ÂøÁó±â À¯¸®º´", EITEM_TYPE::Quest });
 
 	// Æ÷¼Ç

@@ -38,7 +38,7 @@ protected:
 	void CreateMap();
 	void LoadSerBin();
 	void CreatePortalActor();
-	void CreateAurea();
+	void NPCSetting();
 
 };
 

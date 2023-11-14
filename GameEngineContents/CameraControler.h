@@ -56,6 +56,7 @@ public:
 	float4 GetCameraWorldPosition() const;
 
 	void Reset();
+	float4 AdjustCameraInitialPosition(const float4& _Location);
 	void SetAutoInitialPosition(const float4& _Location);
 
 	float4 GetCameraMoveDistance() const;

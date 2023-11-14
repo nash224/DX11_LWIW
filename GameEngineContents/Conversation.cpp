@@ -35,6 +35,17 @@ const std::shared_ptr<Topic> Conversation::FindTopic(int _ConversationType)
 	return topic;
 }
 
+void Conversation::SetStartConversationEvent(int _Topic, std::function<void()> _Function)
+{
+	std::shared_ptr<Topic> CurTopic = Topics[_Topic];
+	if (nullptr == CurTopic)
+	{
+		MsgBoxAssert("존재하지 않는 주제에 이벤트를 설정하려 했습니다.");
+		return;
+	}
+
+	CurTopic->Data[0].Event = _Function;
+}
 
 void Conversation::SetConversationEvent(int _Topic, int _index, std::function<void()> _Function)
 {

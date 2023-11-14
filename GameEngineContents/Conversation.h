@@ -98,23 +98,6 @@ public:
 
 	const std::shared_ptr<Topic> FindTopic(int _ConversationType);
 
-	template<typename EnumType>
-	void SetConversationEvent(EnumType _Topic, int _index, std::function<void()> _Function)
-	{
-		SetConversationEvent(static_cast<int>(_Topic), _index, _Function);
-	}
-
-	void SetConversationEvent(int _Topic, int _index, std::function<void()> _Function);
-
-	template<typename EnumType>
-	void SetConversationEndEvent(EnumType _Topic, std::function<void()> _Function)
-	{
-		SetConversationEndEvent(static_cast<int>(_Topic), _Function);
-	}
-
-	void SetConversationEndEvent(int _Topic, std::function<void()> _Function);
-
-
 	template<typename ConversationType>
 	void StartConversation(ConversationType _ConversationType)
 	{
@@ -124,6 +107,34 @@ public:
 	void StartConversation(int _ConversationType);
 
 	void UpdateConversation(float _Delta);
+
+
+
+	template<typename EnumType>
+	void SetStartConversationEvent(EnumType _Topic, std::function<void()> _Function)
+	{
+		SetStartConversationEvent(static_cast<int>(_Topic), _Function);
+	}
+
+	void SetStartConversationEvent(int _Topic, std::function<void()> _Function);
+
+
+	template<typename EnumType>
+	void SetConversationEvent(EnumType _Topic, int _index, std::function<void()> _Function)
+	{
+		SetConversationEvent(static_cast<int>(_Topic), _index, _Function);
+	}
+
+	void SetConversationEvent(int _Topic, int _index, std::function<void()> _Function);
+
+
+	template<typename EnumType>
+	void SetConversationEndEvent(EnumType _Topic, std::function<void()> _Function)
+	{
+		SetConversationEndEvent(static_cast<int>(_Topic), _Function);
+	}
+
+	void SetConversationEndEvent(int _Topic, std::function<void()> _Function);
 
 
 protected:

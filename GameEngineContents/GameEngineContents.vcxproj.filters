@@ -229,6 +229,9 @@
     <Filter Include="Rendering\Renderer">
       <UniqueIdentifier>{b71b1228-45b1-49bf-9216-c4f6589117ee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3.Actor\5.Event\SingleEvent">
+      <UniqueIdentifier>{211ecfb2-dbda-428b-bc2f-3ac27f8a982e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -592,9 +595,6 @@
     <ClInclude Include="Dust.h">
       <Filter>3.Actor\2.Interactive\Static\Dust</Filter>
     </ClInclude>
-    <ClInclude Include="HouseDustEvent.h">
-      <Filter>3.Actor\5.Event</Filter>
-    </ClInclude>
     <ClInclude Include="Dust_HandBook.h">
       <Filter>3.Actor\2.Interactive\Static\Dust</Filter>
     </ClInclude>
@@ -610,17 +610,23 @@
     <ClInclude Include="ContentsUIRenderer.h">
       <Filter>Rendering\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="WorkplaceFindEvent.h">
-      <Filter>3.Actor\5.Event</Filter>
-    </ClInclude>
-    <ClInclude Include="SingleEvent.h">
-      <Filter>3.Actor\5.Event</Filter>
-    </ClInclude>
     <ClInclude Include="Dust_Pot.h">
       <Filter>3.Actor\2.Interactive\Static\Dust</Filter>
     </ClInclude>
     <ClInclude Include="Dust_Extractor.h">
       <Filter>3.Actor\2.Interactive\Static\Dust</Filter>
+    </ClInclude>
+    <ClInclude Include="SingleEvent.h">
+      <Filter>3.Actor\5.Event\SingleEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="HouseDustEvent.h">
+      <Filter>3.Actor\5.Event\SingleEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="WorkplaceFindEvent.h">
+      <Filter>3.Actor\5.Event\SingleEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="CraftPotionEvent.h">
+      <Filter>3.Actor\5.Event\SingleEvent</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1019,9 +1025,6 @@
     <ClCompile Include="Dust.cpp">
       <Filter>3.Actor\2.Interactive\Static\Dust</Filter>
     </ClCompile>
-    <ClCompile Include="HouseDustEvent.cpp">
-      <Filter>3.Actor\5.Event</Filter>
-    </ClCompile>
     <ClCompile Include="Dust_HandBook.cpp">
       <Filter>3.Actor\2.Interactive\Static\Dust</Filter>
     </ClCompile>
@@ -1037,17 +1040,23 @@
     <ClCompile Include="ContentsUIRenderer.cpp">
       <Filter>Rendering\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="SingleEvent.cpp">
-      <Filter>3.Actor\5.Event</Filter>
-    </ClCompile>
-    <ClCompile Include="WorkplaceFindEvent.cpp">
-      <Filter>3.Actor\5.Event</Filter>
-    </ClCompile>
     <ClCompile Include="Dust_Extractor.cpp">
       <Filter>3.Actor\2.Interactive\Static\Dust</Filter>
     </ClCompile>
     <ClCompile Include="Dust_Pot.cpp">
       <Filter>3.Actor\2.Interactive\Static\Dust</Filter>
+    </ClCompile>
+    <ClCompile Include="HouseDustEvent.cpp">
+      <Filter>3.Actor\5.Event\SingleEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="SingleEvent.cpp">
+      <Filter>3.Actor\5.Event\SingleEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="WorkplaceFindEvent.cpp">
+      <Filter>3.Actor\5.Event\SingleEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="CraftPotionEvent.cpp">
+      <Filter>3.Actor\5.Event\SingleEvent</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
