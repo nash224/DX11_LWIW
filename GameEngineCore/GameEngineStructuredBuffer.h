@@ -38,7 +38,7 @@ public:
 		return StructuredBufferRes[_Byte];
 	}
 
-	static std::shared_ptr<GameEngineStructuredBuffer> CreateAndFind(int _Byte, std::string_view _Name, D3D11_SHADER_BUFFER_DESC _BufferDesc)
+	static std::shared_ptr<GameEngineStructuredBuffer> CreateAndFind(int _Byte, std::string_view _Name, D3D11_SHADER_BUFFER_DESC _BufferDesc, void* _StartData = nullptr)
 	{
 		std::shared_ptr<GameEngineStructuredBuffer> FindBuffer = Find(_Byte);
 
@@ -52,17 +52,27 @@ public:
 		return NewBuffer;
 	}
 
-	void CreateResize(int _Byte, int _Count, StructuredBufferType _Type);
+	void CreateResize(int _Byte, int _Count, StructuredBufferType _Type, const void* _StartData = nullptr);
 
 	void Release();
+
+	void VSSetting(UINT _Slot);
+	void PSSetting(UINT _Slot);
+
+	void VSReset(UINT _Slot);
+	void PSReset(UINT _Slot);
+
+	void ChangeData(const void* _Data, size_t _Size);
 
 protected:
 
 
 private:
-	ID3D11ShaderResourceView* SRV = nullptr; // 쉐이더에 세팅해줄수 있는 권한이다.
-	unsigned int DataSize = 0;
-	unsigned int DataCount = 0;
+	ID3D11ShaderResourceView* SRV = nullptr; // 쉐이더에 세팅해줄수 있는 권한.
+	ID3D11UnorderedAccessView* UAV = nullptr; // 컴퓨트쉐이더에서 결과를 받아오는 용도의 권한.
+	D3D11_MAPPED_SUBRESOURCE SettingResources;
+	int DataSize = 0;
+	int DataCount = 0;
 	StructuredBufferType Type = StructuredBufferType::NONE;
 
 	// 
@@ -70,8 +80,5 @@ private:
 	//                        40바이트크기의 10개 버퍼
 	//                        40바이트만 의미한다.
 	static std::map<int, std::shared_ptr < GameEngineStructuredBuffer>> StructuredBufferRes;
-
-	void VSSetting(UINT _Slot);
-	void PSSetting(UINT _Slot);
 };
 

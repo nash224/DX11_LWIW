@@ -1,12 +1,12 @@
 #include "PreCompile.h"
 #include "BlurPostEffect.h"
 
-BlurPostEffect::BlurPostEffect() 
+BlurPostEffect::BlurPostEffect()
 {
 	RenderBaseInfoValue.ScreenSize = GameEngineCore::MainWindow.GetScale();
 }
 
-BlurPostEffect::~BlurPostEffect() 
+BlurPostEffect::~BlurPostEffect()
 {
 }
 
@@ -16,10 +16,13 @@ void BlurPostEffect::Start()
 	EffectUnit.SetMaterial("BlurPostEffect");
 
 	EffectUnit.ShaderResHelper.SetConstantBufferLink("RenderBaseInfo", RenderBaseInfoValue);
+	float4 WindowScale = GameEngineCore::MainWindow.GetScale();
+	ArrScreenSize.push_back(WindowScale);
+
+	// EffectUnit.ShaderResHelper.SetStructedBufferLink("ArrScreenSize", ArrScreenSize);
 	EffectUnit.ShaderResHelper.SetTexture("DiffuseTex", EffectTarget->GetTexture(0));
 	EffectUnit.ShaderResHelper.SetSampler("DiffuseTexSampler", "LINEAR");
 
-	float4 WindowScale = GameEngineCore::MainWindow.GetScale();
 	ResultTarget = GameEngineRenderTarget::Create();
 	ResultTarget->AddNewTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, WindowScale, float4::ZERONULL);
 }

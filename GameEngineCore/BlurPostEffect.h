@@ -15,6 +15,8 @@ public:
 	BlurPostEffect& operator=(const BlurPostEffect& _Other) = delete;
 	BlurPostEffect& operator=(BlurPostEffect&& _Other) noexcept = delete;
 
+	std::vector<float4> ArrScreenSize;
+
 protected:
 
 private:
