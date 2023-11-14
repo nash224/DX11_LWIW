@@ -9,7 +9,7 @@
 #include "ContentsEvent.h"
 
 
-
+AlchemyPot* AlchemyPot::s_PotPointer = nullptr;
 AlchemyPot::AlchemyPot() 
 {
 	if (nullptr == GameEngineSound::FindSound("SFX_MakingPot.wav"))
@@ -37,6 +37,8 @@ void AlchemyPot::Start()
 	SetInteractionButtonType(EINTERACTION_BUTTONTYPE::Gear);
 	m_CollectionMethod = ECOLLECTION_METHOD::AlchemyPot;
 	m_CollectionTool = ETOOLTYPE::Nothing;
+
+	s_PotPointer = this;
 }
 
 void AlchemyPot::Update(float _Delta)
@@ -58,6 +60,7 @@ void AlchemyPot::Release()
 
 	// 연금UI
 	m_Dispensation = nullptr;
+	s_PotPointer = nullptr;
 }
 
 void AlchemyPot::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -430,4 +433,15 @@ void AlchemyPot::DispensatePotion(std::string_view _CraftedPotionName)
 {
 	CraftedPotion = _CraftedPotionName;
 	State.ChangeState(EPOTSTATE::Boil);
+}
+
+void AlchemyPot::RepairPot()
+{
+	if (nullptr == s_PotPointer)
+	{
+		MsgBoxAssert("다른 레벨에서 솥을 참조하려 했습니다.");
+		return;
+	}
+	
+	s_PotPointer->State.ChangeState(EPOTSTATE::Idle);
 }

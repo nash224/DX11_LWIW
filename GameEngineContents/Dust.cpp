@@ -78,6 +78,14 @@ void Dust::ConversationSetting()
 		AboutTopic.Data.shrink_to_fit();
 		AboutConversation.CreateTopic(EDUSTTOPICTYPE::About, AboutTopic);
 
+		AboutConversation.SetConversationEvent(EDUSTTOPICTYPE::About, 0, [&]()
+		{
+				if (nullptr != StartEvent)
+				{
+					StartEvent();
+				}
+		});
+
 		AboutConversation.SetConversationEndEvent(EDUSTTOPICTYPE::About, [&]()
 			{
 				if (nullptr != EndEvent)
@@ -93,6 +101,11 @@ void Dust::ConversationSetting()
 void Dust::SetConversationData(const std::vector<ConversationData>& _ConversationDatas)
 {
 	ConversationDatas = _ConversationDatas;
+}
+
+void Dust::SetStartEvent(std::function<void()> _StartEvent)
+{
+	StartEvent = _StartEvent;
 }
 
 void Dust::SetEndEvnet(std::function<void()> _EndEvent)

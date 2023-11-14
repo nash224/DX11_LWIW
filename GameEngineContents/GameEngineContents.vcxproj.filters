@@ -610,6 +610,18 @@
     <ClInclude Include="ContentsUIRenderer.h">
       <Filter>Rendering\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="WorkplaceFindEvent.h">
+      <Filter>3.Actor\5.Event</Filter>
+    </ClInclude>
+    <ClInclude Include="SingleEvent.h">
+      <Filter>3.Actor\5.Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Dust_Pot.h">
+      <Filter>3.Actor\2.Interactive\Static\Dust</Filter>
+    </ClInclude>
+    <ClInclude Include="Dust_Extractor.h">
+      <Filter>3.Actor\2.Interactive\Static\Dust</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -1024,6 +1036,18 @@
     </ClCompile>
     <ClCompile Include="ContentsUIRenderer.cpp">
       <Filter>Rendering\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="SingleEvent.cpp">
+      <Filter>3.Actor\5.Event</Filter>
+    </ClCompile>
+    <ClCompile Include="WorkplaceFindEvent.cpp">
+      <Filter>3.Actor\5.Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Dust_Extractor.cpp">
+      <Filter>3.Actor\2.Interactive\Static\Dust</Filter>
+    </ClCompile>
+    <ClCompile Include="Dust_Pot.cpp">
+      <Filter>3.Actor\2.Interactive\Static\Dust</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

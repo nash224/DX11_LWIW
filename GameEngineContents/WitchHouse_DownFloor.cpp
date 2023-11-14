@@ -64,27 +64,16 @@ void WitchHouse_DownFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void WitchHouse_DownFloor::LoadTexture()
 {
+	GameEngineDirectory Dir;
+	Dir.MoveParentToExistsChild("Resources");
+	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_DownFloor");
+	std::vector<GameEngineDirectory> Dirs = Dir.GetAllDirectory();
+	for (GameEngineDirectory& Dircetory : Dirs)
 	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExistsChild("Resources");
-		Dir.MoveChild("Resources\\PlayContents\\WitchHouse_DownFloor");
-		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-		for (size_t i = 0; i < Files.size(); i++)
+		std::vector<GameEngineFile> Files = Dircetory.GetAllFile();
+		for (GameEngineFile& pFile : Files)
 		{
-			GameEngineFile File = Files[i];
-    			GameEngineTexture::Load(File.GetStringPath());
-		}
-	}
-
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExistsChild("Resources");
-		Dir.MoveChild("Resources\\PlayContents\\WitchHouse_DownFloor\\Down_Sprite");
-		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-		for (size_t i = 0; i < Files.size(); i++)
-		{
-			GameEngineFile File = Files[i];
-			GameEngineTexture::Load(File.GetStringPath());
+			GameEngineTexture::Load(pFile.GetStringPath());
 		}
 	}
 }
@@ -140,26 +129,15 @@ void WitchHouse_DownFloor::CameraSetting()
 
 void WitchHouse_DownFloor::ReleaseTexture()
 {
+	GameEngineDirectory Dir;
+	Dir.MoveParentToExistsChild("Resources");
+	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_DownFloor");
+	std::vector<GameEngineDirectory> Dirs = Dir.GetAllDirectory();
+	for (GameEngineDirectory& Dircetory : Dirs)
 	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExistsChild("Resources");
-		Dir.MoveChild("Resources\\PlayContents\\WitchHouse_DownFloor");
-		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-		for (size_t i = 0; i < Files.size(); i++)
+		std::vector<GameEngineFile> Files = Dircetory.GetAllFile();
+		for (GameEngineFile& pFile : Files)
 		{
-			GameEngineFile pFile = Files[i];
-			GameEngineTexture::Release(pFile.GetFileName());
-		}
-	}
-
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExistsChild("Resources");
-		Dir.MoveChild("Resources\\PlayContents\\WitchHouse_DownFloor\\Down_Sprite");
-		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-		for (size_t i = 0; i < Files.size(); i++)
-		{
-			GameEngineFile pFile = Files[i];
 			GameEngineTexture::Release(pFile.GetFileName());
 		}
 	}

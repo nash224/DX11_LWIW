@@ -5,9 +5,11 @@
 #include "AlertManager.h"
 
 #include "ContentsEvent.h"
+#include "AlchemyPot.h"
 
 Dust_Pot::Dust_Pot()
 {
+	
 }
 
 Dust_Pot::~Dust_Pot()
@@ -19,6 +21,7 @@ void Dust_Pot::Start()
 {
 	Dust::Start();
 
+	CreateAndSetCollision(ECOLLISION::Entity, float4(140.0f), float4::ZERO, ColType::SPHERE2D);
 	SetTopic();
 }
 
@@ -55,7 +58,13 @@ void Dust_Pot::SetTopic()
 	};
 
 	SetConversationData(Datas);
-	SetEndEvnet(std::bind(&Dust_Pot::QuestAccept, this));
+	Dust::SetStartEvent(std::bind(&Dust_Pot::StartEvent, this));
+	Dust::SetEndEvnet(std::bind(&Dust_Pot::QuestAccept, this));
+}
+
+void Dust_Pot::StartEvent()
+{
+	AlchemyPot::RepairPot();
 }
 
 void Dust_Pot::QuestAccept()

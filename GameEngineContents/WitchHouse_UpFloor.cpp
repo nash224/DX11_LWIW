@@ -62,11 +62,14 @@ void WitchHouse_UpFloor::LoadTexture()
 	GameEngineDirectory Dir;
 	Dir.MoveParentToExistsChild("Resources");
 	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_UpFloor");
-	std::vector<GameEngineFile> Files = Dir.GetAllFile();
-	for (size_t i = 0; i < Files.size(); i++)
+	std::vector<GameEngineDirectory> Dirs = Dir.GetAllDirectory();
+	for (GameEngineDirectory& Dircetory : Dirs)
 	{
-		GameEngineFile File = Files[i];
-		GameEngineTexture::Load(File.GetStringPath());
+		std::vector<GameEngineFile> Files = Dircetory.GetAllFile();
+		for (GameEngineFile& pFile : Files)
+		{
+			GameEngineTexture::Load(pFile.GetStringPath());
+		}
 	}
 }
 
@@ -134,11 +137,14 @@ void WitchHouse_UpFloor::ReleaseTexture()
 	GameEngineDirectory Dir;
 	Dir.MoveParentToExistsChild("Resources");
 	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_UpFloor");
-	std::vector<GameEngineFile> Files = Dir.GetAllFile();
-	for (size_t i = 0; i < Files.size(); i++)
+	std::vector<GameEngineDirectory> Dirs = Dir.GetAllDirectory();
+	for (GameEngineDirectory& Dircetory : Dirs)
 	{
-		GameEngineFile File = Files[i];
-		GameEngineTexture::Release(File.GetFileName());
+		std::vector<GameEngineFile> Files = Dircetory.GetAllFile();
+		for (GameEngineFile& pFile : Files)
+		{
+			GameEngineTexture::Release(pFile.GetFileName());
+		}
 	}
 }
 

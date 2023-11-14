@@ -18,7 +18,7 @@ public:
 	void Init();
 
 protected:
-	void Start() override {}
+	void Start() override;
 	void Update(float _Delta) override {}
 	void Release() override {}
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
@@ -30,7 +30,6 @@ private:
 	void CreateStaticActor(GameEngineLevel* _Level);
 	void CreatePortalActor(GameEngineLevel* _Level);
 
-
 	void CreateRenderActor(int _UpdateOrder, 
 		std::string_view _SpriteName, 
 		const float4& _Position, 
@@ -38,6 +37,7 @@ private:
 		bool _isFixDepth = true, 
 		float _DepthCorrection = 0.0f);
 
+	void DustEventSetting();
 
 private:
 	const float4 HouseMoveVector = float4( 150.0f , -10.0f );

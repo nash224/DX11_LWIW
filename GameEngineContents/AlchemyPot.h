@@ -19,6 +19,8 @@ class AlchemyPot : public StaticEntity
 private:
 	std::shared_ptr<class UI_Dispensation> m_Dispensation = nullptr;
 
+	static AlchemyPot* s_PotPointer;
+
 public:
 	// constrcuter destructer
 	AlchemyPot();
@@ -38,6 +40,7 @@ public:
 
 	void DispensatePotion(std::string_view _CraftedPotionName);
 
+	static void RepairPot();
 
 protected:
 	void Start() override;
@@ -66,7 +69,6 @@ private:
 
 
 	void EndPotionCreation();
-
 
 
 

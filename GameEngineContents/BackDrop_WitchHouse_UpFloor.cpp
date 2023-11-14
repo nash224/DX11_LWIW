@@ -25,6 +25,7 @@ BackDrop_WitchHouse_UpFloor::~BackDrop_WitchHouse_UpFloor()
 
 void BackDrop_WitchHouse_UpFloor::Start()
 {
+	DustEventSetting();
 }
 
 void BackDrop_WitchHouse_UpFloor::LevelStart(class GameEngineLevel* _NextLevel)
@@ -56,13 +57,12 @@ void BackDrop_WitchHouse_UpFloor::Init()
 	CreatePixelMap(CurLevel);
 	LoadPortalActor(CurLevel);
 	
-	DustEventSetting();
+	//if (false == isInitDustEvent)
+	//{
+	//	isInitDustEvent = true;
+	//}
 
-	if (false == isInitDustEvent)
-	{
-		/*CheckHouseDustEvent();*/
-		isInitDustEvent = true;
-	}
+	/*CheckHouseDustEvent();*/
 }
 
 #pragma region Resource
@@ -71,12 +71,11 @@ void BackDrop_WitchHouse_UpFloor::LoadResources()
 {
 	GameEngineDirectory Dir;
 	Dir.MoveParentToExistsChild("Resources");
-	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_UpFloor");
+	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_UpFloor\\HouseSingle");
 	std::vector<GameEngineFile> Files = Dir.GetAllFile();
-	for (size_t i = 0; i < Files.size(); i++)
+	for (GameEngineFile& pFile : Files)
 	{
-		GameEngineFile File = Files[i];
-		GameEngineSprite::CreateSingle(File.GetFileName());
+		GameEngineSprite::CreateSingle(pFile.GetFileName());
 	}
 }
 
@@ -84,12 +83,11 @@ void BackDrop_WitchHouse_UpFloor::ReleaseResources()
 {
 	GameEngineDirectory Dir;
 	Dir.MoveParentToExistsChild("Resources");
-	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_UpFloor");
+	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_UpFloor\\HouseSingle");
 	std::vector<GameEngineFile> Files = Dir.GetAllFile();
-	for (size_t i = 0; i < Files.size(); i++)
+	for (GameEngineFile& pFile : Files)
 	{
-		GameEngineFile File = Files[i];
-		GameEngineSprite::Release(File.GetFileName());
+		GameEngineSprite::Release(pFile.GetFileName());
 	}
 }
 
@@ -427,6 +425,15 @@ void BackDrop_WitchHouse_UpFloor::LoadPortalActor(GameEngineLevel* _Level)
 
 void BackDrop_WitchHouse_UpFloor::DustEventSetting()
 {
+	GameEngineDirectory Dir;
+	Dir.MoveParentToExistsChild("Resources");
+	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_UpFloor\\HouseDust");
+	std::vector<GameEngineFile> Files = Dir.GetAllFile();
+	for (GameEngineFile& pFile : Files)
+	{
+		GameEngineSprite::CreateSingle(pFile.GetFileName());
+	}
+
 	{
 		const float4& DustPosition = float4(370.0f, -320.0f);
 		std::weak_ptr<Dust_HandBook> DustHandBook = GetLevel()->CreateActor<Dust_HandBook>(EUPDATEORDER::Entity);

@@ -6,6 +6,17 @@
 UI_Conversation* UI_Conversation::MainConversationUI = nullptr;
 UI_Conversation::UI_Conversation()
 {
+	if (nullptr == GameEngineSound::FindSound("SFX_Voice_01.wav"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\Sound\\UI\\Conversation");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pfile : Files)
+		{
+			GameEngineSound::SoundLoad(pfile.GetStringPath());
+		}
+	}
 }
 
 UI_Conversation::~UI_Conversation()

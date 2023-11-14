@@ -11,13 +11,22 @@
 #include "Extractor.h"
 #include "Roaster.h"
 
+#include "Dust_Pot.h"
+#include "Dust_Extractor.h"
+
 
 BackDrop_WitchHouse_DownFloor::BackDrop_WitchHouse_DownFloor() 
 {
+	m_BackScale = GlobalValue::GetWindowScale();
 }
 
 BackDrop_WitchHouse_DownFloor::~BackDrop_WitchHouse_DownFloor() 
 {
+}
+
+void BackDrop_WitchHouse_DownFloor::Start()
+{
+	DustEventSetting();
 }
 
 void BackDrop_WitchHouse_DownFloor::LevelStart(class GameEngineLevel* _NextLevel)
@@ -32,7 +41,7 @@ void BackDrop_WitchHouse_DownFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 
 	GameEngineDirectory Dir;
 	Dir.MoveParentToExistsChild("Resources");
-	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_DownFloor");
+	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_DownFloor\\DownSingle");
 	std::vector<GameEngineFile> Files = Dir.GetAllFile();
 	for (size_t i = 0; i < Files.size(); i++)
 	{
@@ -52,7 +61,7 @@ void BackDrop_WitchHouse_DownFloor::Init()
 
 	GameEngineDirectory Dir;
 	Dir.MoveParentToExistsChild("Resources");
-	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_DownFloor");
+	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_DownFloor\\DownSingle");
 	std::vector<GameEngineFile> Files = Dir.GetAllFile();
 	for (size_t i = 0; i < Files.size(); i++)
 	{
@@ -62,7 +71,6 @@ void BackDrop_WitchHouse_DownFloor::Init()
 
 	GameEngineLevel* CurLevel = GetLevel();
 
-	m_BackScale = GlobalValue::GetWindowScale();
 	CreateProp(CurLevel);
 	CreatePixelMap(CurLevel);
 	CreateStaticActor(CurLevel);
@@ -552,4 +560,35 @@ void BackDrop_WitchHouse_DownFloor::CreateRenderActor(
 	Object->Transform.SetLocalPosition(Position);
 	Object->Init();
 	Object->m_Renderer->SetSprite(_SpriteName);
+}
+
+void BackDrop_WitchHouse_DownFloor::DustEventSetting()
+{
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\PlayContents\\WitchHouse_DownFloor\\DownDust");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pFile : Files)
+		{
+			GameEngineSprite::CreateSingle(pFile.GetFileName());
+		}
+	}
+
+
+	{
+		const float4& DustPosition = float4(560.0f, -330.0f);
+		std::weak_ptr<Dust_Pot> DustHandBook = GetLevel()->CreateActor<Dust_Pot>(EUPDATEORDER::Entity);
+		DustHandBook.lock()->Transform.SetLocalPosition(DustPosition);
+		DustHandBook.lock()->Init("WitchHouse_Dust_5.png");
+		DustHandBook.lock()->AddDepth(-2.0f);
+	}
+
+	{
+		const float4& DustPosition = float4(446.0f, -180.0f);
+		std::weak_ptr<Dust_Extractor> DustHandBook = GetLevel()->CreateActor<Dust_Extractor>(EUPDATEORDER::Entity);
+		DustHandBook.lock()->Transform.SetLocalPosition(DustPosition);
+		DustHandBook.lock()->Init("WitchHouse_Dust_3.png");
+		DustHandBook.lock()->AddDepth(-1.0f);
+	}
 }

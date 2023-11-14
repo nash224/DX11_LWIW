@@ -42,6 +42,7 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 	void SetConversationData(const std::vector<ConversationData>& _ConversationDatas);
+	void SetStartEvent(std::function<void()> _StartEvent);
 	void SetEndEvnet(std::function<void()> _EndEvent);
 
 private:
@@ -63,6 +64,7 @@ private:
 	Conversation AboutConversation;
 	std::vector<ConversationData> ConversationDatas;
 
+	std::function<void()> StartEvent;
 	std::function<void()> EndEvent;
 
 	static constexpr const float RemoveDustTime = 1.6f;
