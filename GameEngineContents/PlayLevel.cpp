@@ -78,8 +78,8 @@ void PlayLevel::LevelStart(GameEngineLevel* _NextLevel)
 
 	if (false == LevelInitCheck)
 	{
-		CreateEllie();			// 敲饭捞绢 积己
-		CreateUIManager();		// UI 积己
+		CreateEllie();
+		CreateUIManager();
 	}
 
 	LevelInitCheck = true;
@@ -94,11 +94,6 @@ void PlayLevel::LevelStart(GameEngineLevel* _NextLevel)
 	{
 		s_AlertManager->RegisterAlert(AlertData(LocationKRName, EALERTTYPE::Enter));
 	}
-}
-
-void PlayLevel::LevelEnd(GameEngineLevel* _NextLevel)
-{
-	ContentsLevel::LevelEnd(_NextLevel);
 }
 
 

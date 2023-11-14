@@ -18,9 +18,9 @@ public:
 	void Init();
 
 protected:
-	void Start() override;
-	void Update(float _Delta) override;
-	void Release() override;
+	void Start() override {}
+	void Update(float _Delta) override {}
+	void Release() override {}
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
@@ -31,7 +31,15 @@ private:
 	void CreatePortalActor(GameEngineLevel* _Level);
 
 
+	void CreateRenderActor(int _UpdateOrder, 
+		std::string_view _SpriteName, 
+		const float4& _Position, 
+		int _DepthType, 
+		bool _isFixDepth = true, 
+		float _DepthCorrection = 0.0f);
+
+
 private:
-	float4 m_DownFloorWholePosition = { 150.0f , -10.0f };
+	const float4 HouseMoveVector = float4( 150.0f , -10.0f );
 };
 
