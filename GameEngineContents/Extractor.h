@@ -1,6 +1,7 @@
 #pragma once
 #include "StaticEntity.h"
 
+
 enum class EJUICERSTATE
 {
 	Broken,
@@ -10,10 +11,12 @@ enum class EJUICERSTATE
 };
 
 
-
 // Ό³Έν :
 class Extractor : public StaticEntity
 {
+private:
+	static Extractor* s_ExtractorPointer;
+
 public:
 	// constrcuter destructer
 	Extractor();
@@ -27,11 +30,13 @@ public:
 
 	void PullThis();
 
+	static void ActiveInteractiveCollision();
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 

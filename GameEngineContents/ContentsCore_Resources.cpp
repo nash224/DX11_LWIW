@@ -82,6 +82,9 @@ void ContentsCore::LoadContentsData()
 	ItemData::CreateData("SilverStarFlower_Collect", { "SilverStarFlower_Collect", "은별방울꽃 가루", EITEM_TYPE::Ingredient });
 	ItemData::CreateData("MoonButterfly_Collect", { "MoonButterfly_Collect", "달빛 나비", EITEM_TYPE::Ingredient });
 
+
+	ItemData::CreateData("Item_Etc_10", { "Item_Etc_10", "착즙기 유리병", EITEM_TYPE::Quest });
+
 	// 포션
 	ItemData::CreateData("BadGrassPotion", { "BadGrassPotion", "나쁜 풀 제거물약", EITEM_TYPE::Potion });
 	ItemData::CreateData("NutritionPotion", { "NutritionPotion", "영양 공급 물약", EITEM_TYPE::Potion });

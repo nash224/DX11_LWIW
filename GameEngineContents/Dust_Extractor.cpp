@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "Dust_Extractor.h"
 
+#include "ContentsEvent.h"
+
 Dust_Extractor::Dust_Extractor()
 {
 }
@@ -44,4 +46,18 @@ void Dust_Extractor::SetTopic()
 	};
 
 	SetConversationData(Datas);
+
+	Dust::SetEndEvnet(std::bind(&Dust_Extractor::QuestAccept, this));
+}
+
+void Dust_Extractor::QuestAccept()
+{
+	std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Repair_Extractor");
+	if (true == Quest.expired())
+	{
+		MsgBoxAssert("퀘스트가 존재하지 않습니다.");
+		return;
+	}
+
+	Quest.lock()->QuestAccept();
 }

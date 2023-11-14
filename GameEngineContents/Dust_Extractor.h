@@ -24,6 +24,7 @@ protected:
 
 private:
 	void SetTopic();
+	void QuestAccept();
 
 
 };

@@ -7,6 +7,7 @@ enum class EQUESTTYPE
 	House_Dust,
 	Clean_Dust,
 	Craft_Potion,
+	Repair_Extractor,
 	Aurea_Find,
 	Aurea_Curse,
 	Aurea_UnCurse,
@@ -85,6 +86,15 @@ public:
 	};
 
 	class Craft_Potion : public QuestUnitBase
+	{
+	public:
+		void QuestAccept() override;
+		void QuestComplete() override;
+		bool CheckPrerequisiteQuest() override;
+
+	};
+
+	class Repair_Extractor : public QuestUnitBase
 	{
 	public:
 		void QuestAccept() override;

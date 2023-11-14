@@ -4,6 +4,9 @@
 
 #include "UI_ProcessManager.h"
 
+#include "ContentsEvent.h"
+
+Extractor* Extractor::s_ExtractorPointer = nullptr;
 Extractor::Extractor() 
 {
 	if (nullptr == GameEngineSound::FindSound("SFX_JucierActive_02.wav"))
@@ -26,16 +29,16 @@ Extractor::~Extractor()
 
 void Extractor::Start()
 {
-	StaticEntity::Start();
-
-	CreateAndSetCollision(ECOLLISION::Entity, { 150.0f , 100.0f }, float4::ZERO, ColType::AABBBOX2D);
-	SetNearInteractivePositionAndRange(float4(18.0f, -16.0f), 5.0f);
-	SetInteractionButtonType(EINTERACTION_BUTTONTYPE::Gear);
-	SetInteractionType(EINTERACTION_TYPE::Near);
-	m_CollectionMethod = ECOLLECTION_METHOD::Juicy;
-	m_CollectionTool = ETOOLTYPE::Nothing;
+	InteractiveActor::CreateAndSetCollision(ECOLLISION::Entity, { 150.0f , 100.0f }, float4::ZERO, ColType::AABBBOX2D);
+	InteractiveActor::SetNearInteractivePositionAndRange(float4(18.0f, -16.0f), 5.0f);
+	InteractiveActor::SetInteractionButtonType(EINTERACTION_BUTTONTYPE::Gear);
+	InteractiveActor::SetInteractionType(EINTERACTION_TYPE::Near);
+	InteractiveActor::m_CollectionMethod = ECOLLECTION_METHOD::Juicy;
+	InteractiveActor::m_CollectionTool = ETOOLTYPE::Nothing;
 
 	InitExtractor();
+
+	s_ExtractorPointer = this;
 }
 
 void Extractor::Update(float _Delta)
@@ -49,21 +52,13 @@ void Extractor::Release()
 {
 	StaticEntity::Release();
 
-	m_InteractiveCol = nullptr;
 	m_Extractor = nullptr;
-
 	m_ProcessManager = nullptr;
-}
-
-void Extractor::LevelStart(class GameEngineLevel* _NextLevel)
-{
-	StaticEntity::LevelStart(_NextLevel);
+	s_ExtractorPointer = nullptr;
 }
 
 void Extractor::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-	StaticEntity::LevelEnd(_NextLevel);
-
 	Death();
 }
 
@@ -78,6 +73,22 @@ void Extractor::InitExtractor()
 	UIProcessSetting();
 	StateSetting();
 
+
+	std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Repair_Extractor");
+	if (true == Quest.expired())
+	{
+		MsgBoxAssert("존재하지 않는 퀘스트입니다.");
+		return;
+	}
+
+	if (true == Quest.lock()->isQuestComplete())
+	{
+		State.ChangeState(EJUICERSTATE::Idle);
+	}
+	else
+	{
+		State.ChangeState(EJUICERSTATE::Broken);
+	}
 }
 
 void Extractor::RendererSetting()
@@ -113,6 +124,11 @@ void Extractor::UIProcessSetting()
 
 void Extractor::StateSetting()
 {
+	CreateStateParameter BrokenState;
+	BrokenState.Start = std::bind(&Extractor::StartBroken, this, std::placeholders::_1);
+	BrokenState.Stay = std::bind(&Extractor::UpdateBroken, this, std::placeholders::_1, std::placeholders::_2);
+	State.CreateState(EJUICERSTATE::Broken, BrokenState);
+
 	CreateStateParameter IdleState;
 	IdleState.Start = std::bind(&Extractor::StartIdle, this, std::placeholders::_1);
 	IdleState.Stay = std::bind(&Extractor::UpdateIdle, this, std::placeholders::_1, std::placeholders::_2);
@@ -123,13 +139,6 @@ void Extractor::StateSetting()
 	JuicyState.Stay = std::bind(&Extractor::UpdateJuicy, this, std::placeholders::_1, std::placeholders::_2);
 	JuicyState.End = std::bind(&Extractor::EndJuicy, this, std::placeholders::_1);
 	State.CreateState(EJUICERSTATE::Juicy, JuicyState);
-
-	/*CreateStateParameter ConverseState;
-	ConverseState.Start = std::bind(&Extractor::StartConverse, this, std::placeholders::_1);
-	ConverseState.End = std::bind(&Extractor::EndConverse, this, std::placeholders::_1);
-	State.CreateState(EJUICERSTATE::Converse, ConverseState);*/
-
-	State.ChangeState(EJUICERSTATE::Idle);
 }
 
 
@@ -149,6 +158,17 @@ void Extractor::ChangeExtractorAnimation(std::string_view _StateName)
 	m_Extractor->ChangeAnimation(_StateName.data());
 }
 
+void Extractor::StartBroken(GameEngineState* _Parent)
+{
+	InteractiveActor::SetInteractionType(EINTERACTION_TYPE::Far);
+
+	if (nullptr != InteractiveActor::m_InteractiveCol)
+	{
+		InteractiveActor::m_InteractiveCol->Off();
+	}
+
+	ChangeExtractorAnimation("Broken");
+}
 
 void Extractor::StartIdle(GameEngineState* _Parent)
 {
@@ -161,7 +181,27 @@ void Extractor::StartJuicy(GameEngineState* _Parent)
 	ChangeExtractorAnimation("Juicy");
 }
 
+void Extractor::UpdateBroken(float _Delta, GameEngineState* _Parent)
+{
+	if (true == IsEnalbeActive)
+	{
+		std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Repair_Extractor");
+		if (true == Quest.expired())
+		{
+			MsgBoxAssert("생성되지 않은 퀘스트를 참조하려 했습니다.");
+			return;
+		}
 
+		if (true == Quest.lock()->CheckPrerequisiteQuest())
+		{
+			Quest.lock()->QuestComplete();
+
+			InteractiveActor::SetInteractionType(EINTERACTION_TYPE::Near);
+
+			State.ChangeState(EJUICERSTATE::Idle);
+		}
+	}
+}
 
 void Extractor::UpdateIdle(float _Delta, GameEngineState* _Parent)
 {
@@ -212,4 +252,22 @@ std::string Extractor::RandomOpenJuicySoundFilleName()
 	}
 
 	return FileName.data();
+}
+
+void Extractor::ActiveInteractiveCollision()
+{
+	if (nullptr == s_ExtractorPointer)
+	{
+		MsgBoxAssert("레벨이 다른 곳에서 추출기를 사용하려 했습니다.");
+		return;
+	}
+
+	
+	if (nullptr == s_ExtractorPointer->InteractiveActor::m_InteractiveCol)
+	{
+		MsgBoxAssert("충돌체가 생성되지 않았습니다.");
+		return;
+	}
+	
+	s_ExtractorPointer->InteractiveActor::m_InteractiveCol->On();
 }
