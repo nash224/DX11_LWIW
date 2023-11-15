@@ -8,24 +8,22 @@
 
 
 
-bool ContentsEvent::Aurea_Find::CheckPrerequisiteQuest()
+bool ContentsEvent::Aurea_Find::QuestClearPrerequisite()
 {
 	return true;
 }
 
 
 
-void ContentsEvent::Aurea_Cure::QuestAccept()
+void ContentsEvent::Aurea_Cure::AcceptInternal()
 {
 	if (nullptr != PlayLevel::s_AlertManager)
 	{
 		PlayLevel::s_AlertManager->RegisterAlert(AlertData("历林秦力 荤帕 力累", EALERTTYPE::QuestAccept));
 	}
-
-	isQuestAccepted = true;
 }
 
-bool ContentsEvent::Aurea_Cure::CheckPrerequisiteQuest()
+bool ContentsEvent::Aurea_Cure::QuestClearPrerequisite()
 {
 	if (nullptr != UI_Inventory::MainInventory)
 	{
@@ -38,12 +36,10 @@ bool ContentsEvent::Aurea_Cure::CheckPrerequisiteQuest()
 	return false;
 }
 
-void ContentsEvent::Aurea_Cure::QuestComplete()
+void ContentsEvent::Aurea_Cure::CompleteInternal()
 {
 	if (nullptr != PlayLevel::s_AlertManager)
 	{
 		PlayLevel::s_AlertManager->RegisterAlert(AlertData("历林秦力 荤帕 力累", EALERTTYPE::QuestClear));
 	}
-
-	isQuestCompleted = true;
 }

@@ -30,11 +30,6 @@ void WitchHouse_DownFloor::Start()
 void WitchHouse_DownFloor::Update(float _Delta)
 {
 	PlayLevel::Update(_Delta);
-
-	if (true == GameEngineInput::IsDown('T', this))
-	{
-		m_Ellie->Transform.SetLocalPosition(float4::ZERO);
-	}
 }
 
 void WitchHouse_DownFloor::LevelStart(class GameEngineLevel* _NextLevel)

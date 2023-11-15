@@ -10,12 +10,12 @@
 
 
 
-bool ContentsEvent::Letter_Read::CheckPrerequisiteQuest()
+bool ContentsEvent::Letter_Read::QuestClearPrerequisite()
 {
 	return !isQuestCompleted;
 }
 
-bool ContentsEvent::House_Dust::CheckPrerequisiteQuest()
+bool ContentsEvent::House_Dust::QuestClearPrerequisite()
 {
 	return !isQuestCompleted;
 }
@@ -23,33 +23,29 @@ bool ContentsEvent::House_Dust::CheckPrerequisiteQuest()
 
 
 
-bool ContentsEvent::Craft_Potion::CheckPrerequisiteQuest()
+bool ContentsEvent::Craft_Potion::QuestClearPrerequisite()
 {
 	return !isQuestCompleted;
 }
 
-void ContentsEvent::Craft_Potion::QuestAccept()
+void ContentsEvent::Craft_Potion::AcceptInternal()
 {
 	if (nullptr != PlayLevel::s_AlertManager)
 	{
 		PlayLevel::s_AlertManager->RegisterAlert(AlertData("器记 力累", EALERTTYPE::QuestAccept));
 	}
-
-	isQuestAccepted = true;
 }
 
-void ContentsEvent::Craft_Potion::QuestComplete()
+void ContentsEvent::Craft_Potion::CompleteInternal()
 {
 	if (nullptr != PlayLevel::s_AlertManager)
 	{
 		PlayLevel::s_AlertManager->RegisterAlert(AlertData("器记 力累", EALERTTYPE::QuestClear));
 	}
-
-	isQuestCompleted = true;
 }
 
 
-bool ContentsEvent::Repair_Extractor::CheckPrerequisiteQuest()
+bool ContentsEvent::Repair_Extractor::QuestClearPrerequisite()
 {
 	if (false == isQuestAccepted)
 	{
@@ -67,7 +63,7 @@ bool ContentsEvent::Repair_Extractor::CheckPrerequisiteQuest()
 	return false;
 }
 
-void ContentsEvent::Repair_Extractor::QuestAccept()
+void ContentsEvent::Repair_Extractor::AcceptInternal()
 {
 	if (nullptr != PlayLevel::s_AlertManager)
 	{
@@ -75,11 +71,9 @@ void ContentsEvent::Repair_Extractor::QuestAccept()
 	}
 
 	Extractor::ActiveInteractiveCollision();
-
-	isQuestAccepted = true;
 }
 
-void ContentsEvent::Repair_Extractor::QuestComplete()
+void ContentsEvent::Repair_Extractor::CompleteInternal()
 {
 	if (nullptr != PlayLevel::s_AlertManager)
 	{
@@ -90,6 +84,4 @@ void ContentsEvent::Repair_Extractor::QuestComplete()
 	{
 		UI_Inventory::MainInventory->PopItem("Item_Etc_10", 1);
 	}
-
-	isQuestCompleted = true;
 }

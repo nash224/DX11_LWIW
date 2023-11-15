@@ -9,7 +9,7 @@
 #include "UI_Alert_Quest.h"
 
 
-bool ContentsEvent::Crow_Meet::CheckPrerequisiteQuest()
+bool ContentsEvent::Crow_Meet::QuestClearPrerequisite()
 {
 	if (nullptr != PlayLevel::s_TimeManager)
 	{
@@ -32,28 +32,21 @@ bool ContentsEvent::Crow_Meet::CheckPrerequisiteQuest()
 }
 
 
-bool ContentsEvent::Dian_Catalogue::CheckPrerequisiteQuest()
+bool ContentsEvent::Dian_Catalogue::QuestClearPrerequisite()
 {
 	return !isQuestCompleted;
 }
 
 
-void ContentsEvent::Dian_BadWeedPotion::QuestAccept()
+void ContentsEvent::Dian_BadWeedPotion::AcceptInternal()
 {
-	if (true == isQuestAccepted)
-	{
-		return;
-	}
-
 	if (nullptr != PlayLevel::s_AlertManager)
 	{
 		PlayLevel::s_AlertManager->RegisterAlert(AlertData("물약 검증", EALERTTYPE::QuestAccept));
 	}
-
-	isQuestAccepted = true;
 }
 
-bool ContentsEvent::Dian_BadWeedPotion::CheckPrerequisiteQuest()
+bool ContentsEvent::Dian_BadWeedPotion::QuestClearPrerequisite()
 {
 	if (nullptr != UI_Inventory::MainInventory)
 	{
@@ -66,7 +59,7 @@ bool ContentsEvent::Dian_BadWeedPotion::CheckPrerequisiteQuest()
 	return false;
 }
 
-void ContentsEvent::Dian_BadWeedPotion::QuestComplete()
+void ContentsEvent::Dian_BadWeedPotion::CompleteInternal()
 {
 	if (nullptr != PlayLevel::s_AlertManager)
 	{
@@ -77,12 +70,12 @@ void ContentsEvent::Dian_BadWeedPotion::QuestComplete()
 }
 
 
-bool ContentsEvent::Dian_Cracker::CheckPrerequisiteQuest()
+bool ContentsEvent::Dian_Cracker::QuestClearPrerequisite()
 {
 	return false;
 }
 
-void ContentsEvent::Dian_Cracker::QuestComplete()
+void ContentsEvent::Dian_Cracker::CompleteInternal()
 {
 	isQuestCompleted = true;
 	PlayLevel::s_AlertManager->RegisterAlert(AlertData("불꽃놀이 포션 카탈로그", EALERTTYPE::QuestClear));

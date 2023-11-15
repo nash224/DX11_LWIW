@@ -25,8 +25,18 @@ public:
 	class QuestUnitBase
 	{
 	public:
-		virtual bool CheckPrerequisiteQuest() 
+		bool CheckPrerequisiteQuest() 
 		{
+			if (true == isQuestCompleted)
+			{
+				return false;
+			}
+
+			if (true == QuestClearPrerequisite())
+			{
+				return true;
+			}
+
 			return false;
 		}
 
@@ -35,8 +45,15 @@ public:
 			return isQuestCompleted;
 		}
 
-		virtual void QuestComplete()
+		void QuestComplete()
 		{
+			if (true == isQuestCompleted)
+			{
+				return;
+			}
+
+			CompleteInternal();
+
 			isQuestAccepted = true;
 			isQuestCompleted = true;
 		}
@@ -47,13 +64,22 @@ public:
 			return isQuestAccepted;
 		}
 
-		virtual void QuestAccept() 
+		void QuestAccept() 
 		{
+			if (true == isQuestAccepted)
+			{
+				return;
+			}
+
+			AcceptInternal();
+
 			isQuestAccepted = true;
 		}
 
-	private:
-		virtual bool QuestClearPrerequisite() { return false; }
+	protected:
+		virtual void AcceptInternal() {}
+		virtual bool QuestClearPrerequisite() = 0;
+		virtual void CompleteInternal() {}
 			
 
 	public:
@@ -70,79 +96,79 @@ public:
 	class Letter_Read : public QuestUnitBase
 	{
 	public:
-		bool CheckPrerequisiteQuest() override;
+		bool QuestClearPrerequisite() override;
 
 	};
 
 	class Aurea_Find : public QuestUnitBase
 	{
 	public:
-		bool CheckPrerequisiteQuest() override;
+		bool QuestClearPrerequisite() override;
 
 	};
 
 	class House_Dust : public QuestUnitBase
 	{
 	public:
-		bool CheckPrerequisiteQuest() override;
+		bool QuestClearPrerequisite() override;
 
 	};
 
 	class Craft_Potion : public QuestUnitBase
 	{
 	public:
-		void QuestAccept() override;
-		void QuestComplete() override;
-		bool CheckPrerequisiteQuest() override;
+		void AcceptInternal() override;
+		bool QuestClearPrerequisite() override;
+		void CompleteInternal() override;
 
 	};
 
 	class Repair_Extractor : public QuestUnitBase
 	{
 	public:
-		void QuestAccept() override;
-		void QuestComplete() override;
-		bool CheckPrerequisiteQuest() override;
+		void AcceptInternal() override;
+		bool QuestClearPrerequisite() override;
+		void CompleteInternal() override;
 
 	};
 
 	class Aurea_Cure : public QuestUnitBase
 	{
 	public:
-		void QuestAccept() override;
-		void QuestComplete() override;
-		bool CheckPrerequisiteQuest() override;
+		void AcceptInternal() override;
+		bool QuestClearPrerequisite() override;
+		void CompleteInternal() override;
 
 	};
 
 	class Crow_Meet : public QuestUnitBase
 	{
 	public:
-		bool CheckPrerequisiteQuest() override;
+		bool QuestClearPrerequisite() override;
 
 	};
 
 	class Dian_Catalogue : public QuestUnitBase
 	{
 	public:
-		bool CheckPrerequisiteQuest() override;
+		bool QuestClearPrerequisite() override;
 
 	};
 
 	class Dian_BadWeedPotion : public QuestUnitBase
 	{
 	public:
-		void QuestAccept() override;
-		void QuestComplete() override;
-		bool CheckPrerequisiteQuest() override;
+		void AcceptInternal() override;
+		bool QuestClearPrerequisite() override;
+		void CompleteInternal() override;
 
 	};
 
 	class Dian_Cracker : public QuestUnitBase
 	{
 	public:
-		bool CheckPrerequisiteQuest() override;
-		void QuestComplete() override;
+		bool QuestClearPrerequisite() override;
+		void CompleteInternal() override;
 	};
 
 
