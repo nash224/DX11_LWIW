@@ -27,9 +27,10 @@ protected:
 	void Update(float _Delta) override;
 	void Release() override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
-	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
+	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 	void StateSetting();
+	void UISetting();
 
 	void StartNotActive(GameEngineState* _Parent);
 	void StartActive(GameEngineState* _Parent);
@@ -39,6 +40,7 @@ protected:
 
 private:
 	GameEngineState State;
+	std::weak_ptr<class BedUI> BedUIActor;
 
 	static constexpr const unsigned int Bed_Active_Hour = 17;
 

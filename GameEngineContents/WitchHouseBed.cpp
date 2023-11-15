@@ -4,6 +4,8 @@
 #include "PlayLevel.h"
 #include "TimeManager.h"
 
+#include "BedUI.h"
+
 WitchHouseBed::WitchHouseBed() 
 {
 }
@@ -19,6 +21,7 @@ void WitchHouseBed::Start()
 	InteractiveActor::SetInteractionOption(EINTERACTION_BUTTONTYPE::Gear, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Nothing);
 
 	StateSetting();
+	UISetting();
 }
 
 void WitchHouseBed::Update(float _Delta)
@@ -68,9 +71,6 @@ void WitchHouseBed::StateSetting()
 	}
 }
 
-
-
-
 void WitchHouseBed::StartNotActive(GameEngineState* _Parent)
 {
 	if (nullptr == InteractiveActor::m_InteractiveCol)
@@ -111,6 +111,19 @@ void WitchHouseBed::UpdateActive(float _Delta, GameEngineState* _Parent)
 {
 	if (true == InteractiveActor::IsEnalbeActive)
 	{
-		// UI
+		if (true == BedUIActor.expired())
+		{
+			MsgBoxAssert("포인터가 존재하지 않습니다.");
+			return;
+		}
+
+		BedUIActor.lock()->Open();
 	}
+}
+
+
+void WitchHouseBed::UISetting()
+{
+	BedUIActor = GetLevel()->CreateActor<BedUI>(EUPDATEORDER::UIComponent);
+	BedUIActor.lock()->Init();
 }

@@ -17,6 +17,11 @@ public:
 
 	void Init();
 
+	float4 GetHouseLocation() const
+	{
+		return HouseLocation;
+	}
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override {}
@@ -33,16 +38,16 @@ private:
 	void CreatePixelMap(GameEngineLevel* _Level);
 	void LoadPortalActor(GameEngineLevel* _Level);
 	void LiftSetting();
+	void BedSetting();
 
 	void DustEventSetting();
 
-	void EventSetting();
 
 	void CheckHouseDustEvent();
 	void ShowHouseDustEvent();
 
-public:
-	float4 m_HouseLocation = float4{340.0f , -50.0f };
+private:
+	const float4 HouseLocation = float4{340.0f , -50.0f };
 
 	bool isInitDustEvent = false;
 

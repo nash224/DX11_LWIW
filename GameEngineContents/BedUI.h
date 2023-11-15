@@ -3,6 +3,8 @@
 // Ό³Έν :
 class BedUI : public GameEngineActor
 {
+	friend class WitchHouseBed;
+
 private:
 	class BedCursorInfo
 	{
@@ -15,7 +17,6 @@ private:
 	{
 	public:
 		std::shared_ptr<GameEngineUIRenderer> FontRenderer;
-		std::shared_ptr<GameEngineUIRenderer> BaseRenderer;
 		std::shared_ptr<GameEngineUIRenderer> TooltipRenderer;
 
 	};
@@ -33,6 +34,9 @@ public:
 
 	void Init();
 
+	
+	
+
 protected:
 	void Start() override {}
 	void Update(float _Delta) override;
@@ -40,7 +44,12 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
+
+private:
 	void RendererSetting();
+
+	void Open();
+	void Close();
 
 private:
 	std::shared_ptr<GameEngineUIRenderer> BaseRenderer;
@@ -49,6 +58,9 @@ private:
 	BedCursorInfo CursorInfo;
 
 	GameEngineState State;
+
+	static constexpr const float Tooltip_Gap = 12.0f;
+	float4 TooltipScale = float4::ZERO;
 
 };
 

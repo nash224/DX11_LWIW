@@ -6,7 +6,6 @@
 #include "NormalProp.h"
 #include "RendererActor.h"
 
-#include "PortalObject.h"
 #include "AlchemyPot.h"
 #include "Extractor.h"
 #include "Roaster.h"
@@ -80,7 +79,6 @@ void BackDrop_WitchHouse_DownFloor::Init()
 	CreateProp(CurLevel);
 	CreatePixelMap(CurLevel);
 	CreateStaticActor();
-	/*CreatePortalActor(CurLevel);*/
 }
 
 
@@ -479,12 +477,13 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 void BackDrop_WitchHouse_DownFloor::CreatePixelMap(GameEngineLevel* _Level)
 {
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = HouseMoveVector  + float4{ 350.0f , -306.0f };
 		Position.Z = GlobalUtils::CalculateFixDepth(EHOUSEDEPTH::FRAME);
+		
+		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(Position);
 		Object->SetPixelCollision("DownFloor_PixelMap.png");
-		PixelVec.push_back(Object);
+		BackDrop_PlayLevel::PixelVec.push_back(Object);
 	}
 }
 
@@ -528,20 +527,6 @@ void BackDrop_WitchHouse_DownFloor::CreateStaticActor()
 	{
 		std::shared_ptr<LowerLift> Object = GetLevel()->CreateActor<LowerLift>(EUPDATEORDER::Entity);
 		Object->Transform.SetLocalPosition(float4(548.0f, -172.0f));
-	}
-}
-
-void BackDrop_WitchHouse_DownFloor::CreatePortalActor(GameEngineLevel* _Level)
-{
-	{
-		std::shared_ptr<PortalObject> Object = _Level->CreateActor<PortalObject>(EUPDATEORDER::Portal);
-		float4 HWinScale = GlobalValue::GetWindowScale().Half();
-
-		Object->CreatePortalCollision(ECOLLISION::Portal);
-		Object->SetChangeLevelName("WitchHouse_UpFloor");
-		Object->SetCollisionRange({ 64.0f , 22.0f });
-		Object->SetLocalPosition({ 548.0f , -172.0f });
-		Object->SetCollisionType(ColType::AABBBOX2D);
 	}
 }
 
