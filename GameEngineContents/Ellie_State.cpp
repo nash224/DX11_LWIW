@@ -3,11 +3,10 @@
 
 #include "BackDrop.h"
 
+#include "ContentsEvent.h"
 #include "Extractor.h"
-
 #include "UI_Hub_Tool.h"
 #include "UI_ProcessManager.h"
-
 
 
 void Ellie::StartIdle()
@@ -224,9 +223,8 @@ void Ellie::UpdateIdle(float _Delta)
 			return;
 		}
 
-		if (true == GameEngineInput::IsDown(VK_CONTROL, this))
+		if (true == InputRidingMode())
 		{
-			ChangeState(EELLIE_STATE::Riding_Standing);
 			return;
 		}
 	}
@@ -240,8 +238,6 @@ void Ellie::UpdateSlowWalk(float _Delta)
 		return;
 	}
 
-
-	// 움직이지 않으면 Idle인 상태로 간주합니다.
 	if (false == DetectMovement())
 	{
 		ChangeState(EELLIE_STATE::Idle);
@@ -262,9 +258,8 @@ void Ellie::UpdateSlowWalk(float _Delta)
 		}
 	}
 
-	if (true == GameEngineInput::IsDown(VK_CONTROL, this))
+	if (true == InputRidingMode())
 	{
-		ChangeState(EELLIE_STATE::Riding_Standing);
 		return;
 	}
 
@@ -326,8 +321,6 @@ void Ellie::UpdateRun(float _Delta)
 		return;
 	}
 
-	InputTestPattern();
-
 	if (false == DetectMovement())
 	{
 		ChangeState(EELLIE_STATE::Idle);
@@ -348,9 +341,8 @@ void Ellie::UpdateRun(float _Delta)
 		}
 	}
 
-	if (true == GameEngineInput::IsDown(VK_CONTROL, this))
+	if (true == InputRidingMode())
 	{
-		ChangeState(EELLIE_STATE::Riding_Standing);
 		return;
 	}
 
@@ -550,7 +542,7 @@ void Ellie::UpdateWait(float _Delta)
 	// 끝나면 다음 실행
 	if (true == IsWaitDone)
 	{
-		ChangeState(m_WaitState);
+		ChangeState(WaitState);
 		return;
 	}
 }
@@ -645,7 +637,7 @@ void Ellie::EndMongSiri()
 
 void Ellie::EndWait()
 {
-	m_WaitState = EELLIE_STATE::None;
+	WaitState = EELLIE_STATE::None;
 	isFinishWork = true;
 	IsWaitDone = true;
 }
@@ -738,3 +730,16 @@ bool Ellie::UsingTool()
 	return false;
 }
 
+bool Ellie::InputRidingMode()
+{
+	if (true == ContentsEvent::HasWitchBroom)
+	{
+		if (true == GameEngineInput::IsDown(VK_CONTROL, this))
+		{
+			ChangeState(EELLIE_STATE::Riding_Standing);
+			return true;
+		}
+	}
+
+	return false;
+}

@@ -33,18 +33,11 @@ bool ContentsEvent::Crow_Meet::CheckPrerequisiteQuest()
 	return false;
 }
 
-bool ContentsEvent::Dian_Cracker::CheckPrerequisiteQuest()
-{
-	return false;
-}
 
-void ContentsEvent::Dian_Cracker::QuestComplete()
+bool ContentsEvent::Dian_Catalogue::CheckPrerequisiteQuest()
 {
-	isQuestCompleted = true;
-	PlayLevel::s_AlertManager->RegisterAlert(AlertData("불꽃놀이 포션 카탈로그", EALERTTYPE::QuestClear));
-	PlayLevel::s_AlertManager->RegisterAlert(AlertData("불꽃놀이 포션 제조", EALERTTYPE::QuestAccept));
+	return !isQuestCompleted;
 }
-
 
 
 void ContentsEvent::Dian_BadWeedPotion::QuestAccept()
@@ -60,4 +53,17 @@ bool ContentsEvent::Dian_BadWeedPotion::CheckPrerequisiteQuest()
 void ContentsEvent::Dian_BadWeedPotion::QuestComplete()
 {
 	isQuestCompleted = true;
+}
+
+
+bool ContentsEvent::Dian_Cracker::CheckPrerequisiteQuest()
+{
+	return false;
+}
+
+void ContentsEvent::Dian_Cracker::QuestComplete()
+{
+	isQuestCompleted = true;
+	PlayLevel::s_AlertManager->RegisterAlert(AlertData("불꽃놀이 포션 카탈로그", EALERTTYPE::QuestClear));
+	PlayLevel::s_AlertManager->RegisterAlert(AlertData("불꽃놀이 포션 제조", EALERTTYPE::QuestAccept));
 }

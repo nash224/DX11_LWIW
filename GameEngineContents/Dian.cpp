@@ -6,8 +6,6 @@
 
 #include "ContentsEvent.h"
 
-#include "FadeObject.h"
-
 
 Dian::Dian()
 {
@@ -38,7 +36,7 @@ void Dian::Release()
 {
 	NPCEntity::Release();
 	DianRenderer = nullptr;
-	m_Shadow = nullptr;
+	ShadowRenderer = nullptr;
 }
 
 void Dian::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -75,9 +73,9 @@ void Dian::RendererSetting()
 
 	const float ShadowDepth = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::ObjectShadow);
 
-	m_Shadow = CreateComponent<GameEngineSpriteRenderer>(RendererOrder);
-	m_Shadow->Transform.SetLocalPosition({ 0.0f, RendererYCorrection, ShadowDepth });
-	m_Shadow->SetSprite("Dian_idle.png", 0);
+	ShadowRenderer = CreateComponent<GameEngineSpriteRenderer>(RendererOrder);
+	ShadowRenderer->Transform.SetLocalPosition({ 0.0f, RendererYCorrection, ShadowDepth });
+	ShadowRenderer->SetSprite("Dian_idle.png", 0);
 }
 
 
@@ -94,6 +92,19 @@ void Dian::NormalUpdate(float _DeltaTime, GameEngineState* _Parent)
 {
 	if (true == IsEnalbeActive)
 	{
+		std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Dian_Catalogue");
+		if (true == Quest.expired())
+		{
+			MsgBoxAssert("아직 생성하지 않은 퀘스트입니다.");
+			return;
+		}
+
+		if (false == Quest.lock()->isQuestComplete())
+		{
+			NPCEntity::ConverseWithEllie(EDIANTOPICTYPE::WitchCatalogue);
+			return;
+		}
+
 		NPCEntity::ConverseWithEllie(EDIANTOPICTYPE::FireCracker);
 	}
 }
@@ -140,16 +151,27 @@ void Dian::ConversationSetting()
 			{ L"네, 됐습니다! 지금부터 마법 빗자루와 마녀 카탈로그를 이용하실 수 있습니다." , ECONVERSATIONENTITY::NPC , 1},
 			{ L"매일 아침에 마녀 카탈로그 직원이, 여기선 제가, 찾아오게 됩니다." , ECONVERSATIONENTITY::NPC , 1},
 			{ L"혹시 질문 있으신가요?" , ECONVERSATIONENTITY::NPC , 0},
-			{ L"아뇨, 없어요." , ECONVERSATIONENTITY::Ellie , 1},
+			{ L"아뇨, 이제 없어요." , ECONVERSATIONENTITY::Ellie , 1},
 			{ L"네, 그럼 필요한 게 있으시면 언제든지 말을 걸어주세요." , ECONVERSATIONENTITY::NPC , 0},
+			{ L"저기..." , ECONVERSATIONENTITY::Ellie , 1},
+			{ L"네, 말씀하세요." , ECONVERSATIONENTITY::NPC , 0},
+			{ L"사은품은..." , ECONVERSATIONENTITY::Ellie , 1},
+			{ L"아, 지금 바로 드리겠습니다." , ECONVERSATIONENTITY::NPC , 1},
+			{ L"드디어 내 개인 빗자루가!" , ECONVERSATIONENTITY::Ellie , 1},
+			{ L"행복한 하루 되세요. 마녀 카탈로그의 다이엔 그린윈드였습니다." , ECONVERSATIONENTITY::NPC , 1},
 		};
 
 		WitchCatalogueTopic.Data.shrink_to_fit();
 		NPCConversation.CreateTopic(EDIANTOPICTYPE::WitchCatalogue, WitchCatalogueTopic);
 
-		NPCConversation.SetConversationEvent(EDIANTOPICTYPE::WitchCatalogue, 14, [&]()
+
+		NPCConversation.SetConversationEvent(EDIANTOPICTYPE::WitchCatalogue, 22, [&]()
 			{
-				// 마법 빗자루
+				// 마법 빗자루 get
+			});
+		NPCConversation.SetConversationEvent(EDIANTOPICTYPE::WitchCatalogue, 23, [&]()
+			{
+				// 마법 빗자루 Frame
 			});
 
 		NPCConversation.SetConversationEndEvent(EDIANTOPICTYPE::WitchCatalogue, [&]()

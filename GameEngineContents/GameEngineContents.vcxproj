@@ -242,6 +242,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Dian_Event.cpp" />
     <ClCompile Include="Dust.cpp">
       <SubType>
       </SubType>

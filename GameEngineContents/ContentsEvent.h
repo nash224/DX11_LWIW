@@ -117,6 +117,13 @@ public:
 
 	};
 
+	class Dian_Catalogue : public QuestUnitBase
+	{
+	public:
+		bool CheckPrerequisiteQuest() override;
+
+	};
+
 	class Dian_BadWeedPotion : public QuestUnitBase
 	{
 	public:
@@ -165,6 +172,7 @@ protected:
 
 public:
 	static std::vector<bool> ToolData;
+	static bool HasWitchBroom;
 	static std::map<std::string, std::shared_ptr<QuestUnitBase>> QuestData;
 
 };

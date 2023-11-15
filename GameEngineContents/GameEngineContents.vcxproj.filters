@@ -235,6 +235,9 @@
     <Filter Include="3.Actor\2.Interactive\Static\WitchLift">
       <UniqueIdentifier>{f961e473-ad3f-40ed-a9da-f310ed861eeb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3.Actor\2.Interactive\NPC\Dian">
+      <UniqueIdentifier>{297352fb-70e1-4918-a36c-c82c5a4516a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -396,9 +399,6 @@
     </ClInclude>
     <ClInclude Include="ContentsGUI.h">
       <Filter>10.GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="Dian.h">
-      <Filter>3.Actor\2.Interactive\NPC</Filter>
     </ClInclude>
     <ClInclude Include="PumpkinTerrier.h">
       <Filter>3.Actor\2.Interactive\Dynamic\PumpkinTerrier</Filter>
@@ -637,6 +637,9 @@
     <ClInclude Include="UpperLift.h">
       <Filter>3.Actor\2.Interactive\Static\WitchLift</Filter>
     </ClInclude>
+    <ClInclude Include="Dian.h">
+      <Filter>3.Actor\2.Interactive\NPC\Dian</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -807,9 +810,6 @@
     </ClCompile>
     <ClCompile Include="ContentsGUI.cpp">
       <Filter>10.GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="Dian.cpp">
-      <Filter>3.Actor\2.Interactive\NPC</Filter>
     </ClCompile>
     <ClCompile Include="PumpkinTerrier.cpp">
       <Filter>3.Actor\2.Interactive\Dynamic\PumpkinTerrier</Filter>
@@ -1072,6 +1072,12 @@
     </ClCompile>
     <ClCompile Include="UpperLift.cpp">
       <Filter>3.Actor\2.Interactive\Static\WitchLift</Filter>
+    </ClCompile>
+    <ClCompile Include="Dian.cpp">
+      <Filter>3.Actor\2.Interactive\NPC\Dian</Filter>
+    </ClCompile>
+    <ClCompile Include="Dian_Event.cpp">
+      <Filter>3.Actor\2.Interactive\NPC\Dian</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

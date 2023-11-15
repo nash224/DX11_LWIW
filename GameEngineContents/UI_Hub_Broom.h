@@ -8,6 +8,14 @@ class UI_Hub_Broom : public UI_Hub_Actor
 public:
 	static float RenderingAccFuel;
 
+private:
+	enum class EUIBROOMSTATE
+	{
+		HasNotBroom,
+		UpdateFuel,
+		None,
+	};
+
 public:
 	// constrcuter destructer
 	UI_Hub_Broom();
@@ -21,7 +29,6 @@ public:
 
 	void Init();
 
-	void UpdateGauge();
 
 protected:
 	void Start() override {}
@@ -30,7 +37,19 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
+	void RendererSetting();
+	void StateSetting();
+
+	void StartHasNotBroom(GameEngineState* _Parent);
+
+	void UpdateGauge(float _Delta, GameEngineState* _Parent);
+	void UpdateHasNotBroom(float _Delta, GameEngineState* _Parent);
+
+	void EndHasNotBroom(GameEngineState* _Parent);
+
 private:
+	GameEngineState State;
+
 	std::shared_ptr<GameEngineUIRenderer> FrameRenderer = nullptr;
 	std::shared_ptr<ContentsUIRenderer> GaugeRenderer = nullptr;
 	std::shared_ptr<GameEngineUIRenderer> IconRenderer = nullptr;

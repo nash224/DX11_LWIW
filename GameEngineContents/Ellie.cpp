@@ -180,7 +180,7 @@ void Ellie::OffControl()
 {
 	IsControl = false;
 
-	if (EELLIE_STATE::None == m_WaitState)
+	if (EELLIE_STATE::None == WaitState)
 	{
 		RenewStatus();
 	}
@@ -198,16 +198,13 @@ void Ellie::WaitDone(EELLIE_STATE _State)
 }
 
 
-
-
-// 픽셀 충돌에 사용될 변수입니다.
-// 액터의 중앙기준으로 초기화 되며 각 방향에 필요한 체크포인트를 설정합니다.
 void Ellie::SetPixelPointBaseOnCenter()
 {
 	static constexpr const float CheckPointGap = 2.0f;
 
-	const float4& m_PixelCheckScale = { 10.0f , 10.0f };
+	const float4& m_PixelCheckPosBaseOnCenter = float4::ZERO;
 
+	const float4& m_PixelCheckScale = { 10.0f , 10.0f };
 	const float4& HalfPixelCheckScale = m_PixelCheckScale.Half();
 
 	m_PixelCheckPoint.TopLeft = m_PixelCheckPosBaseOnCenter + float4{ -HalfPixelCheckScale.X + CheckPointGap , HalfPixelCheckScale.Y };
@@ -578,9 +575,9 @@ bool Ellie::DetectMovement()
 
 	if (true == IsLeftDetect || true == IsRightDetect)
 	{
-		if (EHORIZONTAL_KEY_STATE::Center == m_HorizontalKey)
+		if (EHORIZONTAL_KEY_STATE::Center == HorizontalInputKey)
 		{
-			if (EVERTICAL_KEY_STATE::Down == m_VerticalKey)
+			if (EVERTICAL_KEY_STATE::Down == VerticalInputKey )
 			{
 				m_Dir = EDIRECTION::DOWN;
 			}
@@ -589,13 +586,13 @@ bool Ellie::DetectMovement()
 				m_Dir = EDIRECTION::UP;
 			}
 		}
-		else if (EHORIZONTAL_KEY_STATE::Left == m_HorizontalKey)
+		else if (EHORIZONTAL_KEY_STATE::Left == HorizontalInputKey)
 		{
-			if (EVERTICAL_KEY_STATE::Down == m_VerticalKey)
+			if (EVERTICAL_KEY_STATE::Down == VerticalInputKey )
 			{
 				m_Dir = EDIRECTION::LEFTDOWN;
 			}
-			else if (EVERTICAL_KEY_STATE::Up == m_VerticalKey)
+			else if (EVERTICAL_KEY_STATE::Up == VerticalInputKey )
 			{
 				m_Dir = EDIRECTION::LEFTUP;
 			}
@@ -606,11 +603,11 @@ bool Ellie::DetectMovement()
 		}
 		else
 		{
-			if (EVERTICAL_KEY_STATE::Down == m_VerticalKey)
+			if (EVERTICAL_KEY_STATE::Down == VerticalInputKey )
 			{
 				m_Dir = EDIRECTION::RIGHTDOWN;
 			}
-			else if (EVERTICAL_KEY_STATE::Up == m_VerticalKey)
+			else if (EVERTICAL_KEY_STATE::Up == VerticalInputKey )
 			{
 				m_Dir = EDIRECTION::RIGHTUP;
 			}
@@ -629,7 +626,7 @@ bool Ellie::DetectMovement()
 
 bool Ellie::DetectVerticalMovement()
 {
-	m_VerticalKey = EVERTICAL_KEY_STATE::Center;
+	VerticalInputKey  = EVERTICAL_KEY_STATE::Center;
 
 	bool isPressUp = false;
 	bool isPressDown = false;
@@ -657,12 +654,12 @@ bool Ellie::DetectVerticalMovement()
 	{
 		if (true == isPressUp)
 		{
-			m_VerticalKey = EVERTICAL_KEY_STATE::Up;
+			VerticalInputKey  = EVERTICAL_KEY_STATE::Up;
 		}
 
 		if (true == isPressDown)
 		{
-			m_VerticalKey = EVERTICAL_KEY_STATE::Down;
+			VerticalInputKey  = EVERTICAL_KEY_STATE::Down;
 		}
 	}
 
@@ -672,7 +669,7 @@ bool Ellie::DetectVerticalMovement()
 
 bool Ellie::DetectHorizontalMovement()
 {
-	m_HorizontalKey = EHORIZONTAL_KEY_STATE::Center;
+	HorizontalInputKey = EHORIZONTAL_KEY_STATE::Center;
 
 	bool isPressLeft = false;
 	bool isPressRight = false;
@@ -700,12 +697,12 @@ bool Ellie::DetectHorizontalMovement()
 	{
 		if (true == isPressLeft)
 		{
-			m_HorizontalKey = EHORIZONTAL_KEY_STATE::Left;
+			HorizontalInputKey = EHORIZONTAL_KEY_STATE::Left;
 		}
 
 		if (true == isPressRight)
 		{
-			m_HorizontalKey = EHORIZONTAL_KEY_STATE::Right;
+			HorizontalInputKey = EHORIZONTAL_KEY_STATE::Right;
 		}
 	}
 
@@ -1001,10 +998,9 @@ void Ellie::DecelerateMoveVector(float _Delta, const float _MaxMoveForce, const 
 }
 
 
-// 만약 세로, 가로키가 Center로 있다면 속도를 줄여줍니다.
 void Ellie::DecelerateAtMidpoint(float _Delta, const float _MaxMoveForce, const float _DecelerationTime)
 {
-	if (EHORIZONTAL_KEY_STATE::Center == m_HorizontalKey)
+	if (EHORIZONTAL_KEY_STATE::Center == HorizontalInputKey)
 	{
 		if (0.0f != m_MoveVector.X)
 		{
@@ -1019,7 +1015,7 @@ void Ellie::DecelerateAtMidpoint(float _Delta, const float _MaxMoveForce, const 
 		}
 	}
 
-	if (EVERTICAL_KEY_STATE::Center == m_VerticalKey)
+	if (EVERTICAL_KEY_STATE::Center == VerticalInputKey)
 	{
 		if (0.0f != m_MoveVector.Y)
 		{
@@ -1033,12 +1029,6 @@ void Ellie::DecelerateAtMidpoint(float _Delta, const float _MaxMoveForce, const 
 			}
 		}
 	}
-}
-
-// 최종속도를 적용하는 함수입니다.
-void Ellie::ApplyMovementToTransform(float _Delta)
-{
-	Transform.AddLocalPosition(m_MoveVector * _Delta);
 }
 
 #pragma endregion 

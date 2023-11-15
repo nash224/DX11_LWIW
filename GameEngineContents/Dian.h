@@ -37,8 +37,6 @@ public:
 
 	void Init();
 
-	
-
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -53,7 +51,7 @@ protected:
 
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> DianRenderer = nullptr;
-	std::shared_ptr<GameEngineSpriteRenderer> m_Shadow = nullptr;
+	std::shared_ptr<GameEngineSpriteRenderer> ShadowRenderer = nullptr;
 	
 	GameEngineState State;
 

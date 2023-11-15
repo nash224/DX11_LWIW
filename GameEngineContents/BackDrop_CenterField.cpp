@@ -209,7 +209,7 @@ void BackDrop_CenterField::NPCSetting()
 
 	if (false == Quest.lock()->isQuestComplete())
 	{
-		// return;
+		return;
 	}
 
 	std::weak_ptr<Aurea> Npc_Aurea = GetLevel()->CreateActor<Aurea>(EUPDATEORDER::Entity);

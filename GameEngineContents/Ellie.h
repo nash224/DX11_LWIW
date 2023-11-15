@@ -3,20 +3,8 @@
 #include "ActorEnum.h"
 
 
-constexpr float FOVAngle = 60.0f;
-constexpr float FrictionForce = 0.5f;
-
 static constexpr const float MAX_STAMINA = 1000.0f;
 static constexpr const float MAX_FUEL = 1000.0f;
-
-constexpr float CONST_Ellie_SlowWalk_Speed = 100.0f;
-constexpr float CONST_Ellie_Walk_Speed = 160.0f;
-constexpr float CONST_Ellie_Run_Speed = 220.0f;
-constexpr float CONST_Ellie_NonRiding_Acceleration_Time = 1.0f;
-constexpr float CONST_Ellie_Riding_Move_Acceleration_Time = 0.8f;
-constexpr float CONST_Ellie_Riding_Boosting_Acceleration_Time = 0.7f;
-constexpr float CONST_Ellie_Riding_Move_Speed = 300.0f;
-constexpr float CONST_Ellie_Riding_Boost_Speed = 500.0f;
 
 
 enum class EELLIE_STATE
@@ -91,6 +79,9 @@ private:
 
 	public:
 		std::vector<std::shared_ptr<GameEngineSpriteRenderer>> BroomRenderer;
+
+		float TransitionCoolDown = 0.0f;
+		static constexpr const float Transition_Recovery_Time = 0.4f;
 
 	};
 
@@ -222,9 +213,8 @@ private:
 
 
 	bool InputTestPattern();
-
-
 	bool UsingTool();
+	bool InputRidingMode();
 
 	void SitShadowUpdate();
 
@@ -253,7 +243,6 @@ private:
 	bool IsOverSpeed(float _CurSpeed, const float _MaxMoveForce);
 	void DecelerateMoveVector(float _Delta, const float _MaxMoveForce, const float _DecelerationTime);
 	void DecelerateAtMidpoint(float _Delta, const float _MaxMoveForce, const float _Time);
-	void ApplyMovementToTransform(float _DElta);
 
 	void PlaySFX(std::string_view _FileName);
 
@@ -262,12 +251,12 @@ private:
 
 private:
 	// 방향키
-	EHORIZONTAL_KEY_STATE m_HorizontalKey = EHORIZONTAL_KEY_STATE::Center;
-	EVERTICAL_KEY_STATE m_VerticalKey = EVERTICAL_KEY_STATE::Center;
+	EHORIZONTAL_KEY_STATE HorizontalInputKey = EHORIZONTAL_KEY_STATE::Center;
+	EVERTICAL_KEY_STATE VerticalInputKey = EVERTICAL_KEY_STATE::Center;
 
 	// 행동
 	EELLIE_STATE m_State = EELLIE_STATE::None;
-	EELLIE_STATE m_WaitState = EELLIE_STATE::None;
+	EELLIE_STATE WaitState = EELLIE_STATE::None;
 
 	EllieBroom Broom;
 	std::shared_ptr<GameEngineSpriteRenderer> Shadow = nullptr;
@@ -279,7 +268,7 @@ private:
 	PixelCheckPoint m_PixelCheckPoint;
 
 
-	const float4 m_PixelCheckPosBaseOnCenter = float4::ZERO;
+	
 
 	float Broom_Particle_Time = 0.0f;
 	float BroomUsingTime = 0.0f;
@@ -295,5 +284,16 @@ private:
 
 	static constexpr const float LWIW_Ellie_Y_Correction = 30.0f;
 	
-};
+	static constexpr const float CONST_Ellie_SlowWalk_Speed = 100.0f;
+	static constexpr const float CONST_Ellie_Walk_Speed = 160.0f;
+	static constexpr const float CONST_Ellie_Run_Speed = 220.0f;
+	static constexpr const float CONST_Ellie_NonRiding_Acceleration_Time = 1.0f;
+	static constexpr const float CONST_Ellie_Riding_Move_Acceleration_Time = 0.8f;
+	static constexpr const float CONST_Ellie_Riding_Boosting_Acceleration_Time = 0.7f;
+	static constexpr const float CONST_Ellie_Riding_Move_Speed = 300.0f;
+	static constexpr const float CONST_Ellie_Riding_Boost_Speed = 500.0f;
 
+	static constexpr const float FOVAngle = 60.0f;
+	static constexpr const float FrictionForce = 0.5f;
+
+};

@@ -17,6 +17,7 @@ public:
 
 
 std::vector<bool> ContentsEvent::ToolData;
+bool ContentsEvent::HasWitchBroom = false;
 std::map<std::string, std::shared_ptr<ContentsEvent::QuestUnitBase>> ContentsEvent::QuestData;
 
 EventDataCreator EventDataInit;
@@ -36,6 +37,7 @@ void ContentsEvent::Init()
 	ToolData[static_cast<int>(ETOOLTYPE::Dragonfly)] = true;
 	ToolData[static_cast<int>(ETOOLTYPE::FeaturePan)] = true;
 
+	HasWitchBroom = false;
 
 	CreateQuest<ContentsEvent::Letter_Read>("Letter_Read");
 	CreateQuest<ContentsEvent::House_Dust>("House_Dust");
@@ -46,6 +48,7 @@ void ContentsEvent::Init()
 	CreateQuest<ContentsEvent::Aurea_Cure>("Aurea_Cure");
 
 	CreateQuest<ContentsEvent::Crow_Meet>("Crow_Meet");
+	CreateQuest<ContentsEvent::Dian_Catalogue>("Dian_Catalogue");
 	CreateQuest<ContentsEvent::Dian_BadWeedPotion>("Dian_BadWeedPotion");
 	CreateQuest<ContentsEvent::Dian_Cracker>("Dian_Cracker");
 }
