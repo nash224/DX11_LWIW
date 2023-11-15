@@ -96,7 +96,7 @@ void Ellie::LevelStart(class GameEngineLevel* _NextLevel)
 
 void Ellie::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-
+	IsControl = true;
 }
 
 

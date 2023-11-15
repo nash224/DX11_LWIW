@@ -113,7 +113,8 @@ void UI_Alert_Quest::RendererSetting(std::string_view _QuestName)
 
 	const float4& fShadowDepth = float4(0.0f, 0.0f, ShadowDepth);
 	const float4& fQuestFrameDepth = float4(0.0f, 0.0f, BaseDepth);
-	const float4& FontPosition = float4(0.0f, 2.0f, FontDepth);
+	const float4& QuestFontPosition = float4(0.0f, 2.0f, FontDepth);
+	const float4& HeadFontPosition = float4(0.0f, 30.0f, FontDepth);
 
 
 	{
@@ -146,8 +147,18 @@ void UI_Alert_Quest::RendererSetting(std::string_view _QuestName)
 		const float4 InitialFontColor = float4(0.85f, 0.85f, 0.85f, 1.0f);
 
 		QuestInfo.Font = CreateComponent<GameEngineUIRenderer>(RenderOrder);
-		QuestInfo.Font->Transform.SetLocalPosition(FontPosition);
+		QuestInfo.Font->Transform.SetLocalPosition(QuestFontPosition);
 		QuestInfo.Font->SetText(GlobalValue::Font_Sandoll, _QuestName.data(), FontScale, InitialFontColor, FW1_TEXT_FLAG::FW1_CENTER);
+	}
+
+	{
+		static constexpr const float FontScale = 16.0f;
+
+		const float4 InitialFontColor = float4(0.75f, 0.2f, 0.1f, 1.0f);
+
+		QuestInfo.HeadFont = CreateComponent<GameEngineUIRenderer>(RenderOrder);
+		QuestInfo.HeadFont->Transform.SetLocalPosition(HeadFontPosition);
+		QuestInfo.HeadFont->SetText(GlobalValue::Font_Sandoll, "¸ÞÀÎ", FontScale, InitialFontColor, FW1_TEXT_FLAG::FW1_CENTER);
 	}
 }
 
@@ -184,6 +195,7 @@ void UI_Alert_Quest::SoundSetting()
 void UI_Alert_Quest::StartFadeIn(GameEngineState* _Parent)
 {
 	ChangeFontAlpha(QuestInfo.Font, 0.0f);
+	ChangeFontAlpha(QuestInfo.HeadFont, 0.0f);
 	ChangeMulColor(QuestInfo.Black, 0.0f);
 	ChangeMulColor(QuestInfo.UnderLine, 0.0f);
 
@@ -196,6 +208,7 @@ void UI_Alert_Quest::UpdateFadeIn(float _DeltaTime, GameEngineState* _Parent)
 	float SettingValue = _Parent->GetStateTime() / Fade_Change_Time;
 
 	ChangeFontAlpha(QuestInfo.Font, SettingValue);
+	ChangeFontAlpha(QuestInfo.HeadFont, SettingValue);
 	ChangeMulColor(QuestInfo.Black, SettingValue);
 	ChangeMulColor(QuestInfo.UnderLine, SettingValue);
 
@@ -207,6 +220,7 @@ void UI_Alert_Quest::UpdateFadeIn(float _DeltaTime, GameEngineState* _Parent)
 	if (_Parent->GetStateTime() > Fade_Change_Time)
 	{
 		ChangeFontAlpha(QuestInfo.Font, 1.0f);
+		ChangeFontAlpha(QuestInfo.HeadFont, 1.0f);
 		ChangeMulColor(QuestInfo.Black, 1.0f);
 
 		ChangeAutoScaleRatio(QuestInfo.UnderLine, float4::ONE);
@@ -242,6 +256,7 @@ void UI_Alert_Quest::UpdateFadeOut(float _DeltaTime, GameEngineState* _Parent)
 	float MulColorValue = 1.0f - _Parent->GetStateTime() / Fade_Change_Time;
 
 	ChangeFontAlpha(QuestInfo.Font, MulColorValue);
+	ChangeFontAlpha(QuestInfo.HeadFont, MulColorValue);
 	ChangeMulColor(QuestInfo.Black, MulColorValue);
 	ChangeMulColor(QuestInfo.QuestFrame, MulColorValue);
 	ChangeMulColor(QuestInfo.UnderLine, MulColorValue);
@@ -251,9 +266,12 @@ void UI_Alert_Quest::UpdateFadeOut(float _DeltaTime, GameEngineState* _Parent)
 		ChangeMulColor(QuestInfo.Stamp, MulColorValue);
 	}
 
-	if (_Parent->GetStateTime() > Fade_Change_Time)
+	static constexpr const float FadeOutTime = 0.8f;
+
+	if (_Parent->GetStateTime() > FadeOutTime)
 	{
 		ChangeFontAlpha(QuestInfo.Font, 0.0f);
+		ChangeFontAlpha(QuestInfo.HeadFont, 0.0f);
 		ChangeMulColor(QuestInfo.QuestFrame, 0.0f);
 		ChangeMulColor(QuestInfo.Black, 0.0f);
 		ChangeMulColor(QuestInfo.UnderLine, 0.0f);

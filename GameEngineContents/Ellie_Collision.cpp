@@ -15,7 +15,7 @@ void Ellie::UpdateCollision()
 
 void Ellie::UpdatePortalCollsiion()
 {
-	m_EllieCol->Collision(ECOLLISION::Portal, [](std::vector<GameEngineCollision*>& _Collision)
+	m_EllieCol->Collision(ECOLLISION::Portal, [&](std::vector<GameEngineCollision*>& _Collision)
 		{
 			for (size_t i = 0; i < _Collision.size(); i++)
 			{
@@ -34,6 +34,7 @@ void Ellie::UpdatePortalCollsiion()
 				}
 
 				PortalActor->SetCollisionFlag(true);
+				OffControl();
 			}
 		});
 }

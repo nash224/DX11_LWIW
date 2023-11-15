@@ -41,6 +41,7 @@ void BedUI::LevelEnd(class GameEngineLevel* _NextLevel)
 void BedUI::Init()
 {
 	RendererSetting();
+	StateSetting();
 }
 
 void BedUI::RendererSetting()
@@ -112,11 +113,23 @@ void BedUI::RendererSetting()
 	}
 }
 
+void BedUI::StateSetting()
+{
+	CreateStateParameter OffState;
+	State.CreateState(EBEDUISTATE::Off, OffState);
+
+
+	//	Off
+	//	PopUp
+	//	Select
+	//	Disappear
+}
+
 void BedUI::Open()
 {
 	if (nullptr != Ellie::MainEllie)
 	{
-		
+		Ellie::MainEllie->OffControl();
 	}
 
 	On();
@@ -124,5 +137,10 @@ void BedUI::Open()
 
 void BedUI::Close()
 {
+	if (nullptr != Ellie::MainEllie)
+	{
+		Ellie::MainEllie->OnControl();
+	}
+
 	Off();
 }

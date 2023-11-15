@@ -18,6 +18,7 @@ private:
 	class AlertQuestInfo
 	{
 	public:
+		std::shared_ptr<GameEngineUIRenderer> HeadFont;
 		std::shared_ptr<GameEngineUIRenderer> QuestFrame;
 		std::shared_ptr<GameEngineUIRenderer> UnderLine;
 		std::shared_ptr<GameEngineUIRenderer> Stamp;

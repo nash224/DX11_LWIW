@@ -14,7 +14,7 @@ PortalObject::~PortalObject()
 
 void PortalObject::Start()
 {
-	m_PortalType = PortalType::Instant;
+	PortalType = PortalType::Instant;
 }
 
 void PortalObject::Update(float _Delta)
@@ -57,7 +57,7 @@ void PortalObject::SetLocalPosition(const float4& _Location)
 
 void PortalObject::SetCollisionRange(const float4& _Scale)
 {
-	m_ColScale = _Scale;
+	CollisionScale = _Scale;
 	Transform.SetLocalScale(_Scale);
 }
 
@@ -80,7 +80,7 @@ void PortalObject::SetCollisionData(PortalCollisionParameter _ColParameter)
 		return;
 	}
 
-	m_ColScale = _ColParameter.Scale;
+	CollisionScale = _ColParameter.Scale;
 
 	Transform.SetLocalPosition(_ColParameter.Position);
 	Transform.SetLocalScale(_ColParameter.Scale);
@@ -90,7 +90,7 @@ void PortalObject::SetCollisionData(PortalCollisionParameter _ColParameter)
 
 void PortalObject::SetChangeLevelName(std::string_view _LevelName)
 {
-	m_ChangeLevelName = _LevelName.data();
+	ChangeLevelName = _LevelName.data();
 }
 
 
@@ -141,5 +141,5 @@ void PortalObject::CallFadeOut()
 		MsgBoxAssert("액터를 생성하지 못했습니다.");
 		return;
 	}
-	Fade->CallFadeOut(m_ChangeLevelName, 0.4f);
+	Fade->CallFadeOut(ChangeLevelName, 0.4f);
 }

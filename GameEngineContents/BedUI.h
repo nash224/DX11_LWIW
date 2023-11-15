@@ -6,6 +6,16 @@ class BedUI : public GameEngineActor
 	friend class WitchHouseBed;
 
 private:
+	enum class EBEDUISTATE
+	{
+		Off,
+		PopUp,
+		Select,
+		Disappear,
+		None,
+	};
+
+private:
 	class BedCursorInfo
 	{
 	public:
@@ -34,9 +44,6 @@ public:
 
 	void Init();
 
-	
-	
-
 protected:
 	void Start() override {}
 	void Update(float _Delta) override;
@@ -47,6 +54,9 @@ protected:
 
 private:
 	void RendererSetting();
+	void StateSetting();
+
+
 
 	void Open();
 	void Close();

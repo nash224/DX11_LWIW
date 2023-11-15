@@ -301,9 +301,8 @@ void Ellie::UpdateWalk(float _Delta)
 		}
 	}
 
-	if (true == GameEngineInput::IsDown(VK_CONTROL, this))
+	if (true == InputRidingMode())
 	{
-		ChangeState(EELLIE_STATE::Riding_Standing);
 		return;
 	}
 
