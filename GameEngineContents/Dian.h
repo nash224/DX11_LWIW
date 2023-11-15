@@ -49,9 +49,15 @@ protected:
 	void ConversationSetting();
 	void NormalUpdate(float _DeltaTime, GameEngineState* _Parent);
 
+
+	bool CheckWitchCatalogueEvent();
+	bool CheckPotionVerificationEvent();
+
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> DianRenderer = nullptr;
 	std::shared_ptr<GameEngineSpriteRenderer> ShadowRenderer = nullptr;
+
+	std::shared_ptr<class UI_Frame> UIFrame = nullptr;
 	
 	GameEngineState State;
 

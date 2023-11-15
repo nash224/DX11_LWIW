@@ -1,14 +1,12 @@
 #include "PreCompile.h"
 #include "ContentsEvent.h"
 
-
 #include "PlayLevel.h"
 #include "TimeManager.h"
-
-#include "UI_Alert_Quest.h"
-#include "PlayLevel.h"
 #include "AlertManager.h"
-#include "FadeObject.h"
+
+#include "UI_Inventory.h"
+#include "UI_Alert_Quest.h"
 
 
 bool ContentsEvent::Crow_Meet::CheckPrerequisiteQuest()
@@ -42,16 +40,39 @@ bool ContentsEvent::Dian_Catalogue::CheckPrerequisiteQuest()
 
 void ContentsEvent::Dian_BadWeedPotion::QuestAccept()
 {
+	if (true == isQuestAccepted)
+	{
+		return;
+	}
+
+	if (nullptr != PlayLevel::s_AlertManager)
+	{
+		PlayLevel::s_AlertManager->RegisterAlert(AlertData("물약 검증", EALERTTYPE::QuestAccept));
+	}
+
 	isQuestAccepted = true;
 }
 
 bool ContentsEvent::Dian_BadWeedPotion::CheckPrerequisiteQuest()
 {
-	return !isQuestCompleted;
+	if (nullptr != UI_Inventory::MainInventory)
+	{
+		if (true == UI_Inventory::MainInventory->IsItem("BadGrassPotion"))
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
 
 void ContentsEvent::Dian_BadWeedPotion::QuestComplete()
 {
+	if (nullptr != PlayLevel::s_AlertManager)
+	{
+		PlayLevel::s_AlertManager->RegisterAlert(AlertData("물약 검증", EALERTTYPE::QuestClear));
+	}
+
 	isQuestCompleted = true;
 }
 

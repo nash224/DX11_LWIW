@@ -3,6 +3,7 @@
 
 #include "UIManager.h"
 #include "UI_Alert_Quest.h"
+#include "UI_Frame.h"
 
 #include "ContentsEvent.h"
 
@@ -37,6 +38,8 @@ void Dian::Release()
 	NPCEntity::Release();
 	DianRenderer = nullptr;
 	ShadowRenderer = nullptr;
+
+	UIFrame = nullptr;
 }
 
 void Dian::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -92,16 +95,13 @@ void Dian::NormalUpdate(float _DeltaTime, GameEngineState* _Parent)
 {
 	if (true == IsEnalbeActive)
 	{
-		std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Dian_Catalogue");
-		if (true == Quest.expired())
+		if (true == CheckWitchCatalogueEvent())
 		{
-			MsgBoxAssert("아직 생성하지 않은 퀘스트입니다.");
 			return;
 		}
 
-		if (false == Quest.lock()->isQuestComplete())
+		if (true == CheckPotionVerificationEvent())
 		{
-			NPCEntity::ConverseWithEllie(EDIANTOPICTYPE::WitchCatalogue);
 			return;
 		}
 
@@ -157,7 +157,8 @@ void Dian::ConversationSetting()
 			{ L"네, 말씀하세요." , ECONVERSATIONENTITY::NPC , 0},
 			{ L"사은품은..." , ECONVERSATIONENTITY::Ellie , 1},
 			{ L"아, 지금 바로 드리겠습니다." , ECONVERSATIONENTITY::NPC , 1},
-			{ L"드디어 내 개인 빗자루가!" , ECONVERSATIONENTITY::Ellie , 1},
+			{ L"와, 감사합니다!" , ECONVERSATIONENTITY::Ellie , 5},
+			{ L"드디어 내 개인 빗자루가!" , ECONVERSATIONENTITY::Ellie , 8},
 			{ L"행복한 하루 되세요. 마녀 카탈로그의 다이엔 그린윈드였습니다." , ECONVERSATIONENTITY::NPC , 1},
 		};
 
@@ -167,16 +168,40 @@ void Dian::ConversationSetting()
 
 		NPCConversation.SetConversationEvent(EDIANTOPICTYPE::WitchCatalogue, 22, [&]()
 			{
-				// 마법 빗자루 get
+				ContentsEvent::HasWitchBroom = true;
 			});
 		NPCConversation.SetConversationEvent(EDIANTOPICTYPE::WitchCatalogue, 23, [&]()
 			{
-				// 마법 빗자루 Frame
+				UIFrame = GetLevel()->CreateActor<UI_Frame>(EUPDATEORDER::UIComponent);
+				UIFrame->Init(EFRAMETYPE::BroomStick);
+			});
+		NPCConversation.SetConversationEvent(EDIANTOPICTYPE::WitchCatalogue, 24, [&]()
+			{
+				if (nullptr != UIFrame)
+				{
+					UIFrame->Death();
+					UIFrame = nullptr;
+				}
 			});
 
 		NPCConversation.SetConversationEndEvent(EDIANTOPICTYPE::WitchCatalogue, [&]()
 			{
+				ContentsEvent::HasWitchBroom = true;
 
+				if (nullptr != UIFrame)
+				{
+					UIFrame->Death();
+					UIFrame = nullptr;
+				}
+
+				std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Dian_Catalogue");
+				if (true == Quest.expired())
+				{
+					MsgBoxAssert("아직 생성하지 않은 퀘스트입니다.");
+					return;
+				}
+
+				Quest.lock()->QuestComplete();
 			});
 	}
 
@@ -217,14 +242,28 @@ void Dian::ConversationSetting()
 		PotionVerificationTopic.Data.shrink_to_fit();
 		NPCConversation.CreateTopic(EDIANTOPICTYPE::PotionVerification, PotionVerificationTopic);
 
-		NPCConversation.SetConversationEvent(EDIANTOPICTYPE::PotionVerification, 21, [&]()
+		NPCConversation.SetConversationEvent(EDIANTOPICTYPE::PotionVerification, 22, [&]()
 			{
-				// 퀘스트 수락
+				std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Dian_BadWeedPotion");
+				if (true == Quest.expired())
+				{
+					MsgBoxAssert("아직 생성하지 않은 퀘스트입니다.");
+					return;
+				}
+
+				Quest.lock()->QuestAccept();
 			});
 
 		NPCConversation.SetConversationEndEvent(EDIANTOPICTYPE::PotionVerification, [&]()
 			{
+				std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Dian_BadWeedPotion");
+				if (true == Quest.expired())
+				{
+					MsgBoxAssert("아직 생성하지 않은 퀘스트입니다.");
+					return;
+				}
 
+				Quest.lock()->QuestAccept();
 			});
 	}
 

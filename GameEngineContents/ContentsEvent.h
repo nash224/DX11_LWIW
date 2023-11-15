@@ -37,6 +37,7 @@ public:
 
 		virtual void QuestComplete()
 		{
+			isQuestAccepted = true;
 			isQuestCompleted = true;
 		}
 
@@ -50,6 +51,10 @@ public:
 		{
 			isQuestAccepted = true;
 		}
+
+	private:
+		virtual bool QuestClearPrerequisite() { return false; }
+			
 
 	public:
 		// ContentsGUI에서 요구합니다. 
