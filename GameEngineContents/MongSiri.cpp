@@ -93,25 +93,25 @@ void MongSiri::CreateAndSetRenderer()
 
 	static constexpr const int RenderOrder = 0;
 
-	m_Body = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
+	BodyRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
 	m_Shadow = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
 
 	m_Shadow->Transform.SetLocalPosition(float4(0.0f, 0.0f, GlobalUtils::CalculateFixDepth(ERENDERDEPTH::ObjectShadow)));
 
-	m_Body->AutoSpriteSizeOn();
-	m_Body->CreateAnimation("Idle", "Mongsiri_IdleB.png", 0.2f, 4, 7);
-	m_Body->CreateAnimation("Idle_Back", "Mongsiri_IdleB.png", 0.2f, 8, 11);
-	m_Body->CreateAnimation("Jump", "Mongsiri_Jump.png", 0.1f, 5, 14);
-	m_Body->CreateAnimation("Jump_Back", "Mongsiri_Jump.png", 0.1f, 15, 24);
-	m_Body->CreateAnimation("Look", "Mongsiri_Idle.png", 0.05f, 4, 5);
-	m_Body->CreateAnimation("Look_Back", "Mongsiri_Idle.png", 0.2f, 6, 7);
-	m_Body->CreateAnimation("Collected", "Mongsiri_Collected.png", 0.2f, 3, 8, false);
-	m_Body->FindAnimation("Collected")->Inter = { 0.1f, 0.1f, 0.1f, 0.2f, 0.3f, 0.4f };
-	m_Body->CreateAnimation("CollectedA", "Mongsiri_CollectedA.png", 0.06f, -1, -1, false);
-	m_Body->CreateAnimation("CollectedB", "Mongsiri_Collected.png", 0.12f, 6, 4, false);
-	m_Body->CreateAnimation("Disappear", "Mongsiri_Disappear.png", 0.1f, 10, 33, false);
+	BodyRenderer->AutoSpriteSizeOn();
+	BodyRenderer->CreateAnimation("Idle", "Mongsiri_IdleB.png", 0.2f, 4, 7);
+	BodyRenderer->CreateAnimation("Idle_Back", "Mongsiri_IdleB.png", 0.2f, 8, 11);
+	BodyRenderer->CreateAnimation("Jump", "Mongsiri_Jump.png", 0.1f, 5, 14);
+	BodyRenderer->CreateAnimation("Jump_Back", "Mongsiri_Jump.png", 0.1f, 15, 24);
+	BodyRenderer->CreateAnimation("Look", "Mongsiri_Idle.png", 0.05f, 4, 5);
+	BodyRenderer->CreateAnimation("Look_Back", "Mongsiri_Idle.png", 0.2f, 6, 7);
+	BodyRenderer->CreateAnimation("Collected", "Mongsiri_Collected.png", 0.2f, 3, 8, false);
+	BodyRenderer->FindAnimation("Collected")->Inter = { 0.1f, 0.1f, 0.1f, 0.2f, 0.3f, 0.4f };
+	BodyRenderer->CreateAnimation("CollectedA", "Mongsiri_CollectedA.png", 0.06f, -1, -1, false);
+	BodyRenderer->CreateAnimation("CollectedB", "Mongsiri_Collected.png", 0.12f, 6, 4, false);
+	BodyRenderer->CreateAnimation("Disappear", "Mongsiri_Disappear.png", 0.1f, 10, 33, false);
 
-	std::weak_ptr<GameEngineFrameAnimation> Animation = m_Body->FindAnimation("Disappear");
+	std::weak_ptr<GameEngineFrameAnimation> Animation = BodyRenderer->FindAnimation("Disappear");
 	if (true == Animation.expired())
 	{
 		MsgBoxAssert("애니메이션을 찾지 못했습니다.");
@@ -128,119 +128,119 @@ void MongSiri::CreateAndSetRenderer()
 	};
 
 
-	m_Body->SetStartEvent("Idle", [&](GameEngineSpriteRenderer*)
+	BodyRenderer->SetStartEvent("Idle", [&](GameEngineSpriteRenderer*)
 		{
 			m_Shadow->SetSprite("Mongsiri_IdleB.png", 1);
 		});
-	m_Body->SetFrameEvent("Idle", 5, [&](GameEngineSpriteRenderer*)
+	BodyRenderer->SetFrameEvent("Idle", 5, [&](GameEngineSpriteRenderer*)
 		{
 			m_Shadow->SetSprite("Mongsiri_IdleB.png", 2);
 		});
-	m_Body->SetFrameEvent("Idle", 6, [&](GameEngineSpriteRenderer*)
+	BodyRenderer->SetFrameEvent("Idle", 6, [&](GameEngineSpriteRenderer*)
 		{
 			m_Shadow->SetSprite("Mongsiri_IdleB.png", 3);
 		});
-	m_Body->SetFrameEvent("Idle", 7, [&](GameEngineSpriteRenderer*)
+	BodyRenderer->SetFrameEvent("Idle", 7, [&](GameEngineSpriteRenderer*)
 		{
 			m_Shadow->SetSprite("Mongsiri_IdleB.png", 2);
 		});
 
 
-	m_Body->SetStartEvent("Idle_Back", [&](GameEngineSpriteRenderer*)
+	BodyRenderer->SetStartEvent("Idle_Back", [&](GameEngineSpriteRenderer*)
 		{
 			m_Shadow->SetSprite("Mongsiri_IdleB.png", 1);
 		});
-	m_Body->SetFrameEvent("Idle_Back", 9, [&](GameEngineSpriteRenderer*)
+	BodyRenderer->SetFrameEvent("Idle_Back", 9, [&](GameEngineSpriteRenderer*)
 		{
 			m_Shadow->SetSprite("Mongsiri_IdleB.png", 2);
 		});
-	m_Body->SetFrameEvent("Idle_Back", 8, [&](GameEngineSpriteRenderer*)
+	BodyRenderer->SetFrameEvent("Idle_Back", 8, [&](GameEngineSpriteRenderer*)
 		{
 			m_Shadow->SetSprite("Mongsiri_IdleB.png", 3);
 		});
-	m_Body->SetFrameEvent("Idle_Back", 9, [&](GameEngineSpriteRenderer*)
+	BodyRenderer->SetFrameEvent("Idle_Back", 9, [&](GameEngineSpriteRenderer*)
 		{
 			m_Shadow->SetSprite("Mongsiri_IdleB.png", 2);
 		});
 
 
-	m_Body->SetFrameEvent("Jump", 5, [&](GameEngineSpriteRenderer*)
+	BodyRenderer->SetFrameEvent("Jump", 5, [&](GameEngineSpriteRenderer*)
 		{
 			m_Shadow->SetSprite("Mongsiri_Jump.png", 1);
 		});
-	m_Body->SetFrameEvent("Jump", 6, [&](GameEngineSpriteRenderer*)
+	BodyRenderer->SetFrameEvent("Jump", 6, [&](GameEngineSpriteRenderer*)
 		{
 			m_Shadow->SetSprite("Mongsiri_Jump.png", 2);
 		});
-	m_Body->SetFrameEvent("Jump", 7, [&](GameEngineSpriteRenderer*)
+	BodyRenderer->SetFrameEvent("Jump", 7, [&](GameEngineSpriteRenderer*)
 		{
 			m_Shadow->SetSprite("Mongsiri_Jump.png", 3);
 		});
-	m_Body->SetFrameEvent("Jump", 8, [&](GameEngineSpriteRenderer*)
+	BodyRenderer->SetFrameEvent("Jump", 8, [&](GameEngineSpriteRenderer*)
 		{
 			PlaySFX("SFX_MongsiriJump_01.wav");
 			m_Shadow->SetSprite("Mongsiri_Jump.png", 4);
 		});
-	m_Body->SetFrameEvent("Jump", 13, [&](GameEngineSpriteRenderer*)
+	BodyRenderer->SetFrameEvent("Jump", 13, [&](GameEngineSpriteRenderer*)
 		{
 			m_Shadow->SetSprite("Mongsiri_Jump.png", 1);
 		});
 
 
-	m_Body->SetFrameEvent("Jump_Back", 15, [&](GameEngineSpriteRenderer*)
+	BodyRenderer->SetFrameEvent("Jump_Back", 15, [&](GameEngineSpriteRenderer*)
 		{
 			m_Shadow->SetSprite("Mongsiri_Jump.png", 1);
 		});
-	m_Body->SetFrameEvent("Jump_Back", 16, [&](GameEngineSpriteRenderer*)
+	BodyRenderer->SetFrameEvent("Jump_Back", 16, [&](GameEngineSpriteRenderer*)
 		{
 			m_Shadow->SetSprite("Mongsiri_Jump.png", 2);
 		});
-	m_Body->SetFrameEvent("Jump_Back", 17, [&](GameEngineSpriteRenderer*)
+	BodyRenderer->SetFrameEvent("Jump_Back", 17, [&](GameEngineSpriteRenderer*)
 		{
 			m_Shadow->SetSprite("Mongsiri_Jump.png", 3);
 		});
-	m_Body->SetFrameEvent("Jump_Back", 18, [&](GameEngineSpriteRenderer*)
+	BodyRenderer->SetFrameEvent("Jump_Back", 18, [&](GameEngineSpriteRenderer*)
 		{
 			PlaySFX("SFX_MongsiriJump_01.wav");
 			m_Shadow->SetSprite("Mongsiri_Jump.png", 4);
 		});
-	m_Body->SetFrameEvent("Jump_Back", 23, [&](GameEngineSpriteRenderer*)
+	BodyRenderer->SetFrameEvent("Jump_Back", 23, [&](GameEngineSpriteRenderer*)
 		{
 			m_Shadow->SetSprite("Mongsiri_Jump.png", 1);
 		});
 
 
-	m_Body->SetStartEvent("Look", [&](GameEngineSpriteRenderer* _Renderer)
+	BodyRenderer->SetStartEvent("Look", [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			m_Shadow->SetSprite("Mongsiri_Jump.png", 1);
 		});
 
 
-	m_Body->SetStartEvent("Look_Back", [&](GameEngineSpriteRenderer* _Renderer)
+	BodyRenderer->SetStartEvent("Look_Back", [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			m_Shadow->SetSprite("Mongsiri_Idle.png", 1);
 		});
 
-	m_Body->SetStartEvent("Collected", [&](GameEngineSpriteRenderer* _Renderer)
+	BodyRenderer->SetStartEvent("Collected", [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			m_Shadow->SetSprite("Mongsiri_Collected.png", 1);
 		});
-	m_Body->SetFrameEvent("Collected", 4, [&](GameEngineSpriteRenderer* _Renderer)
+	BodyRenderer->SetFrameEvent("Collected", 4, [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			m_Shadow->SetSprite("Mongsiri_Jump.png", 4);
 		});
 
-	m_Body->SetFrameEvent("Collected", 7, [&](GameEngineSpriteRenderer* _Renderer)
+	BodyRenderer->SetFrameEvent("Collected", 7, [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			PlaySFX("SFX_MongsiriRootUp.wav");
 		});
 
-	m_Body->SetEndEvent("Collected", [&](GameEngineSpriteRenderer* _Renderer)
+	BodyRenderer->SetEndEvent("Collected", [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			_Renderer->ChangeAnimation("CollectedA");
 		});
 
-	m_Body->SetEndEvent("CollectedA", [&](GameEngineSpriteRenderer* _Renderer)
+	BodyRenderer->SetEndEvent("CollectedA", [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			if (nullptr != UI_Inventory::MainInventory)
 			{
@@ -250,43 +250,43 @@ void MongSiri::CreateAndSetRenderer()
 			_Renderer->ChangeAnimation("CollectedB");
 		});
 
-	m_Body->SetStartEvent("Disappear", [&](GameEngineSpriteRenderer*)
+	BodyRenderer->SetStartEvent("Disappear", [&](GameEngineSpriteRenderer*)
 		{
 			m_Shadow->SetSprite("Mongsiri_Disappear.png", 1);
 		});
-	m_Body->SetFrameEvent("Disappear", 11, [&](GameEngineSpriteRenderer*)
+	BodyRenderer->SetFrameEvent("Disappear", 11, [&](GameEngineSpriteRenderer*)
 		{
 			m_Shadow->SetSprite("Mongsiri_Disappear.png", 2);
 		});
-	m_Body->SetFrameEvent("Disappear", 12, [&](GameEngineSpriteRenderer*)
+	BodyRenderer->SetFrameEvent("Disappear", 12, [&](GameEngineSpriteRenderer*)
 		{
 			m_Shadow->SetSprite("Mongsiri_Disappear.png", 3);
 		});
-	m_Body->SetFrameEvent("Disappear", 13, [&](GameEngineSpriteRenderer*)
+	BodyRenderer->SetFrameEvent("Disappear", 13, [&](GameEngineSpriteRenderer*)
 		{
 			m_Shadow->SetSprite("Mongsiri_Disappear.png", 4);
 		});
-	m_Body->SetFrameEvent("Disappear", 18, [&](GameEngineSpriteRenderer*)
+	BodyRenderer->SetFrameEvent("Disappear", 18, [&](GameEngineSpriteRenderer*)
 		{
 			m_Shadow->SetSprite("Mongsiri_Disappear.png", 6);
 		});
-	m_Body->SetFrameEvent("Disappear", 21, [&](GameEngineSpriteRenderer*)
+	BodyRenderer->SetFrameEvent("Disappear", 21, [&](GameEngineSpriteRenderer*)
 		{
 			PlaySFX("SFX_MongsiriHoleIn_01.wav");
 		});
-	m_Body->SetFrameEvent("Disappear", 24, [&](GameEngineSpriteRenderer*)
+	BodyRenderer->SetFrameEvent("Disappear", 24, [&](GameEngineSpriteRenderer*)
 		{
 			m_Shadow->SetSprite("Mongsiri_Disappear.png", 7);
 		});
-	m_Body->SetFrameEvent("Disappear", 25, [&](GameEngineSpriteRenderer*)
+	BodyRenderer->SetFrameEvent("Disappear", 25, [&](GameEngineSpriteRenderer*)
 		{
 			m_Shadow->SetSprite("Mongsiri_Disappear.png", 8);
 		});
-	m_Body->SetFrameEvent("Disappear", 26, [&](GameEngineSpriteRenderer*)
+	BodyRenderer->SetFrameEvent("Disappear", 26, [&](GameEngineSpriteRenderer*)
 		{
 			m_Shadow->SetSprite("Mongsiri_Disappear.png", 9);
 		});
-	m_Body->SetFrameEvent("Disappear", 28, [&](GameEngineSpriteRenderer*)
+	BodyRenderer->SetFrameEvent("Disappear", 28, [&](GameEngineSpriteRenderer*)
 		{
 			m_Shadow->Off();
 		});
@@ -373,18 +373,18 @@ void MongSiri::ChangeState(EMONGSIRISTATE _State)
 
 void MongSiri::ChangeAnimation(std::string_view _StateName)
 {
-	if (nullptr == m_Body)
+	if (nullptr == BodyRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	m_Body->ChangeAnimation(_StateName);
+	BodyRenderer->ChangeAnimation(_StateName);
 }
 
 void MongSiri::ChangeAnimationByDircetion(std::string_view _StateName)
 {
-	if (nullptr == m_Body)
+	if (nullptr == BodyRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
@@ -401,31 +401,31 @@ void MongSiri::ChangeAnimationByDircetion(std::string_view _StateName)
 		break;
 	case EDIRECTION::RIGHTUP:
 		AnimationName += "_Back";
-		m_Body->LeftFlip();
+		BodyRenderer->LeftFlip();
 		break;
 	case EDIRECTION::RIGHT:
-		m_Body->LeftFlip();
+		BodyRenderer->LeftFlip();
 		break;
 	case EDIRECTION::RIGHTDOWN:
-		m_Body->LeftFlip();
+		BodyRenderer->LeftFlip();
 		break;
 	case EDIRECTION::DOWN:
 		break;
 	case EDIRECTION::LEFTDOWN:
-		m_Body->RightFlip();
+		BodyRenderer->RightFlip();
 		break;
 	case EDIRECTION::LEFT:
-		m_Body->RightFlip();
+		BodyRenderer->RightFlip();
 		break;
 	case EDIRECTION::LEFTUP:
 		AnimationName += "_Back";
-		m_Body->RightFlip();
+		BodyRenderer->RightFlip();
 		break;
 	default:
 		break;
 	}
 
-	m_Body->ChangeAnimation(AnimationName);
+	BodyRenderer->ChangeAnimation(AnimationName);
 }
 
 

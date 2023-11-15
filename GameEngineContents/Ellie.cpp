@@ -78,7 +78,7 @@ void Ellie::Release()
 	EllieFx = nullptr;
 
 	m_EllieCol = nullptr;
-	m_InteractiveCol = nullptr;
+	InteractiveCol = nullptr;
 	m_NetCol = nullptr;
 
 	OtherEntity = nullptr;
@@ -393,13 +393,13 @@ void Ellie::ChangeAnimationByDirection(std::string_view _StateName, bool _Direct
 
 	m_RenderDir = m_Dir;
 
-	if (nullptr == m_Body)
+	if (nullptr == BodyRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다."); 
 		return;
 	}
 
-	m_Body->ChangeAnimation(AnimaitonName, _Force, _Index);
+	BodyRenderer->ChangeAnimation(AnimaitonName, _Force, _Index);
 }
 
 void Ellie::ChangeShawdowSprite(std::string_view _AnimationName)
@@ -550,13 +550,13 @@ void Ellie::ChangeDirectionAnimation(std::string_view _StateName)
 {
 	if (m_Dir != m_RenderDir)
 	{
-		if (nullptr == m_Body)
+		if (nullptr == BodyRenderer)
 		{
 			MsgBoxAssert("생성하지 않은 렌더러를 사용하려 했습니다.");
 			return;
 		}
 
-		unsigned int CurIndex = m_Body->GetCurIndex();
+		unsigned int CurIndex = BodyRenderer->GetCurIndex();
 		ChangeAnimationByDirection(_StateName, true, false, CurIndex);
 	}
 }

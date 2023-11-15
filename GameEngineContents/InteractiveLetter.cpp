@@ -67,9 +67,9 @@ void InteractiveLetter::RendererSetting()
 {
 	static constexpr const int RenderOrder = 0;
 
-	InteractiveActor::m_Body = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
-	InteractiveActor::m_Body->SetSprite("Mail.png");
-	InteractiveActor::m_Body->Transform.AddLocalPosition(float4(0.0f, 0.0f, -5.0f));
+	InteractiveActor::BodyRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
+	InteractiveActor::BodyRenderer->SetSprite("Mail.png");
+	InteractiveActor::BodyRenderer->Transform.AddLocalPosition(float4(0.0f, 0.0f, -5.0f));
 }
 
 

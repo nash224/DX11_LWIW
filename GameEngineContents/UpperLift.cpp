@@ -18,13 +18,13 @@ void UpperLift::Start()
 	InteractiveActor::CreateAndSetCollision(ECOLLISION::Entity, { 120.0f, 80.0f }, float4::ZERO, ColType::AABBBOX2D);
 	InteractiveActor::SetInteractionOption(EINTERACTION_BUTTONTYPE::Gear, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Nothing);
 
-	if (nullptr == InteractiveActor::m_InteractiveCol)
+	if (nullptr == InteractiveActor::InteractiveCol)
 	{
 		MsgBoxAssert("충돌체가 존재하지 않습니다.");
 		return;
 	}
 
-	InteractiveActor::m_InteractiveCol->Off();
+	InteractiveActor::InteractiveCol->Off();
 }
 
 void UpperLift::Update(float _Delta)
@@ -76,13 +76,13 @@ void UpperLift::StateSetting()
 
 void UpperLift::StartLift(GameEngineState* _Parent)
 {
-	if (nullptr == InteractiveActor::m_InteractiveCol)
+	if (nullptr == InteractiveActor::InteractiveCol)
 	{
 		MsgBoxAssert("충돌체가 존재하지 않습니다.");
 		return;
 	}
 
-	InteractiveActor::m_InteractiveCol->On();
+	InteractiveActor::InteractiveCol->On();
 }
 
 void UpperLift::UpdateDust(float _Delta, GameEngineState* _Parent)
@@ -98,9 +98,9 @@ void UpperLift::UpdateLift(float _Delta, GameEngineState* _Parent)
 {
 	if (true == InteractiveActor::IsEnalbeActive)
 	{
-		if (nullptr != InteractiveActor::m_InteractiveCol)
+		if (nullptr != InteractiveActor::InteractiveCol)
 		{
-			InteractiveActor::m_InteractiveCol->Off();
+			InteractiveActor::InteractiveCol->Off();
 		}
 
 		std::weak_ptr<FadeObject> Fade = GetLevel()->CreateActor<FadeObject>(EUPDATEORDER::Entity);

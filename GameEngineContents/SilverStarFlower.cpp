@@ -33,9 +33,9 @@ void SilverStarFlower::Start()
 {
 	CreateAndSetCollision(ECOLLISION::Entity, { 20.0f }, float4(0.0f, RendererYCorrection * 0.5f), ColType::SPHERE2D);
 	SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Dragonfly);
-	if (nullptr != m_InteractiveCol)
+	if (nullptr != InteractiveCol)
 	{
-		m_InteractiveCol->Off();
+		InteractiveCol->Off();
 	}
 }
 
@@ -82,12 +82,12 @@ void SilverStarFlower::RendererSetting()
 
 	static constexpr const int RenderOrder = 0;
 
-	m_Body = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
-	m_Body->CreateAnimation("Idle", "SilverStarFlower.png", 0.15f, 3, 3, false);
-	m_Body->CreateAnimation("Touch", "SilverStarFlower.png", 0.15f, 4, 9, false);
-	m_Body->AutoSpriteSizeOn();
-	m_Body->Transform.SetLocalPosition({ 0.0f, RendererYCorrection });
-	m_Body->ChangeAnimation("Idle");
+	BodyRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
+	BodyRenderer->CreateAnimation("Idle", "SilverStarFlower.png", 0.15f, 3, 3, false);
+	BodyRenderer->CreateAnimation("Touch", "SilverStarFlower.png", 0.15f, 4, 9, false);
+	BodyRenderer->AutoSpriteSizeOn();
+	BodyRenderer->Transform.SetLocalPosition({ 0.0f, RendererYCorrection });
+	BodyRenderer->ChangeAnimation("Idle");
 
 
 	m_Shadow = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
@@ -140,9 +140,9 @@ void SilverStarFlower::StateSetting()
 
 void SilverStarFlower::TouchStart(GameEngineState* _Parent)
 {
-	if (nullptr != m_InteractiveCol)
+	if (nullptr != InteractiveCol)
 	{
-		m_InteractiveCol->On();
+		InteractiveCol->On();
 	}
 
 	CreatePollenSpawner();
@@ -151,9 +151,9 @@ void SilverStarFlower::TouchStart(GameEngineState* _Parent)
 
 void SilverStarFlower::UnLightStart(GameEngineState* _Parent)
 {
-	if (nullptr != m_InteractiveCol)
+	if (nullptr != InteractiveCol)
 	{
-		m_InteractiveCol->Off();
+		InteractiveCol->Off();
 	}
 }
 

@@ -48,13 +48,13 @@ void MongSiri::UpdateIdle(float _Delta)
 	
 	}
 
-	if (nullptr == m_Body)
+	if (nullptr == BodyRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	if (true == m_Body->IsCurAnimationEnd())
+	if (true == BodyRenderer->IsCurAnimationEnd())
 	{
 		--m_IdleCount;
 	}
@@ -177,13 +177,13 @@ void MongSiri::SearchJumpLocation()
 
 void MongSiri::UpdateJump(float _Delta)
 {
-	if (nullptr == m_Body)
+	if (nullptr == BodyRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	if (true == m_Body->IsCurAnimationEnd())
+	if (true == BodyRenderer->IsCurAnimationEnd())
 	{
 		if (true == IsOnTheHole)
 		{
@@ -195,7 +195,7 @@ void MongSiri::UpdateJump(float _Delta)
 		return;
 	}
 
-	if (m_Body->GetCurIndex() > 2 && m_Body->GetCurIndex() < 9)
+	if (BodyRenderer->GetCurIndex() > 2 && BodyRenderer->GetCurIndex() < 9)
 	{
 		if (nullptr != BackDrop_PlayLevel::MainBackDrop)
 		{
@@ -255,7 +255,7 @@ void MongSiri::UpdateCaught(float _Delta)
 
 void MongSiri::StartCollected()
 {
-	if (nullptr == m_InteractiveCol)
+	if (nullptr == InteractiveCol)
 	{
 		MsgBoxAssert("충돌체가 존재하지 않는데 사용하려 했습니다.");
 		return;
@@ -263,19 +263,19 @@ void MongSiri::StartCollected()
 
 	
 
-	m_InteractiveCol->Off();
+	InteractiveCol->Off();
 	ChangeAnimation("Collected");
 }
 
 void MongSiri::UpdateCollected(float _Delta)
 {
-	if (nullptr == m_Body)
+	if (nullptr == BodyRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	if (true == m_Body->IsCurAnimationEnd() && true == m_Body->IsCurAnimation("CollectedB"))
+	if (true == BodyRenderer->IsCurAnimationEnd() && true == BodyRenderer->IsCurAnimation("CollectedB"))
 	{
 		ChangeState(EMONGSIRISTATE::Idle);
 		return;
@@ -301,13 +301,13 @@ void MongSiri::StartDisappear()
 
 void MongSiri::UpdateDisappear(float _Delta)
 {
-	if (nullptr == m_Body)
+	if (nullptr == BodyRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	if (true == m_Body->IsCurAnimationEnd())
+	if (true == BodyRenderer->IsCurAnimationEnd())
 	{
 		if (nullptr == MongSiriParant)
 		{

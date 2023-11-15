@@ -43,9 +43,9 @@ void LowerLift::UpdateLift(float _Delta)
 {
 	if (true == InteractiveActor::IsEnalbeActive)
 	{
-		if (nullptr != InteractiveActor::m_InteractiveCol)
+		if (nullptr != InteractiveActor::InteractiveCol)
 		{
-			InteractiveActor::m_InteractiveCol->Off();
+			InteractiveActor::InteractiveCol->Off();
 		}
 
 		std::weak_ptr<FadeObject> Fade = GetLevel()->CreateActor<FadeObject>(EUPDATEORDER::Entity);

@@ -63,12 +63,12 @@ void WitchFlower::RendererSetting()
 
 	static constexpr const int RenderOrder = 0;
 
-	m_Body = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
-	m_Body->Transform.AddLocalPosition({ 0.0f, RenderYCorrection , 0.0f });
-	m_Body->AutoSpriteSizeOn();
-	m_Body->CreateAnimation("Idle", "WitchFlower.png", 5.0f, 5, 5, false);
-	m_Body->CreateAnimation("UpRoot", "WitchFlower.png", 0.12f, 6, 13, false);
-	m_Body->FindAnimation("UpRoot")->Inter[7] = 0.24f;
+	BodyRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
+	BodyRenderer->Transform.AddLocalPosition({ 0.0f, RenderYCorrection , 0.0f });
+	BodyRenderer->AutoSpriteSizeOn();
+	BodyRenderer->CreateAnimation("Idle", "WitchFlower.png", 5.0f, 5, 5, false);
+	BodyRenderer->CreateAnimation("UpRoot", "WitchFlower.png", 0.12f, 6, 13, false);
+	BodyRenderer->FindAnimation("UpRoot")->Inter[7] = 0.24f;
 
 
 	m_Shadow = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
@@ -78,7 +78,7 @@ void WitchFlower::RendererSetting()
 
 
 	// 프레임 이벤트 설정
-	m_Body->SetFrameEvent("UpRoot", 6, [=](GameEngineSpriteRenderer* _Renderer)
+	BodyRenderer->SetFrameEvent("UpRoot", 6, [=](GameEngineSpriteRenderer* _Renderer)
 		{
 			if (nullptr == m_Shadow)
 			{
@@ -89,7 +89,7 @@ void WitchFlower::RendererSetting()
 			m_Shadow->SetSprite("WitchFlower.png", 3);
 		});
 
-	m_Body->SetFrameEvent("UpRoot", 7, [=](GameEngineSpriteRenderer* _Renderer)
+	BodyRenderer->SetFrameEvent("UpRoot", 7, [=](GameEngineSpriteRenderer* _Renderer)
 		{
 			if (nullptr == m_Shadow)
 			{
@@ -100,7 +100,7 @@ void WitchFlower::RendererSetting()
 			m_Shadow->SetSprite("WitchFlower.png", 2);
 		});
 
-	m_Body->SetFrameEvent("UpRoot", 8, [=](GameEngineSpriteRenderer* _Renderer)
+	BodyRenderer->SetFrameEvent("UpRoot", 8, [=](GameEngineSpriteRenderer* _Renderer)
 		{
 			if (nullptr == m_Shadow)
 			{
@@ -111,7 +111,7 @@ void WitchFlower::RendererSetting()
 			m_Shadow->SetSprite("WitchFlower.png", 2);
 		});
 
-	m_Body->SetFrameEvent("UpRoot", 9, [=](GameEngineSpriteRenderer* _Renderer)
+	BodyRenderer->SetFrameEvent("UpRoot", 9, [=](GameEngineSpriteRenderer* _Renderer)
 		{
 			if (nullptr == m_Shadow)
 			{
@@ -122,7 +122,7 @@ void WitchFlower::RendererSetting()
 			m_Shadow->SetSprite("WitchFlower.png", 4);
 		});
 
-	m_Body->SetFrameEvent("UpRoot", 10, [=](GameEngineSpriteRenderer* _Renderer)
+	BodyRenderer->SetFrameEvent("UpRoot", 10, [=](GameEngineSpriteRenderer* _Renderer)
 		{
 			if (nullptr == m_Shadow)
 			{

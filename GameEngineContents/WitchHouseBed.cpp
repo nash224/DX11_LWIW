@@ -73,24 +73,24 @@ void WitchHouseBed::StateSetting()
 
 void WitchHouseBed::StartNotActive(GameEngineState* _Parent)
 {
-	if (nullptr == InteractiveActor::m_InteractiveCol)
+	if (nullptr == InteractiveActor::InteractiveCol)
 	{
 		MsgBoxAssert("존재하지 않는 충돌체입니다.");
 		return;
 	}
 
-	InteractiveActor::m_InteractiveCol->Off();
+	InteractiveActor::InteractiveCol->Off();
 }
 
 void WitchHouseBed::StartActive(GameEngineState* _Parent)
 {
-	if (nullptr == InteractiveActor::m_InteractiveCol)
+	if (nullptr == InteractiveActor::InteractiveCol)
 	{
 		MsgBoxAssert("존재하지 않는 충돌체입니다.");
 		return;
 	}
 	
-	InteractiveActor::m_InteractiveCol->On();
+	InteractiveActor::InteractiveCol->On();
 }
 
 

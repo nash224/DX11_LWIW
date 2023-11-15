@@ -56,7 +56,7 @@ void AlchemyPot::Release()
 	m_FireRenderer = nullptr;
 	m_SteamRenderer = nullptr;
 
-	m_InteractiveCol = nullptr;
+	InteractiveCol = nullptr;
 
 	// 연금UI
 	m_Dispensation = nullptr;
@@ -238,13 +238,13 @@ void AlchemyPot::StartBroken(GameEngineState* _Parent)
 	m_SteamRenderer->Off();
 	m_WaterRenderer->Off();
 
-	if (nullptr == InteractiveActor::m_InteractiveCol)
+	if (nullptr == InteractiveActor::InteractiveCol)
 	{
 		MsgBoxAssert("존재하지 않는 충돌체입니다.");
 		return;
 	}
 
-	InteractiveActor::m_InteractiveCol->Off();
+	InteractiveActor::InteractiveCol->Off();
 }
 
 void AlchemyPot::StartIdle(GameEngineState* _Parent)
@@ -374,7 +374,7 @@ void AlchemyPot::EndBroken(GameEngineState* _Parent)
 		return;
 	}
 
-	if (nullptr == InteractiveActor::m_InteractiveCol)
+	if (nullptr == InteractiveActor::InteractiveCol)
 	{
 		MsgBoxAssert("존재하지 않는 충돌체입니다.");
 		return;
@@ -383,7 +383,7 @@ void AlchemyPot::EndBroken(GameEngineState* _Parent)
 	m_FireRenderer->On();
 	m_SteamRenderer->On();
 	m_WaterRenderer->On();
-	InteractiveActor::m_InteractiveCol->On();
+	InteractiveActor::InteractiveCol->On();
 }
 
 void AlchemyPot::EndSuccess(GameEngineState* _Parent)

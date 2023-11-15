@@ -194,7 +194,7 @@ void FlowerBird::UpdatePick(float _Delta)
 
 	if (5 != m_PickCount)
 	{
-		if (true == m_Body->IsCurAnimationEnd())
+		if (true == BodyRenderer->IsCurAnimationEnd())
 		{
 			m_IdleTime = 0.0f;
 			ChangeState(EFLOWERBIRDSTATE::Idle);
@@ -227,7 +227,7 @@ void FlowerBird::StartBloom()
 
 void FlowerBird::UpdateBloom(float _Delta)
 {
-	if (nullptr == m_Body)
+	if (nullptr == BodyRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
@@ -236,7 +236,7 @@ void FlowerBird::UpdateBloom(float _Delta)
 
 	if (true == FeelThreatened())
 	{
-		unsigned int CurIndex = m_Body->GetCurIndex();
+		unsigned int CurIndex = BodyRenderer->GetCurIndex();
 
 		if (CurIndex >= 3)
 		{
@@ -254,7 +254,7 @@ void FlowerBird::UpdateBloom(float _Delta)
 	}
 
 
-	if (true == m_Body->IsCurAnimationEnd())
+	if (true == BodyRenderer->IsCurAnimationEnd())
 	{
 		ChangeState(EFLOWERBIRDSTATE::Idle);
 		return;
@@ -269,13 +269,13 @@ void FlowerBird::EndBloom()
 
 void FlowerBird::StartBloomFake()
 {
-	if (nullptr == m_Body)
+	if (nullptr == BodyRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	m_Body->FindAnimation("BloomFake")->Inter[8] = ReturnWaitWitherInter();
+	BodyRenderer->FindAnimation("BloomFake")->Inter[8] = ReturnWaitWitherInter();
 
 	ChangeFlowerBirdAnimation("BloomFake");
 }
@@ -297,7 +297,7 @@ void FlowerBird::UpdateBloomFake(float _Delta)
 	}
 	
 
-	if (true == m_Body->IsCurAnimationEnd())
+	if (true == BodyRenderer->IsCurAnimationEnd())
 	{
 		ChangeState(EFLOWERBIRDSTATE::Idle);
 		return;
@@ -371,7 +371,7 @@ void FlowerBird::DecideFlyDirection()
 
 	// 속도와 깊이 지정
 	m_MoveVector = m_BirdFlyDirection * FlowerBirdFlySpeed;
-	m_DepthBias = 300.0f;
+	PlusDepth = 300.0f;
 }
 
 void FlowerBird::UpdateFly(float _Delta)

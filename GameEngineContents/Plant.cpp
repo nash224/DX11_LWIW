@@ -40,7 +40,7 @@ void Plant::Release()
 {
 	StaticEntity::Release();
 
-	m_Body = nullptr;
+	BodyRenderer = nullptr;
 }
 
 void Plant::LevelStart(class GameEngineLevel* _NextLevel)
@@ -109,13 +109,13 @@ void Plant::ChangeState(EPLANTSTATE _State)
 
 void Plant::ChangePlantAnimation(std::string_view _Name)
 {
-	if (nullptr == m_Body)
+	if (nullptr == BodyRenderer)
 	{
 		MsgBoxAssert("존재하지않는 렌더러를 사용하려 했습니다.");
 		return;
 	}
 	
-	m_Body->ChangeAnimation(_Name);
+	BodyRenderer->ChangeAnimation(_Name);
 }
 
 
@@ -138,7 +138,7 @@ void Plant::UpdateIdle(float _Delta)
 void Plant::StartUpRoot()
 {
 	m_InteractionButtonType = EINTERACTION_BUTTONTYPE::None;
-	m_InteractiveCol->Off();
+	InteractiveCol->Off();
 
 	PlaySFX("SFX_PlantsRootUp_01.wav");
 	ChangePlantAnimation("UpRoot");
@@ -146,7 +146,7 @@ void Plant::StartUpRoot()
 
 void Plant::UpdateUpRoot(float _Delta)
 {
-	if (true == m_Body->IsCurAnimationEnd())
+	if (true == BodyRenderer->IsCurAnimationEnd())
 	{
 		ChildRooting();
 	}

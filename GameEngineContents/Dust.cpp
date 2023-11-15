@@ -61,9 +61,9 @@ void Dust::RendererSetting(std::string_view _DustSpriteName)
 {
 	static constexpr const int RenderOrder = 0;
 
-	InteractiveActor::m_Body = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
-	InteractiveActor::m_Body->SetSprite(_DustSpriteName);
-	InteractiveActor::m_Body->Transform.AddLocalPosition(float4(0.0f, 0.0f, -2.0f));
+	InteractiveActor::BodyRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
+	InteractiveActor::BodyRenderer->SetSprite(_DustSpriteName);
+	InteractiveActor::BodyRenderer->Transform.AddLocalPosition(float4(0.0f, 0.0f, -2.0f));
 }
 
 
@@ -142,7 +142,7 @@ void Dust::StartRemove(GameEngineState* _Parent)
 		UIManager::MainUIManager->UseUIComponent();
 	}
 
-	InteractiveActor::m_Body->Off();
+	InteractiveActor::BodyRenderer->Off();
 
 	std::shared_ptr<DustFx> Dust = GetLevel()->CreateActor<DustFx>(EUPDATEORDER::Objects);
 	Dust->Init(Transform.GetLocalPosition());

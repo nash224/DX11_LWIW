@@ -95,22 +95,22 @@ void FlowerBird::AnimationSetting()
 
 	static constexpr const int RenderOrder = 0;
 
-	m_Body = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
-	m_Body->CreateAnimation("Idle", "FlowerBird_Standing.png", 5.0f, 2, 2, false);
-	m_Body->CreateAnimation("Turn", "FlowerBird_IdleA.png", 0.03f, 3, 5, false);
-	m_Body->CreateAnimation("Pick", "FlowerBird_IdleC.png", 0.08f, 4, 5, false);
+	BodyRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
+	BodyRenderer->CreateAnimation("Idle", "FlowerBird_Standing.png", 5.0f, 2, 2, false);
+	BodyRenderer->CreateAnimation("Turn", "FlowerBird_IdleA.png", 0.03f, 3, 5, false);
+	BodyRenderer->CreateAnimation("Pick", "FlowerBird_IdleC.png", 0.08f, 4, 5, false);
 
-	m_Body->CreateAnimation("Bloom", "FlowerBird_Bloom.png", FlowerBirdBloomInter, 2, 10, false);
-	m_Body->FindAnimation("Bloom")->Inter[2] = FlowerBirdPeaksInter;
-	m_Body->FindAnimation("Bloom")->Inter[8] = FlowerBirdBlossomInter;
+	BodyRenderer->CreateAnimation("Bloom", "FlowerBird_Bloom.png", FlowerBirdBloomInter, 2, 10, false);
+	BodyRenderer->FindAnimation("Bloom")->Inter[2] = FlowerBirdPeaksInter;
+	BodyRenderer->FindAnimation("Bloom")->Inter[8] = FlowerBirdBlossomInter;
 
-	m_Body->CreateAnimation("BloomFake", "FlowerBird_BloomC.png", FlowerBirdBloomInter, 2, 10, false);
-	m_Body->FindAnimation("BloomFake")->Inter[2] = FlowerBirdPeaksInter;
+	BodyRenderer->CreateAnimation("BloomFake", "FlowerBird_BloomC.png", FlowerBirdBloomInter, 2, 10, false);
+	BodyRenderer->FindAnimation("BloomFake")->Inter[2] = FlowerBirdPeaksInter;
 
-	m_Body->CreateAnimation("Fly", "FlowerBird_Fly.png", 0.06f, 1, 4, true);
-	m_Body->CreateAnimation("Fly_Bloom", "FlowerBird_FlyB.png", 0.06f, 1, 4, true);
-	m_Body->Transform.AddLocalPosition({ 0.0f,30.0f });
-	m_Body->AutoSpriteSizeOn();
+	BodyRenderer->CreateAnimation("Fly", "FlowerBird_Fly.png", 0.06f, 1, 4, true);
+	BodyRenderer->CreateAnimation("Fly_Bloom", "FlowerBird_FlyB.png", 0.06f, 1, 4, true);
+	BodyRenderer->Transform.AddLocalPosition({ 0.0f,30.0f });
+	BodyRenderer->AutoSpriteSizeOn();
 
 	m_Shadow = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
 	m_Shadow->SetSprite("FlowerBird_Standing.png", 1);
@@ -118,35 +118,35 @@ void FlowerBird::AnimationSetting()
 
 
 
-	m_Body->SetStartEvent("Turn", [&](GameEngineSpriteRenderer* _Renderer)
+	BodyRenderer->SetStartEvent("Turn", [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			PlaySFX(RandomBirdCrySoundName());
 		});
 
-	m_Body->SetFrameEvent("Pick", 4, [&](GameEngineSpriteRenderer* _Renderer)
+	BodyRenderer->SetFrameEvent("Pick", 4, [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			m_Shadow->SetSprite("FlowerBird_IdleC.png", 2);
 		});
 
-	m_Body->SetFrameEvent("Bloom", 6, [&](GameEngineSpriteRenderer* _Renderer)
+	BodyRenderer->SetFrameEvent("Bloom", 6, [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			PlaySFX("SFX_FlowerBirdBloom_01.wav");
 		});
 
-	m_Body->SetEndEvent("Pick", [&](GameEngineSpriteRenderer* _Renderer)
+	BodyRenderer->SetEndEvent("Pick", [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			m_Shadow->SetSprite("FlowerBird_Standing.png", 1);
 		});
 
 
-	m_Body->SetStartEvent("Fly", [&](GameEngineSpriteRenderer* _Renderer)
+	BodyRenderer->SetStartEvent("Fly", [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			PlaySFX("SFX_BirdFly_01.wav");
 
 			m_Shadow->Off();
 		});
 
-	m_Body->SetStartEvent("Fly_Bloom", [&](GameEngineSpriteRenderer* _Renderer)
+	BodyRenderer->SetStartEvent("Fly_Bloom", [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			m_Shadow->Off();
 		});
@@ -239,7 +239,7 @@ void FlowerBird::ChangeState(EFLOWERBIRDSTATE _State)
 
 void FlowerBird::ChangeFlowerBirdAnimation(std::string_view _AnimationName)
 {
-	if (nullptr == m_Body)
+	if (nullptr == BodyRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
@@ -254,16 +254,16 @@ void FlowerBird::ChangeFlowerBirdAnimation(std::string_view _AnimationName)
 	if (EDIRECTION::LEFT == m_Dir)
 	{
 		m_Shadow->LeftFlip();
-		m_Body->LeftFlip();
+		BodyRenderer->LeftFlip();
 	}
 
 	if (EDIRECTION::RIGHT == m_Dir)
 	{
 		m_Shadow->RightFlip();
-		m_Body->RightFlip();
+		BodyRenderer->RightFlip();
 	}
 
-	m_Body->ChangeAnimation(_AnimationName);
+	BodyRenderer->ChangeAnimation(_AnimationName);
 }
 
 std::string FlowerBird::RandomBirdCrySoundName()

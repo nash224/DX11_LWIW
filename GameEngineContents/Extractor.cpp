@@ -161,9 +161,9 @@ void Extractor::StartBroken(GameEngineState* _Parent)
 {
 	InteractiveActor::SetInteractionType(EINTERACTION_TYPE::Far);
 
-	if (nullptr != InteractiveActor::m_InteractiveCol)
+	if (nullptr != InteractiveActor::InteractiveCol)
 	{
-		InteractiveActor::m_InteractiveCol->Off();
+		InteractiveActor::InteractiveCol->Off();
 	}
 
 	ChangeExtractorAnimation("Broken");
@@ -262,11 +262,11 @@ void Extractor::ActiveInteractiveCollision()
 	}
 
 	
-	if (nullptr == s_ExtractorPointer->InteractiveActor::m_InteractiveCol)
+	if (nullptr == s_ExtractorPointer->InteractiveActor::InteractiveCol)
 	{
 		MsgBoxAssert("충돌체가 생성되지 않았습니다.");
 		return;
 	}
 	
-	s_ExtractorPointer->InteractiveActor::m_InteractiveCol->On();
+	s_ExtractorPointer->InteractiveActor::InteractiveCol->On();
 }

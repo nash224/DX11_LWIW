@@ -30,8 +30,8 @@ void InteractiveActor::Update(float _Delta)
 
 void InteractiveActor::Release()
 {
-	m_Body = nullptr;
-	m_InteractiveCol = nullptr;
+	BodyRenderer = nullptr;
+	InteractiveCol = nullptr;
 }
 
 void InteractiveActor::LevelStart(class GameEngineLevel* _NextLevel)
@@ -51,14 +51,14 @@ void InteractiveActor::LevelEnd(class GameEngineLevel* _NextLevel)
 // 상호작용 감지 범위, 위치 설정
 void InteractiveActor::CreateAndSetCollision(ECOLLISION _Order, const float4& _Scale, const float4& _Position, ColType _Type)
 {
-	if (nullptr == m_InteractiveCol)
+	if (nullptr == InteractiveCol)
 	{
-		m_InteractiveCol = CreateComponent<GameEngineCollision>(_Order);
+		InteractiveCol = CreateComponent<GameEngineCollision>(_Order);
 	}
 
-	m_InteractiveCol->Transform.SetLocalScale(_Scale);
-	m_InteractiveCol->Transform.SetLocalPosition(_Position);
-	m_InteractiveCol->SetCollisionType(_Type);
+	InteractiveCol->Transform.SetLocalScale(_Scale);
+	InteractiveCol->Transform.SetLocalPosition(_Position);
+	InteractiveCol->SetCollisionType(_Type);
 }
 
 // 근접 상호작용 범위
@@ -71,11 +71,11 @@ void InteractiveActor::SetNearInteractivePositionAndRange(const float4& _Interac
 
 	m_InteractiveLocalPosition = _InteractivePosition;
 
-	m_InteractiveRange = _Range;
+	InteractiveRange = _Range;
 
 	if (_Range < 3.0f)
 	{
-		m_InteractiveRange = 3.0f;
+		InteractiveRange = 3.0f;
 	}
 }
 
@@ -125,7 +125,7 @@ ECOLLECTION_METHOD InteractiveActor::GetCollectionMethod() const
 
 EINTERACTION_PRESSTYPE InteractiveActor::GetInteractionPressType() const
 {
-	return m_PressType;
+	return PressType;
 }
 
 ETOOLTYPE InteractiveActor::GetCollectionToolType() const
@@ -147,7 +147,7 @@ void InteractiveActor::ApplyDepth(const float4& _Position)
 	}
 
 	float4 Position = _Position;
-	float ZSort = GlobalUtils::CalculateObjectDepth(BackYScale, Position.Y + m_DepthBias);
+	float ZSort = GlobalUtils::CalculateObjectDepth(BackYScale, Position.Y + PlusDepth);
 	Position.Z = ZSort;
 	
 	Transform.SetLocalPosition(Position);

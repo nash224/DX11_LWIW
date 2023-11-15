@@ -55,7 +55,7 @@ public:
 
 	float GetInteractiveRange() const
 	{
-		return m_InteractiveRange;
+		return InteractiveRange;
 	}
 
 
@@ -96,7 +96,7 @@ public:
 	void ApplyDepth(const float4& _Position);
 	void SetDepthBias(float _DepthBias)
 	{
-		m_DepthBias = _DepthBias;
+		PlusDepth = _DepthBias;
 	}
 
 protected:
@@ -107,19 +107,19 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 protected:
-	std::shared_ptr<GameEngineSpriteRenderer> m_Body = nullptr;
-	std::shared_ptr<GameEngineCollision> m_InteractiveCol = nullptr;
+	std::shared_ptr<GameEngineSpriteRenderer> BodyRenderer = nullptr;
+	std::shared_ptr<GameEngineCollision> InteractiveCol = nullptr;
 
 	EINTERACTION_BUTTONTYPE m_InteractionButtonType = EINTERACTION_BUTTONTYPE::None;				// UI 상호작용시 버튼 타입
 	EINTERACTION_TYPE m_InteractionType = EINTERACTION_TYPE::None;									// 상호작용시 접근 유무
 	ECOLLECTION_METHOD m_CollectionMethod = ECOLLECTION_METHOD::None;								// 수집 모션타입
 	ETOOLTYPE m_CollectionTool = ETOOLTYPE::None;													// 채집 도구 타입
-	EINTERACTION_PRESSTYPE m_PressType = EINTERACTION_PRESSTYPE::Down;
+	EINTERACTION_PRESSTYPE PressType = EINTERACTION_PRESSTYPE::Down;
 
 	float4 m_InteractiveLocalPosition = float4::ZERO;											
 
-	float m_InteractiveRange = 3.0f;
-	float m_DepthBias = 0.0f;				
+	float InteractiveRange = 3.0f;
+	float PlusDepth = 0.0f;				
 	
 	bool IsReach = false;
 	bool IsEnalbeActive = false;

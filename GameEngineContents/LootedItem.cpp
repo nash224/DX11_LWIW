@@ -69,7 +69,7 @@ void LootedItem::Init(std::string_view _ItemName)
 	CreateAndSetCollision(ECOLLISION::Entity, { 80.0f, 80.0f }, 0.0f, ColType::SPHERE2D);
 	CreateItemRenderer(_ItemName);
 	SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::Near, ECOLLECTION_METHOD::Sit, ETOOLTYPE::Nothing);
-	m_InteractiveRange = ItemInterativeRange;
+	InteractiveRange = ItemInterativeRange;
 }
 
 
@@ -78,8 +78,8 @@ void LootedItem::Init(std::string_view _ItemName)
 // 아이템 렌더러 생성
 void LootedItem::CreateItemRenderer(std::string_view _ItemName)
 {
-	m_Body = CreateComponent<GameEngineSpriteRenderer>();
-	if (nullptr == m_Body)
+	BodyRenderer = CreateComponent<GameEngineSpriteRenderer>();
+	if (nullptr == BodyRenderer)
 	{
 		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
 		return;
@@ -87,7 +87,7 @@ void LootedItem::CreateItemRenderer(std::string_view _ItemName)
 
 	std::string ItemName = _ItemName.data();
 	ItemName += ".png";
-	m_Body->SetSprite(ItemName);
+	BodyRenderer->SetSprite(ItemName);
 
 	m_ItemName = _ItemName;
 }

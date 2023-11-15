@@ -64,12 +64,12 @@ void PumpkinTerrier::RendererSetting()
 	}
 
 
-	m_Body = CreateComponent<GameEngineSpriteRenderer>();
-	m_Body->AutoSpriteSizeOn();
-	m_Body->Transform.SetLocalPosition({ 0.0f, RendererBias });
-	m_Body->CreateAnimation("Idle_Down", "PumpkinTerrier_Vine_IdleA.png", 0.12f, 2, 5, true);
-	m_Body->CreateAnimation("Idle_Up", "PumpkinTerrier_Vine_IdleA.png", 0.12f, 6, 9, true);
-	m_Body->ChangeAnimation("Idle_Down");
+	BodyRenderer = CreateComponent<GameEngineSpriteRenderer>();
+	BodyRenderer->AutoSpriteSizeOn();
+	BodyRenderer->Transform.SetLocalPosition({ 0.0f, RendererBias });
+	BodyRenderer->CreateAnimation("Idle_Down", "PumpkinTerrier_Vine_IdleA.png", 0.12f, 2, 5, true);
+	BodyRenderer->CreateAnimation("Idle_Up", "PumpkinTerrier_Vine_IdleA.png", 0.12f, 6, 9, true);
+	BodyRenderer->ChangeAnimation("Idle_Down");
 
 	m_Shadow = CreateComponent<GameEngineSpriteRenderer>();
 	m_Shadow->Transform.SetLocalPosition({ 0.0f, RendererBias });

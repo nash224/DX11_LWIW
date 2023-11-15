@@ -134,11 +134,11 @@ void Ellie::StartJuicy()
 
 	Stamina -= JuicyCost;
 
-	if (nullptr != m_Body && nullptr == m_Body->FindAnimation("Ellie_Basic_Juicy"))
+	if (nullptr != BodyRenderer && nullptr == BodyRenderer->FindAnimation("Ellie_Basic_Juicy"))
 	{
-		m_Body->CreateAnimation("Ellie_Basic_Juicy", "DownFloor_Extractor_0.png", 0.2f, 12, 19, false);
-		m_Body->FindAnimation("Ellie_Basic_Juicy")->Inter = { 0.14f, 0.14f, 0.12f, 0.18f, 0.19f, 0.2f, 0.21f, 0.2f };
-		m_Body->SetFrameEvent("Ellie_Basic_Juicy", 15, [&](GameEngineSpriteRenderer* _Renerer)
+		BodyRenderer->CreateAnimation("Ellie_Basic_Juicy", "DownFloor_Extractor_0.png", 0.2f, 12, 19, false);
+		BodyRenderer->FindAnimation("Ellie_Basic_Juicy")->Inter = { 0.14f, 0.14f, 0.12f, 0.18f, 0.19f, 0.2f, 0.21f, 0.2f };
+		BodyRenderer->SetFrameEvent("Ellie_Basic_Juicy", 15, [&](GameEngineSpriteRenderer* _Renerer)
 			{
 				Extractor* ExtractorPtr = static_cast<Extractor*>(OtherEntity);
 				if (nullptr == ExtractorPtr)
@@ -151,15 +151,15 @@ void Ellie::StartJuicy()
 				ExtractorPtr->PullThis();
 			});
 
-		m_Body->SetStartEvent("Ellie_Basic_Juicy", [&](GameEngineSpriteRenderer* _Renderer)
+		BodyRenderer->SetStartEvent("Ellie_Basic_Juicy", [&](GameEngineSpriteRenderer* _Renderer)
 			{
 				Shadow->SetSprite("DownFloor_Extractor_0.png", 10);
 			});
-		m_Body->SetFrameEvent("Ellie_Basic_Juicy", 14, [&](GameEngineSpriteRenderer* _Renderer)
+		BodyRenderer->SetFrameEvent("Ellie_Basic_Juicy", 14, [&](GameEngineSpriteRenderer* _Renderer)
 			{
 				Shadow->ChangeCurSprite(11);
 			});
-		m_Body->SetFrameEvent("Ellie_Basic_Juicy", 19, [&](GameEngineSpriteRenderer* _Renderer)
+		BodyRenderer->SetFrameEvent("Ellie_Basic_Juicy", 19, [&](GameEngineSpriteRenderer* _Renderer)
 			{
 				Shadow->ChangeCurSprite(10);
 			});
@@ -367,7 +367,7 @@ void Ellie::UpdateRun(float _Delta)
 
 void Ellie::UpdateThrow(float _Delta)
 {
-	if (true == m_Body->IsCurAnimationEnd())
+	if (true == BodyRenderer->IsCurAnimationEnd())
 	{
 		ChangeState(EELLIE_STATE::Idle);
 		return;
@@ -426,18 +426,18 @@ void Ellie::UpdateApproach(float _Delta)
 
 void Ellie::UpdateButterflyNet(float _Delta)
 {
-	if (nullptr == m_Body)
+	if (nullptr == BodyRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	if (m_Body->GetCurIndex() > 2)
+	if (BodyRenderer->GetCurIndex() > 2)
 	{
 		NetCollision();
 	}
 
-	if (true == m_Body->IsCurAnimationEnd())
+	if (true == BodyRenderer->IsCurAnimationEnd())
 	{
 		ChangeState(EELLIE_STATE::Idle);
 		return;
@@ -447,20 +447,20 @@ void Ellie::UpdateButterflyNet(float _Delta)
 
 void Ellie::UpdateRootUp(float _Delta)
 {
-	if (nullptr == m_Body)
+	if (nullptr == BodyRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	bool isRootStart = (false == isRootup && m_Body->GetCurIndex() >= 4);
+	bool isRootStart = (false == isRootup && BodyRenderer->GetCurIndex() >= 4);
 	if (isRootStart)
 	{
 		isRootup = true;
 		OtherEntity->IsReach = true;
 	}
 
-	if (true == m_Body->IsCurAnimationEnd())
+	if (true == BodyRenderer->IsCurAnimationEnd())
 	{
 		ChangeState(EELLIE_STATE::Idle);
 		return;
@@ -470,13 +470,13 @@ void Ellie::UpdateRootUp(float _Delta)
 
 void Ellie::UpdateSit(float _Delta)
 {
-	if (nullptr == m_Body)
+	if (nullptr == BodyRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	if (false == IsCollected && 4 == m_Body->GetCurIndex())
+	if (false == IsCollected && 4 == BodyRenderer->GetCurIndex())
 	{
 		if (nullptr == OtherEntity)
 		{
@@ -488,7 +488,7 @@ void Ellie::UpdateSit(float _Delta)
 		IsCollected = true;
 	}
 
-	if (true == m_Body->IsCurAnimationEnd())
+	if (true == BodyRenderer->IsCurAnimationEnd())
 	{
 		ChangeState(EELLIE_STATE::Idle);
 		return;
@@ -500,13 +500,13 @@ void Ellie::UpdateSit(float _Delta)
 
 void Ellie::UpdateMongSiri(float _Delta)
 {
-	if (nullptr == m_Body)
+	if (nullptr == BodyRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	if (false == IsCollected && m_Body->GetCurIndex() >= 3)
+	if (false == IsCollected && BodyRenderer->GetCurIndex() >= 3)
 	{
 		if (nullptr == OtherEntity)
 		{
@@ -518,7 +518,7 @@ void Ellie::UpdateMongSiri(float _Delta)
 		IsCollected = true;
 	}
 
-	if (true == m_Body->IsCurAnimationEnd())
+	if (true == BodyRenderer->IsCurAnimationEnd())
 	{
 		ChangeState(EELLIE_STATE::Idle);
 		return;
@@ -549,13 +549,13 @@ void Ellie::UpdateWait(float _Delta)
 
 void Ellie::UpdateJuicy(float _Delta)
 {
-	if (nullptr == m_Body)
+	if (nullptr == BodyRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	if (true == m_Body->IsCurAnimationEnd())
+	if (true == BodyRenderer->IsCurAnimationEnd())
 	{
 		ChangeState(EELLIE_STATE::Wait);
 		return;
@@ -565,7 +565,7 @@ void Ellie::UpdateJuicy(float _Delta)
 
 void Ellie::UpdateCheer(float _Delta)
 {
-	if (true == m_Body->IsCurAnimationEnd())
+	if (true == BodyRenderer->IsCurAnimationEnd())
 	{
 		ChangeState(EELLIE_STATE::Idle);
 		return;
@@ -575,7 +575,7 @@ void Ellie::UpdateCheer(float _Delta)
 
 void Ellie::UpdateFail(float _Delta)
 {
-	if (true == m_Body->IsCurAnimationEnd())
+	if (true == BodyRenderer->IsCurAnimationEnd())
 	{
 		ChangeState(EELLIE_STATE::Idle);
 		return;
@@ -584,7 +584,7 @@ void Ellie::UpdateFail(float _Delta)
 
 void Ellie::UpdateDrink(float _Delta)
 {
-	if (true == m_Body->IsCurAnimationEnd())
+	if (true == BodyRenderer->IsCurAnimationEnd())
 	{
 		ChangeState(EELLIE_STATE::Idle);
 		return;
@@ -656,7 +656,7 @@ void Ellie::EndJuicy()
 
 void Ellie::SitShadowUpdate()
 {
-	if (nullptr == m_Body)
+	if (nullptr == BodyRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
@@ -668,7 +668,7 @@ void Ellie::SitShadowUpdate()
 		return;
 	}
 
-	const int CurBodyIndex = m_Body->GetCurIndex();
+	const int CurBodyIndex = BodyRenderer->GetCurIndex();
 
 	switch (CurBodyIndex)
 	{

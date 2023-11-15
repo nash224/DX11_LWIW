@@ -31,7 +31,7 @@ void BranchTree::Start()
 
 	SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Nothing);
 	CreateAndSetCollision(ECOLLISION::Entity, { 84.0f , 32.0f }, float4::ZERO, ColType::SPHERE2D);
-	m_PressType = EINTERACTION_PRESSTYPE::Press;
+	PressType = EINTERACTION_PRESSTYPE::Press;
 }
 
 void BranchTree::Update(float _Delta)
@@ -47,7 +47,7 @@ void BranchTree::Release()
 {
 	StaticEntity::Release();
 
-	m_Body = nullptr;
+	BodyRenderer = nullptr;
 
 	BranchVector.clear();
 }
@@ -78,11 +78,11 @@ void BranchTree::CreateBranchTreehAnimation()
 	}
 
 
-	m_Body = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
-	m_Body->CreateAnimation("Idle", "Tree_Branch.png", 5.0f, 0, 0, false);
-	m_Body->CreateAnimation("Shake", "Tree_Branch.png", 0.1f, 2, 4, false);
-	m_Body->AutoSpriteSizeOn();
-	m_Body->Transform.AddLocalPosition({0.0f , TreeRenderCorrection , 0.0f});
+	BodyRenderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
+	BodyRenderer->CreateAnimation("Idle", "Tree_Branch.png", 5.0f, 0, 0, false);
+	BodyRenderer->CreateAnimation("Shake", "Tree_Branch.png", 0.1f, 2, 4, false);
+	BodyRenderer->AutoSpriteSizeOn();
+	BodyRenderer->Transform.AddLocalPosition({0.0f , TreeRenderCorrection , 0.0f});
 }
 
 void BranchTree::CreateBranchRenderer()
@@ -182,13 +182,13 @@ void BranchTree::ChangeState(EBRANCHTREESTATE _State)
 
 void BranchTree::ChangeBranchTreeAnimation(std::string_view _SpriteName)
 {
-	if (nullptr == m_Body)
+	if (nullptr == BodyRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	m_Body->ChangeAnimation(_SpriteName);
+	BodyRenderer->ChangeAnimation(_SpriteName);
 }
 
 
@@ -218,13 +218,13 @@ void BranchTree::StartShake()
 
 void BranchTree::UpdateShake(float _Delta)
 {
-	if (nullptr == m_Body)
+	if (nullptr == BodyRenderer)
 	{
 		MsgBoxAssert("렌더러가 하지 않습니다.");
 		return;
 	}
 
-	if (true == m_Body->IsCurAnimationEnd())
+	if (true == BodyRenderer->IsCurAnimationEnd())
 	{
 		ChangeState(EBRANCHTREESTATE::Idle);
 		return;
@@ -252,13 +252,13 @@ void BranchTree::UpdateBranch(float _Delta)
 
 			if (0 == BranchCount)
 			{
-				if (nullptr == m_InteractiveCol)
+				if (nullptr == InteractiveCol)
 				{
 					MsgBoxAssert("충돌체가 존재하지 않습니다.");
 					return;
 				}
 
-				m_InteractiveCol->Off();
+				InteractiveCol->Off();
 			}
 		}
 	}

@@ -47,26 +47,26 @@ void Bush::UpdateApple(float _Delta)
 
 void Bush::StartShake()
 {
-	if (nullptr == m_InteractiveCol)
+	if (nullptr == InteractiveCol)
 	{
 		MsgBoxAssert("존재하지않는 충돌체를 바꾸려고 했습니다.");
 		return;
 	}
 
-	m_InteractiveCol->Off();
+	InteractiveCol->Off();
 
 	ChangeBushAnimation("Shake");
 }
 
 void Bush::UpdateShake(float _Delta)
 {
-	if (nullptr == m_Body)
+	if (nullptr == BodyRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	if (true == m_Body->IsCurAnimationEnd())
+	if (true == BodyRenderer->IsCurAnimationEnd())
 	{
 		ChangeState(EBUSHSTATE::Normal);
 		return;
@@ -91,26 +91,26 @@ void Bush::UpdateRustle(float _Delta)
 
 void Bush::StartAppearBug()
 {
-	if (nullptr == m_InteractiveCol)
+	if (nullptr == InteractiveCol)
 	{
 		MsgBoxAssert("존재하지않는 충돌체를 바꾸려고 했습니다.");
 		return;
 	}
 
-	m_InteractiveCol->Off();
+	InteractiveCol->Off();
 
 	ChangeBushAnimation("AppearBug");
 }
 
 void Bush::UpdateAppearBug(float _Delta)
 {
-	if (nullptr == m_Body)
+	if (nullptr == BodyRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	if (true == m_Body->IsCurAnimationEnd())
+	if (true == BodyRenderer->IsCurAnimationEnd())
 	{
 		CreateBushBug();
 		ChangeState(EBUSHSTATE::Normal);
