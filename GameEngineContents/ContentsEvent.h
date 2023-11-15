@@ -167,6 +167,7 @@ public:
 	class Dian_Cracker : public QuestUnitBase
 	{
 	public:
+		void AcceptInternal() override;
 		bool QuestClearPrerequisite() override;
 		void CompleteInternal() override;
 	};

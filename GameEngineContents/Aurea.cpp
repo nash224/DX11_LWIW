@@ -264,6 +264,7 @@ void Aurea::ConversationSetting()
 			{
 				if (nullptr != UI_Inventory::MainInventory)
 				{
+					UI_Inventory::MainInventory->UnlockSlot();
 					UI_Inventory::MainInventory->PushItem("Item_Etc_10", 1);
 				}
 			});
@@ -274,6 +275,7 @@ void Aurea::ConversationSetting()
 				{
 					if (false == UI_Inventory::MainInventory->IsItem("Item_Etc_10"))
 					{
+						UI_Inventory::MainInventory->UnlockSlot();
 						UI_Inventory::MainInventory->PushItem("Item_Etc_10", 1);
 					}
 				}

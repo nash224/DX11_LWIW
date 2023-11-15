@@ -66,18 +66,36 @@ void ContentsEvent::Dian_BadWeedPotion::CompleteInternal()
 		PlayLevel::s_AlertManager->RegisterAlert(AlertData("물약 검증", EALERTTYPE::QuestClear));
 	}
 
-	isQuestCompleted = true;
+	UI_Inventory::MainInventory->UnlockSlot();
+	ContentsEvent::ToolData[static_cast<int>(ETOOLTYPE::Dragonfly)] = true;
 }
 
 
+void ContentsEvent::Dian_Cracker::AcceptInternal()
+{
+	if (nullptr != PlayLevel::s_AlertManager)
+	{
+		PlayLevel::s_AlertManager->RegisterAlert(AlertData("불꽃놀이 포션 레시피", EALERTTYPE::QuestAccept));
+	}
+}
+
 bool ContentsEvent::Dian_Cracker::QuestClearPrerequisite()
 {
+	if (nullptr != UI_Inventory::MainInventory)
+	{
+		if (true == UI_Inventory::MainInventory->IsItem("NutritionPotion"))
+		{
+			return true;
+		}
+	}
+
 	return false;
 }
 
 void ContentsEvent::Dian_Cracker::CompleteInternal()
 {
-	isQuestCompleted = true;
-	PlayLevel::s_AlertManager->RegisterAlert(AlertData("불꽃놀이 포션 카탈로그", EALERTTYPE::QuestClear));
-	PlayLevel::s_AlertManager->RegisterAlert(AlertData("불꽃놀이 포션 제조", EALERTTYPE::QuestAccept));
+	if (nullptr != PlayLevel::s_AlertManager)
+	{
+		PlayLevel::s_AlertManager->RegisterAlert(AlertData("불꽃놀이 포션 레시피", EALERTTYPE::QuestClear));
+	}
 }

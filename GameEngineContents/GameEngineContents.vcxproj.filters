@@ -238,6 +238,9 @@
     <Filter Include="3.Actor\2.Interactive\NPC\Dian">
       <UniqueIdentifier>{297352fb-70e1-4918-a36c-c82c5a4516a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3.Actor\2.Interactive\Static\Bed">
+      <UniqueIdentifier>{37f9160f-fb2d-4236-8f18-93c511ad0d53}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -639,6 +642,12 @@
     </ClInclude>
     <ClInclude Include="Dian.h">
       <Filter>3.Actor\2.Interactive\NPC\Dian</Filter>
+    </ClInclude>
+    <ClInclude Include="WitchHouseBed.h">
+      <Filter>3.Actor\2.Interactive\Static\Bed</Filter>
+    </ClInclude>
+    <ClInclude Include="BedUI.h">
+      <Filter>3.Actor\2.Interactive\Static\Bed</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1078,6 +1087,12 @@
     </ClCompile>
     <ClCompile Include="Dian_Event.cpp">
       <Filter>3.Actor\2.Interactive\NPC\Dian</Filter>
+    </ClCompile>
+    <ClCompile Include="WitchHouseBed.cpp">
+      <Filter>3.Actor\2.Interactive\Static\Bed</Filter>
+    </ClCompile>
+    <ClCompile Include="BedUI.cpp">
+      <Filter>3.Actor\2.Interactive\Static\Bed</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -228,6 +228,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="BedUI.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ContentsEvent_Aurea.cpp" />
     <ClCompile Include="ContentsEvent_Other.cpp" />
     <ClCompile Include="ContentsSpriteRenderer.cpp">
@@ -692,6 +696,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="WitchHouseBed.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="WitchHouse_DownFloor.cpp">
       <SubType>
       </SubType>
@@ -760,6 +768,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="BackDrop_WitchHouse_Yard.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BedUI.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -1209,6 +1221,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="WitchHouse.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="WitchHouseBed.h">
       <SubType>
       </SubType>
     </ClInclude>

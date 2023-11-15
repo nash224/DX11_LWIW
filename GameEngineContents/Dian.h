@@ -15,6 +15,7 @@ public:
 		DragonFly,
 		FireCracker,
 		FireCrackerAfter,
+		FireCrackerRecipe,
 		None,
 	};
 
@@ -52,6 +53,7 @@ protected:
 
 	bool CheckWitchCatalogueEvent();
 	bool CheckPotionVerificationEvent();
+	bool CheckDian_CrackerEvent();
 
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> DianRenderer = nullptr;

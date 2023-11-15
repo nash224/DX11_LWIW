@@ -34,7 +34,7 @@ void ContentsEvent::Init()
 {
 	ToolData.resize(static_cast<int>(ETOOLTYPE::Nothing));
 	ToolData[static_cast<int>(ETOOLTYPE::Gloves)] = true;
-	ToolData[static_cast<int>(ETOOLTYPE::Dragonfly)] = true;
+	ToolData[static_cast<int>(ETOOLTYPE::Dragonfly)] = false;
 	ToolData[static_cast<int>(ETOOLTYPE::FeaturePan)] = true;
 
 	HasWitchBroom = false;

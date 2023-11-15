@@ -105,7 +105,12 @@ void Dian::NormalUpdate(float _DeltaTime, GameEngineState* _Parent)
 			return;
 		}
 
-		NPCEntity::ConverseWithEllie(EDIANTOPICTYPE::FireCracker);
+		if (true == CheckDian_CrackerEvent())
+		{
+			return;
+		}
+
+		NPCEntity::ConverseWithEllie(EDIANTOPICTYPE::Natural);
 	}
 }
 
@@ -130,7 +135,6 @@ void Dian::ConversationSetting()
 	{
 		Topic WitchCatalogueTopic;
 		WitchCatalogueTopic.EntitySpriteName = WitchCatalogueTopic.Expression_Dian_Sprite_Name;
-		WitchCatalogueTopic.Default_Npc_Sprite_Index = 4;
 
 		WitchCatalogueTopic.Data.reserve(64);
 		WitchCatalogueTopic.Data =
@@ -168,6 +172,11 @@ void Dian::ConversationSetting()
 
 		NPCConversation.SetConversationEvent(EDIANTOPICTYPE::WitchCatalogue, 22, [&]()
 			{
+				if (nullptr != UI_Inventory::MainInventory)
+				{
+					UI_Inventory::MainInventory->UnlockSlot();
+				}
+
 				ContentsEvent::HasWitchBroom = true;
 			});
 		NPCConversation.SetConversationEvent(EDIANTOPICTYPE::WitchCatalogue, 23, [&]()
@@ -186,7 +195,16 @@ void Dian::ConversationSetting()
 
 		NPCConversation.SetConversationEndEvent(EDIANTOPICTYPE::WitchCatalogue, [&]()
 			{
-				ContentsEvent::HasWitchBroom = true;
+				if (false == ContentsEvent::HasWitchBroom)
+				{
+					if (nullptr != UI_Inventory::MainInventory)
+					{
+						UI_Inventory::MainInventory->UnlockSlot();
+					}
+
+					ContentsEvent::HasWitchBroom = true;
+				}
+				
 
 				if (nullptr != UIFrame)
 				{
@@ -209,7 +227,6 @@ void Dian::ConversationSetting()
 	{
 		Topic PotionVerificationTopic;
 		PotionVerificationTopic.EntitySpriteName = PotionVerificationTopic.Expression_Dian_Sprite_Name;
-		PotionVerificationTopic.Default_Npc_Sprite_Index = 4;
 
 		PotionVerificationTopic.Data.reserve(64);
 		PotionVerificationTopic.Data =
@@ -271,7 +288,6 @@ void Dian::ConversationSetting()
 	{
 		Topic DragonFlyTopic;
 		DragonFlyTopic.EntitySpriteName = DragonFlyTopic.Expression_Dian_Sprite_Name;
-		DragonFlyTopic.Default_Npc_Sprite_Index = 4;
 
 		DragonFlyTopic.Data.reserve(64);
 		DragonFlyTopic.Data =
@@ -287,29 +303,43 @@ void Dian::ConversationSetting()
 
 		NPCConversation.SetConversationEvent(EDIANTOPICTYPE::DragonFly, 2, [&]()
 			{
-				// 잠자리채
+				std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Dian_BadWeedPotion");
+				if (true == Quest.expired())
+				{
+					MsgBoxAssert("아직 생성하지 않은 퀘스트입니다.");
+					return;
+				}
+
+				Quest.lock()->QuestComplete();
 			});
 
 		NPCConversation.SetConversationEndEvent(EDIANTOPICTYPE::DragonFly, [&]()
 			{
+				std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Dian_BadWeedPotion");
+				if (true == Quest.expired())
+				{
+					MsgBoxAssert("아직 생성하지 않은 퀘스트입니다.");
+					return;
+				}
 
+				Quest.lock()->QuestComplete();
 			});
 	}
 
 	{
 		Topic FireCrackerTopic;
 		FireCrackerTopic.EntitySpriteName = FireCrackerTopic.Expression_Dian_Sprite_Name;
-		FireCrackerTopic.Default_Npc_Sprite_Index = 4;
 
 		FireCrackerTopic.Data.reserve(64);
 		FireCrackerTopic.Data =
 		{
+			{ L"다이엔, 카탈로그에 폭죽물약 조제법 있어요?" , ECONVERSATIONENTITY::Ellie, 1 },
 			{ L"폭죽 물약이라. 저도 꼭 만들어보고 싶었던 물약이죠.  " , ECONVERSATIONENTITY::NPC , 1},
 			{ L"다이엔도요?" , ECONVERSATIONENTITY::Ellie, 1 },
 			{ L"그럼요. 별총제의 하이라이트잖아요." , ECONVERSATIONENTITY::NPC, 1 },
 			{ L"그쵸. 저도 마지막 날 불꽃놀이가 제일 좋았어요." , ECONVERSATIONENTITY::Ellie , 5},
 			{ L"이번에 쓰고 싶은 곳이 있는데 조제법을 구할 수 있을까요?" , ECONVERSATIONENTITY::Ellie , 1},
-			{ L"흠...조제법을 카탈로그에 등록해드리는건 어렵지 않지만 " , ECONVERSATIONENTITY::NPC , 4},
+			{ L"흠...이번에도 물약 테스트를 도와주시면 되고 조제법을 카탈로그에 등록해드리는건 어렵지 않지만" , ECONVERSATIONENTITY::NPC , 4},
 			{ L"엘리도 알다시피 마녀 학교 재학 중에는 폭죽 물약 조제가 금지되어 있습니다." , ECONVERSATIONENTITY::NPC, 0},
 			{ L"수습 중인데도요?" , ECONVERSATIONENTITY::Ellie , 1},
 			{ L"정확히는 제약이 있습니다." , ECONVERSATIONENTITY::NPC, 0},
@@ -320,15 +350,37 @@ void Dian::ConversationSetting()
 			{ L"아, 아니요..." , ECONVERSATIONENTITY::Ellie , 1},
 			{ L"정 그러시면 다른 보증인의 이름을 적으셔도 괜찮습니다." , ECONVERSATIONENTITY::NPC, 1},
 			{ L"아리아..그리고 앨리. 1개. 수습 진행..." , ECONVERSATIONENTITY::Ellie , 1},
-			{ L"네 확인했습니다." , ECONVERSATIONENTITY::NPC, 1},
+			{ L"네, 확인했습니다." , ECONVERSATIONENTITY::NPC, 1},
+			{ L"그리고 테스트 포션으로 영양 공급 물약을 준비해주시면 됩니다." , ECONVERSATIONENTITY::NPC, 0},
 			{ L"다이엔이었습니다. 오늘도 이용해주셔서 감사합니다." , ECONVERSATIONENTITY::NPC, 1},
 		};
 
 		FireCrackerTopic.Data.shrink_to_fit();
 		NPCConversation.CreateTopic(EDIANTOPICTYPE::FireCracker, FireCrackerTopic);
 
+		NPCConversation.SetConversationEvent(EDIANTOPICTYPE::FireCracker, 19, [&]()
+			{
+				std::weak_ptr<ContentsEvent::QuestUnitBase> CrackerQuest = ContentsEvent::FindQuest("Dian_Cracker");
+				if (true == CrackerQuest.expired())
+				{
+					MsgBoxAssert("아직 생성하지 않은 퀘스트입니다.");
+					return;
+				}
+
+				CrackerQuest.lock()->QuestAccept();
+			});
+
 		NPCConversation.SetConversationEndEvent(EDIANTOPICTYPE::FireCracker, [&]()
 			{
+				std::weak_ptr<ContentsEvent::QuestUnitBase> CrackerQuest = ContentsEvent::FindQuest("Dian_Cracker");
+				if (true == CrackerQuest.expired())
+				{
+					MsgBoxAssert("아직 생성하지 않은 퀘스트입니다.");
+					return;
+				}
+
+				CrackerQuest.lock()->QuestAccept();
+
 				NPCConversation.StartConversation(EDIANTOPICTYPE::FireCrackerAfter);
 			});
 	}
@@ -341,17 +393,40 @@ void Dian::ConversationSetting()
 		{
 			{ L"휴...이럴 때마다 심장이 쿵쾅거려." , ECONVERSATIONENTITY::Ellie , 1},
 			{ L"일단 당장 생각나는 게 엄마 이름이라서 적었는데...괜찮겠지?." , ECONVERSATIONENTITY::Ellie, 5 },
-			{ L"우선 목적은 달성했으니 폭죽 물약을 만들러 가자고." , ECONVERSATIONENTITY::Ellie , 1},
+			{ L"우선 목적은 달성했으니 영양 공급 물약을 만들러 가자고." , ECONVERSATIONENTITY::Ellie , 1},
 			{ L"걱정된다. 정말." , ECONVERSATIONENTITY::Virgil , 1, {ConversationFont::Color_BLACK, GlobalValue::Font_JejuHanlasan}},
 		};
 
 		FireCrackerAfterTopic.Data.shrink_to_fit();
 		NPCConversation.CreateTopic(EDIANTOPICTYPE::FireCrackerAfter, FireCrackerAfterTopic);
+	}
+
+	{
+		Topic FireCrackerRecipeTopic;
+		FireCrackerRecipeTopic.EntitySpriteName = FireCrackerRecipeTopic.Expression_Dian_Sprite_Name;
+
+		FireCrackerRecipeTopic.Data.reserve(64);
+		FireCrackerRecipeTopic.Data =
+		{
+			{ L"안녕하세요, 영양 공급 물약을 가져왔어요." , ECONVERSATIONENTITY::Ellie , 1},
+			{ L"이번에도 테스트를 도와주셔서 고마워요, 엘리." , ECONVERSATIONENTITY::NPC , 1},
+			{ L"여기 보상으로 폭죽 레시피입니다." , ECONVERSATIONENTITY::NPC , 1},
+			{ L"오늘도 이용해주셔서 감사합니다." , ECONVERSATIONENTITY::NPC, 0},
+		};
+		FireCrackerRecipeTopic.Data.shrink_to_fit();
+		NPCConversation.CreateTopic(EDIANTOPICTYPE::FireCrackerRecipe, FireCrackerRecipeTopic);
 
 
-		NPCConversation.SetConversationEndEvent(EDIANTOPICTYPE::FireCrackerAfter, [&]()
+		NPCConversation.SetConversationEndEvent(EDIANTOPICTYPE::FireCrackerRecipe, [&]()
 			{
-				const std::shared_ptr<ContentsEvent::QuestUnitBase> CrackerQuest = ContentsEvent::FindQuest("Dian_Cracker");
+				std::weak_ptr<ContentsEvent::QuestUnitBase> CrackerQuest = ContentsEvent::FindQuest("Dian_Cracker");
+				if (true == CrackerQuest.expired())
+				{
+					MsgBoxAssert("존재하지 않는 퀘스트입니다.");
+					return;
+				}
+
+				CrackerQuest.lock()->QuestComplete();
 			});
 	}
 }
