@@ -12,10 +12,6 @@ BroomParticle::~BroomParticle()
 }
 
 
-void BroomParticle::Start()
-{
-}
-
 void BroomParticle::Update(float _Delta)
 {
 	if (GetLiveTime() > BroomFxLiveTime)
@@ -31,10 +27,6 @@ void BroomParticle::Release()
 	FxRenderer = nullptr;
 }
 
-void BroomParticle::LevelStart(class GameEngineLevel* _NextLevel)
-{
-}
-
 void BroomParticle::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	Death();
@@ -44,18 +36,33 @@ void BroomParticle::LevelEnd(class GameEngineLevel* _NextLevel)
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-void BroomParticle::Init()
+void BroomParticle::Init(const float4& _DirVector)
 {
 	ApplyDepth();
-	RendererSetting();
+	RendererSetting(_DirVector);
 }
 
-void BroomParticle::RendererSetting()
+void BroomParticle::RendererSetting(const float4& _DirVector)
 {
 	FxRenderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
 	FxRenderer->AnimationPauseOn();
 	FxRenderer->SetAutoScaleRatio(3.0f);
 	FxRenderer->SetSprite("Broom_Particle.png");
+	FxRenderer->SetPivotValue(_DirVector);
+	SetFlip(_DirVector.X);
+}
+
+void BroomParticle::SetPivot(const float4& _DirVector) 
+{
+
+}
+
+void BroomParticle::SetFlip(const float _VectorX)
+{
+	if (_VectorX > 0.0f)
+	{
+		FxRenderer->LeftFlip();
+	}
 }
 
 void BroomParticle::ParticleUpate(float _Delta)

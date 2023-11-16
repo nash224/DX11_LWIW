@@ -219,7 +219,9 @@ private:
 	void SitShadowUpdate();
 
 	void OnRideFx();
-	void GenerateBroomParticle(float _Delta);
+	void GenerateBroomDust(float _Delta);
+	void GenerateBoostBroomDust(float _Delta);
+	void CreateBroomParticle();
 	float4 GetBroomParticlePosition();
 
 	void ConsumeBroomFuel(float _Delta);

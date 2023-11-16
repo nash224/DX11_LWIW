@@ -130,7 +130,7 @@ void Ellie::UpdateRiding_Moving(float _Delta)
 	ApplyMovement(_Delta);
 
 	ConsumeBroomFuel(_Delta);
-	GenerateBroomParticle(_Delta);
+	GenerateBroomDust(_Delta);
 }
 
 
@@ -200,14 +200,23 @@ void Ellie::UpdateRiding_Boosting(float _Delta)
 	ApplyMovement(_Delta);
 
 	ConsumeBroomFuel(_Delta);
-	GenerateBroomParticle(_Delta);
+	GenerateBroomDust(_Delta);
 }
 
 #pragma endregion 
 
-void Ellie::GenerateBroomParticle(float _Delta)
+void Ellie::CreateBroomParticle()
 {
-	static constexpr float Particle_Cool_Time = 0.1f;
+	const float4& ParticlePosition = GetBroomParticlePosition();
+
+	const std::shared_ptr<BroomParticle>& Particle = GetLevel()->CreateActor<BroomParticle>(EUPDATEORDER::Objects);
+	Particle->Transform.SetLocalPosition(ParticlePosition);
+	Particle->Init(CalculateDirectionVectorToDir(m_Dir));
+}
+
+void Ellie::GenerateBroomDust(float _Delta)
+{
+	static constexpr float Particle_Cool_Time = 0.12f;
 
 	m_StateTime += _Delta;
 
@@ -216,12 +225,22 @@ void Ellie::GenerateBroomParticle(float _Delta)
 		m_StateTime -= Particle_Cool_Time;
 
 		// ReverseSpeedCheck
-	
-		const float4& ParticlePosition = GetBroomParticlePosition();
+		CreateBroomParticle();
+	}
+}
 
-		const std::shared_ptr<BroomParticle>& Particle = GetLevel()->CreateActor<BroomParticle>(EUPDATEORDER::Objects);
-		Particle->Transform.SetLocalPosition(ParticlePosition);
-		Particle->Init();
+void Ellie::GenerateBoostBroomDust(float _Delta)
+{
+	static constexpr float Particle_Cool_Time = 0.04f;
+
+	m_StateTime += _Delta;
+
+	if (m_StateTime > Particle_Cool_Time)
+	{
+		m_StateTime -= Particle_Cool_Time;
+
+		// ReverseSpeedCheck
+
 	}
 }
 

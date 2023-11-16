@@ -18,18 +18,19 @@ public:
 	BroomParticle& operator=(const BroomParticle& _Other) = delete;
 	BroomParticle& operator=(BroomParticle&& _Other) noexcept = delete;
 
-	void Init();
+	void Init(const float4& _DirVector);
 
 protected:
-	void Start() override;
+	void Start() override {}
 	void Update(float _Delta) override;
 	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
-
 	void ApplyDepth();
-	void RendererSetting();
+	void RendererSetting(const float4& _DirVector);
+	void SetPivot(const float4& _DirVector);
+	void SetFlip(const float _VectorX);
 	void ParticleUpate(float _Delta);
 
 private:
