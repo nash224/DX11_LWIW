@@ -187,7 +187,7 @@ void MongSiri_Population::EscapeHoleToOtherMonsiri()
 
 	for (;StarIter != EndIter; ++StarIter)
 	{
-		(*StarIter)->m_Status = EMONGSIRISTATUS::Escape;
+		(*StarIter)->Status = EMONGSIRISTATUS::Escape;
 	}
 }
 

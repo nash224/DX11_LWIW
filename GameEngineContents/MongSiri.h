@@ -1,9 +1,6 @@
 #pragma once
 #include "DynamicEntity.h"
 
-constexpr float MongSiri_JumpMinSpeed = 0.0f;
-constexpr float MongSiri_JumpMaxSpeed = 60.0f;
-
 
 enum class EMONGSIRISTATUS
 {
@@ -91,16 +88,20 @@ private:
 	void UpdateDisappear(float _Delta);
 
 private:
-	std::shared_ptr<GameEngineSpriteRenderer> m_Shadow = nullptr;
+	std::shared_ptr<GameEngineSpriteRenderer> ShadowRenderer = nullptr;
 
 	EMONGSIRISTATE m_State = EMONGSIRISTATE::None;
-	EMONGSIRISTATUS m_Status = EMONGSIRISTATUS::None;
+	EMONGSIRISTATUS Status = EMONGSIRISTATUS::None;
 
-	float4 m_TargetForce = float4::ZERO;
+	float4 TargetForce = float4::ZERO;
 
+	int IdleCount = 0;
 	bool IsOnTheHole = false;
-	int m_IdleCount = 0;
-	const float MongSiri_FOVSize = 90.0f;
+	static constexpr float MongSiri_FOVSize = 90.0f;
+
+
+	static constexpr float MongSiri_JumpMinSpeed = 0.0f;
+	static constexpr float MongSiri_JumpMaxSpeed = 60.0f;
 
 };
 
