@@ -29,8 +29,6 @@ MongSiri::~MongSiri()
 
 void MongSiri::Start()
 {
-	DynamicEntity::Start();
-
 	InteractiveActor::CreateAndSetCollision(ECOLLISION::Entity, { 200, 200 }, float4::ZERO, ColType::SPHERE2D);
 	InteractiveActor::SetNearInteractivePositionAndRange(float4::ZERO, 1.0f);
 
@@ -56,16 +54,6 @@ void MongSiri::Release()
 	ShadowRenderer = nullptr;
 }
 
-void MongSiri::LevelStart(class GameEngineLevel* _NextLevel)
-{
-
-}
-
-void MongSiri::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-
-}
-
 
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
@@ -73,12 +61,14 @@ void MongSiri::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void MongSiri::Init()
 {
-	CreateAndSetRenderer();
+	ApplyDepth(Transform.GetLocalPosition());
+	RendererSetting();
+	LookStateSetting();
 	InitDirection();
 	ChangeState(EMONGSIRISTATE::Idle);
 }
 
-void MongSiri::CreateAndSetRenderer()
+void MongSiri::RendererSetting()
 {
 	if (nullptr == GameEngineSprite::Find("Mongsiri_Collected.png"))
 	{
@@ -90,6 +80,7 @@ void MongSiri::CreateAndSetRenderer()
 		GameEngineSprite::CreateCut("Mongsiri_Idle.png", 3, 3);
 		GameEngineSprite::CreateCut("Mongsiri_IdleA.png", 3, 3);
 		GameEngineSprite::CreateCut("Mongsiri_IdleB.png", 4, 3);
+		GameEngineSprite::CreateCut("Mongsiri_IdleD.png", 3, 3);
 		GameEngineSprite::CreateCut("Mongsiri_Jump.png", 5, 5);
 	}
 
@@ -105,8 +96,10 @@ void MongSiri::CreateAndSetRenderer()
 	InteractiveActor::BodyRenderer->CreateAnimation("Idle_Back", "Mongsiri_IdleB.png", 0.2f, 8, 11);
 	InteractiveActor::BodyRenderer->CreateAnimation("Jump", "Mongsiri_Jump.png", 0.1f, 5, 14);
 	InteractiveActor::BodyRenderer->CreateAnimation("Jump_Back", "Mongsiri_Jump.png", 0.1f, 15, 24);
-	InteractiveActor::BodyRenderer->CreateAnimation("Look", "Mongsiri_Idle.png", 0.05f, 4, 5);
-	InteractiveActor::BodyRenderer->CreateAnimation("Look_Back", "Mongsiri_Idle.png", 0.2f, 6, 7);
+	InteractiveActor::BodyRenderer->CreateAnimation("Look", "Mongsiri_IdleD.png", 0.06f, 1, 4);
+	InteractiveActor::BodyRenderer->FindAnimation("Look")->Inter[3] = 2.0f;
+	InteractiveActor::BodyRenderer->CreateAnimation("Look_Back", "Mongsiri_IdleD.png", 0.06f, 5, 8);
+	InteractiveActor::BodyRenderer->FindAnimation("Look_Back")->Inter[3] = 2.0f;
 	InteractiveActor::BodyRenderer->CreateAnimation("Collected", "Mongsiri_Collected.png", 0.2f, 3, 8, false);
 	InteractiveActor::BodyRenderer->FindAnimation("Collected")->Inter = { 0.1f, 0.1f, 0.1f, 0.2f, 0.3f, 0.4f };
 	InteractiveActor::BodyRenderer->CreateAnimation("CollectedA", "Mongsiri_CollectedA.png", 0.06f, -1, -1, false);
@@ -317,6 +310,23 @@ void MongSiri::InitDirection()
 	}
 }
 
+void MongSiri::LookStateSetting()
+{
+	CreateStateParameter RecognizeState;
+	RecognizeState.Start = std::bind(&MongSiri::StartRecognize, this, std::placeholders::_1);
+	RecognizeState.Stay = std::bind(&MongSiri::UpdateRecognize, this, std::placeholders::_1, std::placeholders::_2);
+	LookState.CreateState(ELOOKSTATE::Recognize, RecognizeState);
+
+	CreateStateParameter NotRecognizeState;
+	NotRecognizeState.Start = std::bind(&MongSiri::StartNotRecognize, this, std::placeholders::_1);
+	NotRecognizeState.Stay = std::bind(&MongSiri::UpdateNotRecognize, this, std::placeholders::_1, std::placeholders::_2);
+	NotRecognizeState.End = std::bind(&MongSiri::EndNotRecognize, this, std::placeholders::_1);
+	LookState.CreateState(ELOOKSTATE::NotRecognize, NotRecognizeState);
+
+	CreateStateParameter NoneState;
+	LookState.CreateState(ELOOKSTATE::None, NoneState);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////
 
 void MongSiri::UpdateState(float _Delta)
@@ -384,7 +394,7 @@ void MongSiri::ChangeAnimation(std::string_view _StateName)
 	InteractiveActor::BodyRenderer->ChangeAnimation(_StateName);
 }
 
-void MongSiri::ChangeAnimationByDircetion(std::string_view _StateName)
+void MongSiri::ChangeAnimationByDircetion(std::string_view _StateName, unsigned int _Index /*= 0*/)
 {
 	if (nullptr == InteractiveActor::BodyRenderer)
 	{
@@ -427,7 +437,9 @@ void MongSiri::ChangeAnimationByDircetion(std::string_view _StateName)
 		break;
 	}
 
-	InteractiveActor::BodyRenderer->ChangeAnimation(AnimationName);
+	RenderDir = m_Dir;
+
+	InteractiveActor::BodyRenderer->ChangeAnimation(AnimationName, false, _Index);
 }
 
 
@@ -435,8 +447,8 @@ bool MongSiri::IsPlayerAround()
 {
 	if (nullptr != Ellie::MainEllie)
 	{
-		float4 PlayerPosition = Ellie::MainEllie->Transform.GetLocalPosition();
-		float PositionSize = (Transform.GetLocalPosition() - PlayerPosition).Size();
+		const float4& PlayerPosition = Ellie::MainEllie->Transform.GetLocalPosition();
+		const float PositionSize = (Transform.GetLocalPosition() - PlayerPosition).Size();
 		if (PositionSize < MongSiri_FOVSize)
 		{
 			return true;

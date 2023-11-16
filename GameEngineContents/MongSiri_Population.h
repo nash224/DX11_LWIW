@@ -44,15 +44,15 @@ private:
 
 private:
 	std::list<std::shared_ptr<class MongSiri>> MongSiriEntityList;
-	std::shared_ptr<class ChubHole> m_ChubHole = nullptr;
+	std::shared_ptr<class ChubHole> Hole = nullptr;
 
-	float4 m_MiddlePoint = float4::ZERO;
+	float4 MiddlePoint = float4::ZERO;
 	float4 m_HoleScale = float4::ZERO;
 	float4 m_PopulationLocation = float4::ZERO;
 
-	const float MonSiriSpawnRangeSize = 80.0f;			// 몽시리 설치범위
-	const float m_PopulationMinCircle = 60.0f;
-	const float m_PopulationMaxRange = 120.0f;
+	static constexpr float MonSiriSpawnRangeSize = 80.0f;			// 몽시리 설치범위
+	static constexpr float PopulationMinCircle = 60.0f;
+	static constexpr float PopulationMaxRange = 120.0f;
 
 };
 

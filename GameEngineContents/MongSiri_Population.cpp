@@ -31,7 +31,7 @@ void MongSiri_Population::Release()
 {
 
 	MongSiriEntityList.clear();
-	m_ChubHole = nullptr;
+	Hole = nullptr;
 }
 
 void MongSiri_Population::LevelStart(class GameEngineLevel* _NextLevel)
@@ -64,9 +64,9 @@ void MongSiri_Population::SetUpChubHole(GameEngineLevel* _CurLevel)
 	float4 CurrentPosition = Transform.GetLocalPosition();
 	CurrentPosition.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Hole);
 
-	m_ChubHole = _CurLevel->CreateActor<ChubHole>(EUPDATEORDER::Objects);
-	m_ChubHole->Transform.SetLocalPosition(CurrentPosition);
-	m_ChubHole->Init();
+	Hole = _CurLevel->CreateActor<ChubHole>(EUPDATEORDER::Objects);
+	Hole->Transform.SetLocalPosition(CurrentPosition);
+	Hole->Init();
 }
 
 // 구멍의 크기를 얻어옵니다.
@@ -103,7 +103,7 @@ void MongSiri_Population::CheckInstallationHoleSpace()
 
 	for (size_t i = 0; i < 4; i++)
 	{
-		float4 CheckPoint = float4::ZERO;
+		float4 CheckPoint;
 		switch (i)
 		{
 		case 0:
@@ -177,7 +177,7 @@ void MongSiri_Population::UpdateEntityMiddlePoint()
 	}
 
 	MiddlePoint /= static_cast<float>(MongSiriEntityList.size());
-	m_MiddlePoint = MiddlePoint;
+	MiddlePoint = MiddlePoint;
 }
 
 void MongSiri_Population::EscapeHoleToOtherMonsiri()
@@ -199,6 +199,6 @@ void MongSiri_Population::ActorRelaese()
 		Object.lock()->Death();
 	}
 
-	m_ChubHole->Death();
+	Hole->Death();
 	Death();
 }

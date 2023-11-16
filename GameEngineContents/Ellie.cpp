@@ -343,7 +343,6 @@ void Ellie::ChangeState(EELLIE_STATE _State)
 }
 
 
-// 호출하면 방향에 따라 애니메이션 출력을 다르게 바꿔줍니다.
 void Ellie::ChangeAnimationByDirection(std::string_view _StateName, bool _DirectionInfluence /*= true*/, bool _Force /*= false*/, unsigned int _Index /*= 0*/)
 {
 	std::string AnimaitonName = "Ellie_Basic_";

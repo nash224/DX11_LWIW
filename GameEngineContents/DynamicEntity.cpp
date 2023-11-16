@@ -41,13 +41,61 @@ EDIRECTION DynamicEntity::GetDirectionFromVector(const float4& _MoveVector)
 	UnitVetor.Z = 0.0f;
 	UnitVetor = UnitVetor.NormalizeReturn();
 	float Degree = UnitVetor.Angle2DDeg();
+
+	return GetDirectionToDegree(Degree);
+}
+
+// 대각선 방향 반환
+EDIRECTION DynamicEntity::GetDiagonalDirectionFromVector(const float4& _MoveVector)
+{
+	float4 UnitVetor = _MoveVector;
+	UnitVetor.Z = 0.0f;
+	UnitVetor = UnitVetor.NormalizeReturn();
+	float Degree = UnitVetor.Angle2DDeg();
 	if (UnitVetor.Y < 0)
 	{
 		Degree = 180.0f - Degree;
 		Degree += 180.0f;
 	}
+	
+	if (Degree >= 0.0f && Degree < 90.0f)
+	{
+		return EDIRECTION::RIGHTUP;
+	}
+	else if (Degree >= 90.0f && Degree < 180.0f)
+	{
+		return EDIRECTION::LEFTUP;
+	}
+	else if (Degree >= 180.0f && Degree < 270.0f)
+	{
+		return EDIRECTION::LEFTDOWN;
+	}
+	else 
+	{
+		return EDIRECTION::RIGHTDOWN;
+	}
 
-	float Cake16OnePieceDegree = 360.0f / 16.0f;
+	MsgBoxAssert("잘못된 반환입니다.");
+	return m_Dir;
+}
+
+EDIRECTION DynamicEntity::GetDirectionToDegree(const float _Degree)
+{
+	float Degree = _Degree;
+
+	while (Degree < 0.0f || Degree >= 360.0f)
+	{
+		if (Degree < 0.0f)
+		{
+			Degree += 360.0f;
+		}
+		else if (Degree >= 360.0f)
+		{
+			Degree -= 360.0f;
+		}
+	}
+
+	const float Cake16OnePieceDegree = 360.0f / 16.0f;
 
 	if (Degree <= Cake16OnePieceDegree || Degree >= Cake16OnePieceDegree * 15.0f)
 	{
@@ -92,42 +140,6 @@ EDIRECTION DynamicEntity::GetDirectionFromVector(const float4& _MoveVector)
 	MsgBoxAssert("잘못된 반환입니다.");
 	return m_Dir;
 }
-
-// 대각선 방향 반환
-EDIRECTION DynamicEntity::GetDiagonalDirectionFromVector(const float4& _MoveVector)
-{
-	float4 UnitVetor = _MoveVector;
-	UnitVetor.Z = 0.0f;
-	UnitVetor = UnitVetor.NormalizeReturn();
-	float Degree = UnitVetor.Angle2DDeg();
-	if (UnitVetor.Y < 0)
-	{
-		Degree = 180.0f - Degree;
-		Degree += 180.0f;
-	}
-	
-	if (Degree >= 0.0f && Degree < 90.0f)
-	{
-		return EDIRECTION::RIGHTUP;
-	}
-	else if (Degree >= 90.0f && Degree < 180.0f)
-	{
-		return EDIRECTION::LEFTUP;
-	}
-	else if (Degree >= 180.0f && Degree < 270.0f)
-	{
-		return EDIRECTION::LEFTDOWN;
-	}
-	else 
-	{
-		return EDIRECTION::RIGHTDOWN;
-	}
-
-	MsgBoxAssert("잘못된 반환입니다.");
-	return m_Dir;
-}
-
-
 
 
 // 위치 적용 (깊이 적용)

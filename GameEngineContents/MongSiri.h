@@ -9,19 +9,7 @@ enum class EMONGSIRISTATUS
 	Look,
 	None,
 };
-// 몽시리 상태 : 
 
-
-enum class EMONGSIRISTATE
-{
-	Idle,
-	Jump,
-	Look,
-	Caught,
-	Collected,
-	Disappear,
-	None,
-};
 
 // 설명 :
 class MongSiri : public DynamicEntity
@@ -31,6 +19,25 @@ class MongSiri : public DynamicEntity
 
 private:
 	class MongSiri_Population* MongSiriParant = nullptr;
+
+private:
+	enum class EMONGSIRISTATE
+	{
+		Idle,
+		Jump,
+		Look,
+		Caught,
+		Collected,
+		Disappear,
+		None,
+	};
+
+	enum class ELOOKSTATE
+	{
+		Recognize,
+		NotRecognize,
+		None,
+	};
 
 public:
 	// constrcuter destructer
@@ -44,19 +51,22 @@ public:
 	MongSiri& operator=(MongSiri&& _Other) noexcept = delete;
 
 	void Init();
-	void CreateAndSetRenderer();
-	void InitDirection();
 
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
-	void LevelEnd(class GameEngineLevel* _NextLevel) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
+	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
+
+	void RendererSetting();
+	void LookStateSetting();
+	void InitDirection();
 
 private:
 	void ChangeAnimation(std::string_view _StateName);
-	void ChangeAnimationByDircetion(std::string_view _StateName);
+	void ChangeAnimationByDircetion(std::string_view _StateName, unsigned int _Index = 0);
+	void AutoChangeDirAnimation(std::string_view _StateName);
 
 	bool IsPlayerAround();
 
@@ -75,6 +85,13 @@ private:
 	void StartLook();
 	void UpdateLook(float _Delta);
 
+	void StartRecognize(GameEngineState* _Parent);
+	void UpdateRecognize(float _Delta, GameEngineState* _Parent);
+
+	void StartNotRecognize(GameEngineState* _Parent);
+	void UpdateNotRecognize(float _Delta, GameEngineState* _Parent);
+	void EndNotRecognize(GameEngineState* _Parent);
+
 	void GetCaught() override;
 	void StartCaught();
 	void UpdateCaught(float _Delta);
@@ -87,11 +104,17 @@ private:
 	void StartDisappear();
 	void UpdateDisappear(float _Delta);
 
+	
+
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> ShadowRenderer = nullptr;
 
+	GameEngineState LookState;
+
 	EMONGSIRISTATE m_State = EMONGSIRISTATE::None;
 	EMONGSIRISTATUS Status = EMONGSIRISTATUS::None;
+
+	EDIRECTION RenderDir = EDIRECTION::CENTER;
 
 	float4 TargetForce = float4::ZERO;
 
