@@ -40,6 +40,7 @@ Ellie::Ellie()
 		}
 	}
 
+
 	CheckDayChange();
 }
 

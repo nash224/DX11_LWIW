@@ -130,6 +130,7 @@ void Ellie::UpdateRiding_Moving(float _Delta)
 	ApplyMovement(_Delta);
 
 	ConsumeBroomFuel(_Delta);
+	GenerateBroomParticle(_Delta);
 }
 
 
@@ -199,25 +200,42 @@ void Ellie::UpdateRiding_Boosting(float _Delta)
 	ApplyMovement(_Delta);
 
 	ConsumeBroomFuel(_Delta);
+	GenerateBroomParticle(_Delta);
 }
 
 #pragma endregion 
 
-void Ellie::GenerateBroomParticle()
+void Ellie::GenerateBroomParticle(float _Delta)
 {
-	const float4& ParticlePosition = GetBroomParticlePosition();
+	static constexpr float Particle_Cool_Time = 0.1f;
 
-	const std::shared_ptr<BroomParticle>& Particle = GetLevel()->CreateActor<BroomParticle>(EUPDATEORDER::Objects);
-	Particle->Transform.SetLocalPosition(ParticlePosition);
-	/*Particle->SetPivot();*/
-	Particle->Init();
+	m_StateTime += _Delta;
+
+	if (m_StateTime > Particle_Cool_Time)
+	{
+		m_StateTime -= Particle_Cool_Time;
+
+		// ReverseSpeedCheck
+	
+		const float4& ParticlePosition = GetBroomParticlePosition();
+
+		const std::shared_ptr<BroomParticle>& Particle = GetLevel()->CreateActor<BroomParticle>(EUPDATEORDER::Objects);
+		Particle->Transform.SetLocalPosition(ParticlePosition);
+		Particle->Init();
+	}
 }
 
 float4 Ellie::GetBroomParticlePosition()
 {
-	static constexpr const float ParticleDistance = 30.0f;
+	static constexpr float YCorrection = 24.0f;
+
+	const float4& CenterPoint = float4(0.0f, YCorrection) + Transform.GetLocalPosition();
+
+	static constexpr const float ParticleDistance = 50.0f;
 	float4 DirVector = CalculateDirectionVectorToDir(m_Dir);
-	const float4& ReturnValue = float4(0.0f, 15.0f) - DirVector * ParticleDistance;
+	DirVector.X = -DirVector.X;
+	DirVector.Y = -DirVector.Y;
+	const float4& ReturnValue = CenterPoint + DirVector * ParticleDistance;
 	return ReturnValue;
 }
 

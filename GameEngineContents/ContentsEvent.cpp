@@ -37,7 +37,7 @@ void ContentsEvent::Init()
 	ToolData[static_cast<int>(ETOOLTYPE::Dragonfly)] = false;
 	ToolData[static_cast<int>(ETOOLTYPE::FeaturePan)] = true;
 
-	HasWitchBroom = false;
+	HasWitchBroom = true;
 
 	CreateQuest<ContentsEvent::Letter_Read>("Letter_Read");
 	CreateQuest<ContentsEvent::House_Dust>("House_Dust");

@@ -21,6 +21,8 @@ void ContentsCore::InitResources()
 	GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\NPC");					// NPC 
 	GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\Fx");					// Fx
 
+	GameEngineSprite::CreateSingle("Broom_Particle.png");
+
 	{
 		//UI
 		GameEngineDirectory Dir;

@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "BroomParticle.h"
 
+#include "BackDrop_PlayLevel.h"
+
 BroomParticle::BroomParticle() 
 {
 }
@@ -20,11 +22,13 @@ void BroomParticle::Update(float _Delta)
 	{
 		Death();
 	}
+
+	ParticleUpate(_Delta);
 }
 
 void BroomParticle::Release()
 { 
-	m_FxRenderer = nullptr;
+	FxRenderer = nullptr;
 }
 
 void BroomParticle::LevelStart(class GameEngineLevel* _NextLevel)
@@ -42,18 +46,31 @@ void BroomParticle::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void BroomParticle::Init()
 {
-	// 깊이적용
+	ApplyDepth();
 	RendererSetting();
 }
 
 void BroomParticle::RendererSetting()
 {
-	m_FxRenderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
-	if (nullptr == m_FxRenderer)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
+	FxRenderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
+	FxRenderer->AnimationPauseOn();
+	FxRenderer->SetAutoScaleRatio(3.0f);
+	FxRenderer->SetSprite("Broom_Particle.png");
+}
 
-	m_FxRenderer->SetSprite("Broomstick_Contact_Particle.png");
+void BroomParticle::ParticleUpate(float _Delta)
+{
+	const float LiveTimeRatio = 1.0f - GetLiveTime() / BroomFxLiveTime;
+
+	Transform.SetLocalScale(float4(LiveTimeRatio, LiveTimeRatio, 1.0f));
+}
+
+void BroomParticle::ApplyDepth()
+{
+	const float4& MyPos = Transform.GetLocalPosition();
+	if (nullptr != BackDrop_PlayLevel::MainBackDrop)
+	{
+		const float4& BackScale = BackDrop_PlayLevel::MainBackDrop->GetBackGroundScale();
+		GlobalUtils::CalculateObjectDepth(BackScale.Y, MyPos.Y + 7.0f);
+	}
 }

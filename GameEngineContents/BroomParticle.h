@@ -18,9 +18,7 @@ public:
 	BroomParticle& operator=(const BroomParticle& _Other) = delete;
 	BroomParticle& operator=(BroomParticle&& _Other) noexcept = delete;
 
-
 	void Init();
-	void RendererSetting();
 
 protected:
 	void Start() override;
@@ -29,8 +27,15 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
+
+	void ApplyDepth();
+	void RendererSetting();
+	void ParticleUpate(float _Delta);
+
 private:
-	std::shared_ptr<GameEngineSpriteRenderer> m_FxRenderer = nullptr;
+	std::shared_ptr<GameEngineSpriteRenderer> FxRenderer = nullptr;
+
+	
 
 };
 

@@ -258,7 +258,7 @@ void MongSiri::UpdateRecognize(float _Delta, GameEngineState* _Parent)
 				return;
 			}
 
-			static constexpr float MIN_Inter = 0.8f;
+			static constexpr float MIN_Inter = 0.2f;
 			static constexpr float MAX_Inter = 2.4f;
 
 			GameEngineRandom RandomClass;
