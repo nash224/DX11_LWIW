@@ -57,7 +57,7 @@ void InteractiveLetter::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void InteractiveLetter::Init()
 {
-	ApplyDepth(Transform.GetLocalPosition());
+	ApplyDepth();
 	RendererSetting();
 	ConversationSetting();
 	StateSetting();

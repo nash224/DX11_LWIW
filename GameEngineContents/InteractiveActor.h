@@ -93,7 +93,7 @@ public:
 	}
 
 
-	void ApplyDepth(const float4& _Position);
+	void ApplyDepth();
 	void SetDepthBias(float _DepthBias)
 	{
 		PlusDepth = _DepthBias;

@@ -68,7 +68,7 @@ void Bush::SetBushType(EBUSHTYPE _Type)
 void Bush::Init()
 {
 	SetDepthBias(-20.0f);
-	ApplyDepth(Transform.GetLocalPosition());
+	ApplyDepth();
 	CreateBushAnimation();
 	InteractiveOptionSetting();
 	BushStateSetting();

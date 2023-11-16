@@ -53,7 +53,7 @@ void Dian::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void Dian::Init()
 {
-	ApplyDepth(Transform.GetLocalPosition());
+	ApplyDepth();
 	RendererSetting();
 }
 

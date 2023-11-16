@@ -48,7 +48,7 @@ void Roaster::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void Roaster::Init()
 {
-	ApplyDepth(Transform.GetLocalPosition());
+	ApplyDepth();
 
 	RendererSetting();
 }

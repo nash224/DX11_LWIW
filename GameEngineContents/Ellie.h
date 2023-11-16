@@ -233,14 +233,17 @@ private:
 	bool DetectHorizontalMovement();
 
 	// 방향 계산 함수
-	float4 CalculateDirectionVectorToDir(const EDIRECTION _Direction);
+	float4 GetDirectionVectorToDir(const EDIRECTION _Direction);
+	
 
 	void CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce);
 	EDIRECTION ReturnDirectionCheckBothSide(EDIRECTION _Direction, const float4& _LeftCheckPoint, const float4& _RightCheckPoint);
 	EDIRECTION ReturnPixelCollisionMoveDirectionToCurrentCheckPoint(EDIRECTION _Dir, const float4& _MoveVector);
 
-
-	float4 ReturnPostMoveVector(float _Delta, float _MAXMoveForce, float _Acceleration_Time);
+	void DecelerateNotDir(float _Delta, const float _MaxMoveForce);
+	float4 GetMoveForceByDir(float _Delta, float _MAXMoveForce, float _Acceleration_Time);
+	void LimitMoveVector(float _MAXMoveForce);
+	void WallCollision();
 
 	bool IsOverSpeed(float _CurSpeed, const float _MaxMoveForce);
 	void DecelerateMoveVector(float _Delta, const float _MaxMoveForce, const float _DecelerationTime);

@@ -31,6 +31,7 @@ protected:
 	EDIRECTION GetDirectionToDegree(const float _Degree);
 
 	void ApplyMovement(float _Delta);
+	void ApplyOnlyMovement(float _Delta);
 
 	float GetVolumeReductionByDistance();
 	void PlaySFX(std::string_view _FileName);

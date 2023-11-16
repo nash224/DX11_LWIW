@@ -3,6 +3,7 @@
 
 #include "RidingFx.h"
 #include "BroomParticle.h"
+#include "BackDrop_PlayLevel.h"
 
 void Ellie::StartRiding_Standing()
 {
@@ -59,8 +60,11 @@ void Ellie::UpdateRiding_Standing(float _Delta)
 		}
 	}
 
-	DecelerateAtMidpoint(_Delta, CONST_Ellie_Riding_Move_Speed, CONST_Ellie_Riding_Move_Acceleration_Time);
-	ApplyMovement(_Delta);
+
+	DecelerateNotDir(_Delta, CONST_Ellie_Riding_Boost_Speed);
+	DynamicEntity::ApplyOnlyMovement(_Delta);
+	WallCollision();
+	InteractiveActor::ApplyDepth();
 }
 
 
@@ -103,31 +107,13 @@ void Ellie::UpdateRiding_Moving(float _Delta)
 
 	ChangeDirectionAnimation("Riding_Moving");
 
-	// 방향을 넣으면 방향 기저벡터를 반환 해줍니다.
-	float4 MoveVector = ReturnPostMoveVector(_Delta, CONST_Ellie_Riding_Move_Speed, CONST_Ellie_Riding_Move_Acceleration_Time);
-	EDIRECTION Direction = GetDirectionFromVector(MoveVector);
-	EDIRECTION MoveDirection = ReturnPixelCollisionMoveDirectionToCurrentCheckPoint(Direction, MoveVector);
-	if (Direction == MoveDirection)
-	{
-		CONST_Ellie_Riding_Move_Speed;
-		if (true == IsOverSpeed(MoveVector.X, CONST_Ellie_Riding_Move_Speed))
-		{
-			m_MoveForce.X = 0.0f;
-		}
-		if (true == IsOverSpeed(MoveVector.Y, CONST_Ellie_Riding_Move_Speed))
-		{
-			m_MoveForce.Y = 0.0f;
-		}
-
-		m_MoveVector += m_MoveForce;
-	}
-	else
-	{
-		m_MoveVector = float4::ZERO;
-	}
-
-	DecelerateAtMidpoint(_Delta, CONST_Ellie_Riding_Move_Speed, CONST_Ellie_Riding_Move_Acceleration_Time);
-	ApplyMovement(_Delta);
+	
+	DecelerateNotDir(_Delta, CONST_Ellie_Riding_Move_Speed);
+	m_MoveVector += GetMoveForceByDir(_Delta, CONST_Ellie_Riding_Move_Speed, CONST_Ellie_Riding_Move_Acceleration_Time);
+	LimitMoveVector(CONST_Ellie_Riding_Move_Speed);
+	DynamicEntity::ApplyOnlyMovement(_Delta);
+	WallCollision();
+	InteractiveActor::ApplyDepth();
 
 	ConsumeBroomFuel(_Delta);
 	GenerateBroomDust(_Delta);
@@ -173,31 +159,13 @@ void Ellie::UpdateRiding_Boosting(float _Delta)
 	ChangeDirectionAnimation("Riding_Boosting");
 
 
-	// 방향을 넣으면 방향 기저벡터를 반환 해줍니다.
-	float4 MoveVector = ReturnPostMoveVector(_Delta, CONST_Ellie_Riding_Boost_Speed, CONST_Ellie_Riding_Boosting_Acceleration_Time);
-	EDIRECTION Direction = GetDirectionFromVector(MoveVector);
-	EDIRECTION MoveDirection = ReturnPixelCollisionMoveDirectionToCurrentCheckPoint(Direction, MoveVector);
-	if (Direction == MoveDirection)
-	{
-		CONST_Ellie_Riding_Boost_Speed;
-		if (true == IsOverSpeed(MoveVector.X, CONST_Ellie_Riding_Boost_Speed))
-		{
-			m_MoveForce.X = 0.0f;
-		}
-		if (true == IsOverSpeed(MoveVector.Y, CONST_Ellie_Riding_Boost_Speed))
-		{
-			m_MoveForce.Y = 0.0f;
-		}
 
-		m_MoveVector += m_MoveForce;
-	}
-	else
-	{
-		m_MoveVector = float4::ZERO;
-	}
-
-	DecelerateAtMidpoint(_Delta, CONST_Ellie_Riding_Boost_Speed, CONST_Ellie_Riding_Boosting_Acceleration_Time);
-	ApplyMovement(_Delta);
+	DecelerateNotDir(_Delta, CONST_Ellie_Riding_Boost_Speed);
+	m_MoveVector += GetMoveForceByDir(_Delta, CONST_Ellie_Riding_Boost_Speed, CONST_Ellie_Riding_Boosting_Acceleration_Time);
+	LimitMoveVector(CONST_Ellie_Riding_Boost_Speed);
+	DynamicEntity::ApplyOnlyMovement(_Delta);
+	WallCollision();
+	InteractiveActor::ApplyDepth();
 
 	ConsumeBroomFuel(_Delta);
 	GenerateBroomDust(_Delta);
@@ -205,13 +173,102 @@ void Ellie::UpdateRiding_Boosting(float _Delta)
 
 #pragma endregion 
 
+void Ellie::DecelerateNotDir(float _Delta, const float _Force)
+{
+	const float4& DirVector = GetDirectionVectorToDir(m_Dir);
+	bool HorizontalCheck = m_MoveVector.X * DirVector.X < 0.0f;
+
+	if (EHORIZONTAL_KEY_STATE::Center == HorizontalInputKey || true == HorizontalCheck)
+	{
+		if (0.0f != m_MoveVector.X)
+		{
+			if (m_MoveVector.X > 0.0f)
+			{
+				m_MoveVector.X -= _Force * _Delta;
+				if (m_MoveVector.X < 0.0f)
+				{
+					m_MoveVector.X = 0.0f;
+				}
+			}
+			else
+			{
+				m_MoveVector.X += _Force * _Delta;
+				if (m_MoveVector.X > 0.0f)
+				{
+					m_MoveVector.X = 0.0f;
+				}
+			}
+		}
+	}
+
+	bool VerticalCheck = m_MoveVector.Y * DirVector.Y < 0.0f;
+	if (EVERTICAL_KEY_STATE::Center == VerticalInputKey || true == VerticalCheck)
+	{
+		if (0.0f != m_MoveVector.Y)
+		{
+			if (m_MoveVector.Y > 0.0f)
+			{
+				m_MoveVector.Y -= _Force * _Delta;
+				if (m_MoveVector.Y < 0.0f)
+				{
+					m_MoveVector.Y = 0.0f;
+				}
+			}
+			else
+			{
+				m_MoveVector.Y += _Force * _Delta;
+				if (m_MoveVector.Y > 0.0f)
+				{
+					m_MoveVector.Y = 0.0f;
+				}
+			}
+		}
+	}
+}
+
+void Ellie::WallCollision()
+{
+	const float4& CheckUnitVector = DirectX::XMVector2Normalize(m_MoveVector.DirectXVector);
+	const float4& LeftCheckUnitVector = float4::Cross3D(CheckUnitVector.DirectXVector, float4::FORWARD);
+	const float4& RightCheckUnitVector = float4::Cross3D(CheckUnitVector.DirectXVector, float4::BACKWARD);
+	static constexpr float CheckDistanceToMyPos = 10.0f;
+
+	static constexpr int Max_Check_Count = 5;
+	int CheckCount = Max_Check_Count;
+	while (CheckCount > 0)
+	{
+		const float4& CurPosition = Transform.GetLocalPosition();
+		const float4& CheckPos = CurPosition + CheckUnitVector * CheckDistanceToMyPos;
+
+		const float4& LeftCheckPos = LeftCheckUnitVector * CheckDistanceToMyPos + CheckPos;
+		const float4& RightCheckPos = RightCheckUnitVector * CheckDistanceToMyPos + CheckPos;
+
+		bool LeftCheck = BackDrop_PlayLevel::MainBackDrop->IsColorAtPosition(LeftCheckPos, GameEngineColor::RED);
+		bool RightCheck = BackDrop_PlayLevel::MainBackDrop->IsColorAtPosition(RightCheckPos, GameEngineColor::RED);
+		bool isWall = (LeftCheck || RightCheck);
+		if (false == isWall)
+		{
+			break;
+		}
+
+		float4 BackVector;
+		BackVector.X = -CheckUnitVector.X;
+		BackVector.Y = -CheckUnitVector.Y;
+
+		Transform.AddLocalPosition(BackVector);
+
+		--CheckCount;
+	}
+}
+
+
 void Ellie::CreateBroomParticle()
 {
 	const float4& ParticlePosition = GetBroomParticlePosition();
 
 	const std::shared_ptr<BroomParticle>& Particle = GetLevel()->CreateActor<BroomParticle>(EUPDATEORDER::Objects);
 	Particle->Transform.SetLocalPosition(ParticlePosition);
-	Particle->Init(CalculateDirectionVectorToDir(m_Dir));
+	Particle->Init(GetDirectionVectorToDir(m_Dir));
 }
 
 void Ellie::GenerateBroomDust(float _Delta)
@@ -251,7 +308,7 @@ float4 Ellie::GetBroomParticlePosition()
 	const float4& CenterPoint = float4(0.0f, YCorrection) + Transform.GetLocalPosition();
 
 	static constexpr const float ParticleDistance = 50.0f;
-	float4 DirVector = CalculateDirectionVectorToDir(m_Dir);
+	float4 DirVector = GetDirectionVectorToDir(m_Dir);
 	DirVector.X = -DirVector.X;
 	DirVector.Y = -DirVector.Y;
 	const float4& ReturnValue = CenterPoint + DirVector * ParticleDistance;

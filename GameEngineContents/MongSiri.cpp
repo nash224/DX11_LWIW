@@ -61,7 +61,7 @@ void MongSiri::Release()
 
 void MongSiri::Init()
 {
-	ApplyDepth(Transform.GetLocalPosition());
+	ApplyDepth();
 	RendererSetting();
 	LookStateSetting();
 	InitDirection();

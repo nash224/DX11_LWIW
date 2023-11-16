@@ -58,7 +58,7 @@ void BranchTree::Release()
 
 void BranchTree::Init()
 {
-	ApplyDepth(Transform.GetLocalPosition());
+	ApplyDepth();
 	CreateBranchTreehAnimation();
 	CreateBranchRenderer();
 	SetBranchInter();

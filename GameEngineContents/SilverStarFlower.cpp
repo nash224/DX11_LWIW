@@ -67,7 +67,7 @@ void SilverStarFlower::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void SilverStarFlower::Init()
 {
-	ApplyDepth(Transform.GetLocalPosition());
+	ApplyDepth();
 	RendererSetting();
 	LightSetting();
 	StateSetting();

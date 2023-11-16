@@ -52,7 +52,7 @@ void Aurea::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void Aurea::Init()
 {
-	ApplyDepth(Transform.GetLocalPosition());
+	ApplyDepth();
 	RendererSetting();
 	ConversationSetting();
 	StateSetting();

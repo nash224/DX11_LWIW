@@ -45,7 +45,7 @@ void Dust::Init(std::string_view _DustSpriteName, bool _isGroundDust /*= false*/
 	}
 	else
 	{
-		ApplyDepth(Transform.GetLocalPosition());
+		ApplyDepth();
 	}
 	RendererSetting(_DustSpriteName);
 	ConversationSetting();

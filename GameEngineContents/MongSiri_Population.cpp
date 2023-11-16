@@ -163,7 +163,8 @@ void MongSiri_Population::SetMongSiriSeed(std::shared_ptr<MongSiri> _Actor, Game
 	float4 MongSiriSpawnUnitVector = float4::GetUnitVectorFromDeg(MongSiriSpawnAngle);			// 각도 단위 백터
 	float4 MonSiriPosition = m_PopulationLocation + MongSiriSpawnUnitVector * MongSiriSpawnDistance;		// 스폰 위치 = 개체군 위치 + 스폰각도 * 랜덤 거리
 
-	_Actor->ApplyDepth(MonSiriPosition);
+	_Actor->Transform.SetLocalPosition(MonSiriPosition);
+	_Actor->ApplyDepth();
 }
 
 

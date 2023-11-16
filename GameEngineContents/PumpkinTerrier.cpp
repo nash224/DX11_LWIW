@@ -44,7 +44,7 @@ void PumpkinTerrier::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void PumpkinTerrier::Init()
 {
-	ApplyDepth(Transform.GetLocalPosition());
+	ApplyDepth();
 	CreateAndSetCollision(ECOLLISION::Entity, { 100.0f, }, 0.0f, ColType::SPHERE2D);
 	RendererSetting();
 }

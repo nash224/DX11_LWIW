@@ -49,7 +49,7 @@ void WitchFlower::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void WitchFlower::Init()
 {
-	ApplyDepth(Transform.GetLocalPosition());
+	ApplyDepth();
 	RendererSetting();
 	ChangeState(EPLANTSTATE::Idle);
 }

@@ -133,8 +133,9 @@ ETOOLTYPE InteractiveActor::GetCollectionToolType() const
 	return m_CollectionTool;
 }
 
-void InteractiveActor::ApplyDepth(const float4& _Position)
+void InteractiveActor::ApplyDepth()
 {
+	float4 MyPosition = Transform.GetLocalPosition();
 	float BackYScale = 0.0f;
 	if (nullptr != BackDrop_PlayLevel::MainBackDrop)
 	{
@@ -142,13 +143,11 @@ void InteractiveActor::ApplyDepth(const float4& _Position)
 	}
 	else
 	{
-		const float4 WinScale = GlobalValue::GetWindowScale();
-		BackYScale = WinScale.Y;
+		BackYScale = GlobalValue::GetWindowScale().Y;
 	}
 
-	float4 Position = _Position;
-	float ZSort = GlobalUtils::CalculateObjectDepth(BackYScale, Position.Y + PlusDepth);
-	Position.Z = ZSort;
+	float MyDepth = GlobalUtils::CalculateObjectDepth(BackYScale, MyPosition.Y + PlusDepth);
+	MyPosition.Z = MyDepth;
 	
-	Transform.SetLocalPosition(Position);
+	Transform.SetLocalPosition(MyPosition);
 }

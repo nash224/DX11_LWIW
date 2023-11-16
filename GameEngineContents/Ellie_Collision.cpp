@@ -54,7 +54,7 @@ void Ellie::UpdateInteractionCollsiion()
 	// 기준은 양옆으로 FOVAngle 각도입니다.
 	float4 ElliePosition = Transform.GetWorldPosition();
 
-	float4 DirectionVector = CalculateDirectionVectorToDir(m_Dir);
+	float4 DirectionVector = GetDirectionVectorToDir(m_Dir);
 
 	float EllieFOVAngle = DirectionVector.Angle2DDeg();
 	if (DirectionVector.Y < 0.0f)

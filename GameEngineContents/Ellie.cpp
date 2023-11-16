@@ -137,7 +137,7 @@ void Ellie::Init()
 void Ellie::OnLevelStart()
 {
 	RenewStatus();
-	ApplyDepth(Transform.GetLocalPosition());
+	ApplyDepth();
 	MainEllie = this;
 }
 
@@ -715,7 +715,7 @@ bool Ellie::DetectHorizontalMovement()
 #pragma region 이동 및 방향 
 
 // 방향을 인자로 넣으면 방향 기저벡터를 반환해줍니다.
-float4 Ellie::CalculateDirectionVectorToDir(const EDIRECTION _Direction)
+float4 Ellie::GetDirectionVectorToDir(const EDIRECTION _Direction)
 {
 	float4 DirVector = float4::ZERO;
 
@@ -759,7 +759,7 @@ float4 Ellie::CalculateDirectionVectorToDir(const EDIRECTION _Direction)
 // 노멀 모드일 때, 속력을 계산해줍니다.
 void Ellie::CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce)
 {
-	float4 DirVector = CalculateDirectionVectorToDir(m_Dir);
+	float4 DirVector = GetDirectionVectorToDir(m_Dir);
 
 	m_MoveVector = DirVector * _MAXMoveForce;
 	
@@ -825,7 +825,7 @@ void Ellie::CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce)
 	// 진행 방향과 다르면 벽에 비벼 올라갈 수 있습니다. 하지만 일반 속도보다 상대적으로 느리기 때문에 마찰력 영향을 받습니다.
 	else
 	{
-		MoveDirVector = CalculateDirectionVectorToDir(CheckDir);
+		MoveDirVector = GetDirectionVectorToDir(CheckDir);
 		m_MoveVector = MoveDirVector * _MAXMoveForce * FrictionForce;
 	}
 }
@@ -932,18 +932,33 @@ EDIRECTION Ellie::ReturnDirectionCheckBothSide(EDIRECTION _Direction, const floa
 	return static_cast<EDIRECTION>(DirNum);
 }
 
-float4 Ellie::ReturnPostMoveVector(float _Delta, float _MAXMoveForce, float _Acceleration_Time)
+float4 Ellie::GetMoveForceByDir(float _Delta, float _MAXMoveForce, float _Acceleration_Time)
 {
-	float4 Dir = CalculateDirectionVectorToDir(m_Dir);
+	const float4& DirVector = GetDirectionVectorToDir(m_Dir);
 
-	float4 MaxSpeed = { Dir.X * _MAXMoveForce , Dir.Y * _MAXMoveForce };
+	const float4& MaxForce = { DirVector.X * _MAXMoveForce / _Acceleration_Time, DirVector.Y * _MAXMoveForce / _Acceleration_Time };
 
-	m_MoveForce.X = (MaxSpeed.X / _Acceleration_Time) * _Delta;
-	m_MoveForce.Y = (MaxSpeed.Y / _Acceleration_Time) * _Delta;
+	float4 ResultVector;
+	ResultVector.X = MaxForce.X * _Delta;
+	ResultVector.Y = MaxForce.Y * _Delta;
+	return ResultVector;
+}
 
-	float4 MoveVector = m_MoveVector + m_MoveForce;
+void Ellie::LimitMoveVector(float _MAXMoveForce)
+{
+	const float4& MoveVectorSize = DirectX::XMVector2Length(m_MoveVector.DirectXVector);
+	float LimitedSpeed = 0.0f;
+	if (MoveVectorSize.X > CONST_Ellie_Riding_Move_Speed)
+	{
+		LimitedSpeed = CONST_Ellie_Riding_Move_Speed;
+	}
+	else
+	{
+		LimitedSpeed = MoveVectorSize.X;
+	}
 
-	return MoveVector;
+	const float4& MoveUnitVector = DirectX::XMVector2Normalize(m_MoveVector.DirectXVector);
+	m_MoveVector = MoveUnitVector * LimitedSpeed;
 }
 
 

@@ -145,12 +145,16 @@ EDIRECTION DynamicEntity::GetDirectionToDegree(const float _Degree)
 // 위치 적용 (깊이 적용)
 void DynamicEntity::ApplyMovement(float _Delta)
 {
-	float4 CurrentPosition = Transform.GetLocalPosition();
-	m_MoveVector.Z = 0.0f;
-	float4 MoveVector = m_MoveVector* _Delta;
-	float4 MovePosition = CurrentPosition + MoveVector;
-	ApplyDepth(MovePosition);
-	return;
+	const float4& MoveVector = m_MoveVector* _Delta;
+	Transform.AddLocalPosition(MoveVector);
+
+	InteractiveActor::ApplyDepth();
+}
+
+void DynamicEntity::ApplyOnlyMovement(float _Delta)
+{
+	const float4& MoveVector = m_MoveVector * _Delta;
+	Transform.AddLocalPosition(MoveVector);
 }
 
 float DynamicEntity::GetVolumeReductionByDistance()

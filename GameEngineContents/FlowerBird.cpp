@@ -71,7 +71,7 @@ void FlowerBird::Release()
 
 void FlowerBird::Init()
 {
-	ApplyDepth(Transform.GetLocalPosition());
+	ApplyDepth();
 	AnimationSetting();
 	DirectionSetting();
 	ChangeState(EFLOWERBIRDSTATE::Idle);
