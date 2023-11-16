@@ -1,9 +1,6 @@
 #pragma once
 
 
-constexpr float BroomFxLiveTime = 0.6f;
-
-
 // Ό³Έν :
 class BroomParticle : public GameEngineActor
 {
@@ -36,7 +33,7 @@ protected:
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> FxRenderer = nullptr;
 
-	
+	static constexpr float BroomFxLiveTime = 0.8f;
 
 };
 

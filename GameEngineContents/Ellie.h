@@ -221,8 +221,8 @@ private:
 	void OnRideFx();
 	void GenerateBroomDust(float _Delta);
 	void GenerateBoostBroomDust(float _Delta);
-	void CreateBroomParticle();
-	float4 GetBroomParticlePosition();
+	void CreateBroomParticle(float _ParticleDistance = 0.0f);
+	float4 GetBroomParticlePosition(float _ParticleDistance);
 
 	void ConsumeBroomFuel(float _Delta);
 

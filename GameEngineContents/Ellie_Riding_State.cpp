@@ -168,7 +168,7 @@ void Ellie::UpdateRiding_Boosting(float _Delta)
 	InteractiveActor::ApplyDepth();
 
 	ConsumeBroomFuel(_Delta);
-	GenerateBroomDust(_Delta);
+	GenerateBoostBroomDust(_Delta);
 }
 
 #pragma endregion 
@@ -262,9 +262,9 @@ void Ellie::WallCollision()
 }
 
 
-void Ellie::CreateBroomParticle()
+void Ellie::CreateBroomParticle(float _ParticleDistance /*= 0.0f*/)
 {
-	const float4& ParticlePosition = GetBroomParticlePosition();
+	const float4& ParticlePosition = GetBroomParticlePosition(_ParticleDistance);
 
 	const std::shared_ptr<BroomParticle>& Particle = GetLevel()->CreateActor<BroomParticle>(EUPDATEORDER::Objects);
 	Particle->Transform.SetLocalPosition(ParticlePosition);
@@ -297,17 +297,48 @@ void Ellie::GenerateBoostBroomDust(float _Delta)
 		m_StateTime -= Particle_Cool_Time;
 
 		// ReverseSpeedCheck
+		static constexpr float MinParticleDistance = 0.0f;
+		static constexpr float MaxParticleDistance = 20.0f;
 
+		GameEngineRandom RandomClass;
+		for (int i = 0; i < 2; i++)
+		{
+			RandomClass.SetSeed(GlobalValue::GetSeedValue());
+			float DistanceChance = RandomClass.RandomFloat(MinParticleDistance, MaxParticleDistance);
+			CreateBroomParticle(DistanceChance);
+		}
 	}
 }
 
-float4 Ellie::GetBroomParticlePosition()
+float4 Ellie::GetBroomParticlePosition(float _ParticleDistance)
 {
-	static constexpr float YCorrection = 24.0f;
+	float4 PlusVector;
+	if (0.0f != _ParticleDistance)
+	{
+		GameEngineRandom RandomClass;
+		RandomClass.SetSeed(GlobalValue::GetSeedValue());
+		const int ReverseChance = RandomClass.RandomInt(0, 1);
+	
+		PlusVector = DirectX::XMVector2Normalize(m_MoveVector.DirectXVector);
+		if (ReverseChance == 0)
+		{
+			PlusVector = float4::Cross3D(PlusVector.DirectXVector, float4::BACKWARD);
+		}
+		else
+		{
+			PlusVector = float4::Cross3D(PlusVector.DirectXVector, float4::FORWARD);
+		}
+	}
+	else
+	{
+		PlusVector = float4::ZERO;
+	}
 
-	const float4& CenterPoint = float4(0.0f, YCorrection) + Transform.GetLocalPosition();
+	static constexpr float YCorrection = 28.0f;
 
-	static constexpr const float ParticleDistance = 50.0f;
+	const float4& CenterPoint = float4(0.0f, YCorrection) + Transform.GetLocalPosition() + PlusVector * _ParticleDistance;
+
+	static constexpr const float ParticleDistance = 60.0f;
 	float4 DirVector = GetDirectionVectorToDir(m_Dir);
 	DirVector.X = -DirVector.X;
 	DirVector.Y = -DirVector.Y;

@@ -59,9 +59,13 @@ void BroomParticle::SetPivot(const float4& _DirVector)
 
 void BroomParticle::SetFlip(const float _VectorX)
 {
-	if (_VectorX > 0.0f)
+	if (_VectorX < 0.0f)
 	{
 		FxRenderer->LeftFlip();
+	}
+	else
+	{
+		FxRenderer->RightFlip();
 	}
 }
 
