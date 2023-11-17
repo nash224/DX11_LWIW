@@ -291,7 +291,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="DreamLevel .cpp">
+    <ClCompile Include="DreamLevel.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -840,7 +840,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="DreamLevel .h">
+    <ClInclude Include="DreamLevel.h">
       <SubType>
       </SubType>
     </ClInclude>

@@ -670,7 +670,7 @@
     <ClInclude Include="WitchHouse_Yard.h">
       <Filter>2.Level\2.Play\2.Field</Filter>
     </ClInclude>
-    <ClInclude Include="DreamLevel .h">
+    <ClInclude Include="DreamLevel.h">
       <Filter>2.Level\3.DreamLevel</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1124,7 +1124,7 @@
     <ClCompile Include="WitchHouse_Yard.cpp">
       <Filter>2.Level\2.Play\2.Field</Filter>
     </ClCompile>
-    <ClCompile Include="DreamLevel .cpp">
+    <ClCompile Include="DreamLevel.cpp">
       <Filter>2.Level\3.DreamLevel</Filter>
     </ClCompile>
   </ItemGroup>
