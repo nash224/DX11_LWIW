@@ -1,17 +1,10 @@
 #pragma once
 #include "PlayLevel.h"
 
+
 // Ό³Έν :
 class FieldLevel : public PlayLevel
 {
-public:
-	enum class EBGMTYPE
-	{
-		Day,
-		Night,
-		None,
-	};
-
 public:
 	// constrcuter destructer
 	FieldLevel();
@@ -33,8 +26,6 @@ protected:
 
 private:
 	std::shared_ptr<class SkyLerp> m_SkyLerp = nullptr;
-
-	EBGMTYPE BGMType = EBGMTYPE::None;
 
 };
 

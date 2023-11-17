@@ -1,10 +1,11 @@
 #include "PreCompile.h"
 #include "WitchHouse_DownFloor.h"
 
-#include "CameraControler.h"
-#include "Ellie.h"
 #include "BackDrop_WitchHouse_DownFloor.h"
-#include "PortalObject.h"
+#include "BGMManager.h"
+#include "CameraControler.h"
+
+#include "Ellie.h"
 
 
 WitchHouse_DownFloor::WitchHouse_DownFloor()
@@ -19,6 +20,7 @@ WitchHouse_DownFloor::~WitchHouse_DownFloor()
 void WitchHouse_DownFloor::Start()
 {
 	PlayLevel::Start();
+	LevelType = ELEVELTYPE::House;
 
 	if (nullptr != m_LevelCameraControler)
 	{
@@ -30,6 +32,8 @@ void WitchHouse_DownFloor::Start()
 void WitchHouse_DownFloor::Update(float _Delta)
 {
 	PlayLevel::Update(_Delta);
+
+	AutoPlayBGM();
 }
 
 void WitchHouse_DownFloor::LevelStart(class GameEngineLevel* _NextLevel)
@@ -139,3 +143,16 @@ void WitchHouse_DownFloor::ReleaseTexture()
 }
 
 #pragma endregion 
+
+
+void WitchHouse_DownFloor::AutoPlayBGM()
+{
+	if (nullptr != MainPlaySound)
+	{
+		const int bgmType = MainPlaySound->GetPlayType();
+		if (static_cast<int>(EPLAYBGMTYPE::House) != bgmType)
+		{
+			MainPlaySound->NoneBGM();
+		}
+	}
+}

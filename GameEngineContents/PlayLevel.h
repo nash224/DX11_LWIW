@@ -3,6 +3,13 @@
 #include <GameEngineCore/GameEngineGUI.h>
 
 
+enum class EPLAYBGMTYPE
+{
+	Day,
+	Night,
+	House,
+	None,
+};
 
 
 // Ό³Έν :
@@ -11,35 +18,18 @@ class PortalObject;
 class UIManager;
 class PlayLevel : public ContentsLevel
 {
-public:
-	class PlaySoundInfo
+protected:
+	enum class ELEVELTYPE
 	{
-	public:
-		GameEngineSoundPlayer BGM;
-		GameEngineSoundPlayer BGM_SFX;
-		std::string BGMName;
-
-		float BGMVolume = 1.0f;
-		bool isPlayBGM = false;
-
-	public:
-		void PlayBGM(std::string_view _BGMName, std::string_view _BGM_SFXName = "");
-		bool IsBGMPlay();
-		void ResourceLoad();
-		void Stop();
-		void SetVolume(float _Value);
-
-		static constexpr const float Max_BGM_Volume = 2.0f;
-		static constexpr const float Min_BGM_Volume = 0.0f;
-
+		Field,
+		House,
+		None,
 	};
 
 public:
 	static std::unique_ptr<class TimeManager> s_TimeManager;
 	static std::unique_ptr<class AlertManager> s_AlertManager;
-	static std::unique_ptr<PlaySoundInfo> MainPlaySound;
-
-
+	static std::unique_ptr<class BGMManager> MainPlaySound;
 
 public:
 	// constrcuter destructer
@@ -62,14 +52,11 @@ protected:
 
 	void SetLocationName(std::string_view _KRName);
 
-
 private:
 	void EffectSetting();
 
 	void CreateUIManager();
 	void CreateEllie();
-
-	
 
 protected:
 	std::shared_ptr<Ellie> m_Ellie = nullptr;
@@ -77,8 +64,9 @@ protected:
 
 	bool LevelInitCheck = false;
 
+	ELEVELTYPE LevelType = ELEVELTYPE::None;
+
 private:
 	std::string LocationKRName;
-
 
 };

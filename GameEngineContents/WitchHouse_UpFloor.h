@@ -32,6 +32,7 @@ private:
 
 	void ReleaseTexture();
 
+	void AutoPlayBGM();
 
 private:
 	std::shared_ptr<BackDrop_WitchHouse_UpFloor> m_BackDrop = nullptr;

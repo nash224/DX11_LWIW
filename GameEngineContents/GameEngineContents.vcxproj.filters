@@ -289,9 +289,6 @@
     <ClInclude Include="MainMenu.h">
       <Filter>2.Level\1.Title</Filter>
     </ClInclude>
-    <ClInclude Include="WitchHouse_Yard.h">
-      <Filter>2.Level\2.Play\1.Witch</Filter>
-    </ClInclude>
     <ClInclude Include="WitchHouse_UpFloor.h">
       <Filter>2.Level\2.Play\1.Witch</Filter>
     </ClInclude>
@@ -670,6 +667,9 @@
     <ClInclude Include="BGMManager.h">
       <Filter>3.Actor\0.Manager\BGM</Filter>
     </ClInclude>
+    <ClInclude Include="WitchHouse_Yard.h">
+      <Filter>2.Level\2.Play\2.Field</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -705,9 +705,6 @@
     </ClCompile>
     <ClCompile Include="MainMenu.cpp">
       <Filter>2.Level\1.Title</Filter>
-    </ClCompile>
-    <ClCompile Include="WitchHouse_Yard.cpp">
-      <Filter>2.Level\2.Play\1.Witch</Filter>
     </ClCompile>
     <ClCompile Include="WitchHouse_UpFloor.cpp">
       <Filter>2.Level\2.Play\1.Witch</Filter>
@@ -1123,6 +1120,9 @@
     </ClCompile>
     <ClCompile Include="BGMManager.cpp">
       <Filter>3.Actor\0.Manager\BGM</Filter>
+    </ClCompile>
+    <ClCompile Include="WitchHouse_Yard.cpp">
+      <Filter>2.Level\2.Play\2.Field</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

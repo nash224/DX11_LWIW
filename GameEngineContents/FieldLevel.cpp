@@ -3,10 +3,12 @@
 
 #include "SkyLerp.h"
 #include "TimeManager.h"
+#include "BGMManager.h"
 
 
 FieldLevel::FieldLevel() 
 {
+	
 }
 
 FieldLevel::~FieldLevel() 
@@ -17,6 +19,7 @@ FieldLevel::~FieldLevel()
 void FieldLevel::Start()
 {
 	PlayLevel::Start();
+	LevelType = ELEVELTYPE::Field;
 
 	m_SkyLerp = CreateActor<SkyLerp>(EUPDATEORDER::Sky);
 	m_SkyLerp->Init();
@@ -48,16 +51,15 @@ void FieldLevel::AutoPlayBGM()
 {
 	if (nullptr != MainPlaySound && nullptr != s_TimeManager)
 	{
-		if (true == s_TimeManager->IsDay() && EBGMTYPE::Day != BGMType)
+		int bgmType = MainPlaySound->GetPlayType();
+		if (true == s_TimeManager->IsDay() && static_cast<int>(EPLAYBGMTYPE::Day) != bgmType)
 		{
-			MainPlaySound->PlayBGM("0424_Forest_Day.wav", "AMB_GF_Daytime_01.wav");
-			BGMType = EBGMTYPE::Day;
+			MainPlaySound->PlayBGM(EPLAYBGMTYPE::Day, "0424_Forest_Day.wav", "AMB_GF_Daytime_01.wav");
 		}
 
-		if (false == s_TimeManager->IsDay() && EBGMTYPE::Night != BGMType)
+		if (false == s_TimeManager->IsDay() && static_cast<int>(EPLAYBGMTYPE::Night) != bgmType)
 		{
-			MainPlaySound->PlayBGM("0424_Forest_Night.wav", "AMB_GF_Nighttime_01.wav");
-			BGMType = EBGMTYPE::Night;
+			MainPlaySound->PlayBGM(EPLAYBGMTYPE::Night, "0424_Forest_Night.wav", "AMB_GF_Nighttime_01.wav");
 		}
 	}
 }

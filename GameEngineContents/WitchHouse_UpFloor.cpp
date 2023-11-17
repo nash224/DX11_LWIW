@@ -2,9 +2,10 @@
 #include "WitchHouse_UpFloor.h"
 
 #include "BackDrop_WitchHouse_UpFloor.h"
+#include "BGMManager.h"
 #include "CameraControler.h"
+
 #include "Ellie.h"
-#include "PortalObject.h"
 
 
 WitchHouse_UpFloor::WitchHouse_UpFloor()
@@ -19,6 +20,7 @@ WitchHouse_UpFloor::~WitchHouse_UpFloor()
 void WitchHouse_UpFloor::Start()
 {
 	PlayLevel::Start();
+	LevelType = ELEVELTYPE::House;
 
 	if (nullptr != m_LevelCameraControler)
 	{
@@ -30,6 +32,8 @@ void WitchHouse_UpFloor::Start()
 void WitchHouse_UpFloor::Update(float _Delta)
 {
 	PlayLevel::Update(_Delta);
+
+	AutoPlayBGM();
 }
 
 void WitchHouse_UpFloor::LevelStart(class GameEngineLevel* _NextLevel)
@@ -148,3 +152,16 @@ void WitchHouse_UpFloor::ReleaseTexture()
 	}
 }
 
+
+
+void WitchHouse_UpFloor::AutoPlayBGM()
+{
+	if (nullptr != MainPlaySound)
+	{
+		const int bgmType = MainPlaySound->GetPlayType();
+		if (static_cast<int>(EPLAYBGMTYPE::House) != bgmType)
+		{
+			MainPlaySound->NoneBGM();
+		}
+	}
+}

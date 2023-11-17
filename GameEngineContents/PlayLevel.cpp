@@ -10,6 +10,7 @@
 #include "UIManager.h"
 #include "TimeManager.h"
 #include "AlertManager.h"
+#include "BGMManager.h"
 
 // Actor
 #include "Ellie.h"
@@ -20,7 +21,7 @@
 
 std::unique_ptr<TimeManager> PlayLevel::s_TimeManager;
 std::unique_ptr<AlertManager> PlayLevel::s_AlertManager;
-std::unique_ptr<PlayLevel::PlaySoundInfo> PlayLevel::MainPlaySound;
+std::unique_ptr<BGMManager> PlayLevel::MainPlaySound;
 PlayLevel::PlayLevel()
 {
 }
@@ -51,7 +52,8 @@ void PlayLevel::Start()
 
 	if (nullptr == MainPlaySound)
 	{
-		MainPlaySound = std::make_unique<PlaySoundInfo>();
+		MainPlaySound = std::make_unique<BGMManager>();
+		MainPlaySound->Init();
 	}
 
 	EffectSetting();
@@ -69,6 +71,11 @@ void PlayLevel::Update(float _Delta)
 	if (nullptr != s_AlertManager)
 	{
 		s_AlertManager->Update(_Delta);
+	}
+
+	if (nullptr != MainPlaySound)
+	{
+		MainPlaySound->Update(_Delta);
 	}
 }
 
@@ -119,74 +126,6 @@ void PlayLevel::CreateEllie()
 void PlayLevel::SetLocationName(std::string_view _KRName)
 {
 	LocationKRName = _KRName;
-}
-
-
-void PlayLevel::PlaySoundInfo::PlayBGM(std::string_view _BGMName, std::string_view _BGM_SFXName /*= ""*/)
-{
-	if (nullptr == GameEngineSound::FindSound(_BGMName))
-	{
-		ResourceLoad();
-	}
-
-	if (BGMName == _BGMName.data())
-	{
-		return;
-	}
-
-	Stop();
-
-	BGM = GameEngineSound::SoundPlay(_BGMName, 999);
-	BGM.SetVolume(GlobalValue::GetSoundVolume() * BGMVolume);
-
-	BGMName = _BGMName.data();
-
-	if (false == _BGM_SFXName.empty())
-	{
-		BGM_SFX = GameEngineSound::SoundPlay(_BGM_SFXName, 999);
-		BGM_SFX.SetVolume(GlobalValue::GetSoundVolume() * BGMVolume);
-	}
-
-	isPlayBGM = true;
-}
-
-bool PlayLevel::PlaySoundInfo::IsBGMPlay()
-{
-	return isPlayBGM;
-}
-
-void PlayLevel::PlaySoundInfo::ResourceLoad()
-{
-	GameEngineDirectory Dir;
-	Dir.MoveParentToExistsChild("Resources");
-	Dir.MoveChild("Resources\\Sound\\BGM\\Play");
-	std::vector<GameEngineFile> Files = Dir.GetAllFile();
-	for (GameEngineFile pFile : Files)
-	{
-		GameEngineSound::SoundLoad(pFile.GetStringPath());
-	}
-}
-
-void PlayLevel::PlaySoundInfo::Stop()
-{
-	BGM.Stop();
-	BGM_SFX.Stop();
-	isPlayBGM = false;
-}
-
-void PlayLevel::PlaySoundInfo::SetVolume(float _Value)
-{
-	if (_Value > Max_BGM_Volume)
-	{
-		BGMVolume = Max_BGM_Volume;
-	}
-
-	if (_Value < Min_BGM_Volume)
-	{
-		BGMVolume = Min_BGM_Volume;
-	}
-
-	BGMVolume = _Value;
 }
 
 void PlayLevel::EffectSetting()

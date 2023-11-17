@@ -27,7 +27,23 @@ void BGMManager::Init()
 
 void BGMManager::StateSetting()
 {
+	CreateStateParameter AmplificationState;
+	AmplificationState.Start = std::bind(&BGMManager::StartAmplification, this, std::placeholders::_1);
+	AmplificationState.Stay = std::bind(&BGMManager::UpdateAmplification, this, std::placeholders::_1, std::placeholders::_2);
+	State.CreateState(EBGMSTATE::Amplification, AmplificationState);
 
+	CreateStateParameter AttenuationState;
+	AttenuationState.Stay = std::bind(&BGMManager::UpdateAttenuation, this, std::placeholders::_1, std::placeholders::_2);
+	State.CreateState(EBGMSTATE::Attenuation, AttenuationState);
+
+	CreateStateParameter PlayState;
+	State.CreateState(EBGMSTATE::Play, PlayState);
+
+	CreateStateParameter StopState;
+	StopState.Start = std::bind(&BGMManager::StartStop, this, std::placeholders::_1);
+	State.CreateState(EBGMSTATE::Stop, StopState);
+
+	State.ChangeState(EBGMSTATE::Stop);
 }
 
 
@@ -87,15 +103,19 @@ void BGMManager::StartStop(GameEngineState* _Parent)
 	BGM_SFX.Stop();
 	BGMName.clear();
 	BGM_SFXName.clear();
+	PlayType = -1;
 	isPlayBGM = false;
 }
 
-void BGMManager::PlayBGM(std::string_view _BGMName, std::string_view _BGM_SFXName /*= ""*/)
+
+void BGMManager::PlayBGM(int _PlayType, std::string_view _BGMName, std::string_view _BGM_SFXName /*= ""*/)
 {
 	if (BGMName == _BGMName.data() || true == _BGMName.empty())
 	{
 		return;
 	}
+
+	PlayType = _PlayType;
 
 	if (false == _BGM_SFXName.empty())
 	{
@@ -116,6 +136,7 @@ void BGMManager::PlayBGM(std::string_view _BGMName, std::string_view _BGM_SFXNam
 
 void BGMManager::NoneBGM()
 {
+	PlayType = -1;
 	BGMName.clear();
 	BGM_SFXName.clear();
 	State.ChangeState(EBGMSTATE::Attenuation);

@@ -26,13 +26,25 @@ public:
 
 	void Init();
 
-	void PlayBGM(std::string_view _BGMName, std::string_view _BGM_SFXName = "");
+	template<typename BgmType>
+	void PlayBGM(BgmType _PlayType, std::string_view _BGMName, std::string_view _BGM_SFXName = "")
+	{
+		PlayBGM(static_cast<int>(_PlayType), _BGMName, _BGM_SFXName);
+	}
+
+	void PlayBGM(int _PlayType, std::string_view _BGMName, std::string_view _BGM_SFXName);
 	void NoneBGM();
 	void StopBGM();
 	bool IsBGMPlay() const;
 
-protected:
+	int GetPlayType() const
+	{
+		return PlayType;
+	}
+
 	void Update(float _Delta);
+
+protected:
 
 	void ResourceLoad();
 	void StateSetting();
@@ -58,6 +70,7 @@ private:
 	float BGMVolume = 0.0f;
 	bool isPlayBGM = false;
 
+	int PlayType = -1;
 
 	static constexpr float AmplificationTime = 0.8f;
 
