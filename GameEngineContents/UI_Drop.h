@@ -92,6 +92,7 @@ private:
 	GameEngineState ColorState;
 
 	bool IsFirst = true;
+	bool isDisappear = false;
 	float m_MulColor = 0.0f;
 	float m_StateTime = 0.0f;
 	float m_TargetPosition = 0.0f;

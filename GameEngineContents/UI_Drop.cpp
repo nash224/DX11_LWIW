@@ -63,8 +63,8 @@ void UI_Drop::RendererSetting(std::string_view _ItemName)
 		return;
 	}
 
-	const float BaseDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Base);
-	const float IconDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Icon);
+	const float BaseDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Base);
+	const float IconDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Img);
 	const float NameDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Font);
 
 	const float4& BasePosition = float4(0.0f, 0.0f, BaseDepth);
@@ -152,26 +152,18 @@ void UI_Drop::UpdateAwake(float _Delta, GameEngineState* _Parent)
 	float Speed = SYSTEM_NOTICE_ITEM_GAP * _Delta / SYSTEM_NOTICE_ITEM_MOVETIME;
 	Transform.AddLocalPosition(float4(0.0f, -Speed));
 
-	// 특정 위치만큼 넘어가면 상태를 바꿔줍니다.
+
+	if (m_Line >= 4 && false == isDisappear)
+	{
+		isDisappear = true;
+		ColorState.ChangeState(ENOTICECOLORSTATE::Disappear);
+	}
+
 	if (Transform.GetLocalPosition().Y < m_TargetPosition)
 	{
 		float4 TargetPosition = SYSTEM_NOTICE_ITEM_FRIST_POSITION;
 		TargetPosition.Y -= m_Line * SYSTEM_NOTICE_ITEM_GAP;
 		Transform.SetLocalPosition( TargetPosition );
-
-		// 4번째 라인이면 정리됩니다
-		if (m_Line >= 4)
-		{
-			if (nullptr == ManagerPtr)
-			{
-				MsgBoxAssert("매니저를 모릅니다.");
-				return;
-			}
-
-			ManagerPtr->GetSystemNoticeList().remove(GetDynamic_Cast_This<UI_Drop>());
-
-			Death();
-		}
 
 		PositionState.ChangeState(ENOTICEPOSITIONSTATE::Stay);
 		return;
