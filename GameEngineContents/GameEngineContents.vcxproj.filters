@@ -253,6 +253,9 @@
     <Filter Include="3.Actor\0.Manager\BGM">
       <UniqueIdentifier>{17d5ded5-ed0b-4378-a572-a554ccbb83cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="2.Level\3.DreamLevel">
+      <UniqueIdentifier>{a8b30943-98cf-4578-8d17-5163dc49a5f8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -502,9 +505,6 @@
     <ClInclude Include="FieldLevel.h">
       <Filter>2.Level\2.Play\0.PlayLevel</Filter>
     </ClInclude>
-    <ClInclude Include="EndLevel.h">
-      <Filter>2.Level\10.EndLevel</Filter>
-    </ClInclude>
     <ClInclude Include="GroundRenderUnit.h">
       <Filter>3.Actor\3.Prop\RenderActor</Filter>
     </ClInclude>
@@ -669,6 +669,9 @@
     </ClInclude>
     <ClInclude Include="WitchHouse_Yard.h">
       <Filter>2.Level\2.Play\2.Field</Filter>
+    </ClInclude>
+    <ClInclude Include="DreamLevel .h">
+      <Filter>2.Level\3.DreamLevel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -935,9 +938,6 @@
     <ClCompile Include="FieldLevel.cpp">
       <Filter>2.Level\2.Play\0.PlayLevel</Filter>
     </ClCompile>
-    <ClCompile Include="EndLevel.cpp">
-      <Filter>2.Level\10.EndLevel</Filter>
-    </ClCompile>
     <ClCompile Include="GroundRenderUnit.cpp">
       <Filter>3.Actor\3.Prop\RenderActor</Filter>
     </ClCompile>
@@ -1123,6 +1123,9 @@
     </ClCompile>
     <ClCompile Include="WitchHouse_Yard.cpp">
       <Filter>2.Level\2.Play\2.Field</Filter>
+    </ClCompile>
+    <ClCompile Include="DreamLevel .cpp">
+      <Filter>2.Level\3.DreamLevel</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

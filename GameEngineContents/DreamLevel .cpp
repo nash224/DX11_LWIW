@@ -1,5 +1,5 @@
 #include "PreCompile.h"
-#include "EndLevel.h"
+#include "DreamLevel .h"
 
 
 #include "CameraControler.h"
@@ -8,19 +8,18 @@
 #include "FadeObject.h"
 
 
-EndLevel::EndLevel()
+DreamLevel::DreamLevel()
 {
 }
 
-EndLevel::~EndLevel()
+DreamLevel::~DreamLevel()
 {
 }
 
 
-void EndLevel::Start()
+void DreamLevel::Start()
 {
 	ContentsLevel::Start();
-
 
 	const float4 HWinScale = GlobalValue::GetWindowScale().Half();
 	float4 CameraPosition = HWinScale;
@@ -33,14 +32,15 @@ void EndLevel::Start()
 		m_LevelCameraControler->SetCameraMode(ECAMERAMODE::Fix);
 	}
 
+	StateSetting();
 }
 
-void EndLevel::Update(float _Delta)
+void DreamLevel::Update(float _Delta)
 {
-	ContentsLevel::Update(_Delta);
+	State.Update(_Delta);
 }
 
-void EndLevel::LevelStart(class GameEngineLevel* _NextLevel)
+void DreamLevel::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	ContentsLevel::LevelStart(_NextLevel);
 
@@ -51,9 +51,25 @@ void EndLevel::LevelStart(class GameEngineLevel* _NextLevel)
 	std::shared_ptr<FadeObject> Fade = CreateActor<FadeObject>(EUPDATEORDER::Fade);
 	Fade->CallFadeIn(Ending_FadeIn_Duration);
 
+	RendererSetting();
+	State.ChangeState(EDREAMSTATE::Stay);
+}
 
-	const float4 WinScale = GlobalValue::GetWindowScale();
-	float4 BasePosition = WinScale.Half();
+void DreamLevel::LevelEnd(class GameEngineLevel* _NextLevel)
+{
+	ResRelease();
+	BGMPlayer.Stop();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+
+
+void DreamLevel::RendererSetting()
+{
+	const float4& WinScale = GlobalValue::GetWindowScale();
+	const float4& HWinScale = WinScale.Half();
+	float4 BasePosition = HWinScale;
 	BasePosition.Y *= -1.0f;
 	BasePosition.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Back_Paint);
 
@@ -63,22 +79,7 @@ void EndLevel::LevelStart(class GameEngineLevel* _NextLevel)
 	BaseBackGround->m_Renderer->GetColorData().PlusColor = float4(-1.0f, -1.0f, -1.0f, 1.0f);
 	BaseBackGround->m_Renderer->GetImageTransform().SetLocalScale(WinScale);
 
-	Init();
-	PlayEndingBGM();
-}
 
-void EndLevel::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-	ResRelease();
-	BGMPlayer.Stop();
-}
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
-void EndLevel::Init()
-{
-	const float4 HWinScale = GlobalValue::GetWindowScale().Half();
 	float4 BackGroundPosition = HWinScale;
 	BackGroundPosition.Y *= -1.0f;
 	BackGroundPosition.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Object);
@@ -94,7 +95,35 @@ void EndLevel::Init()
 	EndingBackGround->m_Renderer->ChangeAnimation("Dream");
 }
 
-void EndLevel::ResLoad()
+void DreamLevel::StateSetting() 
+{
+	CreateStateParameter StayState;
+	StayState.Stay = std::bind(&DreamLevel::UpdateStay, this, std::placeholders::_1, std::placeholders::_2);
+	StayState.End = std::bind(&DreamLevel::EndStay, this, std::placeholders::_1);
+	State.CreateState(EDREAMSTATE::Stay, StayState);
+
+	CreateStateParameter NoneState;
+	State.CreateState(EDREAMSTATE::None, NoneState);
+}
+
+void DreamLevel::UpdateStay(float _Delta, GameEngineState* _Parent)
+{
+	static constexpr float Max_Dream_Time = 6.0f;
+
+	if (_Parent->GetStateTime() > Max_Dream_Time)
+	{
+		_Parent->ChangeState(EDREAMSTATE::None);
+	}
+}
+
+void DreamLevel::EndStay(GameEngineState* _Parent)
+{
+	std::shared_ptr<FadeObject> NextLevelFade = CreateActor<FadeObject>(EUPDATEORDER::Fade);
+	NextLevelFade->CallFadeOut("WitchHouse_UpFloor", 1.2f);
+}
+
+
+void DreamLevel::ResLoad()
 {
 	if (nullptr == GameEngineTexture::Find("Sleep_1.png"))
 	{
@@ -119,16 +148,18 @@ void EndLevel::ResLoad()
 	}
 }
 
-void EndLevel::ResRelease()
+void DreamLevel::ResRelease()
 {
 	if (nullptr != GameEngineSprite::Find("Sleep_1.png"))
 	{
 		GameEngineSprite::Release("Sleep_1.png");
 	}
-}
 
-void EndLevel::PlayEndingBGM()
-{
-	BGMPlayer = GameEngineSound::SoundPlay("SFX_Sleep_01.wav", 999);
-	BGMPlayer.SetVolume(GlobalValue::GetSFXVolume());
+	if (nullptr == GameEngineTexture::Find("Sleep_1.png"))
+	{
+		GameEngineFile pfile;
+		pfile.MoveParentToExistsChild("Resources");
+		pfile.MoveChild("Resources\\PlayContents\\PlayResourecs\\UI\\UI_SpriteCut\\Dream");
+		GameEngineTexture::Release(pfile.GetStringPath());
+	}
 }

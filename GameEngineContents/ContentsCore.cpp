@@ -56,7 +56,7 @@ void ContentsCore::Start()
 	GameEngineCore::CreateLevel<WitchHouse_Yard>("WitchHouse_Yard");
 	GameEngineCore::CreateLevel<WitchHouse_UpFloor>("WitchHouse_UpFloor");
 	GameEngineCore::CreateLevel<WitchHouse_DownFloor>("WitchHouse_DownFloor");
-	GameEngineCore::CreateLevel<EndLevel>("EndLevel");
+	GameEngineCore::CreateLevel<DreamLevel>("EndLevel");
 	GameEngineCore::CreateLevel<TestLevel>("TestLevel");
 	GameEngineCore::CreateLevel<MapEditorLevel>("MapEditorLevel");
 	GameEngineCore::ChangeLevel("MainMenu");
