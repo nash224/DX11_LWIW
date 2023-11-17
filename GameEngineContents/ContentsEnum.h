@@ -97,12 +97,7 @@ enum class EHOUSEDEPTH
 
 enum class EUI_RENDERORDERDEPTH
 {
-	Alert_Font = -400,
-	Alert_Img,
-	Alert_Stamp,
-	Alert_Base,
-	Alert_Shadow,
-	Window_Font,
+	Window_Font = -400,
 	Window_Cursor,
 	Window_Frame,
 	Window_Base,
@@ -120,6 +115,11 @@ enum class EUI_RENDERORDERDEPTH
 	Conversation_Tail,
 	Conversation_Frame,
 	Conversation_Portrait,
+	Alert_Font,
+	Alert_Img,
+	Alert_Stamp,
+	Alert_Base,
+	Alert_Shadow,
 	UIArrow,
 	HUB_Font,
 	HUB_Icon,

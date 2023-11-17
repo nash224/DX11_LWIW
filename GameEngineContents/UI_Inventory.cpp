@@ -427,6 +427,7 @@ void UI_Inventory::CreateCursor()
 
 	std::shared_ptr<GameEngineUIRenderer> NameTooltip = CreateComponent<GameEngineUIRenderer>();
 	NameTooltip->SetSprite("Inventory_NameTooltip.png");
+	NameTooltip->GetImageTransform().SetLocalScale(float4(96.0f, 28.0f));
 	NameTooltip->Off();
 	CursorInfo.NameTooltip = NameTooltip;
 
