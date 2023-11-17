@@ -250,6 +250,9 @@
     <Filter Include="4.Component\Emoji">
       <UniqueIdentifier>{d171a8ed-9849-413c-81e7-ee744aaa8902}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3.Actor\0.Manager\BGM">
+      <UniqueIdentifier>{17d5ded5-ed0b-4378-a572-a554ccbb83cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -663,6 +666,9 @@
     </ClInclude>
     <ClInclude Include="Emoji.h">
       <Filter>4.Component\Emoji</Filter>
+    </ClInclude>
+    <ClInclude Include="BGMManager.h">
+      <Filter>3.Actor\0.Manager\BGM</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1114,6 +1120,9 @@
     </ClCompile>
     <ClCompile Include="Emoji.cpp">
       <Filter>4.Component\Emoji</Filter>
+    </ClCompile>
+    <ClCompile Include="BGMManager.cpp">
+      <Filter>3.Actor\0.Manager\BGM</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
