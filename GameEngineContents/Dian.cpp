@@ -19,7 +19,7 @@ Dian::~Dian()
 
 void Dian::Start()
 {
-	CreateAndSetCollision(ECOLLISION::Entity, { 60.0f }, float4::ZERO, ColType::SPHERE2D);
+	CreateAndSetCollision(ECOLLISION::Entity, { 90.0f }, float4::ZERO, ColType::SPHERE2D);
 	SetInteractionOption(EINTERACTION_BUTTONTYPE::Gear, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Nothing);
 
 	ConversationSetting();

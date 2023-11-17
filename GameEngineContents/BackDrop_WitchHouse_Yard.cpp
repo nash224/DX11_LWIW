@@ -162,6 +162,17 @@ void BackDrop_WitchHouse_Yard::CreateNormalProp()
 		Object->SetPixelCollision("Yard_Stone_L_0_Pixel.png");
 		PixelVec.push_back(Object);
 	}
+
+	{
+		const float4& WinScale = GlobalValue::GetWindowScale();
+		float4 Position = WinScale.Half();
+		Position.Y *= -1.0f;
+
+		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
+		Object->Transform.SetLocalPosition(Position);
+		Object->SetPixelCollision("Yard_Map_Pixel.png");
+		PixelVec.push_back(Object);
+	}
 }
 
 void BackDrop_WitchHouse_Yard::CreateHouse()
