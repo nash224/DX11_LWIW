@@ -238,16 +238,11 @@ private:
 
 	void CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce);
 	EDIRECTION ReturnDirectionCheckBothSide(EDIRECTION _Direction, const float4& _LeftCheckPoint, const float4& _RightCheckPoint);
-	EDIRECTION ReturnPixelCollisionMoveDirectionToCurrentCheckPoint(EDIRECTION _Dir, const float4& _MoveVector);
 
 	void DecelerateNotDir(float _Delta, const float _MaxMoveForce);
 	float4 GetMoveForceByDir(float _Delta, float _MAXMoveForce, float _Acceleration_Time);
 	void LimitMoveVector(float _MAXMoveForce);
 	void WallCollision();
-
-	bool IsOverSpeed(float _CurSpeed, const float _MaxMoveForce);
-	void DecelerateMoveVector(float _Delta, const float _MaxMoveForce, const float _DecelerationTime);
-	void DecelerateAtMidpoint(float _Delta, const float _MaxMoveForce, const float _Time);
 
 	void PlaySFX(std::string_view _FileName);
 
@@ -294,7 +289,7 @@ private:
 	static constexpr const float CONST_Ellie_Run_Speed = 220.0f;
 	static constexpr const float CONST_Ellie_NonRiding_Acceleration_Time = 1.0f;
 	static constexpr const float CONST_Ellie_Riding_Move_Acceleration_Time = 0.8f;
-	static constexpr const float CONST_Ellie_Riding_Boosting_Acceleration_Time = 0.7f;
+	static constexpr const float CONST_Ellie_Riding_Boosting_Acceleration_Time = 0.8f;
 	static constexpr const float CONST_Ellie_Riding_Move_Speed = 300.0f;
 	static constexpr const float CONST_Ellie_Riding_Boost_Speed = 500.0f;
 

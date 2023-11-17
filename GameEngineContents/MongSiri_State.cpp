@@ -42,7 +42,7 @@ void MongSiri::StartIdle()
 
 void MongSiri::UpdateIdle(float _Delta)
 {
-	if (true == IsPlayerAround() && EMONGSIRISTATUS::Escape != Status )
+	if (true == IsPlayerAround() && EMONGSIRISTATUS::Escape != Status)
 	{
 		ChangeState(EMONGSIRISTATE::Look);
 		return;
@@ -234,7 +234,6 @@ void MongSiri::UpdateLook(float _Delta)
 
 void MongSiri::StartRecognize(GameEngineState* _Parent)
 {
-	// imoge
 	Emotion.ShowExclamation();
 
 	ChangeAnimationByDircetion("Look");
@@ -242,6 +241,13 @@ void MongSiri::StartRecognize(GameEngineState* _Parent)
 
 void MongSiri::UpdateRecognize(float _Delta, GameEngineState* _Parent)
 {
+	if (EMONGSIRISTATUS::Escape == Status)
+	{
+		ChangeState(EMONGSIRISTATE::Idle);
+		LookState.ChangeState(ELOOKSTATE::None);
+		return;
+	}
+
 	if (false == IsPlayerAround())
 	{
 		LookState.ChangeState(ELOOKSTATE::NotRecognize);
@@ -268,7 +274,6 @@ void MongSiri::UpdateRecognize(float _Delta, GameEngineState* _Parent)
 
 			Animation.lock()->Inter[3] = fChance;
 		}
-		
 	}
 
 	AutoChangeDirAnimation("Look");
@@ -348,12 +353,13 @@ void MongSiri::UpdateCollected(float _Delta)
 
 void MongSiri::EndCollected()
 {
+	Status = EMONGSIRISTATUS::Escape;
+
 	if (nullptr != MongSiriParant)
 	{
+		Emotion.UseOnlyExclamation();
 		MongSiriParant->EscapeHoleToOtherMonsiri();
 	}
-
-	Status  = EMONGSIRISTATUS::Escape;
 }
 
 
@@ -409,4 +415,10 @@ void MongSiri::AutoChangeDirAnimation(std::string_view _StateName)
 		const int currentIndex = Animation.lock()->CurIndex;
 		ChangeAnimationByDircetion(_StateName, static_cast<unsigned int>(currentIndex));
 	}
+}
+
+void MongSiri::ShowEscapeEmotion()
+{
+	Emotion.ShowExclamation();
+	Emotion.UseOnlyExclamation();
 }

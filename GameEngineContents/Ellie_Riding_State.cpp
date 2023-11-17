@@ -158,8 +158,6 @@ void Ellie::UpdateRiding_Boosting(float _Delta)
 
 	ChangeDirectionAnimation("Riding_Boosting");
 
-
-
 	DecelerateNotDir(_Delta, CONST_Ellie_Riding_Boost_Speed);
 	m_MoveVector += GetMoveForceByDir(_Delta, CONST_Ellie_Riding_Boost_Speed, CONST_Ellie_Riding_Boosting_Acceleration_Time);
 	LimitMoveVector(CONST_Ellie_Riding_Boost_Speed);
@@ -233,7 +231,7 @@ void Ellie::WallCollision()
 	const float4& RightCheckUnitVector = float4::Cross3D(CheckUnitVector.DirectXVector, float4::BACKWARD);
 	static constexpr float CheckDistanceToMyPos = 10.0f;
 
-	static constexpr int Max_Check_Count = 5;
+	static constexpr int Max_Check_Count = 8;
 	int CheckCount = Max_Check_Count;
 	while (CheckCount > 0)
 	{

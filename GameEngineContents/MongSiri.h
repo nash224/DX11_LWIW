@@ -105,7 +105,7 @@ private:
 	void StartDisappear();
 	void UpdateDisappear(float _Delta);
 
-	
+	void ShowEscapeEmotion();
 
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> ShadowRenderer = nullptr;

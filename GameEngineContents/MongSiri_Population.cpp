@@ -188,7 +188,19 @@ void MongSiri_Population::EscapeHoleToOtherMonsiri()
 
 	for (;StarIter != EndIter; ++StarIter)
 	{
-		(*StarIter)->Status = EMONGSIRISTATUS::Escape;
+		std::weak_ptr<MongSiri> Other = (*StarIter);
+		if (true == Other.expired())
+		{
+			MsgBoxAssert("존재하지 않는 몽시리가 있습니다.");
+			return;
+		}
+
+		if (Other.lock()->Status != EMONGSIRISTATUS::Escape)
+		{
+			Other.lock()->ShowEscapeEmotion();
+		}
+
+		Other.lock()->Status = EMONGSIRISTATUS::Escape;
 	}
 }
 
