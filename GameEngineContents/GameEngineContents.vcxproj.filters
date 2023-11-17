@@ -25,9 +25,6 @@
     <Filter Include="100.Z_Test\0.Level">
       <UniqueIdentifier>{b11e4423-561b-42c5-8cc9-d5076dfd357d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="PixelCollision">
-      <UniqueIdentifier>{8a668e94-d491-4242-b5ac-e210bb340594}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Rendering">
       <UniqueIdentifier>{5453e01f-eb5f-42b2-b353-29bd4e644d5b}</UniqueIdentifier>
     </Filter>
@@ -240,6 +237,18 @@
     </Filter>
     <Filter Include="3.Actor\2.Interactive\Static\Bed">
       <UniqueIdentifier>{37f9160f-fb2d-4236-8f18-93c511ad0d53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4.Component">
+      <UniqueIdentifier>{17384fb5-9a1c-4bc6-ad5c-a141315e595f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4.Component\PixelCollision">
+      <UniqueIdentifier>{8a668e94-d491-4242-b5ac-e210bb340594}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4.Component\ALight">
+      <UniqueIdentifier>{be118570-faa6-4c87-b115-ac88aef36ec5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4.Component\Emoji">
+      <UniqueIdentifier>{d171a8ed-9849-413c-81e7-ee744aaa8902}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -529,9 +538,6 @@
     <ClInclude Include="UI_Hub_Calender.h">
       <Filter>3.Actor\0.Manager\UIManager\3.Hub</Filter>
     </ClInclude>
-    <ClInclude Include="ALightLerp.h">
-      <Filter>3.Actor\0.Manager\AlertManager</Filter>
-    </ClInclude>
     <ClInclude Include="RidingFx.h">
       <Filter>3.Actor\2.Interactive\Dynamic\Ellie\Broom\Ride_Fx</Filter>
     </ClInclude>
@@ -539,7 +545,7 @@
       <Filter>3.Actor\1.BackManager\1.MainMenu</Filter>
     </ClInclude>
     <ClInclude Include="PixelCollision.h">
-      <Filter>PixelCollision</Filter>
+      <Filter>4.Component\PixelCollision</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_Field.h">
       <Filter>3.Actor\1.BackManager\2.Play</Filter>
@@ -648,6 +654,15 @@
     </ClInclude>
     <ClInclude Include="BedUI.h">
       <Filter>3.Actor\2.Interactive\Static\Bed</Filter>
+    </ClInclude>
+    <ClInclude Include="FireWorksEvent.h">
+      <Filter>3.Actor\5.Event</Filter>
+    </ClInclude>
+    <ClInclude Include="ALightLerp.h">
+      <Filter>4.Component\ALight</Filter>
+    </ClInclude>
+    <ClInclude Include="Emoji.h">
+      <Filter>4.Component\Emoji</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -956,9 +971,6 @@
     <ClCompile Include="UI_Hub_Calender.cpp">
       <Filter>3.Actor\0.Manager\UIManager\3.Hub</Filter>
     </ClCompile>
-    <ClCompile Include="ALightLerp.cpp">
-      <Filter>3.Actor\0.Manager\AlertManager</Filter>
-    </ClCompile>
     <ClCompile Include="Ellie_Resources.cpp">
       <Filter>3.Actor\2.Interactive\Dynamic\Ellie</Filter>
     </ClCompile>
@@ -978,7 +990,7 @@
       <Filter>3.Actor\2.Interactive\Dynamic\Ellie\Broom</Filter>
     </ClCompile>
     <ClCompile Include="PixelCollision.cpp">
-      <Filter>PixelCollision</Filter>
+      <Filter>4.Component\PixelCollision</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_Field.cpp">
       <Filter>3.Actor\1.BackManager\2.Play</Filter>
@@ -1093,6 +1105,15 @@
     </ClCompile>
     <ClCompile Include="BedUI.cpp">
       <Filter>3.Actor\2.Interactive\Static\Bed</Filter>
+    </ClCompile>
+    <ClCompile Include="FireWorksEvent.cpp">
+      <Filter>3.Actor\5.Event</Filter>
+    </ClCompile>
+    <ClCompile Include="ALightLerp.cpp">
+      <Filter>4.Component\ALight</Filter>
+    </ClCompile>
+    <ClCompile Include="Emoji.cpp">
+      <Filter>4.Component\Emoji</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

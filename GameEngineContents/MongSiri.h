@@ -1,5 +1,6 @@
 #pragma once
 #include "DynamicEntity.h"
+#include "Emoji.h"
 
 
 enum class EMONGSIRISTATUS
@@ -115,6 +116,8 @@ private:
 	EMONGSIRISTATUS Status = EMONGSIRISTATUS::None;
 
 	EDIRECTION RenderDir = EDIRECTION::CENTER;
+
+	Emoji Emotion;
 
 	float4 TargetForce = float4::ZERO;
 

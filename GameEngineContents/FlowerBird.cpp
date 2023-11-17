@@ -55,6 +55,8 @@ void FlowerBird::Update(float _Delta)
 	DynamicEntity::Update(_Delta);
 
 	UpdateState(_Delta);
+
+	Emotion.Update(_Delta);
 }
 
 void FlowerBird::Release()
@@ -62,6 +64,8 @@ void FlowerBird::Release()
 	DynamicEntity::Release();
 
 	m_Shadow = nullptr;
+
+	Emotion.Release();
 }
 
 
@@ -73,6 +77,8 @@ void FlowerBird::Init()
 {
 	ApplyDepth();
 	AnimationSetting();
+	Emotion.Init(this, float4(0.0f, 40.0f));
+	Emotion.UseOnlyExclamation();
 	DirectionSetting();
 	ChangeState(EFLOWERBIRDSTATE::Idle);
 }
@@ -94,6 +100,10 @@ void FlowerBird::AnimationSetting()
 	}
 
 	static constexpr const int RenderOrder = 0;
+
+	static constexpr float FlowerBirdBloomInter = 0.06f;
+	static constexpr float FlowerBirdPeaksInter = 0.2f;
+	static constexpr float FlowerBirdBlossomInter = 1.0f;
 
 	BodyRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
 	BodyRenderer->CreateAnimation("Idle", "FlowerBird_Standing.png", 5.0f, 2, 2, false);

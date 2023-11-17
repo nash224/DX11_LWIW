@@ -60,6 +60,9 @@ void UI_ProcessList::Init()
 	CreateProcessSlot("WitchFlower_Water");
 	CreateProcessSlot("Mongsiri_Water");
 	CreateProcessSlot("FlowerBird_Water");
+	CreateProcessSlot("MapleHerb_Water");
+	CreateProcessSlot("SilverStarFlower_Water");
+	/*CreateProcessSlot("BushBug_Water");*/
 
 	CursorSetting();
 }
@@ -336,7 +339,7 @@ void UI_ProcessList::RenewSlot()
 		else
 		{
 			int Line = 0;
-			for (int i = CurrentCursor - CurCursorLine; i < CurrentCursor + CurCursorLine + 1; i++)
+			for (int i = CurrentCursor - CurCursorLine; i < CurrentCursor + CurCursorLine; i++)
 			{
 				float4 SlotPosition = PROCESS_FIRST_SLOT_POSITION;
 				SlotPosition.Y = PROCESS_SLOT_GAP * static_cast<float>(Line);

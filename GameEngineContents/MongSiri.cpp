@@ -45,6 +45,7 @@ void MongSiri::Update(float _Delta)
 	DynamicEntity::Update(_Delta);
 
 	UpdateState(_Delta);
+	Emotion.Update(_Delta);
 }
 
 void MongSiri::Release()
@@ -52,6 +53,7 @@ void MongSiri::Release()
 	DynamicEntity::Release();
 
 	ShadowRenderer = nullptr;
+	Emotion.Release();
 }
 
 
@@ -63,6 +65,8 @@ void MongSiri::Init()
 {
 	ApplyDepth();
 	RendererSetting();
+	Emotion.Init(this, float4(0.0f, 40.0f));
+	Emotion.SetRecognitionRange(MongSiri_FOVSize);
 	LookStateSetting();
 	InitDirection();
 	ChangeState(EMONGSIRISTATE::Idle);

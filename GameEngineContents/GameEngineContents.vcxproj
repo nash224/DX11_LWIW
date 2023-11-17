@@ -283,11 +283,19 @@
     </ClCompile>
     <ClCompile Include="Ellie_Resources.cpp" />
     <ClCompile Include="Ellie_Virgil.cpp" />
+    <ClCompile Include="Emoji.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="EndLevel.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="FieldLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="FireWorksEvent.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -820,11 +828,19 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="EffectEnum.h" />
+    <ClInclude Include="Emoji.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="EndLevel.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="FieldLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="FireWorksEvent.h">
       <SubType>
       </SubType>
     </ClInclude>

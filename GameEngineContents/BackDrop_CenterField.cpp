@@ -222,7 +222,7 @@ void BackDrop_CenterField::NPCSetting()
 
 void BackDrop_CenterField::CreateCreatureWhenDayChange()
 {
-	BackDrop_Field::CreateBush(float4(590.0f, -274.0f), EBUSHTYPE::BushApple);
+	BackDrop_Field::CreateBush(float4(590.0f, -274.0f), EBUSHTYPE::BushBug);
 	BackDrop_Field::CreateBush(float4(1244.0f, -1117.0f), EBUSHTYPE::BushApple);
 	BackDrop_Field::CreateBush(float4(1374.0f, -723.0f), EBUSHTYPE::BushBug);
 	BackDrop_Field::CreateBush(float4(1645.0f, -212.0f), EBUSHTYPE::BushApple);

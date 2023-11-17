@@ -32,6 +32,8 @@ enum class ERENDERDEPTH
 	illuminant = -120,
 	SkyBox = -110,
 	Roof = -100,
+	Emoticon_Emotion,
+	Emoticon_Base,
 	FX,
 	Hill_Object = -1,
 	Object = 0,

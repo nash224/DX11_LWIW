@@ -28,42 +28,53 @@ void FlowerBird::DecideAction()
 	RandomClass.SetSeed(reinterpret_cast<__int64>(this) + GlobalValue::GetSeedValue());
 
 	int ChoosingNumber = RandomClass.RandomInt(0, 5);
-
-	switch (ChoosingNumber)
+	enum class EBIRDACTION
 	{
-	case 0: // 1번 턴
+		OneTurn,
+		TwoTurn,
+		ThreeTurn,
+		Pick,
+		Bloom,
+		BloomFake,
+	};
+
+	EBIRDACTION Chance = static_cast<EBIRDACTION>(ChoosingNumber);
+
+	switch (Chance)
+	{
+	case EBIRDACTION::OneTurn:
 		m_AssignedTurnCount = 1;
 		m_TurnCount = m_AssignedTurnCount;
 		m_NextState = EFLOWERBIRDSTATE::Turn;
 		break;
-	case 1: // 2번 턴
+	case EBIRDACTION::TwoTurn:
 		m_AssignedTurnCount = 2;
 		m_TurnCount = m_AssignedTurnCount;
 		m_NextState = EFLOWERBIRDSTATE::Turn;
 		break;
-	case 2: // 3번 턴
+	case EBIRDACTION::ThreeTurn:
 		m_AssignedTurnCount = 3;
 		m_TurnCount = m_AssignedTurnCount;
 		m_NextState = EFLOWERBIRDSTATE::Turn;
 		break;
-	case 3:	// 쪼기
+	case EBIRDACTION::Pick:
 		m_PickCount = MaxPickCount;
 		m_NextState = EFLOWERBIRDSTATE::Pick;
 		break;
-	case 4: // 꽃핌
+	case EBIRDACTION::Bloom:
 		m_NextState = EFLOWERBIRDSTATE::Bloom;
 		break;
-	case 5: // 꽃 시듬
+	case EBIRDACTION::BloomFake:
 		m_NextState = EFLOWERBIRDSTATE::BloomFake;
 		break;
 	default:
 		break;
 	}
 
-	// 현재 행동 On으로 하고
 	IsActted = true;
 
-	// 대기시간 할당 => 이유 : 쪼기할때 시간이 다름
+	constexpr float FlowerBirdIdleWaitTime = 0.6f;
+
 	m_IdleTime = FlowerBirdIdleWaitTime;
 }
 
@@ -187,6 +198,8 @@ void FlowerBird::StartPick()
 
 void FlowerBird::UpdatePick(float _Delta)
 {
+	constexpr float FlowerBirdPickWaitTime = 0.4f;
+
 	if (true == GetReadyToFly())
 	{
 		return;
@@ -282,6 +295,9 @@ void FlowerBird::StartBloomFake()
 
 float FlowerBird::ReturnWaitWitherInter()
 {
+	constexpr float FlowerBirdMinWitherInter = 0.4f;
+	constexpr float FlowerBirdMaxWitherInter = 1.6f;
+
 	GameEngineRandom RandomClass;
 	RandomClass.SetSeed(reinterpret_cast<__int64>(this) + GlobalValue::GetSeedValue());
 	float WaitTime = RandomClass.RandomFloat(FlowerBirdMinWitherInter, FlowerBirdMaxWitherInter);
@@ -355,27 +371,28 @@ void FlowerBird::DecideFlyDirection()
 	float4 ElliePosition = Ellie::MainEllie->Transform.GetLocalPosition();
 	float4 MyPosition = Transform.GetLocalPosition();
 
-	// 앨리와 새 백터 위치의 반대로 날아가게함
 	if (ElliePosition.X - MyPosition.X > 0.0f)
 	{
-		// 날아갈 각도 및 렌더 방향지정
-		float FlyDegree = 180.0f - m_FlyDegree;
-		m_BirdFlyDirection = float4::GetUnitVectorFromDeg(FlyDegree);
+		float ReverseFlyDegree = 180.0f - FlyDegree;
+		m_BirdFlyDirection = float4::GetUnitVectorFromDeg(ReverseFlyDegree);
 		m_Dir = EDIRECTION::RIGHT;
 	}
 	else
 	{
-		m_BirdFlyDirection = float4::GetUnitVectorFromDeg(m_FlyDegree);
+		m_BirdFlyDirection = float4::GetUnitVectorFromDeg(FlyDegree);
 		m_Dir = EDIRECTION::LEFT;
 	}
 
-	// 속도와 깊이 지정
-	m_MoveVector = m_BirdFlyDirection * FlowerBirdFlySpeed;
+	static constexpr float FlySpeed = 600.0f;
+
+	m_MoveVector = m_BirdFlyDirection * FlySpeed;
 	PlusDepth = 300.0f;
 }
 
 void FlowerBird::UpdateFly(float _Delta)
 {
+	constexpr float ExitCameraCorrection = 50.0f;
+
 	ApplyMovement(_Delta);
 
 	float4 MyPosition = Transform.GetLocalPosition();
@@ -389,13 +406,14 @@ void FlowerBird::UpdateFly(float _Delta)
 	float4 CameraPosition = GlobalValue::g_CameraControler->GetCameraCurrentPostion();
 	float4 HWinScale = GlobalValue::GetWindowScale();
 
-	// 화면 밖으로 넘어가면 정리합니다.
-	if (MyPosition.X - FlowerBirdExitCameraBias < CameraPosition.X - HWinScale.X)
+	bool isExitOutOfCamera = (MyPosition.X - ExitCameraCorrection < CameraPosition.X - HWinScale.X);
+	if (isExitOutOfCamera)
 	{
 		Death();
 	}
 
-	if (MyPosition.X + FlowerBirdExitCameraBias > CameraPosition.X + HWinScale.X)
+	bool isExitOutOfRightCamera = (MyPosition.X + ExitCameraCorrection > CameraPosition.X + HWinScale.X);
+	if (isExitOutOfRightCamera)
 	{
 		Death();
 	}
@@ -418,63 +436,60 @@ bool FlowerBird::FeelThreatened()
 {
 	if (true == RecognizeEllie())
 	{
+		Emotion.ShowExclamation();
 		return true;
 	}
 
 	if (true == RecognizeWalkingEllie())
 	{
+		Emotion.ShowExclamation();
 		return true;
 	}
 
 	return false;
 }
 
-// 걸어오는 Ellie를 감지합니다.
 bool FlowerBird::RecognizeWalkingEllie()
 {
-	if (nullptr == Ellie::MainEllie)
-	{
-		MsgBoxAssert("메인 플레이어가 존재하지 않습니다.");
-		return false;
-	}
-	
-	// FlowerBird가 Ellie가 다가오는걸 확인하면 true 아니면 false
-	if (EELLIE_STATE::SlowWalk != Ellie::MainEllie->GetState())
-	{
-		float4 MyPosition = Transform.GetLocalPosition();
-		MyPosition.Z = 0.0f;
-		float4 ElliePosition = Ellie::MainEllie->Transform.GetLocalPosition();
-		ElliePosition.Z = 0.0f;
-		float Size = (ElliePosition - MyPosition).Size();
+	static constexpr float DetectionEllieWalkRange = 70.0f;
 
-		if (fabsf(Size) < FlowerBirdEllieWalkDetectionRange)
+	if (nullptr != Ellie::MainEllie)
+	{
+		EELLIE_STATE CurEllieState = Ellie::MainEllie->GetState();
+		if (EELLIE_STATE::SlowWalk == CurEllieState && EELLIE_STATE::Idle != CurEllieState)
 		{
-			return true;
+			const float4& MyPosition = Transform.GetLocalPosition();
+			const float4& ElliePosition = Ellie::MainEllie->Transform.GetLocalPosition();
+			const float4& Size = DirectX::XMVector2Length((ElliePosition - MyPosition).DirectXVector);
+
+			if (Size.X < DetectionEllieWalkRange)
+			{
+				return true;
+			}
 		}
 	}
-
+	
 	return false;
 }
 
-// 엘리가 자신에게 특정범위 내로 다가오는걸 감지합니다.
 bool FlowerBird::RecognizeEllie()
 {
-	if (nullptr == Ellie::MainEllie)
-	{
-		MsgBoxAssert("메인 플레이어가 존재하지 않습니다.");
-		return false;
-	}
+	static constexpr float DetectionEllieRange = 120.0f;
 
-	// FlowerBird가 Ellie가 자세를 낮춰 다가오는걸 확인하면 true 아니면 false
-	float4 MyPosition = Transform.GetLocalPosition();
-	MyPosition.Z = 0.0f;
-	float4 ElliePosition = Ellie::MainEllie->Transform.GetLocalPosition();
-	ElliePosition.Z = 0.0f;
-	float Size = (ElliePosition - MyPosition).Size();
-
-	if (fabsf(Size) < FlowerBirdEllieDetectionRange)
+	if (nullptr != Ellie::MainEllie)
 	{
-		return true;
+		EELLIE_STATE CurEllieState = Ellie::MainEllie->GetState();
+		if (EELLIE_STATE::SlowWalk != CurEllieState && EELLIE_STATE::Idle != CurEllieState)
+		{
+			const float4& MyPosition = Transform.GetLocalPosition();
+			const float4& ElliePosition = Ellie::MainEllie->Transform.GetLocalPosition();
+			const float4& Size = DirectX::XMVector2Length((ElliePosition - MyPosition).DirectXVector);
+
+			if (Size.X < DetectionEllieRange)
+			{
+ 				return true;
+			}
+		}
 	}
 
 	return false;

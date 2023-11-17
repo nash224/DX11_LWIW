@@ -235,6 +235,7 @@ void MongSiri::UpdateLook(float _Delta)
 void MongSiri::StartRecognize(GameEngineState* _Parent)
 {
 	// imoge
+	Emotion.ShowExclamation();
 
 	ChangeAnimationByDircetion("Look");
 }

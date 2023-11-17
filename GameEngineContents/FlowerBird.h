@@ -1,53 +1,24 @@
 #pragma once
 #include "DynamicEntity.h"
-
-
-constexpr float FlowerBirdMaxRange = 60.0f;
-
-constexpr float FlowerBirdIdleWaitTime = 0.6f;
-
-constexpr float FlowerBirdTurnSlowTime = 0.4f;
-constexpr float FlowerBirdTurnFastTime = 0.1f;
-
-constexpr float FlowerBirdPickWaitTime = 0.4f;
-
-constexpr float FlowerBirdBloomInter = 0.06f;
-constexpr float FlowerBirdPeaksInter = 0.2f;
-constexpr float FlowerBirdBlossomInter = 1.0f;
-
-
-constexpr float FlowerBirdMinWitherInter = 0.4f;
-constexpr float FlowerBirdMaxWitherInter = 1.6f;
-
-
-constexpr float FlowerBirdEllieWalkDetectionRange = 80.0f;
-constexpr float FlowerBirdEllieDetectionRange = 40.0f;
-
-
-constexpr float FlowerBirdFlySpeed = 600.0f;
-
-
-constexpr float FlowerBirdExitCameraBias = 50.0f;
-
-
-enum class EFLOWERBIRDSTATE
-{
-	Idle,
-	Turn,
-	Pick,
-	Bloom,
-	BloomFake,
-	BloomFlowers,
-	Fly,
-	None,
-
-};
-
+#include "Emoji.h"
 
 
 // Ό³Έν :
 class FlowerBird : public DynamicEntity
 {
+private:
+	enum class EFLOWERBIRDSTATE
+	{
+		Idle,
+		Turn,
+		Pick,
+		Bloom,
+		BloomFake,
+		BloomFlowers,
+		Fly,
+		None,
+	};
+
 public:
 	// constrcuter destructer
 	FlowerBird();
@@ -122,6 +93,7 @@ private:
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> m_Shadow = nullptr;
 
+	Emoji Emotion;
 
 	EFLOWERBIRDSTATE m_State = EFLOWERBIRDSTATE::None;
 	EFLOWERBIRDSTATE m_NextState = EFLOWERBIRDSTATE::None;
@@ -136,11 +108,12 @@ private:
 	float m_StateTime = 0.0f;
 	float m_IdleTime = 0.0f;
 	float m_TurnTime = 0.0f;
-	const float m_FlyDegree = 30.0f;
+	static constexpr float FlyDegree = 30.0f;
 
 	float4 m_BirdFlyDirection = float4::ZERO;
 
-
+	static constexpr float FlowerBirdTurnSlowTime = 0.4f;
+	static constexpr float FlowerBirdTurnFastTime = 0.1f;
 
 };
 
