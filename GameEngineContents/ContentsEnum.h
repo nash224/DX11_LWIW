@@ -121,6 +121,7 @@ enum class EUI_RENDERORDERDEPTH
 	Conversation_Frame,
 	Conversation_Portrait,
 	UIArrow,
+	HUB_Font,
 	HUB_Icon,
 	HUB_Indicator,
 	HUB_Gauge2,
