@@ -38,8 +38,10 @@ void DreamLevel::Start()
 
 void DreamLevel::Update(float _Delta)
 {
-	State.Update(_Delta);
+	ContentsLevel::Update(_Delta);
+
 	AutoPlayBGM();
+	State.Update(_Delta);
 }
 
 void DreamLevel::LevelStart(class GameEngineLevel* _NextLevel)
