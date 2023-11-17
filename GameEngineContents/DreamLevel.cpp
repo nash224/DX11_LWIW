@@ -3,6 +3,7 @@
 
 
 #include "CameraControler.h"
+#include "BGMManager.h"
 
 #include "RendererActor.h"
 #include "FadeObject.h"
@@ -38,6 +39,7 @@ void DreamLevel::Start()
 void DreamLevel::Update(float _Delta)
 {
 	State.Update(_Delta);
+	AutoPlayBGM();
 }
 
 void DreamLevel::LevelStart(class GameEngineLevel* _NextLevel)
@@ -59,6 +61,8 @@ void DreamLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	ResRelease();
 	BGMPlayer.Stop();
+
+	PlayLevel::s_TimeManager->ChangeDay();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -161,5 +165,18 @@ void DreamLevel::ResRelease()
 		pfile.MoveParentToExistsChild("Resources");
 		pfile.MoveChild("Resources\\PlayContents\\PlayResourecs\\UI\\UI_SpriteCut\\Dream");
 		GameEngineTexture::Release(pfile.GetStringPath());
+	}
+}
+
+
+void DreamLevel::AutoPlayBGM()
+{
+	if (nullptr != MainPlaySound)
+	{
+		const int bgmType = MainPlaySound->GetPlayType();
+		if (static_cast<int>(EPLAYBGMTYPE::Dream) != bgmType)
+		{
+			MainPlaySound->PlayBGM(EPLAYBGMTYPE::Dream, "SFX_Sleep_01.wav");
+		}
 	}
 }

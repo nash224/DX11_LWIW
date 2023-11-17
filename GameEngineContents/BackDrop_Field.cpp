@@ -2,6 +2,7 @@
 #include "BackDrop_Field.h"
 
 #include "PlayLevel.h"
+#include "TimeManager.h"
 
 
 #include "MongSiri_Population.h"
@@ -12,6 +13,7 @@
 #include "BranchTree.h"
 #include "Aurea.h"
 #include "PumpkinTerrier.h"
+#include "LootedItem.h"
 
 
 
@@ -37,6 +39,17 @@ void BackDrop_Field::Update(float _Delta)
 void BackDrop_Field::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	BackDrop_PlayLevel::LevelStart(_NextLevel);
+
+	if (nullptr != PlayLevel::s_TimeManager)
+	{
+		int TimeDay = PlayLevel::s_TimeManager->GetDayCount();
+		if (FieldDay!= TimeDay)
+		{
+			FieldDay = TimeDay;
+
+			FieldState.ChangeState(EDAYSTATE::DayChange);
+		}
+	}
 }
 
 void BackDrop_Field::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -110,8 +123,6 @@ void BackDrop_Field::CreatePumpkinTerrier(const float4& _Position)
 
 void BackDrop_Field::LeavePopulation()
 {
-	static constexpr const int GroupOrder = 0;
-
 	std::vector<std::shared_ptr<MongSiri_Population>> GroupPopulation = GetLevel()->GetObjectGroupConvert<MongSiri_Population>(EUPDATEORDER::Objects);
 	for (std::weak_ptr<MongSiri_Population> Population : GroupPopulation)
 	{
@@ -142,6 +153,82 @@ void BackDrop_Field::LeaveFlowerBird()
 
 #pragma endregion
 
+#pragma region Release
+
+void BackDrop_Field::ReleaseBush()
+{
+	std::vector<std::shared_ptr<FlowerBird>> BirdGroup = GetLevel()->GetObjectGroupConvert<FlowerBird>(EUPDATEORDER::Entity);
+	for (std::weak_ptr<FlowerBird> Bird : BirdGroup)
+	{
+		if (true == Bird.expired())
+		{
+			MsgBoxAssert("아무것도 들어있지 않습니다");
+			return;
+		}
+
+		Bird.lock()->Leave();
+	}
+}
+
+void BackDrop_Field::ReleaseWitchFlower()
+{
+
+}
+
+void BackDrop_Field::ReleaseSilverStarFlower()
+{
+
+}
+
+void BackDrop_Field::ReleaseBranchTree()
+{
+
+}
+
+void BackDrop_Field::ReleaseMongSiriPopulation()
+{
+	std::vector<std::shared_ptr<MongSiri_Population>> GroupPopulation = GetLevel()->GetObjectGroupConvert<MongSiri_Population>(EUPDATEORDER::Objects);
+	for (std::weak_ptr<MongSiri_Population> Population : GroupPopulation)
+	{
+		if (true == Population.expired())
+		{
+			MsgBoxAssert("아무것도 들어있지 않습니다");
+			return;
+		}
+
+		Population.lock()->ActorRelaese();
+	}
+}
+
+void BackDrop_Field::ReleaseFlowerBird()
+{
+
+}
+
+void BackDrop_Field::ReleasePumpkinTerrier()
+{
+
+}
+
+void BackDrop_Field::ReleaseItemDrop()
+{
+	std::vector<std::shared_ptr<LootedItem>> DropItems = GetLevel()->GetObjectGroupConvert<LootedItem>(EUPDATEORDER::Entity);
+	for (std::weak_ptr<LootedItem> DropItem : DropItems)
+	{
+		if (true == DropItem.expired())
+		{
+			MsgBoxAssert("아무것도 들어있지 않습니다");
+			return;
+		}
+
+		DropItem.lock()->Death();
+	}
+}
+
+#pragma endregion
+
+
+
 
 
 
@@ -156,12 +243,14 @@ void BackDrop_Field::StateSetting()
 	FieldState.CreateState(EDAYSTATE::Day, DayState);
 
 	CreateStateParameter NightState;
-	NightState.Start = std::bind(&BackDrop_Field::StartDay, this, std::placeholders::_1);
-	NightState.Stay = std::bind(&BackDrop_Field::UpdateDay, this, std::placeholders::_1, std::placeholders::_2);
-	NightState.End = std::bind(&BackDrop_Field::EndDay, this, std::placeholders::_1);
-	FieldState.CreateState(EDAYSTATE::Day, NightState);
+	NightState.Start = std::bind(&BackDrop_Field::StartNight, this, std::placeholders::_1);
+	NightState.Stay = std::bind(&BackDrop_Field::UpdateNight, this, std::placeholders::_1, std::placeholders::_2);
+	NightState.End = std::bind(&BackDrop_Field::EndNight, this, std::placeholders::_1);
+	FieldState.CreateState(EDAYSTATE::Night, NightState);
 
-	FieldState.ChangeState(EDAYSTATE::Day);
+	CreateStateParameter DayChangeState;
+	DayChangeState.Start = std::bind(&BackDrop_Field::StartDayChange, this, std::placeholders::_1);
+	FieldState.CreateState(EDAYSTATE::DayChange, DayChangeState);
 }
 
 
@@ -173,6 +262,12 @@ void BackDrop_Field::StartDay(GameEngineState* _Parent)
 void BackDrop_Field::StartNight(GameEngineState* _Parent)
 {
 	AppearNightCreature();
+}
+
+void BackDrop_Field::StartDayChange(GameEngineState* _Parent)
+{
+	ReleaseAllCreature();
+	FieldState.ChangeState(EDAYSTATE::Day);
 }
 
 void BackDrop_Field::UpdateDay(float _Delta, GameEngineState* _Parent)
@@ -193,17 +288,15 @@ void BackDrop_Field::EndDay(GameEngineState* _Parent)
 
 void BackDrop_Field::EndNight(GameEngineState* _Parent)
 {
-	ReleaseAllCreature();
+	
 }
-
-
 
 void BackDrop_Field::DetectNight()
 {
 	if (nullptr != PlayLevel::s_TimeManager)
 	{
-		bool isEndDay = (false == isNight && EDAYSTATE::Night == PlayLevel::s_TimeManager->GetDayState());
-		if (isEndDay)
+		bool isChangeNight = (false == isNight && EDAYSTATE::Night == PlayLevel::s_TimeManager->GetDayState());
+		if (isChangeNight)
 		{
 			FieldState.ChangeState(EDAYSTATE::Night);
 			isNight = true;

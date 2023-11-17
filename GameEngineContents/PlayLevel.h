@@ -3,15 +3,6 @@
 #include <GameEngineCore/GameEngineGUI.h>
 
 
-enum class EPLAYBGMTYPE
-{
-	Day,
-	Night,
-	House,
-	None,
-};
-
-
 // Ό³Έν :
 class Ellie;
 class PortalObject;
@@ -29,7 +20,6 @@ protected:
 public:
 	static std::unique_ptr<class TimeManager> s_TimeManager;
 	static std::unique_ptr<class AlertManager> s_AlertManager;
-	static std::unique_ptr<class BGMManager> MainPlaySound;
 
 public:
 	// constrcuter destructer

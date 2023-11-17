@@ -6,6 +6,7 @@ enum class EDAYSTATE
 {
 	Day,
 	Night,
+	DayChange,
 	None,
 };
 

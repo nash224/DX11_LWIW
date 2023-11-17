@@ -104,7 +104,7 @@ float BackDrop_PlayLevel::ReturnPlusDepth(const float _PositionY) const
 // 떨어질 거리
 void BackDrop_PlayLevel::CreateItem(std::string_view _ItemName, const float4& _Position, const int _Stack /*= 1*/, const float _FallYPosition /*= 0.0f*/)
 {
-	std::shared_ptr<LootedItem> Item = GetLevel()->CreateActor<LootedItem>(EUPDATEORDER::Objects);
+	std::shared_ptr<LootedItem> Item = GetLevel()->CreateActor<LootedItem>(EUPDATEORDER::Entity);
 
 	Item->BackManager = this;
 

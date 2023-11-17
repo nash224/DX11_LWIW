@@ -1,5 +1,7 @@
 #pragma once
 #include "ContentsLevel.h"
+#include "PlayLevel.h"
+#include "TimeManager.h"
 
 // Ό³Έν :
 class DreamLevel : public ContentsLevel
@@ -34,6 +36,8 @@ protected:
 
 	void EndStay(GameEngineState* _Parent);
 	void UpdateStay(float _Delta, GameEngineState* _Parent);
+
+	void AutoPlayBGM();
 
 	void ResLoad();
 	void ResRelease();

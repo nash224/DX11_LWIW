@@ -41,6 +41,34 @@ protected:
 	void LeavePopulation();
 	void LeaveFlowerBird();
 
+	template<typename EntityType>
+	void ReleaseEntity()
+	{
+		std::vector<std::shared_ptr<EntityType>> EntityGroup = GetLevel()->GetObjectGroupConvert<EntityType>(EUPDATEORDER::Entity);
+		for (std::weak_ptr<EntityType> Entity : EntityGroup)
+		{
+			if (true == Entity.expired())
+			{
+				MsgBoxAssert("아무것도 들어있지 않습니다");
+				return;
+			}
+
+			Entity.lock()->Death();
+		}
+	}
+
+	void ReleaseItemDrop();
+
+	void ReleaseBush();
+	void ReleaseWitchFlower();
+	void ReleaseSilverStarFlower();
+	void ReleaseBranchTree();
+	void ReleaseMongSiriPopulation();
+	void ReleaseFlowerBird();
+	void ReleasePumpkinTerrier();
+
+
+
 
 	virtual void DisappearDayCreature() = 0;
 	virtual void AppearNightCreature() = 0;
@@ -52,6 +80,7 @@ private:
 
 	void StartDay(GameEngineState* _Parent);
 	void StartNight(GameEngineState* _Parent);
+	void StartDayChange(GameEngineState* _Parent);
 
 	void UpdateDay(float _Delta, GameEngineState* _Parent);
 	void UpdateNight(float _Delta, GameEngineState* _Parent);
@@ -64,6 +93,8 @@ private:
 private:
 	GameEngineState FieldState;
 	bool isNight = false;
+
+	int FieldDay = -1;
 
 
 };

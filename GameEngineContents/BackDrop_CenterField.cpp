@@ -269,5 +269,14 @@ void BackDrop_CenterField::AppearNightCreature()
 
 void BackDrop_CenterField::ReleaseAllCreature()
 {
+	ReleaseEntity<Bush>();
+	ReleaseEntity<WitchFlower>();
+	ReleaseEntity<FlowerBird>();
+	ReleaseEntity<SilverStarFlower>();
+	ReleaseEntity<BranchTree>();
 
+	ReleaseItemDrop();
+	ReleaseMongSiriPopulation();
+
+	PixelStaticEntityVec.clear();
 }

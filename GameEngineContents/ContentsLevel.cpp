@@ -5,9 +5,11 @@
 #include "CameraControler.h"
 
 #include "OutLineEffect.h"
+#include "BGMManager.h"
 
 
 bool ContentsLevel::PixelDebugMode = false;
+std::unique_ptr<BGMManager> PlayLevel::MainPlaySound;
 ContentsLevel::ContentsLevel() 
 {
 	GetMainCamera()->Transform.SetLocalPosition({ 0.0f, 0.0f, -500.0f });
@@ -31,6 +33,13 @@ void ContentsLevel::Start()
 	m_LevelCameraControler = CreateActor<CameraControler>(EUPDATEORDER::CameraControler);
 
 	GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<OutLineEffect>();
+
+
+	if (nullptr == MainPlaySound)
+	{
+		MainPlaySound = std::make_unique<BGMManager>();
+		MainPlaySound->Init();
+	}
 }
 
 void ContentsLevel::Update(float _Delta)
@@ -41,6 +50,11 @@ void ContentsLevel::Update(float _Delta)
 	}
 
 	ChangeDebugMode();
+
+	if (nullptr != MainPlaySound)
+	{
+		MainPlaySound->Update(_Delta);
+	}
 }
 
 void ContentsLevel::LevelStart(class GameEngineLevel* _NextLevel)

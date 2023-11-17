@@ -8,6 +8,16 @@ enum class EGAMEMODE
 };
 
 
+enum class EPLAYBGMTYPE
+{
+	Day,
+	Night,
+	House,
+	Dream,
+	None,
+};
+
+
 // Ό³Έν :
 class CameraControler;
 class ContentsLevel : public GameEngineLevel
@@ -17,6 +27,7 @@ public:
 
 public:
 	std::shared_ptr<CameraControler> m_LevelCameraControler = nullptr;
+	static std::unique_ptr<class BGMManager> MainPlaySound;
 
 public:
 	// constrcuter destructer

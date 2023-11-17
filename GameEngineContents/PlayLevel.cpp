@@ -21,18 +21,13 @@
 
 std::unique_ptr<TimeManager> PlayLevel::s_TimeManager;
 std::unique_ptr<AlertManager> PlayLevel::s_AlertManager;
-std::unique_ptr<BGMManager> PlayLevel::MainPlaySound;
 PlayLevel::PlayLevel()
 {
 }
 
 PlayLevel::~PlayLevel()
 {
-	//if (nullptr != MainPlaySound)
-	//{
-	//	MainPlaySound.release();
-	//	MainPlaySound = nullptr;
-	//}
+
 }
 
 void PlayLevel::Start()
@@ -50,12 +45,6 @@ void PlayLevel::Start()
 		s_AlertManager = std::make_unique<AlertManager>();
 	}
 
-	if (nullptr == MainPlaySound)
-	{
-		MainPlaySound = std::make_unique<BGMManager>();
-		MainPlaySound->Init();
-	}
-
 	EffectSetting();
 }
 
@@ -71,11 +60,6 @@ void PlayLevel::Update(float _Delta)
 	if (nullptr != s_AlertManager)
 	{
 		s_AlertManager->Update(_Delta);
-	}
-
-	if (nullptr != MainPlaySound)
-	{
-		MainPlaySound->Update(_Delta);
 	}
 }
 
