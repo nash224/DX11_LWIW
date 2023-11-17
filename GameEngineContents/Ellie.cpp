@@ -948,9 +948,9 @@ void Ellie::LimitMoveVector(float _MAXMoveForce)
 {
 	const float4& MoveVectorSize = DirectX::XMVector2Length(m_MoveVector.DirectXVector);
 	float LimitedSpeed = 0.0f;
-	if (MoveVectorSize.X > CONST_Ellie_Riding_Move_Speed)
+	if (MoveVectorSize.X > _MAXMoveForce)
 	{
-		LimitedSpeed = CONST_Ellie_Riding_Move_Speed;
+		LimitedSpeed = _MAXMoveForce;
 	}
 	else
 	{
