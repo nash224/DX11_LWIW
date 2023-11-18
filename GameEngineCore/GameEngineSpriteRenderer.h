@@ -232,6 +232,7 @@ public:
 
 	void SetText(const std::string& _Font, const std::string& _Text, float _Scale = 20.0f, float4 Color = float4::RED, FW1_TEXT_FLAG Flag = FW1_LEFT);
 	void ChangeText(std::string_view _Text, unsigned int _Index = 0);
+	void ChangeFontScale(float _Size, unsigned int _Index = 0);
 	void SetTextColor(const float4& _Color = float4::RED, unsigned int _Index = 0);
 	void SetTextAlpha(float _AlphaValue = 1.0f, unsigned int _Index = 0);
 

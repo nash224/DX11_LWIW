@@ -9,7 +9,7 @@
 
 
 bool ContentsLevel::PixelDebugMode = false;
-std::unique_ptr<BGMManager> PlayLevel::MainPlaySound;
+std::unique_ptr<BGMManager> ContentsLevel::MainPlaySound;
 ContentsLevel::ContentsLevel() 
 {
 	GetMainCamera()->Transform.SetLocalPosition({ 0.0f, 0.0f, -500.0f });

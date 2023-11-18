@@ -3,8 +3,11 @@
 
 #include "Ellie.h"
 
+#include "FadeObject.h"
+
 BedUI::BedUI() 
 {
+	GameEngineInput::AddInputObject(this);
 }
 
 BedUI::~BedUI() 
@@ -24,11 +27,6 @@ void BedUI::Release()
 	SlotInfo.clear();
 }
 
-void BedUI::LevelStart(class GameEngineLevel* _NextLevel)
-{
-
-}
-
 void BedUI::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	Death();
@@ -42,6 +40,8 @@ void BedUI::Init()
 {
 	RendererSetting();
 	StateSetting();
+
+	Off();
 }
 
 void BedUI::RendererSetting()
@@ -62,7 +62,7 @@ void BedUI::RendererSetting()
 
 	HedFontRenderer = CreateComponent<GameEngineUIRenderer>();
 	HedFontRenderer->Transform.SetLocalPosition(HeadFontPosition);
-	HedFontRenderer->SetText(GlobalValue::Font_Sandoll, "내일 9:00시 기상하게 됩니다.\n주무시겠습니까?", 17.0f, float4::ZERO, FW1_TEXT_FLAG::FW1_CENTER);
+	HedFontRenderer->SetText(GlobalValue::Font_Sandoll, "내일 9:00시 기상하게 됩니다.\n주무시겠습니까?", HeadFont_Size, float4::ZERO, FW1_TEXT_FLAG::FW1_CENTER);
 
 	CursorInfo.CursorRenderer = CreateComponent<GameEngineUIRenderer>();
 	CursorInfo.CursorRenderer->Transform.SetLocalPosition(CursorPosition);
@@ -78,11 +78,11 @@ void BedUI::RendererSetting()
 	TooltipScale = Texture->GetScale();
 	const float Tooltip_HalfSize = TooltipScale.hX();
 
-	SlotInfo.resize(2);
+	SlotInfo.resize(Max_Slot_Count);
 	for (int i = 0; i < static_cast<int>(SlotInfo.size()); i++)
 	{
 		float XPos = Tooltip_HalfSize + Tooltip_Gap * 0.5f;
-		const float YPos = -28.0f;
+		const float YPos = SlotYPos;
 		if (0 == i)
 		{
 			XPos *= -1.0f;
@@ -109,21 +109,87 @@ void BedUI::RendererSetting()
 
 		SlotInfo[i].FontRenderer = CreateComponent<GameEngineUIRenderer>();
 		SlotInfo[i].FontRenderer->Transform.SetLocalPosition(SlotFontPosition);
-		SlotInfo[i].FontRenderer->SetText(GlobalValue::Font_Sandoll, Answer, 14.0f, float4::ZERO, FW1_TEXT_FLAG::FW1_CENTER);
+		SlotInfo[i].FontRenderer->SetText(GlobalValue::Font_Sandoll, Answer, SlotFont_Size, float4::ZERO, FW1_TEXT_FLAG::FW1_CENTER);
 	}
 }
 
 void BedUI::StateSetting()
 {
-	CreateStateParameter OffState;
-	State.CreateState(EBEDUISTATE::Off, OffState);
+	CreateStateParameter PopUpState;
+	PopUpState.Start = std::bind(&BedUI::StartPopUp, this, std::placeholders::_1);
+	PopUpState.Stay = std::bind(&BedUI::UpdatePopUp, this, std::placeholders::_1, std::placeholders::_2);
+	State.CreateState(EBEDUISTATE::PopUp, PopUpState);
 
+	CreateStateParameter SelectState;
+	SelectState.Stay = std::bind(&BedUI::UpdateSelect, this, std::placeholders::_1, std::placeholders::_2);
+	State.CreateState(EBEDUISTATE::Select, SelectState);
 
-	//	Off
-	//	PopUp
-	//	Select
-	//	Disappear
+	CreateStateParameter DisappearState;
+	DisappearState.Stay = std::bind(&BedUI::UpdateDisappear, this, std::placeholders::_1, std::placeholders::_2);
+	State.CreateState(EBEDUISTATE::Disappear, DisappearState);
+
+	CreateStateParameter GoDreamState;
+	GoDreamState.Start = std::bind(&BedUI::StartGoDream, this, std::placeholders::_1);
+	State.CreateState(EBEDUISTATE::GoDream, GoDreamState);
 }
+
+void BedUI::StartPopUp(GameEngineState* _Parent)
+{
+	SetScale(0.0f);
+}
+
+void BedUI::StartGoDream(GameEngineState* _Parent)
+{
+	std::shared_ptr<FadeObject> Fade = GetLevel()->CreateActor<FadeObject>(EUPDATEORDER::Fade);
+	Fade->CallFadeOut("DreamLevel", 1.4f);
+}
+
+
+void BedUI::UpdatePopUp(float _Delta, GameEngineState* _Parent) 
+{
+	const float StateTime = _Parent->GetStateTime();
+
+	const float Size = StateTime / PopUp_Time;
+	SetScale(Size);
+
+	if (StateTime > PopUp_Time)
+	{
+		SetScale(1.0f);
+		State.ChangeState(EBEDUISTATE::Select);
+		return;
+	}
+}
+
+void BedUI::UpdateSelect(float _Delta, GameEngineState* _Parent) 
+{
+	UpdateCursor();
+}
+
+void BedUI::UpdateDisappear(float _Delta, GameEngineState* _Parent) 
+{
+	const float StateTime = _Parent->GetStateTime();
+
+	const float Size = 1.0f - StateTime / PopUp_Time;
+	SetScale(Size);
+
+	if (StateTime > PopUp_Time)
+	{
+		SetScale(0.0f);
+
+		if (true == isGoDream)
+		{
+			State.ChangeState(EBEDUISTATE::GoDream);
+			Close();
+			return;
+		}
+		else
+		{
+			Close();
+			return;
+		}
+	}
+}
+
 
 void BedUI::Open()
 {
@@ -131,6 +197,9 @@ void BedUI::Open()
 	{
 		Ellie::MainEllie->OffControl();
 	}
+
+	Reset();
+	State.ChangeState(EBEDUISTATE::PopUp);
 
 	On();
 }
@@ -143,4 +212,136 @@ void BedUI::Close()
 	}
 
 	Off();
+}
+
+void BedUI::Reset()
+{
+	SetCursorLocalPosition(true);
+	isLeftCursor = true;
+}
+
+void BedUI::SetScale(float _Size)
+{
+	SetFontScale(_Size);
+
+	const float4& Scale = float4(_Size, _Size, 1.0f);
+	Transform.SetLocalScale(Scale);
+}
+
+void BedUI::SetFontScale(float _Size)
+{
+	const float HeadFontScale = HeadFont_Size * _Size;
+	HedFontRenderer->ChangeFontScale(HeadFontScale);
+
+	for (const BedUISlot& Slot : SlotInfo)
+	{
+		const float SlotFontScale = SlotFont_Size * _Size;
+
+		if (nullptr == Slot.FontRenderer)
+		{
+			MsgBoxAssert("폰트 렌더러가 존재하지 않습니다.");
+			return;
+		}
+		
+		Slot.FontRenderer->ChangeFontScale(SlotFontScale);
+	}
+}
+
+void BedUI::UpdateCursor()
+{
+	if (true == GameEngineInput::IsDown('Z', this))
+	{
+		if (true == isLeftCursor)
+		{
+			isGoDream = true;
+			State.ChangeState(EBEDUISTATE::Disappear);
+			return;
+		}
+		else
+		{
+			isGoDream = false;
+			State.ChangeState(EBEDUISTATE::Disappear);
+			return;
+		}
+	}
+
+	if (true == GameEngineInput::IsDown('X', this))
+	{
+		isGoDream = false;
+		State.ChangeState(EBEDUISTATE::Disappear);
+		return;
+	}
+
+	enum class EMOVECURSOR
+	{
+		Left = 0,
+		Right = 1,
+	};
+
+	if (true == GameEngineInput::IsDown(VK_LEFT, this))
+	{
+		MoveCursor(static_cast<int>(EMOVECURSOR::Left));
+		return;
+	}
+
+	if (true == GameEngineInput::IsDown(VK_RIGHT, this))
+	{
+		MoveCursor(static_cast<int>(EMOVECURSOR::Right));
+		return;
+	}
+}
+
+void BedUI::MoveCursor(int _Value)
+{
+	bool isLeft = (0 == _Value);
+	if (isLeft)
+	{
+		if (false == isLeftCursor)
+		{
+			SetCursorLocalPosition(true);
+			isLeftCursor = true;
+		}
+		else
+		{
+			return;
+		}
+	}
+
+	bool isRight = (1 == _Value);
+	if (isRight)
+	{
+		if (true == isLeftCursor)
+		{
+			SetCursorLocalPosition(false);
+			isLeftCursor = false;
+		}
+		else
+		{
+			return;
+		}
+	}
+}
+
+void BedUI::SetCursorLocalPosition(bool _isLeft)
+{
+	const float CursorDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Window_Cursor);
+	const float XPos = TooltipScale.hX() + Tooltip_Gap * 0.5f;
+
+	float4 TooltipPosition;
+	if (_isLeft)
+	{
+		TooltipPosition = float4(-XPos, SlotYPos, CursorDepth);
+	}
+	else
+	{
+		TooltipPosition = float4(XPos, SlotYPos, CursorDepth);
+	}
+
+	if (nullptr == CursorInfo.CursorRenderer)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
+
+	CursorInfo.CursorRenderer->Transform.SetLocalPosition(TooltipPosition);
 }

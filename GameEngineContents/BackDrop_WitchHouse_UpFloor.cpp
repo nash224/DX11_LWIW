@@ -59,7 +59,7 @@ void BackDrop_WitchHouse_UpFloor::Init()
 	CreatePixelMap(CurLevel);
 	LoadPortalActor(CurLevel);
 	LiftSetting();
-	/*BedSetting();*/
+	BedSetting();
 	
 	//if (false == isInitDustEvent)
 	//{

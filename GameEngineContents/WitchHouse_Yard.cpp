@@ -99,7 +99,17 @@ void WitchHouse_Yard::SetEllieLevelChangeLocation(class GameEngineLevel* _NextLe
 
 	float4 HWinScale = GlobalValue::GetWindowScale().Half();
 
-	if (_NextLevel->GetName() == "Field_Center")
+	if (nullptr == m_Ellie)
+	{
+		MsgBoxAssert("앨리를 생성하지 않았습니다.");
+		return;
+	}
+
+	if (nullptr == _NextLevel)
+	{
+		SpawnPosition = { HWinScale.X , -450.0f };
+	}
+	else if (_NextLevel->GetName() == "Field_Center")
 	{
 		SpawnPosition = { HWinScale.X , -450.0f };
 	}
@@ -108,11 +118,6 @@ void WitchHouse_Yard::SetEllieLevelChangeLocation(class GameEngineLevel* _NextLe
 		SpawnPosition = { HWinScale.X , -450.0f };
 	}
 
-	if (nullptr == m_Ellie)
-	{
-		MsgBoxAssert("앨리를 생성하지 않았습니다.");
-		return;
-	}
 	m_Ellie->Transform.SetLocalPosition(SpawnPosition);
 }
 

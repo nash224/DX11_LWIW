@@ -45,6 +45,12 @@ void WitchHouseBed::LevelEnd(class GameEngineLevel* _NextLevel)
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
+void WitchHouseBed::UISetting()
+{
+	BedUIActor = GetLevel()->CreateActor<BedUI>(EUPDATEORDER::UIComponent);
+	BedUIActor.lock()->Init();
+}
+
 void WitchHouseBed::StateSetting()
 {
 	CreateStateParameter NotActiveState;
@@ -52,10 +58,10 @@ void WitchHouseBed::StateSetting()
 	NotActiveState.Stay = std::bind(&WitchHouseBed::UpdateNotActive, this, std::placeholders::_1, std::placeholders::_2);
 	State.CreateState(EBEDSTATE::NotActive, NotActiveState);
 
-	CreateStateParameter ConverseState;
-	ConverseState.Start = std::bind(&WitchHouseBed::StartActive, this, std::placeholders::_1);
-	ConverseState.Stay = std::bind(&WitchHouseBed::UpdateActive, this, std::placeholders::_1, std::placeholders::_2);
-	State.CreateState(EBEDSTATE::Active, ConverseState);
+	CreateStateParameter ActiveState;
+	ActiveState.Start = std::bind(&WitchHouseBed::StartActive, this, std::placeholders::_1);
+	ActiveState.Stay = std::bind(&WitchHouseBed::UpdateActive, this, std::placeholders::_1, std::placeholders::_2);
+	State.CreateState(EBEDSTATE::Active, ActiveState);
 
 	if (nullptr != PlayLevel::s_TimeManager)
 	{
@@ -119,11 +125,4 @@ void WitchHouseBed::UpdateActive(float _Delta, GameEngineState* _Parent)
 
 		BedUIActor.lock()->Open();
 	}
-}
-
-
-void WitchHouseBed::UISetting()
-{
-	BedUIActor = GetLevel()->CreateActor<BedUI>(EUPDATEORDER::UIComponent);
-	BedUIActor.lock()->Init();
 }

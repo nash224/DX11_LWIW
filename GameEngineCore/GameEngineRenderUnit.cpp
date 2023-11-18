@@ -45,6 +45,17 @@ void GameEngineRenderUnit::ChangeText(std::string_view _Text)
 	FontText = _Text;
 }
 
+void GameEngineRenderUnit::ChangeFontScale(float _Size)
+{
+	if (nullptr == Font)
+	{
+		MsgBoxAssert("존재하지 않는 폰트를 참조하려 했습니다.");
+		return;
+	}
+
+	FontScale = _Size;
+}
+
 void GameEngineRenderUnit::SetTextColor(const float4& _Color /*= float4::RED*/)
 {
 	if (nullptr == Font)

@@ -37,12 +37,12 @@ void UI_InterativeMark::Update(float _Delta)
 
 void UI_InterativeMark::LevelStart(class GameEngineLevel* _NextLevel)
 {
-
+	Reset();
 }
 
 void UI_InterativeMark::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-
+	Reset();
 }
 
 
