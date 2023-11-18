@@ -31,14 +31,14 @@ void UI_ProcessList::Update(float _Delta)
 
 void UI_ProcessList::Release() 
 {
-	m_Base = nullptr;
+	BaseRenderer = nullptr;
 	SlotVec.clear();
 
-	m_ProcessListCursor.UpArrow = nullptr;
-	m_ProcessListCursor.DownArrow = nullptr;
-	m_ProcessListCursor.Cursor = nullptr;
-	m_ProcessListCursor.ScrollBase = nullptr;
-	m_ProcessListCursor.ScrollBar = nullptr;
+	CursorInfo.UpArrow = nullptr;
+	CursorInfo.DownArrow = nullptr;
+	CursorInfo.Cursor = nullptr;
+	CursorInfo.ScrollBase = nullptr;
+	CursorInfo.ScrollBar = nullptr;
 	ProcessManagerPtr = nullptr;
 }
 
@@ -62,16 +62,16 @@ void UI_ProcessList::Init()
 	CreateProcessSlot("FlowerBird_Water");
 	CreateProcessSlot("MapleHerb_Water");
 	CreateProcessSlot("SilverStarFlower_Water");
-	/*CreateProcessSlot("BushBug_Water");*/
+	CreateProcessSlot("BushBug_Water");
 
 	CursorSetting();
 }
 
 void UI_ProcessList::RendererSetting()
 {
-	m_Base = CreateComponent<GameEngineUIRenderer>();
-	m_Base->Transform.SetLocalPosition(float4(0.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Base)));
-	m_Base->SetSprite("Process_Base.png");
+	BaseRenderer = CreateComponent<GameEngineUIRenderer>();
+	BaseRenderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Base)));
+	BaseRenderer->SetSprite("Process_Base.png");
 
 
 	Off();
@@ -94,27 +94,28 @@ void UI_ProcessList::CreateProcessSlot(std::string_view _ProcessName)
 // Renderer Initial 
 void UI_ProcessList::CursorSetting()
 {
-	m_ProcessListCursor.UpArrow = CreateComponent<GameEngineUIRenderer>();
-	m_ProcessListCursor.UpArrow->Transform.SetLocalPosition(float4(115.0f, 150.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame)));
-	m_ProcessListCursor.UpArrow->SetSprite("Process_A_ScrollArrow.png");
+	const float FrameDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame);
+	const float AttachmentDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
 
-	m_ProcessListCursor.DownArrow = CreateComponent<GameEngineUIRenderer>();
-	m_ProcessListCursor.DownArrow->Transform.SetLocalPosition(float4(115.0f, -150.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame)));
-	m_ProcessListCursor.DownArrow->SetSprite("Process_B_ScrollArrow.png");
 
-	m_ProcessListCursor.ScrollBase = CreateComponent<GameEngineUIRenderer>();
-	m_ProcessListCursor.ScrollBase->Transform.SetLocalPosition(float4(115.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame)));
-	m_ProcessListCursor.ScrollBase->SetSprite("Process_A_ScrollBase.png");
+	CursorInfo.UpArrow = CreateComponent<GameEngineUIRenderer>();
+	CursorInfo.UpArrow->Transform.SetLocalPosition(float4(115.0f, 150.0f, FrameDepth));
+	CursorInfo.UpArrow->SetSprite("Process_A_ScrollArrow.png");
 
-	m_ProcessListCursor.ScrollBar = CreateComponent<GameEngineUIRenderer>();
-	m_ProcessListCursor.ScrollBar->Transform.SetLocalPosition(float4(115.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment)));
-	m_ProcessListCursor.ScrollBar->SetSprite("Process_A_ScrollBar.png");
+	CursorInfo.DownArrow = CreateComponent<GameEngineUIRenderer>();
+	CursorInfo.DownArrow->Transform.SetLocalPosition(float4(115.0f, -150.0f, FrameDepth));
+	CursorInfo.DownArrow->SetSprite("Process_B_ScrollArrow.png");
 
-	m_ProcessListCursor.Cursor = CreateComponent<GameEngineUIRenderer>();
-	float4 CursorPosition = PROCESS_FIRST_SLOT_POSITION;
-	CursorPosition.Z = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Cursor);
-	m_ProcessListCursor.Cursor->Transform.SetLocalPosition(float4(CursorPosition));
-	m_ProcessListCursor.Cursor->SetSprite("Process_A_Cursor.png");
+	CursorInfo.ScrollBase = CreateComponent<GameEngineUIRenderer>();
+	CursorInfo.ScrollBase->Transform.SetLocalPosition(float4(115.0f, 0.0f, FrameDepth));
+	CursorInfo.ScrollBase->SetSprite("Process_A_ScrollBase.png");
+
+	CursorInfo.ScrollBar = CreateComponent<GameEngineUIRenderer>();
+	CursorInfo.ScrollBar->Transform.SetLocalPosition(float4(115.0f, 0.0f, AttachmentDepth));
+	CursorInfo.ScrollBar->SetSprite("Process_A_ScrollBar.png");
+
+	CursorInfo.Cursor = CreateComponent<GameEngineUIRenderer>();
+	CursorInfo.Cursor->SetSprite("Process_A_Cursor.png");
 }
 
 
@@ -125,39 +126,35 @@ void UI_ProcessList::Open()
 {
 	On();
 
-
 	if (nullptr == UI_Inventory::MainInventory)
 	{
 		MsgBoxAssert("인벤토리가 존재하지 않는데 참조하려 했습니다.");
 		return;
 	}
 
-	for (size_t i = 0; i < SlotVec.size(); i++)
+	for (std::shared_ptr<UI_ProcessListUnit>& UnitList : SlotVec)
 	{
-		int SrcCount = UI_Inventory::MainInventory->ReturnItemCount(SlotVec[i]->SrcName);
-		SlotVec[i]->SrcCount = SrcCount;
-		SlotVec[i]->RenewRenderer();
+		int SrcCount = UI_Inventory::MainInventory->ReturnItemCount(UnitList->SrcName);
+		UnitList->SrcCount = SrcCount;
+		UnitList->RenewRenderer();
 	}
 
-	// 리스트 커서
 	ResetCursor();
-	// 리스트 카운트
 	RenewSlot();
 }
 
 void UI_ProcessList::Close()
 {
 	CloseAllSlot();
-
 	Off();
 }
 
-// Close All Slot
+
 void UI_ProcessList::CloseAllSlot()
 {
-	for (size_t i = 0; i < SlotVec.size(); i++)
+	for (const std::shared_ptr<UI_ProcessListUnit> ListUnit : SlotVec)
 	{
-		SlotVec[i]->Off();
+		ListUnit->Off();
 	}
 }
 
@@ -174,8 +171,8 @@ void UI_ProcessList::UpdateInput()
 			MsgBoxAssert("매니저가 존재하지 않습니다.");
 			return;
 		}
+
 		ProcessManagerPtr->OpenProcessWindow(SlotVec[CurrentCursor]->ItemName, SlotVec[CurrentCursor]->SrcCount);
-		
 		return;
 	}
 
@@ -190,87 +187,102 @@ void UI_ProcessList::UpdateInput()
 		return;
 	}
 
+	enum class EMOVECURSOR
+	{
+		Up = 0,
+		Down = 1,
+		None
+	};
+
 	if (GameEngineInput::IsDown(VK_UP, this))
 	{
-		MoveCursor(0);
+		MoveCursor(static_cast<int>(EMOVECURSOR::Up));
 		RenewSlot();
 		return;
 	}
 
 	if (GameEngineInput::IsDown(VK_DOWN, this))
 	{
-		MoveCursor(1);
+		MoveCursor(static_cast<int>(EMOVECURSOR::Down));
 		RenewSlot();
 		return;
 	}
 }
 
-// 0 : 위
-// 1 : 아래
 void UI_ProcessList::MoveCursor(int _Value)
 {
-	const bool isUp = (1 == _Value);
-	const bool isZero = (CurrentCursor != 0);
+	int MoveLine = 0;
+	if (1 == _Value)
+	{
+		MoveLine += 1;
+	}
 
+	if (0 == _Value)
+	{
+		MoveLine -= 1;
+	}
+
+	const bool isUp = (1 == _Value);
 	if (isUp)
 	{
-		if (static_cast<size_t>(CurrentCursor) + 1 != SlotVec.size())
+		bool isNotMaxLine = (CurrentCursor + 1 < static_cast<int>(SlotVec.size()));
+		if (isNotMaxLine)
 		{
 			++CurrentCursor;	
 		}
+		else
+		{
+			return;
+		}
+	}
+	const bool isDown = (0 == _Value);
+
+	if (isDown)
+	{
+		const bool isNotZero = (CurrentCursor != 0);
+		if (isNotZero)
+		{
+			--CurrentCursor;
+		}
+		else
+		{
+			return;
+		}
+	}
+
+	int MaxSlotCount = static_cast<int>(SlotVec.size());
+
+	if (MaxSlotCount <= PROCESS_MAX_SLOT)
+	{
+		CurCursorLine = CurrentCursor;
 	}
 	else
 	{
-		if (isZero)
+		CurCursorLine += MoveLine;
+		if (CurrentCursor + 1 == MaxSlotCount)
 		{
-			--CurrentCursor;
+			CurCursorLine = PROCESS_MAX_SLOT - 1;
+		}
+		else if (0 == CurrentCursor)
+		{
+			CurCursorLine = 0;
+		}
+		else if (0 == CurCursorLine)
+		{
+			CurCursorLine = 1;
+		}
+		else if (PROCESS_MAX_SLOT - 1 == CurCursorLine)
+		{
+			CurCursorLine = PROCESS_MAX_SLOT - 2;
 		}
 	}
 
 	float4 CursorPosition = PROCESS_FIRST_SLOT_POSITION;
-	float NewYPositon = 0.0f;
-
-	int SlotCount = static_cast<int>(SlotVec.size());
-
-	if (SlotCount >= 1 && 0 == CurrentCursor)
-	{
-		CurCursorLine = 0;
-	}
-	else if (SlotCount >= 2 && 1 == CurrentCursor)
-	{
-		CurCursorLine = 1;
-		NewYPositon = -PROCESS_SLOT_GAP;
-	}
-	else if (SlotCount >= 3 && 2 == CurrentCursor)
-	{
-		CurCursorLine = 2;
-		NewYPositon = -PROCESS_SLOT_GAP * 2.0f;
-	}
-	else if (SlotCount >= 4 && 3 == CurrentCursor)
-	{
-		CurCursorLine = 3;
-		NewYPositon = -PROCESS_SLOT_GAP * 3.0f;
-	}
-	else if (CurrentCursor == SlotCount - 2)
-	{
-		CurCursorLine = 3;
-		NewYPositon = -PROCESS_SLOT_GAP * 3.0f;
-	}
-	else if (CurrentCursor == SlotCount - 1)
-	{
-		CurCursorLine = 4;
-		NewYPositon = -PROCESS_SLOT_GAP * 4.0f;
-	}
-	else
-	{
-		CurCursorLine = 2;
-		NewYPositon = -PROCESS_SLOT_GAP * 2.0f;
-	}
-
-	CursorPosition += float4(0.0f, NewYPositon);
+	float CursorYPositon = -PROCESS_SLOT_GAP * static_cast<float>(CurCursorLine);
+	CursorPosition += float4(0.0f, CursorYPositon);
 	CursorPosition.Z = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Cursor);
 
-	m_ProcessListCursor.Cursor->Transform.SetLocalPosition(CursorPosition);
+	CursorInfo.Cursor->Transform.SetLocalPosition(CursorPosition);
 }
 
 
@@ -282,25 +294,20 @@ void UI_ProcessList::ResetCursor()
 	float4 CursorPosition = PROCESS_FIRST_SLOT_POSITION;
 	CursorPosition.Z = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Cursor);
 
-	m_ProcessListCursor.Cursor->Transform.SetLocalPosition(CursorPosition);
+	CursorInfo.Cursor->Transform.SetLocalPosition(CursorPosition);
 }
 
 
-
-// 슬롯을 갱신한다.
 void UI_ProcessList::RenewSlot()
 {
-	// 모든 슬롯을 끄고
 	CloseAllSlot();
 
-	PROCESS_SLOT_GAP;
+	const int SlotCount = static_cast<int>(SlotVec.size());
 
-	int SlotCount = static_cast<int>(SlotVec.size());
-
-	// 슬롯이 5개보다 작을경우 순차적으로 켠다.
-	if (SlotCount <= PROCESS_MAX_SLOT)
+	bool isSlotbelow5 = (SlotCount <= PROCESS_MAX_SLOT);
+	if (isSlotbelow5)
 	{
-		for (size_t i = 0; i < SlotCount; i++)
+		for (int i = 0; i < SlotCount; i++)
 		{
 			float4 SlotPosition = PROCESS_FIRST_SLOT_POSITION;
 			SlotPosition.Y += -PROCESS_SLOT_GAP * static_cast<float>(i);
@@ -308,44 +315,43 @@ void UI_ProcessList::RenewSlot()
 			SlotVec[i]->On();
 		}
 	}
-	// 슬롯이 5개보다 많고
 	else
 	{
-		// 슬롯의 라인이 2라인이면 0~4번까지 
-		if (CurCursorLine <= 2)
+		if (CurCursorLine == 0)
 		{
-			for (size_t i = 0; i < PROCESS_MAX_SLOT; i++)
+			for (int i = 0; i < PROCESS_MAX_SLOT; i++)
 			{
 				float4 SlotPosition = PROCESS_FIRST_SLOT_POSITION;
-				SlotPosition.Y = PROCESS_SLOT_GAP * static_cast<float>(i);
+				SlotPosition.Y += -PROCESS_SLOT_GAP * static_cast<float>(i);
 				SlotVec[i]->Transform.SetLocalPosition(SlotPosition);
 				SlotVec[i]->On();
-			}
+			} 
 		}
-		// 슬롯의 라인이 4라인이라면 (마지막-5) ~ 마지막까지
-		else if (CurCursorLine >= 4)
+		else if (1 <= CurCursorLine && CurCursorLine <= 3)
 		{
-			int Line = 0;
-			for (size_t i = static_cast<size_t>(SlotCount) - PROCESS_MAX_SLOT; i < SlotCount; i++)
+
+			const int StartLine = CurrentCursor - CurCursorLine;
+			for (int i = 0; i < PROCESS_MAX_SLOT; i++)
 			{
 				float4 SlotPosition = PROCESS_FIRST_SLOT_POSITION;
-				SlotPosition.Y = PROCESS_SLOT_GAP * static_cast<float>(Line);
-				SlotVec[i]->Transform.SetLocalPosition(SlotPosition);
-				SlotVec[i]->On();
-				++Line;
+				SlotPosition.Y += -PROCESS_SLOT_GAP * static_cast<float>(i);
+
+				const int OutPutSlot = StartLine + i;
+				SlotVec[OutPutSlot]->Transform.SetLocalPosition(SlotPosition);
+				SlotVec[OutPutSlot]->On();
 			}
 		}
-		// 중앙이라면 편차 2만큼 켠다
 		else
 		{
-			int Line = 0;
-			for (int i = CurrentCursor - CurCursorLine; i < CurrentCursor + CurCursorLine; i++)
+			const int StartNumber = SlotCount - PROCESS_MAX_SLOT;
+			for (int i = 0; i < PROCESS_MAX_SLOT; i++)
 			{
 				float4 SlotPosition = PROCESS_FIRST_SLOT_POSITION;
-				SlotPosition.Y = PROCESS_SLOT_GAP * static_cast<float>(Line);
-				SlotVec[i]->Transform.SetLocalPosition(SlotPosition);
-				SlotVec[i]->On();
-				++Line;
+				SlotPosition.Y += -PROCESS_SLOT_GAP * static_cast<float>(i);
+
+				const int OutPutSlotNumber = StartNumber + i;
+				SlotVec[OutPutSlotNumber]->Transform.SetLocalPosition(SlotPosition);
+				SlotVec[OutPutSlotNumber]->On();
 			}
 		}
 	}

@@ -4,25 +4,24 @@
 #define PROCESS_FIRST_SLOT_POSITION { -4.0f, 134.0f }
 
 
-
-class ProcessListCursor
-{
-public:
-	std::shared_ptr<GameEngineUIRenderer> UpArrow = nullptr;
-	std::shared_ptr<GameEngineUIRenderer> DownArrow = nullptr;
-	std::shared_ptr<GameEngineUIRenderer> ScrollBase = nullptr;
-	std::shared_ptr<GameEngineUIRenderer> ScrollBar = nullptr;
-	std::shared_ptr<GameEngineUIRenderer> Cursor = nullptr;
-
-
-};
-
-
 // 설명 :
 class UI_ProcessList : public GameEngineActor
 {
 public:
 	class UI_ProcessManager* ProcessManagerPtr = nullptr;
+
+private:
+	class ProcessListCursor
+	{
+	public:
+		std::shared_ptr<GameEngineUIRenderer> UpArrow = nullptr;
+		std::shared_ptr<GameEngineUIRenderer> DownArrow = nullptr;
+		std::shared_ptr<GameEngineUIRenderer> ScrollBase = nullptr;
+		std::shared_ptr<GameEngineUIRenderer> ScrollBar = nullptr;
+		std::shared_ptr<GameEngineUIRenderer> Cursor = nullptr;
+
+
+	};
 
 public:
 	// constrcuter destructer
@@ -62,8 +61,8 @@ private:
 private:
 	std::vector<std::shared_ptr<class UI_ProcessListUnit>> SlotVec;
 
-	std::shared_ptr<GameEngineUIRenderer> m_Base = nullptr;
-	ProcessListCursor m_ProcessListCursor;
+	std::shared_ptr<GameEngineUIRenderer> BaseRenderer = nullptr;
+	ProcessListCursor CursorInfo;
 	int CurrentCursor = 0;
 	int CurCursorLine = 0;
 
