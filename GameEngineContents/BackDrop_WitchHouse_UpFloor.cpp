@@ -3,6 +3,7 @@
 
 #include "ContentsEvent.h"
 #include "HouseDustEvent.h"
+#include "UIManager.h"
 
 #include "Dust_HandBook.h"
 #include "Dust_Bag.h"
@@ -32,7 +33,7 @@ void BackDrop_WitchHouse_UpFloor::Start()
 
 void BackDrop_WitchHouse_UpFloor::LevelStart(class GameEngineLevel* _NextLevel)
 {
-	MainBackDrop = this;
+	Init();
 }
 
 void BackDrop_WitchHouse_UpFloor::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -60,11 +61,6 @@ void BackDrop_WitchHouse_UpFloor::Init()
 	LoadPortalActor(CurLevel);
 	LiftSetting();
 	BedSetting();
-	
-	//if (false == isInitDustEvent)
-	//{
-	//	isInitDustEvent = true;
-	//}
 
 	/*CheckHouseDustEvent();*/
 }
@@ -390,7 +386,6 @@ void BackDrop_WitchHouse_UpFloor::CreatePixelMap(GameEngineLevel* _Level)
 
 	std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 	float4 Position = HouseLocation  + float4{ 128.0f , -242.0f };
-	Position.Z = GlobalUtils::CalculateFixDepth(EHOUSEDEPTH::FRAME);
 	Object->Transform.SetLocalPosition(Position);
 	Object->SetPixelCollision("UpFloor_PixelMap.png");
 	PixelVec.push_back(Object);

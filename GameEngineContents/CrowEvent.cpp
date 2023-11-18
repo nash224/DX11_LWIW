@@ -27,6 +27,16 @@ CrowEvent::~CrowEvent()
 
 void CrowEvent::Update(float _Delta)
 {
+	static bool EventStart = false;
+	if (false == EventStart)
+	{
+		EventStart = true;
+		if (nullptr != UIManager::MainUIManager)
+		{
+			UIManager::MainUIManager->UseUIComponent();
+		}
+	}
+
 	State.Update(_Delta);
 	CrowConveration.UpdateConversation(_Delta);
 }
@@ -41,6 +51,12 @@ void CrowEvent::Release()
 		GameEngineSprite::Release("Crow.png");
 	}
 }
+
+void CrowEvent::LevelStart(class GameEngineLevel* _NextLevel)
+{
+
+}
+
 
 void CrowEvent::LevelEnd(class GameEngineLevel* _NextLevel)
 {
@@ -63,11 +79,6 @@ void CrowEvent::Init()
 	RendererSetting();
 	StateSetting();
 	ConversationSetting();
-
-	if (nullptr != UIManager::MainUIManager)
-	{
-		UIManager::MainUIManager->UseUIComponent();
-	}
 }
 
 void CrowEvent::RendererSetting()

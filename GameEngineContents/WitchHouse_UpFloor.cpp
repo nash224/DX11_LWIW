@@ -85,8 +85,6 @@ void WitchHouse_UpFloor::LoadActor()
 	{
 		m_BackDrop = CreateActor<BackDrop_WitchHouse_UpFloor>(EUPDATEORDER::Objects);
 	}
-
-	m_BackDrop->Init();
 }
 
 
@@ -151,8 +149,6 @@ void WitchHouse_UpFloor::ReleaseTexture()
 		}
 	}
 }
-
-
 
 void WitchHouse_UpFloor::AutoPlayBGM()
 {

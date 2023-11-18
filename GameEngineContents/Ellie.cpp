@@ -3,6 +3,7 @@
 
 #include "PlayLevel.h"
 #include "TimeManager.h"
+#include "UIManager.h"
 
 #include "BackDrop_PlayLevel.h"
 
@@ -59,6 +60,7 @@ void Ellie::Update(float _Delta)
 {
 	UpdateState(_Delta);
 	UpdateCollision();
+	UpdateTestCode();
 }
 
 void Ellie::UpdateTestCode()
@@ -66,6 +68,14 @@ void Ellie::UpdateTestCode()
 	if (true == GameEngineInput::IsDown('1', this))
 	{
 		BackDrop_PlayLevel::MainBackDrop->CreateItem("Mongsiri_Collect", Transform.GetLocalPosition());
+	}
+
+	if (true == GameEngineInput::IsDown('2', this))
+	{
+		if (nullptr != UIManager::MainUIManager)
+		{
+			UIManager::MainUIManager->DoneUIComponent();
+		}
 	}
 }
 

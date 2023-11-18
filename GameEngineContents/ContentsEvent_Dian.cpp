@@ -39,12 +39,10 @@ void ContentsEvent::Crow_Meet::CompleteInternal()
 	}
 }
 
-
 bool ContentsEvent::Dian_Catalogue::QuestClearPrerequisite()
 {
 	return !isQuestCompleted;
 }
-
 
 void ContentsEvent::Dian_BadWeedPotion::AcceptInternal()
 {

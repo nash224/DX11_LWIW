@@ -111,7 +111,7 @@ void WitchHouse_Yard::SetEllieLevelChangeLocation(class GameEngineLevel* _NextLe
 	{
 		SpawnPosition = { HWinScale.X , -450.0f };
 	}
-	else
+	else 
 	{
 		SpawnPosition = { HWinScale.X , -450.0f };
 	}
