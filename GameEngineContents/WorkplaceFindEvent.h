@@ -32,6 +32,4 @@ protected:
 private:
 	void ConversationSetting() override;
 
-private:
-
 };

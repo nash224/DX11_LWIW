@@ -85,3 +85,35 @@ void ContentsEvent::Repair_Extractor::CompleteInternal()
 		UI_Inventory::MainInventory->PopItem("Item_Etc_10", 1);
 	}
 }
+
+
+bool ContentsEvent::Repair_Extractor::QuestClearPrerequisite()
+{
+	if (false == isQuestAccepted)
+	{
+		return false;
+	}
+
+	if (nullptr != UI_Inventory::MainInventory)
+	{
+		if (true == UI_Inventory::MainInventory->IsItem("Item_Etc_10"))
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool ContentsEvent::Craft_Cracker_Potion::QuestClearPrerequisite()
+{
+	if (nullptr != UI_Inventory::MainInventory)
+	{
+		if (true == UI_Inventory::MainInventory->IsItem("FirecrackerPotion"))
+		{
+			return true;
+		}
+	}
+
+	return false;
+}

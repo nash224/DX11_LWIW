@@ -14,6 +14,7 @@ enum class EQUESTTYPE
 	Dian_Catalogue,
 	Dian_BadWeedPotion,
 	Dian_Cracker_Recipe,
+	Craft_Cracker_Potion,
 	Max,
 };
 
@@ -194,6 +195,12 @@ public:
 		void AcceptInternal() override;
 		bool QuestClearPrerequisite() override;
 		void CompleteInternal() override;
+	};
+
+	class Craft_Cracker_Potion : public QuestUnitBase
+	{
+	public:
+		bool QuestClearPrerequisite() override;
 	};
 
 

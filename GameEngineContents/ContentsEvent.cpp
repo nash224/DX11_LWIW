@@ -51,6 +51,7 @@ void ContentsEvent::Init()
 	CreateQuest<ContentsEvent::Dian_Catalogue>("Dian_Catalogue");
 	CreateQuest<ContentsEvent::Dian_BadWeedPotion>("Dian_BadWeedPotion");
 	CreateQuest<ContentsEvent::Dian_Cracker>("Dian_Cracker");
+	CreateQuest<ContentsEvent::Craft_Cracker_Potion>("Craft_Cracker_Potion");
 }
 
 const std::shared_ptr<ContentsEvent::QuestUnitBase> ContentsEvent::FindQuest(std::string_view _QuestName)

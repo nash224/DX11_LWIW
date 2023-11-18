@@ -70,6 +70,9 @@ private:
 
 	void EndPotionCreation();
 
+	void CheckCraftFireCrackerEvent();
+	void ShowFireCrackerEvent();
+	
 
 
 private:

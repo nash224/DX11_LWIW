@@ -7,6 +7,7 @@
 #include "Ellie.h"
 
 #include "ContentsEvent.h"
+#include "CraftFireCrackerEvent.h"
 
 
 AlchemyPot* AlchemyPot::s_PotPointer = nullptr;
@@ -457,4 +458,29 @@ void AlchemyPot::RepairPot()
 	}
 	
 	s_PotPointer->State.ChangeState(EPOTSTATE::Idle);
+}
+
+void AlchemyPot::CheckCraftFireCrackerEvent()
+{
+	std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Craft_Cracker_Potion");
+	if (true == Quest.expired())
+	{
+		MsgBoxAssert("생성되지 않은 퀘스트입니다.");
+		return;
+	}
+
+	if (false == Quest.lock()->isQuestComplete())
+	{
+		if (Quest.lock()->CheckPrerequisiteQuest())
+		{
+			ShowFireCrackerEvent();
+			Quest.lock()->QuestComplete();
+		}
+	}
+}
+
+void AlchemyPot::ShowFireCrackerEvent()
+{
+	std::shared_ptr<CraftFireCrackerEvent> Event = GetLevel()->CreateActor<CraftFireCrackerEvent>(EUPDATEORDER::Event);
+	Event->Init();
 }
