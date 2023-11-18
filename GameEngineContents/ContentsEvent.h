@@ -22,7 +22,7 @@ enum class EQUESTTYPE
 class ContentsEvent
 {
 public:
-	class QuestUnitBase
+	class QuestUnitBase : public std::enable_shared_from_this<QuestUnitBase>
 	{
 	public:
 		bool CheckPrerequisiteQuest() 
@@ -74,6 +74,21 @@ public:
 			AcceptInternal();
 
 			isQuestAccepted = true;
+		}
+
+		template<typename ConvertType>
+		std::shared_ptr<ConvertType> Get_DynmicCast_This()
+		{
+			std::shared_ptr<ContentsEvent::QuestUnitBase> Quest = shared_from_this();
+			std::shared_ptr<ConvertType> CastQuest = std::dynamic_pointer_cast<ConvertType>(Quest);
+
+			if (nullptr == CastQuest)
+			{
+				MsgBoxAssert("다이나믹 캐스팅에 실패했습니다.");
+				return nullptr;
+			}
+
+			return CastQuest;
 		}
 
 	protected:
@@ -145,6 +160,15 @@ public:
 	{
 	public:
 		bool QuestClearPrerequisite() override;
+		void CompleteInternal() override;
+
+		int GetEventDay() const
+		{
+			return EventDay;
+		}
+
+	private:
+		int EventDay = -999;
 
 	};
 

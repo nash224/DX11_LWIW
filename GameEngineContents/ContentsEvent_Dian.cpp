@@ -31,6 +31,14 @@ bool ContentsEvent::Crow_Meet::QuestClearPrerequisite()
 	return false;
 }
 
+void ContentsEvent::Crow_Meet::CompleteInternal()
+{
+	if (nullptr != PlayLevel::s_TimeManager)
+	{
+		EventDay = PlayLevel::s_TimeManager->GetDayCount();
+	}
+}
+
 
 bool ContentsEvent::Dian_Catalogue::QuestClearPrerequisite()
 {

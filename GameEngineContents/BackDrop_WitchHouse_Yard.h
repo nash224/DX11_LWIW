@@ -37,6 +37,7 @@ private:
 
 	void CheckLetterEvent();
 	void CheckCrowEvent();
+	void CheckDianSpawn();
 
 	void CreateLetter();
 	void ShowCrowEvent();

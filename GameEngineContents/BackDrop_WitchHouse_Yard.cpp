@@ -1,6 +1,9 @@
 #include "PreCompile.h"
 #include "BackDrop_WitchHouse_Yard.h"
 
+#include "PlayLevel.h"
+#include "TimeManager.h"
+
 #include "ContentsEvent.h"
 #include "CrowEvent.h"
 #include "HouseDustEvent.h"
@@ -58,7 +61,6 @@ void BackDrop_WitchHouse_Yard::Init()
 	CreateHouse();
 	CreateNormalProp();
 	CreatePortalActor();
-	CreateDian();
 	EventSetting();
 }
 
@@ -230,7 +232,8 @@ void BackDrop_WitchHouse_Yard::CreateDian()
 void BackDrop_WitchHouse_Yard::EventSetting()
 {
 	CheckLetterEvent();
-	/*CheckCrowEvent();*/
+	CheckCrowEvent();
+	CheckDianSpawn();
 }
 
 void BackDrop_WitchHouse_Yard::CheckLetterEvent()
@@ -269,6 +272,42 @@ void BackDrop_WitchHouse_Yard::CheckCrowEvent()
 		}
 	}
 }
+
+void BackDrop_WitchHouse_Yard::CheckDianSpawn()
+{
+	const std::shared_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Crow_Meet");
+	if (nullptr == Quest)
+	{
+		MsgBoxAssert("생성되지 않은 퀘스트입니다.");
+		return;
+	}
+
+	if (true == Quest->isQuestComplete())
+	{
+		const std::shared_ptr<ContentsEvent::Crow_Meet>& CastedQuest = Quest->Get_DynmicCast_This<ContentsEvent::Crow_Meet>();
+		/*ContentsEvent::Crow_Meet* RawQuestPointer = static_cast<ContentsEvent::Crow_Meet*>(Quest.get());
+		if (nullptr == RawQuestPointer)
+		{
+			MsgBoxAssert("캐스팅에 실패했거나 퀘스트가 존재하지 않습니다.");
+			return;
+		}*/
+
+		if (nullptr == PlayLevel::s_TimeManager)
+		{
+			MsgBoxAssert("타임 매니저가 존재하지 않는데 참조하려 했습니다.");
+			return;
+		}
+
+		const int CurDayCount = PlayLevel::s_TimeManager->GetDayCount();
+		const int EventViewDayCount = CastedQuest->GetEventDay();
+		if (EventViewDayCount < CurDayCount)
+		{
+			CreateDian();
+		}
+	}
+}
+
+
 
 void BackDrop_WitchHouse_Yard::CreateLetter()
 {
