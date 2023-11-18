@@ -101,7 +101,7 @@ void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
 	{
 		m_bush = CreateActor<Bush>(EUPDATEORDER::Objects);
 		m_bush->SetBushType(EBUSHTYPE::BushBug);
-		m_bush->Transform.SetLocalPosition(InitialPosition);
+		m_bush->Transform.SetLocalPosition(float4(700.0f, -400.0f));
 		m_bush->Init();
 	}
 

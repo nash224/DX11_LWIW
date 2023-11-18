@@ -256,6 +256,9 @@
     <Filter Include="2.Level\3.DreamLevel">
       <UniqueIdentifier>{a8b30943-98cf-4578-8d17-5163dc49a5f8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3.Actor\5.Event\EventActor">
+      <UniqueIdentifier>{0e9ec777-7e0a-4b54-919f-057c3d34a6a4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -586,9 +589,6 @@
     <ClInclude Include="PlayerEffect.h">
       <Filter>100.Z_Test\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="CrowEvent.h">
-      <Filter>3.Actor\5.Event</Filter>
-    </ClInclude>
     <ClInclude Include="AureaFindEvent.h">
       <Filter>3.Actor\5.Event</Filter>
     </ClInclude>
@@ -675,6 +675,15 @@
     </ClInclude>
     <ClInclude Include="CraftFireCrackerEvent.h">
       <Filter>3.Actor\5.Event\SingleEvent</Filter>
+    </ClInclude>
+    <ClInclude Include="CrowEvent.h">
+      <Filter>3.Actor\5.Event\EventActor</Filter>
+    </ClInclude>
+    <ClInclude Include="FireWorks.h">
+      <Filter>3.Actor\5.Event\EventActor</Filter>
+    </ClInclude>
+    <ClInclude Include="FireSky.h">
+      <Filter>3.Actor\5.Event\EventActor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1037,9 +1046,6 @@
     <ClCompile Include="PlayerEffect.cpp">
       <Filter>100.Z_Test\Effect</Filter>
     </ClCompile>
-    <ClCompile Include="CrowEvent.cpp">
-      <Filter>3.Actor\5.Event</Filter>
-    </ClCompile>
     <ClCompile Include="AureaFindEvent.cpp">
       <Filter>3.Actor\5.Event</Filter>
     </ClCompile>
@@ -1132,6 +1138,15 @@
     </ClCompile>
     <ClCompile Include="CraftFireCrackerEvent.cpp">
       <Filter>3.Actor\5.Event\SingleEvent</Filter>
+    </ClCompile>
+    <ClCompile Include="CrowEvent.cpp">
+      <Filter>3.Actor\5.Event\EventActor</Filter>
+    </ClCompile>
+    <ClCompile Include="FireWorks.cpp">
+      <Filter>3.Actor\5.Event\EventActor</Filter>
+    </ClCompile>
+    <ClCompile Include="FireSky.cpp">
+      <Filter>3.Actor\5.Event\EventActor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -34,6 +34,9 @@ public:
 
 	void PlayBGM(int _PlayType, std::string_view _BGMName, std::string_view _BGM_SFXName);
 	void NoneBGM();
+	void AbsoluteNoneBGM();
+	void DoneAbsoluteNoneBGM();
+
 	void StopBGM();
 	bool IsBGMPlay() const;
 
@@ -69,6 +72,7 @@ private:
 
 	float BGMVolume = 0.0f;
 	bool isPlayBGM = false;
+	bool isDoneBGM = false;
 
 	int PlayType = -1;
 

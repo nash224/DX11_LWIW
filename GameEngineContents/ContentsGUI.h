@@ -119,6 +119,23 @@ public:
 	}
 };
 
+class LightTest : public UITab
+{
+	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
+
+public:
+	LightTest(std::string_view _Name)
+		: UITab(_Name)
+	{
+
+	}
+
+private:
+	std::shared_ptr<class FireWorks> FireWork;
+	float4 LightColor = float4::ZERO;
+
+};
+
 
 class ItemTab;
 class MapEditorTab : public UITab

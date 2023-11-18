@@ -52,6 +52,11 @@ void FieldLevel::AutoPlayBGM()
 	if (nullptr != MainPlaySound && nullptr != s_TimeManager)
 	{
 		int bgmType = MainPlaySound->GetPlayType();
+		if (bgmType == static_cast<int>(EPLAYBGMTYPE::Event))
+		{
+			return;
+		}
+
 		if (true == s_TimeManager->IsDay() && static_cast<int>(EPLAYBGMTYPE::Day) != bgmType)
 		{
 			MainPlaySound->PlayBGM(EPLAYBGMTYPE::Day, "0424_Forest_Day.wav", "AMB_GF_Daytime_01.wav");

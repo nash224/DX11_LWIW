@@ -389,22 +389,13 @@ void AlchemyPot::EndBroken(GameEngineState* _Parent)
 
 void AlchemyPot::EndSuccess(GameEngineState* _Parent)
 {
-	std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Craft_Potion");
-	if (true == Quest.expired())
-	{
-		MsgBoxAssert("존재하지 않는 퀘스트입니다.");
-		return;
-	}
-
-	if (false == Quest.lock()->CheckPrerequisiteQuest())
-	{
-		Quest.lock()->QuestComplete();
-	}
-
 	if (nullptr != UI_Inventory::MainInventory)
 	{
 		UI_Inventory::MainInventory->PushItem(CraftedPotion);
 	}
+
+	CheckCraftPotionEvent();
+	CheckCraftFireCrackerEvent();
 
 	CraftedPotion.clear();
 }
@@ -458,6 +449,21 @@ void AlchemyPot::RepairPot()
 	}
 	
 	s_PotPointer->State.ChangeState(EPOTSTATE::Idle);
+}
+
+void AlchemyPot::CheckCraftPotionEvent()
+{
+	std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Craft_Potion");
+	if (true == Quest.expired())
+	{
+		MsgBoxAssert("존재하지 않는 퀘스트입니다.");
+		return;
+	}
+
+	if (false == Quest.lock()->CheckPrerequisiteQuest())
+	{
+		Quest.lock()->QuestComplete();
+	}
 }
 
 void AlchemyPot::CheckCraftFireCrackerEvent()

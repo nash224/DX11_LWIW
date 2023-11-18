@@ -303,6 +303,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="FireSky.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="FireWorks.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="FireWorksEvent.cpp">
       <SubType>
       </SubType>
@@ -853,6 +861,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="FieldLevel.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="FireSky.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="FireWorks.h">
       <SubType>
       </SubType>
     </ClInclude>

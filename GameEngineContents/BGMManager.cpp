@@ -110,7 +110,7 @@ void BGMManager::StartStop(GameEngineState* _Parent)
 
 void BGMManager::PlayBGM(int _PlayType, std::string_view _BGMName, std::string_view _BGM_SFXName /*= ""*/)
 {
-	if (BGMName == _BGMName.data() || true == _BGMName.empty())
+	if (BGMName == _BGMName.data() || true == _BGMName.empty() || true == isDoneBGM)
 	{
 		return;
 	}
@@ -140,6 +140,19 @@ void BGMManager::NoneBGM()
 	BGMName.clear();
 	BGM_SFXName.clear();
 	State.ChangeState(EBGMSTATE::Attenuation);
+}
+
+void BGMManager::AbsoluteNoneBGM()
+{
+	isDoneBGM = true;
+	BGMName.clear();
+	BGM_SFXName.clear();
+	State.ChangeState(EBGMSTATE::Attenuation);
+}
+
+void BGMManager::DoneAbsoluteNoneBGM()
+{
+	isDoneBGM = false;
 }
 
 void BGMManager::StopBGM()

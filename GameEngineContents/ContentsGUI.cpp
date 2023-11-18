@@ -15,9 +15,10 @@
 #include "GroundRenderUnit.h"
 #include "NormalProp.h"
 #include "SkyLerp.h"
-
+#include "FireWorks.h"
 
 #include "ItemData.h"
+
 
 
 
@@ -29,6 +30,7 @@ void ContentsGUI::Start()
 	AllTabs.push_back(std::make_shared<MapEditorTab>("MapEditor"));
 	AllTabs.push_back(std::make_shared<DebugTab>("Debug"));
 	AllTabs.push_back(std::make_shared<ManualTab>("Manual"));
+	AllTabs.push_back(std::make_shared<LightTest>("LightTest"));
 
 	for (size_t i = 0; i < AllTabs.size(); i++)
 	{
@@ -863,4 +865,32 @@ void MapEditorTab::HelpTab(GameEngineLevel* _Level, float _DeltaTime)
 	ImGui::Text("E : Rotate Transform");
 	ImGui::Text("X : Erase Actor");
 	ImGui::Text("F : Place Actor ");
+}
+
+
+void LightTest::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
+{
+	if (nullptr == FireWork)
+	{
+		if (ImGui::Button("SetFireWorkTest"))
+		{
+			float4 FireWorksPos = GlobalValue::GetWindowScale().Half();
+			FireWorksPos.Y *= -1.0f;
+
+			FireWork = _Level->CreateActor<FireWorks>();
+			FireWork->Transform.SetLocalPosition(FireWorksPos);
+			FireWork->Init();
+		}
+	}
+
+
+	if (nullptr != FireWork)
+	{
+		ImGui::SeparatorText("ColorEdit");
+
+		if (ImGui::ColorEdit4("Color4", &LightColor.X))
+		{
+			FireWork->SetLightColor(LightColor);
+		}
+	}
 }

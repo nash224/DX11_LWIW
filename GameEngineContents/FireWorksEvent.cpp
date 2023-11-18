@@ -1,7 +1,10 @@
 #include "PreCompile.h"
 #include "FireWorksEvent.h"
 
+#include "BGMManager.h"
+
 #include "FadeObject.h"
+
 
 FireWorksEvent::FireWorksEvent() 
 {
@@ -113,15 +116,15 @@ void FireWorksEvent::StateSetting()
 void FireWorksEvent::StartFadeIn(GameEngineState* _Parent)
 {
 	std::weak_ptr<FadeObject> Fade = GetLevel()->CreateActor<FadeObject>(EUPDATEORDER::Fade);
-	if (true == Fade.expired())
-	{
-		MsgBoxAssert("포인터가 존재하지 않습니다.");
-		return;
-	}
-
 	Fade.lock()->CallFadeIn(LastFadeTime);
 	
-	// BgmOff
+
+	if (nullptr != ContentsLevel::MainPlaySound)
+	{
+		ContentsLevel::MainPlaySound->AbsoluteNoneBGM();
+	}
+
+	// Actor
 }
 
 void FireWorksEvent::UpdateFadeIn(float _Delta, GameEngineState* _Parent)

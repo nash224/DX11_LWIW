@@ -14,6 +14,7 @@ enum class EPLAYBGMTYPE
 	Night,
 	House,
 	Dream,
+	Event,
 	None,
 };
 
