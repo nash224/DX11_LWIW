@@ -919,11 +919,6 @@ void Ellie::PlaySFX(std::string_view _FileName)
 	SoundPlayer.SetVolume(GlobalValue::GetSFXVolume());
 }
 
-void Ellie::DayChangeEvent()
-{
-	Stamina = MAX_STAMINA;
-}
-
 void Ellie::CheckDayChange()
 {
 	if (nullptr != PlayLevel::s_TimeManager)
@@ -934,4 +929,9 @@ void Ellie::CheckDayChange()
 			DayChangeEvent();
 		}
 	}
+}
+
+void Ellie::DayChangeEvent()
+{
+	Stamina = MAX_STAMINA;
 }

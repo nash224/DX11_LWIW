@@ -87,8 +87,6 @@ void WitchHouse_Yard::LoadActor()
 	{
 		m_BackDrop = CreateActor<BackDrop_WitchHouse_Yard>(EUPDATEORDER::Objects);
 	}
-
-	m_BackDrop->Init();
 }
 
 

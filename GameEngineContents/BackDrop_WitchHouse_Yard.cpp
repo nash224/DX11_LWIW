@@ -33,6 +33,7 @@ void BackDrop_WitchHouse_Yard::Update(float _Delta)
 void BackDrop_WitchHouse_Yard::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	MainBackDrop = this;
+	Init();
 }
 
 
