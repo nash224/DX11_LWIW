@@ -685,6 +685,9 @@
     <ClInclude Include="FireSky.h">
       <Filter>3.Actor\5.Event\EventActor</Filter>
     </ClInclude>
+    <ClInclude Include="EndingLevel.h">
+      <Filter>2.Level\10.EndLevel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -1147,6 +1150,9 @@
     </ClCompile>
     <ClCompile Include="FireSky.cpp">
       <Filter>3.Actor\5.Event\EventActor</Filter>
+    </ClCompile>
+    <ClCompile Include="EndingLevel.cpp">
+      <Filter>2.Level\10.EndLevel</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

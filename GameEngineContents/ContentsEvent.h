@@ -77,7 +77,7 @@ public:
 		}
 
 		template<typename ConvertType>
-		std::shared_ptr<ConvertType> Get_DynmicCast_This()
+		std::shared_ptr<ConvertType> Get_DynamicCast_This()
 		{
 			std::shared_ptr<ContentsEvent::QuestUnitBase> Quest = shared_from_this();
 			std::shared_ptr<ConvertType> CastQuest = std::dynamic_pointer_cast<ConvertType>(Quest);

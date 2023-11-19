@@ -39,6 +39,7 @@ public:
 	static constexpr const char* Font_Cafe24 = "카페24 아네모네";
 	static constexpr const char* Font_JejuHanlasan = "제주한라산";
 	static constexpr const char* Font_Sandoll = "Sandoll 삼립호빵체 TTF Basic";
+	static constexpr const char* Font_Liberation = "Liberation Sans";
 
 private:
 	static float4 WindowScale;

@@ -283,7 +283,7 @@ void BackDrop_WitchHouse_Yard::CheckDianSpawn()
 
 	if (true == Quest->isQuestComplete())
 	{
-		const std::shared_ptr<ContentsEvent::Crow_Meet>& CastedQuest = Quest->Get_DynmicCast_This<ContentsEvent::Crow_Meet>();
+		const std::shared_ptr<ContentsEvent::Crow_Meet>& CastedQuest = Quest->Get_DynamicCast_This<ContentsEvent::Crow_Meet>();
 		if (nullptr == PlayLevel::s_TimeManager)
 		{
 			MsgBoxAssert("타임 매니저가 존재하지 않는데 참조하려 했습니다.");
