@@ -1,31 +1,33 @@
 #pragma once
 
 
-class ProcessBProductInfo
-{
-public:
-	std::shared_ptr<GameEngineUIRenderer> ProductImg = nullptr;
-	std::string ProductName = "";
-	std::string ProductKRName = "";
-	
-
-};
-
-class ProcessBSourceInfo
-{
-public:
-	std::shared_ptr<GameEngineUIRenderer> SrcImg = nullptr;
-	std::string ScrName = "";
-	std::string ScrKRName = "";
-	int NeedCount = 0;
-	int ScrCount = 0;
-
-};
 
 
 // 설명 :
 class UI_ProcessB : public GameEngineActor
 {
+private:
+	class ProcessBProductInfo
+	{
+	public:
+		std::shared_ptr<GameEngineUIRenderer> ProductRenderer = nullptr;
+		std::string ProductName;
+		std::string ProductKRName;
+
+
+	};
+
+	class ProcessBSourceInfo
+	{
+	public:
+		std::shared_ptr<GameEngineUIRenderer> SourceRenderer = nullptr;
+		std::string ScrName;
+		std::string ScrKRName;
+		int NeedCount = 0;
+		int ScrCount = 0;
+
+	};
+
 public:
 	class UI_ProcessManager* ProcessManager = nullptr;
 
@@ -55,7 +57,7 @@ protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 
@@ -66,12 +68,11 @@ private:
 	void UpdateInput();
 
 private:
-	std::shared_ptr<GameEngineUIRenderer> m_Base = nullptr;
-	std::shared_ptr<GameEngineUIRenderer> m_Frame = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> BaseRenderer = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> FrameRenderer = nullptr;
 
-	// 값형
-	ProcessBProductInfo m_ProcessBProductInfo;
-	ProcessBSourceInfo m_ProcessBSourceInfo;
+	ProcessBProductInfo ProductInfo;
+	ProcessBSourceInfo SourceInfo;
 
 	bool IsJuicying = false;
 	bool IsJustOpen = false;

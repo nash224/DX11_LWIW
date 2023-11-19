@@ -1,11 +1,11 @@
 #include "PreCompile.h"
 #include "UI_ProcessB.h"
 
-
 #include "IngredientData.h"
+
+#include "Ellie.h"
 #include "UI_ProcessManager.h"
 #include "UI_Inventory.h"
-#include "Ellie.h"
 
 UI_ProcessB::UI_ProcessB() 
 {
@@ -33,16 +33,11 @@ void UI_ProcessB::Update(float _Delta)
 
 void UI_ProcessB::Release()
 {
-	m_Base = nullptr;
-	m_Frame = nullptr;
-	m_ProcessBProductInfo.ProductImg = nullptr;
-	m_ProcessBSourceInfo.SrcImg = nullptr;
+	BaseRenderer = nullptr;
+	FrameRenderer = nullptr;
+	ProductInfo.ProductRenderer = nullptr;
+	SourceInfo.SourceRenderer = nullptr;
 	ProcessManager = nullptr;
-}
-
-void UI_ProcessB::LevelStart(class GameEngineLevel* _NextLevel)
-{
-
 }
 
 void UI_ProcessB::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -65,20 +60,25 @@ void UI_ProcessB::Init()
 
 void UI_ProcessB::RendererSetting()
 {
-	m_Base = CreateComponent<GameEngineUIRenderer>();
-	m_Base->Transform.SetLocalPosition(float4(0.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Base)));
-	m_Base->SetSprite("Process_Base.png");
+	const float BaseDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Base);
+	const float FrameDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame);
+	const float IconDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Icon);
+	const float FontDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Font);
 
-	m_Frame = CreateComponent<GameEngineUIRenderer>();
-	m_Frame->Transform.SetLocalPosition(float4(0.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame)));
-	m_Frame->SetSprite("Process_B_Contents.png");
+	BaseRenderer = CreateComponent<GameEngineUIRenderer>();
+	BaseRenderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, BaseDepth));
+	BaseRenderer->SetSprite("Process_Base.png");
+
+	FrameRenderer = CreateComponent<GameEngineUIRenderer>();
+	FrameRenderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, FrameDepth));
+	FrameRenderer->SetSprite("Process_B_Contents.png");
 
 	
-	m_ProcessBProductInfo.ProductImg = CreateComponent<GameEngineUIRenderer>();
-	m_ProcessBProductInfo.ProductImg->Transform.SetLocalPosition(float4(2.0f, 113.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Icon)));
+	ProductInfo.ProductRenderer = CreateComponent<GameEngineUIRenderer>();
+	ProductInfo.ProductRenderer->Transform.SetLocalPosition(float4(2.0f, 113.0f, IconDepth));
 
-	m_ProcessBSourceInfo.SrcImg= CreateComponent<GameEngineUIRenderer>();
-	m_ProcessBSourceInfo.SrcImg->Transform.SetLocalPosition(float4(-76.0f, -1.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Icon)));
+	SourceInfo.SourceRenderer= CreateComponent<GameEngineUIRenderer>();
+	SourceInfo.SourceRenderer->Transform.SetLocalPosition(float4(-76.0f, -1.0f, IconDepth));
 	
 }
 
@@ -99,31 +99,37 @@ void UI_ProcessB::Open(std::string_view _ProductName, int _ScrCount)
 
 void UI_ProcessB::ProductInfoSetting(std::string_view _ProductName)
 {
-	m_ProcessBProductInfo.ProductName = _ProductName;
+	ProductInfo.ProductName = _ProductName;
 
-	if (nullptr == m_ProcessBProductInfo.ProductImg)
+	if (nullptr == ProductInfo.ProductRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	m_ProcessBProductInfo.ProductImg->SetSprite(_ProductName.data() + std::string(".png"));
+	ProductInfo.ProductRenderer->SetSprite(_ProductName.data() + std::string(".png"));
 }
 
 void UI_ProcessB::SourceInfoSetting(std::string_view _ProductName, int _ScrCount)
 {
-	std::shared_ptr<IngredientData> Data = IngredientData::Find(_ProductName);
-	m_ProcessBSourceInfo.ScrName = Data->SourceName;
-	m_ProcessBSourceInfo.NeedCount = Data->SourceCount;
-	m_ProcessBSourceInfo.ScrCount = _ScrCount;
+	std::weak_ptr<IngredientData> Data = IngredientData::Find(_ProductName);
+	if (true == Data.expired())
+	{
+		MsgBoxAssert("등록되지 않은 데이터를 참조하려 했습니다.");
+		return;
+	}
 
-	if (nullptr == m_ProcessBSourceInfo.SrcImg)
+	SourceInfo.ScrName = Data.lock()->SourceName;
+	SourceInfo.NeedCount = Data.lock()->SourceCount;
+	SourceInfo.ScrCount = _ScrCount;
+
+	if (nullptr == SourceInfo.SourceRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	m_ProcessBSourceInfo.SrcImg->SetSprite(Data->SourceName + std::string(".png"));
+	SourceInfo.SourceRenderer->SetSprite(Data.lock()->SourceName + std::string(".png"));
 }
 
 void UI_ProcessB::Close()
@@ -136,7 +142,7 @@ void UI_ProcessB::Close()
 
 void UI_ProcessB::UpdateInput()
 {
-	if (m_ProcessBSourceInfo.ScrCount >= m_ProcessBSourceInfo.NeedCount)
+	if (SourceInfo.ScrCount >= SourceInfo.NeedCount)
 	{
 		if (true == GameEngineInput::IsDown('Z', this))
 		{
@@ -152,15 +158,12 @@ void UI_ProcessB::UpdateInput()
 			return;
 		}
 
-
 		ProcessManager->OpenListWindow();
 	}
 }
 
-// 재료만큼 뺀다
 void UI_ProcessB::JuicyThis()
 {
-	// 앨리 상태
 	if (nullptr != Ellie::MainEllie)
 	{
 		Ellie::MainEllie->WaitDone(EELLIE_STATE::Juicy);
@@ -172,7 +175,7 @@ void UI_ProcessB::JuicyThis()
 		return;
 	}
 
-	UI_Inventory::MainInventory->PopItem(m_ProcessBSourceInfo.ScrName, 2);
+	UI_Inventory::MainInventory->PopItem(SourceInfo.ScrName, SourceInfo.NeedCount);
 
 	if (nullptr == ProcessManager)
 	{
@@ -180,7 +183,7 @@ void UI_ProcessB::JuicyThis()
 		return;
 	}
 
-	ProcessManager->CreatedProductName = m_ProcessBProductInfo.ProductName;
+	ProcessManager->CreatedProductName = ProductInfo.ProductName;
 
 	Off();
 }

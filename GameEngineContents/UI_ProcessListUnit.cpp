@@ -13,27 +13,14 @@ UI_ProcessListUnit::~UI_ProcessListUnit()
 }
 
 
-void UI_ProcessListUnit::Start()
-{
-
-}
-
-void UI_ProcessListUnit::Update(float _Delta)
-{
-
-}
 
 void UI_ProcessListUnit::Release()
 {
-	Panel = nullptr;
-	ItemSlot = nullptr;
-	ItemImg = nullptr;
-	ItemMaskImg = nullptr;
-}
-
-void UI_ProcessListUnit::LevelStart(class GameEngineLevel* _NextLevel)
-{
-
+	BaseRenderer = nullptr;
+	SlotRenderer = nullptr;
+	MaterialRenderer = nullptr;
+	MaterialMaskRenderer = nullptr;
+	NameRenderer = nullptr;
 }
 
 void UI_ProcessListUnit::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -47,30 +34,43 @@ void UI_ProcessListUnit::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void UI_ProcessListUnit::Init(std::string_view _ProcessName)
 {
-	// 정보 읽기
-	std::shared_ptr<IngredientData> Data = IngredientData::Find(_ProcessName);
+	std::weak_ptr<IngredientData> Data = IngredientData::Find(_ProcessName);
+	if (true == Data.expired())
+	{
+		MsgBoxAssert("존재하지 않는 데이터입니다.");
+		return;
+	}
 
-	ItemName = Data->Name;
-	ItemKRName = Data->KoreanName;
-	NeedCount = Data->SourceCount;
-	SrcName = Data->SourceName;
+	ItemName = Data.lock()->Name;
+	ItemKRName = Data.lock()->KoreanName;
+	NeedCount = Data.lock()->SourceCount;
+	SrcName = Data.lock()->SourceName;
 
-	// 렌더러 세팅
-	Panel = CreateComponent<GameEngineUIRenderer>();
-	Panel->Transform.SetLocalPosition(float4(0.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame)));
-	Panel->SetSprite("Process_A_List.png");
+	const float FrameDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame);
+	const float AttachmentDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
+	const float IconDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Icon);
+	const float Icon_MaskDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Icon_Mask);
+	const float FontDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Font);
 
-	ItemSlot = CreateComponent<GameEngineUIRenderer>();
-	ItemSlot->Transform.SetLocalPosition(float4(-76.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment)));
-	ItemSlot->SetSprite("Process_A_Slot.png");
+	BaseRenderer = CreateComponent<GameEngineUIRenderer>();
+	BaseRenderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, FrameDepth));
+	BaseRenderer->SetSprite("Process_A_List.png");
 
-	ItemImg = CreateComponent<GameEngineUIRenderer>();
-	ItemImg->Transform.SetLocalPosition(float4(-76.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Icon)));
-	ItemImg->SetSprite(_ProcessName.data() + std::string(".png"));
+	SlotRenderer = CreateComponent<GameEngineUIRenderer>();
+	SlotRenderer->Transform.SetLocalPosition(float4(-76.0f, 0.0f, AttachmentDepth));
+	SlotRenderer->SetSprite("Process_A_Slot.png");
 
-	ItemMaskImg = CreateComponent<GameEngineUIRenderer>();
-	ItemMaskImg->Transform.SetLocalPosition(float4(-76.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Icon_Mask)));
-	ItemMaskImg->SetSprite(_ProcessName.data() + std::string("_Mask.png"));
+	MaterialRenderer = CreateComponent<GameEngineUIRenderer>();
+	MaterialRenderer->Transform.SetLocalPosition(float4(-76.0f, 0.0f, IconDepth));
+	MaterialRenderer->SetSprite(_ProcessName.data() + std::string(".png"));
+
+	MaterialMaskRenderer  = CreateComponent<GameEngineUIRenderer>();
+	MaterialMaskRenderer ->Transform.SetLocalPosition(float4(-76.0f, 0.0f, Icon_MaskDepth));
+	MaterialMaskRenderer ->SetSprite(_ProcessName.data() + std::string("_Mask.png"));
+
+	NameRenderer = CreateComponent<GameEngineUIRenderer>();
+	NameRenderer->Transform.SetLocalPosition(float4(16.0f, 8.0f, FontDepth));
+	NameRenderer->SetText(GlobalValue::Font_Sandoll, ItemKRName, 15.0f, float4(0.1f, 0.1f, 0.1f, 1.0f), FW1_TEXT_FLAG::FW1_CENTER);
 
 	Off();
 }
@@ -89,15 +89,15 @@ void UI_ProcessListUnit::RenewRenderer()
 
 	if (EPROCESSUNITSTATE::Unknown == State)
 	{
-		ItemImg->Off();
+		MaterialRenderer->Off();
 	}
 	else if (EPROCESSUNITSTATE::NotPossible == State)
 	{
-		ItemMaskImg->GetColorData().MulColor.A = 0.6f;
-		ItemMaskImg->On();
+		MaterialMaskRenderer->GetColorData().MulColor.A = 0.6f;
+		MaterialMaskRenderer->On();
 	}
 	else
 	{
-		ItemMaskImg->Off();
+		MaterialMaskRenderer->Off();
 	}
 }
