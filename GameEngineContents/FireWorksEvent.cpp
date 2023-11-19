@@ -3,8 +3,13 @@
 
 #include "BGMManager.h"
 
+#include "Ellie.h"
 #include "FadeObject.h"
+#include "FireWorks.h"
+#include "ContentsEvent.h"
+#include "AlertManager.h"
 
+#include "UIManager.h"
 
 FireWorksEvent::FireWorksEvent() 
 {
@@ -39,7 +44,9 @@ void FireWorksEvent::Init()
 
 void FireWorksEvent::PotionSetting()
 {
-
+	CrackerPotion = GetLevel()->CreateActor<FireWorks>(EUPDATEORDER::Objects);
+	CrackerPotion->Transform.SetLocalPosition(Transform.GetLocalPosition());
+	CrackerPotion->Init();
 }
 
 void FireWorksEvent::ConversationSetting()
@@ -52,7 +59,7 @@ void FireWorksEvent::ConversationSetting()
 		{ L"이걸로 수습은 끝이네." , ECONVERSATIONENTITY::Ellie, 5 },
 		{ L"별 문제 없이 끝나서 다행이야." , ECONVERSATIONENTITY::Virgil , 1, ConversationFont::VigilDefaultFont },
 		{ L"이제 폭죽을 쏘아올리고 어서 끝내자고." , ECONVERSATIONENTITY::Virgil , 1, ConversationFont::VigilDefaultFont },
-		{ L"갑니다! 회심의 폭죽 물약!" , ECONVERSATIONENTITY::Ellie, 8 },
+		{ L"간다! 회심의 폭죽 물약!" , ECONVERSATIONENTITY::Ellie, 8 },
 	};
 
 	CloserTopic.Data.shrink_to_fit();
@@ -60,7 +67,12 @@ void FireWorksEvent::ConversationSetting()
 
 	EventConversation.SetConversationEndEvent(EFIREWORKSEVENTTOPIC::Ready, [&]()
 		{
-			State.ChangeState(EFIREWORKSSTATE::PotionSetting);
+			if (nullptr != UIManager::MainUIManager)
+			{
+				UIManager::MainUIManager->UseUIComponent();
+			}
+
+			State.ChangeState(EFIREWORKSSTATE::FireWorks);
 		});
 
 
@@ -78,7 +90,12 @@ void FireWorksEvent::ConversationSetting()
 
 	EventConversation.SetConversationEndEvent(EFIREWORKSEVENTTOPIC::Last, [&]()
 		{
-			State.ChangeState(EFIREWORKSSTATE::FadeOut);
+			if (nullptr != UIManager::MainUIManager)
+			{
+				UIManager::MainUIManager->UseUIComponent();
+			}
+
+			State.ChangeState(EFIREWORKSSTATE::EndTraining);
 		});
 }
 
@@ -93,24 +110,23 @@ void FireWorksEvent::StateSetting()
 	ReadyConversationState.Start = std::bind(&FireWorksEvent::StartReadyConversation, this, std::placeholders::_1);
 	State.CreateState(EFIREWORKSSTATE::ReadyConversation, ReadyConversationState);
 
-	CreateStateParameter PotionSettingState;
-	PotionSettingState.Start = std::bind(&FireWorksEvent::StartPotionSetting, this, std::placeholders::_1);
-	PotionSettingState.Stay = std::bind(&FireWorksEvent::UpdatePotionSetting, this, std::placeholders::_1, std::placeholders::_2);
-	State.CreateState(EFIREWORKSSTATE::PotionSetting, PotionSettingState);
-
-	CreateStateParameter FireState;
-	FireState.Start = std::bind(&FireWorksEvent::StartFire, this, std::placeholders::_1);
-	FireState.Stay = std::bind(&FireWorksEvent::UpdateFire, this, std::placeholders::_1, std::placeholders::_2);
-	FireState.End = std::bind(&FireWorksEvent::EndFire, this, std::placeholders::_1);
-	State.CreateState(EFIREWORKSSTATE::Fire, FireState);
-
 	CreateStateParameter FireWorksState;
+	FireWorksState.Start = std::bind(&FireWorksEvent::StartFireWorks, this, std::placeholders::_1);
 	FireWorksState.Stay = std::bind(&FireWorksEvent::UpdateFireWorks, this, std::placeholders::_1, std::placeholders::_2);
 	State.CreateState(EFIREWORKSSTATE::FireWorks, FireWorksState);
+
+	CreateStateParameter EndTrainingState;
+	EndTrainingState.Start = std::bind(&FireWorksEvent::StartEndTraining, this, std::placeholders::_1);
+	EndTrainingState.Stay = std::bind(&FireWorksEvent::UpdateEndTraining, this, std::placeholders::_1, std::placeholders::_2);
+	State.CreateState(EFIREWORKSSTATE::EndTraining, EndTrainingState);
 
 	CreateStateParameter LastConversationState;
 	LastConversationState.Start = std::bind(&FireWorksEvent::StartLastConversation, this, std::placeholders::_1);
 	State.CreateState(EFIREWORKSSTATE::LastConversation, LastConversationState);
+
+	CreateStateParameter FadeOutState;
+	FadeOutState.Start = std::bind(&FireWorksEvent::StartFadeOut, this, std::placeholders::_1);
+	State.CreateState(EFIREWORKSSTATE::FadeOut, FadeOutState);
 }
 
 void FireWorksEvent::StartFadeIn(GameEngineState* _Parent)
@@ -118,13 +134,17 @@ void FireWorksEvent::StartFadeIn(GameEngineState* _Parent)
 	std::weak_ptr<FadeObject> Fade = GetLevel()->CreateActor<FadeObject>(EUPDATEORDER::Fade);
 	Fade.lock()->CallFadeIn(LastFadeTime);
 	
+	EllieSetting();
+
+	if (nullptr != UIManager::MainUIManager)
+	{
+		UIManager::MainUIManager->UseUIComponent();
+	}
 
 	if (nullptr != ContentsLevel::MainPlaySound)
 	{
 		ContentsLevel::MainPlaySound->AbsoluteNoneBGM();
 	}
-
-	// Actor
 }
 
 void FireWorksEvent::UpdateFadeIn(float _Delta, GameEngineState* _Parent)
@@ -143,42 +163,37 @@ void FireWorksEvent::StartReadyConversation(GameEngineState* _Parent)
 }
 
 
-void FireWorksEvent::StartPotionSetting(GameEngineState* _Parent)
+void FireWorksEvent::StartFireWorks(GameEngineState* _Parent)
 {
-	// alight
+	if (nullptr == CrackerPotion)
+	{
+		MsgBoxAssert("폭죽 포션이 없인 이벤트를 수행할 수 없습니다.");
+		return;
+	}
+
+	CrackerPotion->Fire();
+
+	StateTime = 0.0f;
 }
-
-void FireWorksEvent::UpdatePotionSetting(float _Delta, GameEngineState* _Parent)
-{
-	// alightdone
-
-	State.ChangeState(EFIREWORKSSTATE::Fire);
-}
-
-
-void FireWorksEvent::StartFire(GameEngineState* _Parent)
-{
-	// Camera
-	// Effect
-	// Line
-}
-
-void FireWorksEvent::UpdateFire(float _Delta, GameEngineState* _Parent)
-{
-	// CameraLerp
-	State.ChangeState(EFIREWORKSSTATE::FireWorks);
-}
-
-void FireWorksEvent::EndFire(GameEngineState* _Parent)
-{
-	// Camera
-}
-
 
 void FireWorksEvent::UpdateFireWorks(float _Delta, GameEngineState* _Parent)
 {
-	 // 파파파팡
-	State.ChangeState(EFIREWORKSSTATE::LastConversation);
+	if (nullptr == CrackerPotion)
+	{
+		MsgBoxAssert("폭죽 포션이 없인 이벤트를 수행할 수 없습니다.");
+		return;
+	}
+
+	if (true == CrackerPotion->IsEndFireWork())
+	{
+		static constexpr float WaitTime = 1.0f;
+		StateTime += _Delta;
+		if (StateTime > WaitTime)
+		{
+			State.ChangeState(EFIREWORKSSTATE::LastConversation);
+			return;
+		}
+	}
 }
 
 
@@ -186,6 +201,24 @@ void FireWorksEvent::StartLastConversation(GameEngineState* _Parent)
 {
 	EventConversation.StartConversation(EFIREWORKSEVENTTOPIC::Last);
 }
+
+
+void FireWorksEvent::StartEndTraining(GameEngineState* _Parent)
+{
+	CheckEndtrainingEvent();
+}
+
+void FireWorksEvent::UpdateEndTraining(float _Delta, GameEngineState* _Parent)
+{
+	if (nullptr != PlayLevel::s_AlertManager)
+	{
+		if (true == PlayLevel::s_AlertManager->IsAlertEnd())
+		{
+			State.ChangeState(EFIREWORKSSTATE::FadeOut);
+		}
+	}
+}
+
 
 void FireWorksEvent::StartFadeOut(GameEngineState* _Parent)
 {
@@ -197,4 +230,35 @@ void FireWorksEvent::StartFadeOut(GameEngineState* _Parent)
 	}
 
 	Fade.lock()->CallFadeOut("EndingLevel", LastFadeTime);
+}
+
+
+void FireWorksEvent::EllieSetting()
+{
+	const float4& CurPos = Transform.GetLocalPosition();
+	const float4& ElliePos = CurPos + float4(-50.0f, 0.0f);
+
+	if (nullptr == Ellie::MainEllie)
+	{
+		MsgBoxAssert("앨리가 존재하지 않습니다.");
+		return;
+	}
+	
+	Ellie::MainEllie->Transform.SetLocalPosition(ElliePos);
+	Ellie::MainEllie->ApplyDepth();
+}
+
+void FireWorksEvent::CheckEndtrainingEvent()
+{
+	std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("StartTraining");
+	if (true == Quest.expired())
+	{
+		MsgBoxAssert("생성되지 않은 퀘스트입니다.");
+		return;
+	}
+
+	if (false == Quest.lock()->CheckPrerequisiteQuest())
+	{
+		Quest.lock()->QuestComplete();
+	}
 }

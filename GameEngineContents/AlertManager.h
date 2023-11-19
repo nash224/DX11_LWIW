@@ -50,6 +50,11 @@ public:
 
 	void RegisterAlert(const AlertData& _Data);
 
+	bool IsAlertEnd() const
+	{
+		return !isAlerting;
+	}
+
 protected:
 	void Update(float _Delta);
 	void AlertCall(const std::shared_ptr<AlertData>& _Data);
@@ -57,8 +62,6 @@ protected:
 
 private:
 	std::list<std::shared_ptr<AlertData>> Data;
-
-	float AlertTime = 0.0f;
 
 };
 

@@ -9,11 +9,27 @@
 #include "Extractor.h"
 
 
+void ContentsEvent::StartTraining::AcceptInternal()
+{
+	if (nullptr != PlayLevel::s_AlertManager)
+	{
+		PlayLevel::s_AlertManager->RegisterAlert(AlertData("수습 시작", EALERTTYPE::QuestAccept));
+	}
+}
 
-bool ContentsEvent::Letter_Read::QuestClearPrerequisite()
+bool ContentsEvent::StartTraining::QuestClearPrerequisite()
 {
 	return !isQuestCompleted;
 }
+
+void ContentsEvent::StartTraining::CompleteInternal()
+{
+	if (nullptr != PlayLevel::s_AlertManager)
+	{
+		PlayLevel::s_AlertManager->RegisterAlert(AlertData("수습 시작", EALERTTYPE::QuestClear));
+	}
+}
+
 
 bool ContentsEvent::House_Dust::QuestClearPrerequisite()
 {

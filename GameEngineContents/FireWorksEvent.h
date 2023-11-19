@@ -9,10 +9,9 @@ private:
 	{
 		FadeIn,
 		ReadyConversation,
-		PotionSetting,
-		Fire,
 		FireWorks,
 		LastConversation,
+		EndTraining,
 		FadeOut,
 		None,
 	};
@@ -54,25 +53,29 @@ protected:
 
 	void StartReadyConversation(GameEngineState* _Parent);
 
-	void StartPotionSetting(GameEngineState* _Parent);
-	void UpdatePotionSetting(float _Delta, GameEngineState* _Parent);
-
-	void StartFire(GameEngineState* _Parent);
-	void UpdateFire(float _Delta, GameEngineState* _Parent);
-	void EndFire(GameEngineState* _Parent);
-
+	void StartFireWorks(GameEngineState* _Parent);
 	void UpdateFireWorks(float _Delta, GameEngineState* _Parent);
 
 	void StartLastConversation(GameEngineState* _Parent);
 
+	void StartEndTraining(GameEngineState* _Parent);
+	void UpdateEndTraining(float _Delta, GameEngineState* _Parent);
+
 	void StartFadeOut(GameEngineState* _Parent);
+
+	void EllieSetting();
+	void CheckEndtrainingEvent();
 
 private:
 	Conversation EventConversation;
 
 	GameEngineState State;
 
+	std::shared_ptr<class FireWorks> CrackerPotion;
+
 	static constexpr float LastFadeTime = 1.2f;
+
+	float StateTime = 0.0f;
 
 };
 

@@ -120,20 +120,14 @@ void InteractiveLetter::ConversationSetting()
 				}
 
 
-				if (nullptr != PlayLevel::s_AlertManager)
-				{
-					PlayLevel::s_AlertManager->RegisterAlert(AlertData("수습 시작!", EALERTTYPE::QuestAccept));
-				}
-
-
-				const std::shared_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Letter_Read");
-				if (nullptr == Quest)
+				std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("StartTraining");
+				if (true == Quest.expired())
 				{
 					MsgBoxAssert("생성되지 않은 퀘스트입니다.");
 					return;
 				}
 
-				Quest->QuestComplete();
+				Quest.lock()->QuestAccept();
 
 
 				if (nullptr != UIManager::MainUIManager)

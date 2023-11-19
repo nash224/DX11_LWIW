@@ -2,8 +2,7 @@
 
 enum class EQUESTTYPE
 {
-	Find_Letter,
-	Letter_Read,
+	StartTraining,
 	House_Dust,
 	Clean_Dust,
 	Craft_Potion,
@@ -109,10 +108,12 @@ public:
 
 	};
 
-	class Letter_Read : public QuestUnitBase
+	class StartTraining : public QuestUnitBase
 	{
 	public:
+		void AcceptInternal() override;
 		bool QuestClearPrerequisite() override;
+		void CompleteInternal() override;
 
 	};
 

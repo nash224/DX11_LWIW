@@ -52,6 +52,7 @@ public:
 	void SetBackDropScale(const float4& _Scale);
 
 	void AddCameraPos(const float4& _Position);
+	void SetCameraPos(const float4& _Position);
 
 	float4 GetCameraWorldPosition() const;
 

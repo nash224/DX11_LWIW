@@ -39,7 +39,7 @@ void ContentsEvent::Init()
 
 	HasWitchBroom = true;
 
-	CreateQuest<ContentsEvent::Letter_Read>("Letter_Read");
+	CreateQuest<ContentsEvent::StartTraining>("StartTraining");
 	CreateQuest<ContentsEvent::House_Dust>("House_Dust");
 	CreateQuest<ContentsEvent::Craft_Potion>("Craft_Potion");
 	CreateQuest<ContentsEvent::Repair_Extractor>("Repair_Extractor");

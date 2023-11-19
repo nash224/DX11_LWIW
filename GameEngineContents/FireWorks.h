@@ -1,10 +1,5 @@
 #pragma once
 
-#define Light1 {0.0f, 0.0f, 0.0f, 0.0f} 
-#define Light2 {0.25f, 0.28f, 0.156f, 1.0f} 
-#define Light3 {0.1f, 0.25f, 0.17f, 0.58f} 
-#define Light4 {0.68f, 1.0f, 0.56f, 1.0f} 
-#define Light5 {0.31f, 0.29f, 0.56f, 0.67f} 
 
 
 // Ό³Έν :
@@ -15,10 +10,48 @@ private:
 	{
 		Light,
 		Fire,
-		FireLine,
+		FocusRayLight,
+		Wait,
+		PopCrackers,
+		Done,
 		None,
 	};
 
+	class RayLightInfo
+	{
+		friend class FireWorks;
+
+	public:
+		enum class EFIRELINESTATE
+		{
+			Ready,
+			Ray,
+			None,
+		};
+
+	public:
+		void StateSetting();
+
+		void StartReady(GameEngineState* _Parent);
+		void UpdateReady(float _Delta, GameEngineState* _Parent);
+
+		void StartRay(GameEngineState* _Parent);
+
+
+	private:
+		GameEngineState State;
+		FireWorks* Parent = nullptr;
+
+
+	};
+
+	class CrackersInfo
+	{
+	public:
+		std::shared_ptr<GameEngineSpriteRenderer> PopRenderer;
+		float NextPopTime = 0.0f;
+
+	};
 
 public:
 	// constrcuter destructer
@@ -32,8 +65,14 @@ public:
 	FireWorks& operator=(FireWorks&& _Other) noexcept = delete;
 
 	void Init();
+	void Fire();
 
 	void SetLightColor(const float4& _Color);
+
+	bool IsEndFireWork() const
+	{
+		return isFireWorkEnd;
+	}
 
 protected:
 	void Start() override {}
@@ -44,12 +83,17 @@ protected:
 
 	void RendererSetting();
 	void StateSetting();
+	void CrackersSetting();
 
 	void StartLight(GameEngineState* _Parent);
 	void StartFire(GameEngineState* _Parent);
-	void StartFireLine(GameEngineState* _Parent);
+	void StartFocusRayLight(GameEngineState* _Parent);
+	void StartDone(GameEngineState* _Parent);
 
 	void UpdateLight(float _Delta, GameEngineState* _Parent);
+	void UpdateFocusRayLight(float _Delta, GameEngineState* _Parent);
+	void UpdateWait(float _Delta, GameEngineState* _Parent);
+	void UpdatePopCrackers(float _Delta, GameEngineState* _Parent);
 
 	void LightLerp(const float4& _ColorA, const float4& _ColorB, float _Time);
 
@@ -66,6 +110,18 @@ private:
 	int ChangeCount = 0;
 
 	GameEngineState State;
+	RayLightInfo FireLineStateInfo;
+	GameEngineSoundPlayer FirePlayer;
+
+	static constexpr float TargetDistance = 2000.0f;
+	float4 CameraTargetStopPos;
+
+	std::vector<CrackersInfo> Crackers;
+	static constexpr int MaxPopCount = 6;
+	int CurPopCount = 0;
+	float StateTime = 0.0f;
+
+	bool isFireWorkEnd = false;
 
 };
 

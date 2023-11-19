@@ -240,19 +240,16 @@ void BackDrop_WitchHouse_Yard::EventSetting()
 
 void BackDrop_WitchHouse_Yard::CheckLetterEvent()
 {
-	std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Letter_Read");
+	std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("StartTraining");
 	if (true == Quest.expired())
 	{
 		MsgBoxAssert("생성되지 않은 퀘스트입니다.");
 		return;
 	}
 
-	if (false == Quest.lock()->isQuestComplete())
+	if (false == Quest.lock()->IsQuestAccepted())
 	{
-		if (Quest.lock()->CheckPrerequisiteQuest())
-		{
-			CreateLetter();
-		}
+		CreateLetter();
 	}
 }
 

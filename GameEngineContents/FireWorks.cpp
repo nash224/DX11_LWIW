@@ -1,18 +1,28 @@
 #include "PreCompile.h"
 #include "FireWorks.h"
 
+#include "CameraControler.h"
+
+#define Light1 {0.0f, 0.0f, 0.0f, 0.0f} 
+#define Light2 {0.25f, 0.28f, 0.156f, 1.0f} 
+#define Light3 {0.1f, 0.25f, 0.17f, 0.58f} 
+#define Light4 {0.68f, 1.0f, 0.56f, 1.0f} 
+#define Light5 {0.31f, 0.29f, 0.56f, 0.67f} 
+
+
 FireWorks::FireWorks() 
 {
 	GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\Event");
 
 	GameEngineSprite::CreateSingle("Pot_2.png");
 	GameEngineSprite::CreateCut("FireLine.png", 5, 1);
+	GameEngineSprite::CreateCut("DisappearRay.png", 4, 1);
 	GameEngineSprite::CreateCut("Firewalkhalf_Pop_Light.png", 4, 3);
 	GameEngineSprite::CreateCut("Fireworkhalf_Main.png", 7, 7);
-	GameEngineSprite::CreateCut("Fireworkhalf_Sub_A_Light.png", 4, 3);
-	GameEngineSprite::CreateCut("Fireworkhalf_Sub_B_Light.png", 4, 3);
-	GameEngineSprite::CreateCut("Fireworkhalf_Sub_C_Light.png", 4, 3);
-	GameEngineSprite::CreateCut("Fireworkhalf_Sub_D_Light.png", 4, 3);
+	GameEngineSprite::CreateCut("Fireworkhalf_Sub_A.png", 4, 4);
+	GameEngineSprite::CreateCut("Fireworkhalf_Sub_B.png", 4, 4);
+	GameEngineSprite::CreateCut("Fireworkhalf_Sub_C.png", 4, 4);
+	GameEngineSprite::CreateCut("Fireworkhalf_Sub_D.png", 4, 4);
 
 	GameEngineDirectory Dir;
 	Dir.MoveParentToExistsChild("Resources");
@@ -36,7 +46,22 @@ void FireWorks::Update(float _Delta)
 
 void FireWorks::Release()
 {
+	PotionRenderer = nullptr;
+	LightRenderer = nullptr;
+	FxRenderer = nullptr;
+	Crackers.clear();
 
+	GameEngineSprite::Release("Pot_2.png");
+	GameEngineSprite::Release("FireLine.png");
+	GameEngineSprite::Release("DisappearRay.png");
+	GameEngineSprite::Release("Firewalkhalf_Pop_Light.png");
+	GameEngineSprite::Release("Fireworkhalf_Main.png");
+	GameEngineSprite::Release("Fireworkhalf_Sub_A.png");
+	GameEngineSprite::Release("Fireworkhalf_Sub_B.png");
+	GameEngineSprite::Release("Fireworkhalf_Sub_C.png");
+	GameEngineSprite::Release("Fireworkhalf_Sub_D.png");
+
+	GlobalUtils::ReleaseAllTextureInPath("Resources\\PlayContents\\PlayResourecs\\Event");
 }
 
 void FireWorks::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -53,6 +78,13 @@ void FireWorks::Init()
 {
 	RendererSetting();
 	StateSetting();
+	FireLineStateInfo.StateSetting();
+	CrackersSetting();
+}
+
+void FireWorks::Fire()
+{
+	State.ChangeState(ECRACKERPOTIONSTATE::Light);
 }
 
 void FireWorks::RendererSetting()
@@ -78,16 +110,96 @@ void FireWorks::RendererSetting()
 	FxRenderer = CreateComponent<GameEngineSpriteRenderer>();
 	FxRenderer->Transform.SetLocalPosition(float4(16.0f, 220.0f));
 	FxRenderer->AutoSpriteSizeOn();
-	FxRenderer->CreateAnimation("Pong", "Fireworkhalf_Main.png", 0.1f,0, 9, false);
-	FxRenderer->CreateAnimation("Line", "FireLine.png", 0.1f, 0, 4, false);
-	FxRenderer->FindAnimation("Line")->Inter[0] = 2.0f;
-
+	FxRenderer->CreateAnimation("Pong", "Fireworkhalf_Main.png", 0.09f,0, 9, false);
+	FxRenderer->CreateAnimation("Ray", "FireLine.png", 0.1f, 0, 4, false);
+	FxRenderer->FindAnimation("Ray")->Inter[0] = 1.4f;
+	FxRenderer->CreateAnimation("DisappearRay", "DisappearRay.png", 0.025f, 0, 3, false);
+	
 	FxRenderer->RenderBaseInfoValue.Target3 = 1;
 	FxRenderer->Off();
 
 	FxRenderer->SetEndEvent("Pong", [&](GameEngineSpriteRenderer* _Renderer)
 		{
-			State.ChangeState(ECRACKERPOTIONSTATE::FireLine);
+			State.ChangeState(ECRACKERPOTIONSTATE::FocusRayLight);
+			_Renderer->Off();
+		});
+
+	FxRenderer->SetStartEvent("Ray", [](GameEngineSpriteRenderer* _Renderer)
+		{
+			const float4& TexScale = _Renderer->GetCurSprite().Texture->GetScale();
+			const float PlusYPos = TexScale.Half().Y;
+
+			_Renderer->Transform.SetLocalPosition(float4(0.0f, 120.0f + PlusYPos));
+		});
+
+	FxRenderer->SetEndEvent("Ray", [](GameEngineSpriteRenderer* _Renderer)
+		{
+			_Renderer->ChangeAnimation("DisappearRay");
+		});
+
+	FxRenderer->SetStartEvent("DisappearRay", [](GameEngineSpriteRenderer* _Renderer)
+		{
+			_Renderer->Transform.SetLocalPosition(float4(0.0f, 1880.0f));
+		});
+
+	FxRenderer->SetEndEvent("DisappearRay", [&](GameEngineSpriteRenderer* _Renderer)
+		{
+			_Renderer->Off();
+			State.ChangeState(ECRACKERPOTIONSTATE::PopCrackers);
+		});
+}
+
+void FireWorks::CrackersSetting()
+{
+	const float4& CenterPopPos = float4(22.0f, 2000.0f);
+
+	float4 CrackerPosArr[MaxPopCount] =
+	{
+		CenterPopPos,
+		CenterPopPos + float4(-250.0f, 30.0f),
+		CenterPopPos + float4(80.0f, -150.0f),
+		CenterPopPos + float4(-50.0f, 120.0f),
+		CenterPopPos + float4(280.0f, 200.0f),
+		CenterPopPos + float4(-140.0f, 60.0f),
+	};
+
+	float NextPopTimeArr[MaxPopCount] = { 0.1f, 2.1f, 1.03f, 0.23f, 0.92f, 0.75f };
+
+	Crackers.resize(MaxPopCount);
+	for (int i = 0; i < MaxPopCount; i++)
+	{
+		std::shared_ptr<GameEngineSpriteRenderer> PopCracker = CreateComponent<GameEngineSpriteRenderer>();
+		PopCracker->Transform.SetLocalPosition(CrackerPosArr[i]);
+		PopCracker->AutoSpriteSizeOn();
+		PopCracker->RenderBaseInfoValue.Target3 = 1;
+		PopCracker->Off();
+		Crackers[i].PopRenderer = PopCracker;
+		Crackers[i].NextPopTime = NextPopTimeArr[i];
+	}
+
+	static constexpr float PopInter = 0.1f;
+
+	Crackers[0].PopRenderer->CreateAnimation("Pop", "Fireworkhalf_Main.png", PopInter, 33, 48, false);
+	Crackers[1].PopRenderer->CreateAnimation("Pop", "Fireworkhalf_Sub_A.png", PopInter, -1, -1, false);
+	Crackers[2].PopRenderer->CreateAnimation("Pop", "Fireworkhalf_Sub_C.png", PopInter, -1, -1, false);
+	Crackers[3].PopRenderer->CreateAnimation("Pop", "Fireworkhalf_Sub_D.png", PopInter, -1, -1, false);
+	Crackers[4].PopRenderer->CreateAnimation("Pop", "Fireworkhalf_Sub_B.png", PopInter, -1, -1, false);
+	Crackers[5].PopRenderer->CreateAnimation("Pop", "Fireworkhalf_Sub_C.png", PopInter, -1, -1, false);
+	Crackers[5].PopRenderer->SetAutoScaleRatio(0.5f);
+
+	for (int i = 0; i < MaxPopCount - 1; i++)
+	{
+		Crackers[i].PopRenderer->ChangeAnimation("Pop");
+		Crackers[i].PopRenderer->SetEndEvent("Pop", [](GameEngineSpriteRenderer* _Renderer)
+			{
+				_Renderer->Off();
+			});
+	}
+
+	const int LastCrackerCount = MaxPopCount - 1;
+	Crackers[LastCrackerCount].PopRenderer->SetEndEvent("Pop", [&](GameEngineSpriteRenderer* _Renderer)
+		{
+			State.ChangeState(ECRACKERPOTIONSTATE::Done);
 			_Renderer->Off();
 		});
 }
@@ -103,11 +215,22 @@ void FireWorks::StateSetting()
 	FireState.Start = std::bind(&FireWorks::StartFire, this, std::placeholders::_1);
 	State.CreateState(ECRACKERPOTIONSTATE::Fire, FireState);
 
-	CreateStateParameter FireState;
-	FireState.Start = std::bind(&FireWorks::StartFire, this, std::placeholders::_1);
-	State.CreateState(ECRACKERPOTIONSTATE::FireLine, FireState);
+	CreateStateParameter FocusRayLightState;
+	FocusRayLightState.Start = std::bind(&FireWorks::StartFocusRayLight, this, std::placeholders::_1);
+	FocusRayLightState.Stay = std::bind(&FireWorks::UpdateFocusRayLight, this, std::placeholders::_1, std::placeholders::_2);
+	State.CreateState(ECRACKERPOTIONSTATE::FocusRayLight, FocusRayLightState);
 
-	State.ChangeState(ECRACKERPOTIONSTATE::Light);
+	CreateStateParameter WaitState;
+	WaitState.Stay = std::bind(&FireWorks::UpdateWait, this, std::placeholders::_1, std::placeholders::_2);
+	State.CreateState(ECRACKERPOTIONSTATE::Wait, WaitState);
+
+	CreateStateParameter PopCrackersState;
+	PopCrackersState.Stay = std::bind(&FireWorks::UpdatePopCrackers, this, std::placeholders::_1, std::placeholders::_2);
+	State.CreateState(ECRACKERPOTIONSTATE::PopCrackers, PopCrackersState);
+
+	CreateStateParameter DoneState;
+	DoneState.Start = std::bind(&FireWorks::StartDone, this, std::placeholders::_1);
+	State.CreateState(ECRACKERPOTIONSTATE::Done, DoneState);
 }
 
 void FireWorks::StartLight(GameEngineState* _Parent)
@@ -117,14 +240,6 @@ void FireWorks::StartLight(GameEngineState* _Parent)
 
 	LightStateTime = 0.0f;
 	ChangeCount = 0;
-}
-
-void FireWorks::StartFire(GameEngineState* _Parent)
-{
-	FxRenderer->ChangeAnimation("Pong");
-	FxRenderer->On();
-
-	GlobalUtils::PlaySFX("SFX_BadGrassPotion.wav");
 }
 
 void FireWorks::UpdateLight(float _Delta, GameEngineState* _Parent)
@@ -148,10 +263,89 @@ void FireWorks::UpdateLight(float _Delta, GameEngineState* _Parent)
 	}
 }
 
-void FireWorks::StartFireLine(GameEngineState* _Parent)
+void FireWorks::StartFire(GameEngineState* _Parent)
 {
+	FxRenderer->ChangeAnimation("Pong");
+	FxRenderer->On();
 
+	GlobalUtils::PlaySFX("SFX_BadGrassPotion.wav");
 }
+
+void FireWorks::StartFocusRayLight(GameEngineState* _Parent)
+{
+	FireLineStateInfo.Parent = this;
+	FireLineStateInfo.State.ChangeState(FireWorks::RayLightInfo::EFIRELINESTATE::Ready);
+
+	if (nullptr == GlobalValue::g_CameraControler)
+	{
+		MsgBoxAssert("카메라 컨트롤러가 null입니다.");
+		return;
+	}
+	
+	GlobalValue::g_CameraControler->SetCameraMode(ECAMERAMODE::Cinematic);
+
+	const float4& CameraPos = GlobalValue::g_CameraControler->GetCameraCurrentPostion();
+	CameraTargetStopPos = CameraPos + float4(0.0f, TargetDistance);
+
+	FirePlayer = GlobalUtils::PlaySFX("SFX_Firework.wav");
+}
+
+
+void FireWorks::UpdateFocusRayLight(float _Delta, GameEngineState* _Parent)
+{
+	if (nullptr == GlobalValue::g_CameraControler)
+	{
+		MsgBoxAssert("존재하지 않는 카메라 매니저를 사욯하려 했습니다.");
+		return;
+	}
+
+	FireLineStateInfo.State.Update(_Delta);
+
+	static constexpr float TargetTime = 1.8f;
+
+	const float CameraMoveForce = TargetDistance* _Delta / TargetTime;
+	GlobalValue::g_CameraControler->AddCameraPos(float4(0.0f, CameraMoveForce));
+
+	const float4& CameraPos = GlobalValue::g_CameraControler->GetCameraCurrentPostion();
+	if (CameraPos.Y > CameraTargetStopPos.Y)
+	{
+		GlobalValue::g_CameraControler->SetCameraPos(CameraTargetStopPos);
+		State.ChangeState(ECRACKERPOTIONSTATE::Wait);
+		return;
+	}
+}
+
+void FireWorks::UpdateWait(float _Delta, GameEngineState* _Parent)
+{
+	FireLineStateInfo.State.Update(_Delta);
+}
+
+void FireWorks::UpdatePopCrackers(float _Delta, GameEngineState* _Parent)
+{
+	const float NextPopTime = Crackers[CurPopCount].NextPopTime;
+
+	StateTime += _Delta;
+	if (StateTime > NextPopTime)
+	{
+		StateTime -= NextPopTime;
+
+		Crackers[CurPopCount].PopRenderer->On();
+
+		++CurPopCount;
+
+		if (CurPopCount >= MaxPopCount)
+		{
+			State.ChangeState(ECRACKERPOTIONSTATE::Done);
+			return;
+		}
+	}
+}
+
+void FireWorks::StartDone(GameEngineState* _Parent)
+{
+	isFireWorkEnd = true;
+}
+
 
 void FireWorks::SetLightColor(const float4& _Color)
 {
@@ -173,4 +367,52 @@ void FireWorks::LightLerp(const float4& _ColorA, const float4& _ColorB, float _T
 	LightColor.A = std::lerp(_ColorA.A, _ColorB.A, _Time);
 
 	SetLightColor(LightColor);
+}
+
+
+void FireWorks::RayLightInfo::StateSetting()
+{
+	CreateStateParameter ReadyState;
+	ReadyState.Start = std::bind(&FireWorks::RayLightInfo::StartReady, this, std::placeholders::_1);
+	ReadyState.Stay = std::bind(&FireWorks::RayLightInfo::UpdateReady, this, std::placeholders::_1, std::placeholders::_2);
+	State.CreateState(EFIRELINESTATE::Ready, ReadyState);
+
+	CreateStateParameter RayState;
+	RayState.Start = std::bind(&FireWorks::RayLightInfo::StartRay, this, std::placeholders::_1);
+	State.CreateState(EFIRELINESTATE::Ray, RayState);
+}
+
+
+void FireWorks::RayLightInfo::StartReady(GameEngineState* _Parent)
+{
+	if (nullptr == Parent || nullptr == Parent->FxRenderer)
+	{
+		MsgBoxAssert("nullpointer를 참조하려 했습니다.");
+		return;
+	}
+	
+	Parent->FxRenderer->Off();
+}
+
+void FireWorks::RayLightInfo::UpdateReady(float _Delta, GameEngineState* _Parent)
+{
+	static constexpr float ReadyTime = 0.1f;
+
+	if (_Parent->GetStateTime() > ReadyTime)
+	{
+		State.ChangeState(EFIRELINESTATE::Ray);
+		return;
+	}
+}
+
+void FireWorks::RayLightInfo::StartRay(GameEngineState* _Parent)
+{
+	if (nullptr == Parent || nullptr == Parent->FxRenderer)
+	{
+		MsgBoxAssert("nullpointer를 참조하려 했습니다.");
+		return;
+	}
+
+	Parent->FxRenderer->ChangeAnimation("Ray");
+	Parent->FxRenderer->On();
 }
