@@ -81,12 +81,33 @@ void FireWorksEvent::FarsightedScenryInfo::RendererSetting(GameEngineActor* _Act
 	GroundRenderer->AutoSpriteSizeOn();
 	GroundRenderer->SetAutoScaleRatio(4.0f);
 	GroundRenderer->SetPivotType(PivotType::Top);
+
+	GameEngineRandom RandomClass;
+
+	const int StarCnt = 20;
+	StarRenderers.reserve(StarCnt);
+	for (int i = 0; i < StarCnt; i++)
+	{
+		std::shared_ptr<GameEngineSpriteRenderer> StarRenderer = _Actor->CreateComponent<GameEngineSpriteRenderer>();
+		RandomClass.SetSeed(reinterpret_cast<__int64>(StarRenderer.get()));
+		float4 StarPosition = RandomClass.RandomVectorBox2D(-WinScale.hX(), WinScale.hX(), -WinScale.hY(), WinScale.hY());
+		const float StarRatio = RandomClass.RandomFloat(0.8f, 1.2f);
+		const float StarInter = RandomClass.RandomFloat(0.09f, 0.12f);
+		StarPosition += float4(0.0f, 2000.0f, GroundDepth);
+		StarRenderer->Transform.SetLocalPosition(StarPosition);
+		StarRenderer->AutoSpriteSizeOn();
+		StarRenderer->SetAutoScaleRatio(StarRatio);
+		StarRenderer->CreateAnimation("TwinkledStar", "WitchLock_Twinkle.png", StarInter, 2, -1);
+		StarRenderer->ChangeAnimation("TwinkledStar");
+		StarRenderer->RenderBaseInfoValue.Target3 = 1;
+	}
 }
 
 void FireWorksEvent::FarsightedScenryInfo::Release()
 {
 	SkyRenderer = nullptr;
 	GroundRenderer = nullptr;
+	StarRenderers.clear();
 }
 
 void FireWorksEvent::ConversationSetting()

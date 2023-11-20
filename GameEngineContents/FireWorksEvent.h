@@ -35,6 +35,7 @@ private:
 	private:
 		std::shared_ptr<GameEngineSpriteRenderer> SkyRenderer;
 		std::shared_ptr<GameEngineSpriteRenderer> GroundRenderer;
+		std::vector<std::shared_ptr<GameEngineSpriteRenderer>> StarRenderers;
 
 	};
 

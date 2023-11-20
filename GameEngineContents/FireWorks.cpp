@@ -23,6 +23,7 @@ FireWorks::FireWorks()
 	GameEngineSprite::CreateCut("Fireworkhalf_Sub_B.png", 4, 4);
 	GameEngineSprite::CreateCut("Fireworkhalf_Sub_C.png", 4, 4);
 	GameEngineSprite::CreateCut("Fireworkhalf_Sub_D.png", 4, 4);
+	GameEngineSprite::CreateCut("WitchLock_Twinkle.png", 3, 2);
 
 	GameEngineDirectory Dir;
 	Dir.MoveParentToExistsChild("Resources");
