@@ -11,6 +11,7 @@ private:
 	{
 	public:
 		std::shared_ptr<GameEngineUIRenderer> ProductRenderer = nullptr;
+		std::shared_ptr<GameEngineUIRenderer> NameRenderer = nullptr;
 		std::string ProductName;
 		std::string ProductKRName;
 
@@ -21,10 +22,15 @@ private:
 	{
 	public:
 		std::shared_ptr<GameEngineUIRenderer> SourceRenderer = nullptr;
+		std::shared_ptr<GameEngineUIRenderer> NameRenderer = nullptr;
+		std::shared_ptr<GameEngineUIRenderer> SlashRenderer = nullptr;
+		std::shared_ptr<GameEngineUIRenderer> SourceCntRenderer = nullptr;
+		std::shared_ptr<GameEngineUIRenderer> NeedCntRenderer = nullptr;
 		std::string ScrName;
 		std::string ScrKRName;
 		int NeedCount = 0;
 		int ScrCount = 0;
+
 
 	};
 
@@ -43,14 +49,8 @@ public:
 	UI_ProcessB& operator=(UI_ProcessB&& _Other) noexcept = delete;
 
 	void Init();
-	void RendererSetting();
 
-	// Open 기능
 	void Open(std::string_view _ProductName, int _ScrCount);
-	void ProductInfoSetting(std::string_view _ProductName);
-	void SourceInfoSetting(std::string_view _ProductName, int _ScrCount);
-
-	// Close 기능
 	void Close();
 
 protected:
@@ -60,11 +60,13 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
-
 private:
+	void RendererSetting();
+	void ProductInfoSetting(std::string_view _ProductName);
+	void SourceInfoSetting(std::string_view _ProductName, int _ScrCount);
+
+
 	void JuicyThis();
-
-private:
 	void UpdateInput();
 
 private:
@@ -77,6 +79,7 @@ private:
 	bool IsJuicying = false;
 	bool IsJustOpen = false;
 
+	const float4 BlackColor = float4(0.1f, 0.1f, 0.1f, 1.0f);
 
 };
 
