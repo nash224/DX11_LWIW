@@ -48,10 +48,10 @@ public:
 
 struct GaugeInfo
 {
-	float Gauge = 1.0f;
+	int LineGauge = 0;
 	int FromLeft = 0;
-	float GaugeTemp1 = 0.0f;
-	float GaugeTemp2 = 0.0f;
+	int CircleGuage = 0;
+	float Gauge = 1.0f;
 };
 
 // Ό³Έν :

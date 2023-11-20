@@ -79,9 +79,6 @@
     <Filter Include="3.Actor\0.Manager\UIManager\3.Hub">
       <UniqueIdentifier>{ed8f7f06-bf58-4ee8-9b5b-87e9ec76e89a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3.Actor\0.Manager\UIManager\4.MainBoard">
-      <UniqueIdentifier>{610a2b47-4245-400e-aec0-f447dc115bb5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="3.Actor\0.Manager\UIManager\5.Mark">
       <UniqueIdentifier>{a63f72c0-aeac-45f3-8c3d-1b4e748e4631}</UniqueIdentifier>
     </Filter>
@@ -258,6 +255,15 @@
     </Filter>
     <Filter Include="3.Actor\5.Event\EventActor">
       <UniqueIdentifier>{0e9ec777-7e0a-4b54-919f-057c3d34a6a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3.Actor\0.Manager\UIManager\3.Hub\MainBoard">
+      <UniqueIdentifier>{8c6ea99d-6b19-4dfd-984f-6f90d7b4a707}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3.Actor\0.Manager\QuestManager">
+      <UniqueIdentifier>{d7264b21-8656-421b-8f3b-0a7beb1b2245}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4.Component\CircleProgressBar">
+      <UniqueIdentifier>{6f59f50b-5f64-48a3-a69b-f7a88373d951}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -687,6 +693,21 @@
     </ClInclude>
     <ClInclude Include="EndingLevel.h">
       <Filter>2.Level\10.EndLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Hub_MainBoard.h">
+      <Filter>3.Actor\0.Manager\UIManager\3.Hub\MainBoard</Filter>
+    </ClInclude>
+    <ClInclude Include="QuestManager.h">
+      <Filter>3.Actor\0.Manager\QuestManager</Filter>
+    </ClInclude>
+    <ClInclude Include="QuestData.h">
+      <Filter>0.Data\Contents</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCircleGauge.h">
+      <Filter>100.Z_Test</Filter>
+    </ClInclude>
+    <ClInclude Include="HoldingGauge.h">
+      <Filter>4.Component\CircleProgressBar</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1153,6 +1174,21 @@
     </ClCompile>
     <ClCompile Include="EndingLevel.cpp">
       <Filter>2.Level\10.EndLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Hub_MainBoard.cpp">
+      <Filter>3.Actor\0.Manager\UIManager\3.Hub\MainBoard</Filter>
+    </ClCompile>
+    <ClCompile Include="QuestManager.cpp">
+      <Filter>3.Actor\0.Manager\QuestManager</Filter>
+    </ClCompile>
+    <ClCompile Include="QuestData.cpp">
+      <Filter>0.Data\Contents</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCircleGauge.cpp">
+      <Filter>100.Z_Test</Filter>
+    </ClCompile>
+    <ClCompile Include="HoldingGauge.cpp">
+      <Filter>4.Component\CircleProgressBar</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

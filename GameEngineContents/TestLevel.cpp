@@ -5,6 +5,8 @@
 #include "UIManager.h"
 #include "SkyLerp.h"
 
+#include <GameEngineCore/GameEngineCoreWindow.h>
+
 #include "Ellie.h"
 #include "Bush.h"
 #include "WitchFlower.h"
@@ -16,7 +18,8 @@
 #include "PlayerEffect.h"
 #include "OutLineEffect.h"
 
-#include <GameEngineCore/GameEngineCoreWindow.h>
+
+#include "TestCircleGauge.h"
 
 
 
@@ -129,6 +132,10 @@ void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
 			SilverBellFlower->Transform.SetLocalPosition(float4(100.0f + (100.0f * static_cast<float>(i)), -200.0f));
 			SilverBellFlower->Init();
 		}
+	}
+
+	{
+		const std::shared_ptr<TestCircleGauge>& CircleGauge = CreateActor<TestCircleGauge>(EUPDATEORDER::Objects);
 	}
 
 	TestCode();

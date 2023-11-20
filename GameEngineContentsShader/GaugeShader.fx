@@ -1,5 +1,6 @@
 #include "../GameEngineCoreShader/Transform.fx"
 #include "../GameEngineCoreShader/RenderBase.fx"
+#include "Math.fx"
 
 
 struct GameEngineVertex2D
@@ -32,7 +33,7 @@ cbuffer SpriteData : register(b1)
 };
 
 
-PixelOutPut LineGaugeShader_VS(GameEngineVertex2D _Input)
+PixelOutPut GaugeShader_VS(GameEngineVertex2D _Input)
 {
     PixelOutPut Result = (PixelOutPut) 0;
     
@@ -68,10 +69,10 @@ PixelOutPut LineGaugeShader_VS(GameEngineVertex2D _Input)
 
 cbuffer GaugeInfo : register(b4)
 {
-    float Gauge;
+    int LineGauge;
     int FromLeft;
-    float GaugeTemp1;
-    float GaugeTemp2;
+    int CircleGuage;
+    float Gauge;
 };
 
 cbuffer ColorData : register(b1)
@@ -97,31 +98,50 @@ struct PixelOut
 };
 
 
-PixelOut LineGaugeShader_PS(PixelOutPut _Input) : SV_Target0
+static const float PI = 3.14159265358979323846264338327950288419716939937510f;
+
+
+
+PixelOut GaugeShader_PS(PixelOutPut _Input) : SV_Target0
 {
     PixelOut Result = (PixelOut)0.0f;
     
     float4 Color = DiffuseTex.Sample(DiffuseTexSampler, _Input.TEXCOORD.xy);
     
-    float GaugeRatio = Gauge;
-    
-    if (0 != FromLeft)
+    if (1 == LineGauge)
     {
-        GaugeRatio *= -1.0f;
-        GaugeRatio += 1.0f;
+        float GaugeRatio = Gauge;
+        if (0 != FromLeft)
+        {
+            GaugeRatio *= -1.0f;
+            GaugeRatio += 1.0f;
         
-        if (_Input.TEXCOORD.x < GaugeRatio)
+            if (_Input.TEXCOORD.x < GaugeRatio)
+            {
+                clip(-1);
+            }
+        }
+        else
         {
-            clip(-1);
+            if (_Input.TEXCOORD.x > GaugeRatio)
+            {
+                clip(-1);
+            }
         }
     }
-    else
+    
+    if (1 == CircleGuage)
     {
-        if (_Input.TEXCOORD.x > GaugeRatio)
+        float PI2 = PI * 2.0f;
+        float FillAngle = Gauge * PI2;
+        
+        float UVAngle = -atan2(_Input.TEXCOORD.x - 0.5f, _Input.TEXCOORD.y - 0.5f) + PI;
+        if (UVAngle > FillAngle)
         {
             clip(-1);
         }
     }
+        
     
     if (0.0f >= Color.a)
     {

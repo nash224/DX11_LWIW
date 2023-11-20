@@ -16,6 +16,9 @@ LootedItem::~LootedItem()
 void LootedItem::Start()
 {
 	StaticEntity::Start();
+
+	InteractiveActor::CreateAndSetCollision(ECOLLISION::Entity, { 80.0f, 80.0f }, 0.0f, ColType::SPHERE2D);
+	InteractiveActor::SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::Near, ECOLLECTION_METHOD::Sit, ETOOLTYPE::Nothing);
 }
 
 void LootedItem::Update(float _Delta)
@@ -49,7 +52,7 @@ void LootedItem::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void LootedItem::SetStack(const int _Value)
 {
-	m_Stack = _Value;
+	Stack = _Value;
 }
 
 void LootedItem::SetFallingTargetPosition(const float _YPosition)
@@ -60,15 +63,22 @@ void LootedItem::SetFallingTargetPosition(const float _YPosition)
 	}
 
 	IsFalling = true;
-	m_FallingYPosition = _YPosition;
+	FallingYDistance = _YPosition;
+
+
+	if (nullptr == InteractiveActor::InteractiveCol)
+	{
+		MsgBoxAssert("충돌체가 존재하지 않습니다.");
+		return;
+	}
+
+	InteractiveActor::InteractiveCol->Off();
 }
 
 
 void LootedItem::Init(std::string_view _ItemName)
 {
-	CreateAndSetCollision(ECOLLISION::Entity, { 80.0f, 80.0f }, 0.0f, ColType::SPHERE2D);
 	CreateItemRenderer(_ItemName);
-	SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::Near, ECOLLECTION_METHOD::Sit, ETOOLTYPE::Nothing);
 	InteractiveRange = ItemInterativeRange;
 }
 
@@ -85,11 +95,11 @@ void LootedItem::CreateItemRenderer(std::string_view _ItemName)
 		return;
 	}
 
-	std::string ItemName = _ItemName.data();
-	ItemName += ".png";
-	BodyRenderer->SetSprite(ItemName);
+	std::string FileName = _ItemName.data();
+	FileName += ".png";
+	BodyRenderer->SetSprite(FileName);
 
-	m_ItemName = _ItemName;
+	ItemName = _ItemName;
 }
 
 
@@ -98,20 +108,23 @@ void LootedItem::CreateItemRenderer(std::string_view _ItemName)
 
 void LootedItem::UpdateFallingItem(float _Delta)
 {
-	// 떨어지는 중일 때
 	if (true == IsFalling)
 	{
-		// 속력은 떨어지는속도
 		float Speed = FallingSpeed * _Delta;
-		// 떨어지는 값에 반영 후
-		m_FallingYPosition -= Speed;
+		FallingYDistance -= Speed;
 
-		// 떨어지는 값이 0이면
-		if (m_FallingYPosition < 0.0f)
+		if (FallingYDistance < 0.0f)
 		{
-			// 남은 지점만큼 떨어져야함.
-			Speed = m_FallingYPosition;
-			m_FallingYPosition = 0.0f;
+			Speed = FallingYDistance;
+			FallingYDistance = 0.0f;
+
+			if (nullptr == InteractiveActor::InteractiveCol)
+			{
+				MsgBoxAssert("충돌체가 존재하지 않습니다.");
+				return;
+			}
+
+			InteractiveActor::InteractiveCol->On();
 
 			IsFalling = false;
 		}
@@ -125,13 +138,10 @@ void LootedItem::UpdateFallingItem(float _Delta)
 
 void LootedItem::UpdateItemInteraction()
 {
-	// 플레이어가 주으면
 	if (true == IsEnalbeActive)
 	{
-		// 아이템 넣고
-		UI_Inventory::PushItem(m_ItemName, m_Stack);
+		UI_Inventory::PushItem(ItemName, Stack);
 
-		// 삭제
 		Death();
 	}
 }

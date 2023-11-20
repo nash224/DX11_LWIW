@@ -57,7 +57,8 @@ void UI_Hub_Broom::RendererSetting()
 
 	GaugeRenderer = CreateComponent<ContentsUIRenderer>();
 	GaugeRenderer->Transform.AddLocalPosition(GaugePosition);
-	GaugeRenderer->SetMaterial("LineGaugeTexture2D");
+	GaugeRenderer->SetMaterial("GaugeTexture2D");
+	GaugeRenderer->GetGaugeInfo().LineGauge = 1;
 	GaugeRenderer->SetSprite("HUD_Broom_Gauge_1.png");
 
 	IconRenderer = CreateComponent<GameEngineUIRenderer>();

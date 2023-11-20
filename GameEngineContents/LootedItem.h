@@ -43,15 +43,15 @@ private:
 	void UpdateItemInteraction();
 
 private:
-	std::string m_ItemName = "";
-	int m_Stack = 0;
+	std::string ItemName;
+	int Stack = 0;
 
 	const float ItemInterativeRange = 10.0f;
 
 
 private:
 	bool IsFalling = false;
-	float m_FallingYPosition = 0.0f;
+	float FallingYDistance = 0.0f;
 	const float FallingSpeed = 200.0f;
 
 };

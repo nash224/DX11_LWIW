@@ -74,6 +74,8 @@ void BroomParticle::ParticleUpate(float _Delta)
 	const float LiveTimeRatio = 1.0f - GetLiveTime() / BroomFxLiveTime;
 
 	Transform.SetLocalScale(float4(LiveTimeRatio, LiveTimeRatio, 1.0f));
+
+	FxRenderer->GetColorData().MulColor.A = LiveTimeRatio;
 }
 
 void BroomParticle::ApplyDepth()

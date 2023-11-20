@@ -1,31 +1,27 @@
 #pragma once
 #include "StaticEntity.h"
-
-
-
-constexpr float FallingPositionBranchMinRange = 5.0f;
-constexpr float FallingPositionBranchMaxRange = 25.0f;
-
-
-enum class EBRANCHFALLORDER
-{
-	Third,
-	Second,
-	First,
-	Max,
-};
-
-enum class EBRANCHTREESTATE
-{
-	Idle,
-	Shake,
-	None,
-};
+#include "HoldingGauge.h"
 
 
 // Ό³Έν :
 class BranchTree : public StaticEntity
 {
+private:
+	enum class EBRANCHFALLORDER
+	{
+		Third,
+		Second,
+		First,
+		Max,
+	};
+
+	enum class EBRANCHTREESTATE
+	{
+		Idle,
+		Shake,
+		None,
+	};
+
 public:
 	// constrcuter destructer
 	BranchTree();
@@ -38,8 +34,6 @@ public:
 	BranchTree& operator=(BranchTree&& _Other) noexcept = delete;
 
 	void Init();
-	void CreateBranchTreehAnimation();
-	void SetBranchInter();
 
 protected:
 	void Start() override;
@@ -49,36 +43,43 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 private:
-	void UpdateState(float _Delta);
-	void ChangeState(EBRANCHTREESTATE _State);
-	void ChangeBranchTreeAnimation(std::string_view _SpriteName);
-	void CreateBranchRenderer();
+	void RendererSetting();
+	void BranchRendererSetting();
+	void StateSetting();
 
-	void StartIdle();
-	void UpdateIdle(float _Delta);
+	void ChangeAnimation(std::string_view _SpriteName);
 
-	void StartShake();
-	void UpdateShake(float _Delta);
+	void StartIdle(GameEngineState* _Parent);
+	void UpdateIdle(float _Delta, GameEngineState* _Parent);
+
+	void StartShake(GameEngineState* _Parent);
+	void UpdateShake(float _Delta, GameEngineState* _Parent);
 
 
 	void UpdateBranch(float _Delta);
+
 	void FallBranch();
 	void EraseBranch();
 	void DropBranchItem();
 
 
 private:
-	std::vector<std::shared_ptr<GameEngineSpriteRenderer>> BranchVector;
+	std::vector<std::shared_ptr<GameEngineSpriteRenderer>> BranchRenderers;
+	HoldingGauge Gauge;
 
-	EBRANCHTREESTATE m_State = EBRANCHTREESTATE::None;
+	GameEngineState State;
 
+	bool isGauging = false;
 	bool IsShaked = false;
+
 	int BranchCount = 3;
 	float ShakingTime = 0.0f;
-	float DropBranchCoolDown = 0.8f;
+	float PrevFallBranchTime = 0.0f;
+	float NextFallBranchTime = 0.0f;
+	float DropCoolTime = 0.6f;
 	float BranchTotalTime = 0.0f;
-	const float TreeRenderCorrection = 112.0f;
 
+	static constexpr float TreeRenderCorrection = 112.0f;
 
 };
 

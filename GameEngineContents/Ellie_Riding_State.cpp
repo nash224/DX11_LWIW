@@ -334,7 +334,7 @@ float4 Ellie::GetBroomParticlePosition(float _ParticleDistance)
 
 	static constexpr float YCorrection = 28.0f;
 
-	const float4& CenterPoint = float4(0.0f, YCorrection) + Transform.GetLocalPosition() + PlusVector * _ParticleDistance;
+	const float4& CenterPoint = float4(8.0f, YCorrection) + Transform.GetLocalPosition() + PlusVector * _ParticleDistance;
 
 	static constexpr const float ParticleDistance = 60.0f;
 	float4 DirVector = GetDirectionVectorToDir(m_Dir);

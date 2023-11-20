@@ -38,7 +38,7 @@ void BranchTree::Update(float _Delta)
 {
 	StaticEntity::Update(_Delta);
 
-	UpdateState(_Delta);
+	State.Update(_Delta);
 	UpdateBranch(_Delta);
 	UpdatePixelCollision();
 }
@@ -48,8 +48,9 @@ void BranchTree::Release()
 	StaticEntity::Release();
 
 	BodyRenderer = nullptr;
+	BranchRenderers.clear();
 
-	BranchVector.clear();
+	Gauge.Release();
 }
 
 
@@ -59,17 +60,17 @@ void BranchTree::Release()
 void BranchTree::Init()
 {
 	ApplyDepth();
-	CreateBranchTreehAnimation();
-	CreateBranchRenderer();
-	SetBranchInter();
-	ChangeState(EBRANCHTREESTATE::Idle);
+	RendererSetting();
+	BranchRendererSetting();
+	Gauge.RendererSetting(this);
+	Gauge.SetPosition(float4(60.0f, 30.0f));
+	StateSetting();
 }
 
-void BranchTree::CreateBranchTreehAnimation()
+void BranchTree::RendererSetting()
 {
 	if (nullptr == GameEngineSprite::Find("Tree_Branch.png"))
 	{
-		// branchTree
 		GameEngineSprite::CreateCut("Tree_Branch.png", 3, 2);
 		GameEngineSprite::CreateCut("Tree_Branch_Mask.png", 3, 2);
 
@@ -78,16 +79,16 @@ void BranchTree::CreateBranchTreehAnimation()
 	}
 
 
-	BodyRenderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
+	BodyRenderer = CreateComponent<GameEngineSpriteRenderer>();
+	BodyRenderer->Transform.AddLocalPosition({0.0f , TreeRenderCorrection , 0.0f});
+	BodyRenderer->AutoSpriteSizeOn();
 	BodyRenderer->CreateAnimation("Idle", "Tree_Branch.png", 5.0f, 0, 0, false);
 	BodyRenderer->CreateAnimation("Shake", "Tree_Branch.png", 0.1f, 2, 4, false);
-	BodyRenderer->AutoSpriteSizeOn();
-	BodyRenderer->Transform.AddLocalPosition({0.0f , TreeRenderCorrection , 0.0f});
 }
 
-void BranchTree::CreateBranchRenderer()
+void BranchTree::BranchRendererSetting()
 {
-	BranchVector.resize(static_cast<int>(EBRANCHFALLORDER::Max));
+	BranchRenderers.resize(static_cast<int>(EBRANCHFALLORDER::Max));
 
 	{
 		float4 Position = { -20.0f , -14.0f };
@@ -98,7 +99,7 @@ void BranchTree::CreateBranchRenderer()
 		BranchRenderer->SetSprite("Branch.png");
 		BranchRenderer->Transform.SetLocalPosition(Position);
 		BranchRenderer->LeftFlip();
-		BranchVector[static_cast<int>(EBRANCHFALLORDER::First)] = BranchRenderer;
+		BranchRenderers[static_cast<int>(EBRANCHFALLORDER::First)] = BranchRenderer;
 	}
 
 	{
@@ -109,7 +110,7 @@ void BranchTree::CreateBranchRenderer()
 		std::shared_ptr<GameEngineSpriteRenderer> BranchRenderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
 		BranchRenderer->SetSprite("Branch.png");
 		BranchRenderer->Transform.SetLocalPosition(Position);
-		BranchVector[static_cast<int>(EBRANCHFALLORDER::Second)] = BranchRenderer;
+		BranchRenderers[static_cast<int>(EBRANCHFALLORDER::Second)] = BranchRenderer;
 	}
 
 	{
@@ -120,67 +121,30 @@ void BranchTree::CreateBranchRenderer()
 		std::shared_ptr<GameEngineSpriteRenderer> BranchRenderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
 		BranchRenderer->SetSprite("Branch_1.png");
 		BranchRenderer->Transform.SetLocalPosition(Position);
-		BranchVector[static_cast<int>(EBRANCHFALLORDER::Third)] = BranchRenderer;
+		BranchRenderers[static_cast<int>(EBRANCHFALLORDER::Third)] = BranchRenderer;
 	}
+
+	BranchTotalTime = DropCoolTime * 4.0f;
+	NextFallBranchTime = DropCoolTime;
 }
 
-void BranchTree::SetBranchInter()
+
+void BranchTree::StateSetting()
 {
-	BranchTotalTime = DropBranchCoolDown * 4.0f;
+	CreateStateParameter IdleState;
+	IdleState.Start = std::bind(&BranchTree::StartIdle, this, std::placeholders::_1);
+	IdleState.Stay = std::bind(&BranchTree::UpdateIdle, this, std::placeholders::_1, std::placeholders::_2);
+	State.CreateState(EBRANCHTREESTATE::Idle, IdleState);
+
+	CreateStateParameter ShakeState;
+	ShakeState.Start = std::bind(&BranchTree::StartShake, this, std::placeholders::_1);
+	ShakeState.Stay = std::bind(&BranchTree::UpdateShake, this, std::placeholders::_1, std::placeholders::_2);
+	State.CreateState(EBRANCHTREESTATE::Shake, ShakeState);
+
+	State.ChangeState(EBRANCHTREESTATE::Idle);
 }
 
-
-
-void BranchTree::UpdateState(float _Delta)
-{
-	switch (m_State)
-	{
-	case EBRANCHTREESTATE::Idle:
-		UpdateIdle(_Delta);
-		break;
-	case EBRANCHTREESTATE::Shake:
-		UpdateShake(_Delta);
-		break;
-	case EBRANCHTREESTATE::None:
-	{
-		MsgBoxAssert("상태를 지정해주지 않았습니다..");
-		return;
-	}
-		break;
-	default:
-		break;
-	}
-}
-
-void BranchTree::ChangeState(EBRANCHTREESTATE _State)
-{
-	if (_State != m_State)
-	{
-		switch (_State)
-		{
-		case EBRANCHTREESTATE::Idle:
-			StartIdle();
-			break;
-		case EBRANCHTREESTATE::Shake:
-			StartShake();
-			break;
-		case EBRANCHTREESTATE::None:
-		{
-			MsgBoxAssert("없습니다.");
-			return;
-		}
-			break;
-		default:
-			break;
-		}
-
-		m_State = _State;
-	}
-}
-
-
-
-void BranchTree::ChangeBranchTreeAnimation(std::string_view _SpriteName)
+void BranchTree::ChangeAnimation(std::string_view _SpriteName)
 {
 	if (nullptr == BodyRenderer)
 	{
@@ -193,30 +157,30 @@ void BranchTree::ChangeBranchTreeAnimation(std::string_view _SpriteName)
 
 
 
-void BranchTree::StartIdle()
+void BranchTree::StartIdle(GameEngineState* _Parent)
 {
-	ChangeBranchTreeAnimation("Idle");
+	ChangeAnimation("Idle");
 }
 
-void BranchTree::UpdateIdle(float _Delta)
+void BranchTree::UpdateIdle(float _Delta, GameEngineState* _Parent)
 {
 	if (true == IsShaked)
 	{
-		ChangeState(EBRANCHTREESTATE::Shake);
+		State.ChangeState(EBRANCHTREESTATE::Shake);
 		return;
 	}
 }
 
 
-void BranchTree::StartShake()
+void BranchTree::StartShake(GameEngineState* _Parent)
 {
 	IsShaked = false;
 
-	ChangeBranchTreeAnimation("Shake");
+	ChangeAnimation("Shake");
 	PlaySFX("SFX_TreeShake.wav");
 }
 
-void BranchTree::UpdateShake(float _Delta)
+void BranchTree::UpdateShake(float _Delta, GameEngineState* _Parent)
 {
 	if (nullptr == BodyRenderer)
 	{
@@ -226,7 +190,7 @@ void BranchTree::UpdateShake(float _Delta)
 
 	if (true == BodyRenderer->IsCurAnimationEnd())
 	{
-		ChangeState(EBRANCHTREESTATE::Idle);
+		State.ChangeState(EBRANCHTREESTATE::Idle);
 		return;
 	}
 }
@@ -235,19 +199,23 @@ void BranchTree::UpdateBranch(float _Delta)
 {
 	if (true == IsEnalbeActive)
 	{
+		isGauging = true;
+
 		ShakingTime += _Delta;
-
-		if (ShakingTime > DropBranchCoolDown)
+		if (ShakingTime > NextFallBranchTime)
 		{
-			BranchTotalTime -= DropBranchCoolDown;
-			ShakingTime -= DropBranchCoolDown;
-
 			FallBranch();
-			IsShaked = true;
+			IsShaked = true;	
+
+			PrevFallBranchTime = NextFallBranchTime;
 
 			if (1 == BranchCount)
 			{
-				DropBranchCoolDown = BranchTotalTime;
+				NextFallBranchTime = BranchTotalTime;
+			}
+			else
+			{
+				NextFallBranchTime += DropCoolTime;
 			}
 
 			if (0 == BranchCount)
@@ -259,19 +227,40 @@ void BranchTree::UpdateBranch(float _Delta)
 				}
 
 				InteractiveCol->Off();
+
+				isGauging = false;
 			}
 		}
 	}
 	else
 	{
-		if (ShakingTime > 0.0f)
+		if (ShakingTime > PrevFallBranchTime)
 		{
 			ShakingTime -= _Delta;
 			
-			if (ShakingTime < 0.0f)
+			if (ShakingTime <= PrevFallBranchTime)
 			{
-				ShakingTime = 0.0f;
+				isGauging = false;
+				ShakingTime = PrevFallBranchTime;
 			}
+		}
+	}
+
+	if (true == isGauging)
+	{
+		if (false == Gauge.IsOn())
+		{
+			Gauge.On();
+		}
+
+		const float TimeRatio = ShakingTime / BranchTotalTime;
+		Gauge.SetGauge(TimeRatio);
+	}
+	else
+	{
+		if (true == Gauge.IsOn())
+		{
+			Gauge.Off();
 		}
 	}
 }
@@ -279,26 +268,21 @@ void BranchTree::UpdateBranch(float _Delta)
 
 void BranchTree::FallBranch()
 {
-	EraseBranch();
 	DropBranchItem();
-	--BranchCount;
+	EraseBranch();
 }
 
 void BranchTree::EraseBranch()
 {
-	int BranchOrder = BranchCount - 1;
-	std::shared_ptr<GameEngineSpriteRenderer> BrachRenderer = BranchVector[BranchOrder];
-	if (nullptr == BrachRenderer)
-	{
-		MsgBoxAssert("존재하지 않는 렌더러를 참조하려 했습니다.");
-		return;
-	}
-
-	BrachRenderer->Off();
+	--BranchCount;
+	BranchRenderers[BranchCount]->Off();
 }
 
 void BranchTree::DropBranchItem()
 {
+	static constexpr float FallingDistanceBranchMinRange = 5.0f;
+	static constexpr float FallingDistanceBranchMaxRange = 25.0f;
+
 	if (nullptr == BackDrop_PlayLevel::MainBackDrop)
 	{
 		MsgBoxAssert("배경 매니저 포인터가 NUll을 가리킵니다.");
@@ -310,7 +294,7 @@ void BranchTree::DropBranchItem()
 
 	const float4& FallingPoint = float4{ 30.0f, 30.0f };
 
-	const float4& RandomFallingPosition = RandomClass.RandomVectorBox2D(FallingPositionBranchMinRange, FallingPositionBranchMaxRange, FallingPositionBranchMinRange, FallingPositionBranchMaxRange);
+	const float4& RandomFallingPosition = RandomClass.RandomVectorBox2D(FallingDistanceBranchMinRange, FallingDistanceBranchMaxRange, FallingDistanceBranchMinRange, FallingDistanceBranchMaxRange);
 	const float4& FallingPosition = Transform.GetLocalPosition() + RandomFallingPosition;
 	BackDrop_PlayLevel::MainBackDrop->CreateItem("Branch_Collect", FallingPosition, 1, 80.0f);
 }

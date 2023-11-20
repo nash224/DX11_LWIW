@@ -73,7 +73,7 @@ void ContentsCore::LoadContentsData()
 	ItemData::CreateData("BushBug_Water", { "BushBug_Water", "´ýÇ® ±úºñ Áó", EITEM_TYPE::Ingredient });
 	ItemData::CreateData("MapleHerb_Water", { "MapleHerb_Water", "´ÜÇ³ Çãºê Áó", EITEM_TYPE::Ingredient });
 	ItemData::CreateData("SilverStarFlower_Water", { "SilverStarFlower_Water", "Àºº°¹æ¿ï²ÉÁó", EITEM_TYPE::Ingredient });
-	ItemData::CreateData("FlowerBird_Water", { "FlowerBird_Water", "»õ²É Áó", EITEM_TYPE::Ingredient });
+	ItemData::CreateData("FlowerBird_Water", { "FlowerBird_Water", "»õ²É¹°", EITEM_TYPE::Ingredient });
 	ItemData::CreateData("MoonButterfly_Water", { "MoonButterfly_Water", "´Þºû ³ªºñ Áó", EITEM_TYPE::Ingredient });
 
 
@@ -110,7 +110,7 @@ void ContentsCore::LoadContentsData()
 	IngredientData::CreateData("Mongsiri_Water", { "Mongsiri_Water", "¸ù½Ã¸®ÅÐÁó", "Mongsiri_Collect", EBrewingMachineType::Extractor, 2 });
 	IngredientData::CreateData("PumpkinTerrier_Powder", { "PumpkinTerrier_Powder", "È£¹Ú °­¾ÆÁö ÅÐ ÆÄ¿ì´õ", "PumpkinTerrier_Collect", EBrewingMachineType::Roaster, 4 });
 	IngredientData::CreateData("BushBug_Water", { "BushBug_Water", "´ýºÒ±úºñÁó", "BushBug_Collect", EBrewingMachineType::Extractor, 2 });
-	IngredientData::CreateData("FlowerBird_Water", { "FlowerBird_Water", "»õ²É Áó", "FlowerBird_Collect", EBrewingMachineType::Extractor, 2 });
+	IngredientData::CreateData("FlowerBird_Water", { "FlowerBird_Water", "»õ²É¹°", "FlowerBird_Collect", EBrewingMachineType::Extractor, 2 });
 	IngredientData::CreateData("BubbleLizard_Water", { "BubbleLizard_Water", "¿ôÀ½¹æ¿ïÁó", "BubbleLizard_Collect", EBrewingMachineType::Extractor, 2 });
 
 	IngredientData::CreateData("WitchFlower_Water", { "WitchFlower_Water", "¸¶³à²É Áó", "WitchFlower_Collect", EBrewingMachineType::Extractor, 2 });
@@ -202,9 +202,9 @@ void ContentsCore::InitMaterialResoruces()
 	}
 
 	{
-		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("LineGaugeTexture2D");
-		Mat->SetVertexShader("LineGaugeShader_VS");
-		Mat->SetPixelShader("LineGaugeShader_PS");
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("GaugeTexture2D");
+		Mat->SetVertexShader("GaugeShader_VS");
+		Mat->SetPixelShader("GaugeShader_PS");
 	}
 }
 
