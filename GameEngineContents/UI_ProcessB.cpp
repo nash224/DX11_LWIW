@@ -26,7 +26,7 @@ void UI_ProcessB::Update(float _Delta)
 {
 	if (false == IsJustOpen)
 	{
-		UpdateInput();
+		UpdateInput(_Delta);
 	}
 
 	IsJustOpen = false;
@@ -43,6 +43,8 @@ void UI_ProcessB::Release()
 	SourceInfo.SlashRenderer = nullptr;
 	SourceInfo.NeedCntRenderer = nullptr;
 	ProcessManager = nullptr;
+
+	Gauge.Release();
 }
 
 void UI_ProcessB::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -59,8 +61,11 @@ void UI_ProcessB::LevelEnd(class GameEngineLevel* _NextLevel)
 void UI_ProcessB::Init()
 {
 	RendererSetting();
+	Gauge.RendererSetting(this);
+	Gauge.SetPosition(float4(70.0f, -150.0f));
 
 	Off();
+	// Open("WitchFlower_Water",4);
 }
 
 void UI_ProcessB::RendererSetting()
@@ -79,25 +84,25 @@ void UI_ProcessB::RendererSetting()
 	BaseRenderer->SetSprite("Process_Base.png");
 
 	FrameRenderer = CreateComponent<GameEngineUIRenderer>();
-	FrameRenderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, FrameDepth));
+	FrameRenderer->Transform.SetLocalPosition(float4(0.0f, 20.0f, FrameDepth));
 	FrameRenderer->SetSprite("Process_B_Contents.png");
 
 	
 	ProductInfo.ProductRenderer = CreateComponent<GameEngineUIRenderer>();
-	ProductInfo.ProductRenderer->Transform.SetLocalPosition(float4(2.0f, 113.0f, IconDepth));
+	ProductInfo.ProductRenderer->Transform.SetLocalPosition(float4(2.0f, 133.0f, IconDepth));
 
 	ProductInfo.NameRenderer = CreateComponent<GameEngineUIRenderer>();
-	ProductInfo.NameRenderer->Transform.SetLocalPosition(float4(2.0f, 78.0f, FontDepth));
+	ProductInfo.NameRenderer->Transform.SetLocalPosition(float4(2.0f, 98.0f, FontDepth));
 	ProductInfo.NameRenderer->SetText(GlobalValue::Font_Sandoll, "", NameFontSize, BlackColor, FW1_TEXT_FLAG::FW1_CENTER);
 
 	SourceInfo.SourceRenderer= CreateComponent<GameEngineUIRenderer>();
-	SourceInfo.SourceRenderer->Transform.SetLocalPosition(float4(-76.0f, -1.0f, IconDepth));
+	SourceInfo.SourceRenderer->Transform.SetLocalPosition(float4(-76.0f, 19.0f, IconDepth));
 
 	SourceInfo.NameRenderer = CreateComponent<GameEngineUIRenderer>();
-	SourceInfo.NameRenderer->Transform.SetLocalPosition(float4(2.0f, 7.0f, FontDepth));
+	SourceInfo.NameRenderer->Transform.SetLocalPosition(float4(2.0f, 27.0f, FontDepth));
 	SourceInfo.NameRenderer->SetText(GlobalValue::Font_Sandoll, "", NameFontSize, BlackColor, FW1_TEXT_FLAG::FW1_CENTER);
 
-	static constexpr float SourceInfoFontYPos = 5.0f;
+	static constexpr float SourceInfoFontYPos = 25.0f;
 
 	SourceInfo.SlashRenderer = CreateComponent<GameEngineUIRenderer>();
 	SourceInfo.SlashRenderer->Transform.SetLocalPosition(float4(76.0f, SourceInfoFontYPos, FontDepth));
@@ -110,6 +115,14 @@ void UI_ProcessB::RendererSetting()
 	SourceInfo.NeedCntRenderer = CreateComponent<GameEngineUIRenderer>();
 	SourceInfo.NeedCntRenderer->Transform.SetLocalPosition(float4(88.0f, SourceInfoFontYPos, FontDepth));
 	SourceInfo.NeedCntRenderer->SetText(GlobalValue::Font_Sandoll, "", CntFontSize, BlackColor, FW1_TEXT_FLAG::FW1_RIGHT);
+
+	PressFontRenderer = CreateComponent<GameEngineUIRenderer>();
+	PressFontRenderer->Transform.SetLocalPosition(float4(-10.0f , -144.0f, FontDepth));
+	PressFontRenderer->SetText(GlobalValue::Font_Sandoll, "길게 눌러서 가공", 16.0f, BlackColor, FW1_TEXT_FLAG::FW1_CENTER);
+
+	PressButtonRenderer = CreateComponent<GameEngineUIRenderer>();
+	PressButtonRenderer->Transform.SetLocalPosition(float4(70.0f, -150.0f, IconDepth));
+	PressButtonRenderer->SetSprite("ButtonSet_Keyboard_Z.png");
 }
 
 
@@ -202,17 +215,25 @@ void UI_ProcessB::Close()
 
 /////////////////////////////////////////////////////////////////////////////////////
 
-void UI_ProcessB::UpdateInput()
+void UI_ProcessB::UpdateInput(float _Delta)
 {
 	if (SourceInfo.ScrCount >= SourceInfo.NeedCount)
 	{
-		if (true == GameEngineInput::IsDown('Z', this))
+		if (false == IsJustOpen && true == GameEngineInput::IsPress('Z', this))
 		{
-			JuicyThis();
+			UpdateGauge(_Delta);
+		}
+		else
+		{
+			PressTime = 0.0f;
+			if (true == Gauge.IsOn())
+			{
+				Gauge.Off();
+			}
 		}
 	}
 
-	if (true == GameEngineInput::IsPress('X', this))
+	if (true == GameEngineInput::IsDown('X', this))
 	{
 		if (nullptr == ProcessManager)
 		{
@@ -248,4 +269,25 @@ void UI_ProcessB::JuicyThis()
 	ProcessManager->CreatedProductName = ProductInfo.ProductName;
 
 	Off();
+}
+
+void UI_ProcessB::UpdateGauge(float _Delta)
+{
+	static constexpr float GaugeTime = 1.0f;
+
+	PressTime += _Delta;
+	if (PressTime >= GaugeTime)
+	{
+		Gauge.Off();
+		JuicyThis();
+		PressTime = 0.0f;
+		return;
+	}
+
+	if (false == Gauge.IsOn())
+	{
+		Gauge.On();
+	}
+
+	Gauge.SetGauge(PressTime);
 }

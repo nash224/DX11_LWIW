@@ -8,7 +8,6 @@ HoldingGauge::HoldingGauge()
 		GameEngineSprite::CreateSingle("Holding_Base.png");
 		GameEngineSprite::CreateSingle("Holding_Gauge.png");
 	}
-	;
 }
 
 HoldingGauge::~HoldingGauge() 

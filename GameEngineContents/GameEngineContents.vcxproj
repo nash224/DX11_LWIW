@@ -660,6 +660,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="UI_HoldingGauge.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="UI_Hub.cpp">
       <SubType>
       </SubType>
@@ -1233,6 +1237,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="UI_Frame.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UI_HoldingGauge.h">
       <SubType>
       </SubType>
     </ClInclude>

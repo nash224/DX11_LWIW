@@ -156,7 +156,6 @@ void BranchTree::ChangeAnimation(std::string_view _SpriteName)
 }
 
 
-
 void BranchTree::StartIdle(GameEngineState* _Parent)
 {
 	ChangeAnimation("Idle");

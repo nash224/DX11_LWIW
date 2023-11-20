@@ -8,6 +8,8 @@
 #include "UI_ProcessList.h"
 #include "UI_ProcessB.h"
 
+#include "IngredientData.h"
+
 
 UI_ProcessManager* UI_ProcessManager::ProcessManager = nullptr;
 UI_ProcessManager::UI_ProcessManager()
@@ -159,7 +161,14 @@ void UI_ProcessManager::JuicyDone()
 
 	CreateJuicyItem();
 
-	int ItemCount = UI_Inventory::MainInventory->ReturnItemCount(CreatedProductName);
+	std::weak_ptr<IngredientData> Data = IngredientData::Find(CreatedProductName);
+	if (true == Data.expired())
+	{
+		MsgBoxAssert("등록되지 않은 데이터입니다.");
+		return;
+	}
+	
+	const int ItemCount = UI_Inventory::MainInventory->ReturnItemCount(Data.lock()->SourceName);
 
 	ProcessWindow->Open(CreatedProductName, ItemCount);
 }

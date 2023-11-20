@@ -709,6 +709,9 @@
     <ClInclude Include="HoldingGauge.h">
       <Filter>4.Component\CircleProgressBar</Filter>
     </ClInclude>
+    <ClInclude Include="UI_HoldingGauge.h">
+      <Filter>4.Component\CircleProgressBar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -1188,6 +1191,9 @@
       <Filter>100.Z_Test</Filter>
     </ClCompile>
     <ClCompile Include="HoldingGauge.cpp">
+      <Filter>4.Component\CircleProgressBar</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_HoldingGauge.cpp">
       <Filter>4.Component\CircleProgressBar</Filter>
     </ClCompile>
   </ItemGroup>

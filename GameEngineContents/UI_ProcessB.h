@@ -1,6 +1,5 @@
 #pragma once
-
-
+#include "UI_HoldingGauge.h"
 
 
 // Ό³Έν :
@@ -67,11 +66,14 @@ private:
 
 
 	void JuicyThis();
-	void UpdateInput();
+	void UpdateInput(float _Delta);
+	void UpdateGauge(float _Delta);
 
 private:
 	std::shared_ptr<GameEngineUIRenderer> BaseRenderer = nullptr;
 	std::shared_ptr<GameEngineUIRenderer> FrameRenderer = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> PressFontRenderer = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> PressButtonRenderer = nullptr;
 
 	ProcessBProductInfo ProductInfo;
 	ProcessBSourceInfo SourceInfo;
@@ -81,5 +83,7 @@ private:
 
 	const float4 BlackColor = float4(0.1f, 0.1f, 0.1f, 1.0f);
 
+	UI_HoldingGauge Gauge;
+	float PressTime = 0.0f;
 };
 
