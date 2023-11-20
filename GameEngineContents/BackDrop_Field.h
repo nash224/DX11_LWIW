@@ -58,17 +58,7 @@ protected:
 	}
 
 	void ReleaseItemDrop();
-
-	void ReleaseBush();
-	void ReleaseWitchFlower();
-	void ReleaseSilverStarFlower();
-	void ReleaseBranchTree();
 	void ReleaseMongSiriPopulation();
-	void ReleaseFlowerBird();
-	void ReleasePumpkinTerrier();
-
-
-
 
 	virtual void DisappearDayCreature() = 0;
 	virtual void AppearNightCreature() = 0;

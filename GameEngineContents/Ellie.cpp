@@ -128,7 +128,6 @@ void Ellie::CollisionSetting()
 }
 
 
-// Ellie를 생성하면 무조건 실행해야하는 함수입니다.
 void Ellie::Init()
 {
 	if (false == FirstInitCheck)
@@ -143,7 +142,6 @@ void Ellie::Init()
 }
 
 
-// 생성되거나 레벨이 바뀔때 호출되고 앨리의 상태를 초기화합니다.
 void Ellie::OnLevelStart()
 {
 	RenewStatus();
@@ -180,13 +178,11 @@ void Ellie::ChangeStatus(const EELLIE_STATUS _Status)
 	}
 }
 
-// 움직일 수 있게 권한을 줍니다.
 void Ellie::OnControl()
 {
 	IsControl = true;
 }
 
-// 움직일 수 없게 권한을 뺐습니다.
 void Ellie::OffControl()
 {
 	IsControl = false;
@@ -206,6 +202,24 @@ void Ellie::WaitDone(EELLIE_STATE _State)
 {
 	ChangeState(_State);
 	IsWaitDone = true;
+}
+
+void Ellie::SetAnimationByDirection(EDIRECTION _Dir /*= EDIRECTION::CENTER*/)
+{
+	if (EDIRECTION::CENTER != _Dir)
+	{
+		m_Dir = _Dir;
+
+		if (EELLIE_STATUS::Normal == g_Status)
+		{
+			ChangeDirectionAnimation("Idle");
+		}
+
+		if (EELLIE_STATUS::Riding== g_Status)
+		{
+			ChangeDirectionAnimation("Riding_Standing");
+		}
+	}
 }
 
 

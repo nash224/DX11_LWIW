@@ -40,5 +40,8 @@ protected:
 	void CreatePortalActor();
 	void NPCSetting();
 
+	void CheckFireWorksEvent();
+	void ShowFireWorksEvent();
+
 };
 

@@ -1,24 +1,28 @@
 #include "PreCompile.h"
 #include "BackDrop_CenterField.h"
 
-#include "GroundRenderUnit.h"
-#include "NormalProp.h"
-#include "PortalObject.h"
 #include "ContentsEvent.h"
+#include "FireWorksEvent.h"
+#include "UI_Inventory.h"
+#include "FadeObject.h"
 
 #include "Aurea.h"
 #include "BranchTree.h"
 #include "Bush.h"
 #include "FlowerBird.h"
+#include "GroundRenderUnit.h"
 #include "MongSiri_Population.h"
+#include "NormalProp.h"
 #include "SilverStarFlower.h"
 #include "PumpkinTerrier.h"
+#include "PortalObject.h"
 #include "WitchFlower.h"
 
 
 BackDrop_CenterField::BackDrop_CenterField() 
 {
 	BackDrop::m_BackScale = float4(1920.0f, 1280.0f);
+	GameEngineInput::AddInputObject(this);
 }
 
 BackDrop_CenterField::~BackDrop_CenterField() 
@@ -33,13 +37,19 @@ void BackDrop_CenterField::Start()
 void BackDrop_CenterField::Update(float _Delta)
 {
 	BackDrop_Field::Update(_Delta);
+
+	if (true == GameEngineInput::IsDown('B', this))
+	{
+		ShowFireWorksEvent();
+	}
 }
 
 void BackDrop_CenterField::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	BackDrop_Field::LevelStart(_NextLevel);
-
 	SpriteFileLoad();
+
+	CheckFireWorksEvent();
 }
 
 void BackDrop_CenterField::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -279,4 +289,36 @@ void BackDrop_CenterField::ReleaseAllCreature()
 	ReleaseMongSiriPopulation();
 
 	PixelStaticEntityVec.clear();
+}
+
+void BackDrop_CenterField::CheckFireWorksEvent()
+{
+	if (nullptr != UI_Inventory::MainInventory)
+	{
+		if (true == UI_Inventory::MainInventory->IsItem("FirecrackerPotion"))
+		{
+			const std::vector<std::shared_ptr<FadeObject>>& FadeObjects = GetLevel()->GetObjectGroupConvert<FadeObject>(EUPDATEORDER::Fade);
+			for (std::weak_ptr<FadeObject> Fade : FadeObjects)
+			{
+				if (true == Fade.expired())
+				{
+					continue;
+				}
+
+				Fade.lock()->Death();
+			}
+
+			ReleaseEntity<FlowerBird>();
+			ReleaseMongSiriPopulation();
+			ShowFireWorksEvent();
+			return;
+		}
+	}
+}
+
+void BackDrop_CenterField::ShowFireWorksEvent()
+{
+	std::weak_ptr<FireWorksEvent> Event = GetLevel()->CreateActor<FireWorksEvent>(EUPDATEORDER::Event);
+	Event.lock()->Transform.SetLocalPosition(float4(734.0f, -918.0f));
+	Event.lock()->Init();
 }

@@ -46,11 +46,6 @@ void Extractor::Update(float _Delta)
 	StaticEntity::Update(_Delta);
 
 	State.Update(_Delta);
-
-	if (true == GameEngineInput::IsPress(VK_LSHIFT, this) && true == GameEngineInput::IsDown('G', this))
-	{
-		State.ChangeState(EJUICERSTATE::Idle);
-	}
 }
 
 void Extractor::Release()

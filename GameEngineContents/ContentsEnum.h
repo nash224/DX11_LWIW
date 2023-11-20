@@ -45,6 +45,8 @@ enum class ERENDERDEPTH
 	DeepDarkGrass,
 	DarkGrass,
 	Back_Paint = 3400,
+	Scenery_Ground = 3500,
+	Scenery_Sky,
 };
 
 enum class ETITLERENDERDEPTH

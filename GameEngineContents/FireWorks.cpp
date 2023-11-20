@@ -159,7 +159,7 @@ void FireWorks::CrackersSetting()
 		CenterPopPos + float4(-250.0f, 30.0f),
 		CenterPopPos + float4(80.0f, -150.0f),
 		CenterPopPos + float4(-50.0f, 120.0f),
-		CenterPopPos + float4(280.0f, 200.0f),
+		CenterPopPos + float4(240.0f, 200.0f),
 		CenterPopPos + float4(-140.0f, 60.0f),
 	};
 
@@ -197,6 +197,7 @@ void FireWorks::CrackersSetting()
 	}
 
 	const int LastCrackerCount = MaxPopCount - 1;
+	Crackers[LastCrackerCount].PopRenderer->ChangeAnimation("Pop");
 	Crackers[LastCrackerCount].PopRenderer->SetEndEvent("Pop", [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			State.ChangeState(ECRACKERPOTIONSTATE::Done);
@@ -332,7 +333,6 @@ void FireWorks::UpdatePopCrackers(float _Delta, GameEngineState* _Parent)
 		Crackers[CurPopCount].PopRenderer->On();
 
 		++CurPopCount;
-
 		if (CurPopCount >= MaxPopCount)
 		{
 			State.ChangeState(ECRACKERPOTIONSTATE::Done);

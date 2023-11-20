@@ -155,36 +155,6 @@ void BackDrop_Field::LeaveFlowerBird()
 
 #pragma region Release
 
-void BackDrop_Field::ReleaseBush()
-{
-	std::vector<std::shared_ptr<FlowerBird>> BirdGroup = GetLevel()->GetObjectGroupConvert<FlowerBird>(EUPDATEORDER::Entity);
-	for (std::weak_ptr<FlowerBird> Bird : BirdGroup)
-	{
-		if (true == Bird.expired())
-		{
-			MsgBoxAssert("아무것도 들어있지 않습니다");
-			return;
-		}
-
-		Bird.lock()->Leave();
-	}
-}
-
-void BackDrop_Field::ReleaseWitchFlower()
-{
-
-}
-
-void BackDrop_Field::ReleaseSilverStarFlower()
-{
-
-}
-
-void BackDrop_Field::ReleaseBranchTree()
-{
-
-}
-
 void BackDrop_Field::ReleaseMongSiriPopulation()
 {
 	std::vector<std::shared_ptr<MongSiri_Population>> GroupPopulation = GetLevel()->GetObjectGroupConvert<MongSiri_Population>(EUPDATEORDER::Objects);
@@ -198,16 +168,6 @@ void BackDrop_Field::ReleaseMongSiriPopulation()
 
 		Population.lock()->ActorRelaese();
 	}
-}
-
-void BackDrop_Field::ReleaseFlowerBird()
-{
-
-}
-
-void BackDrop_Field::ReleasePumpkinTerrier()
-{
-
 }
 
 void BackDrop_Field::ReleaseItemDrop()

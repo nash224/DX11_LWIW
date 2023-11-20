@@ -104,7 +104,7 @@ public:
 	void OffControl();
 	void FinishWork();
 	void WaitDone(EELLIE_STATE _State);
-	void SetPixelPointBaseOnCenter();
+	void SetAnimationByDirection(EDIRECTION _Dir = EDIRECTION::CENTER);
 
 	EELLIE_STATE GetState() const
 	{
@@ -133,7 +133,8 @@ protected:
 	void VirgilSetting();
 	void BroomSetting();
 	void CollisionSetting();
-
+	void SetPixelPointBaseOnCenter();
+	
 	void ChangeBroomAndVirgilIndexToRidingMode(int _HeadIndex, int _BodyIndex, int _VirgilIndex);
 
 	void ChangeFrameAnimationInterAllDirection(std::string_view _AnimationName, const std::vector<float>& _Inter);

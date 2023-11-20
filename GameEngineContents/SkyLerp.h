@@ -22,15 +22,15 @@
 #define Sky_550 { 0.71f, 0.0f, 0.01f, 0.29f }
 #define Sky_600 { 0.64f, 0.0f, 0.02f, 0.3f }
 #define Sky_610 { 0.53f, 0.0f, 0.03f, 0.31f }
-#define Sky_620 { 0.41f, 0.0f, 0.05f, 0.32f }
-#define Sky_630 { 0.32f, 0.0f, 0.06f, 0.36f }
-#define Sky_640 { 0.24f, 0.0f, 0.07f, 0.41f }
-#define Sky_650 { 0.15f, 0.0f, 0.08f, 0.47f }
-#define Sky_700 { 0.09f, 0.0f, 0.09f, 0.53f }
-#define Sky_710 { 0.06f, 0.0f, 0.1f, 0.58f }
-#define Sky_720 { 0.03f, 0.0f, 0.11f, 0.62f } 
-#define Sky_730 { 0.02f, 0.0f, 0.12f, 0.66f }
-#define Sky_740 { 0.0f, 0.0f, 0.14f, 0.7f }
+#define Sky_620 { 0.41f, 0.0f, 0.05f, 0.35f }
+#define Sky_630 { 0.32f, 0.0f, 0.06f, 0.39f }
+#define Sky_640 { 0.24f, 0.0f, 0.07f, 0.44f }
+#define Sky_650 { 0.15f, 0.0f, 0.08f, 0.49f }
+#define Sky_700 { 0.09f, 0.0f, 0.09f, 0.54f }
+#define Sky_710 { 0.06f, 0.0f, 0.1f, 0.60f }
+#define Sky_720 { 0.03f, 0.0f, 0.12f, 0.66f } 
+#define Sky_730 { 0.02f, 0.0f, 0.15f, 0.72f }
+#define Sky_740 { 0.0f, 0.0f, 0.18f, 0.8f }
 
 #define START_SUNSET_TIMERATIO 0.4f
 #define NIGHT_TIMERATIO 0.666667f

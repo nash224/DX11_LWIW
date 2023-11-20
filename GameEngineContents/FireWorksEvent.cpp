@@ -1,15 +1,17 @@
 #include "PreCompile.h"
 #include "FireWorksEvent.h"
 
+#include "AlertManager.h"
 #include "BGMManager.h"
+#include "CameraControler.h"
+#include "TimeManager.h"
+#include "UIManager.h"
 
 #include "Ellie.h"
 #include "FadeObject.h"
 #include "FireWorks.h"
 #include "ContentsEvent.h"
-#include "AlertManager.h"
 
-#include "UIManager.h"
 
 FireWorksEvent::FireWorksEvent() 
 {
@@ -26,6 +28,11 @@ void FireWorksEvent::Update(float _Delta)
 	EventConversation.UpdateConversation(_Delta);
 }
  
+void FireWorksEvent::Release()
+{
+	SceneryInfo.Release();
+}
+
 void FireWorksEvent::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	Death();
@@ -38,6 +45,7 @@ void FireWorksEvent::LevelEnd(class GameEngineLevel* _NextLevel)
 void FireWorksEvent::Init()
 {
 	PotionSetting();
+	SceneryInfo.RendererSetting(this);
 	ConversationSetting();
 	StateSetting();
 }
@@ -47,6 +55,38 @@ void FireWorksEvent::PotionSetting()
 	CrackerPotion = GetLevel()->CreateActor<FireWorks>(EUPDATEORDER::Objects);
 	CrackerPotion->Transform.SetLocalPosition(Transform.GetLocalPosition());
 	CrackerPotion->Init();
+}
+
+void FireWorksEvent::FarsightedScenryInfo::RendererSetting(GameEngineActor* _Actor)
+{
+	const float SkyDepth = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Scenery_Sky);
+	const float GroundDepth = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Scenery_Ground);
+
+	const float4& WinScale = GlobalValue::GetWindowScale();
+
+	const float4& CurPositon = _Actor->Transform.GetLocalPosition();
+	const float SkyYPos = 2000.0f + WinScale.hY();
+	const float GroundYPos = 1600.0f + WinScale.hY();
+
+	SkyRenderer = _Actor->CreateComponent<GameEngineSpriteRenderer>();
+	SkyRenderer->Transform.SetLocalPosition(float4(0.0f, SkyYPos, SkyDepth));
+	SkyRenderer->SetSprite("Farsighted_0.png");
+	SkyRenderer->AutoSpriteSizeOn();
+	SkyRenderer->SetAutoScaleRatio(4.0f);
+	SkyRenderer->SetPivotType(PivotType::Top);
+
+	GroundRenderer = _Actor->CreateComponent<GameEngineSpriteRenderer>();
+	GroundRenderer->Transform.SetLocalPosition(float4(0.0f, GroundYPos, GroundDepth));
+	GroundRenderer->SetSprite("Farsighted_2.png");
+	GroundRenderer->AutoSpriteSizeOn();
+	GroundRenderer->SetAutoScaleRatio(4.0f);
+	GroundRenderer->SetPivotType(PivotType::Top);
+}
+
+void FireWorksEvent::FarsightedScenryInfo::Release()
+{
+	SkyRenderer = nullptr;
+	GroundRenderer = nullptr;
 }
 
 void FireWorksEvent::ConversationSetting()
@@ -115,18 +155,20 @@ void FireWorksEvent::StateSetting()
 	FireWorksState.Stay = std::bind(&FireWorksEvent::UpdateFireWorks, this, std::placeholders::_1, std::placeholders::_2);
 	State.CreateState(EFIREWORKSSTATE::FireWorks, FireWorksState);
 
+	CreateStateParameter LastConversationState;
+	LastConversationState.Start = std::bind(&FireWorksEvent::StartLastConversation, this, std::placeholders::_1);
+	State.CreateState(EFIREWORKSSTATE::LastConversation, LastConversationState);
+
 	CreateStateParameter EndTrainingState;
 	EndTrainingState.Start = std::bind(&FireWorksEvent::StartEndTraining, this, std::placeholders::_1);
 	EndTrainingState.Stay = std::bind(&FireWorksEvent::UpdateEndTraining, this, std::placeholders::_1, std::placeholders::_2);
 	State.CreateState(EFIREWORKSSTATE::EndTraining, EndTrainingState);
 
-	CreateStateParameter LastConversationState;
-	LastConversationState.Start = std::bind(&FireWorksEvent::StartLastConversation, this, std::placeholders::_1);
-	State.CreateState(EFIREWORKSSTATE::LastConversation, LastConversationState);
-
 	CreateStateParameter FadeOutState;
 	FadeOutState.Start = std::bind(&FireWorksEvent::StartFadeOut, this, std::placeholders::_1);
 	State.CreateState(EFIREWORKSSTATE::FadeOut, FadeOutState);
+
+	State.ChangeState(EFIREWORKSSTATE::FadeIn);
 }
 
 void FireWorksEvent::StartFadeIn(GameEngineState* _Parent)
@@ -136,6 +178,12 @@ void FireWorksEvent::StartFadeIn(GameEngineState* _Parent)
 	
 	EllieSetting();
 
+	if (nullptr != GlobalValue::g_CameraControler)
+	{
+		GlobalValue::g_CameraControler->SetCameraMode(ECAMERAMODE::Fix);
+		GlobalValue::g_CameraControler->SetCameraPos(Transform.GetLocalPosition());
+	}
+
 	if (nullptr != UIManager::MainUIManager)
 	{
 		UIManager::MainUIManager->UseUIComponent();
@@ -144,6 +192,11 @@ void FireWorksEvent::StartFadeIn(GameEngineState* _Parent)
 	if (nullptr != ContentsLevel::MainPlaySound)
 	{
 		ContentsLevel::MainPlaySound->AbsoluteNoneBGM();
+	}
+
+	if (nullptr != PlayLevel::s_TimeManager)
+	{
+		PlayLevel::s_TimeManager->SetTime(22, 0);
 	}
 }
 
@@ -186,7 +239,7 @@ void FireWorksEvent::UpdateFireWorks(float _Delta, GameEngineState* _Parent)
 
 	if (true == CrackerPotion->IsEndFireWork())
 	{
-		static constexpr float WaitTime = 1.0f;
+		static constexpr float WaitTime = 2.4f;
 		StateTime += _Delta;
 		if (StateTime > WaitTime)
 		{
@@ -236,7 +289,7 @@ void FireWorksEvent::StartFadeOut(GameEngineState* _Parent)
 void FireWorksEvent::EllieSetting()
 {
 	const float4& CurPos = Transform.GetLocalPosition();
-	const float4& ElliePos = CurPos + float4(-50.0f, 0.0f);
+	const float4& ElliePos = CurPos + float4(-70.0f, -20.0f);
 
 	if (nullptr == Ellie::MainEllie)
 	{
@@ -245,6 +298,7 @@ void FireWorksEvent::EllieSetting()
 	}
 	
 	Ellie::MainEllie->Transform.SetLocalPosition(ElliePos);
+	Ellie::MainEllie->SetAnimationByDirection(EDIRECTION::RIGHT);
 	Ellie::MainEllie->ApplyDepth();
 }
 
@@ -257,8 +311,5 @@ void FireWorksEvent::CheckEndtrainingEvent()
 		return;
 	}
 
-	if (false == Quest.lock()->CheckPrerequisiteQuest())
-	{
-		Quest.lock()->QuestComplete();
-	}
+	Quest.lock()->QuestComplete();
 }

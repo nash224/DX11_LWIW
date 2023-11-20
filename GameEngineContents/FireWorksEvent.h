@@ -23,6 +23,21 @@ private:
 		None,
 	};
 
+private:
+	class FarsightedScenryInfo
+	{
+		friend class FireWorksEvent;
+
+	public:
+		void RendererSetting(GameEngineActor* _Actor);
+		void Release();
+
+	private:
+		std::shared_ptr<GameEngineSpriteRenderer> SkyRenderer;
+		std::shared_ptr<GameEngineSpriteRenderer> GroundRenderer;
+
+	};
+
 public:
 	// constrcuter destructer
 	FireWorksEvent();
@@ -39,7 +54,7 @@ public:
 protected:
 	void Start() override {}
 	void Update(float _Delta) override;
-	void Release() override {}
+	void Release() override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
@@ -67,6 +82,7 @@ protected:
 	void CheckEndtrainingEvent();
 
 private:
+	FarsightedScenryInfo SceneryInfo;
 	Conversation EventConversation;
 
 	GameEngineState State;
