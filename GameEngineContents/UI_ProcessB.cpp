@@ -64,6 +64,15 @@ void UI_ProcessB::Init()
 	Gauge.RendererSetting(this);
 	Gauge.SetPosition(float4(70.0f, -150.0f));
 
+
+	std::vector<ButtonInfoParameter> Paras =
+	{
+		{ EBUTTONTYPE::X, "닫기"},
+		{ EBUTTONTYPE::Z_PressHold, "가공 시작"},
+	};
+	UIGuide.SetGuideInfo(this, Paras);
+	UIGuide.On();
+
 	Off();
 	// Open("WitchFlower_Water",4);
 }

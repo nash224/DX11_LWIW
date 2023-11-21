@@ -1,5 +1,6 @@
 #pragma once
 #include "UI_ToggleActor.h"
+#include "UI_ButtonGuide.h"
 
 static constexpr const int Max_XSlot = 4;
 static constexpr const int Max_YSlot = 6;
@@ -171,7 +172,10 @@ private:
 
 
 private:
+	void StartInventory(GameEngineState* _Parent);
 	void UpdateInventory(float _Delta, GameEngineState* _Parent);
+	void EndInventory(GameEngineState* _Parent);
+
 	void DectedCloseInventory();
 	bool UpdateCursor();
 	void MoveCursor(const int _X, const int _Y);
@@ -185,6 +189,7 @@ private:
 	std::shared_ptr<GameEngineSpriteRenderer> m_InventoryBase = nullptr;
 
 	InventoryCursorInfo CursorInfo;
+	UI_ButtonGuide InventoryGuide;
 
 	GameEngineState m_InventoryState;
 	EINVENTORYMODE InventoryMode = EINVENTORYMODE::None;

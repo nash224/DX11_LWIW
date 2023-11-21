@@ -323,6 +323,14 @@ void UI_Inventory::Init()
 	LockSlot(UnlockSlotY);
 	Transform.AddLocalPosition(INVENTORY_POSITION);
 
+
+	std::vector<ButtonInfoParameter> Paras =
+	{
+		{ EBUTTONTYPE::Arrow_1, "커서 이동"},
+		{ EBUTTONTYPE::S, "닫기"},
+	};
+	InventoryGuide.SetGuideInfo(this, Paras);
+
 	OpenUpdate();
 }
 
@@ -393,8 +401,9 @@ void UI_Inventory::CreateSlotArray()
 void UI_Inventory::StateSetting()
 {
 	CreateStateParameter NormalPara;
-	NormalPara.Start = [&](GameEngineState* _Parent) {InventoryMode = EINVENTORYMODE::Normal; };
+	NormalPara.Start = std::bind(&UI_Inventory::StartInventory, this, std::placeholders::_1);
 	NormalPara.Stay = std::bind(&UI_Inventory::UpdateInventory, this, std::placeholders::_1, std::placeholders::_2);
+	NormalPara.End = std::bind(&UI_Inventory::EndInventory, this, std::placeholders::_1);
 	m_InventoryState.CreateState(EINVENTORYMODE::Normal, NormalPara);
 
 	CreateStateParameter DispensationPara;
@@ -833,6 +842,13 @@ void UI_Inventory::OpenUpdate()
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
+
+void UI_Inventory::StartInventory(GameEngineState* _Parent)
+{
+	InventoryMode = EINVENTORYMODE::Normal;
+	InventoryGuide.On();
+}
+
 void UI_Inventory::UpdateInventory(float _Delta, GameEngineState* _Parent)
 {
 	UI_ToggleActor::Update(_Delta);
@@ -863,6 +879,11 @@ void UI_Inventory::DectedCloseInventory()
 			return;
 		}
 	}
+}
+
+void UI_Inventory::EndInventory(GameEngineState* _Parent)
+{
+	InventoryGuide.Off();
 }
 
 bool UI_Inventory::UpdateCursor()

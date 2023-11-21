@@ -226,6 +226,11 @@ void Ellie::DecelerateNotDir(float _Delta, const float _Force)
 
 void Ellie::WallCollision()
 {
+	if (nullptr == BackDrop_PlayLevel::MainBackDrop)
+	{
+		return;
+	}
+
 	const float4& CheckUnitVector = DirectX::XMVector2Normalize(m_MoveVector.DirectXVector);
 	const float4& LeftCheckUnitVector = float4::Cross3D(CheckUnitVector.DirectXVector, float4::FORWARD);
 	const float4& RightCheckUnitVector = float4::Cross3D(CheckUnitVector.DirectXVector, float4::BACKWARD);

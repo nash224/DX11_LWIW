@@ -1,5 +1,6 @@
 #pragma once
 #include "UI_ToggleActor.h"
+#include "UI_ButtonGuide.h"
 
 constexpr float CategoryGap = 14.0f;
 
@@ -88,10 +89,9 @@ private:
 	std::vector<std::shared_ptr<class UI_ProductPage>> vecPotionPage;
 	std::vector<std::shared_ptr<class UI_ProductPage>> vecCandyPage;
 
-private:
+	UI_ButtonGuide UIGuide;
+
 	bool IsTurnedPage = false;
-
-
 
 	int m_CreaturePageCount = 0;
 	int m_PlantPageCount = 0;

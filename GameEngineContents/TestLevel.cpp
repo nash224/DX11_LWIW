@@ -20,6 +20,7 @@
 
 
 #include "TestCircleGauge.h"
+#include "UI_ButtonGuide.h"
 
 
 
@@ -136,6 +137,20 @@ void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
 
 	{
 		const std::shared_ptr<TestCircleGauge>& CircleGauge = CreateActor<TestCircleGauge>(EUPDATEORDER::Objects);
+	}
+
+	{
+		std::vector<ButtonInfoParameter> Paras = 
+		{
+			{EBUTTONTYPE::A, "뽑기"},
+			{EBUTTONTYPE::QW, "자기"},
+			{EBUTTONTYPE::ER, "태우기"},
+			{EBUTTONTYPE::Space, "달리기"},
+		};
+
+		ButtonGuide = CreateActor<TestCircleGauge>(EUPDATEORDER::Objects);
+		Guide.SetGuideInfo(ButtonGuide.get(), Paras);
+		Guide.On();
 	}
 
 	TestCode();

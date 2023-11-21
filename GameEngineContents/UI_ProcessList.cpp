@@ -64,6 +64,15 @@ void UI_ProcessList::Init()
 	CreateProcessSlot("SilverStarFlower_Water");
 	CreateProcessSlot("BushBug_Water");
 
+
+	std::vector<ButtonInfoParameter> Paras =
+	{
+		{ EBUTTONTYPE::X, "닫기"},
+		{ EBUTTONTYPE::Z, "재료 선택"},
+	};
+	UIGuide.SetGuideInfo(this, Paras);
+	UIGuide.Off();
+
 	CursorSetting();
 }
 
@@ -125,6 +134,7 @@ void UI_ProcessList::CursorSetting()
 void UI_ProcessList::Open()
 {
 	On();
+	UIGuide.On();
 
 	if (nullptr == UI_Inventory::MainInventory)
 	{
@@ -145,6 +155,7 @@ void UI_ProcessList::Open()
 
 void UI_ProcessList::Close()
 {
+	UIGuide.Off();
 	CloseAllSlot();
 	Off();
 }

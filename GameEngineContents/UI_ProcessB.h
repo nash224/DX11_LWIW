@@ -1,5 +1,6 @@
 #pragma once
 #include "UI_HoldingGauge.h"
+#include "UI_ButtonGuide.h"
 
 
 // Ό³Έν :
@@ -77,6 +78,7 @@ private:
 
 	ProcessBProductInfo ProductInfo;
 	ProcessBSourceInfo SourceInfo;
+	UI_ButtonGuide UIGuide;
 
 	bool IsJuicying = false;
 	bool IsJustOpen = false;

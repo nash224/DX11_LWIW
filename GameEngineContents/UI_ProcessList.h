@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "UI_ButtonGuide.h"
 
 
 #define PROCESS_FIRST_SLOT_POSITION { -4.0f, 134.0f }
@@ -60,9 +61,11 @@ private:
 
 private:
 	std::vector<std::shared_ptr<class UI_ProcessListUnit>> SlotVec;
-
 	std::shared_ptr<GameEngineUIRenderer> BaseRenderer = nullptr;
 	ProcessListCursor CursorInfo;
+
+	UI_ButtonGuide UIGuide;
+
 	int CurrentCursor = 0;
 	int CurCursorLine = 0;
 

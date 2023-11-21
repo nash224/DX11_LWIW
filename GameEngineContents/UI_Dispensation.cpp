@@ -121,6 +121,18 @@ void UI_Dispensation::RendererSetting()
 	Direction_Clockwise->SetSprite("Dispensation_Direction_Clockwise.png");
 
 
+	std::vector<ButtonInfoParameter> Paras =
+	{
+		{ EBUTTONTYPE::Z, "재료 선택"},
+		{ EBUTTONTYPE::QW, "불 조절"},
+		{ EBUTTONTYPE::ER, "국자 젓기"},
+		{ EBUTTONTYPE::X, "닫기"},
+		{ EBUTTONTYPE::C, "조제 시작"},
+	};
+
+	UIGuide.SetGuideInfo(this, Paras);
+	UIGuide.On();
+
 	m_DispensationSlotInfo.resize(3);
 
 	for (int i = 0; i < m_DispensationSlotInfo.size(); i++)

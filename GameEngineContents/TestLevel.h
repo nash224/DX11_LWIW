@@ -1,5 +1,6 @@
 #pragma once
 #include "PlayLevel.h"	
+#include "UI_ButtonGuide.h"
 
 // Ό³Έν :
 class TestLevel : public PlayLevel
@@ -30,5 +31,7 @@ private:
 	std::shared_ptr<class Bush> m_bush = nullptr;
 
 	std::shared_ptr<GameEngineActor> Map = nullptr;
+	std::shared_ptr<GameEngineActor> ButtonGuide = nullptr;
+	UI_ButtonGuide Guide;
 
 };

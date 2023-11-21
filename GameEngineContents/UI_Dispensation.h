@@ -1,21 +1,16 @@
 #pragma once
 #include "UI_ToggleActor.h"
-
-
-
+#include "UI_ButtonGuide.h"
 
 
 class DispensationSlotInfo
 {
 public:
 	std::shared_ptr<GameEngineUIRenderer> ItemImg = nullptr;
-	std::string ItemName = "";
+	std::string ItemName;
 	unsigned int ItemCount = 0;
 
 };
-
-
-
 
 // Ό³Έν :
 class UI_Dispensation : public GameEngineActor
@@ -87,6 +82,8 @@ private:
 	std::shared_ptr<GameEngineUIRenderer> Direction_Clockwise = nullptr;
 
 	std::vector<DispensationSlotInfo> m_DispensationSlotInfo;
+
+	UI_ButtonGuide UIGuide;
 
 	std::string CreatedProductName = "";
 

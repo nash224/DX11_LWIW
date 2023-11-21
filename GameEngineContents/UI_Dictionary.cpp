@@ -94,9 +94,17 @@ void UI_Dictionary::Init()
 	if (EDICTIONARYCATEGORY::None == g_CurrentCategory)
 	{
 		g_CurrentCategory = EDICTIONARYCATEGORY::CreaturePage;
-
 		g_CurrentLeftPage = 1;
 	}
+
+	std::vector<ButtonInfoParameter> Paras = 
+	{ 
+		{ EBUTTONTYPE::Arrow_Vertical, "카테고리 이동"},
+		{ EBUTTONTYPE::Arrow_Horizontal, "페이지 이동"},
+		{ EBUTTONTYPE::D, "닫기"},
+	};
+	UIGuide.SetGuideInfo(this, Paras);
+	UIGuide.On();
 
 	ChangeCategoryMark();
 }

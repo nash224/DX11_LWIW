@@ -85,7 +85,7 @@ private:
 
 	GameEngineState State;
 
-	std::string CraftedPotion = "";
+	std::string CraftedPotion;
 
 	EPOTSTATE m_State = EPOTSTATE::None;
 

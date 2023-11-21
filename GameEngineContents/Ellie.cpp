@@ -497,11 +497,8 @@ void Ellie::ChangeVirgilSprite(std::string_view _AnimationName)
 	case EELLIE_STATE::Sit:
 	case EELLIE_STATE::Throw:
 	case EELLIE_STATE::Riding_Boosting:
-		break;
 	case EELLIE_STATE::Riding_Standing:
-		break;
 	case EELLIE_STATE::Riding_Moving:
-		break;
 	case EELLIE_STATE::Approach:
 	case EELLIE_STATE::MongSiri:
 	case EELLIE_STATE::Wait:
@@ -738,7 +735,6 @@ bool Ellie::DetectHorizontalMovement()
 
 #pragma region 이동 및 방향 
 
-// 방향을 인자로 넣으면 방향 기저벡터를 반환해줍니다.
 float4 Ellie::GetDirectionVectorToDir(const EDIRECTION _Direction)
 {
 	float4 DirVector = float4::ZERO;
@@ -780,7 +776,6 @@ float4 Ellie::GetDirectionVectorToDir(const EDIRECTION _Direction)
 	return DirVector;
 }
 
-// 노멀 모드일 때, 속력을 계산해줍니다.
 void Ellie::CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce)
 {
 	float4 DirVector = GetDirectionVectorToDir(m_Dir);
@@ -833,20 +828,16 @@ void Ellie::CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce)
 		break;
 	}
 
-	// 무조건 Left, Right 순으로 인자를 전달해야합니다.
 	CheckDir = ReturnDirectionCheckBothSide(m_Dir, LeftCheckPoint, RightCheckPoint);
 
-	// 위 함수에서 반환된 방향이 현재의 방향과 같으면 아무것도 하지 않습니다.
 	if (CheckDir == m_Dir)
 	{
 
 	}
-	// 만약 Center가 나왔다면 벽에 맞부딪혔다는 것으로 움직이지 않습니다.
 	else if (CheckDir == EDIRECTION::CENTER)
 	{
 		m_MoveVector = float4::ZERO;
 	}
-	// 진행 방향과 다르면 벽에 비벼 올라갈 수 있습니다. 하지만 일반 속도보다 상대적으로 느리기 때문에 마찰력 영향을 받습니다.
 	else
 	{
 		MoveDirVector = GetDirectionVectorToDir(CheckDir);
@@ -855,9 +846,6 @@ void Ellie::CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce)
 }
 
 
-// 왼쪽과 오른쪽 점을 검사해 픽셀 충돌을 검사합니다.
-// 한쪽만 부딪혔다면 벽을 타고 갈 수 있으며, 양쪽과 부딪힐 시 움직일 수 없는 상태로 간주합니다
-// (움직일 수는 없지만 렌더러는 움직입니다. 즉, 속도가 0으로 반환되게 할껍니다).
 EDIRECTION Ellie::ReturnDirectionCheckBothSide(EDIRECTION _Direction, const float4& _LeftCheckPoint, const float4& _RightCheckPoint)
 {
 	if (nullptr == BackDrop_PlayLevel::MainBackDrop)
