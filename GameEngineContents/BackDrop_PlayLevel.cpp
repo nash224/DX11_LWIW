@@ -109,7 +109,7 @@ void BackDrop_PlayLevel::CreateItem(std::string_view _ItemName, const float4& _P
 	Item->BackManager = this;
 
 	float4 Position = _Position;
-	Position.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::RootedItem);
+	Position.Z = DepthFunction::CalculateFixDepth(ERENDERDEPTH::RootedItem);
 	Item->Transform.SetLocalPosition(Position);
 
 	Item->SetStack(_Stack);

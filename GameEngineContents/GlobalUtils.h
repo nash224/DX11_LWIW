@@ -1,34 +1,21 @@
 #pragma once
 
-enum class ERENDERPIVOTPOS
-{
-	Center,
-	LeftTop,
-	RightBottom,
-};
-
-
-// 설명 :
-class GlobalUtils
+struct FileLoadFunction
 {
 public:
-	// constrcuter destructer
-	GlobalUtils();
-	~GlobalUtils();
-
-
-
-public:
-	// 리소스 로드
 	static void LoadAllFileInPath(std::string_view _Path);
 	static void LoadAllDirFile(std::string_view _Path);
 	static void ReleaseAllTextureInPath(std::string_view _Path);
 	static std::vector<GameEngineFile> GetAllFileInPath(std::string_view _Path);
 	static std::vector<GameEngineDirectory> GetAllDirInPath(std::string_view _Path);
 
+private:
 	static std::string GetParentString(std::string_view _ChildPath);
 
+};
 
+struct DepthFunction
+{
 public:
 	static float CalculateObjectDepth(float _BackScale, float _PositionY, bool _isHill = false);
 
@@ -44,17 +31,11 @@ public:
 	}
 
 	static float CalculateFixDepth(const float _Value);
-
-	static GameEngineSoundPlayer PlaySFX(std::string_view _SoundFileName);
-
-protected:
-
-private:
-	// delete Function
-	GlobalUtils(const GlobalUtils& _Other) = delete;
-	GlobalUtils(GlobalUtils&& _Other) noexcept = delete;
-	GlobalUtils& operator=(const GlobalUtils& _Other) = delete;
-	GlobalUtils& operator=(GlobalUtils&& _Other) noexcept = delete;
-
 };
 
+struct SFXFunction
+{
+public:
+	static GameEngineSoundPlayer PlaySFX(std::string_view _SoundFileName);
+
+};

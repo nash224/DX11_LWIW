@@ -135,7 +135,7 @@ void BackDrop_WitchHouse_Yard::CreateBase()
 	{
 		float4 CenterPosition = GlobalValue::GetWindowScale().Half();
 		CenterPosition.Y *= -1.0f;
-		CenterPosition.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Back_Paint);
+		CenterPosition.Z = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Back_Paint);
 
 		std::shared_ptr<GameEngineSpriteRenderer> Renderer = CreateComponent<GameEngineSpriteRenderer>();
 		Renderer->Transform.SetLocalPosition(CenterPosition);
@@ -152,7 +152,7 @@ void BackDrop_WitchHouse_Yard::CreateNormalProp()
 {
 	{
 		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		Object->Transform.SetLocalPosition({ 700.0f , -214.0f , GlobalUtils::CalculateObjectDepth(m_BackScale.Y, -234.0f) });
+		Object->Transform.SetLocalPosition({ 700.0f , -214.0f , DepthFunction::CalculateObjectDepth(m_BackScale.Y, -234.0f) });
 		Object->Init();
 		Object->m_Renderer->SetSprite("Yard_Pumpkins.png");
 		Object->m_Renderer->Transform.SetLocalPosition(float4(0.0f, 10.0f));
@@ -160,7 +160,7 @@ void BackDrop_WitchHouse_Yard::CreateNormalProp()
 
 	{
 		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		Object->Transform.SetLocalPosition({ 700.0f , -228.0f , GlobalUtils::CalculateObjectDepth(m_BackScale.Y,-228.0f) });
+		Object->Transform.SetLocalPosition({ 700.0f , -228.0f , DepthFunction::CalculateObjectDepth(m_BackScale.Y,-228.0f) });
 		Object->Init();
 		Object->m_Renderer->SetSprite("Yard_Stone_L_0.png");
 		Object->SetPixelCollision("Yard_Stone_L_0_Pixel.png");

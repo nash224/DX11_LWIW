@@ -4,7 +4,6 @@
 #include "GlobalUtils.h"
 
 
-bool GlobalLoad::IsLoadGlobalResoruce = false;
 GlobalLoad::GlobalLoad() 
 {
 }
@@ -15,18 +14,13 @@ GlobalLoad::~GlobalLoad()
 
 void GlobalLoad::LoadGlobalResource()
 {
-	if (false == IsLoadGlobalResoruce)
-	{
-		LoadGlobalTexture();
-		LoadGlobalSprite();
-
-		IsLoadGlobalResoruce = true;
-	}
+	LoadGlobalTexture();
+	LoadGlobalSprite();
 }
 
 void GlobalLoad::LoadGlobalTexture()
 {
-	GlobalUtils::LoadAllDirFile("Resources\\GlobalResources");
+	FileLoadFunction::LoadAllDirFile("Resources\\GlobalResources");
 }
 
 void GlobalLoad::LoadGlobalSprite()

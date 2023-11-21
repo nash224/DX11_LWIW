@@ -29,11 +29,9 @@ private:
 	void UpdateHouseDebug();
 
 private:
-	std::vector<std::shared_ptr<GameEngineSpriteRenderer>> m_HouseVec;
+	std::vector<std::shared_ptr<GameEngineSpriteRenderer>> HouseRenderers;
 	ALightLerp WindowALight;
 	ALightLerp WindowRayALight;
-
-	const float YRenderCorrection = 148.0f;
 
 	bool IsRendererDebug = false;
 };

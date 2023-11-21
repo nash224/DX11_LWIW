@@ -66,7 +66,7 @@ void UIManager::Init()
 
 	if (nullptr == GameEngineSprite::Find("Photo.png"))
 	{
-		std::vector<GameEngineDirectory> Dirs = GlobalUtils::GetAllDirInPath("Resources\\PlayContents\\PlayResourecs\\UI\\UI_Sprite");
+		std::vector<GameEngineDirectory> Dirs = FileLoadFunction::GetAllDirInPath("Resources\\PlayContents\\PlayResourecs\\UI\\UI_Sprite");
 		for (GameEngineDirectory& Dir : Dirs)
 		{
 			std::vector <GameEngineFile> Files = Dir.GetAllFile();

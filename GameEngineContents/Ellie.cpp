@@ -84,13 +84,13 @@ void Ellie::Release()
 {
 	DynamicEntity::Release();
 
-	Shadow = nullptr;
+	ShadowRenderer = nullptr;
 	Virgil = nullptr;
 	EllieFx = nullptr;
 
 	m_EllieCol = nullptr;
 	InteractiveCol = nullptr;
-	m_NetCol = nullptr;
+	NetCollision = nullptr;
 
 	OtherEntity = nullptr;
 
@@ -121,10 +121,10 @@ void Ellie::CollisionSetting()
 	m_EllieCol->Transform.SetLocalScale(float4{ 4.0f , 4.0f });
 	m_EllieCol->SetCollisionType(ColType::AABBBOX2D);
 
-	m_NetCol = CreateComponent<GameEngineCollision>(ECOLLISION::Net);
-	m_NetCol->Transform.SetLocalScale(float4(140.0f, 4.0f));
-	m_NetCol->SetCollisionType(ColType::SPHERE2D);
-	m_NetCol->Off();
+	NetCollision = CreateComponent<GameEngineCollision>(ECOLLISION::Net);
+	NetCollision->Transform.SetLocalScale(float4(140.0f, 4.0f));
+	NetCollision->SetCollisionType(ColType::SPHERE2D);
+	NetCollision->Off();
 }
 
 
@@ -428,7 +428,7 @@ void Ellie::ChangeAnimationByDirection(std::string_view _StateName, bool _Direct
 
 void Ellie::ChangeShawdowSprite(std::string_view _AnimationName)
 {
-	if (nullptr == Shadow)
+	if (nullptr == ShadowRenderer)
 	{
 		MsgBoxAssert("그림자 렌더러가 존재하지 않습니다.");
 		return;
@@ -452,15 +452,15 @@ void Ellie::ChangeShawdowSprite(std::string_view _AnimationName)
 	case EELLIE_STATE::MongSiri:
 	case EELLIE_STATE::Drink:
 	case EELLIE_STATE::ButterflyNet:
-		Shadow->SetSprite(ShadowSpriteName, 1);
+		ShadowRenderer->SetSprite(ShadowSpriteName, 1);
 		break;
 	case EELLIE_STATE::RootUp:
-		Shadow->SetSprite(ShadowSpriteName, 7);
+		ShadowRenderer->SetSprite(ShadowSpriteName, 7);
 		break;
 	case EELLIE_STATE::Sit:
 	case EELLIE_STATE::Fail:
 	case EELLIE_STATE::Cheer:
-		Shadow->SetSprite(ShadowSpriteName, OnlySpriteUse);
+		ShadowRenderer->SetSprite(ShadowSpriteName, OnlySpriteUse);
 		break;
 	case EELLIE_STATE::SlowWalk:
 	case EELLIE_STATE::Juicy:

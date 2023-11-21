@@ -247,9 +247,9 @@ void Ellie::UpdateInteractionCollsiion()
 
 
 
-void Ellie::NetCollision()
+void Ellie::CheckNetCollision()
 {
-	m_NetCol->Collision(ECOLLISION::Entity, [&](std::vector<GameEngineCollision*>& _OtherGroup)
+	NetCollision->Collision(ECOLLISION::Entity, [&](std::vector<GameEngineCollision*>& _OtherGroup)
 		{
 			for (size_t i = 0; i < _OtherGroup.size(); i++)
 			{

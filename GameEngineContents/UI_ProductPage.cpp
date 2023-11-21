@@ -32,10 +32,10 @@ void UI_ProductPage::CreatePage(std::string_view _ProduectName, int& PageCount)
 
 	PageCount += 2;
 
-	const float AttachmentDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
-	const float ComponentDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Component);
-	const float FrameDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame);
-	const float FontDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Font);
+	const float AttachmentDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
+	const float ComponentDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Component);
+	const float FrameDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame);
+	const float FontDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Font);
 
 	static constexpr float ConditionYCorrection = -32.0f;
 	static constexpr float TagFontYCorrection = 26.0f;

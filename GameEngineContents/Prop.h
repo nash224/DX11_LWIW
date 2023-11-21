@@ -32,7 +32,7 @@ public:
 	template<typename EnumType>
 	void SetPositionAndDepth(const float4& _Position, EnumType _Depth)
 	{
-		Transform.SetLocalPosition({ _Position.X, _Position.Y, GlobalUtils::CalculateFixDepth(_Depth) });
+		Transform.SetLocalPosition({ _Position.X, _Position.Y, DepthFunction::CalculateFixDepth(_Depth) });
 	}
 
 	void SetPositionAndDepth(const float4& _Position);

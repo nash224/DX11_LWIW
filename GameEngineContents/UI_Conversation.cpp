@@ -578,14 +578,14 @@ void UI_Conversation::SetVirgilMessage()
 float4 UI_Conversation::Place1thLinePosition(const float4& _LinePosition)
 {
 	float4 Message1thLinePosition = _LinePosition;
-	Message1thLinePosition.Z = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Conversation_Message);
+	Message1thLinePosition.Z = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Conversation_Message);
 	return Message1thLinePosition;
 }
 
 float4 UI_Conversation::Place2thLinePosition(const float4& _LinePosition)
 {
 	float4 Message2thLinePosition = CalculateNextLinePosition(_LinePosition);
-	Message2thLinePosition.Z = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Conversation_Message);
+	Message2thLinePosition.Z = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Conversation_Message);
 	return Message2thLinePosition;
 }
 

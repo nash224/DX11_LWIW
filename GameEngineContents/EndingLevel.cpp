@@ -69,7 +69,7 @@ void EndingLevel::BackDropEnding::RendererSetting(GameEngineLevel* _Level)
 	};
 
 	{
-		const float BackBaseDepth = GlobalUtils::CalculateFixDepth(EENDINGRENDERDEPTH::BackBase);
+		const float BackBaseDepth = DepthFunction::CalculateFixDepth(EENDINGRENDERDEPTH::BackBase);
 
 		BackBase = _Level->CreateActor<GameEngineActor>(EUPDATEORDER::Objects);
 		BackBase->Transform.SetLocalPosition(float4(0.0f, 0.0f, BackBaseDepth));
@@ -79,7 +79,7 @@ void EndingLevel::BackDropEnding::RendererSetting(GameEngineLevel* _Level)
 	}
 
 	{
-		const float LogoDepth = GlobalUtils::CalculateFixDepth(EENDINGRENDERDEPTH::Logo);
+		const float LogoDepth = DepthFunction::CalculateFixDepth(EENDINGRENDERDEPTH::Logo);
 
 		Logo = _Level->CreateActor<GameEngineActor>(EUPDATEORDER::Objects);
 		Logo->Transform.SetLocalPosition(float4(0.0f, 60.0f, LogoDepth));
@@ -89,7 +89,7 @@ void EndingLevel::BackDropEnding::RendererSetting(GameEngineLevel* _Level)
 		LogoRenderer->SetAutoScaleRatio(0.4f);
 	}
 	
-	const float FontDepth = GlobalUtils::CalculateFixDepth(EENDINGRENDERDEPTH::Font);
+	const float FontDepth = DepthFunction::CalculateFixDepth(EENDINGRENDERDEPTH::Font);
 
 	{
 		const float FontSize = 30.0f;
@@ -110,7 +110,7 @@ void EndingLevel::BackDropEnding::RendererSetting(GameEngineLevel* _Level)
 	}
 
 	{
-		const float ButtonDepth = GlobalUtils::CalculateFixDepth(EENDINGRENDERDEPTH::Button);
+		const float ButtonDepth = DepthFunction::CalculateFixDepth(EENDINGRENDERDEPTH::Button);
 
 		EndButton = _Level->CreateActor<GameEngineActor>(EUPDATEORDER::Objects);
 		EndButton->Transform.SetLocalPosition(float4(0.0f, -230.0f, ButtonDepth));

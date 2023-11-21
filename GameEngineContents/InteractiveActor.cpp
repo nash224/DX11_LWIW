@@ -146,7 +146,7 @@ void InteractiveActor::ApplyDepth()
 		BackYScale = GlobalValue::GetWindowScale().Y;
 	}
 
-	float MyDepth = GlobalUtils::CalculateObjectDepth(BackYScale, MyPosition.Y + PlusDepth);
+	float MyDepth = DepthFunction::CalculateObjectDepth(BackYScale, MyPosition.Y + PlusDepth);
 	MyPosition.Z = MyDepth;
 	
 	Transform.SetLocalPosition(MyPosition);

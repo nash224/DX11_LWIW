@@ -46,11 +46,11 @@ void UI_ProcessListUnit::Init(std::string_view _ProcessName)
 	NeedCount = Data.lock()->SourceCount;
 	SrcName = Data.lock()->SourceName;
 
-	const float FrameDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame);
-	const float AttachmentDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
-	const float IconDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Icon);
-	const float Icon_MaskDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Icon_Mask);
-	const float FontDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Font);
+	const float FrameDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame);
+	const float AttachmentDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
+	const float IconDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Icon);
+	const float Icon_MaskDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Icon_Mask);
+	const float FontDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Font);
 
 	BaseRenderer = CreateComponent<GameEngineUIRenderer>();
 	BaseRenderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, FrameDepth));

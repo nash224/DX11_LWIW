@@ -25,23 +25,23 @@ void UI_Hub_QuickSlot::Init()
 	float4 UIPosition = float4::ZERO;
 
 	m_Slot = CreateComponent<GameEngineUIRenderer>();
-	UIPosition = { 0.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Frame) };
+	UIPosition = { 0.0f, 0.0f, DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Frame) };
 	m_Slot->Transform.SetLocalPosition(UIPosition);
 	m_Slot->SetSprite("HUD_Potion_Slot.png");
 
 	m_ArrowLeft = CreateComponent<GameEngineUIRenderer>();
 	m_ArrowLeft->SetSprite("HUD_Arrow_Left.png");
-	UIPosition = { -CONST_ArrowDistanceToLocalZERO , 0.0f , GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::UIArrow) };
+	UIPosition = { -CONST_ArrowDistanceToLocalZERO , 0.0f , DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::UIArrow) };
 	m_ArrowLeft->Transform.AddLocalPosition(UIPosition);
 
 	m_ArrowRight = CreateComponent<GameEngineUIRenderer>();
 	m_ArrowRight->SetSprite("HUD_Arrow_Left.png");
 	m_ArrowRight->LeftFlip();
-	UIPosition = { CONST_ArrowDistanceToLocalZERO , 0.0f , GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::UIArrow) };
+	UIPosition = { CONST_ArrowDistanceToLocalZERO , 0.0f , DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::UIArrow) };
 	m_ArrowRight->Transform.AddLocalPosition(UIPosition);
 
 	m_Item = CreateComponent<GameEngineUIRenderer>();
-	UIPosition = { 0.0f , 0.0f , GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Icon) };
+	UIPosition = { 0.0f , 0.0f , DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Icon) };
 	m_Item->Transform.SetLocalPosition(UIPosition);
 	m_Item->Off();
 

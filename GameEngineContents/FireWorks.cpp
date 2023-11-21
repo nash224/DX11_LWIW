@@ -12,7 +12,7 @@
 
 FireWorks::FireWorks() 
 {
-	GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\Event");
+	FileLoadFunction::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\Event");
 
 	GameEngineSprite::CreateSingle("Pot_2.png");
 	GameEngineSprite::CreateCut("FireLine.png", 5, 1);
@@ -62,7 +62,7 @@ void FireWorks::Release()
 	GameEngineSprite::Release("Fireworkhalf_Sub_C.png");
 	GameEngineSprite::Release("Fireworkhalf_Sub_D.png");
 
-	GlobalUtils::ReleaseAllTextureInPath("Resources\\PlayContents\\PlayResourecs\\Event");
+	FileLoadFunction::ReleaseAllTextureInPath("Resources\\PlayContents\\PlayResourecs\\Event");
 }
 
 void FireWorks::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -270,7 +270,7 @@ void FireWorks::StartFire(GameEngineState* _Parent)
 	FxRenderer->ChangeAnimation("Pong");
 	FxRenderer->On();
 
-	GlobalUtils::PlaySFX("SFX_BadGrassPotion.wav");
+	SFXFunction::PlaySFX("SFX_BadGrassPotion.wav");
 }
 
 void FireWorks::StartFocusRayLight(GameEngineState* _Parent)
@@ -289,7 +289,7 @@ void FireWorks::StartFocusRayLight(GameEngineState* _Parent)
 	const float4& CameraPos = GlobalValue::g_CameraControler->GetCameraCurrentPostion();
 	CameraTargetStopPos = CameraPos + float4(0.0f, TargetDistance);
 
-	FirePlayer = GlobalUtils::PlaySFX("SFX_Firework.wav");
+	FirePlayer = SFXFunction::PlaySFX("SFX_Firework.wav");
 }
 
 

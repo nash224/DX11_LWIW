@@ -443,7 +443,7 @@ void MapEditorTab::SettingTab(GameEngineLevel* _Level, float _DeltaTime)
 
 		float4 BasePosition = BaseScale.Half();
 		BasePosition.Y *= -1.0f;
-		BasePosition.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Back_Paint);
+		BasePosition.Z = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Back_Paint);
 
 		MapEditorLevel* MapEditorPtr = static_cast<MapEditorLevel*>(_Level);
 		MapEditorPtr->m_MapBaseRenderer->SetSprite("GroundBase.png");

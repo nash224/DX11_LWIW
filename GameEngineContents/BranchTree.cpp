@@ -93,7 +93,7 @@ void BranchTree::BranchRendererSetting()
 	{
 		float4 Position = { -20.0f , -14.0f };
 		Position.Y += TreeRenderCorrection;
-		Position.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Roof);
+		Position.Z = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Roof);
 
 		std::shared_ptr<GameEngineSpriteRenderer> BranchRenderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
 		BranchRenderer->SetSprite("Branch.png");
@@ -105,7 +105,7 @@ void BranchTree::BranchRendererSetting()
 	{
 		float4 Position = { 50.0f , 26.0f };
 		Position.Y += TreeRenderCorrection;
-		Position.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Roof);
+		Position.Z = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Roof);
 
 		std::shared_ptr<GameEngineSpriteRenderer> BranchRenderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
 		BranchRenderer->SetSprite("Branch.png");
@@ -116,7 +116,7 @@ void BranchTree::BranchRendererSetting()
 	{
 		float4 Position = { -22.0f , 54.0f };
 		Position.Y += TreeRenderCorrection;
-		Position.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Roof);
+		Position.Z = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Roof);
 
 		std::shared_ptr<GameEngineSpriteRenderer> BranchRenderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
 		BranchRenderer->SetSprite("Branch_1.png");

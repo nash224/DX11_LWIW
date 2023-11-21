@@ -592,17 +592,17 @@ void Ellie::VirgilSetting()
 	BodyRenderer->SetFrameEvent("Ellie_Basic_Cheer", 4, [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			Virgil->ChangeCurSprite(16);
-			Shadow->ChangeCurSprite(1);
+			ShadowRenderer->ChangeCurSprite(1);
 		});
 	BodyRenderer->SetFrameEvent("Ellie_Basic_Cheer", 5, [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			Virgil->ChangeCurSprite(17);
-			Shadow->ChangeCurSprite(2);
+			ShadowRenderer->ChangeCurSprite(2);
 		});
 	BodyRenderer->SetFrameEvent("Ellie_Basic_Cheer", 6, [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			Virgil->ChangeCurSprite(18);
-			Shadow->ChangeCurSprite(3);
+			ShadowRenderer->ChangeCurSprite(3);
 		});
 	BodyRenderer->SetFrameEvent("Ellie_Basic_Cheer", 6, [&](GameEngineSpriteRenderer* _Renderer)
 		{
@@ -611,12 +611,12 @@ void Ellie::VirgilSetting()
 	BodyRenderer->SetFrameEvent("Ellie_Basic_Cheer", 8, [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			Virgil->ChangeCurSprite(20);
-			Shadow->ChangeCurSprite(2);
+			ShadowRenderer->ChangeCurSprite(2);
 		});
 	BodyRenderer->SetFrameEvent("Ellie_Basic_Cheer", 9, [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			Virgil->ChangeCurSprite(21);
-			Shadow->ChangeCurSprite(1);
+			ShadowRenderer->ChangeCurSprite(1);
 		});
 	BodyRenderer->SetFrameEvent("Ellie_Basic_Cheer", 10, [&](GameEngineSpriteRenderer* _Renderer)
 		{
@@ -665,7 +665,7 @@ void Ellie::VirgilSetting()
 	BodyRenderer->SetFrameEvent("Ellie_Basic_Fail", 9, [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			Virgil->ChangeCurSprite(18);
-			Shadow->SetSprite("Ellie_Basic_Fail.png", 1);
+			ShadowRenderer->SetSprite("Ellie_Basic_Fail.png", 1);
 		});
 	BodyRenderer->SetFrameEvent("Ellie_Basic_Fail", 10, [&](GameEngineSpriteRenderer* _Renderer)
 		{
@@ -677,13 +677,13 @@ void Ellie::VirgilSetting()
 		{
 			Virgil->ChangeCurSprite(19);
 			EllieFx->ChangeCurSprite(22);
-			Shadow->ChangeCurSprite(3);
+			ShadowRenderer->ChangeCurSprite(3);
 		});
 	BodyRenderer->SetFrameEvent("Ellie_Basic_Fail", 12, [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			Virgil->ChangeCurSprite(20);
 			EllieFx->ChangeCurSprite(23);
-			Shadow->ChangeCurSprite(4);
+			ShadowRenderer->ChangeCurSprite(4);
 		});
 	BodyRenderer->SetFrameEvent("Ellie_Basic_Fail", 13, [&](GameEngineSpriteRenderer* _Renderer)
 		{

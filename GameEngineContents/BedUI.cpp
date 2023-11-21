@@ -46,10 +46,10 @@ void BedUI::Init()
 
 void BedUI::RendererSetting()
 {
-	const float BaseDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Window_Base);
-	const float TooltipDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Window_Frame);
-	const float CursorDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Window_Cursor);
-	const float FontDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Window_Font);
+	const float BaseDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Window_Base);
+	const float TooltipDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Window_Frame);
+	const float CursorDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Window_Cursor);
+	const float FontDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Window_Font);
 
 	const float4& BasePosition = float4(0.0f, 0.0f, BaseDepth);
 	const float4& CursorPosition = float4(0.0f, 0.0f, CursorDepth);
@@ -324,7 +324,7 @@ void BedUI::MoveCursor(int _Value)
 
 void BedUI::SetCursorLocalPosition(bool _isLeft)
 {
-	const float CursorDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Window_Cursor);
+	const float CursorDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Window_Cursor);
 	const float XPos = TooltipScale.hX() + Tooltip_Gap * 0.5f;
 
 	float4 TooltipPosition;

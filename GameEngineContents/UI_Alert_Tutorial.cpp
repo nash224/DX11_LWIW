@@ -59,10 +59,10 @@ void UI_Alert_Tutorial::RendererSetting(std::string_view _LevelName)
 
 	const int RenderOrder = 0;
 
-	const float BaseDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Base);
-	const float ShadowDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Shadow);
-	const float FontDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Font);
-	const float ImgDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Img);
+	const float BaseDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Base);
+	const float ShadowDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Shadow);
+	const float FontDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Font);
+	const float ImgDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Img);
 
 	const float4& fFadeDepth = float4(0.0f, 0.0f, ShadowDepth);
 	const float4& fBaseDepth = float4(0.0f, 0.0f, BaseDepth);

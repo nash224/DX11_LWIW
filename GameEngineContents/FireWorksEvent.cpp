@@ -59,8 +59,8 @@ void FireWorksEvent::PotionSetting()
 
 void FireWorksEvent::FarsightedScenryInfo::RendererSetting(GameEngineActor* _Actor)
 {
-	const float SkyDepth = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Scenery_Sky);
-	const float GroundDepth = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Scenery_Ground);
+	const float SkyDepth = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Scenery_Sky);
+	const float GroundDepth = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Scenery_Ground);
 
 	const float4& WinScale = GlobalValue::GetWindowScale();
 

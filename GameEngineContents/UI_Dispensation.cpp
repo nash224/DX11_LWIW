@@ -81,43 +81,43 @@ void UI_Dispensation::RendererSetting()
 	}
 
 	m_Base = CreateComponent<GameEngineUIRenderer>();
-	m_Base->Transform.SetLocalPosition(float4(0.0f, 10.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Base)));
+	m_Base->Transform.SetLocalPosition(float4(0.0f, 10.0f, DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Base)));
 	m_Base->SetSprite("Dispensation_Base.png");
 
 	m_Frame = CreateComponent<GameEngineUIRenderer>();
-	m_Frame->Transform.SetLocalPosition(float4(0.0f, 20.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame)));
+	m_Frame->Transform.SetLocalPosition(float4(0.0f, 20.0f, DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame)));
 	m_Frame->SetSprite("dispensation_partsb.png");
 
 	m_Empty_Slot = CreateComponent<GameEngineUIRenderer>();
-	m_Empty_Slot->Transform.SetLocalPosition(float4(0.0f, 149.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment)));
+	m_Empty_Slot->Transform.SetLocalPosition(float4(0.0f, 149.0f, DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment)));
 	m_Empty_Slot->SetSprite("dispensation_itemslot_set.png");
 
 	fire_icon_1 = CreateComponent<GameEngineUIRenderer>();
-	fire_icon_1->Transform.SetLocalPosition(float4(-88.0f, 8.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame)));
+	fire_icon_1->Transform.SetLocalPosition(float4(-88.0f, 8.0f, DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame)));
 	fire_icon_1->SetSprite("dispensation_fire_icon_1.png");
 
 	fire_icon_2 = CreateComponent<GameEngineUIRenderer>();
-	fire_icon_2->Transform.SetLocalPosition(float4(88.0f, 8.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame)));
+	fire_icon_2->Transform.SetLocalPosition(float4(88.0f, 8.0f, DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame)));
 	fire_icon_2->SetSprite("dispensation_fire_icon_2.png");
 
 	Fire_Gauge = CreateComponent<GameEngineUIRenderer>();
-	Fire_Gauge->Transform.SetLocalPosition(float4(0.0f, 57.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment)));
+	Fire_Gauge->Transform.SetLocalPosition(float4(0.0f, 57.0f, DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment)));
 	Fire_Gauge->SetSprite("Dispensation_Fire_Gauge.png", static_cast<int>(CurFire));
 
 	Fire_Gauge_Pin = CreateComponent<GameEngineUIRenderer>();
-	Fire_Gauge_Pin->Transform.SetLocalPosition(float4(0.0f, 30.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Component)));
+	Fire_Gauge_Pin->Transform.SetLocalPosition(float4(0.0f, 30.0f, DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Component)));
 	Fire_Gauge_Pin->SetSprite("dispensation_fire_gauge_pin.png", static_cast<int>(CurFire));
 
 	Direction_None = CreateComponent<GameEngineUIRenderer>();
-	Direction_None->Transform.SetLocalPosition(float4(0.0f, -62.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Component)));
+	Direction_None->Transform.SetLocalPosition(float4(0.0f, -62.0f, DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Component)));
 	Direction_None->SetSprite("Dispensation_Direction_None_Check.png");
 
 	Direction_CounterClockwise = CreateComponent<GameEngineUIRenderer>();
-	Direction_CounterClockwise->Transform.SetLocalPosition(float4(-72.0f, -62.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Component)));
+	Direction_CounterClockwise->Transform.SetLocalPosition(float4(-72.0f, -62.0f, DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Component)));
 	Direction_CounterClockwise->SetSprite("Dispensation_Direction_CounterClockwise.png");
 
 	Direction_Clockwise = CreateComponent<GameEngineUIRenderer>();
-	Direction_Clockwise->Transform.SetLocalPosition(float4(72.0f, -62.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Component)));
+	Direction_Clockwise->Transform.SetLocalPosition(float4(72.0f, -62.0f, DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Component)));
 	Direction_Clockwise->SetSprite("Dispensation_Direction_Clockwise.png");
 
 
@@ -126,7 +126,7 @@ void UI_Dispensation::RendererSetting()
 	for (int i = 0; i < m_DispensationSlotInfo.size(); i++)
 	{
 		float4 Position = float4(-72.0f + (72.0f * i), 149.0f);
-		Position.Z = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Component);
+		Position.Z = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Component);
 
 		m_DispensationSlotInfo[i].ItemImg = CreateComponent<GameEngineUIRenderer>();
 		m_DispensationSlotInfo[i].ItemImg->Transform.SetLocalPosition(Position);

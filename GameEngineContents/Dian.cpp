@@ -74,7 +74,7 @@ void Dian::RendererSetting()
 	DianRenderer->ChangeAnimation("Idle");
 
 
-	const float ShadowDepth = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::ObjectShadow);
+	const float ShadowDepth = DepthFunction::CalculateFixDepth(ERENDERDEPTH::ObjectShadow);
 
 	ShadowRenderer = CreateComponent<GameEngineSpriteRenderer>(RendererOrder);
 	ShadowRenderer->Transform.SetLocalPosition({ 0.0f, RendererYCorrection, ShadowDepth });

@@ -77,7 +77,7 @@ void DreamLevel::RendererSetting()
 	const float4& HWinScale = WinScale.Half();
 	float4 BasePosition = HWinScale;
 	BasePosition.Y *= -1.0f;
-	BasePosition.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Back_Paint);
+	BasePosition.Z = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Back_Paint);
 
 	std::shared_ptr<RendererActor> BaseBackGround = CreateActor<RendererActor>(EUPDATEORDER::Objects);
 	BaseBackGround->Transform.SetLocalPosition(BasePosition);
@@ -88,7 +88,7 @@ void DreamLevel::RendererSetting()
 
 	float4 BackGroundPosition = HWinScale;
 	BackGroundPosition.Y *= -1.0f;
-	BackGroundPosition.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Object);
+	BackGroundPosition.Z = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Object);
 
 
 	static constexpr const float Ending_Animation_Inter = 0.18f;
@@ -146,7 +146,7 @@ void DreamLevel::ResLoad()
 
 	if (nullptr == GameEngineSound::FindSound("SFX_Sleep_01.wav"))
 	{
-		std::vector<GameEngineFile> SoundFiles = GlobalUtils::GetAllFileInPath("Resources\\Sound\\BGM\\Sleep");
+		std::vector<GameEngineFile> SoundFiles = FileLoadFunction::GetAllFileInPath("Resources\\Sound\\BGM\\Sleep");
 		for (GameEngineFile& pFile : SoundFiles)
 		{
 			GameEngineSound::SoundLoad(pFile.GetStringPath());

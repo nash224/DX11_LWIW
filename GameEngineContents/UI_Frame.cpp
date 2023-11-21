@@ -32,23 +32,20 @@ void UI_Frame::Init(int _Type)
 
 void UI_Frame::RendererSetting(int _Type)
 {
-	static constexpr const int RenderOrder = 0;
+	static constexpr int RenderOrder = 0;
 
-	const float FrameDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame);
-	const float CutsceneDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Base);
-
-	float4 FramePosition = float4(0.0f, 0.0f, FrameDepth);
-	float4 CutscenePosition = float4(0.0f, 0.0f, CutsceneDepth);
+	const float FrameDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame);
+	const float CutsceneDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Base);
 
 	std::string FileName = GetCutsceneName(static_cast<EFRAMETYPE>(_Type));
 
 
 	Frame = CreateComponent<GameEngineUIRenderer>(RenderOrder);
-	Frame->Transform.SetLocalPosition(FramePosition);
+	Frame->Transform.SetLocalPosition(float4(0.0f, 0.0f, FrameDepth));
 	Frame->SetSprite("Sample_UI_Cutscene_Frame.png");
 
 	Cutscene = CreateComponent<GameEngineUIRenderer>(RenderOrder);
-	Cutscene->Transform.SetLocalPosition(CutscenePosition);
+	Cutscene->Transform.SetLocalPosition(float4(0.0f, 0.0f, CutsceneDepth));
 	Cutscene->SetSprite(FileName);
 }
 

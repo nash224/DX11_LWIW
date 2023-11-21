@@ -12,12 +12,6 @@ FadeObject::~FadeObject()
 }
 
 
-void FadeObject::Start()
-{
-
-}
-
-
 void FadeObject::Update(float _Delta)
 {
 	UpdateFade(_Delta);
@@ -25,12 +19,7 @@ void FadeObject::Update(float _Delta)
 
 void FadeObject::Release()
 {
-	m_FadeRenderer = nullptr;
-}
-
-void FadeObject::LevelStart(class GameEngineLevel* _NextLevel)
-{
-
+	FadeRenderer = nullptr;
 }
 
 void FadeObject::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -46,16 +35,16 @@ void FadeObject::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void FadeObject::CallFadeOut(std::string_view _NextLevelName, float _FadeOutDuration /*= 1.0f*/)
 {
-	m_FadeDuration = _FadeOutDuration;
-	m_FadeType = CallFadeType::FadeOut;
-	m_NextLevelName = _NextLevelName;
+	FadeDuration = _FadeOutDuration;
+	FadeType = CallFadeType::FadeOut;
+	NextLevelName = _NextLevelName;
 	Init();
 }
 
 void FadeObject::CallFadeIn(float _FadeOutDuration /*= 1.0f*/)
 {
-	m_FadeDuration = _FadeOutDuration;
-	m_FadeType = CallFadeType::FadeIn;
+	FadeDuration = _FadeOutDuration;
+	FadeType = CallFadeType::FadeIn;
 	Init();
 }
 
@@ -66,86 +55,86 @@ void FadeObject::Init()
 	RendererSetting();
 	PositionSetting();
 
-	if (nullptr == m_FadeRenderer)
+	if (nullptr == FadeRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	if (CallFadeType::FadeOut == m_FadeType)
+	if (CallFadeType::FadeOut == FadeType)
 	{
-		m_AlphaValue = 0.0f;
-		m_FadeRenderer->GetColorData().MulColor.A = 0.0f;
+		Alpha = 0.0f;
+		FadeRenderer->GetColorData().MulColor.A = 0.0f;
 	}
 	else
 	{
-		m_AlphaValue = 1.0f;
+		Alpha = 1.0f;
 	}
 }
 
 void FadeObject::RendererSetting()
 {
-	m_FadeRenderer = CreateComponent<GameEngineUIRenderer>(ERENDERORDER::Fade);
-	m_FadeRenderer->GetImageTransform().SetLocalScale(GlobalValue::GetWindowScale());
-	m_FadeRenderer->GetColorData().MulColor = float4(0.0f, 0.0f, 0.0f);
+	FadeRenderer = CreateComponent<GameEngineUIRenderer>(ERENDERORDER::Fade);
+	FadeRenderer->GetImageTransform().SetLocalScale(GlobalValue::GetWindowScale());
+	FadeRenderer->GetColorData().MulColor = float4(0.0f, 0.0f, 0.0f);
 }
 
 
 void FadeObject::PositionSetting()
 {
-	float FadeDepth = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::FadeObject);
+	float FadeDepth = DepthFunction::CalculateFixDepth(ERENDERDEPTH::FadeObject);
 	Transform.SetLocalPosition({ 0.0f, 0.0f, FadeDepth });
 }
 
 void FadeObject::UpdateFade(float _Delta)
 {
-	if (CallFadeType::FadeOut == m_FadeType)
+	if (CallFadeType::FadeOut == FadeType)
 	{
-		m_AlphaValue += _Delta / m_FadeDuration;
+		Alpha += _Delta / FadeDuration;
 
 
-		if (nullptr == m_FadeRenderer)
+		if (nullptr == FadeRenderer)
 		{
 			MsgBoxAssert("렌더러가 존재하지 않습니다.");
 			return;
 		}
 
 		bool IsOver = false;
-		if (m_AlphaValue > 1.0f)
+		if (Alpha > 1.0f)
 		{
-			m_AlphaValue = 1.0f;
+			Alpha = 1.0f;
 			IsOver = true;
 		}
 
-		m_FadeRenderer->GetColorData().MulColor.A = m_AlphaValue;
+		FadeRenderer->GetColorData().MulColor.A = Alpha;
 
 		if (true == IsOver)
 		{
-			m_FadeType = CallFadeType::None;
-			GameEngineCore::ChangeLevel(m_NextLevelName);
+			FadeType = CallFadeType::None;
+			GameEngineCore::ChangeLevel(NextLevelName);
 		}
 	}
 
-	if (CallFadeType::FadeIn == m_FadeType)
+	if (CallFadeType::FadeIn == FadeType)
 	{
-		m_AlphaValue -= _Delta / m_FadeDuration;
+		Alpha -= _Delta / FadeDuration;
 
 
-		if (nullptr == m_FadeRenderer)
+		if (nullptr == FadeRenderer)
 		{
 			MsgBoxAssert("렌더러가 존재하지 않습니다.");
 			return;
 		}
 
 		bool IsOver = false;
-		if (m_AlphaValue <= 0.0f)
+		if (Alpha <= 0.0f)
 		{
-			m_AlphaValue = 0.0f;
+			Alpha = 0.0f;
 			Death();
 			return;
 		}
 
-		m_FadeRenderer->GetColorData().MulColor.A = m_AlphaValue;
+		FadeRenderer->GetColorData().MulColor.A = Alpha;
 
 		Transform.GetLocalPosition();
 	}

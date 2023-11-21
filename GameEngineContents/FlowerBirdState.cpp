@@ -347,13 +347,13 @@ void FlowerBird::EndBloomFlowers()
 
 void FlowerBird::StartFly()
 {
-	if (nullptr == m_Shadow)
+	if (nullptr == ShadowRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	m_Shadow->Off();
+	ShadowRenderer->Off();
 
 	DecideFlyDirection();
 

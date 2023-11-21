@@ -95,7 +95,7 @@ void Prop::SetPositionAndDepth(const float4& _Position)
 		return;
 	}
 
-	float Depth = GlobalUtils::CalculateObjectDepth(BackDrop_PlayLevel::MainBackDrop->GetBackGroundScale().Y, _Position.Y);
+	float Depth = DepthFunction::CalculateObjectDepth(BackDrop_PlayLevel::MainBackDrop->GetBackGroundScale().Y, _Position.Y);
 	Transform.SetLocalPosition({ _Position.X, _Position.Y, Depth });
 }
 

@@ -14,12 +14,12 @@
 void ContentsCore::InitResources()
 {
 	// 敲饭捞 咀磐
-	GlobalUtils::LoadAllDirFile("Resources\\PlayContents\\PlayResourecs\\Creature");				// 农府贸
-	GlobalUtils::LoadAllDirFile("Resources\\PlayContents\\PlayResourecs\\Map");						// 甘
-	GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\Ellie\\EillieBody");	// 举府
-	GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\Ellie\\Broom");			// 壶磊风
-	GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\NPC");					// NPC 
-	GlobalUtils::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\Fx");					// Fx
+	FileLoadFunction::LoadAllDirFile("Resources\\PlayContents\\PlayResourecs\\Creature");				// 农府贸
+	FileLoadFunction::LoadAllDirFile("Resources\\PlayContents\\PlayResourecs\\Map");						// 甘
+	FileLoadFunction::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\Ellie\\EillieBody");	// 举府
+	FileLoadFunction::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\Ellie\\Broom");			// 壶磊风
+	FileLoadFunction::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\NPC");					// NPC 
+	FileLoadFunction::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\Fx");					// Fx
 
 	GameEngineSprite::CreateSingle("Broom_Particle.png");
 
@@ -157,7 +157,7 @@ void ContentsCore::InitMaterialResoruces()
 		Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
 		Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
 
-		const std::shared_ptr<GameEngineBlend> Blend = GameEngineBlend::Create("Blend_Light", Desc);
+		GameEngineBlend::Create("Blend_Light", Desc);
 
 		std::shared_ptr<GameEngineMaterial> LightMaterial = GameEngineMaterial::Create("2DTexture_Light");
 		LightMaterial->SetVertexShader("TextureShader_VS");
@@ -179,7 +179,7 @@ void ContentsCore::InitMaterialResoruces()
 		Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
 		Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
 
-		const std::shared_ptr<GameEngineBlend> Blend = GameEngineBlend::Create("Overlay", Desc);
+		GameEngineBlend::Create("Overlay", Desc);
 
 		std::shared_ptr<GameEngineMaterial> OverRayMaterial = GameEngineMaterial::Create("Texture2D_Overlay");
 		OverRayMaterial->SetVertexShader("TextureShader_VS");

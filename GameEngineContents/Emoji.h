@@ -38,11 +38,10 @@ private:
 	void StateSetting();
 
 	void StartExclamation(GameEngineState* State);
-	void UpdateExclamation(float _Delta, GameEngineState* State);
-
 	void StartQuestion(GameEngineState* State);
-	void UpdateQuestion(float _Delta, GameEngineState* State);
 
+	void UpdateExclamation(float _Delta, GameEngineState* State);
+	void UpdateQuestion(float _Delta, GameEngineState* State);
 
 	void StartNone(GameEngineState* State);
 
@@ -51,15 +50,12 @@ private:
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> Base;
 	std::shared_ptr<GameEngineSpriteRenderer> Emotion;
-
 	GameEngineActor* Parent = nullptr;
 
 	GameEngineState State;
 
 	bool isUseOnlyExclamation = false;
-
 	float RecognitionRange = 30.0f;
-
 	static constexpr float NoneState_TransitionTime = 2.0f;
 
 };

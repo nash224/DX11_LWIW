@@ -36,7 +36,7 @@ void Bush::UpdateApple(float _Delta)
 		}
 
 		float4 ItemPosition = Transform.GetLocalPosition();
-		ItemPosition = { ItemPosition.X, ItemPosition.Y - 50.0f, GlobalUtils::CalculateFixDepth(ERENDERDEPTH::RootedItem) };
+		ItemPosition = { ItemPosition.X, ItemPosition.Y - 50.0f, DepthFunction::CalculateFixDepth(ERENDERDEPTH::RootedItem) };
 		BackDrop_PlayLevel::MainBackDrop->CreateItem("Food_CranApple", ItemPosition);
 
 		ChangeState(EBUSHSTATE::Shake);
@@ -127,7 +127,7 @@ void Bush::CreateBushBug()
 
 	if (nullptr != BackDrop_PlayLevel::MainBackDrop)
 	{
-		SpawnPosition.Z = GlobalUtils::CalculateObjectDepth(BackDrop_PlayLevel::MainBackDrop->GetBackGroundScale().Y, SpawnPosition.Y);
+		SpawnPosition.Z = DepthFunction::CalculateObjectDepth(BackDrop_PlayLevel::MainBackDrop->GetBackGroundScale().Y, SpawnPosition.Y);
 	}
 
 	BushBugPtr->Transform.SetLocalPosition(SpawnPosition);

@@ -58,17 +58,17 @@ void UI_Hub_Tool::Init()
 
 
 	m_Tool = CreateComponent<GameEngineUIRenderer>();
-	m_Tool->Transform.SetLocalPosition(float4(0.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Icon)));
+	m_Tool->Transform.SetLocalPosition(float4(0.0f, 0.0f, DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Icon)));
 	m_Tool->SetSprite("Tool_Icon.png", static_cast<int>(m_CurrentTool));
 
 	m_LeftArrow = CreateComponent<GameEngineUIRenderer>();
 	m_LeftArrow->SetSprite("HUD_Arrow_Left.png");
-	m_LeftArrow->Transform.AddLocalPosition(float4(-28.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::UIArrow)));
+	m_LeftArrow->Transform.AddLocalPosition(float4(-28.0f, 0.0f, DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::UIArrow)));
 
 	m_RightArrow = CreateComponent<GameEngineUIRenderer>();
 	m_RightArrow->SetSprite("HUD_Arrow_Left.png");
 	m_RightArrow->LeftFlip();
-	m_RightArrow->Transform.AddLocalPosition(float4(26.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::UIArrow)));
+	m_RightArrow->Transform.AddLocalPosition(float4(26.0f, 0.0f, DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::UIArrow)));
 }
 
 
@@ -189,7 +189,7 @@ void UI_Hub_Tool::ChangeToolImg()
 
 	m_CurrentToolRenderNumber = static_cast<int>(m_CurrentTool);
 
-	GlobalUtils::PlaySFX("SFX_ToolSwap_01.wav");
+	SFXFunction::PlaySFX("SFX_ToolSwap_01.wav");
 }
 
 

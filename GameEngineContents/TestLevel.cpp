@@ -72,7 +72,7 @@ void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
 	{
 		float4 Position = WinScale.Half();
 		Position.Y *= -1.0f;
-		Position.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Back_Paint);
+		Position.Z = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Back_Paint);
 
 		Map = CreateActor<GameEngineActor>(EUPDATEORDER::Objects);
 		Map->Transform.SetLocalPosition(Position);
@@ -189,7 +189,7 @@ void TestLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 void TestLevel::TestCode()
 {
 	std::shared_ptr<NormalProp> TestTree =  CreateActor<NormalProp>(EUPDATEORDER::Objects);
-	TestTree->Transform.SetLocalPosition(float4(200.0f, -400.0f, GlobalUtils::CalculateObjectDepth(GlobalValue::GetWindowScale().Y, -400.0f)));
+	TestTree->Transform.SetLocalPosition(float4(200.0f, -400.0f, DepthFunction::CalculateObjectDepth(GlobalValue::GetWindowScale().Y, -400.0f)));
 	TestTree->Init();
 	TestTree->m_Renderer->Transform.SetLocalPosition(float4(0.0f, 110.0f));
 	TestTree->m_Renderer->SetSprite("Tree_2.png");

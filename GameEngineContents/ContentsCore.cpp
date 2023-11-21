@@ -2,14 +2,11 @@
 #include "ContentsCore.h"
 
 #include <GameEngineCore/GameEngineCoreWindow.h>
-#include <GameEngineCore/GameEngineRenderTarget.h>
-#include <GameEngineCore/GameEngineBlend.h>
 
 #include "GlobalLoad.h"
 
 #include "LogoLevel.h"
 #include "MainMenu.h"
-#include "PlayLevel.h"
 #include "Field_Center.h"
 #include "WitchHouse_Yard.h"
 #include "WitchHouse_UpFloor.h"

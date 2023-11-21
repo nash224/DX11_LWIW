@@ -81,8 +81,8 @@ void MainMenu::LevelEnd(GameEngineLevel* _NextLevel)
 
 void MainMenu::LoadTexture()
 {
-	GlobalUtils::LoadAllFileInPath("Resources\\Main\\Train\\TitleSpriteName");
-	GlobalUtils::LoadAllFileInPath("Resources\\Main\\Train\\TitleSprite");
+	FileLoadFunction::LoadAllFileInPath("Resources\\Main\\Train\\TitleSpriteName");
+	FileLoadFunction::LoadAllFileInPath("Resources\\Main\\Train\\TitleSprite");
 }
 
 void MainMenu::LoadSprite()
@@ -162,7 +162,7 @@ void MainMenu::ReleaseSprite()
 void MainMenu::ReleaseTexture()
 {
 	// 3. 텍스처 정리
-	GlobalUtils::ReleaseAllTextureInPath("Resources\\Main\\Train\\TitleSpriteName");
+	FileLoadFunction::ReleaseAllTextureInPath("Resources\\Main\\Train\\TitleSpriteName");
 
 	{
 		GameEngineDirectory Dir;

@@ -1,16 +1,9 @@
 #include "PreCompile.h"
 #include "GlobalUtils.h"
 
-GlobalUtils::GlobalUtils() 
-{
-}
-
-GlobalUtils::~GlobalUtils() 
-{
-}
 
 // 경로의 모든 파일을 로드합니다.
-void GlobalUtils::LoadAllFileInPath(std::string_view _Path)
+void FileLoadFunction::LoadAllFileInPath(std::string_view _Path)
 {
 	GameEngineDirectory Dir;
 	std::string ParentString = GetParentString(_Path);
@@ -27,7 +20,7 @@ void GlobalUtils::LoadAllFileInPath(std::string_view _Path)
 }
 
 // 모든 경로의 파일을 로드합니다.
-void GlobalUtils::LoadAllDirFile(std::string_view _Path)
+void FileLoadFunction::LoadAllDirFile(std::string_view _Path)
 {
 	GameEngineDirectory Dir;
 	std::string ParentString = GetParentString(_Path);
@@ -52,7 +45,7 @@ void GlobalUtils::LoadAllDirFile(std::string_view _Path)
 }
 
 
-void GlobalUtils::ReleaseAllTextureInPath(std::string_view _Path)
+void FileLoadFunction::ReleaseAllTextureInPath(std::string_view _Path)
 {
 	GameEngineDirectory Dir;
 	std::string ParentString = GetParentString(_Path);
@@ -69,7 +62,7 @@ void GlobalUtils::ReleaseAllTextureInPath(std::string_view _Path)
 	}
 }
 
-std::vector<GameEngineFile> GlobalUtils::GetAllFileInPath(std::string_view _Path)
+std::vector<GameEngineFile> FileLoadFunction::GetAllFileInPath(std::string_view _Path)
 {
 	GameEngineDirectory Dir;
 	std::string ParentString = GetParentString(_Path);
@@ -79,7 +72,7 @@ std::vector<GameEngineFile> GlobalUtils::GetAllFileInPath(std::string_view _Path
 	return Files;
 }
 
-std::vector<GameEngineDirectory> GlobalUtils::GetAllDirInPath(std::string_view _Path)
+std::vector<GameEngineDirectory> FileLoadFunction::GetAllDirInPath(std::string_view _Path)
 {
 	GameEngineDirectory Dir;
 	std::string ParentString = GetParentString(_Path);
@@ -90,7 +83,7 @@ std::vector<GameEngineDirectory> GlobalUtils::GetAllDirInPath(std::string_view _
 }
 
 
-std::string GlobalUtils::GetParentString(std::string_view _ChildPath)
+std::string FileLoadFunction::GetParentString(std::string_view _ChildPath)
 {
 	int CountBeforeBackSlash = 0;
 
@@ -111,7 +104,7 @@ std::string GlobalUtils::GetParentString(std::string_view _ChildPath)
 }
 
 
-float GlobalUtils::CalculateObjectDepth(float _BackYScale, float _PositionY, bool _isHill /*= false*/)
+float DepthFunction::CalculateObjectDepth(float _BackYScale, float _PositionY, bool _isHill /*= false*/)
 {
 	float BackYScale = _BackYScale;
 	if (0.0f == _BackYScale)
@@ -130,12 +123,12 @@ float GlobalUtils::CalculateObjectDepth(float _BackYScale, float _PositionY, boo
 }
 
 
-float GlobalUtils::CalculateFixDepth(const float _Value)
+float DepthFunction::CalculateFixDepth(const float _Value)
 {
 	return _Value;
 }
 
-GameEngineSoundPlayer GlobalUtils::PlaySFX(std::string_view _SoundFileName)
+GameEngineSoundPlayer SFXFunction::PlaySFX(std::string_view _SoundFileName)
 {
 	GameEngineSoundPlayer SoundPlayer = GameEngineSound::SoundPlay(_SoundFileName);
 	SoundPlayer.SetVolume(GlobalValue::GetSFXVolume());

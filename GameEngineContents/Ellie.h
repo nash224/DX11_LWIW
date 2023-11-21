@@ -152,7 +152,7 @@ private:
 	void UpdateCollision();
 	void UpdatePortalCollsiion();
 	void UpdateInteractionCollsiion();
-	void NetCollision();
+	void CheckNetCollision();
 
 	void UpdateTestCode();
 
@@ -260,11 +260,11 @@ private:
 	EELLIE_STATE WaitState = EELLIE_STATE::None;
 
 	EllieBroom Broom;
-	std::shared_ptr<GameEngineSpriteRenderer> Shadow = nullptr;
+	std::shared_ptr<GameEngineSpriteRenderer> ShadowRenderer = nullptr;
 	std::shared_ptr<GameEngineSpriteRenderer> EllieFx = nullptr;
 	std::shared_ptr<GameEngineSpriteRenderer> Virgil = nullptr;
 	std::shared_ptr<GameEngineCollision> m_EllieCol = nullptr;
-	std::shared_ptr<GameEngineCollision> m_NetCol = nullptr;
+	std::shared_ptr<GameEngineCollision> NetCollision = nullptr;
 	InteractiveActor* OtherEntity = nullptr;
 	PixelCheckPoint m_PixelCheckPoint;
 
@@ -285,14 +285,13 @@ private:
 
 	static constexpr const float LWIW_Ellie_Y_Correction = 30.0f;
 	
-	static constexpr const float CONST_Ellie_SlowWalk_Speed = 100.0f;
-	static constexpr const float CONST_Ellie_Walk_Speed = 160.0f;
-	static constexpr const float CONST_Ellie_Run_Speed = 220.0f;
-	static constexpr const float CONST_Ellie_NonRiding_Acceleration_Time = 1.0f;
-	static constexpr const float CONST_Ellie_Riding_Move_Acceleration_Time = 0.8f;
-	static constexpr const float CONST_Ellie_Riding_Boosting_Acceleration_Time = 0.8f;
-	static constexpr const float CONST_Ellie_Riding_Move_Speed = 300.0f;
-	static constexpr const float CONST_Ellie_Riding_Boost_Speed = 500.0f;
+	static constexpr float SlowWalk_Speed = 100.0f;
+	static constexpr float Walk_Speed = 160.0f;
+	static constexpr float Run_Speed = 220.0f;
+	static constexpr float Riding_Move_Acceleration_Time = 0.8f;
+	static constexpr float Riding_Boost_Acceleration_Time = 0.8f;
+	static constexpr float Riding_Move_Speed = 270.0f;
+	static constexpr float Riding_Boost_Speed = 330.0f;
 
 	static constexpr const float FOVAngle = 60.0f;
 	static constexpr const float FrictionForce = 0.5f;

@@ -31,7 +31,7 @@ void Roaster::Release()
 {
 	StaticEntity::Release();
 
-	m_Shadow = nullptr;
+	ShadowRenderer = nullptr;
 	m_Roaster = nullptr;
 	m_RoasterFXSteam = nullptr;
 }
@@ -65,7 +65,7 @@ void Roaster::RendererSetting()
 
 	m_Roaster = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
 	m_RoasterFXSteam = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
-	m_Shadow = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
+	ShadowRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
 
 
 	m_Roaster->CreateAnimation("Broken", "Roaster_0.png", 5.0f, 7, 7);
@@ -76,7 +76,7 @@ void Roaster::RendererSetting()
 	m_RoasterFXSteam->CreateAnimation("Roasting", "Roaster_0_Top.png", 0.1f, 1, 23);
 	m_RoasterFXSteam->AutoSpriteSizeOn();
 
-	m_Shadow->SetSprite("Roaster_0.png", 1);
+	ShadowRenderer->SetSprite("Roaster_0.png", 1);
 
 	m_Roaster->ChangeAnimation("Roasting");
 	m_RoasterFXSteam->ChangeAnimation("Roasting");

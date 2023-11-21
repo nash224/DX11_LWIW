@@ -65,7 +65,7 @@ void UI_Hub_Calender::RendererSetting()
 
 
 	static constexpr const int RendererOrder = 0;
-	const float CalenderDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Frame);
+	const float CalenderDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Frame);
 
 
 	Calender.UnderLine = CreateComponent<GameEngineUIRenderer>(RendererOrder);

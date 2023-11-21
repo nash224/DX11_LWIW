@@ -188,7 +188,7 @@ void ChainProp::UpdateSeries()
 void ChainProp::RegenProp(const float4& _Position /*= float4::ZERO*/)
 {
 	float4 Position = _Position;
-	Position.Z = GlobalUtils::CalculateFixDepth(m_Depth);
+	Position.Z = DepthFunction::CalculateFixDepth(m_Depth);
 
 	std::shared_ptr<SequentialProp> Object = GetLevel()->CreateActor<SequentialProp>(EUPDATEORDER::Objects);
 	Object->Transform.SetLocalPosition(Position);

@@ -67,7 +67,7 @@ void UI_ProcessManager::RendererSetting()
 {
 	if (nullptr == GameEngineSprite::Find("Process_Base.png"))
 	{
-		std::vector<GameEngineFile> Files = GlobalUtils::GetAllFileInPath("Resources\\PlayContents\\PlayResourecs\\UI\\UI_Sprite\\UI_Process");
+		std::vector<GameEngineFile> Files = FileLoadFunction::GetAllFileInPath("Resources\\PlayContents\\PlayResourecs\\UI\\UI_Sprite\\UI_Process");
 		for (size_t i = 0; i < Files.size(); i++)
 		{
 			GameEngineFile pFile = Files[i];

@@ -61,7 +61,7 @@ void Ellie::UpdateRiding_Standing(float _Delta)
 	}
 
 
-	DecelerateNotDir(_Delta, CONST_Ellie_Riding_Boost_Speed);
+	DecelerateNotDir(_Delta, Riding_Boost_Speed);
 	DynamicEntity::ApplyOnlyMovement(_Delta);
 	WallCollision();
 	InteractiveActor::ApplyDepth();
@@ -108,9 +108,9 @@ void Ellie::UpdateRiding_Moving(float _Delta)
 	ChangeDirectionAnimation("Riding_Moving");
 
 	
-	DecelerateNotDir(_Delta, CONST_Ellie_Riding_Move_Speed);
-	m_MoveVector += GetMoveForceByDir(_Delta, CONST_Ellie_Riding_Move_Speed, CONST_Ellie_Riding_Move_Acceleration_Time);
-	LimitMoveVector(CONST_Ellie_Riding_Move_Speed);
+	DecelerateNotDir(_Delta, Riding_Move_Speed);
+	m_MoveVector += GetMoveForceByDir(_Delta, Riding_Move_Speed, Riding_Move_Acceleration_Time);
+	LimitMoveVector(Riding_Move_Speed);
 	DynamicEntity::ApplyOnlyMovement(_Delta);
 	WallCollision();
 	InteractiveActor::ApplyDepth();
@@ -158,9 +158,9 @@ void Ellie::UpdateRiding_Boosting(float _Delta)
 
 	ChangeDirectionAnimation("Riding_Boosting");
 
-	DecelerateNotDir(_Delta, CONST_Ellie_Riding_Boost_Speed);
-	m_MoveVector += GetMoveForceByDir(_Delta, CONST_Ellie_Riding_Boost_Speed, CONST_Ellie_Riding_Boosting_Acceleration_Time);
-	LimitMoveVector(CONST_Ellie_Riding_Boost_Speed);
+	DecelerateNotDir(_Delta, Riding_Boost_Speed);
+	m_MoveVector += GetMoveForceByDir(_Delta, Riding_Boost_Speed, Riding_Boost_Acceleration_Time);
+	LimitMoveVector(Riding_Boost_Speed);
 	DynamicEntity::ApplyOnlyMovement(_Delta);
 	WallCollision();
 	InteractiveActor::ApplyDepth();

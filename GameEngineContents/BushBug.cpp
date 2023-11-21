@@ -4,6 +4,11 @@
 #include "BackDrop_PlayLevel.h"
 #include "UI_Inventory.h"
 
+
+static constexpr float Max_YAngle = 5.0f;
+static constexpr float Move_Range = 50.0f;
+static constexpr float MoveSpeed = 16.0f;
+
 BushBug::BushBug() 
 {
 	if (nullptr == GameEngineSound::FindSound("SFX_BushBug_Fly.wav"))
@@ -26,28 +31,23 @@ BushBug::~BushBug()
 
 void BushBug::Start()
 {
-	CreateAndSetCollision(ECOLLISION::Entity, { 200.0f }, float4::ZERO, ColType::SPHERE2D);
-	SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::None, ECOLLECTION_METHOD::None, ETOOLTYPE::Dragonfly);
+	InteractiveActor::CreateAndSetCollision(ECOLLISION::Entity, { 200.0f }, float4::ZERO, ColType::SPHERE2D);
+	InteractiveActor::SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::None, ECOLLECTION_METHOD::None, ETOOLTYPE::Dragonfly);
 }
 
 void BushBug::Update(float _Delta)
 {
 	DynamicEntity::Update(_Delta);
 
-	MoveState.Update(_Delta);
+	MainState.Update(_Delta);
 	Alight.UpdateLightLerp();
 }
 
 void BushBug::Release()
 {
-	BodyRenderer = nullptr;
-	InteractiveCol = nullptr;
-	Alight.LightRenderer = nullptr;
-}
+	DynamicEntity::Release();
 
-void BushBug::LevelStart(class GameEngineLevel* _NextLevel)
-{
-
+	Alight.Release();
 }
 
 void BushBug::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -67,7 +67,6 @@ void BushBug::Init()
 	ALightSetting();
 
 	SpawnPosition = Transform.GetLocalPosition();
-	SpawnPosition.Z = 0.0f;
 }
 
 void BushBug::AnimationSetting()
@@ -77,23 +76,19 @@ void BushBug::AnimationSetting()
 		GameEngineSprite::CreateCut("Bushbug_Standing.png", 4, 3);
 	}
 
-	BodyRenderer = CreateComponent<GameEngineSpriteRenderer>();
-	BodyRenderer->AutoSpriteSizeOn();
-	BodyRenderer->CreateAnimation("Idle", "Bushbug_Standing.png", 0.1f, 2, 9, true);
-	BodyRenderer->ChangeAnimation("Idle");
+	InteractiveActor::BodyRenderer = CreateComponent<GameEngineSpriteRenderer>();
+	InteractiveActor::BodyRenderer->AutoSpriteSizeOn();
+	InteractiveActor::BodyRenderer->CreateAnimation("Idle", "Bushbug_Standing.png", 0.1f, 2, 9, true);
+	InteractiveActor::BodyRenderer->ChangeAnimation("Idle");
 
-
-	m_Shadow = CreateComponent<GameEngineSpriteRenderer>();
-	m_Shadow->SetSprite("Bushbug_Standing.png", 1);
-	m_Shadow->Transform.SetLocalPosition(float4(0.0f , 0.0f, GlobalUtils::CalculateFixDepth(ERENDERDEPTH::ObjectShadow) ));
+	ShadowRenderer = CreateComponent<GameEngineSpriteRenderer>();
+	ShadowRenderer->SetSprite("Bushbug_Standing.png", 1);
+	ShadowRenderer->Transform.SetLocalPosition(float4(0.0f , 0.0f, DepthFunction::CalculateFixDepth(ERENDERDEPTH::ObjectShadow) ));
 }
 
 void BushBug::ALightSetting()
 {
-	Alight.LightRenderer = CreateComponent<GameEngineSpriteRenderer>();
-	Alight.SetLightRendererSetting(float4(0.1f, 0.1f, 0.0f, 0.8f));
-	Alight.LightRenderer->SetSprite("Default_Particle.png");
-	Alight.LightRenderer->GetImageTransform().SetLocalScale(float4(100.0f, 100.0f));
+	Alight.Init(this, { float4(0.1f, 0.1f, 0.0f, 0.8f) , "Default_Particle.png" , float4(100.0f, 100.0f)});
 
 	std::weak_ptr<GameEngineFrameAnimation> Animation = BodyRenderer->FindAnimation("Idle");
 	if (true == Animation.expired())
@@ -104,36 +99,36 @@ void BushBug::ALightSetting()
 
 	BodyRenderer->SetFrameEvent("Idle",2,[&](GameEngineSpriteRenderer* _Renderer)
 		{
-			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 19.0f, -0.01f));
+			Alight.SetPosition(float4(-3.0f, 19.0f, -0.01f));
 		});
 	BodyRenderer->SetFrameEvent("Idle", 3, [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			PlaySFX("SFX_BushBug_Fly.wav");
-			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 17.0f, -0.01f));
+			Alight.SetPosition(float4(-3.0f, 17.0f, -0.01f));
 		});
 	BodyRenderer->SetFrameEvent("Idle", 4, [&](GameEngineSpriteRenderer* _Renderer)
 		{
-			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 17.0f, -0.01f));
+			Alight.SetPosition(float4(-3.0f, 17.0f, -0.01f));
 		});
 	BodyRenderer->SetFrameEvent("Idle", 5, [&](GameEngineSpriteRenderer* _Renderer)
 		{
-			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 19.0f, -0.01f));
+			Alight.SetPosition(float4(-3.0f, 19.0f, -0.01f));
 		});
 	BodyRenderer->SetFrameEvent("Idle", 6, [&](GameEngineSpriteRenderer* _Renderer)
 		{
-			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 23.0f, -0.01f));
+			Alight.SetPosition(float4(-3.0f, 23.0f, -0.01f));
 		});
 	BodyRenderer->SetFrameEvent("Idle", 7, [&](GameEngineSpriteRenderer* _Renderer)
 		{
-			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 25.0f, -0.01f));
+			Alight.SetPosition(float4(-3.0f, 25.0f, -0.01f));
 		});
 	BodyRenderer->SetFrameEvent("Idle", 8, [&](GameEngineSpriteRenderer* _Renderer)
 		{
-			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 25.0f, -0.01f));
+			Alight.SetPosition(float4(-3.0f, 25.0f, -0.01f));
 		});
 	BodyRenderer->SetFrameEvent("Idle", 9, [&](GameEngineSpriteRenderer* _Renderer)
 		{
-			Alight.LightRenderer->Transform.SetLocalPosition(float4(-3.0f, 21.0f, -0.01f));
+			Alight.SetPosition(float4(-3.0f, 21.0f, -0.01f));
 		});
 }
 
@@ -141,27 +136,26 @@ void BushBug::StateSetting()
 {
 	CreateStateParameter Para;
 	Para.Start = std::bind(&BushBug::StartMove, this, std::placeholders::_1);
-	Para.Stay = std::bind(&BushBug::UPdateMove, this, std::placeholders::_1, std::placeholders::_2);
-	MoveState.CreateState(0, Para);
-	MoveState.ChangeState(0);
+	Para.Stay = std::bind(&BushBug::UpdateMove, this, std::placeholders::_1, std::placeholders::_2);
+	MainState.CreateState(0, Para);
+	MainState.ChangeState(0);
 
 }
 
 void BushBug::StartMove(GameEngineState* _Parent)
 {
-	// 시작하기 전 이동 방향을 구함
 	GameEngineRandom RandomClass;
-	RandomClass.SetSeed(reinterpret_cast<__int64>(this) + GlobalValue::GetSeedValue());
-	float FlyAngle = RandomClass.RandomFloat(0.0f, BUSHBUG_MAX_YANGLE);
+	RandomClass.SetSeed(GlobalValue::GetSeedValue());
+	float FlyAngle = RandomClass.RandomFloat(0.0f, Max_YAngle);
 	if (0 == RandomClass.RandomFloat(0, 1))
 	{
 		FlyAngle *= -1.0f;
 	}
 	float4 UnitVector = float4::GetUnitVectorFromDeg(FlyAngle);
-	m_MoveVector = UnitVector * BUSHBUG_SPEED;
+	m_MoveVector = UnitVector * MoveSpeed;
 }
 
-void BushBug::UPdateMove(float _Delta, GameEngineState* _Parent)
+void BushBug::UpdateMove(float _Delta, GameEngineState* _Parent)
 {
 	if (true == IsEnalbeActive)
 	{
@@ -173,14 +167,11 @@ void BushBug::UPdateMove(float _Delta, GameEngineState* _Parent)
 		Death();
 	}
 
-	// 범위를 넘어가면
-	float4 MyPosition = Transform.GetLocalPosition();
-	float4 CheckDistance = SpawnPosition - MyPosition;
-	CheckDistance.Z = 0.0f;
-	float DistanceUntilSpawn = CheckDistance.Size();
-	if (DistanceUntilSpawn > BUSHBUG_MOVE_RANGE)
+	const float4& MyPosition = Transform.GetLocalPosition();
+	const float4& CheckDistance = SpawnPosition - MyPosition;
+	const float4& DistanceToSpawn = DirectX::XMVector2Length(CheckDistance.DirectXVector);
+	if (DistanceToSpawn.X > Move_Range)
 	{
-		// 이동할 방향을 찾음
 		SearchFlyDirection();
 	}
 
@@ -190,41 +181,24 @@ void BushBug::UPdateMove(float _Delta, GameEngineState* _Parent)
 void BushBug::SearchFlyDirection()
 {
 	GameEngineRandom RandomClass;
-	RandomClass.SetSeed(reinterpret_cast<__int64>(this) + GlobalValue::GetSeedValue());
+	RandomClass.SetSeed(GlobalValue::GetSeedValue());
 
-	float4 MyPosition = Transform.GetLocalPosition();
-	float4 TargetVector = SpawnPosition - MyPosition;
-	TargetVector.Z = 0.0f;
-	TargetVector = TargetVector.NormalizeReturn();
-	float Degree = TargetVector.Angle2DDeg();
-	if (SpawnPosition.Y - MyPosition.Y < 0.0f)
-	{
-		Degree = 180.0f - Degree;
-		Degree += 180.0f;
-	}
+	const float4& MyPosition = Transform.GetLocalPosition();
+	const float4& TargetPos = SpawnPosition - MyPosition;
+	const float DegreeToTarget = DirectX::XMConvertToDegrees(atan2f(TargetPos.Y, TargetPos.X));
 
-	float DirChangeRatio = RandomClass.RandomFloat(0.0f, 1.0f);
-	float FlyAngle = static_cast<float>(pow(DirChangeRatio, 2));
-	FlyAngle *= BUSHBUG_MAX_YANGLE;
-	int MultiValue = RandomClass.RandomInt(0, 1);
-	if (1 == MultiValue)
+	const float AngleChance = RandomClass.RandomFloat(0.0f, 1.0f);
+	float FlyAngle = static_cast<float>(pow(AngleChance, 2));
+	FlyAngle *= Max_YAngle;
+
+	int ReverseDirChance = RandomClass.RandomInt(0, 1);
+	if (1 == ReverseDirChance)
 	{
 		FlyAngle *= -1.0f;
 	}
 
-	m_FlyAngle = Degree + FlyAngle;
+	FlyAngle = DegreeToTarget + FlyAngle;
 
-	if (m_FlyAngle > 360.0f)
-	{
-		m_FlyAngle -= 360.0f;
-	}
-
-	if (m_FlyAngle < 0.0f)
-	{
-		m_FlyAngle += 360.0f;
-	}
-
-	float4 TargetUnitVector = float4::GetUnitVectorFromDeg(m_FlyAngle);
-
-	m_MoveVector = TargetUnitVector * BUSHBUG_SPEED;
+	const float4& TargetUnitVector = float4::GetUnitVectorFromDeg(FlyAngle);
+	m_MoveVector = TargetUnitVector * MoveSpeed;
 }

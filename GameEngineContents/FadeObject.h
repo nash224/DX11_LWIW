@@ -1,9 +1,5 @@
 #pragma once
 
-
-constexpr float MaxAlphaValue = 1.0f;
-constexpr float MinAlphaValue = 0.0f;
-
 enum class CallFadeType
 {
 	None,
@@ -31,10 +27,10 @@ public:
 
 
 protected:
-	void Start() override;
+	void Start() override {}
 	void Update(float _Delta) override;
 	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
@@ -47,15 +43,14 @@ private:
 	void UpdateFade(float _Delta);
 
 private:
-	std::shared_ptr<GameEngineUIRenderer> m_FadeRenderer = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> FadeRenderer = nullptr;
 
-private:
-	CallFadeType m_FadeType = CallFadeType::None;
-	std::string m_NextLevelName = "";
+	CallFadeType FadeType = CallFadeType::None;
+	std::string NextLevelName = "";
 
-	float m_FadeDuration = 1.0f;
-	float m_FadeTime = 0.0f;
-	float m_AlphaValue = 0.0f;
+	float FadeDuration = 1.0f;
+	float AccTime = 0.0f;
+	float Alpha = 0.0f;
 
 
 };

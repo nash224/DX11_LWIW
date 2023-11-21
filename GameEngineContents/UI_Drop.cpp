@@ -63,9 +63,9 @@ void UI_Drop::RendererSetting(std::string_view _ItemName)
 		return;
 	}
 
-	const float BaseDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Base);
-	const float IconDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Img);
-	const float NameDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Font);
+	const float BaseDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Base);
+	const float IconDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Img);
+	const float NameDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Font);
 
 	const float4& BasePosition = float4(0.0f, 0.0f, BaseDepth);
 	const float4& IconPosition = float4(-52.0f, 0.0f, IconDepth);

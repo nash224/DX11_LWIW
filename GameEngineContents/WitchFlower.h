@@ -32,7 +32,7 @@ private:
 
 
 private:
-	std::shared_ptr<GameEngineSpriteRenderer> m_Shadow = nullptr;
+	std::shared_ptr<GameEngineSpriteRenderer> ShadowRenderer = nullptr;
 
 	const float RenderYCorrection = 34.0f;
 

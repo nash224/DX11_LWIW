@@ -1,8 +1,6 @@
 #include "PreCompile.h"
 #include "UI_Inventory.h"
 
-#include "GlobalUtils.h"
-
 #include "UI_DropManager.h"
 #include "UI_Dispensation.h"
 
@@ -330,7 +328,7 @@ void UI_Inventory::Init()
 
 void UI_Inventory::CreateBase()
 {
-	float4 BasePosition = { 0.0f , 0.0f , GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Base) };
+	float4 BasePosition = { 0.0f , 0.0f , DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Base) };
 
 	m_InventoryBase = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Base);
 	m_InventoryBase->SetSprite("Inventory_Base.png");
@@ -356,9 +354,9 @@ void UI_Inventory::CreateSlotArray()
 		{
 			const float4& IndexPos = CalculateIndexToPos(x, y);
 
-			const float FrameDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
-			const float IconDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Icon);
-			const float FontDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Font);
+			const float FrameDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
+			const float IconDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Icon);
+			const float FontDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Font);
 
 			const float4& ItemCountCorrection = float4(18.0f, -12.0f);
 
@@ -678,7 +676,7 @@ void UI_Inventory::RenewInventory()
 // 자식에서 해주고 싶은 행동을 수행합니다.
 void UI_Inventory::OpenInternal()
 {
-	GlobalUtils::PlaySFX("SFX_Open_01.wav");
+	SFXFunction::PlaySFX("SFX_Open_01.wav");
 	CursorThis(0, 0);
 }
 
@@ -714,8 +712,8 @@ void UI_Inventory::CursorThis(const unsigned int _X, const unsigned int _Y)
 	const float4& IndexPosition = CalculateIndexToPos(_X, _Y);
 
 
-	const float CursorDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Cursor);
-	const float OutLineDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::CursorOutLine);
+	const float CursorDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Cursor);
+	const float OutLineDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::CursorOutLine);
 
 	const float4& CursorPosition = float4(IndexPosition.X, IndexPosition.Y, CursorDepth);
 	const float4& OutlinePosition = float4(IndexPosition.X, IndexPosition.Y, OutLineDepth);
@@ -752,8 +750,8 @@ void UI_Inventory::CursorThis(const unsigned int _X, const unsigned int _Y)
 
 		if (true == Data->IsContain(_X, _Y))
 		{
-			const float TooltipDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Cursor);
-			const float ItemFontDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Font);
+			const float TooltipDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Cursor);
+			const float ItemFontDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Font);
 
 			const float FontYCorrection = 6.0f;
 
@@ -898,7 +896,7 @@ bool UI_Inventory::UpdateCursor()
 
 void UI_Inventory::MoveCursor(const int _X, const int _Y)
 {
-	GlobalUtils::PlaySFX("SFX_InventoryMove_01.wav");
+	SFXFunction::PlaySFX("SFX_InventoryMove_01.wav");
 
 	m_CurrentSlotX += _X;
 	m_CurrentSlotY += _Y;
@@ -1049,7 +1047,7 @@ void UI_Inventory::DispensationSelectThis()
 		SelectItem[EmptySlotNumber].SelectCount = m_CurrentSlotX * m_CurrentSlotY;
 
 		float4 CursorPosition = CalculateIndexToPos(m_CurrentSlotX, m_CurrentSlotY);
-		CursorPosition.Z = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Cursor);
+		CursorPosition.Z = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Cursor);
 		SelectItem[EmptySlotNumber].Cursor->Transform.SetLocalPosition(CursorPosition);
 		SelectItem[EmptySlotNumber].Cursor->On();
 	}

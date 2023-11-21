@@ -70,7 +70,7 @@ void UI_ProcessList::Init()
 void UI_ProcessList::RendererSetting()
 {
 	BaseRenderer = CreateComponent<GameEngineUIRenderer>();
-	BaseRenderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Base)));
+	BaseRenderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Base)));
 	BaseRenderer->SetSprite("Process_Base.png");
 
 
@@ -94,8 +94,8 @@ void UI_ProcessList::CreateProcessSlot(std::string_view _ProcessName)
 // Renderer Initial 
 void UI_ProcessList::CursorSetting()
 {
-	const float FrameDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame);
-	const float AttachmentDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
+	const float FrameDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame);
+	const float AttachmentDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
 
 
 	CursorInfo.UpArrow = CreateComponent<GameEngineUIRenderer>();
@@ -280,7 +280,7 @@ void UI_ProcessList::MoveCursor(int _Value)
 	float4 CursorPosition = PROCESS_FIRST_SLOT_POSITION;
 	float CursorYPositon = -PROCESS_SLOT_GAP * static_cast<float>(CurCursorLine);
 	CursorPosition += float4(0.0f, CursorYPositon);
-	CursorPosition.Z = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Cursor);
+	CursorPosition.Z = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Cursor);
 
 	CursorInfo.Cursor->Transform.SetLocalPosition(CursorPosition);
 }
@@ -292,7 +292,7 @@ void UI_ProcessList::ResetCursor()
 	CurCursorLine = 0;
 
 	float4 CursorPosition = PROCESS_FIRST_SLOT_POSITION;
-	CursorPosition.Z = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Cursor);
+	CursorPosition.Z = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Cursor);
 
 	CursorInfo.Cursor->Transform.SetLocalPosition(CursorPosition);
 }

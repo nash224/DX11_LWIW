@@ -24,7 +24,7 @@ void PumpkinTerrier::Release()
 {
 	DynamicEntity::Release();
 
-	m_Shadow = nullptr;
+	ShadowRenderer = nullptr;
 }
 
 void PumpkinTerrier::LevelStart(class GameEngineLevel* _NextLevel)
@@ -71,7 +71,7 @@ void PumpkinTerrier::RendererSetting()
 	BodyRenderer->CreateAnimation("Idle_Up", "PumpkinTerrier_Vine_IdleA.png", 0.12f, 6, 9, true);
 	BodyRenderer->ChangeAnimation("Idle_Down");
 
-	m_Shadow = CreateComponent<GameEngineSpriteRenderer>();
-	m_Shadow->Transform.SetLocalPosition({ 0.0f, RendererBias });
-	m_Shadow->SetSprite("PumpkinTerrier_Vine_IdleA.png", 1);
+	ShadowRenderer = CreateComponent<GameEngineSpriteRenderer>();
+	ShadowRenderer->Transform.SetLocalPosition({ 0.0f, RendererBias });
+	ShadowRenderer->SetSprite("PumpkinTerrier_Vine_IdleA.png", 1);
 }

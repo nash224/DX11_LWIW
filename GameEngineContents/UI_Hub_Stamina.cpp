@@ -40,10 +40,10 @@ void UI_Hub_Stamina::Init()
 
 void UI_Hub_Stamina::RendererSetting()
 {
-	const float FrameDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Frame);
-	const float StaminaDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Gauge2);
-	const float RecoverableGaugeDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Gauge1);
-	const float IndicatorDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Indicator);
+	const float FrameDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Frame);
+	const float StaminaDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Gauge2);
+	const float RecoverableGaugeDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Gauge1);
+	const float IndicatorDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Indicator);
 
 	const float4& FramePosition = float4(0.0f, 0.0f, FrameDepth);
 	const float4& StaminaPosition = float4(0.0f, 0.0f, StaminaDepth);

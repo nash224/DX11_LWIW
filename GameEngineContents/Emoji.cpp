@@ -32,7 +32,6 @@ void Emoji::Init(GameEngineActor* _Actor, const float4& _EmotionPos /*= float4::
 
 void Emoji::Release()
 {
-	// 안전?
 	Base = nullptr;
 	Emotion = nullptr;
 	Parent = nullptr;
@@ -42,18 +41,15 @@ void Emoji::RendererSetting(GameEngineActor* _Actor, const float4& _EmotionPos)
 {
 	static constexpr int RenderOrder = 0;
 
-	const float BaseDepth = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Emoticon_Base);
-	const float EmotionDepth = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Emoticon_Emotion);
-
-	const float4& BasePosition = float4(_EmotionPos.X, _EmotionPos.Y, BaseDepth);
-	const float4& EmotionPosition = float4(_EmotionPos.X, _EmotionPos.Y, EmotionDepth);
+	const float BaseDepth = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Emoticon_Base);
+	const float EmotionDepth = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Emoticon_Emotion);
 
 	Base = _Actor->CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
-	Base->Transform.SetLocalPosition(BasePosition);
+	Base->Transform.SetLocalPosition(float4(_EmotionPos.X, _EmotionPos.Y, BaseDepth));
 	Base->SetSprite("Emoticon_Background.png");
 
 	Emotion = _Actor->CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
-	Emotion->Transform.SetLocalPosition(EmotionPosition);
+	Emotion->Transform.SetLocalPosition(float4(_EmotionPos.X, _EmotionPos.Y, EmotionDepth));
 }
 
 void Emoji::SetRecognitionRange(float _Range)
@@ -89,7 +85,7 @@ void Emoji::StateSetting()
 
 void Emoji::StartExclamation(GameEngineState* State)
 {
-	if (nullptr == Base || nullptr == Emotion || nullptr == Parent)
+	if (nullptr == Base || nullptr == Emotion)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
@@ -99,6 +95,29 @@ void Emoji::StartExclamation(GameEngineState* State)
 	Emotion->On();
 	Emotion->SetSprite("Exclamation.png");
 }
+void Emoji::StartNone(GameEngineState* State)
+{
+	if (nullptr == Base || nullptr == Emotion)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
+
+	Base->Off();
+	Emotion->Off();
+}
+
+void Emoji::StartQuestion(GameEngineState* State)
+{
+	if (nullptr == Emotion)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
+
+	Emotion->SetSprite("Question.png");
+}
+
 
 void Emoji::UpdateExclamation(float _Delta, GameEngineState* State)
 {
@@ -119,18 +138,6 @@ void Emoji::UpdateExclamation(float _Delta, GameEngineState* State)
 	}
 }
 
-
-void Emoji::StartQuestion(GameEngineState* State)
-{
-	if (nullptr == Emotion)
-	{
-		MsgBoxAssert("렌더러가 존재하지 않습니다.");
-		return;
-	}
-
-	Emotion->SetSprite("Question.png");
-}
-
 void Emoji::UpdateQuestion(float _Delta, GameEngineState* State)
 {
 	if (GetDistanceToEllie() < RecognitionRange)
@@ -146,18 +153,6 @@ void Emoji::UpdateQuestion(float _Delta, GameEngineState* State)
 	}
 }
 
-
-void Emoji::StartNone(GameEngineState* State)
-{
-	if (nullptr == Base || nullptr == Emotion)
-	{
-		MsgBoxAssert("렌더러가 존재하지 않습니다.");
-		return;
-	}
-
-	Base->Off();
-	Emotion->Off();
-}
 
 void Emoji::ShowExclamation()
 {

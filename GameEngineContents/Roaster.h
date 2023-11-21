@@ -53,7 +53,7 @@ private:
 	void UpdateRoasting(float _Delta);
 
 private:
-	std::shared_ptr<GameEngineSpriteRenderer> m_Shadow;
+	std::shared_ptr<GameEngineSpriteRenderer> ShadowRenderer;
 	std::shared_ptr<GameEngineSpriteRenderer> m_Roaster;
 	std::shared_ptr<GameEngineSpriteRenderer> m_RoasterFXSteam;
 

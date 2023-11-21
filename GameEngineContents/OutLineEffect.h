@@ -26,16 +26,21 @@ public:
 	OutLineEffect& operator=(const OutLineEffect& _Other) = delete;
 	OutLineEffect& operator=(OutLineEffect&& _Other) noexcept = delete;
 
-	void SetOutLineColor(const float4& _Color = float4::WHITE);
-	void SetOutLineThickness(float _Thickness = 1.0f);
+	void SetOutLineColor(const float4& _Color = float4::WHITE)
+	{
+		OutLineInfo.OutLineColor = _Color;
+	}
+
+	void SetOutLineThickness(float _Thickness = 1.0f)
+	{
+		OutLineInfo.Thickness = _Thickness;
+	}
 
 protected:
-
-private:
 	void Start() override;
 	void EffectProcess(float _DeltaTime) override;
 
+private:
 	OutLineEffectInfo OutLineInfo;
-
 
 };

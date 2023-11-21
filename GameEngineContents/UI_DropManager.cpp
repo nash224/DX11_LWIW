@@ -63,7 +63,7 @@ void UI_DropManager::NoticeItemDrop(std::string_view _ItemName)
 	
 	UI_SystemNoticeList.push_back(SystemNotice);
 
-	GlobalUtils::PlaySFX("SFX_Getltem_01.wav");
+	SFXFunction::PlaySFX("SFX_Getltem_01.wav");
 }
 
 

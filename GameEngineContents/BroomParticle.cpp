@@ -84,6 +84,6 @@ void BroomParticle::ApplyDepth()
 	if (nullptr != BackDrop_PlayLevel::MainBackDrop)
 	{
 		const float4& BackScale = BackDrop_PlayLevel::MainBackDrop->GetBackGroundScale();
-		GlobalUtils::CalculateObjectDepth(BackScale.Y, MyPos.Y + 7.0f);
+		DepthFunction::CalculateObjectDepth(BackScale.Y, MyPos.Y + 7.0f);
 	}
 }

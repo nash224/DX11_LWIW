@@ -20,8 +20,5 @@ protected:
 	static void LoadGlobalTexture();
 	static void LoadGlobalSprite();
 
-private:
-	static bool IsLoadGlobalResoruce;
-
 };
 

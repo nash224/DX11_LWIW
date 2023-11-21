@@ -30,7 +30,7 @@ void WitchFlower::Release()
 {
 	Plant::Release();
 
-	m_Shadow = nullptr;
+	ShadowRenderer = nullptr;
 }
 
 void WitchFlower::LevelStart(class GameEngineLevel* _NextLevel)
@@ -71,66 +71,66 @@ void WitchFlower::RendererSetting()
 	BodyRenderer->FindAnimation("UpRoot")->Inter[7] = 0.24f;
 
 
-	m_Shadow = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
-	m_Shadow->SetSprite("WitchFlower.png", 1);
-	m_Shadow->Transform.AddLocalPosition({ 0.0f, RenderYCorrection, GlobalUtils::CalculateFixDepth(ERENDERDEPTH::ObjectShadow)});
+	ShadowRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
+	ShadowRenderer->SetSprite("WitchFlower.png", 1);
+	ShadowRenderer->Transform.AddLocalPosition({ 0.0f, RenderYCorrection, DepthFunction::CalculateFixDepth(ERENDERDEPTH::ObjectShadow)});
 
 
 
 	// 프레임 이벤트 설정
 	BodyRenderer->SetFrameEvent("UpRoot", 6, [=](GameEngineSpriteRenderer* _Renderer)
 		{
-			if (nullptr == m_Shadow)
+			if (nullptr == ShadowRenderer)
 			{
 				MsgBoxAssert("그림자 렌더러가 존재하지 않습니다.");
 				return;
 			}
 
-			m_Shadow->SetSprite("WitchFlower.png", 3);
+			ShadowRenderer->SetSprite("WitchFlower.png", 3);
 		});
 
 	BodyRenderer->SetFrameEvent("UpRoot", 7, [=](GameEngineSpriteRenderer* _Renderer)
 		{
-			if (nullptr == m_Shadow)
+			if (nullptr == ShadowRenderer)
 			{
 				MsgBoxAssert("그림자 렌더러가 존재하지 않습니다.");
 				return;
 			}
 
-			m_Shadow->SetSprite("WitchFlower.png", 2);
+			ShadowRenderer->SetSprite("WitchFlower.png", 2);
 		});
 
 	BodyRenderer->SetFrameEvent("UpRoot", 8, [=](GameEngineSpriteRenderer* _Renderer)
 		{
-			if (nullptr == m_Shadow)
+			if (nullptr == ShadowRenderer)
 			{
 				MsgBoxAssert("그림자 렌더러가 존재하지 않습니다.");
 				return;
 			}
 
-			m_Shadow->SetSprite("WitchFlower.png", 2);
+			ShadowRenderer->SetSprite("WitchFlower.png", 2);
 		});
 
 	BodyRenderer->SetFrameEvent("UpRoot", 9, [=](GameEngineSpriteRenderer* _Renderer)
 		{
-			if (nullptr == m_Shadow)
+			if (nullptr == ShadowRenderer)
 			{
 				MsgBoxAssert("그림자 렌더러가 존재하지 않습니다.");
 				return;
 			}
 
-			m_Shadow->SetSprite("WitchFlower.png", 4);
+			ShadowRenderer->SetSprite("WitchFlower.png", 4);
 		});
 
 	BodyRenderer->SetFrameEvent("UpRoot", 10, [=](GameEngineSpriteRenderer* _Renderer)
 		{
-			if (nullptr == m_Shadow)
+			if (nullptr == ShadowRenderer)
 			{
 				MsgBoxAssert("그림자 렌더러가 존재하지 않습니다.");
 				return;
 			}
 			
-			m_Shadow->Off();
+			ShadowRenderer->Off();
 		});
 }
 

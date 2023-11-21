@@ -2,22 +2,18 @@
 #include "DynamicEntity.h"
 #include "ALightLerp.h"
 
-#define BUSHBUG_SPEED 16.0f
-#define BUSHBUG_MAX_YANGLE 5.0f
-#define BUSHBUG_MOVE_RANGE 50.0f
-
-
-enum class EBUSHBUGSTATE
-{
-	Idle,
-	Move,
-	None,
-};
-
 
 // Ό³Έν :
 class BushBug : public DynamicEntity
 {
+private:
+	enum class EBUSHBUGSTATE
+	{
+		Idle,
+		Move,
+		None,
+	};
+
 public:
 	// constrcuter destructer
 	BushBug();
@@ -36,7 +32,7 @@ protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
@@ -47,18 +43,17 @@ private:
 
 	void StartMove(GameEngineState* _Parent);
 	void SearchFlyDirection();
-	void UPdateMove(float _Delta, GameEngineState* _Parent);
+	void UpdateMove(float _Delta, GameEngineState* _Parent);
 	
 
 
 private:
-	std::shared_ptr<GameEngineSpriteRenderer> m_Shadow = nullptr;
+	std::shared_ptr<GameEngineSpriteRenderer> ShadowRenderer = nullptr;
 	ALightLerp Alight;
 
-
-	GameEngineState MoveState;
+	GameEngineState MainState;
 
 	float4 SpawnPosition = float4::ZERO;
-	float m_FlyAngle = 0.0f;
+	float FlyAngle = 0.0f;
 };
 

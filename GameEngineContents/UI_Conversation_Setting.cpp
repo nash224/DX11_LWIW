@@ -58,7 +58,7 @@ void UI_Conversation::PortraitSetting()
 	const float ElliePortraitYPos = ElliePortraitScale.Half().Y - HWinScale.Y;
 	const float OtherPortraitYPos = OtherPortraitScale.Half().Y - HWinScale.Y;	// NPC 스프라이트 크기가 같습니다.
 
-	const float PortraitDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Conversation_Portrait);
+	const float PortraitDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Conversation_Portrait);
 
 	const float4 ElliePortraitSpritePos = { ElliePortraitXPos, ElliePortraitYPos, PortraitDepth };
 	const float4 OtherPortraitSpritePos = { OtherPortraitXPos, OtherPortraitYPos, PortraitDepth };
@@ -90,10 +90,10 @@ void UI_Conversation::DialogueSetting()
 
 	float4 MessagePos = Dialogue.Main_Dialogue_1th_Line_Position;
 
-	const float FrameDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Conversation_Frame);
-	const float TailDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Conversation_Tail);
-	const float ArrowDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Conversation_Arrow);
-	const float MessageDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Conversation_Message);
+	const float FrameDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Conversation_Frame);
+	const float TailDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Conversation_Tail);
+	const float ArrowDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Conversation_Arrow);
+	const float MessageDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Conversation_Message);
 
 	MessagePos.Z = MessageDepth;
 

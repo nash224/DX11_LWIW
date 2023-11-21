@@ -130,7 +130,7 @@ void MapEditorLevel::CenterFieldMapSetting()
 	{
 		float4 MapPos = MapScale.Half();
 		MapPos.Y *= -1.0f;
-		MapPos.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Cliff);
+		MapPos.Z = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Cliff);
 
 		std::shared_ptr<RendererActor> CenterMap = CreateActor<RendererActor>();
 		CenterMap->Transform.SetLocalPosition(MapPos);
@@ -141,7 +141,7 @@ void MapEditorLevel::CenterFieldMapSetting()
 	{
 		float4 BasePosition = MapScale.Half();
 		BasePosition.Y *= -1.0f;
-		BasePosition.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Back_Paint);
+		BasePosition.Z = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Back_Paint);
 
 		std::shared_ptr<RendererActor> BaseGorund = CreateActor<RendererActor>();
 		BaseGorund->Transform.SetLocalPosition(BasePosition);

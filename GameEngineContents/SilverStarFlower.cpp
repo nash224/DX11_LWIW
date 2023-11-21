@@ -1,13 +1,16 @@
 #include "PreCompile.h"
 #include "SilverStarFlower.h"
 
-
 #include "PlayLevel.h"
 #include "TimeManager.h"
 
 #include "Ellie.h"
 #include "SilverBellSpawner.h"
 #include "UI_Inventory.h"
+
+static constexpr const float RendererYCorrection = 36.0f;
+static constexpr const float Light_Off_Time = 0.6f;
+
 
 SilverStarFlower::SilverStarFlower() 
 {
@@ -50,20 +53,10 @@ void SilverStarFlower::Release()
 {
 	StaticEntity::Release();
 
-	m_Shadow = nullptr;
-	UpperALight.LightRenderer = nullptr;
-	LowerALight.LightRenderer = nullptr;
+	ShadowRenderer = nullptr;
+	UpperALight.Release();
+	LowerALight.Release();
 }
-
-void SilverStarFlower::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-		
-}
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
 
 void SilverStarFlower::Init()
 {
@@ -82,17 +75,17 @@ void SilverStarFlower::RendererSetting()
 
 	static constexpr const int RenderOrder = 0;
 
-	BodyRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
-	BodyRenderer->CreateAnimation("Idle", "SilverStarFlower.png", 0.15f, 3, 3, false);
-	BodyRenderer->CreateAnimation("Touch", "SilverStarFlower.png", 0.15f, 4, 9, false);
-	BodyRenderer->AutoSpriteSizeOn();
-	BodyRenderer->Transform.SetLocalPosition({ 0.0f, RendererYCorrection });
-	BodyRenderer->ChangeAnimation("Idle");
+	InteractiveActor::BodyRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
+	InteractiveActor::BodyRenderer->CreateAnimation("Idle", "SilverStarFlower.png", 0.15f, 3, 3, false);
+	InteractiveActor::BodyRenderer->CreateAnimation("Touch", "SilverStarFlower.png", 0.15f, 4, 9, false);
+	InteractiveActor::BodyRenderer->AutoSpriteSizeOn();
+	InteractiveActor::BodyRenderer->Transform.SetLocalPosition({ 0.0f, RendererYCorrection });
+	InteractiveActor::BodyRenderer->ChangeAnimation("Idle");
 
 
-	m_Shadow = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
-	m_Shadow->Transform.SetLocalPosition({ 0.0f, RendererYCorrection });
-	m_Shadow->SetSprite("SilverStarFlower.png", 1);
+	ShadowRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
+	ShadowRenderer->Transform.SetLocalPosition({ 0.0f, RendererYCorrection });
+	ShadowRenderer->SetSprite("SilverStarFlower.png", 1);
 	
 }
 
@@ -102,18 +95,8 @@ void SilverStarFlower::LightSetting()
 
 	const float4& LightColor = float4(0.0f, 0.1f, 0.2f, 0.8f);
 
-	UpperALight.LightRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
-	UpperALight.SetLightRendererSetting(LightColor);
-	UpperALight.LightRenderer->SetSprite("Default_Particle.png");
-	UpperALight.LightRenderer->GetImageTransform().SetLocalScale(float4(60.0f, 60.0f));
-	UpperALight.LightRenderer->Transform.AddLocalPosition(float4(-10.0f, 30.0f));
-
-
-	LowerALight.LightRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
-	LowerALight.SetLightRendererSetting(LightColor);
-	LowerALight.LightRenderer->SetSprite("Default_Particle.png");
-	LowerALight.LightRenderer->GetImageTransform().SetLocalScale(float4(30.0f, 30.0f));
-	LowerALight.LightRenderer->Transform.AddLocalPosition(float4(-4.0f, 14.0f));
+	UpperALight.Init(this, { LightColor , "Default_Particle.png" , float4(60.0f, 60.0f) ,float4(-10.0f, 30.0f, -0.01f) });
+	LowerALight.Init(this, { LightColor , "Default_Particle.png" , float4(30.0f, 30.0f) ,float4(-4.0f, 14.0f, -0.01f) });
 }
 
 void SilverStarFlower::StateSetting()
@@ -171,9 +154,12 @@ void SilverStarFlower::DayUpdate(float _Delta, GameEngineState* _Parent)
 
 void SilverStarFlower::LightUpdate(float _Delta, GameEngineState* _Parent)
 {
+	static constexpr const float RecognitionRange = 20.0f;
+	static constexpr const float Net_Recognition_Range = 50.0f;
+
 	if (nullptr != Ellie::MainEllie)
 	{
-		float Distance = CalculateDistanceToEllie();
+		const float Distance = CalculateDistanceToEllie();
 		bool isEllieTouch = (Distance < RecognitionRange);
 		if (isEllieTouch)
 		{
@@ -181,8 +167,8 @@ void SilverStarFlower::LightUpdate(float _Delta, GameEngineState* _Parent)
 			return;
 		}
 
-		bool isNetTouch = (Distance < NetRecognitionRange);
-		if (isNetTouch)
+		bool isNetTouch = (Distance < Net_Recognition_Range);
+		if (isNetTouch && EELLIE_STATE::ButterflyNet == Ellie::MainEllie->GetState())
 		{
 			State.ChangeState(ESILVERBELLSTATE::Touch);
 			return;
@@ -195,6 +181,8 @@ void SilverStarFlower::LightUpdate(float _Delta, GameEngineState* _Parent)
 
 void SilverStarFlower::TouchUpdate(float _Delta, GameEngineState* _Parent)
 {
+	static constexpr const float Limit_Collectable_Time = 2.0f;
+
 	if (true == IsEnalbeActive)
 	{
 		if (nullptr != UI_Inventory::MainInventory)
@@ -232,16 +220,16 @@ float SilverStarFlower::CalculateDistanceToEllie()
 
 void SilverStarFlower::UpdateFlowerLostLight(GameEngineState* _Parent)
 {
-	float PlusLightAlpha = 1.0f - _Parent->GetStateTime() / Light_Off_Time;
-	if (PlusLightAlpha < 0.1f)
+	const float LightAlpha = 1.0f - _Parent->GetStateTime() / Light_Off_Time;
+	if (LightAlpha < 0.1f)
 	{
-		UpperALight.LightRenderer->Off();
-		LowerALight.LightRenderer->Off();
+		UpperALight.Off();
+		LowerALight.Off();
 		return;
 	}
 
-	UpperALight.SetPlusAlpha(PlusLightAlpha);
-	LowerALight.SetPlusAlpha(PlusLightAlpha);
+	UpperALight.SetLightAlpha(LightAlpha);
+	LowerALight.SetLightAlpha(LightAlpha);
 
 	UpperALight.UpdateLightLerp();
 	LowerALight.UpdateLightLerp();

@@ -41,7 +41,7 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
-	std::shared_ptr<GameEngineSpriteRenderer> m_Shadow = nullptr;
+	std::shared_ptr<GameEngineSpriteRenderer> ShadowRenderer = nullptr;
 
 	
 	const float RendererBias = 60.0f;

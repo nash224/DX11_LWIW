@@ -43,9 +43,9 @@ void UI_Hub_Broom::Init()
 
 void UI_Hub_Broom::RendererSetting()
 {
-	const float FrameDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Frame);
-	const float GaugeDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Gauge1);
-	const float IconDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Frame);
+	const float FrameDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Frame);
+	const float GaugeDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Gauge1);
+	const float IconDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Frame);
 
 	const float4& FramePosition = float4(0.0f, 0.0f, FrameDepth);
 	const float4& GaugePosition = float4(-1.0f, 0.0f, GaugeDepth);

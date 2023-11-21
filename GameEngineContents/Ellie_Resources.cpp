@@ -9,11 +9,11 @@ void Ellie::RendererSetting()
 {
 	static std::uint32_t EllieGroupOrder = 0;
 
-	const float ShadowDepth = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::ObjectShadow);
+	const float ShadowDepth = DepthFunction::CalculateFixDepth(ERENDERDEPTH::ObjectShadow);
 
 
 	BodyRenderer = CreateComponent<GameEngineSpriteRenderer>(EllieGroupOrder);
-	Shadow = CreateComponent<GameEngineSpriteRenderer>(EllieGroupOrder);
+	ShadowRenderer = CreateComponent<GameEngineSpriteRenderer>(EllieGroupOrder);
 	EllieFx = CreateComponent<GameEngineSpriteRenderer>(EllieGroupOrder);
 	Virgil = CreateComponent<GameEngineSpriteRenderer>(EllieGroupOrder);
 
@@ -21,7 +21,7 @@ void Ellie::RendererSetting()
 
 	
 	BodyRenderer->Transform.SetLocalPosition(float4(0.0f, LWIW_Ellie_Y_Correction));
-	Shadow->Transform.SetLocalPosition(float4(0.0f, LWIW_Ellie_Y_Correction, ShadowDepth));
+	ShadowRenderer->Transform.SetLocalPosition(float4(0.0f, LWIW_Ellie_Y_Correction, ShadowDepth));
 	EllieFx->Transform.SetLocalPosition(float4(0.0f, LWIW_Ellie_Y_Correction, -1.0f));
 	Virgil->Transform.SetLocalPosition(float4(0.0f, LWIW_Ellie_Y_Correction, -0.2f));
 

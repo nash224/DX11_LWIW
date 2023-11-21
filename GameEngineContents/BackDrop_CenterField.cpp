@@ -123,7 +123,7 @@ void BackDrop_CenterField::CreateMap()
 	{
 		float4 MapPos = MapScale.Half();
 		MapPos.Y *= -1.0f;
-		MapPos.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Cliff);
+		MapPos.Z = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Cliff);
 
 		std::shared_ptr<NormalProp> CenterMap = GetLevel()->CreateActor<NormalProp>(GroupZero);
 		CenterMap->Transform.SetLocalPosition(MapPos);
@@ -136,7 +136,7 @@ void BackDrop_CenterField::CreateMap()
 	{
 		float4 BasePosition = MapScale.Half();
 		BasePosition.Y *= -1.0f;
-		BasePosition.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Back_Paint);
+		BasePosition.Z = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Back_Paint);
 
 		std::shared_ptr<RendererActor> BaseGorund = GetLevel()->CreateActor<RendererActor>(GroupZero);
 		BaseGorund->Transform.SetLocalPosition(BasePosition);

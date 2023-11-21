@@ -69,7 +69,7 @@ void WitchHouse_Yard::LevelEnd(class GameEngineLevel* _NextLevel)
 #pragma region LoadRes
 void WitchHouse_Yard::LoadTexture()
 {
-	std::vector<GameEngineDirectory> Dirs = GlobalUtils::GetAllDirInPath("Resources\\PlayContents\\WitchHouse_Yard");
+	std::vector<GameEngineDirectory> Dirs = FileLoadFunction::GetAllDirInPath("Resources\\PlayContents\\WitchHouse_Yard");
 	for (GameEngineDirectory& Dir : Dirs)
 	{
 		std::vector<GameEngineFile> Files = Dir.GetAllFile();
@@ -142,7 +142,7 @@ void WitchHouse_Yard::CameraSetting()
 
 void WitchHouse_Yard::ReleaseTexture()
 {
-	std::vector<GameEngineDirectory> Dirs = GlobalUtils::GetAllDirInPath("Resources\\PlayContents\\WitchHouse_Yard");
+	std::vector<GameEngineDirectory> Dirs = FileLoadFunction::GetAllDirInPath("Resources\\PlayContents\\WitchHouse_Yard");
 	for (GameEngineDirectory& Dir : Dirs)
 	{
 		std::vector<GameEngineFile> Files = Dir.GetAllFile();

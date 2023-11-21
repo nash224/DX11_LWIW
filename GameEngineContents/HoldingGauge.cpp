@@ -36,8 +36,8 @@ void HoldingGauge::SetPosition(const float4& _Position)
 		return;
 	}
 
-	const float BaseDepth = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Gauge_Base);
-	const float GuageDepth = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Gauge_Bar);
+	const float BaseDepth = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Gauge_Base);
+	const float GuageDepth = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Gauge_Bar);
 
 	BaseRenderer->Transform.SetLocalPosition(float4(_Position.X, _Position.Y, BaseDepth));
 	GaugeRenderer->Transform.SetLocalPosition(float4(_Position.X, _Position.Y, GuageDepth));

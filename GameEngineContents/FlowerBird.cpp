@@ -63,7 +63,7 @@ void FlowerBird::Release()
 {
 	DynamicEntity::Release();
 
-	m_Shadow = nullptr;
+	ShadowRenderer = nullptr;
 
 	Emotion.Release();
 }
@@ -122,9 +122,9 @@ void FlowerBird::AnimationSetting()
 	BodyRenderer->Transform.AddLocalPosition({ 0.0f,30.0f });
 	BodyRenderer->AutoSpriteSizeOn();
 
-	m_Shadow = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
-	m_Shadow->SetSprite("FlowerBird_Standing.png", 1);
-	m_Shadow->Transform.AddLocalPosition({ 0.0f,30.0f });
+	ShadowRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
+	ShadowRenderer->SetSprite("FlowerBird_Standing.png", 1);
+	ShadowRenderer->Transform.AddLocalPosition({ 0.0f,30.0f });
 
 
 
@@ -135,7 +135,7 @@ void FlowerBird::AnimationSetting()
 
 	BodyRenderer->SetFrameEvent("Pick", 4, [&](GameEngineSpriteRenderer* _Renderer)
 		{
-			m_Shadow->SetSprite("FlowerBird_IdleC.png", 2);
+			ShadowRenderer->SetSprite("FlowerBird_IdleC.png", 2);
 		});
 
 	BodyRenderer->SetFrameEvent("Bloom", 6, [&](GameEngineSpriteRenderer* _Renderer)
@@ -145,7 +145,7 @@ void FlowerBird::AnimationSetting()
 
 	BodyRenderer->SetEndEvent("Pick", [&](GameEngineSpriteRenderer* _Renderer)
 		{
-			m_Shadow->SetSprite("FlowerBird_Standing.png", 1);
+			ShadowRenderer->SetSprite("FlowerBird_Standing.png", 1);
 		});
 
 
@@ -153,12 +153,12 @@ void FlowerBird::AnimationSetting()
 		{
 			PlaySFX("SFX_BirdFly_01.wav");
 
-			m_Shadow->Off();
+			ShadowRenderer->Off();
 		});
 
 	BodyRenderer->SetStartEvent("Fly_Bloom", [&](GameEngineSpriteRenderer* _Renderer)
 		{
-			m_Shadow->Off();
+			ShadowRenderer->Off();
 		});
 }
 
@@ -255,7 +255,7 @@ void FlowerBird::ChangeFlowerBirdAnimation(std::string_view _AnimationName)
 		return;
 	}
 
-	if (nullptr == m_Shadow)
+	if (nullptr == ShadowRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
@@ -263,13 +263,13 @@ void FlowerBird::ChangeFlowerBirdAnimation(std::string_view _AnimationName)
 
 	if (EDIRECTION::LEFT == m_Dir)
 	{
-		m_Shadow->LeftFlip();
+		ShadowRenderer->LeftFlip();
 		BodyRenderer->LeftFlip();
 	}
 
 	if (EDIRECTION::RIGHT == m_Dir)
 	{
-		m_Shadow->RightFlip();
+		ShadowRenderer->RightFlip();
 		BodyRenderer->RightFlip();
 	}
 

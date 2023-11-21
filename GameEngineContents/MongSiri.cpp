@@ -93,7 +93,7 @@ void MongSiri::RendererSetting()
 	InteractiveActor::BodyRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
 	ShadowRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
 
-	ShadowRenderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, GlobalUtils::CalculateFixDepth(ERENDERDEPTH::ObjectShadow)));
+	ShadowRenderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, DepthFunction::CalculateFixDepth(ERENDERDEPTH::ObjectShadow)));
 
 	InteractiveActor::BodyRenderer->AutoSpriteSizeOn();
 	InteractiveActor::BodyRenderer->CreateAnimation("Idle", "Mongsiri_IdleB.png", 0.2f, 4, 7);

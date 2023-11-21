@@ -105,7 +105,7 @@ void UI_Dictionary::Init()
 // 책 생성
 void UI_Dictionary::CreateBase()
 {
-	const float Depth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Base);
+	const float Depth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Base);
 
 	m_BaseRenderer = CreateComponent<GameEngineUIRenderer>();
 	m_BaseRenderer->Transform.SetLocalPosition({ 0.0f , 0.0f, Depth });
@@ -121,7 +121,7 @@ void UI_Dictionary::CreateCategory()
 	m_CategoryRenderer.Creature->SetSprite("Tag_Creature_Normal.png");
 	m_CategoryRenderer.Creature->SetPivotType(PivotType::Right);
 
-	SetLocalPos.Z = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
+	SetLocalPos.Z = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
 	m_CategoryRenderer.Creature->Transform.SetLocalPosition(SetLocalPos);
 
 	std::shared_ptr<GameEngineTexture> CreatureTexture = GameEngineTexture::Find("Tag_Creature_Normal.png");
@@ -150,7 +150,7 @@ void UI_Dictionary::CreateCategory()
 	m_CategoryRenderer.Plant->SetSprite("Tag_Plant_Normal.png");
 	m_CategoryRenderer.Plant->SetPivotType(PivotType::Right);
 
-	SetLocalPos.Z = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
+	SetLocalPos.Z = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
 	m_CategoryRenderer.Plant->Transform.SetLocalPosition(SetLocalPos);
 
 	SetLocalPos.Y -= HTextureScale.Y + CategoryGap;
@@ -171,7 +171,7 @@ void UI_Dictionary::CreateCategory()
 	m_CategoryRenderer.Potion->SetSprite("Tag_Potion_Normal.png");
 	m_CategoryRenderer.Potion->SetPivotType(PivotType::Right);
 
-	SetLocalPos.Z = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
+	SetLocalPos.Z = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
 	m_CategoryRenderer.Potion->Transform.SetLocalPosition(SetLocalPos);
 
 	SetLocalPos.Y -= HTextureScale.Y + CategoryGap;
@@ -193,7 +193,7 @@ void UI_Dictionary::CreateCategory()
 	m_CategoryRenderer.Candy->SetSprite("Tag_Candy_Normal.png");
 	m_CategoryRenderer.Candy->SetPivotType(PivotType::Right);
 
-	SetLocalPos.Z = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
+	SetLocalPos.Z = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
 	m_CategoryRenderer.Candy->Transform.SetLocalPosition(SetLocalPos);
 }
 
@@ -243,7 +243,7 @@ void UI_Dictionary::CreatePage(EDICTIONARYCATEGORY _Type, std::string_view Name)
 // 부모의 Open함수에 자식에서 해줘야할 행동을 선언합니다.
 void UI_Dictionary::OpenInternal()
 {
-	GlobalUtils::PlaySFX("SFX_Open_01.wav");
+	SFXFunction::PlaySFX("SFX_Open_01.wav");
 	OpenNextPage(g_CurrentCategory);
 }
 
@@ -258,7 +258,7 @@ void UI_Dictionary::CloseInternal()
 // 현재 장을 펼칩니다.
 void UI_Dictionary::OpenNextPage(EDICTIONARYCATEGORY _Type)
 {
-	GlobalUtils::PlaySFX("SFX_PenCompleteTearPaper.wav");
+	SFXFunction::PlaySFX("SFX_PenCompleteTearPaper.wav");
 
 	if (g_CurrentLeftPage < 1)
 	{

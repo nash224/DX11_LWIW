@@ -1,12 +1,11 @@
 #pragma once
 
 
-
-// 설명 :
-class Ellie;
 class CameraControler;
 class GlobalValue
 {
+	friend class ContentsCore;
+
 public:
 	static std::shared_ptr<CameraControler> g_CameraControler;
 
@@ -21,12 +20,8 @@ private:
 	GlobalValue& operator=(const GlobalValue& _Other) = delete;
 	GlobalValue& operator=(GlobalValue&& _Other) noexcept = delete;
 
-	static void Init();
-
 public:
-	static void SetWindowScale(const float4& _Scale);
 	static float4 GetWindowScale();
-	static float4 GetItemScale();
 	static int GetSeedValue();
 
 	static float GetSoundVolume();
@@ -34,6 +29,9 @@ public:
 
 	static float GetSFXVolume();
 	static void SetSFXVolume(float _Volume);
+
+private:
+	static void SetWindowScale(const float4& _Scale);
 
 public:
 	static constexpr const char* Font_Cafe24 = "카페24 아네모네";
@@ -43,12 +41,9 @@ public:
 
 private:
 	static float4 WindowScale;
-	static float4 ItemScale;
 	static int RandomSeed;
-	static float SoundVolume;
+	static float GlobalSoundVolume;
 	static float SFXVolume;
-
-
 
 };
 

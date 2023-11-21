@@ -73,7 +73,7 @@ void CrowEvent::Init()
 		GameEngineSprite::CreateCut("Crow.png", 4, 4);
 	}
 
-	const float4 CrowPosition = float4(435.0f, -250.0f, GlobalUtils::CalculateFixDepth(ERENDERDEPTH::FX));
+	const float4 CrowPosition = float4(435.0f, -250.0f, DepthFunction::CalculateFixDepth(ERENDERDEPTH::FX));
 	Transform.SetLocalPosition(CrowPosition);
 
 	RendererSetting();

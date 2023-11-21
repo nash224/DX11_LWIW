@@ -203,7 +203,7 @@ void SkyLerp::FollowCamera()
 	{
 		const float4 CameraPos = GlobalValue::g_CameraControler->GetCameraCurrentPostion();
 		float4 SkyPos = CameraPos;
-		SkyPos.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::SkyBox);
+		SkyPos.Z = DepthFunction::CalculateFixDepth(ERENDERDEPTH::SkyBox);
 
 		Transform.SetLocalPosition(SkyPos);
 	}

@@ -107,9 +107,9 @@ void UI_Alert_Quest::RendererSetting(std::string_view _QuestName)
 
 	const int RenderOrder = 0;
 
-	const float ShadowDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Shadow);
-	const float BaseDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Base);
-	const float FontDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Font);
+	const float ShadowDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Shadow);
+	const float BaseDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Base);
+	const float FontDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Font);
 
 	const float4& fShadowDepth = float4(0.0f, 0.0f, ShadowDepth);
 	const float4& fQuestFrameDepth = float4(0.0f, 0.0f, BaseDepth);
@@ -166,7 +166,7 @@ void UI_Alert_Quest::StampRendererSetting()
 {
 	const int RenderOrder = 0;
 
-	const float FrameDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Stamp);
+	const float FrameDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Stamp);
 	const float4& StampPosition = float4(110.0f, -30.0f, FrameDepth);
 
 	QuestInfo.Stamp = CreateComponent<GameEngineUIRenderer>(RenderOrder);

@@ -78,12 +78,12 @@ void Ellie::StartButterflyNet()
 
 	Stamina -= NetCost;
 
-	if (nullptr == m_NetCol)
+	if (nullptr == NetCollision)
 	{
 		MsgBoxAssert("충돌체가 존재하지 않습니다.");
 		return;
 	}
-	m_NetCol->On();
+	NetCollision->On();
 
 	ChangeAnimationByDirection("ButterflyNet");
 }
@@ -153,15 +153,15 @@ void Ellie::StartJuicy()
 
 		BodyRenderer->SetStartEvent("Ellie_Basic_Juicy", [&](GameEngineSpriteRenderer* _Renderer)
 			{
-				Shadow->SetSprite("DownFloor_Extractor_0.png", 10);
+				ShadowRenderer->SetSprite("DownFloor_Extractor_0.png", 10);
 			});
 		BodyRenderer->SetFrameEvent("Ellie_Basic_Juicy", 14, [&](GameEngineSpriteRenderer* _Renderer)
 			{
-				Shadow->ChangeCurSprite(11);
+				ShadowRenderer->ChangeCurSprite(11);
 			});
 		BodyRenderer->SetFrameEvent("Ellie_Basic_Juicy", 19, [&](GameEngineSpriteRenderer* _Renderer)
 			{
-				Shadow->ChangeCurSprite(10);
+				ShadowRenderer->ChangeCurSprite(10);
 			});
 	}
 
@@ -266,7 +266,7 @@ void Ellie::UpdateSlowWalk(float _Delta)
 
 	ChangeDirectionAnimation("SlowWalk");
 
-	CalulationMoveForceToNormalStatus(_Delta, CONST_Ellie_SlowWalk_Speed);
+	CalulationMoveForceToNormalStatus(_Delta, SlowWalk_Speed);
 	ApplyMovement(_Delta);
 }
 
@@ -308,7 +308,7 @@ void Ellie::UpdateWalk(float _Delta)
 
 	ChangeDirectionAnimation("Walk");
 
-	CalulationMoveForceToNormalStatus(_Delta, CONST_Ellie_Walk_Speed);
+	CalulationMoveForceToNormalStatus(_Delta, Walk_Speed);
 	ApplyMovement(_Delta);
 }
 
@@ -360,7 +360,7 @@ void Ellie::UpdateRun(float _Delta)
 	}
 
 
-	CalulationMoveForceToNormalStatus(_Delta, CONST_Ellie_Run_Speed);
+	CalulationMoveForceToNormalStatus(_Delta, Run_Speed);
 	ApplyMovement(_Delta);
 }
 
@@ -418,7 +418,7 @@ void Ellie::UpdateApproach(float _Delta)
 	{
 		TargetDistance.Z = 0.0f;
 		float4 TargetDircetion = TargetDistance.NormalizeReturn();
-		m_MoveVector = TargetDircetion * CONST_Ellie_Walk_Speed;
+		m_MoveVector = TargetDircetion * Walk_Speed;
 		ApplyMovement(_Delta);
 	}
 }
@@ -434,7 +434,7 @@ void Ellie::UpdateButterflyNet(float _Delta)
 
 	if (BodyRenderer->GetCurIndex() > 2)
 	{
-		NetCollision();
+		CheckNetCollision();
 	}
 
 	if (true == BodyRenderer->IsCurAnimationEnd())
@@ -610,7 +610,7 @@ void Ellie::EndApproach()
 
 void Ellie::EndButterflyNet()
 {
-	m_NetCol->Off();
+	NetCollision->Off();
 }
 
 
@@ -662,7 +662,7 @@ void Ellie::SitShadowUpdate()
 		return;
 	}
 
-	if (nullptr == Shadow)
+	if (nullptr == ShadowRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
@@ -673,22 +673,22 @@ void Ellie::SitShadowUpdate()
 	switch (CurBodyIndex)
 	{
 	case 0:
-		Shadow->ChangeCurSprite(1);
+		ShadowRenderer->ChangeCurSprite(1);
 		break;
 	case 1:
-		Shadow->ChangeCurSprite(1);
+		ShadowRenderer->ChangeCurSprite(1);
 		break;
 	case 2:
-		Shadow->ChangeCurSprite(2);
+		ShadowRenderer->ChangeCurSprite(2);
 		break;
 	case 3:
-		Shadow->ChangeCurSprite(3);
+		ShadowRenderer->ChangeCurSprite(3);
 		break;
 	case 4:
-		Shadow->ChangeCurSprite(3);
+		ShadowRenderer->ChangeCurSprite(3);
 		break;
 	case 5:
-		Shadow->ChangeCurSprite(2);
+		ShadowRenderer->ChangeCurSprite(2);
 		break;
 	default:
 		break;

@@ -42,10 +42,10 @@ void UI_BiologyPage::CreatePage(std::string_view _BiologyName, int& PageCount)
 
 	static constexpr float SlotGap = 48.0f;
 
-	const float AttachmentDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
-	const float ComponentDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Component);
-	const float FrameDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame);
-	const float FontDepth = GlobalUtils::CalculateFixDepth(EUI_RENDERORDERDEPTH::Font);
+	const float AttachmentDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
+	const float ComponentDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Component);
+	const float FrameDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame);
+	const float FontDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Font);
 
 	const float4& NameTagBasePosition = float4(1.0f, 150.0f, AttachmentDepth);
 	const float4& TagNamePosition = float4(1.0f, 158.0f, FontDepth);

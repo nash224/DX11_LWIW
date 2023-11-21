@@ -336,27 +336,27 @@ bool MapEditorLevel::PlaceThis()
 
 	if (ERENDERDEPTH::DarkGrass == static_cast<ERENDERDEPTH>(_SelectDepth))
 	{
-		Position.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::DarkGrass);
+		Position.Z = DepthFunction::CalculateFixDepth(ERENDERDEPTH::DarkGrass);
 	}
 
 	if (ERENDERDEPTH::DeepDarkGrass == static_cast<ERENDERDEPTH>(_SelectDepth))
 	{
-		Position.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::DeepDarkGrass);
+		Position.Z = DepthFunction::CalculateFixDepth(ERENDERDEPTH::DeepDarkGrass);
 	}
 
 	if (ERENDERDEPTH::Grass == static_cast<ERENDERDEPTH>(_SelectDepth))
 	{
-		Position.Z = GlobalUtils::CalculateFixDepth(ERENDERDEPTH::Grass);
+		Position.Z = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Grass);
 	}
 
 	if (ERENDERDEPTH::Object == static_cast<ERENDERDEPTH>(_SelectDepth))
 	{
-		Position.Z = GlobalUtils::CalculateObjectDepth(m_BaseScale.Y, Position.Y);
+		Position.Z = DepthFunction::CalculateObjectDepth(m_BaseScale.Y, Position.Y);
 	}
 
 	if (ERENDERDEPTH::Hill_Object == static_cast<ERENDERDEPTH>(_SelectDepth))
 	{
-		Position.Z = GlobalUtils::CalculateObjectDepth(m_BaseScale.Y, Position.Y, true);
+		Position.Z = DepthFunction::CalculateObjectDepth(m_BaseScale.Y, Position.Y, true);
 	}
 
 	SelectActor->Transform.SetLocalPosition(Position);
