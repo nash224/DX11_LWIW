@@ -32,6 +32,12 @@ private:
 	class QuestUnit
 	{
 	public:
+		// delete Function
+		/*QuestUnit(const QuestUnit& _Other) = delete;
+		QuestUnit(QuestUnit&& _Other) noexcept = delete;*/
+		QuestUnit& operator=(const QuestUnit& _Other) = delete;
+		QuestUnit& operator=(QuestUnit&& _Other) noexcept = delete;
+
 		void Init();
 
 	public:

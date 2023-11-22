@@ -44,13 +44,10 @@ void WitchHouse_Yard::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	FieldLevel::LevelStart(_NextLevel);
 
-	/*UI_Alert_Quest::AlertQuestClear(this, "수습시작!", EALERTTYPE::QuestAccept);*/
-	/*UI_Alert_Quest::AlertQuestClear(this, "수습시작!", EALERTTYPE::QuestClear);*/
-
 	LoadTexture();
 	LoadActor();
 
-	SetEllieLevelChangeLocation(_NextLevel);
+	SetElliePosToEnter(_NextLevel);
 
 	CameraSetting();
 }
@@ -63,10 +60,7 @@ void WitchHouse_Yard::LevelEnd(class GameEngineLevel* _NextLevel)
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
-#pragma region LoadRes
 void WitchHouse_Yard::LoadTexture()
 {
 	std::vector<GameEngineDirectory> Dirs = FileLoadFunction::GetAllDirInPath("Resources\\PlayContents\\WitchHouse_Yard");
@@ -89,19 +83,16 @@ void WitchHouse_Yard::LoadActor()
 	}
 }
 
-
-// 레벨전환시 앨리의 시작위치를 지정해줍니다.
-void WitchHouse_Yard::SetEllieLevelChangeLocation(class GameEngineLevel* _NextLevel)
+void WitchHouse_Yard::SetElliePosToEnter(class GameEngineLevel* _NextLevel)
 {
-	float4 SpawnPosition = float4::ZERO;
-
-	float4 HWinScale = GlobalValue::GetWindowScale().Half();
-
 	if (nullptr == m_Ellie)
 	{
 		MsgBoxAssert("앨리를 생성하지 않았습니다.");
 		return;
 	}
+
+	const float4& HWinScale = GlobalValue::GetWindowScale().Half();
+	float4 SpawnPosition = float4::ZERO;
 
 	if (nullptr == _NextLevel)
 	{
@@ -109,7 +100,13 @@ void WitchHouse_Yard::SetEllieLevelChangeLocation(class GameEngineLevel* _NextLe
 	}
 	else if (_NextLevel->GetName() == "Field_Center")
 	{
-		SpawnPosition = { HWinScale.X , -450.0f };
+		SpawnPosition = { 480.0f , -461.0f };
+		m_Ellie->SetAnimationByDirection(EDIRECTION::UP);
+	}
+	else if (_NextLevel->GetName() == "WitchHouse_UpFloor")
+	{
+		SpawnPosition = { 485.0f , -337.0f };
+		m_Ellie->SetAnimationByDirection(EDIRECTION::DOWN);
 	}
 	else 
 	{
@@ -136,10 +133,6 @@ void WitchHouse_Yard::CameraSetting()
 	}
 }
 
-#pragma endregion 
-
-#pragma region ReleaseRes
-
 void WitchHouse_Yard::ReleaseTexture()
 {
 	std::vector<GameEngineDirectory> Dirs = FileLoadFunction::GetAllDirInPath("Resources\\PlayContents\\WitchHouse_Yard");
@@ -152,5 +145,3 @@ void WitchHouse_Yard::ReleaseTexture()
 		}
 	}
 }
-
-#pragma endregion

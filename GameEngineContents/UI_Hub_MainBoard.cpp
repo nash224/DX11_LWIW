@@ -44,8 +44,6 @@ bool UI_Hub_MainBoard::QuestManager::IsQuestRegister(std::string_view _QuestName
 	return ReturnValue;
 }
 
-
-
 std::unique_ptr<UI_Hub_MainBoard::QuestManager> UI_Hub_MainBoard::s_QuestManager;
 UI_Hub_MainBoard::UI_Hub_MainBoard() 
 {
@@ -141,7 +139,6 @@ void UI_Hub_MainBoard::PopQuest(std::string_view _QuestName)
 	}
 
 	s_QuestManager->PopData(_QuestName);
-	
 }
 
 void UI_Hub_MainBoard::FindQuest(std::string_view _QuestName)

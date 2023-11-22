@@ -59,6 +59,10 @@ void Ellie::UpdateRiding_Standing(float _Delta)
 			}
 		}
 	}
+	else
+	{
+		DetectMovement();
+	}
 
 
 	DecelerateNotDir(_Delta, Riding_Boost_Speed);

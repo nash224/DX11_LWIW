@@ -28,8 +28,8 @@ protected:
 
 
 private:
-	std::shared_ptr<GameEngineSpriteRenderer> BaseRenderer;
-	std::shared_ptr<ContentsSpriteRenderer> GaugeRenderer;
+	std::shared_ptr<GameEngineSpriteRenderer> Base;
+	std::shared_ptr<ContentsSpriteRenderer> Guage;
 
 	bool isOn = false;
 

@@ -18,30 +18,30 @@ UI_HoldingGauge::~UI_HoldingGauge()
 
 void UI_HoldingGauge::RendererSetting(GameEngineActor* _Actor)
 {
-	BaseRenderer = _Actor->CreateComponent<GameEngineUIRenderer>();
-	BaseRenderer->AutoSpriteSizeOn();
-	BaseRenderer->SetAutoScaleRatio(0.5f);
-	BaseRenderer->SetSprite("Button_PressHold_Outline.png");
-	BaseRenderer->Off();
+	Base = _Actor->CreateComponent<GameEngineUIRenderer>();
+	Base->AutoSpriteSizeOn();
+	Base->SetAutoScaleRatio(0.5f);
+	Base->SetSprite("Button_PressHold_Outline.png");
+	Base->Off();
 
-	GaugeRenderer = _Actor->CreateComponent<ContentsUIRenderer>();
-	GaugeRenderer->AutoSpriteSizeOn();
-	GaugeRenderer->SetAutoScaleRatio(0.5f);
-	GaugeRenderer->SetMaterial("GaugeTexture2D");
-	GaugeRenderer->SetSprite("Button_PressHold.png");
-	GaugeRenderer->GetGaugeInfo().CircleGuage = 1;
-	GaugeRenderer->Off();
+	Gauge = _Actor->CreateComponent<ContentsUIRenderer>();
+	Gauge->AutoSpriteSizeOn();
+	Gauge->SetAutoScaleRatio(0.5f);
+	Gauge->SetMaterial("GaugeTexture2D");
+	Gauge->SetSprite("Button_PressHold.png");
+	Gauge->GetGaugeInfo().CircleGuage = 1;
+	Gauge->Off();
 }
 
 void UI_HoldingGauge::Release()
 {
-	BaseRenderer = nullptr;
-	GaugeRenderer = nullptr;
+	Base = nullptr;
+	Gauge = nullptr;
 }
 
 void UI_HoldingGauge::SetPosition(const float4& _Position)
 {
-	if (nullptr == BaseRenderer || nullptr == GaugeRenderer)
+	if (nullptr == Base || nullptr == Gauge)
 	{
 		MsgBoxAssert("렌더러를 세팅하지 않고 사용할수없습니다.");
 		return;
@@ -50,45 +50,45 @@ void UI_HoldingGauge::SetPosition(const float4& _Position)
 	const float BaseDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
 	const float GuageDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Font);
 
-	BaseRenderer->Transform.SetLocalPosition(float4(_Position.X, _Position.Y, BaseDepth));
-	GaugeRenderer->Transform.SetLocalPosition(float4(_Position.X, _Position.Y, GuageDepth));
+	Base->Transform.SetLocalPosition(float4(_Position.X, _Position.Y, BaseDepth));
+	Gauge->Transform.SetLocalPosition(float4(_Position.X, _Position.Y, GuageDepth));
 }
 
 void UI_HoldingGauge::SetGauge(float _Gauge)
 {
-	if (nullptr == GaugeRenderer)
+	if (nullptr == Gauge)
 	{
 		MsgBoxAssert("렌더러를 세팅하지 않고 사용할수없습니다.");
 		return;
 	}
 
-	GaugeRenderer->GetGaugeInfo().Gauge = _Gauge;
+	Gauge->GetGaugeInfo().Gauge = _Gauge;
 }
 
 void UI_HoldingGauge::On()
 {
-	if (nullptr == BaseRenderer || nullptr == GaugeRenderer)
+	if (nullptr == Base || nullptr == Gauge)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	BaseRenderer->On();
-	GaugeRenderer->On();
+	Base->On();
+	Gauge->On();
 
 	isOn = true;
 }
 
 void UI_HoldingGauge::Off()
 {
-	if (nullptr == BaseRenderer || nullptr == GaugeRenderer)
+	if (nullptr == Base || nullptr == Gauge)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	BaseRenderer->Off();
-	GaugeRenderer->Off();
+	Base->Off();
+	Gauge->Off();
 
 	isOn = false;
 }

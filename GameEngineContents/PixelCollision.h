@@ -14,8 +14,15 @@ public:
 	PixelCollision& operator=(const PixelCollision& _Other) = delete;
 	PixelCollision& operator=(PixelCollision&& _Other) noexcept = delete;
 
-	void SetPixelFileName(std::string_view _FileName);
-	std::string GetPixelFileName() const;
+	inline void SetPixelFileName(std::string_view _FileName)
+	{
+		PixelFileName = _FileName;
+	}
+
+	inline std::string GetPixelFileName() const
+	{
+		return PixelFileName;
+	}
 
 	GameEngineColor GetColor(const float4& _Position, const float4& _MyPosition, GameEngineColor _DefaultColor = GameEngineColor::WHITE);
 

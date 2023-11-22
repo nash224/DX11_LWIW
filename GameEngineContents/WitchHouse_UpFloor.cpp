@@ -51,14 +51,9 @@ void WitchHouse_UpFloor::LevelStart(class GameEngineLevel* _NextLevel)
 
 void WitchHouse_UpFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-	PlayLevel::LevelEnd(_NextLevel);
-
 	ReleaseTexture();
 }
 
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 #pragma region LoadRes
 void WitchHouse_UpFloor::LoadTexture()
@@ -88,7 +83,6 @@ void WitchHouse_UpFloor::LoadActor()
 }
 
 
-// 레벨전환시 앨리의 시작위치를 지정해줍니다.
 void WitchHouse_UpFloor::SetEllieLevelChangeLocation(class GameEngineLevel* _NextLevel)
 {
 	if (nullptr == m_Ellie)
@@ -101,11 +95,18 @@ void WitchHouse_UpFloor::SetEllieLevelChangeLocation(class GameEngineLevel* _Nex
 	std::string NextLevelName = _NextLevel->GetName();
 	if (NextLevelName == "WitchHouse_Yard")
 	{
-		SpawnPosition = m_BackDrop->GetHouseLocation() + float4{ 128.0f , -310.0f };
+		m_Ellie->SetAnimationByDirection(EDIRECTION::UP);
+		SpawnPosition = { 465.0f , -353.0f };
 	}
 	else if (NextLevelName == "WitchHouse_DownFloor")
 	{
-		SpawnPosition = { 510.0f , -273.0f };
+		m_Ellie->SetAnimationByDirection(EDIRECTION::DOWN);
+		SpawnPosition = { 515.0f , -235.0f };
+	}
+	else if (NextLevelName == "DreamLevel")
+	{
+		m_Ellie->SetAnimationByDirection(EDIRECTION::DOWN);
+		SpawnPosition = { 440.0f , -271.0f };
 	}
 	else
 	{

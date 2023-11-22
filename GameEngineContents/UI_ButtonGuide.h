@@ -18,6 +18,7 @@ enum class EBUTTONTYPE
 	Arrow_1,
 	Arrow_Horizontal,
 	Arrow_Vertical,
+	None,
 };
 
 class ButtonInfoParameter
@@ -44,7 +45,7 @@ private:
 	public:
 		std::shared_ptr<GameEngineUIRenderer> ButtonRenderer;
 		std::shared_ptr<GameEngineUIRenderer> GuideRenderer;
-		EBUTTONTYPE ButtonType;
+		EBUTTONTYPE ButtonType = EBUTTONTYPE::None;
 		float ButtonToTextSize = 0;
 
 	};

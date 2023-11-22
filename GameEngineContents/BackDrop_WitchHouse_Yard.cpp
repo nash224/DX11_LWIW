@@ -26,11 +26,6 @@ BackDrop_WitchHouse_Yard::~BackDrop_WitchHouse_Yard()
 {
 }
 
-void BackDrop_WitchHouse_Yard::Update(float _Delta)
-{
-	
-}
-
 void BackDrop_WitchHouse_Yard::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	MainBackDrop = this;
@@ -45,9 +40,6 @@ void BackDrop_WitchHouse_Yard::LevelEnd(class GameEngineLevel* _NextLevel)
 	ReleaseYardSprite();
 }
 
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 
 void BackDrop_WitchHouse_Yard::Init()
