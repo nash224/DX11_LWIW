@@ -73,8 +73,8 @@ void WitchHouse::RendererSetting()
 	HouseRenderers.at(7)->SetSprite("WitchHouse_RepairedPart_5.png");
 	HouseRenderers.at(8)->SetSprite("WitchHouse_BrokenPart_6.png");
 
-	WindowALight.Init(this, { float4::ZERO , "Light_9.png" });
-	WindowRayALight.Init(this, { float4::ZERO , "Light_8.png" , float4::ZERO, float4(0.0f, 0.0f, -0.01f) });
+	WindowALight.Init(this, { float4::ONE , "Light_9.png" });
+	WindowRayALight.Init(this, { float4::ONE, "Light_8.png" , float4::ZERO, float4(0.0f, 0.0f, -0.02f) });
 }
 
 

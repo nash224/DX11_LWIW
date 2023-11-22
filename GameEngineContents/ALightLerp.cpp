@@ -8,8 +8,12 @@ void ALightLerp::Init(GameEngineActor* _Actor, const ALightLerpParameter& _Para)
 	LightRenderer = _Actor->CreateComponent<GameEngineSpriteRenderer>();
 	SetLightRendererSetting(_Para.Color);
 	LightRenderer->SetSprite(_Para.SpriteName);
-	LightRenderer->GetImageTransform().SetLocalScale(float4(_Para.Scale));
+	if (_Para.Scale != float4::ZERO)
+	{
+		LightRenderer->GetImageTransform().SetLocalScale(float4(_Para.Scale));
+	}
 	LightRenderer->Transform.SetLocalPosition(_Para.Position);
+	LightRenderer->Transform.AddLocalPosition(float4(0.0f, 0.0f, -0.01f));
 
 }
 
@@ -24,9 +28,7 @@ void ALightLerp::SetLightRendererSetting(const float4& _Color)
 	LightRenderer->SetMaterial("2DTexture_Light");
 	LightRenderer->GetColorData().MulColor = _Color;
 	LightRenderer->RenderBaseInfoValue.Target3 = 1;
-	LightRenderer->Transform.AddLocalPosition(float4(0.0f, 0.0f, -0.01f));
 	LightColor = _Color;
-	UpdateLightLerp();
 }
 
 void ALightLerp::SetLightAlpha(float _Alpha)
