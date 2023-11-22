@@ -262,23 +262,26 @@ void Aurea::ConversationSetting()
 
 		NPCEntity::NPCConversation.SetConversationEvent(EAUREATOPICTYPE::CurseCure, 28, [&]()
 			{
-				if (nullptr != UI_Inventory::MainInventory)
+				std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Aurea_Cure");
+				if (true == Quest.expired())
 				{
-					UI_Inventory::MainInventory->UnlockSlot();
-					UI_Inventory::MainInventory->PushItem("Item_Etc_10", 1);
+					MsgBoxAssert("생성하지 않은 퀘스트입니다.");
+					return;
 				}
+
+				Quest.lock()->QuestComplete();
 			});
 
 		NPCEntity::NPCConversation.SetConversationEndEvent(EAUREATOPICTYPE::CurseCure, [&]()
 			{
-				if (nullptr != UI_Inventory::MainInventory)
+				std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Aurea_Cure");
+				if (true == Quest.expired())
 				{
-					if (false == UI_Inventory::MainInventory->IsItem("Item_Etc_10"))
-					{
-						UI_Inventory::MainInventory->UnlockSlot();
-						UI_Inventory::MainInventory->PushItem("Item_Etc_10", 1);
-					}
+					MsgBoxAssert("생성하지 않은 퀘스트입니다.");
+					return;
 				}
+
+				Quest.lock()->QuestComplete();
 
 				CurState = EAUREASTATE::Normal;
 				State.ChangeState(EAUREASTATE::Normal);

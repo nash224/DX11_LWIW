@@ -122,13 +122,7 @@ void UI_InterativeMark::Reset()
 	MarkRenderer->Off();
 	ButtonRenderer->Off();
 
-	//if (nullptr == OutLine)
-	//{
-	//	MsgBoxAssert("Effect가 존재하지 않습니다.");
-	//	return;
-	//}
 
-	//OutLine->Off();
 
 	if (nullptr != Pointer && nullptr != Pointer->BodyRenderer)
 	{

@@ -13,7 +13,7 @@ bool ContentsEvent::Crow_Meet::QuestClearPrerequisite()
 {
 	if (nullptr != PlayLevel::s_TimeManager)
 	{
-		std::weak_ptr<ContentsEvent::QuestUnitBase> AureaQuest = ContentsEvent::FindQuest("Aurea_Cure");
+		std::weak_ptr<ContentsEvent::QuestUnitBase> AureaQuest = ContentsEvent::FindQuest("Repair_Extractor");
 		if (true == AureaQuest.expired())
 		{
 			MsgBoxAssert("생성하지 않은 퀘스트입니다.");

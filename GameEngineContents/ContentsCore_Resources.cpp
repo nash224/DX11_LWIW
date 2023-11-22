@@ -77,15 +77,15 @@ void ContentsCore::LoadContentsData()
 	ItemData::CreateData("MoonButterfly_Water", { "MoonButterfly_Water", "´Þºû ³ªºñ Áó", EITEM_TYPE::Ingredient });
 
 
-	ItemData::CreateData("Mongsiri_Collect", { "Mongsiri_Collect", "¸ù½Ã¸®ÅÐ", EITEM_TYPE::Ingredient });
-	ItemData::CreateData("BushBug_Collect", { "BushBug_Collect", "´ýºÒ ±úºñ", EITEM_TYPE::Ingredient });
-	ItemData::CreateData("WitchFlower_Collect", { "WitchFlower_Collect", "¸¶³à²É", EITEM_TYPE::Ingredient });
-	ItemData::CreateData("FlowerBird_Collect", { "FlowerBird_Collect", "»õ²É", EITEM_TYPE::Ingredient });
-	ItemData::CreateData("MapleHerb_Collect", { "MapleHerb_Collect", "´ÜÇ³ Çãºê", EITEM_TYPE::Ingredient });
-	ItemData::CreateData("SilverStarFlower_Collect", { "SilverStarFlower_Collect", "Àºº°¹æ¿ï²É °¡·ç", EITEM_TYPE::Ingredient });
-	ItemData::CreateData("MoonButterfly_Collect", { "MoonButterfly_Collect", "´Þºû ³ªºñ", EITEM_TYPE::Ingredient });
-	ItemData::CreateData("PumpkinTerrier_Collect", { "PumpkinTerrier_Collect", "È£¹Ú °­¾ÆÁöÀÇ ÅÐ Á¶°¢", EITEM_TYPE::Ingredient });
-	ItemData::CreateData("BubbleLizard_Collect", { "BubbleLizard_Collect", "¿ôÀ½¹æ¿ï", EITEM_TYPE::Ingredient });
+	ItemData::CreateData("Mongsiri_Collect", { "Mongsiri_Collect", "¸ù½Ã¸®ÅÐ", EITEM_TYPE::Source });
+	ItemData::CreateData("BushBug_Collect", { "BushBug_Collect", "´ýºÒ ±úºñ", EITEM_TYPE::Source });
+	ItemData::CreateData("WitchFlower_Collect", { "WitchFlower_Collect", "¸¶³à²É", EITEM_TYPE::Source });
+	ItemData::CreateData("FlowerBird_Collect", { "FlowerBird_Collect", "»õ²É", EITEM_TYPE::Source });
+	ItemData::CreateData("MapleHerb_Collect", { "MapleHerb_Collect", "´ÜÇ³ Çãºê", EITEM_TYPE::Source });
+	ItemData::CreateData("SilverStarFlower_Collect", { "SilverStarFlower_Collect", "Àºº°¹æ¿ï²É °¡·ç", EITEM_TYPE::Source });
+	ItemData::CreateData("MoonButterfly_Collect", { "MoonButterfly_Collect", "´Þºû ³ªºñ", EITEM_TYPE::Source });
+	ItemData::CreateData("PumpkinTerrier_Collect", { "PumpkinTerrier_Collect", "È£¹Ú °­¾ÆÁöÀÇ ÅÐ Á¶°¢", EITEM_TYPE::Source });
+	ItemData::CreateData("BubbleLizard_Collect", { "BubbleLizard_Collect", "¿ôÀ½¹æ¿ï", EITEM_TYPE::Source });
 
 	// Äù½ºÆ®
 	ItemData::CreateData("Item_Etc_10", { "Item_Etc_10", "ÂøÁó±â À¯¸®º´", EITEM_TYPE::Quest });
@@ -102,7 +102,11 @@ void ContentsCore::LoadContentsData()
 	ItemData::CreateData("Branch_Collect", { "Branch_Collect", "³ª¹µ°¡Áö", EITEM_TYPE::RepairMaterial });
 
 	// À½½Ä
-	ItemData::CreateData("Food_CranApple", { "Food_CranApple", "¸¶³àÀÇ ÄÅÄÉÀÍ", EITEM_TYPE::Food });
+	ItemData::CreateData("Food_CranApple", { "Food_CranApple", "»ç°ú", EITEM_TYPE::Food });
+
+	// µµ±¸
+	ItemData::CreateData("Item_Etc_11", { "Item_Etc_11", "ºøÀÚ·ç", EITEM_TYPE::Tool });
+	ItemData::CreateData("Item_Etc_12", { "Item_Etc_12", "ÀáÀÚ¸®Ã¤", EITEM_TYPE::Tool });
 
 
 

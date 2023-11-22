@@ -1047,7 +1047,18 @@ void UI_Inventory::DispensationSelectThis()
 	}
 
 	InventoryInfo& InventoryData = Data->ReturnInventoryInfo(m_CurrentSlotX, m_CurrentSlotY);
+	std::weak_ptr<ItemData> Item = ItemData::Find(InventoryData.SourceName);
+	if (true == Item.expired())
+	{
+		MsgBoxAssert("등록되지 않은 아이템을 참조하려 했습니다.");
+		return;
+	}
 
+	if (EITEM_TYPE::Ingredient != Item.lock()->ItemType)
+	{
+		return;
+	}
+	
 	bool isIteminSelectedSlot = (false == InventoryData.SourceName.empty());
 	if (isIteminSelectedSlot)
 	{
@@ -1097,7 +1108,7 @@ void UI_Inventory::DispensationUnSelectThis(int _SlotNumber)
 
 	UI_Dispensation::MainDispensation->UnSelectThis(SelectItem[_SlotNumber].ItemName);
 
-	SelectItem[_SlotNumber].ItemName = "";
+	SelectItem[_SlotNumber].ItemName.clear();
 	SelectItem[_SlotNumber].Cursor->Off();
 	SelectItem[_SlotNumber].SelectCount = -1;
 }

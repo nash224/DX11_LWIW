@@ -37,12 +37,14 @@ enum class EENTITY_TYPE
 
 enum class EITEM_TYPE
 {
+	Source,
 	Ingredient,
 	RepairMaterial,
 	Potion,
 	Food,
 	Recipe,
 	Quest,
+	Tool,
 	None,
 };
 

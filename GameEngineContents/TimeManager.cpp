@@ -16,6 +16,8 @@ void TimeManager::Init()
 	Reset();
 
 	MaxTime = static_cast<float>((End_Day_Hour - Start_Day_Hour) * One_Minutes_Per_Hour / (10 / Ratio_Per_TenMinute));
+
+	SetTime(10, 0);
 }
 
 void TimeManager::SetTime(float _Time)

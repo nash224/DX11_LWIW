@@ -2,6 +2,8 @@
 #include "InteractiveActor.h"
 #include "BackDrop_PlayLevel.h"
 
+#include "UI_InterativeMark.h"
+
 InteractiveActor::InteractiveActor() 
 {
 }
@@ -30,6 +32,11 @@ void InteractiveActor::Update(float _Delta)
 
 void InteractiveActor::Release()
 {
+	if (UI_InterativeMark::Pointer == this)
+	{
+		UI_InterativeMark::Pointer = nullptr;
+	}
+
 	BodyRenderer = nullptr;
 	InteractiveCol = nullptr;
 }

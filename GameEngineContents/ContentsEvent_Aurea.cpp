@@ -38,6 +38,15 @@ bool ContentsEvent::Aurea_Cure::QuestClearPrerequisite()
 
 void ContentsEvent::Aurea_Cure::CompleteInternal()
 {
+	if (nullptr != UI_Inventory::MainInventory)
+	{
+		if (false == UI_Inventory::MainInventory->IsItem("Item_Etc_10"))
+		{
+			UI_Inventory::MainInventory->UnlockSlot();
+			UI_Inventory::MainInventory->PushItem("Item_Etc_10", 1);
+		}
+	}
+
 	if (nullptr != PlayLevel::s_AlertManager)
 	{
 		PlayLevel::s_AlertManager->RegisterAlert(AlertData("历林秦力 荤帕 力累", EALERTTYPE::QuestClear));

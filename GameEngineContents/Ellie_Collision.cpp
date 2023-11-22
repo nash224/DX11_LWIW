@@ -42,7 +42,6 @@ void Ellie::UpdatePortalCollsiion()
 
 void Ellie::UpdateInteractionCollsiion()
 {
-	// 앨리가 지속타입 상호작용 객체와 작업을하고 있을때 
 	IsHolding = false;
 
 	if (false == IsControl || EELLIE_STATUS::Normal != g_Status)
@@ -50,8 +49,6 @@ void Ellie::UpdateInteractionCollsiion()
 		return;
 	}
 
-	// 앨리가 바라보는 사물만 상호작용할 수 있습니다.
-	// 기준은 양옆으로 FOVAngle 각도입니다.
 	float4 ElliePosition = Transform.GetWorldPosition();
 
 	float4 DirectionVector = GetDirectionVectorToDir(m_Dir);
@@ -77,7 +74,6 @@ void Ellie::UpdateInteractionCollsiion()
 
 	m_EllieCol->Collision(ECOLLISION::Entity, [&](std::vector<GameEngineCollision*>& _Collisions)
 		{
-			// 가장 가까운 객체만 참조하겠습니다.
 			std::vector<float> vecDistance;
 
 			size_t Amount = _Collisions.size();
@@ -85,9 +81,6 @@ void Ellie::UpdateInteractionCollsiion()
 
 			for (size_t i = 0; i < Amount; i++)
 			{
-				// 1. 각도 캐릭터 기준 양 옆 특정 각도
-				// 2. 거리 가까운 액터 기준
-
 				GameEngineCollision* Collision = _Collisions[i];
 
 				bool IsAngle = false;
@@ -102,7 +95,6 @@ void Ellie::UpdateInteractionCollsiion()
 					ObjectAngle = 360.0f - ObjectAngle;
 				}
 
-				// 왼쪽 각이 더 크다면
 				if (EllieLeftFOVAngle - EllieRightFOVAngle > 0.0f)
 				{
 					if (EllieLeftFOVAngle >= ObjectAngle && EllieRightFOVAngle <= ObjectAngle)
@@ -110,7 +102,6 @@ void Ellie::UpdateInteractionCollsiion()
 						IsAngle = true;
 					}
 				}
-				// 오른쪽 각이 더 크다면
 				else
 				{
 					if (EllieLeftFOVAngle >= ObjectAngle && 0.0f <= ObjectAngle)
@@ -123,14 +114,12 @@ void Ellie::UpdateInteractionCollsiion()
 					}
 				}
 				
-				// 주인공 앵글에 들어오지 않은 객체는 검사 대상에서 빼겠습니다.
 				if (false == IsAngle)
 				{
 					vecDistance[i] = 0.0f;
 				}
 				else
 				{
-					// 아니면 거리저장
 					EllieVectorTowardObject.Size();
 
 					vecDistance[i] = EllieVectorTowardObject.Size();
@@ -140,7 +129,6 @@ void Ellie::UpdateInteractionCollsiion()
 			int ShortestNumber = -1;
 			float ShortestDistance = 1000.0f;
 
-			// 플레이어와 거리가 가장 짧은 객체 선별
 			for (size_t i = 0; i < Amount; i++)
 			{
 				float EntitySize = vecDistance[i];
@@ -152,12 +140,15 @@ void Ellie::UpdateInteractionCollsiion()
 				}
 			}
 
-			// 콜리전이 켜져있지만 버튼이 없는 경우 상호작용할 수 없는 버그가 생김
 			if (-1 != ShortestNumber)
 			{
 				GameEngineCollision* Collision = _Collisions[ShortestNumber];
 
 				GameEngineActor* Object = Collision->GetActor();
+				if (true ==Object->IsDeath())
+				{
+					return;
+				}
 
 				InteractiveActor* Entity = dynamic_cast<InteractiveActor*>(Object);
 				if (nullptr == Entity)
@@ -166,24 +157,20 @@ void Ellie::UpdateInteractionCollsiion()
 					return;
 				}
 
-				// 버튼 타입이 없으면 상호작용 X
 				if (EINTERACTION_BUTTONTYPE::None == Entity->GetInteractionButtonType())
 				{
 					return;
 				}
 
-				// 버튼이 기어 형식이면
 				if (EINTERACTION_BUTTONTYPE::Gear == Entity->GetInteractionButtonType())
 				{	
 					if (true == GameEngineInput::IsDown('Z', this))
 					{
-						// 상호작용이 가까이면 
 						if (EINTERACTION_TYPE::Near == Entity->GetInteractionType())
 						{
 							OtherEntity = Entity;
 							ChangeState(EELLIE_STATE::Approach);
 						}
-						// 멀리있으면 무조건 통과
 						if (EINTERACTION_TYPE::Far == Entity->GetInteractionType())
 						{
 							if (ECOLLECTION_METHOD::AlchemyPot == Entity->GetCollectionMethod())
@@ -198,23 +185,18 @@ void Ellie::UpdateInteractionCollsiion()
 						}
 					}
 				}
-				// 잠자리채 상호작용이 아닐때
 				else if (UI_Hub_Tool::m_CurrentTool != ETOOLTYPE::Dragonfly && EINTERACTION_TYPE::None != Entity->GetInteractionType())
 				{
-					// 한번 누르면 되는 타입
 					if (EINTERACTION_PRESSTYPE::Down == Entity->GetInteractionPressType())
 					{
-						// 닿았습니다.
 						if (true == GameEngineInput::IsDown('Z', this))
 						{
-							// 상호작용이 가까이면 
 							if (EINTERACTION_TYPE::Near == Entity->GetInteractionType())
 							{
 								OtherEntity = Entity;
 								ChangeState(EELLIE_STATE::Approach);
 							}
 
-							// 멀리있으면 무조건 통과
 							if (EINTERACTION_TYPE::Far == Entity->GetInteractionType())
 							{
 								Entity->IsReach = true;
@@ -236,7 +218,6 @@ void Ellie::UpdateInteractionCollsiion()
 					}
 				}
 
-				// UI에게 이걸 띄워달라고 요청합니다.
 				if (nullptr != UI_InterativeMark::UI_Mark)
 				{
 					UI_InterativeMark::UI_Mark->PointThis(Entity);

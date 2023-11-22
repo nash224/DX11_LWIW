@@ -161,10 +161,18 @@ void Extractor::StartBroken(GameEngineState* _Parent)
 {
 	InteractiveActor::SetInteractionType(EINTERACTION_TYPE::Far);
 
-	if (false == IsCureQuestClear() && nullptr != InteractiveActor::InteractiveCol)
+	if (nullptr != InteractiveActor::InteractiveCol)
 	{
-		InteractiveActor::InteractiveCol->Off();
+		if (false == IsCureQuestClear())
+		{
+			InteractiveActor::InteractiveCol->Off();
+		}
+		else
+		{
+			InteractiveActor::InteractiveCol->On();
+		}
 	}
+	
 
 	ChangeExtractorAnimation("Broken");
 }
