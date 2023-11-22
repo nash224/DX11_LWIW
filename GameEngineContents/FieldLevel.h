@@ -25,7 +25,7 @@ protected:
 	void AutoPlayBGM();
 
 private:
-	std::shared_ptr<class SkyLerp> m_SkyLerp = nullptr;
+	std::shared_ptr<class SkyLerp> Sky = nullptr;
 
 };
 

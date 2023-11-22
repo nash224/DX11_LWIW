@@ -161,7 +161,7 @@ void Extractor::StartBroken(GameEngineState* _Parent)
 {
 	InteractiveActor::SetInteractionType(EINTERACTION_TYPE::Far);
 
-	if (nullptr != InteractiveActor::InteractiveCol)
+	if (false == IsCureQuestClear() && nullptr != InteractiveActor::InteractiveCol)
 	{
 		InteractiveActor::InteractiveCol->Off();
 	}
@@ -269,4 +269,16 @@ void Extractor::ActiveInteractiveCollision()
 	}
 	
 	s_ExtractorPointer->InteractiveActor::InteractiveCol->On();
+}
+
+bool Extractor::IsCureQuestClear()
+{
+	std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Aurea_Cure");
+	if (true == Quest.expired())
+	{
+		MsgBoxAssert("등록되지않은 퀘스트입니다.");
+		return false;
+	}
+
+	return Quest.lock()->isQuestComplete();
 }

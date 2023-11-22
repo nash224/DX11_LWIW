@@ -44,6 +44,6 @@ void CraftPotionEvent::ConversationSetting()
 
 	SingleEvent::EventConveration.SetConversationEndEvent(ECRAFTPOTIONTOPIC::Find, [&]()
 		{
-			SingleEvent::State.ChangeState(ESINGLESTATE::Single);
+			ConversationDone();
 		});
 }

@@ -145,6 +145,7 @@ void Ellie::Init()
 void Ellie::OnLevelStart()
 {
 	RenewStatus();
+	ResetMoveVector();
 	ApplyDepth();
 	MainEllie = this;
 }
@@ -212,11 +213,13 @@ void Ellie::SetAnimationByDirection(EDIRECTION _Dir /*= EDIRECTION::CENTER*/)
 
 		if (EELLIE_STATUS::Normal == g_Status)
 		{
+			RenewStatus();
 			ChangeDirectionAnimation("Idle");
 		}
 
 		if (EELLIE_STATUS::Riding== g_Status)
 		{
+			RenewStatus();
 			ChangeDirectionAnimation("Riding_Standing");
 		}
 	}

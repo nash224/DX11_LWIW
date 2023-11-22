@@ -20,13 +20,11 @@ WitchHouse_DownFloor::~WitchHouse_DownFloor()
 void WitchHouse_DownFloor::Start()
 {
 	PlayLevel::Start();
-	LevelType = ELEVELTYPE::House;
 
-	if (nullptr != m_LevelCameraControler)
+	if (nullptr != LevelCamera)
 	{
-		m_LevelCameraControler->SetCameraMode(ECAMERAMODE::Fix);
+		LevelCamera->SetCameraMode(ECAMERAMODE::Fix);
 	}
-
 }
 
 void WitchHouse_DownFloor::Update(float _Delta)
@@ -59,7 +57,6 @@ void WitchHouse_DownFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#pragma region LoadResource
 
 void WitchHouse_DownFloor::LoadTexture()
 {
@@ -79,36 +76,31 @@ void WitchHouse_DownFloor::LoadTexture()
 
 void WitchHouse_DownFloor::LoadActor()
 {
-	if (nullptr == m_BackDrop)
+	if (nullptr == Back)
 	{
-		m_BackDrop = CreateActor<BackDrop_WitchHouse_DownFloor>(EUPDATEORDER::Objects);
+		Back = CreateActor<BackDrop_WitchHouse_DownFloor>(EUPDATEORDER::Objects);
 	}
 
-	m_BackDrop->Init();
+	Back->Init();
 }
 
 
-#pragma endregion 
-
-#pragma region Initial Setting
-
-// 레벨전환시 앨리의 시작위치를 지정해줍니다.
 void WitchHouse_DownFloor::SetEllieLevelChangeLocation(class GameEngineLevel* _NextLevel)
 {
-	if (nullptr == m_Ellie)
+	if (nullptr == Player)
 	{
 		MsgBoxAssert("앨리를 생성하지 않았습니다.");
 		return;
 	}
 
-	m_Ellie->Transform.SetLocalPosition({ 548.0f , -228.0f });
+	Player->Transform.SetLocalPosition({ 548.0f , -228.0f });
 }
 
 void WitchHouse_DownFloor::CameraSetting()
 {
 	if (nullptr != GlobalValue::g_CameraControler)
 	{
-		if (GlobalValue::g_CameraControler != m_LevelCameraControler)
+		if (GlobalValue::g_CameraControler != LevelCamera)
 		{
 			MsgBoxAssert("현재 카메라 매니저가 아닙니다.");
 			return;
@@ -121,10 +113,6 @@ void WitchHouse_DownFloor::CameraSetting()
 	}
 }
 
-#pragma endregion 
-
-
-#pragma region Release
 
 void WitchHouse_DownFloor::ReleaseTexture()
 {
@@ -141,9 +129,6 @@ void WitchHouse_DownFloor::ReleaseTexture()
 		}
 	}
 }
-
-#pragma endregion 
-
 
 void WitchHouse_DownFloor::AutoPlayBGM()
 {

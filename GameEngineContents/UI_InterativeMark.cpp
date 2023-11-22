@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "UI_InterativeMark.h"
 
+#include "OutLineEffect.h"
+
 
 #include "CameraControler.h"
 #include "InteractiveActor.h"
@@ -20,17 +22,16 @@ UI_InterativeMark::~UI_InterativeMark()
 
 void UI_InterativeMark::Start()
 {
-
+	//OutLine = GetLevel()->GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<OutLineEffect>();
+	//OutLine->Off();
 }
 
 void UI_InterativeMark::Update(float _Delta)
 {
-	// UI_Mark가 현재 레벨에서 사용하고 있지 않다면 초기화
 	if (this != UI_Mark)
 	{
 		Reset();
 	}
-	
 
 	UpdateMark(_Delta);
 }
@@ -46,8 +47,6 @@ void UI_InterativeMark::LevelEnd(class GameEngineLevel* _NextLevel)
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 void UI_InterativeMark::Init()
 {
@@ -56,27 +55,13 @@ void UI_InterativeMark::Init()
 		GameEngineSprite::CreateCut("PointArrow.png", 3, 2);
 	}
 
+	MarkRenderer = CreateComponent<GameEngineUIRenderer>();
+	MarkRenderer->CreateAnimation("Mark", "PointArrow.png", 0.1f);
+	MarkRenderer->ChangeAnimation("Mark");
+	MarkRenderer->AutoSpriteSizeOn();
 
-	m_MarkRenderer = CreateComponent<GameEngineUIRenderer>();
-	if (nullptr == m_MarkRenderer)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
-
-	m_MarkRenderer->CreateAnimation("Mark", "PointArrow.png", 0.1f);
-	m_MarkRenderer->ChangeAnimation("Mark");
-	m_MarkRenderer->AutoSpriteSizeOn();
-
-
-	m_ButtonRenderer = CreateComponent<GameEngineUIRenderer>();
-	if (nullptr == m_MarkRenderer)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
-
-	m_ButtonRenderer->SetSprite("ButtonSet_Keyboard_Z.png");
+	ButtonRenderer = CreateComponent<GameEngineUIRenderer>();
+	ButtonRenderer->SetSprite("ButtonSet_Keyboard_Z.png");
 
 	Reset();
 }
@@ -104,14 +89,15 @@ void UI_InterativeMark::PointThis(InteractiveActor* _ActorPtr)
 				_ActorPtr->BodyRenderer->RenderBaseInfoValue.Target1 = 1;
 			}
 
-			UI_Mark->m_MarkRenderer->On();
+			UI_Mark->MarkRenderer->On();
+			/*UI_Mark->OutLine->On();*/
 		}
 		else if (EINTERACTION_BUTTONTYPE::Gear == Pointer->GetInteractionButtonType())
 		{
-			UI_Mark->m_ButtonRenderer->On();
+			UI_Mark->ButtonRenderer->On();
 		}
 
-		if (true == UI_Mark->m_MarkRenderer->IsUpdate() && true == UI_Mark->m_ButtonRenderer->IsUpdate())
+		if (true == UI_Mark->MarkRenderer->IsUpdate() && true == UI_Mark->ButtonRenderer->IsUpdate())
 		{
 			MsgBoxAssert("버튼이 2개들어올리가 없어..");
 			return;
@@ -126,23 +112,23 @@ void UI_InterativeMark::PointThis(InteractiveActor* _ActorPtr)
 
 void UI_InterativeMark::Reset()
 {
-	if (nullptr == m_MarkRenderer)
+	if (nullptr == MarkRenderer || nullptr == ButtonRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	m_MarkRenderer->ChangeAnimation("Mark", true, 0);
-	m_MarkRenderer->Off();
+	MarkRenderer->ChangeAnimation("Mark", true, 0);
+	MarkRenderer->Off();
+	ButtonRenderer->Off();
 
-	if (nullptr == m_ButtonRenderer)
-	{
-		MsgBoxAssert("렌더러가 존재하지 않습니다.");
-		return;
-	}
+	//if (nullptr == OutLine)
+	//{
+	//	MsgBoxAssert("Effect가 존재하지 않습니다.");
+	//	return;
+	//}
 
-	m_ButtonRenderer->Off();
-
+	//OutLine->Off();
 
 	if (nullptr != Pointer && nullptr != Pointer->BodyRenderer)
 	{
@@ -151,6 +137,7 @@ void UI_InterativeMark::Reset()
 
 	UI_Mark = this;
 	Pointer = nullptr;
+	
 	IsPointerInteracted = false;
 	IsLevelChange = false;
 }
@@ -177,10 +164,11 @@ void UI_InterativeMark::UpdateMark(float _Delta)
 			return;
 		}
 
-		float4 MainCameraPos = GlobalValue::g_CameraControler->GetCameraWorldPosition();
-		
-		float4 ActorWorldPos = Pointer->Transform.GetWorldPosition();
-		float4 Position = ActorWorldPos - MainCameraPos + CONST_MarkPositionToActor;
+		const float4& MarkPositionToActor = float4{ 0.0f , 48.0f };
+		const float4& MainCameraPos = GlobalValue::g_CameraControler->GetCameraWorldPosition();
+		const float4& ActorWorldPos = Pointer->Transform.GetWorldPosition();
+
+		float4 Position = ActorWorldPos - MainCameraPos + MarkPositionToActor;
 		Position.Z = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Mark);
 		Transform.SetLocalPosition(Position);
 	}

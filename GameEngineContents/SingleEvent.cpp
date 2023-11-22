@@ -73,3 +73,8 @@ void SingleEvent::EndEvent(GameEngineState* _Parent)
 {
 	Death();
 }
+
+void SingleEvent::ConversationDone()
+{
+	State.ChangeState(ESINGLESTATE::None);
+}

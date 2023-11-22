@@ -22,9 +22,9 @@ void LogoLevel::Start()
 	float4 Position= GlobalValue::GetWindowScale().Half();
 	Position.Y *= -1.0f;
 
-	if (nullptr != m_LevelCameraControler)
+	if (nullptr != LevelCamera)
 	{
-		m_LevelCameraControler->SetCameraMode(ECAMERAMODE::Fix);
+		LevelCamera->SetCameraMode(ECAMERAMODE::Fix);
 		GetMainCamera()->Transform.SetLocalPosition(Position);
 	}
 }

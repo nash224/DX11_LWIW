@@ -28,9 +28,9 @@ void DreamLevel::Start()
 
 	GetMainCamera()->Transform.SetLocalPosition(CameraPosition);
 
-	if (nullptr != m_LevelCameraControler)
+	if (nullptr != LevelCamera)
 	{
-		m_LevelCameraControler->SetCameraMode(ECAMERAMODE::Fix);
+		LevelCamera->SetCameraMode(ECAMERAMODE::Fix);
 	}
 
 	StateSetting();

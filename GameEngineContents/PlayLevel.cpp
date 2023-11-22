@@ -87,24 +87,16 @@ void PlayLevel::LevelStart(GameEngineLevel* _NextLevel)
 	}
 }
 
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-// UI 매니저 생성
 void PlayLevel::CreateUIManager()
 {
-	m_UIManager = CreateActor<UIManager>(EUPDATEORDER::UIMagnaer);
-	m_UIManager->Init();
+	UI_Manager = CreateActor<UIManager>(EUPDATEORDER::UIMagnaer);
+	UI_Manager->Init();
 }
 
-// 플레이어 생성
 void PlayLevel::CreateEllie()
 {
-	m_Ellie = CreateActor<Ellie>(EUPDATEORDER::Player);
-	m_Ellie->Init();
+	Player = CreateActor<Ellie>(EUPDATEORDER::Player);
+	Player->Init();
 }
 
 void PlayLevel::SetLocationName(std::string_view _KRName)

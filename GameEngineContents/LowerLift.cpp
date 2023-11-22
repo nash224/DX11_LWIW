@@ -3,6 +3,8 @@
 
 #include "FadeObject.h"
 
+#include "Ellie.h"
+
 LowerLift::LowerLift() 
 {
 }
@@ -47,6 +49,15 @@ void LowerLift::UpdateLift(float _Delta)
 		{
 			InteractiveActor::InteractiveCol->Off();
 		}
+
+		if (nullptr == Ellie::MainEllie)
+		{
+			MsgBoxAssert("플레이어가 존재하지 않습니다.");
+			return;
+		}
+
+		Ellie::MainEllie->OffControl();
+		
 
 		std::weak_ptr<FadeObject> Fade = GetLevel()->CreateActor<FadeObject>(EUPDATEORDER::Entity);
 		Fade.lock()->CallFadeOut("WitchHouse_UpFloor", 1.2f);

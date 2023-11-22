@@ -72,6 +72,7 @@ private:
 
 	void CheckCraftPotionEvent();
 	void CheckCraftFireCrackerEvent();
+	void ShowCraftPotionEvent();
 	void ShowFireCrackerEvent();
 	
 

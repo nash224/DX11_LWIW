@@ -8,6 +8,7 @@
 
 #include "ContentsEvent.h"
 #include "CraftFireCrackerEvent.h"
+#include "CraftPotionEvent.h"
 
 
 AlchemyPot* AlchemyPot::s_PotPointer = nullptr;
@@ -460,9 +461,10 @@ void AlchemyPot::CheckCraftPotionEvent()
 		return;
 	}
 
-	if (false == Quest.lock()->CheckPrerequisiteQuest())
+	if (true == Quest.lock()->CheckPrerequisiteQuest())
 	{
 		Quest.lock()->QuestComplete();
+		ShowCraftPotionEvent();
 	}
 }
 
@@ -483,6 +485,12 @@ void AlchemyPot::CheckCraftFireCrackerEvent()
 			Quest.lock()->QuestComplete();
 		}
 	}
+}
+
+void AlchemyPot::ShowCraftPotionEvent()
+{
+	std::shared_ptr<CraftPotionEvent> Event = GetLevel()->CreateActor<CraftPotionEvent>(EUPDATEORDER::Event);
+	Event->Init();
 }
 
 void AlchemyPot::ShowFireCrackerEvent()

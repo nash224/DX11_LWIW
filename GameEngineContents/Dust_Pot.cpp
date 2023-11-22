@@ -55,6 +55,7 @@ void Dust_Pot::SetTopic()
 		{ L"가공 도구는 영 상태가 안좋지만 말야." , ECONVERSATIONENTITY::Virgil , 1, {ConversationFont::Color_BLACK, GlobalValue::Font_JejuHanlasan}},
 		{ L"마침 버려진 재료가 좀 있으니까." , ECONVERSATIONENTITY::Ellie , 1},
 		{ L"도감을 열어서 재료를 확인하고, 나쁜 풀 퇴치 물약을 만들어 볼까?" , ECONVERSATIONENTITY::Ellie , 5},
+		{ L"도감은 D 키를 눌러 확인할 수 있어." , ECONVERSATIONENTITY::Ellie , 1},
 	};
 
 	SetConversationData(Datas);

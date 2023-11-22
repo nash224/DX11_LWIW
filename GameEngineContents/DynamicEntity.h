@@ -30,6 +30,11 @@ protected:
 	EDIRECTION GetDiagonalDirectionFromVector(const float4& _MoveVector);
 	EDIRECTION GetDirectionToDegree(const float _Degree);
 
+	inline void ResetMoveVector()
+	{
+		m_MoveVector = float4::ZERO;
+	}
+
 	void ApplyMovement(float _Delta);
 	void ApplyOnlyMovement(float _Delta);
 

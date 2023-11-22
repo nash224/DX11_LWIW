@@ -25,7 +25,7 @@ void MapEditorLevel::Start()
 {
 	ContentsLevel::Start();
 
-	m_LevelCameraControler->SetCameraMode(ECAMERAMODE::Editor);
+	LevelCamera->SetCameraMode(ECAMERAMODE::Editor);
 
 
 }

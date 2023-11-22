@@ -22,9 +22,9 @@ void WitchHouse_UpFloor::Start()
 	PlayLevel::Start();
 	LevelType = ELEVELTYPE::House;
 
-	if (nullptr != m_LevelCameraControler)
+	if (nullptr != LevelCamera)
 	{
-		m_LevelCameraControler->SetCameraMode(ECAMERAMODE::Fix);
+		LevelCamera->SetCameraMode(ECAMERAMODE::Fix);
 	}
 
 }
@@ -85,7 +85,7 @@ void WitchHouse_UpFloor::LoadActor()
 
 void WitchHouse_UpFloor::SetEllieLevelChangeLocation(class GameEngineLevel* _NextLevel)
 {
-	if (nullptr == m_Ellie)
+	if (nullptr == Player)
 	{
 		return;
 	}
@@ -95,17 +95,17 @@ void WitchHouse_UpFloor::SetEllieLevelChangeLocation(class GameEngineLevel* _Nex
 	std::string NextLevelName = _NextLevel->GetName();
 	if (NextLevelName == "WitchHouse_Yard")
 	{
-		m_Ellie->SetAnimationByDirection(EDIRECTION::UP);
+		Player->SetAnimationByDirection(EDIRECTION::UP);
 		SpawnPosition = { 465.0f , -353.0f };
 	}
 	else if (NextLevelName == "WitchHouse_DownFloor")
 	{
-		m_Ellie->SetAnimationByDirection(EDIRECTION::DOWN);
+		Player->SetAnimationByDirection(EDIRECTION::DOWN);
 		SpawnPosition = { 515.0f , -235.0f };
 	}
 	else if (NextLevelName == "DreamLevel")
 	{
-		m_Ellie->SetAnimationByDirection(EDIRECTION::DOWN);
+		Player->SetAnimationByDirection(EDIRECTION::DOWN);
 		SpawnPosition = { 440.0f , -271.0f };
 	}
 	else
@@ -113,14 +113,14 @@ void WitchHouse_UpFloor::SetEllieLevelChangeLocation(class GameEngineLevel* _Nex
 		SpawnPosition = m_BackDrop->GetHouseLocation() + float4{ 128.0f , -310.0f };
 	}
 	
-	m_Ellie->Transform.SetLocalPosition(SpawnPosition);
+	Player->Transform.SetLocalPosition(SpawnPosition);
 }
 
 void WitchHouse_UpFloor::CameraSetting()
 {
 	if (nullptr != GlobalValue::g_CameraControler)
 	{
-		if (GlobalValue::g_CameraControler != m_LevelCameraControler)
+		if (GlobalValue::g_CameraControler != LevelCamera)
 		{
 			MsgBoxAssert("현재 카메라 매니저가 아닙니다.");
 			return;

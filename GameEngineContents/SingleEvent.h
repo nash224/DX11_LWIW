@@ -31,13 +31,14 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
+	void ConversationDone();
+
 private:
 	virtual void ConversationSetting() = 0;
 	void StateSetting();
 
 	void StartEvent(GameEngineState* _Parent);
 	void EndEvent(GameEngineState* _Parent);
-
 
 protected:
 	GameEngineState State;

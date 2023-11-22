@@ -103,9 +103,6 @@
     <Filter Include="Manager\BGM">
       <UniqueIdentifier>{17d5ded5-ed0b-4378-a572-a554ccbb83cb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Manager\QuestManager">
-      <UniqueIdentifier>{d7264b21-8656-421b-8f3b-0a7beb1b2245}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Level\BackManager">
       <UniqueIdentifier>{1b0dee99-207d-445b-aa25-16e8f1c21756}</UniqueIdentifier>
     </Filter>
@@ -265,6 +262,12 @@
     <Filter Include="Manager\UIManager\Other">
       <UniqueIdentifier>{5e5632f7-a19b-44da-a59b-7eb2b399937c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Level\BackManager\2.Play\DownFloor">
+      <UniqueIdentifier>{c64c75f1-4787-4e70-bff9-0bb58cca6266}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\BackManager\2.Play\UpFloor">
+      <UniqueIdentifier>{5ac030be-3fbc-41cc-87f1-c83d4c793644}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -378,12 +381,6 @@
     </ClInclude>
     <ClInclude Include="UI_InterativeMark.h">
       <Filter>Manager\UIManager\Mark</Filter>
-    </ClInclude>
-    <ClInclude Include="BackDrop_WitchHouse_DownFloor.h">
-      <Filter>Level\BackManager\2.Play</Filter>
-    </ClInclude>
-    <ClInclude Include="BackDrop_WitchHouse_UpFloor.h">
-      <Filter>Level\BackManager\2.Play</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_MainMenu.h">
       <Filter>Level\BackManager\1.MainMenu</Filter>
@@ -697,9 +694,6 @@
     <ClInclude Include="UI_Hub_MainBoard.h">
       <Filter>Manager\UIManager\Hub\MainBoard</Filter>
     </ClInclude>
-    <ClInclude Include="QuestManager.h">
-      <Filter>Manager\QuestManager</Filter>
-    </ClInclude>
     <ClInclude Include="QuestData.h">
       <Filter>Data\Contents</Filter>
     </ClInclude>
@@ -714,6 +708,12 @@
     </ClInclude>
     <ClInclude Include="UI_ButtonGuide.h">
       <Filter>Manager\UIManager\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="BackDrop_WitchHouse_DownFloor.h">
+      <Filter>Level\BackManager\2.Play\DownFloor</Filter>
+    </ClInclude>
+    <ClInclude Include="BackDrop_WitchHouse_UpFloor.h">
+      <Filter>Level\BackManager\2.Play\UpFloor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -828,12 +828,6 @@
     </ClCompile>
     <ClCompile Include="UI_InterativeMark.cpp">
       <Filter>Manager\UIManager\Mark</Filter>
-    </ClCompile>
-    <ClCompile Include="BackDrop_WitchHouse_DownFloor.cpp">
-      <Filter>Level\BackManager\2.Play</Filter>
-    </ClCompile>
-    <ClCompile Include="BackDrop_WitchHouse_UpFloor.cpp">
-      <Filter>Level\BackManager\2.Play</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_MainMenu.cpp">
       <Filter>Level\BackManager\1.MainMenu</Filter>
@@ -1184,9 +1178,6 @@
     <ClCompile Include="UI_Hub_MainBoard.cpp">
       <Filter>Manager\UIManager\Hub\MainBoard</Filter>
     </ClCompile>
-    <ClCompile Include="QuestManager.cpp">
-      <Filter>Manager\QuestManager</Filter>
-    </ClCompile>
     <ClCompile Include="QuestData.cpp">
       <Filter>Data\Contents</Filter>
     </ClCompile>
@@ -1201,6 +1192,12 @@
     </ClCompile>
     <ClCompile Include="UI_ButtonGuide.cpp">
       <Filter>Manager\UIManager\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="BackDrop_WitchHouse_DownFloor.cpp">
+      <Filter>Level\BackManager\2.Play\DownFloor</Filter>
+    </ClCompile>
+    <ClCompile Include="BackDrop_WitchHouse_UpFloor.cpp">
+      <Filter>Level\BackManager\2.Play\UpFloor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

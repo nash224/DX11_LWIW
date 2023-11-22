@@ -368,10 +368,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="QuestManager.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="RendererActor.cpp">
       <SubType>
       </SubType>
@@ -957,10 +953,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="QuestData.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="QuestManager.h">
       <SubType>
       </SubType>
     </ClInclude>

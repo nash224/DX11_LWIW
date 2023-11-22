@@ -62,6 +62,7 @@ private:
 	void EndJuicy(GameEngineState* _Parent);
 
 	std::string RandomOpenJuicySoundFilleName();
+	bool IsCureQuestClear();
 
 private:
 	GameEngineState State;

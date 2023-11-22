@@ -3,6 +3,8 @@
 
 #include "FadeObject.h"
 
+#include "Ellie.h"
+
 EUPPERLIFTSTATE UpperLift::s_State = EUPPERLIFTSTATE::Dust;
 UpperLift::UpperLift()
 {
@@ -102,6 +104,14 @@ void UpperLift::UpdateLift(float _Delta, GameEngineState* _Parent)
 		{
 			InteractiveActor::InteractiveCol->Off();
 		}
+
+		if (nullptr == Ellie::MainEllie)
+		{
+			MsgBoxAssert("플레이어가 존재하지 않습니다.");
+			return;
+		}
+
+		Ellie::MainEllie->OffControl();
 
 		std::weak_ptr<FadeObject> Fade = GetLevel()->CreateActor<FadeObject>(EUPDATEORDER::Entity);
 		Fade.lock()->CallFadeOut("WitchHouse_DownFloor", 1.2f);

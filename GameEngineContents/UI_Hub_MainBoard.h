@@ -2,54 +2,62 @@
 #include "UI_Hub_Actor.h"
 #include "QuestData.h"
 
+class QuestManager
+{
+public:
+	QuestManager();
+	~QuestManager();
+
+	// delete Function
+	QuestManager(const QuestManager& _Other) = delete;
+	QuestManager(QuestManager&& _Other) noexcept = delete;
+	QuestManager& operator=(const QuestManager& _Other) = delete;
+	QuestManager& operator=(QuestManager&& _Other) noexcept = delete;
+
+	void RegisterData(std::string_view _QuestName);
+	void PopData(std::string_view _QuestName);
+	bool IsQuestRegister(std::string_view _QuestName);
+
+private:
+	std::list<std::string> QuestContainer;
+	std::list<std::string> ClearContainer;
+
+};
+
 // Ό³Έν :
 class UI_Hub_MainBoard : public UI_Hub_Actor
 {
 private:
-	class QuestManager
-	{
-	public:
-		QuestManager();
-		~QuestManager();
-
-		// delete Function
-		QuestManager(const QuestManager& _Other) = delete;
-		QuestManager(QuestManager&& _Other) noexcept = delete;
-		QuestManager& operator=(const QuestManager& _Other) = delete;
-		QuestManager& operator=(QuestManager&& _Other) noexcept = delete;
-
-		void RegisterData(std::string_view _QuestName);
-		void PopData(std::string_view _QuestName);
-		bool IsQuestRegister(std::string_view _QuestName);
-
-	private:
-		std::list<std::string> QuestContainer;
-		std::list<std::string> ClearContainer;
-
-	};
-
-private:
-	class QuestUnit
+	class QuestUnitInfo
 	{
 	public:
 		// delete Function
 		/*QuestUnit(const QuestUnit& _Other) = delete;
 		QuestUnit(QuestUnit&& _Other) noexcept = delete;*/
-		QuestUnit& operator=(const QuestUnit& _Other) = delete;
-		QuestUnit& operator=(QuestUnit&& _Other) noexcept = delete;
+		QuestUnitInfo& operator=(const QuestUnitInfo& _Other) = delete;
+		QuestUnitInfo& operator=(QuestUnitInfo&& _Other) noexcept = delete;
 
 		void Init();
+
+	private:
+		std::string GetSubjectTextToType(EQUESTTYPE _Type);
+		float GetRenderYSize(int _ContentLineCount);
 
 	public:
 		UI_Hub_MainBoard* Parent = nullptr;
 
-		std::shared_ptr<GameEngineUIRenderer> SubjectBaseRenderer;
-		std::shared_ptr<GameEngineUIRenderer> SubjectRenderer;
+		std::shared_ptr<GameEngineUIRenderer> SubjectBase;
+		std::shared_ptr<GameEngineUIRenderer> Subject;
 
-		std::shared_ptr<GameEngineUIRenderer> QuestNameRenderer;
-		std::shared_ptr<GameEngineUIRenderer> QuestContentsRenderer;
+		std::shared_ptr<GameEngineUIRenderer> ContentBase;
+		std::shared_ptr<GameEngineUIRenderer> QuestName;
+		std::shared_ptr<GameEngineUIRenderer> QuestContent;
+		std::shared_ptr<GameEngineUIRenderer> Dot;
 
 		std::weak_ptr<QuestData> Data;
+		
+	private:
+		float RenderYSize = 0.0f;
 
 	};
 
@@ -83,6 +91,6 @@ protected:
 	void FindQuest(std::string_view _QuestName);
 
 private:
-	std::list<std::shared_ptr<QuestUnit>> UnitList;
+	std::list<std::shared_ptr<QuestUnitInfo>> UnitList;
 
 };

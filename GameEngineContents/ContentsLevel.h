@@ -27,7 +27,7 @@ public:
 	static bool PixelDebugMode;
 
 public:
-	std::shared_ptr<CameraControler> m_LevelCameraControler = nullptr;
+	std::shared_ptr<CameraControler> LevelCamera = nullptr;
 	static std::unique_ptr<class BGMManager> MainPlaySound;
 
 public:
@@ -40,8 +40,6 @@ public:
 	ContentsLevel(ContentsLevel&& _Other) noexcept = delete;
 	ContentsLevel& operator=(const ContentsLevel& _Other) = delete;
 	ContentsLevel& operator=(ContentsLevel&& _Other) noexcept = delete;
-
-
 
 protected:
 	void Start() override;

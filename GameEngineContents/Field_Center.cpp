@@ -23,9 +23,9 @@ void Field_Center::Start()
 {
 	FieldLevel::Start();
 
-	if (nullptr != m_LevelCameraControler)
+	if (nullptr != LevelCamera)
 	{
-		m_LevelCameraControler->SetCameraMode(ECAMERAMODE::Play);
+		LevelCamera->SetCameraMode(ECAMERAMODE::Play);
 	}
 
 
@@ -90,9 +90,9 @@ void Field_Center::LoadActor()
 
 	m_BackDrop->Init();
 
-	if (nullptr != m_LevelCameraControler)
+	if (nullptr != LevelCamera)
 	{
-		m_LevelCameraControler->SetBackDropScale(m_BackDrop->GetBackGroundScale());
+		LevelCamera->SetBackDropScale(m_BackDrop->GetBackGroundScale());
 	}
 }
 
@@ -109,9 +109,9 @@ void Field_Center::SetEllieLevelChangeLocation(class GameEngineLevel* _NextLevel
 		SpawnPosition = { 1430.0f , -50.0f };
 	}
 
-	if (nullptr != m_Ellie)
+	if (nullptr != Player)
 	{
-		m_Ellie->Transform.SetLocalPosition(SpawnPosition);
+		Player->Transform.SetLocalPosition(SpawnPosition);
 	}
 }
 
@@ -121,20 +121,20 @@ void Field_Center::CameraSetting()
 {
 	if (nullptr != GlobalValue::g_CameraControler)
 	{
-		if (GlobalValue::g_CameraControler != m_LevelCameraControler)
+		if (GlobalValue::g_CameraControler != LevelCamera)
 		{
 			MsgBoxAssert("현재 카메라 매니저가 아닙니다.");
 			return;
 		}
 
-		if (nullptr == m_Ellie)
+		if (nullptr == Player)
 		{
 			MsgBoxAssert("플레이어가 존재하지 않습니다.");
 			return;
 		}
 
-		GlobalValue::g_CameraControler->SetFocusActor(m_Ellie.get());
-		GlobalValue::g_CameraControler->SetAutoInitialPosition(m_Ellie->Transform.GetWorldPosition());
+		GlobalValue::g_CameraControler->SetFocusActor(Player.get());
+		GlobalValue::g_CameraControler->SetAutoInitialPosition(Player->Transform.GetWorldPosition());
 	}
 }
 

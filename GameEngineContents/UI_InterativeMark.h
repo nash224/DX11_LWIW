@@ -40,15 +40,11 @@ private:
 	void UpdateMark(float _Delta);
 
 private:
-	std::shared_ptr<GameEngineUIRenderer> m_MarkRenderer = nullptr;
-	std::shared_ptr<GameEngineUIRenderer> m_ButtonRenderer = nullptr;
-
-	const float4 CONST_MarkPositionToActor = float4{ 0.0f , 48.0f };
+	std::shared_ptr<GameEngineUIRenderer> MarkRenderer = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> ButtonRenderer = nullptr;
 
 	bool IsPointerInteracted = false;
-
 	bool IsLevelChange = false;
-
 
 };
 

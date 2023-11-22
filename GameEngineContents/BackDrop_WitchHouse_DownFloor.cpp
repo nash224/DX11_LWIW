@@ -504,17 +504,6 @@ void BackDrop_WitchHouse_DownFloor::CreateStaticActor()
 	}
 
 	{
-		float4 Position = float4(HouseMoveVector  + float4(220.0f, -344.0f));
-		Position.Z = DepthFunction::CalculateObjectDepth(m_BackScale.Y,Position.Y);
-
-		std::shared_ptr<Roaster> Object = GetLevel()->CreateActor<Roaster>(EUPDATEORDER::Objects);
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-
-		BackDrop_PlayLevel::PixelStaticEntityVec.push_back(Object);
-	}
-
-	{
 		float4 Position = float4(HouseMoveVector  + float4(296.0f, -186.0f));
 		Position.Z = DepthFunction::CalculateObjectDepth(m_BackScale.Y,Position.Y);
 

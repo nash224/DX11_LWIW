@@ -26,14 +26,11 @@ ContentsLevel::~ContentsLevel()
 
 void ContentsLevel::Start()
 {
-	// 입력 등록함
 	GameEngineInput::AddInputObject(this);
-
-	// 카메라 컨트롤러 생성
-	m_LevelCameraControler = CreateActor<CameraControler>(EUPDATEORDER::CameraControler);
 
 	GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<OutLineEffect>();
 
+	LevelCamera = CreateActor<CameraControler>(EUPDATEORDER::CameraControler);
 
 	if (nullptr == MainPlaySound)
 	{
@@ -59,10 +56,10 @@ void ContentsLevel::Update(float _Delta)
 
 void ContentsLevel::LevelStart(class GameEngineLevel* _NextLevel)
 {
-	if (nullptr != m_LevelCameraControler)
+	if (nullptr != LevelCamera)
 	{
-		m_LevelCameraControler->m_MainCamera = this->GetMainCamera().get();
-		GlobalValue::g_CameraControler = m_LevelCameraControler;
+		LevelCamera->m_MainCamera = this->GetMainCamera().get();
+		GlobalValue::g_CameraControler = LevelCamera;
 	}
 }
 

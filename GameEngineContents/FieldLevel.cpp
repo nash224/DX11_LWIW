@@ -19,10 +19,9 @@ FieldLevel::~FieldLevel()
 void FieldLevel::Start()
 {
 	PlayLevel::Start();
-	LevelType = ELEVELTYPE::Field;
 
-	m_SkyLerp = CreateActor<SkyLerp>(EUPDATEORDER::Sky);
-	m_SkyLerp->Init();
+	Sky = CreateActor<SkyLerp>(EUPDATEORDER::Sky);
+	Sky->Init();
 }
 
 void FieldLevel::Update(float _Delta)

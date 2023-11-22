@@ -28,9 +28,9 @@ void MainMenu::Start()
 {
 	ContentsLevel::Start();
 
-	if (nullptr != m_LevelCameraControler)
+	if (nullptr != LevelCamera)
 	{
-		m_LevelCameraControler->SetCameraMode(ECAMERAMODE::Editor);
+		LevelCamera->SetCameraMode(ECAMERAMODE::Editor);
 	}
 }
 

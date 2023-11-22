@@ -26,12 +26,12 @@ public:
 	OutLineEffect& operator=(const OutLineEffect& _Other) = delete;
 	OutLineEffect& operator=(OutLineEffect&& _Other) noexcept = delete;
 
-	void SetOutLineColor(const float4& _Color = float4::WHITE)
+	inline void SetOutLineColor(const float4& _Color = float4::WHITE)
 	{
 		OutLineInfo.OutLineColor = _Color;
 	}
 
-	void SetOutLineThickness(float _Thickness = 1.0f)
+	inline void SetOutLineThickness(float _Thickness = 1.0f)
 	{
 		OutLineInfo.Thickness = _Thickness;
 	}

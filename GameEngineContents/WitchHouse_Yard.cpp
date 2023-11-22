@@ -27,9 +27,9 @@ void WitchHouse_Yard::Start()
 {
 	FieldLevel::Start();
 
-	if (nullptr != m_LevelCameraControler)
+	if (nullptr != LevelCamera)
 	{
-		m_LevelCameraControler->SetCameraMode(ECAMERAMODE::Fix);
+		LevelCamera->SetCameraMode(ECAMERAMODE::Fix);
 	}
 
 	SetLocationName("마녀의 정원");
@@ -85,7 +85,7 @@ void WitchHouse_Yard::LoadActor()
 
 void WitchHouse_Yard::SetElliePosToEnter(class GameEngineLevel* _NextLevel)
 {
-	if (nullptr == m_Ellie)
+	if (nullptr == Player)
 	{
 		MsgBoxAssert("앨리를 생성하지 않았습니다.");
 		return;
@@ -101,26 +101,26 @@ void WitchHouse_Yard::SetElliePosToEnter(class GameEngineLevel* _NextLevel)
 	else if (_NextLevel->GetName() == "Field_Center")
 	{
 		SpawnPosition = { 480.0f , -461.0f };
-		m_Ellie->SetAnimationByDirection(EDIRECTION::UP);
+		Player->SetAnimationByDirection(EDIRECTION::UP);
 	}
 	else if (_NextLevel->GetName() == "WitchHouse_UpFloor")
 	{
 		SpawnPosition = { 485.0f , -337.0f };
-		m_Ellie->SetAnimationByDirection(EDIRECTION::DOWN);
+		Player->SetAnimationByDirection(EDIRECTION::DOWN);
 	}
 	else 
 	{
 		SpawnPosition = { HWinScale.X , -450.0f };
 	}
 
-	m_Ellie->Transform.SetLocalPosition(SpawnPosition);
+	Player->Transform.SetLocalPosition(SpawnPosition);
 }
 
 void WitchHouse_Yard::CameraSetting()
 {
 	if (nullptr != GlobalValue::g_CameraControler)
 	{
-		if (GlobalValue::g_CameraControler != m_LevelCameraControler)
+		if (GlobalValue::g_CameraControler != LevelCamera)
 		{
 			MsgBoxAssert("현재 카메라 매니저가 아닙니다.");
 			return;

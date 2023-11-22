@@ -41,7 +41,15 @@ bool ContentsEvent::House_Dust::QuestClearPrerequisite()
 
 bool ContentsEvent::Craft_Potion::QuestClearPrerequisite()
 {
-	return !isQuestCompleted;
+	if (nullptr != UI_Inventory::MainInventory)
+	{
+		if (true == UI_Inventory::MainInventory->IsItem("BadGrassPotion"))
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
 
 void ContentsEvent::Craft_Potion::AcceptInternal()

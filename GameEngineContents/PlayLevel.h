@@ -49,8 +49,8 @@ private:
 	void CreateEllie();
 
 protected:
-	std::shared_ptr<Ellie> m_Ellie = nullptr;
-	std::shared_ptr<UIManager> m_UIManager = nullptr;
+	std::shared_ptr<Ellie> Player = nullptr;
+	std::shared_ptr<UIManager> UI_Manager = nullptr;
 
 	bool LevelInitCheck = false;
 

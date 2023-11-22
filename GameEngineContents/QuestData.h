@@ -1,6 +1,15 @@
 #pragma once
 #include "ContentsResource.h"
 
+enum  class EQUESTTYPE
+{
+	Main,
+	Side,
+	Repeat,
+	None,
+};
+
+
 // Ό³Έν :
 class QuestData : public ContentsResource<QuestData>
 {
@@ -14,7 +23,7 @@ public:
 		std::string _Name,
 		std::string _QuestName,
 		std::string _Contents,
-		int _QuestType = 0
+		EQUESTTYPE _QuestType = EQUESTTYPE::Main
 	)
 		:
 		Name(_Name),
@@ -22,7 +31,7 @@ public:
 		Contents(_Contents),
 		QuestType(_QuestType)
 	{
-
+		
 	}
 
 	// delete Function
@@ -34,7 +43,7 @@ public:
 
 public:
 	std::string Name;
-	int QuestType = 0;
+	EQUESTTYPE QuestType = EQUESTTYPE::None;
 	std::string QuestName;
 	std::string Contents;
 

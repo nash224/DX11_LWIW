@@ -36,7 +36,7 @@ private:
 
 
 private:
-	std::shared_ptr<BackDrop_WitchHouse_DownFloor> m_BackDrop = nullptr;
+	std::shared_ptr<BackDrop_WitchHouse_DownFloor> Back = nullptr;
 
 };
 
