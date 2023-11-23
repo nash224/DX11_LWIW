@@ -1,7 +1,5 @@
 #pragma once
 
-#define CAMERA_DEPTH -1000.0f
-
 
 enum class ECAMERAMODE
 {
@@ -13,26 +11,25 @@ enum class ECAMERAMODE
 };
 
 
-
-struct CameraInfo
-{
-public:
-	float4 PrevPosition;
-	float4 CurPosition;
-	float4 MoveDistance;
-};
-
-
 // 설명 :
 class CameraControler : public GameEngineActor
 {
 	friend class ContentsLevel;
 
+private:
+	struct CameraInfo
+	{
+	public:
+		float4 PrevPosition;
+		float4 CurPosition;
+		float4 MoveDistance;
+	};
+
 public:
-	GameEngineActor* m_FocusActor;
+	GameEngineActor* FocusActorPointer = nullptr;
 
 private:
-	GameEngineCamera* m_MainCamera;
+	GameEngineCamera* MainCameraPointer = nullptr;
 
 public:
 	// constrcuter destructer
@@ -57,8 +54,8 @@ public:
 	float4 GetCameraWorldPosition() const;
 
 	void Reset();
-	float4 AdjustCameraInitialPosition(const float4& _Location);
-	void SetAutoInitialPosition(const float4& _Location);
+	float4 AdjustCameraInitialPosition(const float4& _ActorPos);
+	void SetAutoInitialPosition(const float4& _ActorPos);
 
 	float4 GetCameraMoveDistance() const;
 	float4 GetCameraCurrentPostion() const;
@@ -68,32 +65,24 @@ protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
-	void LevelEnd(class GameEngineLevel* _NextLevel) override;
+	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 private:
 	void UpdateCameraMode(float _Delta);
-	void UpdateCameraPlayMode(float _Delta);
-	void UpdateCameraCinematicMode(float _Delta);
-	void LockCamera(float4& _pCameraMovePos, const float4& _CurCameraPos);
+	void UpdatePlayMode(float _Delta);
+	void UpdateCinematicMode(float _Delta);
+	void LockCamera(float4& _pCameraMovePos, const float4& _CurCameraPos) const;
 
-	void UpdateCameraFixMode();
-	void UpdateCameraEditorMode(float _Delta);
+	void UpdateFixMode();
+	void UpdateEditorMode(float _Delta);
 	void RenewCameraPosition();
 
 
 private:
-	float4 m_WinScale = float4::ZERO;				// 디폴트 값
-	float4 m_BackScale = float4::ZERO;				// 카메라 이동 배경 값
+	float4 BackScale = float4::ZERO;
 
-	CameraInfo m_CameraInfo;
-	ECAMERAMODE m_Mode;
-
-
-	static constexpr float m_EditorModeSpeed = 200.0f;
-
-	const float m_SmoothingRatio = 0.035f;
-	const float CameraDepth = -500.0f;
-
+	CameraInfo CameraPosInfo;
+	ECAMERAMODE CameraMode;
 
 };
 

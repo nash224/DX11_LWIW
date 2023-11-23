@@ -2,12 +2,15 @@
 #include "CameraControler.h"
 
 
+static constexpr float CAMERA_DEPTH = -1000.0f;
+
 CameraControler::CameraControler()
-	:m_MainCamera(nullptr)
-	, m_FocusActor(nullptr)
-	, m_Mode(ECAMERAMODE::None)
-	, m_CameraInfo({ float4::ZERO })
+	:MainCameraPointer(nullptr)
+	, FocusActorPointer(nullptr)
+	, CameraMode(ECAMERAMODE::None)
+	, CameraPosInfo({ float4::ZERO })
 {
+	CameraMode = ECAMERAMODE::None;
 }
 
 CameraControler::~CameraControler() 
@@ -18,21 +21,17 @@ CameraControler::~CameraControler()
 void CameraControler::Start()
 {
 	GameEngineInput::AddInputObject(this);
-
-	m_Mode = ECAMERAMODE::None;
-
-	m_WinScale = GlobalValue::GetWindowScale();
 }
 
 void CameraControler::Update(float _Delta)
 {
-	if (nullptr == m_MainCamera)
+	if (nullptr == MainCameraPointer)
 	{
 		MsgBoxAssert("메인카메라를 참조하지 않았습니다.");
 		return;
 	}
 
-	if (true == m_MainCamera->IsFreeCamera())
+	if (true == MainCameraPointer->IsFreeCamera())
 	{
 		return;
 	}
@@ -46,32 +45,20 @@ void CameraControler::LevelStart(class GameEngineLevel* _NextLevel)
 	
 }
 
-void CameraControler::LevelEnd(class GameEngineLevel* _NextLevel)
-{
 
-}
-
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-// 카메라 모드
 void CameraControler::SetCameraMode(ECAMERAMODE _Mode)
 {
-	m_Mode = _Mode;
+	CameraMode = _Mode;
 }
 
 void CameraControler::SetLocalPostion(const float4& _Position)
 {
 	float4 Position = _Position;
-	Position.Z = CameraDepth;
+	Position.Z = CAMERA_DEPTH;
 
-	m_MainCamera->Transform.SetLocalPosition(Position);
+	MainCameraPointer->Transform.SetLocalPosition(Position);
 	RenewCameraPosition();
-	m_CameraInfo.MoveDistance = 0.0f;
+	CameraPosInfo.MoveDistance = 0.0f;
 }
 
 void CameraControler::SetFocusActor(GameEngineActor* _Actor)
@@ -82,21 +69,21 @@ void CameraControler::SetFocusActor(GameEngineActor* _Actor)
 		return;
 	}
 
-	m_FocusActor = _Actor;
+	FocusActorPointer = _Actor;
 }
 
 void CameraControler::SetBackDropScale(const float4& _Scale)
 {
-	m_BackScale = _Scale;
+	BackScale = _Scale;
 }
 
 void CameraControler::AddCameraPos(const float4& _Position)
 {
-	const float4& CameraPos = m_MainCamera->Transform.GetLocalPosition();
+	const float4& CameraPos = MainCameraPointer->Transform.GetLocalPosition();
 	float4 CameraMovePosition = CameraPos + _Position;
 	CameraMovePosition.Z = CAMERA_DEPTH;
 
-	m_MainCamera->Transform.SetLocalPosition(CameraMovePosition);
+	MainCameraPointer->Transform.SetLocalPosition(CameraMovePosition);
 }
 
 void CameraControler::SetCameraPos(const float4& _Position)
@@ -104,47 +91,46 @@ void CameraControler::SetCameraPos(const float4& _Position)
 	float4 Position = _Position;
 	Position.Z = CAMERA_DEPTH;
 
-	m_MainCamera->Transform.SetLocalPosition(Position);
+	MainCameraPointer->Transform.SetLocalPosition(Position);
 }
 
 float4 CameraControler::GetCameraWorldPosition() const
 {
-	if (nullptr == m_MainCamera)
+	if (nullptr == MainCameraPointer)
 	{
 		MsgBoxAssert("카메라를 연결하세요");
 		return float4::ZERO;
 	}
 
-	return m_MainCamera->Transform.GetWorldPosition();
+	return MainCameraPointer->Transform.GetWorldPosition();
 }
 
 void CameraControler::Reset()
 {
-	m_CameraInfo.PrevPosition = m_MainCamera->Transform.GetWorldPosition();
-	m_CameraInfo.MoveDistance = float4::ZERO;
+	CameraPosInfo.PrevPosition = MainCameraPointer->Transform.GetWorldPosition();
+	CameraPosInfo.MoveDistance = float4::ZERO;
 }
 
-float4 CameraControler::AdjustCameraInitialPosition(const float4& _Location)
+float4 CameraControler::AdjustCameraInitialPosition(const float4& _ActorPos)
 {
-	if (float4::ZERO == m_BackScale)
+	if (float4::ZERO == BackScale)
 	{
 		MsgBoxAssert("배경 넓이을 지정해주지 않고 카메라 플레이 모드를 사용하려 했습니다.");
 		return float4();
 	}
 
-	if (nullptr == m_MainCamera)
+	if (nullptr == MainCameraPointer)
 	{
 		MsgBoxAssert("카메라 액터가 존재하지 않는데 사용하려고 했습니다.");
 		return float4();
 	}
 
-	float4 CurCameraPos = _Location;
+	float4 CurCameraPos = _ActorPos;
+	
+	const float4& HWinScale = GlobalValue::GetWindowScale().Half();
 
-
-	float4 HWinScale = m_WinScale.Half();
-
-	float4 CameraLeftTopPoint = CurCameraPos + float4{ -HWinScale.X , HWinScale.Y };
-	float4 CameraRightBottomPoint = CurCameraPos + float4{ HWinScale.X , -HWinScale.Y };
+	const float4& CameraLeftTopPoint = CurCameraPos + float4{ -HWinScale.X , HWinScale.Y };
+	const float4& CameraRightBottomPoint = CurCameraPos + float4{ HWinScale.X , -HWinScale.Y };
 
 	bool IsLeftTopCornerInBackScale = true;
 	bool IsLeftBottomCornerInBackScale = true;
@@ -165,26 +151,26 @@ float4 CameraControler::AdjustCameraInitialPosition(const float4& _Location)
 		IsRightTopCornerInBackScale = false;
 	}
 
-	if (CameraRightBottomPoint.X > m_BackScale.X)
+	if (CameraRightBottomPoint.X > BackScale.X)
 	{
 		IsRightTopCornerInBackScale = false;
 		IsRightBottomCornerInBackScale = false;
 	}
 
-	if (CameraRightBottomPoint.Y < -m_BackScale.Y)
+	if (CameraRightBottomPoint.Y < -BackScale.Y)
 	{
 		IsLeftBottomCornerInBackScale = false;
 		IsRightBottomCornerInBackScale = false;
 	}
 
 
-	if (CameraLeftTopPoint.X > m_BackScale.X)
+	if (CameraLeftTopPoint.X > BackScale.X)
 	{
 		IsLeftTopCornerInBackScale = false;
 		IsLeftBottomCornerInBackScale = false;
 	}
 
-	if (CameraLeftTopPoint.Y < -m_BackScale.Y)
+	if (CameraLeftTopPoint.Y < -BackScale.Y)
 	{
 		IsLeftTopCornerInBackScale = false;
 		IsRightTopCornerInBackScale = false;
@@ -234,17 +220,17 @@ float4 CameraControler::AdjustCameraInitialPosition(const float4& _Location)
 	{
 		if (true == IsLeftTopCornerInBackScale)
 		{
-			CurCameraPos = float4{ m_BackScale.X - HWinScale.X  , -m_BackScale.Y + HWinScale.Y };
+			CurCameraPos = float4{ BackScale.X - HWinScale.X  , -BackScale.Y + HWinScale.Y };
 		}
 
 		if (true == IsLeftBottomCornerInBackScale)
 		{
-			CurCameraPos = float4{ m_BackScale.X - HWinScale.X , -HWinScale.Y };
+			CurCameraPos = float4{ BackScale.X - HWinScale.X , -HWinScale.Y };
 		}
 
 		if (true == IsRightTopCornerInBackScale)
 		{
-			CurCameraPos = float4{ HWinScale.X , -m_BackScale.Y + HWinScale.Y };
+			CurCameraPos = float4{ HWinScale.X , -BackScale.Y + HWinScale.Y };
 		}
 
 		if (true == IsRightBottomCornerInBackScale)
@@ -257,12 +243,12 @@ float4 CameraControler::AdjustCameraInitialPosition(const float4& _Location)
 	{
 		if (true == IsLeftTopCornerInBackScale && true == IsLeftBottomCornerInBackScale)
 		{
-			CurCameraPos.X = m_BackScale.X - HWinScale.X;
+			CurCameraPos.X = BackScale.X - HWinScale.X;
 		}
 
 		if (true == IsLeftTopCornerInBackScale && true == IsRightTopCornerInBackScale)
 		{
-			CurCameraPos.Y = -m_BackScale.Y + HWinScale.Y;
+			CurCameraPos.Y = -BackScale.Y + HWinScale.Y;
 		}
 
 		if (true == IsRightTopCornerInBackScale && true == IsRightBottomCornerInBackScale)
@@ -282,38 +268,31 @@ float4 CameraControler::AdjustCameraInitialPosition(const float4& _Location)
 		return float4();
 	}
 
-	// 배경 안에 4점이 위치해있다는 것으로 아무것도 해주지 않습니다.
-	if (4 == CornerCountWithinScreen)
-	{
-
-	}
-
 	return CurCameraPos;
 }
 
-// 플레이 모드 전용
-// 카메라 첫위치 조정
-void CameraControler::SetAutoInitialPosition(const float4& _Location)
+
+void CameraControler::SetAutoInitialPosition(const float4& _ActorPos)
 {
-	const float4& AdjustCameraPos = AdjustCameraInitialPosition(_Location);
-	m_MainCamera->Transform.SetLocalPosition(AdjustCameraPos);
+	const float4& AdjustCameraPos = AdjustCameraInitialPosition(_ActorPos);
+	MainCameraPointer->Transform.SetLocalPosition(AdjustCameraPos);
 }
 
 
 
 float4 CameraControler::GetCameraMoveDistance() const
 {
-	return m_CameraInfo.MoveDistance;
+	return CameraPosInfo.MoveDistance;
 }
 
 float4 CameraControler::GetCameraCurrentPostion() const
 {
-	return m_CameraInfo.CurPosition;
+	return CameraPosInfo.CurPosition;
 }
 
 bool CameraControler::IsCameraMove() const
 {
-	return float4::ZERO != m_CameraInfo.MoveDistance;
+	return float4::ZERO != CameraPosInfo.MoveDistance;
 }
 
 
@@ -321,7 +300,7 @@ bool CameraControler::IsCameraMove() const
 
 void CameraControler::UpdateCameraMode(float _Delta)
 {
-	switch (m_Mode)
+	switch (CameraMode)
 	{
 	case ECAMERAMODE::None:
 	{
@@ -329,68 +308,65 @@ void CameraControler::UpdateCameraMode(float _Delta)
 	}
 		break;
 	case ECAMERAMODE::Play:
-		UpdateCameraPlayMode(_Delta);
+		UpdatePlayMode(_Delta);
 		break;
 	case ECAMERAMODE::Fix:
-		UpdateCameraFixMode();
+		UpdateFixMode();
 		break;
 	case ECAMERAMODE::Cinematic:
-		UpdateCameraCinematicMode(_Delta);
+		UpdateCinematicMode(_Delta);
 		break;
 	case ECAMERAMODE::Editor:
-		UpdateCameraEditorMode(_Delta);
+		UpdateEditorMode(_Delta);
 		break;
 	default:
 		break;
 	}
 
-	float4 CameraPos = m_MainCamera->Transform.GetLocalPosition();
+	float4 CameraPos = MainCameraPointer->Transform.GetLocalPosition();
 	CameraPos.Z = CAMERA_DEPTH;
-	m_MainCamera->Transform.SetLocalPosition(CameraPos);
+	MainCameraPointer->Transform.SetLocalPosition(CameraPos);
 }
 
 
-void CameraControler::UpdateCameraPlayMode(float _Delta)
+void CameraControler::UpdatePlayMode(float _Delta)
 {
-	if (nullptr == m_MainCamera)
+	if (nullptr == MainCameraPointer)
 	{
 		MsgBoxAssert("레벨 카메라를 지정해주지 않았습니다.");
 		return;
 	}
 
-	if (nullptr == m_FocusActor)
+	if (nullptr == FocusActorPointer)
 	{
-		// 카메라의 포커싱액터가 존재하지 않을때 고정모드
-		m_Mode = ECAMERAMODE::Fix;
+		CameraMode = ECAMERAMODE::Fix;
 		return;
 	}
 
+	static constexpr float m_SmoothingRatio = 0.035f;
 
-	float4 ActorPos = m_FocusActor->Transform.GetWorldPosition();
-	float4 CurCameraPos = m_MainCamera->Transform.GetWorldPosition();
+	const float4& ActorPos = FocusActorPointer->Transform.GetWorldPosition();
+	const float4& CurCameraPos = MainCameraPointer->Transform.GetWorldPosition();
 	
-	float4 SmoothingPos = CurCameraPos + (ActorPos - CurCameraPos) * m_SmoothingRatio;		// 매프레임마다 일정비율로 조정
+	const float4& SmoothingPos = CurCameraPos + (ActorPos - CurCameraPos) * m_SmoothingRatio;
 	float4 CameraMovePos = SmoothingPos - CurCameraPos;
 
 	LockCamera(CameraMovePos, CurCameraPos);
 
 	CameraMovePos = CurCameraPos + CameraMovePos;
-	CameraMovePos.Z = CameraDepth;					// 카메라 깊이 고정
-	m_MainCamera->Transform.SetLocalPosition(CameraMovePos);
+	CameraMovePos.Z = CAMERA_DEPTH;
+	MainCameraPointer->Transform.SetLocalPosition(CameraMovePos);
 }
 
 
-
-// PlayMode 기능
-// 카메라 잠금
-void CameraControler::LockCamera(float4& _pCameraMovePos, const float4& _CurCameraPos)
+void CameraControler::LockCamera(float4& _pCameraMovePos, const float4& _CurCameraPos) const
 {
-	float4 HalfWinScale = m_WinScale.Half();
-	float4 BackScale = m_BackScale;
-	BackScale.Y *= -1.0f;
+	const float4& HalfWinScale = GlobalValue::GetWindowScale().Half();
+	float4 BackPosition = BackScale;
+	BackPosition.Y *= -1.0f;
 
-	float4 CameraLeftTopLimitPoint = float4{ HalfWinScale.X , -HalfWinScale.Y } /*+ float4{ -200.0f , 200.f }*/;
-	float4 CameraRightBottomLimitPoint = float4{ BackScale.X - HalfWinScale.X , BackScale.Y + HalfWinScale.Y } /*+ float4{ 200.0f , -200.f }*/;
+	const float4& CameraLeftTopLimitPoint = float4{ HalfWinScale.X , -HalfWinScale.Y };
+	const float4& CameraRightBottomLimitPoint = float4{ BackPosition.X - HalfWinScale.X , BackPosition.Y + HalfWinScale.Y } /*+ float4{ 200.0f , -200.f }*/;
 
 	if (_CurCameraPos.X + _pCameraMovePos.X < CameraLeftTopLimitPoint.X)
 	{
@@ -414,23 +390,24 @@ void CameraControler::LockCamera(float4& _pCameraMovePos, const float4& _CurCame
 }
 
 
-void CameraControler::UpdateCameraFixMode()
+void CameraControler::UpdateFixMode()
 {
 
 }
 
-void CameraControler::UpdateCameraCinematicMode(float _Delta)
+void CameraControler::UpdateCinematicMode(float _Delta)
 {
 
 }
 
-// 카메라 에디터 모드
-void CameraControler::UpdateCameraEditorMode(float _Delta)
+void CameraControler::UpdateEditorMode(float _Delta)
 {
-	float CameraSpeed = m_EditorModeSpeed * _Delta;
+	static constexpr float EditorMoveSpeed = 200.0f;
+
+	float CameraSpeed = EditorMoveSpeed * _Delta;
 	if (true == GameEngineInput::IsPress(VK_SHIFT, this))
 	{
-		CameraSpeed = m_EditorModeSpeed * 3.0f * _Delta;
+		CameraSpeed = EditorMoveSpeed * 3.0f * _Delta;
 	}
 
 	float4 CameraMoveDistance = float4::ZERO;
@@ -455,18 +432,15 @@ void CameraControler::UpdateCameraEditorMode(float _Delta)
 		CameraMoveDistance += float4::RIGHT * CameraSpeed;
 	}
 
-	m_MainCamera->Transform.AddLocalPosition(CameraMoveDistance);
+	MainCameraPointer->Transform.AddLocalPosition(CameraMoveDistance);
 }
 
 
 #pragma endregion
 
-
-// 카메라 위치, 이동값 갱신 : 
-// 목적) 원근감 표현
 void CameraControler::RenewCameraPosition()
 {
-	m_CameraInfo.CurPosition = m_MainCamera->Transform.GetWorldPosition();
-	m_CameraInfo.MoveDistance = m_CameraInfo.CurPosition - m_CameraInfo.PrevPosition;
-	m_CameraInfo.PrevPosition = m_CameraInfo.CurPosition;
+	CameraPosInfo.CurPosition = MainCameraPointer->Transform.GetWorldPosition();
+	CameraPosInfo.MoveDistance = CameraPosInfo.CurPosition - CameraPosInfo.PrevPosition;
+	CameraPosInfo.PrevPosition = CameraPosInfo.CurPosition;
 }
