@@ -20,13 +20,11 @@ WitchHouse_UpFloor::~WitchHouse_UpFloor()
 void WitchHouse_UpFloor::Start()
 {
 	PlayLevel::Start();
-	LevelType = ELEVELTYPE::House;
 
-	if (nullptr != LevelCamera)
+	if (nullptr != ContentsLevel::LevelCamera)
 	{
-		LevelCamera->SetCameraMode(ECAMERAMODE::Fix);
+		ContentsLevel::LevelCamera->SetCameraMode(ECAMERAMODE::Fix);
 	}
-
 }
 
 void WitchHouse_UpFloor::Update(float _Delta)
@@ -76,16 +74,16 @@ void WitchHouse_UpFloor::LoadTexture()
 
 void WitchHouse_UpFloor::LoadActor()
 {
-	if (nullptr == m_BackDrop)
+	if (nullptr == Back)
 	{
-		m_BackDrop = CreateActor<BackDrop_WitchHouse_UpFloor>(EUPDATEORDER::Objects);
+		Back = CreateActor<BackDrop_WitchHouse_UpFloor>(EUPDATEORDER::Objects);
 	}
 }
 
 
 void WitchHouse_UpFloor::SetEllieLevelChangeLocation(class GameEngineLevel* _NextLevel)
 {
-	if (nullptr == Player)
+	if (nullptr == PlayLevel::Player)
 	{
 		return;
 	}
@@ -95,25 +93,25 @@ void WitchHouse_UpFloor::SetEllieLevelChangeLocation(class GameEngineLevel* _Nex
 	std::string NextLevelName = _NextLevel->GetName();
 	if (NextLevelName == "WitchHouse_Yard")
 	{
-		Player->SetAnimationByDirection(EDIRECTION::UP);
+		PlayLevel::Player->SetAnimationByDirection(EDIRECTION::UP);
 		SpawnPosition = { 465.0f , -353.0f };
 	}
 	else if (NextLevelName == "WitchHouse_DownFloor")
 	{
-		Player->SetAnimationByDirection(EDIRECTION::DOWN);
+		PlayLevel::Player->SetAnimationByDirection(EDIRECTION::DOWN);
 		SpawnPosition = { 515.0f , -235.0f };
 	}
 	else if (NextLevelName == "DreamLevel")
 	{
-		Player->SetAnimationByDirection(EDIRECTION::DOWN);
+		PlayLevel::Player->SetAnimationByDirection(EDIRECTION::DOWN);
 		SpawnPosition = { 440.0f , -271.0f };
 	}
 	else
 	{
-		SpawnPosition = m_BackDrop->GetHouseLocation() + float4{ 128.0f , -310.0f };
+		SpawnPosition = Back->GetHouseLocation() + float4{ 128.0f , -310.0f };
 	}
 	
-	Player->Transform.SetLocalPosition(SpawnPosition);
+	PlayLevel::Player->Transform.SetLocalPosition(SpawnPosition);
 }
 
 void WitchHouse_UpFloor::CameraSetting()
@@ -147,12 +145,12 @@ void WitchHouse_UpFloor::ReleaseTexture()
 
 void WitchHouse_UpFloor::AutoPlayBGM()
 {
-	if (nullptr != MainPlaySound)
+	if (nullptr != ContentsLevel::MainPlaySound)
 	{
 		const int bgmType = MainPlaySound->GetPlayType();
 		if (static_cast<int>(EPLAYBGMTYPE::House) != bgmType)
 		{
-			MainPlaySound->NoneBGM();
+			ContentsLevel::MainPlaySound->NoneBGM();
 		}
 	}
 }

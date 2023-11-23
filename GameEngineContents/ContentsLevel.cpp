@@ -17,6 +17,7 @@ ContentsLevel::ContentsLevel()
 	GetMainCamera()->SetZSort(0);
 	GetCamera(static_cast<int>(ECAMERAORDER::UI))->Transform.SetLocalPosition({ 0.0f, 0.0f, -500.0f });
 	LevelCamera = CreateActor<CameraControler>(EUPDATEORDER::CameraControler);
+	LevelCamera->MainCameraPointer = GetMainCamera().get();
 
 	GameEngineLevel::IsDebug = false;
 }
@@ -57,13 +58,10 @@ void ContentsLevel::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	if (nullptr != LevelCamera)
 	{
-		LevelCamera->MainCameraPointer = GetMainCamera().get();
 		CameraControler::MainCameraControler = LevelCamera;
 	}
 }
 
-
-// 디버그 모드 전환
 void ContentsLevel::ChangeDebugMode()
 {
 	if (true == IsDebug)

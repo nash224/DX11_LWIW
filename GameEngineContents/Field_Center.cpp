@@ -6,9 +6,6 @@
 #include "CameraControler.h"
 #include "BackDrop_CenterField.h"
 #include "Ellie.h"
-#include "PortalObject.h"
-
-
 
 Field_Center::Field_Center() 
 {
@@ -18,16 +15,14 @@ Field_Center::~Field_Center()
 {
 }
 
-
 void Field_Center::Start()
 {
 	FieldLevel::Start();
-
-	if (nullptr != LevelCamera)
+	
+	if (nullptr != ContentsLevel::LevelCamera)
 	{
-		LevelCamera->SetCameraMode(ECAMERAMODE::Play);
+		ContentsLevel::LevelCamera->SetCameraMode(ECAMERAMODE::Play);
 	}
-
 
 	std::shared_ptr<GameEngineCoreWindow> Window = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
 	if (nullptr != Window)
@@ -48,10 +43,9 @@ void Field_Center::LevelStart(class GameEngineLevel* _NextLevel)
 	FieldLevel::LevelStart(_NextLevel);
 
 	LoadTexture();
-	LoadActor();
+	OnLevelBackDrop();
 
 	SetEllieLevelChangeLocation(_NextLevel);
-
 	CameraSetting();
 }
 
@@ -62,9 +56,6 @@ void Field_Center::LevelEnd(class GameEngineLevel* _NextLevel)
 	ReleaseTexture();
 }
 
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 #pragma region LoadAndInit
 void Field_Center::LoadTexture()
@@ -81,18 +72,18 @@ void Field_Center::LoadTexture()
 }
 
 
-void Field_Center::LoadActor()
+void Field_Center::OnLevelBackDrop()
 {
-	if (nullptr == m_BackDrop)
+	if (nullptr == Back)
 	{
-		m_BackDrop = CreateActor<BackDrop_CenterField>(EUPDATEORDER::Objects);
+		Back = CreateActor<BackDrop_CenterField>(EUPDATEORDER::Objects);
 	}
 
-	m_BackDrop->Init();
+	Back->Init();
 
-	if (nullptr != LevelCamera)
+	if (nullptr != ContentsLevel::LevelCamera)
 	{
-		LevelCamera->SetBackDropScale(m_BackDrop->GetBackGroundScale());
+		ContentsLevel::LevelCamera->SetBackDropScale(Back->GetBackGroundScale());
 	}
 }
 
@@ -109,13 +100,11 @@ void Field_Center::SetEllieLevelChangeLocation(class GameEngineLevel* _NextLevel
 		SpawnPosition = { 1430.0f , -50.0f };
 	}
 
-	if (nullptr != Player)
+	if (nullptr != PlayLevel::Player)
 	{
-		Player->Transform.SetLocalPosition(SpawnPosition);
+		PlayLevel::Player->Transform.SetLocalPosition(SpawnPosition);
 	}
 }
-
-
 
 void Field_Center::CameraSetting()
 {
@@ -134,9 +123,6 @@ void Field_Center::CameraSetting()
 
 #pragma endregion
 
-#pragma region ReleaseRes
-
-
 void Field_Center::ReleaseTexture()
 {
 	GameEngineDirectory Dir;
@@ -149,5 +135,3 @@ void Field_Center::ReleaseTexture()
 		GameEngineTexture::Release(File.GetFileName());
 	}
 }
-
-#pragma endregion

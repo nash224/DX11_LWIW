@@ -38,7 +38,9 @@ void LogoLevel::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	ContentsLevel::LevelStart(_NextLevel);
 
-	Init();
+	LoadTexture();
+	LoadSprite();
+	LoadActor();
 
 	std::shared_ptr<FadeObject> Fade = CreateActor<FadeObject>(EUPDATEORDER::Fade);
 	Fade-> CallFadeIn(1.2f);
@@ -55,14 +57,6 @@ void LogoLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
-
-
-void LogoLevel::Init()
-{
-	LoadTexture();
-	LoadSprite();
-	LoadActor();
-}
 
 
 void LogoLevel::LoadTexture()
@@ -93,25 +87,25 @@ void LogoLevel::LoadSprite()
 
 void LogoLevel::LoadActor()
 {
-	float4 WinScale = GlobalValue::GetWindowScale();
+	const float4& WinScale = GlobalValue::GetWindowScale();
 
 	float4 Position = WinScale.Half();
 	Position.Y *= -1.0f;
 
 	{
-		std::shared_ptr<RendererActor> m_BackPaint = CreateActor<RendererActor>();
-		m_BackPaint->Transform.SetLocalScale(WinScale);
-		m_BackPaint->Transform.SetLocalPosition(Position);
-		m_BackPaint->Transform.AddLocalPosition({ 0.0f, 0.0f, 1.0f });
-		m_BackPaint->Init();
-		m_BackPaint->m_Renderer->GetColorData().MulColor = float4::ZERO;
+		std::shared_ptr<RendererActor> BackPaint = CreateActor<RendererActor>();
+		BackPaint->Transform.SetLocalScale(WinScale);
+		BackPaint->Transform.SetLocalPosition(Position);
+		BackPaint->Transform.AddLocalPosition({ 0.0f, 0.0f, 1.0f });
+		BackPaint->Init();
+		BackPaint->m_Renderer->GetColorData().MulColor = float4::ZERO;
 	}
 
 	{
-		std::shared_ptr<RendererActor> m_Logo = CreateActor<RendererActor>();
-		m_Logo->Transform.SetLocalPosition(Position);
-		m_Logo->Init();
-		m_Logo->m_Renderer->SetSprite("logo_1080p_0.png");
+		std::shared_ptr<RendererActor> Logo = CreateActor<RendererActor>();
+		Logo->Transform.SetLocalPosition(Position);
+		Logo->Init();
+		Logo->m_Renderer->SetSprite("logo_1080p_0.png");
 	}
 }
 
@@ -120,8 +114,8 @@ void LogoLevel::UpdateFade(float _Delta)
 {
 	static constexpr const float FadeOutStartTime = 3.0f;
 
-	m_LogoTime += _Delta;
-	if (m_LogoTime > FadeOutStartTime)
+	AccTime += _Delta;
+	if (AccTime > FadeOutStartTime)
 	{
 		if (false == IsFadeOn)
 		{

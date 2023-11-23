@@ -35,7 +35,7 @@ private:
 	void AutoPlayBGM();
 
 private:
-	std::shared_ptr<BackDrop_WitchHouse_UpFloor> m_BackDrop = nullptr;
+	std::shared_ptr<BackDrop_WitchHouse_UpFloor> Back = nullptr;
 
 };
 

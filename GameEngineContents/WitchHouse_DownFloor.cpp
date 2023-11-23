@@ -21,9 +21,9 @@ void WitchHouse_DownFloor::Start()
 {
 	PlayLevel::Start();
 
-	if (nullptr != LevelCamera)
+	if (nullptr != ContentsLevel::LevelCamera)
 	{
-		LevelCamera->SetCameraMode(ECAMERAMODE::Fix);
+		ContentsLevel::LevelCamera->SetCameraMode(ECAMERAMODE::Fix);
 	}
 }
 
@@ -84,13 +84,13 @@ void WitchHouse_DownFloor::LoadActor()
 
 void WitchHouse_DownFloor::SetEllieLevelChangeLocation(class GameEngineLevel* _NextLevel)
 {
-	if (nullptr == Player)
+	if (nullptr == PlayLevel::Player)
 	{
 		MsgBoxAssert("앨리를 생성하지 않았습니다.");
 		return;
 	}
 
-	Player->Transform.SetLocalPosition({ 548.0f , -228.0f });
+	PlayLevel::Player->Transform.SetLocalPosition({ 548.0f , -228.0f });
 }
 
 void WitchHouse_DownFloor::CameraSetting()
@@ -123,12 +123,12 @@ void WitchHouse_DownFloor::ReleaseTexture()
 
 void WitchHouse_DownFloor::AutoPlayBGM()
 {
-	if (nullptr != MainPlaySound)
+	if (nullptr != ContentsLevel::MainPlaySound)
 	{
 		const int bgmType = MainPlaySound->GetPlayType();
 		if (static_cast<int>(EPLAYBGMTYPE::House) != bgmType)
 		{
-			MainPlaySound->NoneBGM();
+			ContentsLevel::MainPlaySound->NoneBGM();
 		}
 	}
 }

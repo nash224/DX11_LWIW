@@ -1,5 +1,15 @@
 #pragma once
 
+enum class EPLAYBGMTYPE
+{
+	Day,
+	Night,
+	House,
+	Dream,
+	Event,
+	None,
+};
+
 // Ό³Έν :
 class BGMManager
 {

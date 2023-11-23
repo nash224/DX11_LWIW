@@ -27,8 +27,8 @@ protected:
 private:
 	std::shared_ptr<class Ellie> Player = nullptr;
 	std::shared_ptr<class UIManager> UI = nullptr;
-	std::shared_ptr<class SkyLerp> m_SkyLerp;
-	std::shared_ptr<class Bush> m_bush = nullptr;
+	std::shared_ptr<class SkyLerp> SkyLight;
+	std::shared_ptr<class Bush> bush = nullptr;
 
 	std::shared_ptr<GameEngineActor> Map = nullptr;
 	std::shared_ptr<GameEngineActor> ButtonGuide = nullptr;

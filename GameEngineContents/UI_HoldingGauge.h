@@ -26,13 +26,11 @@ public:
 
 protected:
 
-
 private:
 	std::shared_ptr<GameEngineUIRenderer> Base;
 	std::shared_ptr<ContentsUIRenderer> Gauge;
 
 	bool isOn = false;
-
 
 };
 

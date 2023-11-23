@@ -22,8 +22,16 @@ public:
 	Emoji& operator=(Emoji&& _Other) noexcept = delete;
 
 	void Init(GameEngineActor* _Actor, const float4& _EmotionPos = float4::ZERO);
-	void SetRecognitionRange(float _Range);
-	void UseOnlyExclamation();
+
+	inline void SetRecognitionRange(float _Range)
+	{
+		RecognitionRange = _Range;
+	}
+
+	inline 	void UseOnlyExclamation()
+	{
+		isUseOnlyExclamation = true;
+	}
 
 	void ShowExclamation();
 
@@ -56,7 +64,6 @@ private:
 
 	bool isUseOnlyExclamation = false;
 	float RecognitionRange = 30.0f;
-	static constexpr float NoneState_TransitionTime = 2.0f;
 
 };
 

@@ -22,15 +22,14 @@ void DreamLevel::Start()
 {
 	ContentsLevel::Start();
 
-	const float4 HWinScale = GlobalValue::GetWindowScale().Half();
-	float4 CameraPosition = HWinScale;
+	float4 CameraPosition = GlobalValue::GetWindowScale().Half();
 	CameraPosition.Y *= -1.0f;
 
 	GetMainCamera()->Transform.SetLocalPosition(CameraPosition);
-
-	if (nullptr != LevelCamera)
+	
+	if (nullptr != ContentsLevel::LevelCamera)
 	{
-		LevelCamera->SetCameraMode(ECAMERAMODE::Fix);
+		ContentsLevel::LevelCamera->SetCameraMode(ECAMERAMODE::Fix);
 	}
 
 	StateSetting();
@@ -49,13 +48,13 @@ void DreamLevel::LevelStart(class GameEngineLevel* _NextLevel)
 	ContentsLevel::LevelStart(_NextLevel);
 
 	ResLoad();
+	RendererSetting();
 
 	static constexpr const float Ending_FadeIn_Duration = 1.2f;
 
 	std::shared_ptr<FadeObject> Fade = CreateActor<FadeObject>(EUPDATEORDER::Fade);
 	Fade->CallFadeIn(Ending_FadeIn_Duration);
 
-	RendererSetting();
 	State.ChangeState(EDREAMSTATE::Stay);
 }
 
@@ -169,7 +168,6 @@ void DreamLevel::ResRelease()
 		GameEngineTexture::Release(pfile.GetStringPath());
 	}
 }
-
 
 void DreamLevel::AutoPlayBGM()
 {

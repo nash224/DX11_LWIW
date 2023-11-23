@@ -41,10 +41,10 @@ void EndingLevel::LevelStart(class GameEngineLevel* _NextLevel)
 	ContentsLevel::LevelStart(_NextLevel);
 
 	LoadResource();
+	BackDrop.RendererSetting(this);
+
 	std::shared_ptr<FadeObject> Fade = CreateActor<FadeObject>(EUPDATEORDER::Fade);
 	Fade->CallFadeIn();
-
-	BackDrop.RendererSetting(this);
 }
 
 void EndingLevel::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -57,7 +57,7 @@ void EndingLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
-void EndingLevel::BackDropEnding::RendererSetting(GameEngineLevel* _Level)
+void EndingLevel::EndingBackDrop::RendererSetting(GameEngineLevel* _Level)
 {
 	enum class EENDINGRENDERDEPTH
 	{
@@ -121,7 +121,7 @@ void EndingLevel::BackDropEnding::RendererSetting(GameEngineLevel* _Level)
 	}
 }
 
-void EndingLevel::BackDropEnding::RendererRelease()
+void EndingLevel::EndingBackDrop::RendererRelease()
 {
 	Logo = nullptr;
 	BackBase = nullptr;

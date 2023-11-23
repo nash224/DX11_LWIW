@@ -5,7 +5,7 @@
 class EndingLevel : public ContentsLevel
 {
 private:
-	class BackDropEnding
+	class EndingBackDrop
 	{
 	public:
 		void RendererSetting(GameEngineLevel* _Level);
@@ -45,7 +45,7 @@ protected:
 
 
 private:
-	BackDropEnding BackDrop;
+	EndingBackDrop BackDrop;
 
 
 };

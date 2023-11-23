@@ -3,6 +3,8 @@
 
 #include "Ellie.h"
 
+static constexpr float NoneState_TransitionTime = 2.0f;
+
 Emoji::Emoji() 
 {
 	if (nullptr == GameEngineSprite::Find("Emoticon_Background.png"))
@@ -21,7 +23,6 @@ Emoji::Emoji()
 Emoji::~Emoji() 
 {
 }
-
 
 void Emoji::Init(GameEngineActor* _Actor, const float4& _EmotionPos /*= float4::ZERO*/)
 {
@@ -50,16 +51,6 @@ void Emoji::RendererSetting(GameEngineActor* _Actor, const float4& _EmotionPos)
 
 	Emotion = _Actor->CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
 	Emotion->Transform.SetLocalPosition(float4(_EmotionPos.X, _EmotionPos.Y, EmotionDepth));
-}
-
-void Emoji::SetRecognitionRange(float _Range)
-{
-	RecognitionRange = _Range;
-}
-
-void Emoji::UseOnlyExclamation()
-{
-	isUseOnlyExclamation = true;
 }
 
 void Emoji::StateSetting()
@@ -152,7 +143,6 @@ void Emoji::UpdateQuestion(float _Delta, GameEngineState* State)
 		return;
 	}
 }
-
 
 void Emoji::ShowExclamation()
 {

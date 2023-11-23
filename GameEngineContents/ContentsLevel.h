@@ -1,24 +1,5 @@
 #pragma once
 
-enum class EGAMEMODE
-{
-	None,
-	Play,
-	Editor,
-};
-
-
-enum class EPLAYBGMTYPE
-{
-	Day,
-	Night,
-	House,
-	Dream,
-	Event,
-	None,
-};
-
-
 // Ό³Έν :
 class CameraControler;
 class ContentsLevel : public GameEngineLevel
@@ -26,8 +7,6 @@ class ContentsLevel : public GameEngineLevel
 public:
 	static bool PixelDebugMode;
 
-public:
-	std::shared_ptr<CameraControler> LevelCamera = nullptr;
 	static std::unique_ptr<class BGMManager> MainPlaySound;
 
 public:
@@ -49,6 +28,9 @@ protected:
 
 protected:
 	void ChangeDebugMode();
+
+protected:
+	std::shared_ptr<CameraControler> LevelCamera = nullptr;
 
 };
 

@@ -1,11 +1,11 @@
 #include "PreCompile.h"
 #include "TestLevel.h"
 
+#include <GameEngineCore/GameEngineCoreWindow.h>
+
 #include "CameraControler.h"
 #include "UIManager.h"
 #include "SkyLerp.h"
-
-#include <GameEngineCore/GameEngineCoreWindow.h>
 
 #include "Ellie.h"
 #include "Bush.h"
@@ -17,7 +17,6 @@
 #include "SkyLightEffect.h"
 #include "PlayerEffect.h"
 #include "OutLineEffect.h"
-
 
 #include "TestCircleGauge.h"
 #include "UI_ButtonGuide.h"
@@ -64,8 +63,6 @@ void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	ContentsLevel::LevelStart(_NextLevel);
 
-
-
 	CameraControler::MainCameraControler.lock()->SetCameraMode(ECAMERAMODE::Fix);
 
 	const float4 WinScale = GlobalValue::GetWindowScale();
@@ -88,8 +85,8 @@ void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
 	float4 InitialPosition = WinScale.Half();
 	InitialPosition.Y *= -1.0f;
 
-	m_SkyLerp = CreateActor<SkyLerp>(EUPDATEORDER::Sky);
-	m_SkyLerp->Init();
+	SkyLight = CreateActor<SkyLerp>(EUPDATEORDER::Sky);
+	SkyLight->Init();
 
 	{
 		Player = CreateActor<Ellie>(EUPDATEORDER::Player);
@@ -103,10 +100,10 @@ void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
 	}
 
 	{
-		m_bush = CreateActor<Bush>(EUPDATEORDER::Objects);
-		m_bush->SetBushType(EBUSHTYPE::BushBug);
-		m_bush->Transform.SetLocalPosition(float4(700.0f, -400.0f));
-		m_bush->Init();
+		bush = CreateActor<Bush>(EUPDATEORDER::Objects);
+		bush->SetBushType(EBUSHTYPE::BushBug);
+		bush->Transform.SetLocalPosition(float4(700.0f, -400.0f));
+		bush->Init();
 	}
 
 
@@ -170,10 +167,10 @@ void TestLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 		Player = nullptr;
 	}
 
-	if (nullptr != m_bush)
+	if (nullptr != bush)
 	{
-		m_bush->Death();
-		m_bush = nullptr;
+		bush->Death();
+		bush = nullptr;
 	}
 
 	std::vector<std::shared_ptr<SilverStarFlower>> SBFGroup = GetObjectGroupConvert<SilverStarFlower>(EUPDATEORDER::Objects);

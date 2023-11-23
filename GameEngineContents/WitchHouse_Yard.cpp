@@ -1,18 +1,10 @@
 #include "PreCompile.h"
 #include "WitchHouse_Yard.h"
 
-#include <GameEngineCore/GameEngineCoreWindow.h>
-
 #include "CameraControler.h"
-#include "TimeManager.h"
-#include "SkyLerp.h"
 
 #include "BackDrop_WitchHouse_Yard.h"
 #include "Ellie.h"
-#include "UI_Alert_Enter.h"
-#include "UI_Alert_Quest.h"
-
-
 
 WitchHouse_Yard::WitchHouse_Yard() 
 {
@@ -27,9 +19,9 @@ void WitchHouse_Yard::Start()
 {
 	FieldLevel::Start();
 
-	if (nullptr != LevelCamera)
+	if (nullptr != ContentsLevel::LevelCamera)
 	{
-		LevelCamera->SetCameraMode(ECAMERAMODE::Fix);
+		ContentsLevel::LevelCamera->SetCameraMode(ECAMERAMODE::Fix);
 	}
 
 	SetLocationName("마녀의 정원");
@@ -59,8 +51,6 @@ void WitchHouse_Yard::LevelEnd(class GameEngineLevel* _NextLevel)
 	ReleaseTexture();
 }
 
-
-
 void WitchHouse_Yard::LoadTexture()
 {
 	std::vector<GameEngineDirectory> Dirs = FileLoadFunction::GetAllDirInPath("Resources\\PlayContents\\WitchHouse_Yard");
@@ -74,18 +64,17 @@ void WitchHouse_Yard::LoadTexture()
 	}
 }
 
-
 void WitchHouse_Yard::LoadActor()
 {
-	if (nullptr == m_BackDrop)
+	if (nullptr == Back)
 	{
-		m_BackDrop = CreateActor<BackDrop_WitchHouse_Yard>(EUPDATEORDER::Objects);
+		Back = CreateActor<BackDrop_WitchHouse_Yard>(EUPDATEORDER::Objects);
 	}
 }
 
 void WitchHouse_Yard::SetElliePosToEnter(class GameEngineLevel* _NextLevel)
 {
-	if (nullptr == Player)
+	if (nullptr == PlayLevel::Player)
 	{
 		MsgBoxAssert("앨리를 생성하지 않았습니다.");
 		return;
@@ -101,19 +90,19 @@ void WitchHouse_Yard::SetElliePosToEnter(class GameEngineLevel* _NextLevel)
 	else if (_NextLevel->GetName() == "Field_Center")
 	{
 		SpawnPosition = { 480.0f , -461.0f };
-		Player->SetAnimationByDirection(EDIRECTION::UP);
+		PlayLevel::Player->SetAnimationByDirection(EDIRECTION::UP);
 	}
 	else if (_NextLevel->GetName() == "WitchHouse_UpFloor")
 	{
 		SpawnPosition = { 485.0f , -337.0f };
-		Player->SetAnimationByDirection(EDIRECTION::DOWN);
+		PlayLevel::Player->SetAnimationByDirection(EDIRECTION::DOWN);
 	}
 	else 
 	{
 		SpawnPosition = { HWinScale.X , -450.0f };
 	}
 
-	Player->Transform.SetLocalPosition(SpawnPosition);
+	PlayLevel::Player->Transform.SetLocalPosition(SpawnPosition);
 }
 
 void WitchHouse_Yard::CameraSetting()
