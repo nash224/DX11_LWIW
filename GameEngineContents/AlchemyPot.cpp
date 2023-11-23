@@ -37,8 +37,7 @@ void AlchemyPot::Start()
 	CreateAndSetCollision(ECOLLISION::Entity, { 160.0f , 100.0f }, float4(0.0f, -100.0f), ColType::SPHERE2D);
 	SetInteractionType(EINTERACTION_TYPE::Far);
 	SetInteractionButtonType(EINTERACTION_BUTTONTYPE::Gear);
-	m_CollectionMethod = ECOLLECTION_METHOD::AlchemyPot;
-	m_CollectionTool = ETOOLTYPE::Nothing;
+	SetInteractionOption(EINTERACTION_BUTTONTYPE::Gear, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::AlchemyPot, ETOOLTYPE::Nothing);
 
 	s_PotPointer = this;
 }

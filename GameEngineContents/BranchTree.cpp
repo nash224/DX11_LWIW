@@ -31,7 +31,7 @@ void BranchTree::Start()
 
 	SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Nothing);
 	CreateAndSetCollision(ECOLLISION::Entity, { 84.0f , 32.0f }, float4::ZERO, ColType::SPHERE2D);
-	PressType = EINTERACTION_PRESSTYPE::Press;
+	SetInteractionInputType(EINTERACTION_PRESSTYPE::Press);
 }
 
 void BranchTree::Update(float _Delta)

@@ -15,8 +15,8 @@ DynamicEntity::~DynamicEntity()
 
 void DynamicEntity::Start()
 {
-	m_InteractionButtonType = EINTERACTION_BUTTONTYPE::Gathering;
-	m_InteractionType = EINTERACTION_TYPE::Near;
+	SetInteractionButtonType(EINTERACTION_BUTTONTYPE::Gathering);
+	SetInteractionType(EINTERACTION_TYPE::Near);
 }
 
 void DynamicEntity::Update(float _Delta)

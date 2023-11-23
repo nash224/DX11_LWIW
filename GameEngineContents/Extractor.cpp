@@ -31,10 +31,11 @@ void Extractor::Start()
 {
 	InteractiveActor::CreateAndSetCollision(ECOLLISION::Entity, { 150.0f , 100.0f }, float4::ZERO, ColType::AABBBOX2D);
 	InteractiveActor::SetNearInteractivePositionAndRange(float4(18.0f, -16.0f), 5.0f);
-	InteractiveActor::SetInteractionButtonType(EINTERACTION_BUTTONTYPE::Gear);
-	InteractiveActor::SetInteractionType(EINTERACTION_TYPE::Near);
-	InteractiveActor::m_CollectionMethod = ECOLLECTION_METHOD::Juicy;
-	InteractiveActor::m_CollectionTool = ETOOLTYPE::Nothing;
+	InteractiveActor::SetInteractionOption(
+		EINTERACTION_BUTTONTYPE::Gear, 
+		EINTERACTION_TYPE::Near, 
+		ECOLLECTION_METHOD::Juicy, 
+		ETOOLTYPE::Nothing);
 
 	InitExtractor();
 

@@ -137,7 +137,7 @@ void Plant::UpdateIdle(float _Delta)
 
 void Plant::StartUpRoot()
 {
-	m_InteractionButtonType = EINTERACTION_BUTTONTYPE::None;
+	SetInteractionButtonType(EINTERACTION_BUTTONTYPE::None);
 	InteractiveCol->Off();
 
 	PlaySFX("SFX_PlantsRootUp_01.wav");

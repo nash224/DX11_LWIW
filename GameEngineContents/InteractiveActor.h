@@ -30,6 +30,18 @@ class InteractiveActor : public GameEngineActor
 	friend class BackDrop;
 	friend class Ellie;
 
+private:
+	struct InteractOption
+	{
+	public:
+		EINTERACTION_BUTTONTYPE ButtonType = EINTERACTION_BUTTONTYPE::None;
+		EINTERACTION_TYPE InteractionType = EINTERACTION_TYPE::None;
+		ECOLLECTION_METHOD CollectionMethod = ECOLLECTION_METHOD::None;
+		ETOOLTYPE CollectionTool = ETOOLTYPE::None;
+		EINTERACTION_PRESSTYPE InputType = EINTERACTION_PRESSTYPE::Down;
+
+	};
+
 public:
 	// constrcuter destructer
 	InteractiveActor();
@@ -41,33 +53,35 @@ public:
 	InteractiveActor& operator=(const InteractiveActor& _Other) = delete;
 	InteractiveActor& operator=(InteractiveActor&& _Other) noexcept = delete;
 
-	// 상호작용 충돌체 생성
 	void CreateAndSetCollision(ECOLLISION _Order, const float4& _Scale, const float4& _Position, ColType _Type);
 
-	// 근접 상호작용 설정
 	void SetNearInteractivePositionAndRange(const float4& _InteractivePosition, float _Range);
 
 	float4 GetInteractiveLocalPositon() const
 	{
-		float4 ReturnValue = m_InteractiveLocalPosition + Transform.GetLocalPosition();
+		float4 ReturnValue = InteractiveLocalPosition + Transform.GetLocalPosition();
 		return ReturnValue;
 	}
 
-	float GetInteractiveRange() const
+	inline float GetInteractiveRange() const
 	{
 		return InteractiveRange;
 	}
 
 
-
-	// 옵션
 	void SetInteractionButtonType(const EINTERACTION_BUTTONTYPE _Type);
 	void SetInteractionType(const EINTERACTION_TYPE _Type);
 
-	// EINTERACTION_BUTTONTYPE  : 버튼
-	// EINTERACTION_TYPE,		: 상호작용 거리 (근접이냐, 원거리냐)
-	// ECOLLECTION_METHOD,		: 채집 모션(Ellie)
-	// ETOOLTYPE				: 도구
+	inline void SetCollectionMethodType(const ECOLLECTION_METHOD _Type)
+	{
+		Option.CollectionMethod = _Type;
+	}
+
+	inline void SetInteractionInputType(const EINTERACTION_PRESSTYPE _Type)
+	{
+		Option.InputType = _Type;
+	}
+
 	void SetInteractionOption(
 		const EINTERACTION_BUTTONTYPE _BUTTONTYPE,
 		const EINTERACTION_TYPE _Type,
@@ -83,42 +97,36 @@ public:
 	ETOOLTYPE GetCollectionToolType() const;
 
 
-	// 앨리전용 : 동적 대상을 정지시킨다.
 	virtual void GetCaught() {}
 
-	// 충돌: 앨리 전용
-	void ReachThis()
+	inline void ReachThis()
 	{
 		IsReach = true;
 	}
 
 
 	void ApplyDepth();
-	void SetDepthBias(float _DepthBias)
+	inline void SetDepthBias(float _DepthBias)
 	{
 		PlusDepth = _DepthBias;
 	}
 
 protected:
-	void Start() override;
+	void Start() override {}
 	void Update(float _Delta) override;
 	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
-	void LevelEnd(class GameEngineLevel* _NextLevel) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
+	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 protected:
 	std::shared_ptr<GameEngineSpriteRenderer> BodyRenderer = nullptr;
 	std::shared_ptr<GameEngineCollision> InteractiveCol = nullptr;
 
-	EINTERACTION_BUTTONTYPE m_InteractionButtonType = EINTERACTION_BUTTONTYPE::None;				// UI 상호작용시 버튼 타입
-	EINTERACTION_TYPE m_InteractionType = EINTERACTION_TYPE::None;									// 상호작용시 접근 유무
-	ECOLLECTION_METHOD m_CollectionMethod = ECOLLECTION_METHOD::None;								// 수집 모션타입
-	ETOOLTYPE m_CollectionTool = ETOOLTYPE::None;													// 채집 도구 타입
-	EINTERACTION_PRESSTYPE PressType = EINTERACTION_PRESSTYPE::Down;
+	InteractOption Option;
 
-	float4 m_InteractiveLocalPosition = float4::ZERO;											
-
+	float4 InteractiveLocalPosition = float4::ZERO;											
 	float InteractiveRange = 3.0f;
+
 	float PlusDepth = 0.0f;				
 	
 	bool IsReach = false;

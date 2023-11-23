@@ -365,7 +365,6 @@ void MongSiri::EndCollected()
 
 void MongSiri::StartDisappear()
 {
-	m_CollectionTool = ETOOLTYPE::None;
 	ChangeAnimation("Disappear");
 }
 

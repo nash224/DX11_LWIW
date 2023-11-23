@@ -31,11 +31,11 @@ void MongSiri::Start()
 {
 	InteractiveActor::CreateAndSetCollision(ECOLLISION::Entity, { 200, 200 }, float4::ZERO, ColType::SPHERE2D);
 	InteractiveActor::SetNearInteractivePositionAndRange(float4::ZERO, 1.0f);
-
-	InteractiveActor::m_InteractionButtonType = EINTERACTION_BUTTONTYPE::Gathering;			// 버튼타입
-	InteractiveActor::m_InteractionType = EINTERACTION_TYPE::Near;							// 원격
-	InteractiveActor::m_CollectionMethod = ECOLLECTION_METHOD::MongSiri;						// 채집방법
-	InteractiveActor::m_CollectionTool = ETOOLTYPE::Gloves;									// 채집툴
+	InteractiveActor::SetInteractionOption(
+		EINTERACTION_BUTTONTYPE::Gathering, 
+		EINTERACTION_TYPE::Near, 
+		ECOLLECTION_METHOD::MongSiri, 
+		ETOOLTYPE::Gloves);
 
 	Status  = EMONGSIRISTATUS::Normal;
 }
