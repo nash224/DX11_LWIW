@@ -141,7 +141,7 @@ PixelOut GaugeShader_PS(PixelOutPut _Input) : SV_Target0
             clip(-1);
         }
     }
-        
+
     
     if (0.0f >= Color.a)
     {

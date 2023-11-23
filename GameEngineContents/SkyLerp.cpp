@@ -134,7 +134,7 @@ void SkyLerp::UpdateSkyLerp()
 		return;
 	}
 
-	float TimeRatio = PlayLevel::s_TimeManager->GetTimeRatio();
+	const float TimeRatio = PlayLevel::s_TimeManager->GetTimeRatio();
 
 	bool isOver300PM = (TimeRatio > SunsetStartTimeRatio);
 	if (isOver300PM)
@@ -149,9 +149,7 @@ void SkyLerp::UpdateSkyLerp()
 		SunSetRatio = std::modff(SunSetRatio, &fRefNumber);								// 沥荐何, 家荐何 盒府
 		int RefNumber = static_cast<int>(fRefNumber);
 
-		int MaxRefNumber = static_cast<int>(SkyData.size() - 1);
-
-		
+		const int MaxRefNumber = static_cast<int>(SkyData.size() - 1);
 
 		bool isOver740PM = (RefNumber < MaxRefNumber);
 		if (isOver740PM)

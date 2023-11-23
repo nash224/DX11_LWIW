@@ -5,10 +5,15 @@
 #include "UI_BiologyPage.h"
 #include "UI_ProductPage.h"
 
-EDICTIONARYCATEGORY UI_Dictionary::g_CurrentCategory = EDICTIONARYCATEGORY::None;
-int UI_Dictionary::g_CurrentLeftPage = 0;
+EDICTIONARYCATEGORY UI_Dictionary::s_CurrentCategory = EDICTIONARYCATEGORY::None;
+int UI_Dictionary::s_CurrentLeftPage = 0;
 UI_Dictionary::UI_Dictionary() 
 {
+	if (EDICTIONARYCATEGORY::None == s_CurrentCategory)
+	{
+		s_CurrentCategory = EDICTIONARYCATEGORY::CreaturePage;
+		s_CurrentLeftPage = 1;
+	}
 }
 
 UI_Dictionary::~UI_Dictionary() 
@@ -36,6 +41,7 @@ void UI_Dictionary::Update(float _Delta)
 
 void UI_Dictionary::OnLevelStart()
 {
+	OffCategoryMark();
 	ChangeCategoryMark();
 }
 
@@ -52,11 +58,6 @@ void UI_Dictionary::LevelEnd(class GameEngineLevel* _NextLevel)
 	OnLevelStartCheck = false;
 }
 
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-//
-// 이니셜
 
 #pragma region 이니셜
 
@@ -91,11 +92,7 @@ void UI_Dictionary::Init()
 	CreatePage(EDICTIONARYCATEGORY::CandyPage, "UncurseCandy");
 	CreatePage(EDICTIONARYCATEGORY::CandyPage, "HealingCandy");
 
-	if (EDICTIONARYCATEGORY::None == g_CurrentCategory)
-	{
-		g_CurrentCategory = EDICTIONARYCATEGORY::CreaturePage;
-		g_CurrentLeftPage = 1;
-	}
+	ChangeCategoryMark();
 
 	std::vector<ButtonInfoParameter> Paras = 
 	{ 
@@ -105,32 +102,30 @@ void UI_Dictionary::Init()
 	};
 	UIGuide.SetGuideInfo(this, Paras);
 	UIGuide.On();
-
-	ChangeCategoryMark();
 }
 
-
-// 책 생성
 void UI_Dictionary::CreateBase()
 {
 	const float Depth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Base);
 
-	m_BaseRenderer = CreateComponent<GameEngineUIRenderer>();
-	m_BaseRenderer->Transform.SetLocalPosition({ 0.0f , 0.0f, Depth });
-	m_BaseRenderer->SetSprite("Base.png");
+	BookBase = CreateComponent<GameEngineUIRenderer>();
+	BookBase->Transform.SetLocalPosition({ 0.0f , 0.0f, Depth });
+	BookBase->SetSprite("Base.png");
 }
 
-// 카테고리 생성
 void UI_Dictionary::CreateCategory()
 {
-	float4 SetLocalPos = float4{ -345.0f , 128.0f };
+	const float AttachmentDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
 
-	m_CategoryRenderer.Creature = CreateComponent<GameEngineUIRenderer>();
-	m_CategoryRenderer.Creature->SetSprite("Tag_Creature_Normal.png");
-	m_CategoryRenderer.Creature->SetPivotType(PivotType::Right);
+	float4 CategoryPos = float4{ -345.0f , 128.0f };
 
-	SetLocalPos.Z = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
-	m_CategoryRenderer.Creature->Transform.SetLocalPosition(SetLocalPos);
+	Category.Creature = CreateComponent<GameEngineUIRenderer>();
+	Category.Creature->SetSprite("Tag_Creature_Normal.png");
+	Category.Creature->SetPivotType(PivotType::Right);
+
+	Category.Creature->Transform.SetLocalPosition(float4(CategoryPos.X, CategoryPos.Y, AttachmentDepth));
+
+	constexpr float CategoryGap = 14.0f;
 
 	std::shared_ptr<GameEngineTexture> CreatureTexture = GameEngineTexture::Find("Tag_Creature_Normal.png");
 	if (nullptr == CreatureTexture)
@@ -139,8 +134,8 @@ void UI_Dictionary::CreateCategory()
 		return;
 	}
 
-	float4 HTextureScale = CreatureTexture->GetScale().Half();
-	SetLocalPos.Y -= HTextureScale.Y + CategoryGap;
+	const float4& HTextureScale = CreatureTexture->GetScale().Half();
+	CategoryPos.Y -= HTextureScale.Y + CategoryGap;
 
 
 	std::shared_ptr<GameEngineTexture> PlantTexture = GameEngineTexture::Find("Tag_Plant_Normal.png");
@@ -150,18 +145,17 @@ void UI_Dictionary::CreateCategory()
 		return;
 	}
 
-	HTextureScale = PlantTexture->GetScale().Half();
-	SetLocalPos.Y -= HTextureScale.Y;
+	CategoryPos.Y -= PlantTexture->GetScale().hY();
 
 
-	m_CategoryRenderer.Plant = CreateComponent<GameEngineUIRenderer>();
-	m_CategoryRenderer.Plant->SetSprite("Tag_Plant_Normal.png");
-	m_CategoryRenderer.Plant->SetPivotType(PivotType::Right);
+	Category.Plant = CreateComponent<GameEngineUIRenderer>();
+	Category.Plant->SetSprite("Tag_Plant_Normal.png");
+	Category.Plant->SetPivotType(PivotType::Right);
 
-	SetLocalPos.Z = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
-	m_CategoryRenderer.Plant->Transform.SetLocalPosition(SetLocalPos);
+	CategoryPos.Z = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
+	Category.Plant->Transform.SetLocalPosition(CategoryPos);
 
-	SetLocalPos.Y -= HTextureScale.Y + CategoryGap;
+	CategoryPos.Y -= HTextureScale.Y + CategoryGap;
 
 
 	std::shared_ptr<GameEngineTexture> PotionTexture = GameEngineTexture::Find("Tag_Potion_Normal.png");
@@ -171,19 +165,17 @@ void UI_Dictionary::CreateCategory()
 		return;
 	}
 
-	HTextureScale = PotionTexture->GetScale().Half();
-	SetLocalPos.Y -= HTextureScale.Y;
+	CategoryPos.Y -= PotionTexture->GetScale().hY();
 
 
-	m_CategoryRenderer.Potion = CreateComponent<GameEngineUIRenderer>();
-	m_CategoryRenderer.Potion->SetSprite("Tag_Potion_Normal.png");
-	m_CategoryRenderer.Potion->SetPivotType(PivotType::Right);
+	Category.Potion = CreateComponent<GameEngineUIRenderer>();
+	Category.Potion->SetSprite("Tag_Potion_Normal.png");
+	Category.Potion->SetPivotType(PivotType::Right);
 
-	SetLocalPos.Z = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
-	m_CategoryRenderer.Potion->Transform.SetLocalPosition(SetLocalPos);
+	CategoryPos.Z = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
+	Category.Potion->Transform.SetLocalPosition(CategoryPos);
 
-	SetLocalPos.Y -= HTextureScale.Y + CategoryGap;
-
+	CategoryPos.Y -= HTextureScale.Y + CategoryGap;
 
 
 	std::shared_ptr<GameEngineTexture> CandyTexture = GameEngineTexture::Find("Tag_Candy_Normal.png");
@@ -193,19 +185,17 @@ void UI_Dictionary::CreateCategory()
 		return;
 	}
 
-	HTextureScale = CandyTexture->GetScale().Half();
-	SetLocalPos.Y -= HTextureScale.Y;
+	CategoryPos.Y -= CandyTexture->GetScale().hY();
 
 
-	m_CategoryRenderer.Candy = CreateComponent<GameEngineUIRenderer>();
-	m_CategoryRenderer.Candy->SetSprite("Tag_Candy_Normal.png");
-	m_CategoryRenderer.Candy->SetPivotType(PivotType::Right);
+	Category.Candy = CreateComponent<GameEngineUIRenderer>();
+	Category.Candy->SetSprite("Tag_Candy_Normal.png");
+	Category.Candy->SetPivotType(PivotType::Right);
 
-	SetLocalPos.Z = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
-	m_CategoryRenderer.Candy->Transform.SetLocalPosition(SetLocalPos);
+	CategoryPos.Z = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
+	Category.Candy->Transform.SetLocalPosition(CategoryPos);
 }
 
-// 카테고리 페이지를 추가합니다.
 void UI_Dictionary::CreatePage(EDICTIONARYCATEGORY _Type, std::string_view Name)
 {
 	switch (_Type)
@@ -215,29 +205,29 @@ void UI_Dictionary::CreatePage(EDICTIONARYCATEGORY _Type, std::string_view Name)
 	case EDICTIONARYCATEGORY::CreaturePage:
 	{
 		std::shared_ptr<UI_BiologyPage> Page = GetLevel()->CreateActor<UI_BiologyPage>(EUPDATEORDER::UIComponent);
-		Page->CreatePage(Name, m_CreaturePageCount);
-		vecCreaturePage.push_back(Page);
+		Page->CreatePage(Name, CreaturePageCount);
+		CreaturePages.push_back(Page);
 	}
 		break;
 	case EDICTIONARYCATEGORY::PlantPage:
 	{
 		std::shared_ptr<UI_BiologyPage> Page = GetLevel()->CreateActor<UI_BiologyPage>(EUPDATEORDER::UIComponent);
-		Page->CreatePage(Name, m_PlantPageCount);
-		vecPlantPage.push_back(Page);
+		Page->CreatePage(Name, PlantPageCount);
+		PlantPages.push_back(Page);
 	}
 		break;
 	case EDICTIONARYCATEGORY::PotionPage:
 	{
 		std::shared_ptr<UI_ProductPage> Page = GetLevel()->CreateActor<UI_ProductPage>(EUPDATEORDER::UIComponent);
-		Page->CreatePage(Name, m_PotionPageCount);
-		vecPotionPage.push_back(Page);
+		Page->CreatePage(Name, PotionPageCount);
+		PotionPages.push_back(Page);
 	}
 		break;
 	case EDICTIONARYCATEGORY::CandyPage:
 	{
 		std::shared_ptr<UI_ProductPage> Page = GetLevel()->CreateActor<UI_ProductPage>(EUPDATEORDER::UIComponent);
-		Page->CreatePage(Name, m_CandyPageCount);
-		vecCandyPage.push_back(Page);
+		Page->CreatePage(Name, CandyPageCount);
+		CandyPages.push_back(Page);
 	}
 		break;
 	default:
@@ -248,17 +238,16 @@ void UI_Dictionary::CreatePage(EDICTIONARYCATEGORY _Type, std::string_view Name)
 #pragma endregion
 
 
-// 부모의 Open함수에 자식에서 해줘야할 행동을 선언합니다.
 void UI_Dictionary::OpenInternal()
 {
-	SFXFunction::PlaySFX("SFX_Open_01.wav");
-	OpenNextPage(g_CurrentCategory);
+	OffAllCategoryMark();
+	ChangeCategoryMark();
+	OpenNextPage(s_CurrentCategory);
 }
 
-// 부모의 Close함수에 자식에서 해줘야할 행동을 선언합니다.
 void UI_Dictionary::CloseInternal()
 {
-	CloseCurrentPage(g_CurrentCategory);
+	CloseCurrentPage(s_CurrentCategory);
 }
 
 
@@ -268,15 +257,15 @@ void UI_Dictionary::OpenNextPage(EDICTIONARYCATEGORY _Type)
 {
 	SFXFunction::PlaySFX("SFX_PenCompleteTearPaper.wav");
 
-	if (g_CurrentLeftPage < 1)
+	if (s_CurrentLeftPage < 1)
 	{
 		MsgBoxAssert("0페이지는 존재하지 않습니다.");
 		return;
 	}
 
-	int OpenPage = g_CurrentLeftPage - 1;
+	int OpenPage = s_CurrentLeftPage - 1;
 
-	switch (g_CurrentCategory)
+	switch (s_CurrentCategory)
 	{
 	case EDICTIONARYCATEGORY::None:
 	{
@@ -286,80 +275,76 @@ void UI_Dictionary::OpenNextPage(EDICTIONARYCATEGORY _Type)
 		break;
 	case EDICTIONARYCATEGORY::CreaturePage:
 	{
-		std::shared_ptr<UI_BiologyPage> OddPage = vecCreaturePage[OpenPage++];
-		if (nullptr == OddPage)
+		std::weak_ptr<UI_BiologyPage> OddPage = CreaturePages[OpenPage++];
+		if (true == OddPage.expired())
 		{
-			MsgBoxAssert("존재하지 않는 벡터를 참조했습니다.");
+			MsgBoxAssert("존재하지 않는 페이지를 참조했습니다.");
 			return;
 		}
 
-		OddPage->On();
+		OddPage.lock()->On();
 
-		// 현재 페이지는 무조건 홀수만 들어옵니다.
-		// 마지막 페이지가 현재 페이지와 같다면 한쪽이 비어있다는 뜻으로 밑 구문을 실행시키지 않습니다.
-		if (g_CurrentLeftPage != m_CreaturePageCount)
+		if (s_CurrentLeftPage != CreaturePageCount)
 		{
-			std::shared_ptr<UI_BiologyPage> EvenPage = vecCreaturePage[OpenPage];
-			if (nullptr == EvenPage)
+			std::weak_ptr<UI_BiologyPage> EvenPage = CreaturePages[OpenPage];
+			if (true == EvenPage.expired())
 			{
-				MsgBoxAssert("존재하지 않는 벡터를 참조했습니다.");
+				MsgBoxAssert("존재하지 않는 페이지를 참조했습니다.");
 				return;
 			}
 
-			EvenPage->On();
+			EvenPage.lock()->On();
 		}
 	}
 	break;
 	case EDICTIONARYCATEGORY::PlantPage:
 	{
-		std::shared_ptr<UI_BiologyPage> OddPage = vecPlantPage[OpenPage++];
-		if (nullptr == OddPage)
+		std::weak_ptr<UI_BiologyPage> OddPage = PlantPages[OpenPage++];
+		if (true == OddPage.expired())
 		{
-			MsgBoxAssert("존재하지 않는 벡터를 참조했습니다.");
+			MsgBoxAssert("존재하지 않는 페이지를 참조했습니다.");
 			return;
 		}
 
-		OddPage->On();
+		OddPage.lock()->On();
 
-		// 현재 페이지는 무조건 홀수만 들어옵니다.
-		// 마지막 페이지가 현재 페이지와 같다면 한쪽이 비어있다는 뜻으로 밑 구문을 실행시키지 않습니다.
-		if (g_CurrentLeftPage != m_PlantPageCount)
+		if (s_CurrentLeftPage != PlantPageCount)
 		{
-			std::shared_ptr<UI_BiologyPage> EvenPage = vecPlantPage[OpenPage];
-			if (nullptr == EvenPage)
+			std::weak_ptr<UI_BiologyPage> EvenPage = PlantPages[OpenPage];
+			if (true == EvenPage.expired())
 			{
-				MsgBoxAssert("존재하지 않는 벡터를 참조했습니다.");
+				MsgBoxAssert("존재하지 않는 페이지를 참조했습니다.");
 				return;
 			}
 
-			EvenPage->On();
+			EvenPage.lock()->On();
 		}
 	}
 	break;
 	case EDICTIONARYCATEGORY::PotionPage:
 	{
 		OpenPage /= 2;
-		std::shared_ptr<UI_ProductPage> Page = vecPotionPage[OpenPage];
-		if (nullptr == Page)
+		std::weak_ptr<UI_ProductPage> Page = PotionPages[OpenPage];
+		if (true == Page.expired())
 		{
-			MsgBoxAssert("존재하지 않는 벡터를 참조했습니다.");
+			MsgBoxAssert("존재하지 않는 페이지를 참조했습니다.");
 			return;
 		}
 
-		Page->On();
+		Page.lock()->On();
 	}
 		break;
 	case EDICTIONARYCATEGORY::CandyPage:
 	{
 		OpenPage /= 2;
-		std::shared_ptr<UI_ProductPage> Page = vecCandyPage[OpenPage];
-		if (nullptr == Page)
+		std::weak_ptr<UI_ProductPage> Page = CandyPages[OpenPage];
+		if (true == Page.expired())
 		{
-			MsgBoxAssert("존재하지 않는 벡터를 참조했습니다.");
+			MsgBoxAssert("존재하지 않는 페이지를 참조했습니다.");
 			return;
 		}
 
-		Page->On();
+		Page.lock()->On();
 	}
 		break;
 	default:
@@ -367,7 +352,6 @@ void UI_Dictionary::OpenNextPage(EDICTIONARYCATEGORY _Type)
 	}
 }
 
-// 특정 카테고리 페이지를 끕니다.
 void UI_Dictionary::CloseCurrentPage(EDICTIONARYCATEGORY _Type)
 {
 	switch (_Type)
@@ -376,9 +360,9 @@ void UI_Dictionary::CloseCurrentPage(EDICTIONARYCATEGORY _Type)
 		break;
 	case EDICTIONARYCATEGORY::CreaturePage:
 	{
-		for (size_t i = 0; i < vecCreaturePage.size(); i++)
+		for (size_t i = 0; i < CreaturePages.size(); i++)
 		{
-			std::shared_ptr<UI_BiologyPage> Object = vecCreaturePage[i];
+			std::shared_ptr<UI_BiologyPage> Object = CreaturePages[i];
 			if (nullptr == Object)
 			{
 				MsgBoxAssert("벡터 배열에 존재하지 않는 액터가 있습니다.");
@@ -391,9 +375,9 @@ void UI_Dictionary::CloseCurrentPage(EDICTIONARYCATEGORY _Type)
 	break;
 	case EDICTIONARYCATEGORY::PlantPage:
 	{
-		for (size_t i = 0; i < vecPlantPage.size(); i++)
+		for (size_t i = 0; i < PlantPages.size(); i++)
 		{
-			std::shared_ptr<UI_BiologyPage> Object = vecPlantPage[i];
+			std::shared_ptr<UI_BiologyPage> Object = PlantPages[i];
 			if (nullptr == Object)
 			{
 				MsgBoxAssert("벡터 배열에 존재하지 않는 액터가 있습니다.");
@@ -406,9 +390,9 @@ void UI_Dictionary::CloseCurrentPage(EDICTIONARYCATEGORY _Type)
 	break;
 	case EDICTIONARYCATEGORY::PotionPage:
 	{
-		for (size_t i = 0; i < vecPotionPage.size(); i++)
+		for (size_t i = 0; i < PotionPages.size(); i++)
 		{
-			std::shared_ptr<UI_ProductPage> Object = vecPotionPage[i];
+			std::shared_ptr<UI_ProductPage> Object = PotionPages[i];
 			if (nullptr == Object)
 			{
 				MsgBoxAssert("벡터 배열에 존재하지 않는 액터가 있습니다.");
@@ -421,9 +405,9 @@ void UI_Dictionary::CloseCurrentPage(EDICTIONARYCATEGORY _Type)
 		break;
 	case EDICTIONARYCATEGORY::CandyPage:
 	{
-		for (size_t i = 0; i < vecCandyPage.size(); i++)
+		for (size_t i = 0; i < CandyPages.size(); i++)
 		{
-			std::shared_ptr<UI_ProductPage> Object = vecCandyPage[i];
+			std::shared_ptr<UI_ProductPage> Object = CandyPages[i];
 			if (nullptr == Object)
 			{
 				MsgBoxAssert("벡터 배열에 존재하지 않는 액터가 있습니다.");
@@ -439,10 +423,6 @@ void UI_Dictionary::CloseCurrentPage(EDICTIONARYCATEGORY _Type)
 	}
 }
 
-
-/////////////////////////////////////////////////////////////////////////////////////
-// 
-// 업데이트
 
 void UI_Dictionary::UpdateDictionary()
 {
@@ -462,7 +442,6 @@ void UI_Dictionary::UpdateDictionary()
 	}
 }
 
-// 사전이 열렸는지 감지합니다.
 bool UI_Dictionary::CheckOpenDictionary()
 {
 	if (false == OpenCheck)
@@ -479,7 +458,6 @@ bool UI_Dictionary::CheckOpenDictionary()
 }
 
 
-// 카테고리 전환을 감지합니다.
 bool UI_Dictionary::CheckMoveCategory()
 {
 	if (true == GameEngineInput::IsDown(VK_DOWN, this))
@@ -497,7 +475,6 @@ bool UI_Dictionary::CheckMoveCategory()
 	return false;
 }
 
-// 페이지가 넘거가는 것을 감지합니다.
 bool UI_Dictionary::CheckTurningPage()
 {
 	if (true == GameEngineInput::IsDown(VK_LEFT, this))
@@ -515,12 +492,11 @@ bool UI_Dictionary::CheckTurningPage()
 	return false;
 }
 
-// 페이지가 다음장으로 넘어갑니다.
 void UI_Dictionary::NextPage()
 {
 	int MaxPage = -1;
 
-	switch (g_CurrentCategory)
+	switch (s_CurrentCategory)
 	{
 	case EDICTIONARYCATEGORY::None:
 	{
@@ -529,188 +505,192 @@ void UI_Dictionary::NextPage()
 	}
 	break;
 	case EDICTIONARYCATEGORY::CreaturePage:
-		MaxPage = m_CreaturePageCount;
+		MaxPage = CreaturePageCount;
 		break;
 	case EDICTIONARYCATEGORY::PlantPage:
-		MaxPage = m_PlantPageCount;
+		MaxPage = PlantPageCount;
 		break;
 	case EDICTIONARYCATEGORY::PotionPage:
-		MaxPage = m_PotionPageCount;
+		MaxPage = PotionPageCount;
 		break;
 	case EDICTIONARYCATEGORY::CandyPage:
-		MaxPage = m_CandyPageCount;
+		MaxPage = CandyPageCount;
 		break;
 	default:
 		break;
 	}
 
-	if (g_CurrentLeftPage == MaxPage || g_CurrentLeftPage + 1 == MaxPage)
+	if (s_CurrentLeftPage == MaxPage || s_CurrentLeftPage + 1 == MaxPage)
 	{
 		return;
 	}
 
-	g_CurrentLeftPage += 2;
+	s_CurrentLeftPage += 2;
 
-	CloseCurrentPage(g_CurrentCategory);
-	OpenNextPage(g_CurrentCategory);
+	CloseCurrentPage(s_CurrentCategory);
+	OpenNextPage(s_CurrentCategory);
 }
 
-// 페이지가 이전장으로 넘어갑니다.
 void UI_Dictionary::PrevPage()
 {
-	if (g_CurrentLeftPage <= 2)
+	if (s_CurrentLeftPage <= 2)
 	{
 		return;
 	}
 
-	g_CurrentLeftPage -= 2;
+	s_CurrentLeftPage -= 2;
 
-	CloseCurrentPage(g_CurrentCategory);
-	OpenNextPage(g_CurrentCategory);
+	CloseCurrentPage(s_CurrentCategory);
+	OpenNextPage(s_CurrentCategory);
 }
 
 
 
-// 이전 카테고리로 돌아갑니다.
 void UI_Dictionary::PrevCategory()
 {
-	// 현재 카테고리 닫고
 	OffCategoryMark();
-	CloseCurrentPage(g_CurrentCategory);
+	CloseCurrentPage(s_CurrentCategory);
 
-	// 변경 후
-	int CurCategory = static_cast<int>(g_CurrentCategory);
+	int CurCategory = static_cast<int>(s_CurrentCategory);
 	--CurCategory;
 	if (0 == CurCategory)
 	{
 		CurCategory = 4;
 	}
 
-	g_CurrentCategory = static_cast<EDICTIONARYCATEGORY>(CurCategory);
+	s_CurrentCategory = static_cast<EDICTIONARYCATEGORY>(CurCategory);
 
-	// 현재 페이지는 무조건 1로 초기화
-	g_CurrentLeftPage = 1;
+	s_CurrentLeftPage = 1;
 
-	// 연다.
-	OpenNextPage(g_CurrentCategory);
+	OpenNextPage(s_CurrentCategory);
 	ChangeCategoryMark();
 }
 
-// 다음 카테고리로 이동합니다.
 void UI_Dictionary::NextCategory()
 {
-	// 현재 카테고리 닫고
 	OffCategoryMark();
-	CloseCurrentPage(g_CurrentCategory);
+	CloseCurrentPage(s_CurrentCategory);
 
-	// 변경 후
-	int CurCategory = static_cast<int>(g_CurrentCategory);
+	int CurCategory = static_cast<int>(s_CurrentCategory);
 	++CurCategory;
 	if (5 == CurCategory)
 	{
 		CurCategory = 1;
 	}
 
-	g_CurrentCategory = static_cast<EDICTIONARYCATEGORY>(CurCategory);
+	s_CurrentCategory = static_cast<EDICTIONARYCATEGORY>(CurCategory);
 
-	// 현재 페이지는 무조건 1로 초기화
-	g_CurrentLeftPage = 1;
+	s_CurrentLeftPage = 1;
 
-	// 연다.
-	OpenNextPage(g_CurrentCategory);
+	OpenNextPage(s_CurrentCategory);
 	ChangeCategoryMark();
 };
 
-// 카테고리 책꽂이를 해제합니다
 void UI_Dictionary::OffCategoryMark()
 {
-	switch (g_CurrentCategory)
+	switch (s_CurrentCategory)
 	{
 	case EDICTIONARYCATEGORY::None:
 		break;
 	case EDICTIONARYCATEGORY::CreaturePage:
-		if (nullptr == m_CategoryRenderer.Creature)
+		if (nullptr == Category.Creature)
 		{
 			MsgBoxAssert("렌더러가 존재하지 않습니다");
 			return;
 		}
 
-		m_CategoryRenderer.Creature->SetSprite("Tag_Creature_Normal.png");
+		Category.Creature->SetSprite("Tag_Creature_Normal.png");
 		break;
 	case EDICTIONARYCATEGORY::PlantPage:
-		if (nullptr == m_CategoryRenderer.Plant)
+		if (nullptr == Category.Plant)
 		{
 			MsgBoxAssert("렌더러가 존재하지 않습니다");
 			return;
 		}
 
-		m_CategoryRenderer.Plant->SetSprite("Tag_Plant_Normal.png");
+		Category.Plant->SetSprite("Tag_Plant_Normal.png");
 		break;
 	case EDICTIONARYCATEGORY::PotionPage:
-		if (nullptr == m_CategoryRenderer.Potion)
+		if (nullptr == Category.Potion)
 		{
 			MsgBoxAssert("렌더러가 존재하지 않습니다");
 			return;
 		}
 
-		m_CategoryRenderer.Potion->SetSprite("Tag_Potion_Normal.png");
+		Category.Potion->SetSprite("Tag_Potion_Normal.png");
 		break;
 	case EDICTIONARYCATEGORY::CandyPage:
-		if (nullptr == m_CategoryRenderer.Candy)
+		if (nullptr == Category.Candy)
 		{
 			MsgBoxAssert("렌더러가 존재하지 않습니다");
 			return;
 		}
 
-		m_CategoryRenderer.Candy->SetSprite("Tag_Candy_Normal.png");
+		Category.Candy->SetSprite("Tag_Candy_Normal.png");
 		break;
 	default:
 		break;
 	}
 }
 
-// 카테고리 책꽂이를 선택합니다.
+void UI_Dictionary::OffAllCategoryMark()
+{
+	if (nullptr == Category.Creature 
+		|| nullptr == Category.Plant
+		|| nullptr == Category.Potion
+		|| nullptr == Category.Candy)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다");
+		return;
+	}
+
+	Category.Creature->SetSprite("Tag_Creature_Normal.png");
+	Category.Plant->SetSprite("Tag_Plant_Normal.png");
+	Category.Potion->SetSprite("Tag_Potion_Normal.png");
+	Category.Candy->SetSprite("Tag_Candy_Normal.png");
+}
+
 void UI_Dictionary::ChangeCategoryMark()
 {
-	switch (g_CurrentCategory)
+	switch (s_CurrentCategory)
 	{
 	case EDICTIONARYCATEGORY::None:
 		break;
 	case EDICTIONARYCATEGORY::CreaturePage:
-		if (nullptr == m_CategoryRenderer.Creature)
+		if (nullptr == Category.Creature)
 		{
 			MsgBoxAssert("렌더러가 존재하지 않습니다");
 			return;
 		}
 
-		m_CategoryRenderer.Creature->SetSprite("Tag_Creature_Selected.png");
+		Category.Creature->SetSprite("Tag_Creature_Selected.png");
 		break;
 	case EDICTIONARYCATEGORY::PlantPage:
-		if (nullptr == m_CategoryRenderer.Plant)
+		if (nullptr == Category.Plant)
 		{
 			MsgBoxAssert("렌더러가 존재하지 않습니다");
 			return;
 		}
 
-		m_CategoryRenderer.Plant->SetSprite("Tag_Plant_Selected.png");
+		Category.Plant->SetSprite("Tag_Plant_Selected.png");
 		break;
 	case EDICTIONARYCATEGORY::PotionPage:
-		if (nullptr == m_CategoryRenderer.Potion)
+		if (nullptr == Category.Potion)
 		{
 			MsgBoxAssert("렌더러가 존재하지 않습니다");
 			return;
 		}
 
-		m_CategoryRenderer.Potion->SetSprite("Tag_Potion_Selected.png");
+		Category.Potion->SetSprite("Tag_Potion_Selected.png");
 		break;
 	case EDICTIONARYCATEGORY::CandyPage:
-		if (nullptr == m_CategoryRenderer.Candy)
+		if (nullptr == Category.Candy)
 		{
 			MsgBoxAssert("렌더러가 존재하지 않습니다");
 			return;
 		}
 
-		m_CategoryRenderer.Candy->SetSprite("Tag_Candy_Selected.png");
+		Category.Candy->SetSprite("Tag_Candy_Selected.png");
 		break;
 	default:
 		break;

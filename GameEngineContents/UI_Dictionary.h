@@ -2,10 +2,7 @@
 #include "UI_ToggleActor.h"
 #include "UI_ButtonGuide.h"
 
-constexpr float CategoryGap = 14.0f;
-
-
-struct CategoryRenderer
+struct CategoryStruct
 {
 public:
 	std::shared_ptr<GameEngineSpriteRenderer> Creature = nullptr;
@@ -21,8 +18,8 @@ class UI_DictionaryPage;
 class UI_Dictionary : public UI_ToggleActor
 {
 private:
-	static int g_CurrentLeftPage;
-	static EDICTIONARYCATEGORY g_CurrentCategory;
+	static int s_CurrentLeftPage;
+	static EDICTIONARYCATEGORY s_CurrentCategory;
 
 public:
 	// constrcuter destructer
@@ -46,22 +43,18 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
-	// »ý¼º
 	void CreateBase();
 	void CreateCategory();
 	void CreatePage(EDICTIONARYCATEGORY _Type, std::string_view Name);
 
-
-private:
-	// Open, Close
+	// Open, Close Child
 	void OpenInternal() override;
 	void CloseInternal() override;
 
 	void OpenNextPage(EDICTIONARYCATEGORY _Type);
 	void CloseCurrentPage(EDICTIONARYCATEGORY _Type);
 
-private:
-	// Update
+
 	void OnLevelStart();
 	bool OnLevelStartCheck = false;
 
@@ -78,24 +71,25 @@ private:
 
 
 	void OffCategoryMark();
+	void OffAllCategoryMark();
 	void ChangeCategoryMark();
 
 
 private:
-	std::shared_ptr<GameEngineUIRenderer> m_BaseRenderer = nullptr;
-	CategoryRenderer m_CategoryRenderer;
-	std::vector<std::shared_ptr<class UI_BiologyPage>> vecCreaturePage;
-	std::vector<std::shared_ptr<class UI_BiologyPage>> vecPlantPage;
-	std::vector<std::shared_ptr<class UI_ProductPage>> vecPotionPage;
-	std::vector<std::shared_ptr<class UI_ProductPage>> vecCandyPage;
+	std::shared_ptr<GameEngineUIRenderer> BookBase = nullptr;
+	CategoryStruct Category;
+	std::vector<std::shared_ptr<class UI_BiologyPage>> CreaturePages;
+	std::vector<std::shared_ptr<class UI_BiologyPage>> PlantPages;
+	std::vector<std::shared_ptr<class UI_ProductPage>> PotionPages;
+	std::vector<std::shared_ptr<class UI_ProductPage>> CandyPages;
 
 	UI_ButtonGuide UIGuide;
 
 	bool IsTurnedPage = false;
 
-	int m_CreaturePageCount = 0;
-	int m_PlantPageCount = 0;
-	int m_PotionPageCount = 0;
-	int m_CandyPageCount = 0;
+	int CreaturePageCount = 0;
+	int PlantPageCount = 0;
+	int PotionPageCount = 0;
+	int CandyPageCount = 0;
 };
 
