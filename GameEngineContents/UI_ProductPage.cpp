@@ -40,18 +40,6 @@ void UI_ProductPage::CreatePage(std::string_view _ProduectName, int& PageCount)
 	static constexpr float ConditionYCorrection = -32.0f;
 	static constexpr float TagFontYCorrection = 26.0f;
 
-	const float4& TagPosition = float4(-176.0f, 129.0f, AttachmentDepth);
-	const float4& TagNamePosition = float4(-176.0f, 129.0f + TagFontYCorrection, FontDepth);
-	const float4& PhotoPosition = float4(-176.0f, 25.0f, AttachmentDepth);
-	const float4& IllustrationPosition = float4(-176.0f, 25.0f, ComponentDepth);
-	const float4& FramePosition = float4(-176.0f, -46.0f, FrameDepth);
-	const float4& StarPosition = float4(79.0f, 129.0f, ComponentDepth);
-	const float4& StarFontPosition = float4(79.0f, 129.0f + ConditionYCorrection, FontDepth);
-	const float4& FirePosition = float4(79.0f + OptionGap, 129.0f, ComponentDepth);
-	const float4& FireFontPosition = float4(79.0f + OptionGap, 129.0f + ConditionYCorrection, FontDepth);
-	const float4& LadlePosition = float4(79.0f + OptionGap * 2.0f, 129.0f, ComponentDepth);
-	const float4& LadleFontPosition = float4(79.0f + OptionGap * 2.0f, 129.0f + ConditionYCorrection, FontDepth);
-
 	static constexpr float ConditionFontSize = 16.0f;
 
 	const std::shared_ptr<ProductRecipeData>& Data = ProductRecipeData::Find(_ProduectName);
@@ -61,70 +49,66 @@ void UI_ProductPage::CreatePage(std::string_view _ProduectName, int& PageCount)
 		return;
 	}
 
-	PageInfo.ProductTag = CreateComponent<GameEngineUIRenderer>();
-	PageInfo.ProductTag->SetSprite("Potion_Name.png");
-	PageInfo.ProductTag->Transform.AddLocalPosition(TagPosition);
+	Page.ProductTag = CreateComponent<GameEngineUIRenderer>();
+	Page.ProductTag->SetSprite("Potion_Name.png");
+	Page.ProductTag->Transform.AddLocalPosition(float4(-176.0f, 129.0f, AttachmentDepth));
 
-	PageInfo.PageFont.Tag = CreateComponent<GameEngineUIRenderer>();
-	PageInfo.PageFont.Tag->SetText(GlobalValue::Font_Sandoll, Data->KoreanName, 20.0f, float4::ZERO, FW1_TEXT_FLAG::FW1_CENTER);
-	PageInfo.PageFont.Tag->Transform.SetLocalPosition(TagNamePosition);
+	Page.PageFont.Tag = CreateComponent<GameEngineUIRenderer>();
+	Page.PageFont.Tag->SetText(GlobalValue::Font_Sandoll, Data->KoreanName, 20.0f, float4::ZERO, FW1_TEXT_FLAG::FW1_CENTER);
+	Page.PageFont.Tag->Transform.SetLocalPosition(float4(-176.0f, 129.0f + TagFontYCorrection, FontDepth));
 
-	PageInfo.Photo = CreateComponent<GameEngineUIRenderer>();
-	PageInfo.Photo->SetSprite("Photo.png");
-	PageInfo.Photo->Transform.AddLocalPosition(PhotoPosition);
+	Page.Photo = CreateComponent<GameEngineUIRenderer>();
+	Page.Photo->SetSprite("Photo.png");
+	Page.Photo->Transform.AddLocalPosition(float4(-176.0f, 25.0f, AttachmentDepth));
 
-	PageInfo.Illustration = CreateComponent<GameEngineUIRenderer>();
-	PageInfo.Illustration->SetSprite(Data->ProductName + "_Illustration.png");
-	PageInfo.Illustration->Transform.AddLocalPosition(IllustrationPosition);
+	Page.Illustration = CreateComponent<GameEngineUIRenderer>();
+	Page.Illustration->SetSprite(Data->ProductName + "_Illustration.png");
+	Page.Illustration->Transform.AddLocalPosition(float4(-176.0f, 25.0f, ComponentDepth));
 
-	PageInfo.Frame = CreateComponent<GameEngineUIRenderer>();
-	PageInfo.Frame->SetSprite("Base_LayoutLine_1.png");
-	PageInfo.Frame->Transform.AddLocalPosition(FramePosition);
+	Page.Frame = CreateComponent<GameEngineUIRenderer>();
+	Page.Frame->SetSprite("Base_LayoutLine_1.png");
+	Page.Frame->Transform.AddLocalPosition(float4(-176.0f, -46.0f, FrameDepth));
 
-	PageInfo.Star = CreateComponent<GameEngineUIRenderer>();
-	PageInfo.Star->SetSprite("IllustedBook_Icon_Star.png", static_cast<int>(Data->Star));
-	PageInfo.Star->Transform.AddLocalPosition(StarPosition);
+	Page.Star = CreateComponent<GameEngineUIRenderer>();
+	Page.Star->SetSprite("IllustedBook_Icon_Star.png", static_cast<int>(Data->Star));
+	Page.Star->Transform.AddLocalPosition(float4(79.0f, 129.0f, ComponentDepth));
 
-	PageInfo.PageFont.Star = CreateComponent<GameEngineUIRenderer>();
-	PageInfo.PageFont.Star->SetText(GlobalValue::Font_Sandoll, GetStarString(Data->Star), ConditionFontSize, float4::ZERO, FW1_TEXT_FLAG::FW1_CENTER);
-	PageInfo.PageFont.Star->Transform.SetLocalPosition(StarFontPosition);
+	Page.PageFont.Star = CreateComponent<GameEngineUIRenderer>();
+	Page.PageFont.Star->SetText(GlobalValue::Font_Sandoll, GetStarString(Data->Star), ConditionFontSize, float4::ZERO, FW1_TEXT_FLAG::FW1_CENTER);
+	Page.PageFont.Star->Transform.SetLocalPosition(float4(79.0f, 129.0f + ConditionYCorrection, FontDepth));
 
-	PageInfo.Fire = CreateComponent<GameEngineUIRenderer>();
-	PageInfo.Fire->SetSprite("IllustedBook_Icon_Fire.png", static_cast<int>(Data->Fire));
-	PageInfo.Fire->Transform.AddLocalPosition(FirePosition);
+	Page.Fire = CreateComponent<GameEngineUIRenderer>();
+	Page.Fire->SetSprite("IllustedBook_Icon_Fire.png", static_cast<int>(Data->Fire));
+	Page.Fire->Transform.AddLocalPosition(float4(79.0f + OptionGap, 129.0f, ComponentDepth));
 
-	PageInfo.PageFont.Fire = CreateComponent<GameEngineUIRenderer>();
-	PageInfo.PageFont.Fire->SetText(GlobalValue::Font_Sandoll, GetFireString(Data->Fire), ConditionFontSize, float4::ZERO, FW1_TEXT_FLAG::FW1_CENTER);
-	PageInfo.PageFont.Fire->Transform.SetLocalPosition(FireFontPosition);
+	Page.PageFont.Fire = CreateComponent<GameEngineUIRenderer>();
+	Page.PageFont.Fire->SetText(GlobalValue::Font_Sandoll, GetFireString(Data->Fire), ConditionFontSize, float4::ZERO, FW1_TEXT_FLAG::FW1_CENTER);
+	Page.PageFont.Fire->Transform.SetLocalPosition(float4(79.0f + OptionGap, 129.0f + ConditionYCorrection, FontDepth));
 
-	PageInfo.Ladle = CreateComponent<GameEngineUIRenderer>();
-	PageInfo.Ladle->SetSprite("IllustedBook_Icon_Ladle.png", static_cast<int>(Data->Ladle));
-	PageInfo.Ladle->Transform.AddLocalPosition(LadlePosition);
+	Page.Ladle = CreateComponent<GameEngineUIRenderer>();
+	Page.Ladle->SetSprite("IllustedBook_Icon_Ladle.png", static_cast<int>(Data->Ladle));
+	Page.Ladle->Transform.AddLocalPosition(float4(79.0f + OptionGap * 2.0f, 129.0f, ComponentDepth));
 
-	PageInfo.PageFont.Fire = CreateComponent<GameEngineUIRenderer>();
-	PageInfo.PageFont.Fire->SetText(GlobalValue::Font_Sandoll, GetLadleString(Data->Ladle), ConditionFontSize, float4::ZERO, FW1_TEXT_FLAG::FW1_CENTER);
-	PageInfo.PageFont.Fire->Transform.SetLocalPosition(LadleFontPosition);
+	Page.PageFont.Fire = CreateComponent<GameEngineUIRenderer>();
+	Page.PageFont.Fire->SetText(GlobalValue::Font_Sandoll, GetLadleString(Data->Ladle), ConditionFontSize, float4::ZERO, FW1_TEXT_FLAG::FW1_CENTER);
+	Page.PageFont.Fire->Transform.SetLocalPosition(float4(79.0f + OptionGap * 2.0f, 129.0f + ConditionYCorrection, FontDepth));
 
 
 	static constexpr float MaterialFontSize = 14.0f;
 	static constexpr float MaterialFontCorrection = -26.0f;
 
-	PageInfo.ItemSlots.resize(Data->Material.size());
-	for (int i = 0; i < static_cast<int>(PageInfo.ItemSlots.size()); i++)
+	Page.ItemSlots.resize(Data->Material.size());
+	for (int i = 0; i < static_cast<int>(Page.ItemSlots.size()); i++)
 	{
-		const float4& ItemSpacePosition = float4(79.0f, 45.0f - ItemSpaceGap * static_cast<float>(i), AttachmentDepth);
-		const float4& ItemSlotPosition = float4(79.0f, 45.0f - ItemSpaceGap * static_cast<float>(i), ComponentDepth);
-		const float4& MaterialFontPosition = float4(79.0f, 45.0f - ItemSpaceGap * static_cast<float>(i) + MaterialFontCorrection, FontDepth);
-
 		std::shared_ptr<GameEngineUIRenderer> ItemSpace = CreateComponent<GameEngineUIRenderer>();
 		ItemSpace->SetSprite("Inventory_Empty_Slot.png");
-		ItemSpace->Transform.AddLocalPosition(ItemSpacePosition);
-		PageInfo.ItemSlots[i].ItemSpace = ItemSpace;
+		ItemSpace->Transform.AddLocalPosition(float4(79.0f, 45.0f - ItemSpaceGap * static_cast<float>(i), AttachmentDepth));
+		Page.ItemSlots[i].ItemSpace = ItemSpace;
 
 		std::shared_ptr<GameEngineUIRenderer> ItemSlot = CreateComponent<GameEngineUIRenderer>();
 		ItemSlot->SetSprite(Data->Material[i].MaterialName + ".png");
-		ItemSlot->Transform.AddLocalPosition(ItemSlotPosition);
-		PageInfo.ItemSlots[i].ItemSlot = ItemSlot;
+		ItemSlot->Transform.AddLocalPosition(float4(79.0f, 45.0f - ItemSpaceGap * static_cast<float>(i), ComponentDepth));
+		Page.ItemSlots[i].ItemSlot = ItemSlot;
 
 		const std::shared_ptr<IngredientData>& Ingredient = IngredientData::Find(Data->Material[i].MaterialName);
 		if (nullptr == Ingredient)
@@ -135,8 +119,8 @@ void UI_ProductPage::CreatePage(std::string_view _ProduectName, int& PageCount)
 
 		std::shared_ptr<GameEngineUIRenderer> Font = CreateComponent<GameEngineUIRenderer>();
 		Font->SetText(GlobalValue::Font_Sandoll, Ingredient->KoreanName, MaterialFontSize, float4::ZERO, FW1_TEXT_FLAG::FW1_CENTER);
-		Font->Transform.AddLocalPosition(MaterialFontPosition);
-		PageInfo.ItemSlots[i].IngredientName = Font;
+		Font->Transform.AddLocalPosition(float4(79.0f, 45.0f - ItemSpaceGap * static_cast<float>(i) + MaterialFontCorrection, FontDepth));
+		Page.ItemSlots[i].IngredientName = Font;
 	}
 
 	Off();

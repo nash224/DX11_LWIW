@@ -36,15 +36,6 @@ void FieldLevel::LevelStart(class GameEngineLevel* _NextLevel)
 	PlayLevel::LevelStart(_NextLevel);
 }
 
-void FieldLevel::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-	PlayLevel::LevelEnd(_NextLevel);
-}
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
 
 void FieldLevel::AutoPlayBGM()
 {

@@ -23,7 +23,6 @@ void UI_BiologyPage::CreatePage(std::string_view _BiologyName, int& PageCount)
 	
 	float4 MovePage = float4( -176.0f , 0.0f );
 
-	// 짝수라면
 	if (0 == PageCount % 2)
 	{
 		MovePage.X *= -1.0f;
@@ -47,73 +46,57 @@ void UI_BiologyPage::CreatePage(std::string_view _BiologyName, int& PageCount)
 	const float FrameDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame);
 	const float FontDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Font);
 
-	const float4& NameTagBasePosition = float4(1.0f, 150.0f, AttachmentDepth);
-	const float4& TagNamePosition = float4(1.0f, 158.0f, FontDepth);
-	const float4& FramePosition = float4(0.0f, -29.0f, FrameDepth);
-	const float4& PhotoPosition = float4(-84.0f, 49.0f, AttachmentDepth);
-	const float4& IllustrationPosition = float4(-84.0f, 49.0f, ComponentDepth);
-	const float4& EcologicalNamePosition = float4(9.0f, 96.0f + 30.0f, FontDepth);
-	const float4& Slot1Position = float4(9.0f, 92.0f, ComponentDepth);
-	const float4& Slot2Position = float4(9.0f + SlotGap, 92.0f, ComponentDepth);
-	const float4& Slot3Position = float4(9.0f + SlotGap*2.0f, 92.0f, ComponentDepth);
-
-	const float4& ToolPosition = float4(10.0f, 44.0f, ComponentDepth);
-
-	const float4& ItemSpacePosition = float4(9.0f, -3.0f, AttachmentDepth);
-	const float4& ItemImgPosition = float4(9.0f, -3.0f, ComponentDepth);
-	const float4& ItemNamePosition = float4(36.0f, 4.0f, FontDepth);
-
 	const float4& BlackFontColor = float4(0.1f, 0.1f, 0.1f, 1.0f);
 
 
 	PageInfo.NameTag.Base = CreateComponent<GameEngineUIRenderer>();
 	PageInfo.NameTag.Base->SetSprite("CreatureName.png");
-	PageInfo.NameTag.Base->Transform.SetLocalPosition(NameTagBasePosition);
+	PageInfo.NameTag.Base->Transform.SetLocalPosition(float4(1.0f, 150.0f, AttachmentDepth));
 
 	PageInfo.NameTag.MaterialName = CreateComponent<GameEngineUIRenderer>();
 	PageInfo.NameTag.MaterialName->SetText(GlobalValue::Font_Sandoll, Data->KoreanName, 20.0f, float4::ZERO, FW1_TEXT_FLAG::FW1_CENTER);
-	PageInfo.NameTag.MaterialName->Transform.SetLocalPosition(TagNamePosition);
+	PageInfo.NameTag.MaterialName->Transform.SetLocalPosition(float4(1.0f, 158.0f, FontDepth));
 
 	PageInfo.Frame = CreateComponent<GameEngineUIRenderer>();
 	PageInfo.Frame->SetSprite("Base_LayoutLine_1.png");
-	PageInfo.Frame->Transform.SetLocalPosition(FramePosition);
+	PageInfo.Frame->Transform.SetLocalPosition(float4(0.0f, -29.0f, FrameDepth));
 
 	PageInfo.Illustration.Photo = CreateComponent<GameEngineUIRenderer>();
 	PageInfo.Illustration.Photo->SetSprite("Photo.png");
-	PageInfo.Illustration.Photo->Transform.SetLocalPosition(PhotoPosition);
+	PageInfo.Illustration.Photo->Transform.SetLocalPosition(float4(-84.0f, 49.0f, AttachmentDepth));
 
 	PageInfo.Illustration.Illustration = CreateComponent<GameEngineUIRenderer>();
 	PageInfo.Illustration.Illustration->SetSprite(Name + "_Illustration.png");
-	PageInfo.Illustration.Illustration->Transform.SetLocalPosition(IllustrationPosition);
+	PageInfo.Illustration.Illustration->Transform.SetLocalPosition(float4(-84.0f, 49.0f, ComponentDepth));
 
 
 	PageInfo.Ecological.Font = CreateComponent<GameEngineUIRenderer>();
 	PageInfo.Ecological.Font->SetText(GlobalValue::Font_Sandoll, "생태정보", 12.0f, BlackFontColor, FW1_TEXT_FLAG::FW1_CENTER);
-	PageInfo.Ecological.Font->Transform.SetLocalPosition(EcologicalNamePosition);
+	PageInfo.Ecological.Font->Transform.SetLocalPosition(float4(9.0f, 96.0f + 30.0f, FontDepth));
 
 	PageInfo.Ecological.Slot1 = CreateComponent<GameEngineUIRenderer>();
 	PageInfo.Ecological.Slot1->SetSprite(ReturnEcologyTypeFileName(Data->EcologicalGroup));
-	PageInfo.Ecological.Slot1->Transform.SetLocalPosition(Slot1Position);
+	PageInfo.Ecological.Slot1->Transform.SetLocalPosition(float4(9.0f, 92.0f, ComponentDepth));
 
 	PageInfo.Ecological.Slot2 = CreateComponent<GameEngineUIRenderer>();
 	PageInfo.Ecological.Slot2->SetSprite(ReturnEcologyTypeFileName(Data->Habitat));
-	PageInfo.Ecological.Slot2->Transform.SetLocalPosition(Slot2Position);
+	PageInfo.Ecological.Slot2->Transform.SetLocalPosition(float4(9.0f + SlotGap, 92.0f, ComponentDepth));
 
 	PageInfo.Ecological.Slot3 = CreateComponent<GameEngineUIRenderer>();
 	PageInfo.Ecological.Slot3->SetSprite(ReturnEcologyTypeFileName(Data->AppearanceTime));
-	PageInfo.Ecological.Slot3->Transform.SetLocalPosition(Slot3Position);
+	PageInfo.Ecological.Slot3->Transform.SetLocalPosition(float4(9.0f + SlotGap * 2.0f, 92.0f, ComponentDepth));
 
 	PageInfo.Tool = CreateComponent<GameEngineUIRenderer>();
 	PageInfo.Tool->SetSprite("Tool_Icon.png", static_cast<int>(Data->GatherTool));
-	PageInfo.Tool->Transform.SetLocalPosition(ToolPosition);
+	PageInfo.Tool->Transform.SetLocalPosition(float4(10.0f, 44.0f, ComponentDepth));
 
 	PageInfo.Item.ItemSpace = CreateComponent<GameEngineUIRenderer>();
 	PageInfo.Item.ItemSpace->SetSprite("Inventory_Empty_Slot.png");
-	PageInfo.Item.ItemSpace->Transform.SetLocalPosition(ItemSpacePosition);
+	PageInfo.Item.ItemSpace->Transform.SetLocalPosition(float4(9.0f, -3.0f, AttachmentDepth));
 
 	PageInfo.Item.ItemImg = CreateComponent<GameEngineUIRenderer>();
 	PageInfo.Item.ItemImg->SetSprite(Data->BiologyName + "_Collect.png");
-	PageInfo.Item.ItemImg->Transform.SetLocalPosition(ItemImgPosition);
+	PageInfo.Item.ItemImg->Transform.SetLocalPosition(float4(9.0f, -3.0f, ComponentDepth));
 
 	const std::shared_ptr<ItemData>& MaterialData = ItemData::Find(Data->ItemName);
 	if (nullptr == MaterialData)
@@ -124,7 +107,7 @@ void UI_BiologyPage::CreatePage(std::string_view _BiologyName, int& PageCount)
 
 	PageInfo.Item.ItemName = CreateComponent<GameEngineUIRenderer>();
 	PageInfo.Item.ItemName->SetText(GlobalValue::Font_Sandoll, MaterialData->KoreanName, 15.0f, BlackFontColor, FW1_TEXT_FLAG::FW1_LEFT);
-	PageInfo.Item.ItemName->Transform.SetLocalPosition(ItemNamePosition);
+	PageInfo.Item.ItemName->Transform.SetLocalPosition(float4(36.0f, 4.0f, FontDepth));
 
 	Off();
 }

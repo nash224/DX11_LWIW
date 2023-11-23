@@ -7,7 +7,7 @@
 class UI_ProductPage : public UI_DictionaryPage
 {
 private:
-	class PageFontInfo
+	class PageFontStruct
 	{
 	public:
 		std::shared_ptr<GameEngineUIRenderer> Tag;
@@ -18,7 +18,7 @@ private:
 
 	};
 
-	class PageItemSlotInfo
+	class PageItemSlotStruct
 	{
 	public:
 		std::shared_ptr<GameEngineUIRenderer> ItemSpace;
@@ -27,7 +27,7 @@ private:
 
 	};
 
-	struct ProductPageInfo
+	struct ProductPageStruct
 	{
 	public:
 		std::shared_ptr<GameEngineUIRenderer> ProductTag;
@@ -38,8 +38,8 @@ private:
 		std::shared_ptr<GameEngineUIRenderer> Fire;
 		std::shared_ptr<GameEngineUIRenderer> Ladle;
 
-		std::vector<PageItemSlotInfo> ItemSlots;
-		PageFontInfo PageFont;
+		std::vector<PageItemSlotStruct> ItemSlots;
+		PageFontStruct PageFont;
 
 	};
 
@@ -67,7 +67,7 @@ protected:
 	std::string GetLadleString(EBREWING_DIRECTION _Number);
 
 private:
-	ProductPageInfo PageInfo;
+	ProductPageStruct Page;
 
 };
 

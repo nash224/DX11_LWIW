@@ -16,6 +16,7 @@ ContentsLevel::ContentsLevel()
 	GetMainCamera()->SetProjectionType(EPROJECTIONTYPE::Orthographic);
 	GetMainCamera()->SetZSort(0);
 	GetCamera(static_cast<int>(ECAMERAORDER::UI))->Transform.SetLocalPosition({ 0.0f, 0.0f, -500.0f });
+	LevelCamera = CreateActor<CameraControler>(EUPDATEORDER::CameraControler);
 
 	GameEngineLevel::IsDebug = false;
 }
@@ -29,8 +30,6 @@ void ContentsLevel::Start()
 	GameEngineInput::AddInputObject(this);
 
 	GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<OutLineEffect>();
-
-	LevelCamera = CreateActor<CameraControler>(EUPDATEORDER::CameraControler);
 
 	if (nullptr == MainPlaySound)
 	{
@@ -58,7 +57,7 @@ void ContentsLevel::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	if (nullptr != LevelCamera)
 	{
-		LevelCamera->m_MainCamera = this->GetMainCamera().get();
+		LevelCamera->m_MainCamera = GetMainCamera().get();
 		GlobalValue::g_CameraControler = LevelCamera;
 	}
 }

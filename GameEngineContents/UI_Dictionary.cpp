@@ -61,7 +61,6 @@ void UI_Dictionary::LevelEnd(class GameEngineLevel* _NextLevel)
 
 #pragma region 이니셜
 
-// 사전의 페이지를 생성합니다.
 void UI_Dictionary::Init()
 {
 	// Base

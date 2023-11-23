@@ -9,14 +9,14 @@
 class UI_BiologyPage : public UI_DictionaryPage
 {
 private:
-	class NameTagInfo
+	class NameTagStruct
 	{
 	public:
 		std::shared_ptr<GameEngineSpriteRenderer> Base = nullptr;
 		std::shared_ptr<GameEngineSpriteRenderer> MaterialName = nullptr;
 	};
 
-	class IllustrationInfo
+	class IllustrationStruct
 	{
 	public:
 		std::shared_ptr<GameEngineSpriteRenderer> Photo = nullptr;
@@ -24,7 +24,7 @@ private:
 
 	};
 
-	class EcologicalInfo
+	class EcologicalStruct
 	{
 	public:
 		std::shared_ptr<GameEngineSpriteRenderer> Font = nullptr;
@@ -46,9 +46,9 @@ private:
 	struct BiologyPageInfo
 	{
 	public:
-		NameTagInfo NameTag;
-		IllustrationInfo Illustration;
-		EcologicalInfo Ecological;
+		NameTagStruct NameTag;
+		IllustrationStruct Illustration;
+		EcologicalStruct Ecological;
 		ItemSlot Item;
 
 		std::shared_ptr<GameEngineSpriteRenderer> Frame = nullptr;
