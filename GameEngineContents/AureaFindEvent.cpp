@@ -89,7 +89,7 @@ void AureaFindEvent::StartFirstConversation(GameEngineState* _Parent)
 void AureaFindEvent::StartAureaFocusOn(GameEngineState* _Parent)
 {
 
-	if (nullptr == GlobalValue::g_CameraControler)
+	if (true == CameraControler::MainCameraControler.expired())
 	{
 		MsgBoxAssert("카메라가 존재하지 않는데 사용하려 했습니다.");
 		return;
@@ -101,12 +101,12 @@ void AureaFindEvent::StartAureaFocusOn(GameEngineState* _Parent)
 		return;
 	}
 
-	GlobalValue::g_CameraControler->SetCameraMode(ECAMERAMODE::Cinematic);
+	CameraControler::MainCameraControler.lock()->SetCameraMode(ECAMERAMODE::Cinematic);
 
 	const float4& ElliePos = Ellie::MainEllie->Transform.GetLocalPosition();
-	const float4& CameraPos = GlobalValue::g_CameraControler->AdjustCameraInitialPosition(ElliePos);
+	const float4& CameraPos = CameraControler::MainCameraControler.lock()->AdjustCameraInitialPosition(ElliePos);
 	const float4& NPCPos = AureaPtr->Transform.GetLocalPosition();
-	TargetPos = GlobalValue::g_CameraControler->AdjustCameraInitialPosition(NPCPos);
+	TargetPos = CameraControler::MainCameraControler.lock()->AdjustCameraInitialPosition(NPCPos);
 	const float4& TargetVector = TargetPos - CameraPos;
 	const float Radian = std::atan2f(TargetVector.Y, TargetVector.X);
 	CameraDirection = float4::GetUnitVectorFromRad(Radian);
@@ -151,10 +151,10 @@ void AureaFindEvent::StartSecondConversation(GameEngineState* _Parent)
 
 void AureaFindEvent::UpdateAureaFocusOn(float _Delta, GameEngineState* _Parent)
 {
-	if (nullptr != GlobalValue::g_CameraControler)
+	if (true == CameraControler::MainCameraControler.expired())
 	{
 		const float4& MoveCameraVector = CameraDirection* CameraMovePower* _Delta;
-		GlobalValue::g_CameraControler->AddCameraPos(MoveCameraVector);
+		CameraControler::MainCameraControler.lock()->AddCameraPos(MoveCameraVector);
 
 		float Distance = CalculateDistanceCamemeraToActor(TargetPos);
 		if (Distance < 4.0f)
@@ -174,10 +174,10 @@ void AureaFindEvent::UpdateStay(float _Delta, GameEngineState* _Parent)
 
 void AureaFindEvent::UpdateAureaFocusOff(float _Delta, GameEngineState* _Parent)
 {
-	if (nullptr != GlobalValue::g_CameraControler)
+	if (true == CameraControler::MainCameraControler.expired())
 	{
 		const float4& MoveCameraVector = CameraDirection * CameraMovePower * _Delta;
-		GlobalValue::g_CameraControler->AddCameraPos(MoveCameraVector);
+		CameraControler::MainCameraControler.lock()->AddCameraPos(MoveCameraVector);
 
 		float Distance = CalculateDistanceCamemeraToActor(TargetPos);
 		if (Distance < 4.0f)
@@ -231,9 +231,9 @@ void AureaFindEvent::ConversationSetting()
 
 	VirgilConveration.SetConversationEndEvent(ECURSEEVENTTOPIC::Closer, [&]()
 		{
-			if (nullptr != GlobalValue::g_CameraControler)
+			if (true == CameraControler::MainCameraControler.expired())
 			{
-				GlobalValue::g_CameraControler->SetCameraMode(ECAMERAMODE::Play);
+				CameraControler::MainCameraControler.lock()->SetCameraMode(ECAMERAMODE::Play);
 			}
 			Death();
 		});

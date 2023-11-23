@@ -66,7 +66,7 @@ void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
 
 
 
-	GlobalValue::g_CameraControler->SetCameraMode(ECAMERAMODE::Fix);
+	CameraControler::MainCameraControler.lock()->SetCameraMode(ECAMERAMODE::Fix);
 
 	const float4 WinScale = GlobalValue::GetWindowScale();
 

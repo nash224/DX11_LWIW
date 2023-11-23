@@ -118,18 +118,12 @@ void WitchHouse_UpFloor::SetEllieLevelChangeLocation(class GameEngineLevel* _Nex
 
 void WitchHouse_UpFloor::CameraSetting()
 {
-	if (nullptr != GlobalValue::g_CameraControler)
+	if (false == CameraControler::MainCameraControler.expired())
 	{
-		if (GlobalValue::g_CameraControler != LevelCamera)
-		{
-			MsgBoxAssert("현재 카메라 매니저가 아닙니다.");
-			return;
-		}
+		float4 SettingPos = GlobalValue::GetWindowScale().Half();
+		SettingPos.Y *= -1.0f;
 
-		float4 HWinScale = GlobalValue::GetWindowScale().Half();
-		HWinScale.Y *= -1.0f;
-
-		GlobalValue::g_CameraControler->SetLocalPostion(HWinScale);
+		CameraControler::MainCameraControler.lock()->SetLocalPostion(SettingPos);
 	}
 }
 

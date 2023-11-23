@@ -152,14 +152,14 @@ void UI_InterativeMark::UpdateMark(float _Delta)
 
 	if (nullptr != Pointer)
 	{
-		if (nullptr == GlobalValue::g_CameraControler)
+		if (true == CameraControler::MainCameraControler.expired())
 		{
 			MsgBoxAssert("카메라가 존재하지 않습니다");
 			return;
 		}
 
 		const float4& MarkPositionToActor = float4{ 0.0f , 48.0f };
-		const float4& MainCameraPos = GlobalValue::g_CameraControler->GetCameraWorldPosition();
+		const float4& MainCameraPos = CameraControler::MainCameraControler.lock()->GetCameraWorldPosition();
 		const float4& ActorWorldPos = Pointer->Transform.GetWorldPosition();
 
 		float4 Position = ActorWorldPos - MainCameraPos + MarkPositionToActor;

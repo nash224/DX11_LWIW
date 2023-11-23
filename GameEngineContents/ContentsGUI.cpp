@@ -191,7 +191,7 @@ void DebugTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		ImGui::Checkbox("Show PixelDebug", &PlayLevel::PixelDebugMode);
 	}
 
-	float4 CameraPosition = GlobalValue::g_CameraControler->GetCameraCurrentPostion();
+	float4 CameraPosition = CameraControler::MainCameraControler.lock()->GetCameraCurrentPostion();
 	ImGui::Text(("CameraPos :" + CameraPosition.ToString()).c_str());
 
 

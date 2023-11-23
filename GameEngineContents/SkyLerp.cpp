@@ -197,9 +197,9 @@ void SkyLerp::LerpSky(const float4& _Color)
 
 void SkyLerp::FollowCamera() 
 {
-	if (nullptr != GlobalValue::g_CameraControler)
+	if (false == CameraControler::MainCameraControler.expired())
 	{
-		const float4 CameraPos = GlobalValue::g_CameraControler->GetCameraCurrentPostion();
+		const float4& CameraPos = CameraControler::MainCameraControler.lock()->GetCameraCurrentPostion();
 		float4 SkyPos = CameraPos;
 		SkyPos.Z = DepthFunction::CalculateFixDepth(ERENDERDEPTH::SkyBox);
 

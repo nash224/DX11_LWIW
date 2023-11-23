@@ -4,7 +4,6 @@
 
 float4 GlobalValue::WindowScale = float4::ZERO;
 int GlobalValue::RandomSeed = 0;
-std::shared_ptr<CameraControler> GlobalValue::g_CameraControler = nullptr;
 float GlobalValue::GlobalSoundVolume = 1.0f;
 float GlobalValue::SFXVolume = 1.0f;
 void GlobalValue::SetWindowScale(const float4& _Scale)

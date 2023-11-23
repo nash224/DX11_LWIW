@@ -58,7 +58,7 @@ void ContentsLevel::LevelStart(class GameEngineLevel* _NextLevel)
 	if (nullptr != LevelCamera)
 	{
 		LevelCamera->MainCameraPointer = GetMainCamera().get();
-		GlobalValue::g_CameraControler = LevelCamera;
+		CameraControler::MainCameraControler = LevelCamera;
 	}
 }
 

@@ -199,10 +199,10 @@ void FireWorksEvent::StartFadeIn(GameEngineState* _Parent)
 	
 	EllieSetting();
 
-	if (nullptr != GlobalValue::g_CameraControler)
+	if (false == CameraControler::MainCameraControler.expired())
 	{
-		GlobalValue::g_CameraControler->SetCameraMode(ECAMERAMODE::Fix);
-		GlobalValue::g_CameraControler->SetCameraPos(Transform.GetLocalPosition());
+		CameraControler::MainCameraControler.lock()->SetCameraMode(ECAMERAMODE::Fix);
+		CameraControler::MainCameraControler.lock()->SetCameraPos(Transform.GetLocalPosition());
 	}
 
 	if (nullptr != UIManager::MainUIManager)

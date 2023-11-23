@@ -56,7 +56,7 @@ void MainMenu::LevelStart(GameEngineLevel* _PrevLevel)
 	InitActor();
 
 	{
-		if (nullptr == GlobalValue::g_CameraControler)
+		if (true == CameraControler::MainCameraControler.expired())
 		{
 			MsgBoxAssert("카메라 컨트롤러를 생성하지 않고 사용하려고 했습니다.");
 			return;
@@ -64,7 +64,7 @@ void MainMenu::LevelStart(GameEngineLevel* _PrevLevel)
 
 		float4 CameraPosition = GlobalValue::GetWindowScale().Half();
 		CameraPosition.Y *= -1.0f;
-		GlobalValue::g_CameraControler->SetLocalPostion(CameraPosition);
+		CameraControler::MainCameraControler.lock()->SetLocalPostion(CameraPosition);
 	}
 }
 

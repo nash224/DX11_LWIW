@@ -110,11 +110,11 @@ void Scenery::MoveSceneryLocation(float _Delta)
 		return;
 	}
 
-	if (nullptr != GlobalValue::g_CameraControler)
+	if (false == CameraControler::MainCameraControler.expired())
 	{
-		if (true == GlobalValue::g_CameraControler->IsCameraMove())
+		if (true == CameraControler::MainCameraControler.lock()->IsCameraMove())
 		{
-			float4 CameraMoveDistance = GlobalValue::g_CameraControler->GetCameraMoveDistance();
+			float4 CameraMoveDistance = CameraControler::MainCameraControler.lock()->GetCameraMoveDistance();
 			float4 CalMovePos = CameraMoveDistance * m_Direction * m_MoveRatio;
 			CalMovePos.X *= -1.0f;
 			Transform.AddLocalPosition(CalMovePos);

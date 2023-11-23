@@ -397,14 +397,14 @@ void FlowerBird::UpdateFly(float _Delta)
 
 	float4 MyPosition = Transform.GetLocalPosition();
 
-	if (nullptr == GlobalValue::g_CameraControler)
+	if (true == CameraControler::MainCameraControler.expired())
 	{
 		MsgBoxAssert("메인 카메라가 존재하지 않습니다.");
 		return;
 	}
 
-	float4 CameraPosition = GlobalValue::g_CameraControler->GetCameraCurrentPostion();
-	float4 HWinScale = GlobalValue::GetWindowScale();
+	const float4& CameraPosition = CameraControler::MainCameraControler.lock()->GetCameraCurrentPostion();
+	const float4& HWinScale = GlobalValue::GetWindowScale();
 
 	bool isExitOutOfCamera = (MyPosition.X - ExitCameraCorrection < CameraPosition.X - HWinScale.X);
 	if (isExitOutOfCamera)

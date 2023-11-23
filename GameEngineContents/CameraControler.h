@@ -16,6 +16,9 @@ class CameraControler : public GameEngineActor
 {
 	friend class ContentsLevel;
 
+public:
+	static std::weak_ptr<CameraControler> MainCameraControler;
+
 private:
 	struct CameraInfo
 	{
@@ -25,10 +28,8 @@ private:
 		float4 MoveDistance;
 	};
 
-public:
-	GameEngineActor* FocusActorPointer = nullptr;
-
 private:
+	GameEngineActor* FocusActorPointer = nullptr;
 	GameEngineCamera* MainCameraPointer = nullptr;
 
 public:

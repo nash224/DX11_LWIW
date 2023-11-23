@@ -4,6 +4,7 @@
 
 static constexpr float CAMERA_DEPTH = -1000.0f;
 
+std::weak_ptr<CameraControler> CameraControler::MainCameraControler;
 CameraControler::CameraControler()
 	:MainCameraPointer(nullptr)
 	, FocusActorPointer(nullptr)

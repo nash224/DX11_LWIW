@@ -119,22 +119,16 @@ void Field_Center::SetEllieLevelChangeLocation(class GameEngineLevel* _NextLevel
 
 void Field_Center::CameraSetting()
 {
-	if (nullptr != GlobalValue::g_CameraControler)
+	if (false == CameraControler::MainCameraControler.expired())
 	{
-		if (GlobalValue::g_CameraControler != LevelCamera)
-		{
-			MsgBoxAssert("현재 카메라 매니저가 아닙니다.");
-			return;
-		}
-
 		if (nullptr == Player)
 		{
 			MsgBoxAssert("플레이어가 존재하지 않습니다.");
 			return;
 		}
 
-		GlobalValue::g_CameraControler->SetFocusActor(Player.get());
-		GlobalValue::g_CameraControler->SetAutoInitialPosition(Player->Transform.GetWorldPosition());
+		CameraControler::MainCameraControler.lock()->SetFocusActor(Player.get());
+		CameraControler::MainCameraControler.lock()->SetAutoInitialPosition(Player->Transform.GetWorldPosition());
 	}
 }
 

@@ -278,15 +278,15 @@ void FireWorks::StartFocusRayLight(GameEngineState* _Parent)
 	FireLineStateInfo.Parent = this;
 	FireLineStateInfo.State.ChangeState(FireWorks::RayLightInfo::EFIRELINESTATE::Ready);
 
-	if (nullptr == GlobalValue::g_CameraControler)
+	if (true == CameraControler::MainCameraControler.expired())
 	{
 		MsgBoxAssert("카메라 컨트롤러가 null입니다.");
 		return;
 	}
 	
-	GlobalValue::g_CameraControler->SetCameraMode(ECAMERAMODE::Cinematic);
+	CameraControler::MainCameraControler.lock()->SetCameraMode(ECAMERAMODE::Cinematic);
 
-	const float4& CameraPos = GlobalValue::g_CameraControler->GetCameraCurrentPostion();
+	const float4& CameraPos = CameraControler::MainCameraControler.lock()->GetCameraCurrentPostion();
 	CameraTargetStopPos = CameraPos + float4(0.0f, TargetDistance);
 
 	FirePlayer = SFXFunction::PlaySFX("SFX_Firework.wav");
@@ -295,7 +295,7 @@ void FireWorks::StartFocusRayLight(GameEngineState* _Parent)
 
 void FireWorks::UpdateFocusRayLight(float _Delta, GameEngineState* _Parent)
 {
-	if (nullptr == GlobalValue::g_CameraControler)
+	if (true == CameraControler::MainCameraControler.expired())
 	{
 		MsgBoxAssert("존재하지 않는 카메라 매니저를 사욯하려 했습니다.");
 		return;
@@ -306,12 +306,12 @@ void FireWorks::UpdateFocusRayLight(float _Delta, GameEngineState* _Parent)
 	static constexpr float TargetTime = 1.8f;
 
 	const float CameraMoveForce = TargetDistance* _Delta / TargetTime;
-	GlobalValue::g_CameraControler->AddCameraPos(float4(0.0f, CameraMoveForce));
+	CameraControler::MainCameraControler.lock()->AddCameraPos(float4(0.0f, CameraMoveForce));
 
-	const float4& CameraPos = GlobalValue::g_CameraControler->GetCameraCurrentPostion();
+	const float4& CameraPos = CameraControler::MainCameraControler.lock()->GetCameraCurrentPostion();
 	if (CameraPos.Y > CameraTargetStopPos.Y)
 	{
-		GlobalValue::g_CameraControler->SetCameraPos(CameraTargetStopPos);
+		CameraControler::MainCameraControler.lock()->SetCameraPos(CameraTargetStopPos);
 		State.ChangeState(ECRACKERPOTIONSTATE::Wait);
 		return;
 	}

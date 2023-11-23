@@ -159,7 +159,13 @@ void DynamicEntity::ApplyOnlyMovement(float _Delta)
 
 float DynamicEntity::GetVolumeReductionByDistance()
 {
-	const float4& CameraPos = GlobalValue::g_CameraControler->GetCameraCurrentPostion();
+	if (true == CameraControler::MainCameraControler.expired())
+	{
+		MsgBoxAssert("객체가 존재하지 않습니다.");
+		return 0.0f;
+	}
+
+	const float4& CameraPos = CameraControler::MainCameraControler.lock()->GetCameraCurrentPostion();
 	const float4& MyPos = Transform.GetLocalPosition();
 	const float4& VectorToEllie = MyPos - CameraPos;
 

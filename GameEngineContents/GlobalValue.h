@@ -6,9 +6,6 @@ class GlobalValue
 {
 	friend class ContentsCore;
 
-public:
-	static std::shared_ptr<CameraControler> g_CameraControler;
-
 private:
 	// constrcuter destructer
 	GlobalValue() {}
