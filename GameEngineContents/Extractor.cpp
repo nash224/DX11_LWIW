@@ -55,14 +55,14 @@ void Extractor::Release()
 {
 	StaticEntity::Release();
 
-	m_Extractor = nullptr;
-	m_ProcessManager = nullptr;
+	ExtractorRenderer = nullptr;
+	ProcessPage = nullptr;
 	s_ExtractorPointer = nullptr;
 }
 
 void Extractor::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-	Death();
+	Death(); 
 }
 
 
@@ -102,17 +102,17 @@ void Extractor::RendererSetting()
 		GameEngineSprite::CreateCut("DownFloor_Extractor_1.png", 5, 4);
 	}
 
-	m_Extractor = CreateComponent<GameEngineSpriteRenderer>();
-	m_Extractor->AutoSpriteSizeOn();
-	m_Extractor->Transform.SetLocalPosition(float4(0.0f, 46.0f));
+	ExtractorRenderer = CreateComponent<GameEngineSpriteRenderer>();
+	ExtractorRenderer->AutoSpriteSizeOn();
+	ExtractorRenderer->Transform.SetLocalPosition(float4(0.0f, 46.0f));
 
-	m_Extractor->CreateAnimation("Broken", "DownFloor_Extractor_Idle_Broken.png");
-	m_Extractor->CreateAnimation("Idle", "DownFloor_Extractor_0.png", 5.0f, 1, 1, false);
-	m_Extractor->CreateAnimation("Juicy", "DownFloor_Extractor_0.png", 0.1f, 2, 9, false);
-	m_Extractor->FindAnimation("Juicy")->Inter = { 0.2f, 0.18f, 0.19f, 0.2f, 0.19f, 0.19f, 0.12f, 0.12f, 0.12f };
+	ExtractorRenderer->CreateAnimation("Broken", "DownFloor_Extractor_Idle_Broken.png");
+	ExtractorRenderer->CreateAnimation("Idle", "DownFloor_Extractor_0.png", 5.0f, 1, 1, false);
+	ExtractorRenderer->CreateAnimation("Juicy", "DownFloor_Extractor_0.png", 0.1f, 2, 9, false);
+	ExtractorRenderer->FindAnimation("Juicy")->Inter = { 0.2f, 0.18f, 0.19f, 0.2f, 0.19f, 0.19f, 0.12f, 0.12f, 0.12f };
 
 
-	m_Extractor->SetFrameEvent("Juicy", 3, [&](GameEngineSpriteRenderer* _Renderer)
+	ExtractorRenderer->SetFrameEvent("Juicy", 3, [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			StaticEntity::PlaySFX("SFX_JucierActive_02.wav");
 		});
@@ -120,8 +120,8 @@ void Extractor::RendererSetting()
 
 void Extractor::UIProcessSetting()
 {
-	m_ProcessManager = GetLevel()->CreateActor<UI_ProcessManager>();
-	m_ProcessManager->Init();
+	ProcessPage = GetLevel()->CreateActor<UI_ProcessManager>();
+	ProcessPage->Init();
 }
 
 void Extractor::StateSetting()
@@ -151,13 +151,13 @@ void Extractor::PullThis()
 
 void Extractor::ChangeExtractorAnimation(std::string_view _StateName)
 {
-	if (nullptr == m_Extractor)
+	if (nullptr == ExtractorRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	m_Extractor->ChangeAnimation(_StateName.data());
+	ExtractorRenderer->ChangeAnimation(_StateName.data());
 }
 
 void Extractor::StartBroken(GameEngineState* _Parent)
@@ -175,7 +175,6 @@ void Extractor::StartBroken(GameEngineState* _Parent)
 			InteractiveActor::InteractiveCol->On();
 		}
 	}
-	
 
 	ChangeExtractorAnimation("Broken");
 }
@@ -217,16 +216,16 @@ void Extractor::UpdateIdle(float _Delta, GameEngineState* _Parent)
 {
 	if (true == IsEnalbeActive)
 	{
-		if (nullptr != m_ProcessManager)
+		if (nullptr != ProcessPage)
 		{
-			m_ProcessManager->Open();
+			ProcessPage->Open();
 		}
 	}
 }
  
 void Extractor::UpdateJuicy(float _Delta, GameEngineState* _Parent)
 {
-	if (true == m_Extractor->IsCurAnimationEnd())
+	if (true == ExtractorRenderer->IsCurAnimationEnd())
 	{
 		State.ChangeState(EJUICERSTATE::Idle);
 		return;

@@ -39,7 +39,6 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
-
 private:
 	void InitExtractor();
 
@@ -47,19 +46,18 @@ private:
 	void UIProcessSetting();
 	void StateSetting();
 
-
-private:
 	void ChangeExtractorAnimation(std::string_view _StateName);
 
 	void StartBroken(GameEngineState* _Parent);
-	void UpdateBroken(float _Delta ,GameEngineState* _Parent);
-
 	void StartIdle(GameEngineState* _Parent);
-	void UpdateIdle(float _Delta, GameEngineState* _Parent);
-
 	void StartJuicy(GameEngineState* _Parent);
+
+	void UpdateBroken(float _Delta ,GameEngineState* _Parent);
+	void UpdateIdle(float _Delta, GameEngineState* _Parent);
 	void UpdateJuicy(float _Delta, GameEngineState* _Parent);
+
 	void EndJuicy(GameEngineState* _Parent);
+
 
 	std::string RandomOpenJuicySoundFilleName();
 	bool IsCureQuestClear();
@@ -67,8 +65,8 @@ private:
 private:
 	GameEngineState State;
 
-	std::shared_ptr<GameEngineSpriteRenderer> m_Extractor;
-	std::shared_ptr<class UI_ProcessManager> m_ProcessManager;
+	std::shared_ptr<GameEngineSpriteRenderer> ExtractorRenderer;
+	std::shared_ptr<class UI_ProcessManager> ProcessPage;
 
 };
 

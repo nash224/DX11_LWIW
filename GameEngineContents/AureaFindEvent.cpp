@@ -15,10 +15,6 @@ AureaFindEvent::~AureaFindEvent()
 }
 
 
-void AureaFindEvent::Start()
-{
-}
-
 void AureaFindEvent::Update(float _Delta)
 {
 	State.Update(_Delta);
@@ -28,10 +24,6 @@ void AureaFindEvent::Update(float _Delta)
 void AureaFindEvent::Release()
 {
 	AureaPtr = nullptr;
-}
-
-void AureaFindEvent::LevelStart(class GameEngineLevel* _NextLevel)
-{
 }
 
 void AureaFindEvent::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -151,7 +143,7 @@ void AureaFindEvent::StartSecondConversation(GameEngineState* _Parent)
 
 void AureaFindEvent::UpdateAureaFocusOn(float _Delta, GameEngineState* _Parent)
 {
-	if (true == CameraControler::MainCameraControler.expired())
+	if (false == CameraControler::MainCameraControler.expired())
 	{
 		const float4& MoveCameraVector = CameraDirection* CameraMovePower* _Delta;
 		CameraControler::MainCameraControler.lock()->AddCameraPos(MoveCameraVector);

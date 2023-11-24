@@ -72,7 +72,12 @@ void ContentsEvent::Dian_BadWeedPotion::CompleteInternal()
 		PlayLevel::s_AlertManager->RegisterAlert(AlertData("물약 검증", EALERTTYPE::QuestClear));
 	}
 
-	UI_Inventory::MainInventory->UnlockSlot();
+	if (nullptr != UI_Inventory::MainInventory)
+	{
+		UI_Inventory::MainInventory->PushItem("Item_Etc_11");
+		UI_Inventory::MainInventory->UnlockSlot();
+	}
+
 	ContentsEvent::ToolData[static_cast<int>(ETOOLTYPE::Dragonfly)] = true;
 }
 

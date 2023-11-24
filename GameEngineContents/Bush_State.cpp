@@ -35,8 +35,8 @@ void Bush::UpdateApple(float _Delta)
 			return;
 		}
 
-		float4 ItemPosition = Transform.GetLocalPosition();
-		ItemPosition = { ItemPosition.X, ItemPosition.Y - 50.0f, DepthFunction::CalculateFixDepth(ERENDERDEPTH::RootedItem) };
+		const float4& MyPosition = Transform.GetLocalPosition();
+		float4 ItemPosition = { MyPosition.X, MyPosition.Y - 50.0f, DepthFunction::CalculateFixDepth(ERENDERDEPTH::RootedItem) };
 		BackDrop_PlayLevel::MainBackDrop->CreateItem("Food_CranApple", ItemPosition);
 
 		ChangeState(EBUSHSTATE::Shake);
@@ -54,6 +54,8 @@ void Bush::StartShake()
 	}
 
 	InteractiveCol->Off();
+
+	SFXFunction::PlaySFX("SFX_BushBug_BushShake_01.wav");
 
 	ChangeBushAnimation("Shake");
 }
@@ -133,6 +135,3 @@ void Bush::CreateBushBug()
 	BushBugPtr->Transform.SetLocalPosition(SpawnPosition);
 	BushBugPtr->Init();
 }
-
-// 300 
-// 60

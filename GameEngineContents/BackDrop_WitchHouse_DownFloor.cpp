@@ -163,6 +163,16 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	}
 
 	{
+		const float4& Position = HouseMoveVector + float4(399.0f, -159.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "Ev_Enter_1.png", Position, static_cast<int>(EHOUSEDEPTH::Rug));
+	}
+
+	{
+		const float4& Position = HouseMoveVector + float4(398.0f, -164.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "Ev_Enter_2.png", Position, static_cast<int>(EHOUSEDEPTH::Rug));
+	}
+
+	{
 		const float4& Position = HouseMoveVector + float4(201.0f, -167.0f);
 		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "DownFloor_Chair_0.png", Position, static_cast<int>(EHOUSEDEPTH::Object), false);
 	}
@@ -235,6 +245,11 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	{
 		const float4& Position = HouseMoveVector + float4(521.0f, -132.0f);
 		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "DownFloor_Cabinet_0.png", Position, static_cast<int>(EHOUSEDEPTH::Object), false);
+	}
+
+	{
+		const float4& Position = HouseMoveVector + float4(113.0f, -127.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "DownFloor_Locker.png", Position, static_cast<int>(EHOUSEDEPTH::Object), false);
 	}
 
 	{
