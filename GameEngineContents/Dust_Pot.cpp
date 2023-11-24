@@ -20,8 +20,9 @@ Dust_Pot::~Dust_Pot()
 void Dust_Pot::Start()
 {
 	Dust::Start();
+	Dust::SetDustScaleRatio(2.0f);
 
-	CreateAndSetCollision(ECOLLISION::Entity, float4(140.0f), float4::ZERO, ColType::SPHERE2D);
+	InteractiveActor::CreateAndSetCollision(ECOLLISION::Entity, float4(140.0f), float4::ZERO, ColType::SPHERE2D);
 	SetTopic();
 }
 

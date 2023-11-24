@@ -103,22 +103,40 @@ std::string FileLoadFunction::GetParentString(std::string_view _ChildPath)
 	return ChildPath;
 }
 
+//bool InputFunction::InputRegister(char _Key, std::function<void()> _Func)
+//{
+//	std::unordered_map<const char, std::function<void()>>::iterator FindIter = InputEvents.find(_Key);
+//	if (FindIter != InputEvents.end())
+//	{
+//		return false;
+//	}
+//
+//	InputEvents.insert(std::make_pair(_Key, _Func));
+//}
+//
+//void InputFunction::Update()
+//{
+//	std::unordered_map<const char, std::function<void()>>::iterator StarIter = InputEvents.begin();
+//	std::unordered_map<const char, std::function<void()>>::iterator EndIter = InputEvents.end();
+//	 
+//	for (;StarIter != EndIter; ++StarIter)
+//	{
+//		if (true == GameEngineInput::IsDown((*StarIter).first, this))
+//		{
+//			(*StarIter).second();
+//			return;
+//		}
+//	}
+//}
 
 float DepthFunction::CalculateObjectDepth(float _BackYScale, float _PositionY, bool _isHill /*= false*/)
 {
-	float BackYScale = _BackYScale;
 	if (0.0f == _BackYScale)
 	{
 		_BackYScale = GlobalValue::GetWindowScale().Y;
 	}
 
-	float Depth = (_BackYScale + _PositionY) / _BackYScale * 100.0f + 100.0f;
-
-	if (true == _isHill)
-	{
-		Depth -= (_BackYScale + 50.0f) / _BackYScale * 100.0f;
-	}
-
+	const float Depth = (_BackYScale + _PositionY) / _BackYScale * 100.0f + 100.0f;
 	return Depth;
 }
 
@@ -134,4 +152,19 @@ GameEngineSoundPlayer SFXFunction::PlaySFX(std::string_view _SoundFileName)
 	SoundPlayer.SetVolume(GlobalValue::GetSFXVolume());
 
 	return SoundPlayer;
+}
+
+int StringFunction::GetNewLineCount(std::string_view _Text)
+{
+	int NewLineCount = 0;
+
+	for (const char Character : _Text)
+	{
+		if (Character == '\n')
+		{
+			++NewLineCount;
+		}
+	}
+
+	return NewLineCount;
 }

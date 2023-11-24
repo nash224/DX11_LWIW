@@ -14,6 +14,18 @@ private:
 
 };
 
+
+//struct InputFunction
+//{
+//public:
+//	bool InputRegister(char _Key, std::function<void()> _Func);
+//	void Update();
+//
+//private:
+//	std::unordered_map<const char, std::function<void()>> InputEvents;
+//
+//};
+
 struct DepthFunction
 {
 public:
@@ -37,5 +49,12 @@ struct SFXFunction
 {
 public:
 	static GameEngineSoundPlayer PlaySFX(std::string_view _SoundFileName);
+
+};
+
+struct StringFunction
+{
+public:
+	static int GetNewLineCount(std::string_view _Text);
 
 };

@@ -40,6 +40,8 @@ private:
 		ETOOLTYPE CollectionTool = ETOOLTYPE::None;
 		EINTERACTION_PRESSTYPE InputType = EINTERACTION_PRESSTYPE::Down;
 
+		std::string GearName;
+
 	};
 
 public:
@@ -87,6 +89,11 @@ public:
 	inline void SetInteractionInputType(const EINTERACTION_PRESSTYPE _Type)
 	{
 		Option.InputType = _Type;
+	}
+
+	inline void SetGearName(std::string_view _Name)
+	{
+		Option.GearName = _Name;
 	}
 
 	void SetInteractionOption(

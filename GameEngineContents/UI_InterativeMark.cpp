@@ -63,6 +63,10 @@ void UI_InterativeMark::Init()
 	ButtonRenderer = CreateComponent<GameEngineUIRenderer>();
 	ButtonRenderer->SetSprite("ButtonSet_Keyboard_Z.png");
 
+	FontRenderer = CreateComponent<GameEngineUIRenderer>();
+	FontRenderer->Transform.SetLocalPosition(float4(0.0f, -10.0f));
+	FontRenderer->SetText(GlobalValue::Font_Sandoll, "", 15.0f, float4::WHITE, FW1_CENTER);
+
 	Reset();
 }
 
@@ -90,11 +94,12 @@ void UI_InterativeMark::PointThis(InteractiveActor* _ActorPtr)
 			}
 
 			UI_Mark->MarkRenderer->On();
-			/*UI_Mark->OutLine->On();*/
 		}
 		else if (EINTERACTION_BUTTONTYPE::Gear == Pointer->GetInteractionButtonType())
 		{
 			UI_Mark->ButtonRenderer->On();
+			UI_Mark->FontRenderer->ChangeText(Pointer->Option.GearName);
+			UI_Mark->FontRenderer->On();
 		}
 
 		if (true == UI_Mark->MarkRenderer->IsUpdate() && true == UI_Mark->ButtonRenderer->IsUpdate())
@@ -112,7 +117,9 @@ void UI_InterativeMark::PointThis(InteractiveActor* _ActorPtr)
 
 void UI_InterativeMark::Reset()
 {
-	if (nullptr == MarkRenderer || nullptr == ButtonRenderer)
+	if (nullptr == MarkRenderer 
+		|| nullptr == ButtonRenderer
+		|| nullptr == FontRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
@@ -121,8 +128,7 @@ void UI_InterativeMark::Reset()
 	MarkRenderer->ChangeAnimation("Mark", true, 0);
 	MarkRenderer->Off();
 	ButtonRenderer->Off();
-
-
+	FontRenderer->Off();
 
 	if (nullptr != Pointer && nullptr != Pointer->BodyRenderer)
 	{

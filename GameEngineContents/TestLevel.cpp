@@ -20,6 +20,9 @@
 
 #include "TestCircleGauge.h"
 #include "UI_ButtonGuide.h"
+#include "UI_QuestUnit.h"
+
+#include "QuestData.h"
 
 
 

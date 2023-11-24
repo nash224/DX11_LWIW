@@ -14,7 +14,7 @@ public:
 	DustFx& operator=(const DustFx& _Other) = delete;
 	DustFx& operator=(DustFx&& _Other) noexcept = delete;
 
-	void Init(const float4& _ParentPosition);
+	void Init(const float4& _ParentPosition, float DustScaleRatio = 1.0f);
 
 protected:
 	void Start() override {}

@@ -35,9 +35,8 @@ AlchemyPot::~AlchemyPot()
 void AlchemyPot::Start()
 {
 	CreateAndSetCollision(ECOLLISION::Entity, { 160.0f , 100.0f }, float4(0.0f, -100.0f), ColType::SPHERE2D);
-	SetInteractionType(EINTERACTION_TYPE::Far);
-	SetInteractionButtonType(EINTERACTION_BUTTONTYPE::Gear);
 	SetInteractionOption(EINTERACTION_BUTTONTYPE::Gear, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::AlchemyPot, ETOOLTYPE::Nothing);
+	InteractiveActor::SetGearName("사용하기");
 
 	s_PotPointer = this;
 }

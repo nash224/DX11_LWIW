@@ -14,20 +14,20 @@ void Ellie::RendererSetting()
 
 	BodyRenderer = CreateComponent<GameEngineSpriteRenderer>(EllieGroupOrder);
 	ShadowRenderer = CreateComponent<GameEngineSpriteRenderer>(EllieGroupOrder);
-	EllieFx = CreateComponent<GameEngineSpriteRenderer>(EllieGroupOrder);
-	Virgil = CreateComponent<GameEngineSpriteRenderer>(EllieGroupOrder);
+	EllieFxRenderer = CreateComponent<GameEngineSpriteRenderer>(EllieGroupOrder);
+	VirgilRenderer = CreateComponent<GameEngineSpriteRenderer>(EllieGroupOrder);
 
-	Virgil->RenderBaseInfoValue.Target3 = 1;
+	VirgilRenderer->RenderBaseInfoValue.Target3 = 1;
 
 	
 	BodyRenderer->Transform.SetLocalPosition(float4(0.0f, LWIW_Ellie_Y_Correction));
 	ShadowRenderer->Transform.SetLocalPosition(float4(0.0f, LWIW_Ellie_Y_Correction, ShadowDepth));
-	EllieFx->Transform.SetLocalPosition(float4(0.0f, LWIW_Ellie_Y_Correction, -1.0f));
-	Virgil->Transform.SetLocalPosition(float4(0.0f, LWIW_Ellie_Y_Correction, -0.2f));
+	EllieFxRenderer->Transform.SetLocalPosition(float4(0.0f, LWIW_Ellie_Y_Correction, -1.0f));
+	VirgilRenderer->Transform.SetLocalPosition(float4(0.0f, LWIW_Ellie_Y_Correction, -0.2f));
 
 	BodyRenderer->AutoSpriteSizeOn();
 
-	EllieFx->Off();
+	EllieFxRenderer->Off();
 
 	if (nullptr == GameEngineSprite::Find("Ellie_Basic_Idle.png"))
 	{

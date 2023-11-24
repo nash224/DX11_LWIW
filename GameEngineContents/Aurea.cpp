@@ -19,6 +19,7 @@ void Aurea::Start()
 {
 	InteractiveActor::CreateAndSetCollision(ECOLLISION::Entity, { 90.0f }, float4::ZERO, ColType::SPHERE2D);
 	InteractiveActor::SetInteractionOption(EINTERACTION_BUTTONTYPE::Gear, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Nothing);
+	InteractiveActor::SetGearName("대화하기");
 }
 
 void Aurea::Update(float _Delta)

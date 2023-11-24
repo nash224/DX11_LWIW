@@ -18,6 +18,7 @@ void LowerLift::Start()
 {
 	InteractiveActor::CreateAndSetCollision(ECOLLISION::Entity, float4{ 64.0f , 88.0f }, float4(0.0f, 22.0f), ColType::AABBBOX2D);
 	InteractiveActor::SetInteractionOption(EINTERACTION_BUTTONTYPE::Gear, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Nothing);
+	InteractiveActor::SetGearName("마녀의 집으로 이동");
 }
 
 void LowerLift::Update(float _Delta)

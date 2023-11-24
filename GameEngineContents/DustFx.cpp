@@ -24,7 +24,7 @@ void DustFx::LevelEnd(class GameEngineLevel* _NextLevel)
 /////////////////////////////////////////////////////////////////////////////////////
 
 
-void DustFx::Init(const float4& _ParentPosition)
+void DustFx::Init(const float4& _ParentPosition, float DustScaleRatio)
 {
 	if (nullptr == GameEngineSprite::Find("dust_remove.png"))
 	{
@@ -38,6 +38,7 @@ void DustFx::Init(const float4& _ParentPosition)
 	DustRenderer = CreateComponent<GameEngineSpriteRenderer>(FxGroupOrder);
 	DustRenderer->Transform.SetLocalPosition(FxPosition);
 	DustRenderer->AutoSpriteSizeOn();
+	DustRenderer->SetAutoScaleRatio(DustScaleRatio);
 	DustRenderer->CreateAnimation("FX", "dust_remove.png", 0.06f);
 	DustRenderer->ChangeAnimation("FX");
 	DustRenderer->SetEndEvent("FX", [&](GameEngineSpriteRenderer* _Renderer)

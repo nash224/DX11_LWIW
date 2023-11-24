@@ -45,6 +45,11 @@ protected:
 	void SetStartEvent(std::function<void()> _StartEvent);
 	void SetEndEvnet(std::function<void()> _EndEvent);
 
+	inline void SetDustScaleRatio(float _ScaleRatio)
+	{
+		DustScaleRatio = _ScaleRatio;
+	}
+
 private:
 
 	void RendererSetting(std::string_view _DustSpriteName);
@@ -68,6 +73,8 @@ private:
 	std::function<void()> EndEvent;
 
 	static constexpr const float RemoveDustTime = 1.6f;
+
+	float DustScaleRatio = 1.0f;
 
 };
 

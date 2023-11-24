@@ -1,7 +1,6 @@
 #include "PreCompile.h"
 #include "UI_Hub.h"
 
-
 #include "UI_Hub_Stamina.h"
 #include "UI_Hub_Tool.h"
 #include "UI_Hub_QuickSlot.h"
@@ -18,52 +17,24 @@ UI_Hub::~UI_Hub()
 }
 
 
-void UI_Hub::Start()
-{
-	UI_ToggleActor::Start();
-}
-
-void UI_Hub::Update(float _Delta)
-{
-	UI_ToggleActor::Update(_Delta);
-}
-
-void UI_Hub::LevelStart(class GameEngineLevel* _NextLevel)
-{
-	UI_ToggleActor::LevelStart(_NextLevel);
-}
-
-void UI_Hub::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-	UI_ToggleActor::LevelEnd(_NextLevel);
-}
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
 void UI_Hub::Init()
 {
 	IsHub = true;
 
-	m_Tool = GetLevel()->CreateActor<UI_Hub_Tool>(EUPDATEORDER::UIComponent);
-	m_Tool->Init();
+	UITool = GetLevel()->CreateActor<UI_Hub_Tool>(EUPDATEORDER::UIComponent);
+	UITool->Init();
 
+	UIStamina = GetLevel()->CreateActor<UI_Hub_Stamina>(EUPDATEORDER::UIComponent);
+	UIStamina->Init();
 
-	m_Stamina = GetLevel()->CreateActor<UI_Hub_Stamina>(EUPDATEORDER::UIComponent);
-	m_Stamina->Init();
+	UIQuickSlot = GetLevel()->CreateActor<UI_Hub_QuickSlot>(EUPDATEORDER::UIComponent);
+	UIQuickSlot->Init();
 
+	UIBroom = GetLevel()->CreateActor<UI_Hub_Broom>(EUPDATEORDER::UIComponent);
+	UIBroom->Init();
 
-	m_QuickSlot = GetLevel()->CreateActor<UI_Hub_QuickSlot>(EUPDATEORDER::UIComponent);
-	m_QuickSlot->Init();
-
-
-	m_Broom = GetLevel()->CreateActor<UI_Hub_Broom>(EUPDATEORDER::UIComponent);
-	m_Broom->Init();
-
-	m_Calender = GetLevel()->CreateActor<UI_Hub_Calender>(EUPDATEORDER::UIComponent);
-	m_Calender->Init();
-
+	UICalender = GetLevel()->CreateActor<UI_Hub_Calender>(EUPDATEORDER::UIComponent);
+	UICalender->Init();
 
 	Reset();
 }
@@ -73,84 +44,84 @@ void UI_Hub::Init()
 
 void UI_Hub::OpenInternal()
 {
-	if (nullptr != m_Tool)
+	if (nullptr != UITool)
 	{
-		m_Tool->On();
+		UITool->On();
 	}
 
-	if (nullptr != m_Stamina)
+	if (nullptr != UIStamina)
 	{
-		m_Stamina->On();
+		UIStamina->On();
 	}
 
-	if (nullptr != m_Broom)
+	if (nullptr != UIBroom)
 	{
-		m_Broom->On();
+		UIBroom->On();
 	}
 
-	if (nullptr != m_QuickSlot)
+	if (nullptr != UIQuickSlot)
 	{
-		m_QuickSlot->On();
+		UIQuickSlot->On();
 	}
 
-	if (nullptr != m_Calender)
+	if (nullptr != UICalender)
 	{
-		m_Calender->On();
+		UICalender->On();
 	}
 }
 
 void UI_Hub::CloseInternal()
 {
-	if (nullptr != m_Tool)
+	if (nullptr != UITool)
 	{
-		m_Tool->Off();
+		UITool->Off();
 	}
 
-	if (nullptr != m_Stamina)
+	if (nullptr != UIStamina)
 	{
-		m_Stamina->Off();
+		UIStamina->Off();
 	}
 
-	if (nullptr != m_QuickSlot)
+	if (nullptr != UIQuickSlot)
 	{
-		m_QuickSlot->Off();
+		UIQuickSlot->Off();
 	}
 
-	if (nullptr != m_Broom)
+	if (nullptr != UIBroom)
 	{
-		m_Broom->Off();
+		UIBroom->Off();
 	}
 
-	if (nullptr != m_Calender)
+	if (nullptr != UICalender)
 	{
-		m_Calender->Off();
+		UICalender->Off();
 	}
 }
 
 void UI_Hub::Reset()
 {
-	if (nullptr != m_Tool)
+	if (nullptr != UITool)
 	{
-		m_Tool->On();
+		UITool->On();
 	}
 
-	if (nullptr != m_Stamina)
+	if (nullptr != UIStamina)
 	{
-		m_Stamina->On();
+		UIStamina->On();
 	}
 
-	if (nullptr != m_QuickSlot)
+	if (nullptr != UIQuickSlot)
 	{
-		m_QuickSlot->On();
+		UIQuickSlot->On();
 	}
 
-	if (nullptr != m_Broom)
+	if (nullptr != UIBroom)
 	{
-		m_Broom->On();
+		UIBroom->On();
 	}
 
-	if (nullptr != m_Calender)
+	if (nullptr != UICalender)
 	{
-		m_Calender->On();
+		UICalender->On();
 	}
 }

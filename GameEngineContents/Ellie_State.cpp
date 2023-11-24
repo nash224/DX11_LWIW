@@ -594,13 +594,13 @@ void Ellie::UpdateDrink(float _Delta)
 
 void Ellie::EndIdle()
 {
-	if (nullptr == Virgil)
+	if (nullptr == VirgilRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	Virgil->Off();
+	VirgilRenderer->Off();
 }
 
 void Ellie::EndApproach()

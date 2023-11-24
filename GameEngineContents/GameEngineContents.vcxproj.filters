@@ -715,6 +715,9 @@
     <ClInclude Include="BackDrop_WitchHouse_UpFloor.h">
       <Filter>Level\BackManager\2.Play\UpFloor</Filter>
     </ClInclude>
+    <ClInclude Include="UI_QuestUnit.h">
+      <Filter>Manager\UIManager\Hub\MainBoard</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -1198,6 +1201,9 @@
     </ClCompile>
     <ClCompile Include="BackDrop_WitchHouse_UpFloor.cpp">
       <Filter>Level\BackManager\2.Play\UpFloor</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_QuestUnit.cpp">
+      <Filter>Manager\UIManager\Hub\MainBoard</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

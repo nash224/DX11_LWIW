@@ -41,7 +41,7 @@ void Bush::Release()
 {
 	StaticEntity::Release();
 
-	m_Bush_FX = nullptr;
+	FXRenderer = nullptr;
 }
 
 void Bush::LevelStart(class GameEngineLevel* _NextLevel)
@@ -61,7 +61,7 @@ void Bush::LevelEnd(class GameEngineLevel* _NextLevel)
 // 부쉬타입 설정
 void Bush::SetBushType(EBUSHTYPE _Type)
 {
-	m_BushType = _Type;
+	BushType = _Type;
 }
 
 // 시작
@@ -91,46 +91,46 @@ void Bush::CreateBushAnimation()
 	static constexpr const int RenderOrder = 0;
 
 
-	m_Bush_FX = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
-	m_Bush_FX->AutoSpriteSizeOn();
-	m_Bush_FX->Off();
+	FXRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
+	FXRenderer->AutoSpriteSizeOn();
+	FXRenderer->Off();
 
 	BodyRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
 	BodyRenderer->AutoSpriteSizeOn();
 	BodyRenderer->CreateAnimation("Normal", "Bush_0.png", 5.0f, 9, 9);					// 평상시
 
 
-	if (EBUSHTYPE::BushApple == m_BushType)
+	if (EBUSHTYPE::BushApple == BushType)
 	{
 		BodyRenderer->CreateAnimation("Shake", "Bush_0.png", 0.1f, 0, 7, false);			// 흔듬
 		BodyRenderer->CreateAnimation("Apple", "Bush_0.png", 5.0f, 10, 10, true);			// 사과
 	}
 
-	if (EBUSHTYPE::BushBug == m_BushType)
+	if (EBUSHTYPE::BushBug == BushType)
 	{
 		BodyRenderer->CreateAnimation("Rustle", "Bush_Animation_1.png", 0.1f, 1, 5, true);
 		BodyRenderer->SetStartEvent("Rustle",[&](GameEngineSpriteRenderer* _Renderer)
 			{
-				if (nullptr == m_Bush_FX)
+				if (nullptr == FXRenderer)
 				{
 					MsgBoxAssert("존재하지 않는 렌더러입니다.");
 					return;
 				}
-				m_Bush_FX->On();
-				m_Bush_FX->ChangeAnimation("Rustle_FX", true);
+				FXRenderer->On();
+				FXRenderer->ChangeAnimation("Rustle_FX", true);
 			});
 		BodyRenderer->FindAnimation("Rustle")->Inter = { 0.1f, 0.1f, 0.1f, 0.1f, 0.8f };
 
 
-		m_Bush_FX->CreateAnimation("Rustle_FX", "Bush_Animation_1.png", 0.1f, 6, 13, false);		// 부스럭
-		m_Bush_FX->SetEndEvent("Rustle_FX", [&](GameEngineSpriteRenderer* _Renderer)
+		FXRenderer->CreateAnimation("Rustle_FX", "Bush_Animation_1.png", 0.1f, 6, 13, false);		// 부스럭
+		FXRenderer->SetEndEvent("Rustle_FX", [&](GameEngineSpriteRenderer* _Renderer)
 			{
-				if (nullptr == m_Bush_FX)
+				if (nullptr == FXRenderer)
 				{
 					MsgBoxAssert("존재하지 않는 렌더러입니다.");
 					return;
 				}
-				m_Bush_FX->Off();
+				FXRenderer->Off();
 			});
 
 
@@ -144,32 +144,32 @@ void Bush::CreateBushAnimation()
 			{
 				StaticEntity::PlaySFX("SFX_BushShake_01.wav");
 
-				if (nullptr == m_Bush_FX)
+				if (nullptr == FXRenderer)
 				{
 					MsgBoxAssert("존재하지 않는 렌더러입니다.");
 					return;
 				}
-				m_Bush_FX->On();
-				m_Bush_FX->ChangeAnimation("AppearBug_FX");
+				FXRenderer->On();
+				FXRenderer->ChangeAnimation("AppearBug_FX");
 
 
 			});
 
 
-		m_Bush_FX->CreateAnimation("AppearBug_FX", "BushBug_Appearing.png", 0.1f, 19, 24, false);	// 벌레 등장
-		m_Bush_FX->SetStartEvent("AppearBug_FX", [&](GameEngineSpriteRenderer* _Renderer) 
+		FXRenderer->CreateAnimation("AppearBug_FX", "BushBug_Appearing.png", 0.1f, 19, 24, false);	// 벌레 등장
+		FXRenderer->SetStartEvent("AppearBug_FX", [&](GameEngineSpriteRenderer* _Renderer) 
 			{
 				StaticEntity::PlaySFX(RandomBushBugAppearSoundFilleName());
 			});
 
-		m_Bush_FX->SetEndEvent("AppearBug_FX", [&](GameEngineSpriteRenderer* _Renderer)
+		FXRenderer->SetEndEvent("AppearBug_FX", [&](GameEngineSpriteRenderer* _Renderer)
 			{
-				if (nullptr == m_Bush_FX)
+				if (nullptr == FXRenderer)
 				{
 					MsgBoxAssert("존재하지 않는 렌더러입니다.");
 					return;
 				}
-				m_Bush_FX->Off();
+				FXRenderer->Off();
 			});
 	}
 }
@@ -179,15 +179,16 @@ void Bush::InteractiveOptionSetting()
 {
 	EINTERACTION_BUTTONTYPE ButtonType = EINTERACTION_BUTTONTYPE::None;
 
-	switch (m_BushType)
+	switch (BushType)
 	{
 	case EBUSHTYPE::Bush:
 		break;
 	case EBUSHTYPE::BushBug:
 	case EBUSHTYPE::BushApple:
 		ButtonType = EINTERACTION_BUTTONTYPE::Gear;
-		SetInteractionOption(ButtonType, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Nothing);
-		CreateAndSetCollision(ECOLLISION::Entity, { 96.0f , 96.0f }, float4::ZERO, ColType::AABBBOX2D);
+		InteractiveActor::SetInteractionOption(ButtonType, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Nothing);
+		InteractiveActor::CreateAndSetCollision(ECOLLISION::Entity, { 96.0f , 96.0f }, float4::ZERO, ColType::AABBBOX2D);
+		InteractiveActor::SetGearName("흔들기");
 		break;
 	case EBUSHTYPE::None:
 	{
@@ -203,7 +204,7 @@ void Bush::InteractiveOptionSetting()
 // 부쉬 초기 행동 적용
 void Bush::BushStateSetting()
 {
-	switch (m_BushType)
+	switch (BushType)
 	{
 	case EBUSHTYPE::Bush:
 		ChangeState(EBUSHSTATE::Normal);

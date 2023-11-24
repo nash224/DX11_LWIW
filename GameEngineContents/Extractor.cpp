@@ -37,6 +37,8 @@ void Extractor::Start()
 		ECOLLECTION_METHOD::Juicy, 
 		ETOOLTYPE::Nothing);
 
+	InteractiveActor::SetGearName("작동하기");
+
 	InitExtractor();
 
 	s_ExtractorPointer = this;

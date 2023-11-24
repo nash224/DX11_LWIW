@@ -9,6 +9,7 @@
 #include "IngredientData.h"
 #include "ItemData.h"
 #include "ProductRecipeData.h"
+#include "QuestData.h"
 
 
 void ContentsCore::InitResources()
@@ -141,6 +142,7 @@ void ContentsCore::LoadContentsData()
 	// ªÁ≈¡
 	ProductRecipeData::CreateData("UncurseCandy", { std::vector<ProductRecipeData::MaterialInfo>{{"Mongsiri_Water", 1}, {"MapleHerb_Water", 1 } }, EBREWING_DIFFICULTY::Easy, EBREWING_DIRECTION::StirNone, EBREWING_FIRE::Three,  "UncurseCandy", "¿˙¡÷«ÿ¡¶ ªÁ≈¡" });
 	ProductRecipeData::CreateData("HealingCandy", { std::vector<ProductRecipeData::MaterialInfo>{{"WitchFlower_Water", 1}, {"MapleHerb_Water", 1 } }, EBREWING_DIFFICULTY::Easy, EBREWING_DIRECTION::StirRight, EBREWING_FIRE::Four, "HealingCandy", "ƒ°∑· ªÁ≈¡" });
+
 }
 
 

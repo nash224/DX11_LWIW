@@ -131,6 +131,7 @@ enum class EUI_RENDERORDERDEPTH
 	HUB_Gauge2,
 	HUB_Gauge1,
 	HUB_Frame,
+	HUB_Base,
 	Mark,
 };
 

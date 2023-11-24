@@ -4,6 +4,8 @@
 
 class QuestManager
 {
+	friend class UI_Hub_MainBoard;
+
 public:
 	QuestManager();
 	~QuestManager();
@@ -24,43 +26,11 @@ private:
 
 };
 
+
+
 // Ό³Έν :
 class UI_Hub_MainBoard : public UI_Hub_Actor
 {
-private:
-	class QuestUnitInfo
-	{
-	public:
-		// delete Function
-		/*QuestUnit(const QuestUnit& _Other) = delete;
-		QuestUnit(QuestUnit&& _Other) noexcept = delete;*/
-		QuestUnitInfo& operator=(const QuestUnitInfo& _Other) = delete;
-		QuestUnitInfo& operator=(QuestUnitInfo&& _Other) noexcept = delete;
-
-		void Init();
-
-	private:
-		std::string GetSubjectTextToType(EQUESTTYPE _Type);
-		float GetRenderYSize(int _ContentLineCount);
-
-	public:
-		UI_Hub_MainBoard* Parent = nullptr;
-
-		std::shared_ptr<GameEngineUIRenderer> SubjectBase;
-		std::shared_ptr<GameEngineUIRenderer> Subject;
-
-		std::shared_ptr<GameEngineUIRenderer> ContentBase;
-		std::shared_ptr<GameEngineUIRenderer> QuestName;
-		std::shared_ptr<GameEngineUIRenderer> QuestContent;
-		std::shared_ptr<GameEngineUIRenderer> Dot;
-
-		std::weak_ptr<QuestData> Data;
-		
-	private:
-		float RenderYSize = 0.0f;
-
-	};
-
 private:
 	static std::unique_ptr<QuestManager> s_QuestManager;
 
@@ -79,7 +49,7 @@ public:
 
 protected:
 	void Start() override;
-	void Update(float _Delta) override;
+	void Update(float _Delta) override {}
 	void Release() override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
@@ -88,9 +58,14 @@ protected:
 	void RegisterQuest(std::string_view _QuestName);
 	void CreateQuestUnit(std::string_view _QuestName);
 	void PopQuest(std::string_view _QuestName);
-	void FindQuest(std::string_view _QuestName);
+
+	void RemoveAllQuestList();
+	void RenewUnitList();
+	bool IsSameList();
 
 private:
-	std::list<std::shared_ptr<QuestUnitInfo>> UnitList;
+	std::shared_ptr<GameEngineSpriteRenderer> Base;
+
+	std::list<std::shared_ptr<class UI_QuestUnit>> QuestList;
 
 };

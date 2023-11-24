@@ -85,8 +85,8 @@ void Ellie::Release()
 	DynamicEntity::Release();
 
 	ShadowRenderer = nullptr;
-	Virgil = nullptr;
-	EllieFx = nullptr;
+	VirgilRenderer = nullptr;
+	EllieFxRenderer = nullptr;
 
 	EllieCol = nullptr;
 	InteractiveCol = nullptr;
@@ -306,9 +306,9 @@ void Ellie::ChangeState(EELLIE_STATE _State)
 			break;
 		}
 
-		if (nullptr != Virgil)
+		if (nullptr != VirgilRenderer)
 		{
-			Virgil->Off();
+			VirgilRenderer->Off();
 		}
 
 		if (true == Broom.BroomRenderer.empty())
@@ -462,7 +462,7 @@ void Ellie::ChangeShawdowSprite(std::string_view _AnimationName)
 
 void Ellie::ChangeVirgilSprite(std::string_view _AnimationName)
 {
-	if (nullptr == Virgil)
+	if (nullptr == VirgilRenderer)
 	{
 		MsgBoxAssert("버질 렌더러가 존재하지 않습니다.");
 		return;
@@ -507,8 +507,8 @@ void Ellie::ChangeVirgilSprite(std::string_view _AnimationName)
 
 	if (true == isNeedVirgil)
 	{
-		Virgil->SetSprite(ShadowSpriteName);
-		Virgil->On();
+		VirgilRenderer->SetSprite(ShadowSpriteName);
+		VirgilRenderer->On();
 	}
 }
 

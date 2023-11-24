@@ -1,6 +1,38 @@
 #include "PreCompile.h"
 #include "UI_Hub_MainBoard.h"
 
+#include "UI_QuestUnit.h"
+
+// 현재 진행중인 퀘스트를 보여주는 UI
+//
+// 조작키
+//  == 비활성화 상태 == 
+//  - Tab : 메인보드 열기
+// 
+//  == 활성화 상태 == 
+//  - Tab : 메인보드 닫기
+//  - 위, 아래 화살 버튼 : 퀘스트 컨텐츠 슬롯 이동
+//
+//  == 메인보드 특징 == 
+//  - 메인보드를 열거나 닫을 때, 한 퀘스트의 컨텐츠 슬롯도 같이 움직임 => State 사용
+//  - 퀘스트 컨텐츠 슬롯이 보이는 영역은 최대 3개까지
+//  - 슬롯이 3개가 넘어가면 슬롯 이동으로 아랫부분까지 볼 수 있음
+//  - 현재 슬롯을 가리키는 영역은 커서를 사용
+// 
+//  == 메인보드 State == 
+//  - 접힘 상태 
+//  - 펼침 상태
+//  - 접히는중인 상태 => QuestUnit도 같이 움직임
+//  - 펼치는중인 상태 => QuestUnit도 같이 움직임
+//  - 펼침 상태일때, Input처리 => State상태 추가
+// 
+//  
+//  == 컨텐츠 슬롯 특징 == 
+//  - 퀘스트 타입 (메인/사이드/반복) << 여기서는 메인만 사용
+//  - 퀘스트 내용, 주제, 컨텐츠 크기, 컨텐츠 줄 내용이 있음
+//  - 컨텐츠 크기는 가변적으로 줄 개행의 수에 따라 크기가 달라짐
+//  
+//
 
 QuestManager::QuestManager() 
 {
@@ -66,26 +98,25 @@ void UI_Hub_MainBoard::Start()
 	GameEngineInput::AddInputObject(this);
 }
 
-void UI_Hub_MainBoard::Update(float _Delta)
-{
-}
-
 void UI_Hub_MainBoard::Release()
 {
 	s_QuestManager = nullptr;
+	QuestList.clear();
 }
 
-void UI_Hub_MainBoard::LevelStart(class GameEngineLevel* _NextLevel)
+void UI_Hub_MainBoard::LevelStart(GameEngineLevel* _NextLevel)
 {
+	if (false == IsSameList())
+	{
+		RenewUnitList();
+	}
 }
 
-void UI_Hub_MainBoard::LevelEnd(class GameEngineLevel* _NextLevel)
+void UI_Hub_MainBoard::LevelEnd(GameEngineLevel* _NextLevel)
 {
+	RemoveAllQuestList();
 }
 
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 void UI_Hub_MainBoard::Init()
 {
@@ -116,92 +147,11 @@ void UI_Hub_MainBoard::RegisterQuest(std::string_view _QuestName)
 
 void UI_Hub_MainBoard::CreateQuestUnit(std::string_view _QuestName)
 {
-	const std::shared_ptr<QuestData>& Data = QuestData::Find(_QuestName);
-	if (nullptr == Data)
-	{
-		MsgBoxAssert("데이터가 존재하지 않습니다.");
-		return;
-	}
+	std::shared_ptr<UI_QuestUnit> Unit = GetLevel()->CreateActor<UI_QuestUnit>(EUPDATEORDER::UIComponent);
+	Unit->Init(_QuestName);
 
-	std::shared_ptr<UI_Hub_MainBoard::QuestUnitInfo> Unit = std::make_shared<UI_Hub_MainBoard::QuestUnitInfo>();
-	Unit->Parent = this;
-	Unit->Data = Data;
-	Unit->Init();
-
-	UnitList.push_back(Unit);
+	QuestList.push_back(Unit);
 }
-
-static constexpr float ContentFontSize = 12.0f;
-
-void UI_Hub_MainBoard::QuestUnitInfo::Init()
-{
-	if (true == Data.expired())
-	{
-		MsgBoxAssert("등록되지 않은 퀘스트를 참조하려 했습니다.");
-		return;
-	}
-
-	SubjectBase = Parent->CreateComponent<GameEngineUIRenderer>();
-	SubjectBase->SetSprite("HUD_Quest_Content_1.png");
-
-	static constexpr float QuestNameFontSize = 15.0f;
-
-	Subject = Parent->CreateComponent<GameEngineUIRenderer>();
-	Subject->SetText(GlobalValue::Font_Sandoll, GetSubjectTextToType(Data.lock()->QuestType), ContentFontSize, float4::WHITE);
-
-	ContentBase = Parent->CreateComponent<GameEngineUIRenderer>();
-	ContentBase->SetSprite("HUD_Quest_Content_1.png");
-
-	QuestName = Parent->CreateComponent<GameEngineUIRenderer>();
-	QuestName->SetText(GlobalValue::Font_Sandoll, Data.lock()->QuestName, QuestNameFontSize, float4::ZERO);
-
-	QuestContent = Parent->CreateComponent<GameEngineUIRenderer>();
-	QuestContent->SetText(GlobalValue::Font_Sandoll, Data.lock()->Contents, ContentFontSize, float4::WHITE);
-
-	Dot = Parent->CreateComponent<GameEngineUIRenderer>();
-	Dot->SetText(GlobalValue::Font_Sandoll, std::string("●"), ContentFontSize, float4::WHITE);
-}
-
-std::string UI_Hub_MainBoard::QuestUnitInfo::GetSubjectTextToType(EQUESTTYPE _Type)
-{
-	std::string ReturnValue;
-
-	switch (_Type)
-	{
-	case EQUESTTYPE::Main:
-		ReturnValue = "메인";
-		break;
-	case EQUESTTYPE::Side:
-		ReturnValue = "사이드";
-		break;
-	case EQUESTTYPE::Repeat:
-		ReturnValue = "반복";
-		break;
-	case EQUESTTYPE::None:
-		break;
-	default:
-		break;
-	}
-
-	return ReturnValue;
-}
-
-float UI_Hub_MainBoard::QuestUnitInfo::GetRenderYSize(int _ContentLineCount)
-{
-	static constexpr float ContentBasicYSize = 100.0f;
-
-	std::weak_ptr<GameEngineTexture> SubjectBaseTexture = GameEngineTexture::Find("HUD_Quest_Content_1.png");
-	if (true == SubjectBaseTexture.expired())
-	{
-		MsgBoxAssert("등록되지 않은 텍스처를 참조하려했습니다.");
-		return 0.0f;
-	}
-
-	const float4& TextureScale = SubjectBaseTexture.lock()->GetScale();
-	const float SubjectBaseYSize = TextureScale.Y + ContentBasicYSize + ContentFontSize * static_cast<float>(_ContentLineCount);
-	return SubjectBaseYSize;
-}
-
 
 void UI_Hub_MainBoard::PopQuest(std::string_view _QuestName)
 {
@@ -212,9 +162,72 @@ void UI_Hub_MainBoard::PopQuest(std::string_view _QuestName)
 	}
 
 	s_QuestManager->PopData(_QuestName);
+	for (std::shared_ptr<UI_QuestUnit> Unit : QuestList)
+	{
+		if (false == Unit->Data.expired() && _QuestName == Unit->Data.lock()->QuestName)
+		{
+			QuestList.remove(Unit);
+			return;
+		}
+	}
+
+	MsgBoxAssert("퀘스트를 제거하지 못했습니다.");
+	return;
 }
 
-void UI_Hub_MainBoard::FindQuest(std::string_view _QuestName)
+void UI_Hub_MainBoard::RemoveAllQuestList()
 {
+	if (true == QuestList.empty())
+	{
+		return;
+	}
+	
+	for (const std::shared_ptr<UI_QuestUnit>& Quest : QuestList)
+	{
+		Quest->Death();
+	}
 
+	QuestList.clear();
 }
+
+void UI_Hub_MainBoard::RenewUnitList()
+{
+	RemoveAllQuestList();
+
+	for (std::string_view QuestName : s_QuestManager->QuestContainer)
+	{
+		CreateQuestUnit(QuestName);
+	}
+}
+
+bool UI_Hub_MainBoard::IsSameList()
+{
+	for (std::shared_ptr<UI_QuestUnit> Unit : QuestList)
+	{
+		if (true == Unit->Data.expired())
+		{
+			MsgBoxAssert("데이터가 존재하지 않습니다.");
+			return false;
+		}
+
+		bool isQuestReamin = false;
+
+		for (std::string_view QuestName : s_QuestManager->QuestContainer)
+		{
+			if (QuestName == Unit->Data.lock()->QuestName)
+			{
+				isQuestReamin = true;
+				break;
+			}
+		}
+
+		if (false == isQuestReamin)
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+// GameEngineInput::IsOnlyInputObject(this);

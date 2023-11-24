@@ -19,10 +19,10 @@ public:
 	void Init();
 
 protected:
-	void Start() override;
-	void Update(float _Delta) override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
-	void LevelEnd(class GameEngineLevel* _NextLevel) override;
+	void Start() override {}
+	void Update(float _Delta) override {}
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
+	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 private:
 	void OpenInternal() override;
@@ -32,10 +32,10 @@ private:
 	void Reset();
 
 private:
-	std::shared_ptr<class UI_Hub_Tool> m_Tool = nullptr;
-	std::shared_ptr<class UI_Hub_Stamina> m_Stamina = nullptr;
-	std::shared_ptr<class UI_Hub_QuickSlot> m_QuickSlot = nullptr;
-	std::shared_ptr<class UI_Hub_Broom> m_Broom = nullptr;
-	std::shared_ptr<class UI_Hub_Calender> m_Calender = nullptr;
+	std::shared_ptr<class UI_Hub_Tool> UITool = nullptr;
+	std::shared_ptr<class UI_Hub_Stamina> UIStamina = nullptr;
+	std::shared_ptr<class UI_Hub_QuickSlot> UIQuickSlot = nullptr;
+	std::shared_ptr<class UI_Hub_Broom> UIBroom = nullptr;
+	std::shared_ptr<class UI_Hub_Calender> UICalender = nullptr;
 };
 

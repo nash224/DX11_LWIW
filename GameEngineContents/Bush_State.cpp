@@ -9,7 +9,7 @@
 
 void Bush::StartNormal()
 {
-	m_BushType = EBUSHTYPE::Bush;
+	BushType = EBUSHTYPE::Bush;
 	SetInteractionButtonType(EINTERACTION_BUTTONTYPE::None);
 	ChangeBushAnimation("Normal");
 }

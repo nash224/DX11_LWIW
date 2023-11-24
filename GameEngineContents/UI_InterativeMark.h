@@ -42,6 +42,7 @@ private:
 private:
 	std::shared_ptr<GameEngineUIRenderer> MarkRenderer = nullptr;
 	std::shared_ptr<GameEngineUIRenderer> ButtonRenderer = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> FontRenderer = nullptr;
 
 	bool IsPointerInteracted = false;
 	bool IsLevelChange = false;

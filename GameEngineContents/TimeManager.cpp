@@ -126,9 +126,6 @@ float TimeManager::GetMinuteRatio() const
 	return static_cast<float>(Ratio_Per_TenMinute) / MaxTime;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
 
 void TimeManager::Update(float _Delta)
 {
@@ -140,6 +137,11 @@ void TimeManager::Update(float _Delta)
 	Time += _Delta * TimeFlowRatio;
 
 	ConvertTimeToHour();
+
+	if (Hour >= 24)
+	{
+		IsPause = true;
+	}
 
 	if (Hour >= Start_Night_Hour)
 	{

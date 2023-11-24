@@ -88,16 +88,13 @@ void BackDrop_WitchHouse_DownFloor::Init()
 
 void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 {
-
-
-
 	{
 		float Depth = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::BackPaint);
 
 		const float4& HWinScale = GlobalValue::GetWindowScale().Half();
 		const float4& Position = float4(HWinScale.X, HWinScale.Y * -1.0f, Depth);
 
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
+		std::shared_ptr<RendererActor> Object = _Level->CreateActor<RendererActor>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("DownFloor_Back.png");
@@ -191,283 +188,155 @@ void BackDrop_WitchHouse_DownFloor::CreateProp(GameEngineLevel* _Level)
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		float4 Position = HouseMoveVector  + float4{ 143.0f , -260.0f };
-		Position.Z = DepthFunction::CalculateObjectDepth(m_BackScale.Y,Position.Y);
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-		Object->m_Renderer->SetSprite("Prop_DownFloor_Potion_0.png");
+		const float4& Position = HouseMoveVector + float4(143.0f, -260.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "Prop_DownFloor_Potion_0.png", Position, static_cast<int>(EHOUSEDEPTH::Object), false);
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		float4 Position = HouseMoveVector  + float4{ 408.0f , -394.0f };
-		Position.Z = DepthFunction::CalculateObjectDepth(m_BackScale.Y,Position.Y);
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-		Object->m_Renderer->SetSprite("PotBook.png");
+		const float4& Position = HouseMoveVector + float4(408.0f, -394.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "PotBook.png", Position, static_cast<int>(EHOUSEDEPTH::Object), false);
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		float4 Position = HouseMoveVector  + float4{ 223.0f , -474.0f };
-		Position.Z = DepthFunction::CalculateObjectDepth(m_BackScale.Y,Position.Y);
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-		Object->m_Renderer->SetSprite("DownFloor_Books_0.png");
-	}
-
-
-	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		float4 Position = HouseMoveVector  + float4{ 451.0f , -186.0f };
-		Position.Z = DepthFunction::CalculateObjectDepth(m_BackScale.Y,Position.Y - 12.0f);
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-		Object->m_Renderer->SetSprite("DownFloor_Books_6.png");
+		const float4& Position = HouseMoveVector + float4(223.0f, -474.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "DownFloor_Books_0.png", Position, static_cast<int>(EHOUSEDEPTH::Object), false);
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		float4 Position = HouseMoveVector  + float4{ 229.0f , -141.0f };
-		Position.Z = DepthFunction::CalculateObjectDepth(m_BackScale.Y,Position.Y + 30.0f);
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-		Object->m_Renderer->SetSprite("DownFloor_Handrail_2.png");
+		const float4& Position = HouseMoveVector + float4(451.0f, -186.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "DownFloor_Books_6.png", Position, static_cast<int>(EHOUSEDEPTH::Object), false, -12.0f);
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		float4 Position = HouseMoveVector  + float4{ 215.0f , -331.0f };
-		Position.Z = DepthFunction::CalculateObjectDepth(m_BackScale.Y,Position.Y + 30.0f);
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-		Object->m_Renderer->SetSprite("DownFloor_Handrail_1.png");
+		const float4& Position = HouseMoveVector + float4(229.0f, -141.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "DownFloor_Handrail_2.png", Position, static_cast<int>(EHOUSEDEPTH::Object), false, 30.0f);
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		float4 Position = HouseMoveVector  + float4{ 75.0f , -269.0f };
-		Position.Z = DepthFunction::CalculateObjectDepth(m_BackScale.Y,Position.Y - 20.0f );
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-		Object->m_Renderer->SetSprite("DownFloor_Handrail_0.png");
+		const float4& Position = HouseMoveVector + float4(215.0f, -331.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "DownFloor_Handrail_1.png", Position, static_cast<int>(EHOUSEDEPTH::Object), false, -30.0f);
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		float4 Position = HouseMoveVector  + float4{ 455.0f , -195.0f };
-		Position.Z = DepthFunction::CalculateObjectDepth(m_BackScale.Y,Position.Y);
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-		Object->m_Renderer->SetSprite("DownFloor_Chair_1.png");
+		const float4& Position = HouseMoveVector + float4(75.0f, -269.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "DownFloor_Handrail_0.png", Position, static_cast<int>(EHOUSEDEPTH::Object), false, -20.0f);
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		float4 Position = HouseMoveVector  + float4{ 26.0f , -203.0f };
-		Position.Z = DepthFunction::CalculateObjectDepth(m_BackScale.Y,Position.Y);
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-		Object->m_Renderer->SetSprite("DownFloor_Cabinet.png");
-	}
-
-
-	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		float4 Position = HouseMoveVector  + float4{ 521.0f , -132.0f };
-		Position.Z = DepthFunction::CalculateObjectDepth(m_BackScale.Y,Position.Y);
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-		Object->m_Renderer->SetSprite("DownFloor_Cabinet_0.png");
+		const float4& Position = HouseMoveVector + float4(455.0f, -195.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "DownFloor_Chair_1.png", Position, static_cast<int>(EHOUSEDEPTH::Object), false);
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		float4 Position = HouseMoveVector  + float4{ 189.0f , -119.0f };
-		Position.Z = DepthFunction::CalculateObjectDepth(m_BackScale.Y,Position.Y);
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-		Object->m_Renderer->SetSprite("DownFloor_Locker_1.png");
+		const float4& Position = HouseMoveVector + float4(26.0f, -203.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "DownFloor_Cabinet.png", Position, static_cast<int>(EHOUSEDEPTH::Object), false);
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		float4 Position = HouseMoveVector  + float4{ 254.0f , -481.0f };
-		Position.Z = DepthFunction::CalculateObjectDepth(m_BackScale.Y,Position.Y);
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-		Object->m_Renderer->SetSprite("DownFloor_Books_3.png");
+		const float4& Position = HouseMoveVector + float4(521.0f, -132.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "DownFloor_Cabinet_0.png", Position, static_cast<int>(EHOUSEDEPTH::Object), false);
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		float4 Position = HouseMoveVector  + float4{ 191.0f , -476.0f };
-		Position.Z = DepthFunction::CalculateObjectDepth(m_BackScale.Y,Position.Y);
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-		Object->m_Renderer->SetSprite("DownFloor_Books_7.png");
+		const float4& Position = HouseMoveVector + float4(189.0f, -119.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "DownFloor_Locker_1.png", Position, static_cast<int>(EHOUSEDEPTH::Object), false);
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		float4 Position = HouseMoveVector  + float4{ 67.0f , -197.0f };
-		Position.Z = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::UnderBook);
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-		Object->m_Renderer->SetSprite("DownFloor_Books_2.png");
+		const float4& Position = HouseMoveVector + float4(254.0f, -481.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "DownFloor_Books_3.png", Position, static_cast<int>(EHOUSEDEPTH::Object), false);
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		float4 Position = HouseMoveVector  + float4{ 641.0f , -485.0f };
-		Position.Z = DepthFunction::CalculateObjectDepth(m_BackScale.Y,Position.Y - 20.0f);
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-		Object->m_Renderer->SetSprite("DownFloor_Drawer_1.png");
+		const float4& Position = HouseMoveVector + float4(191.0f, -476.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "DownFloor_Books_7.png", Position, static_cast<int>(EHOUSEDEPTH::Object), false);
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		float4 Position = HouseMoveVector  + float4{ 544.0f , -476.0f };
-		Position.Z = DepthFunction::CalculateObjectDepth(m_BackScale.Y,Position.Y - 20.0f);
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-		Object->m_Renderer->SetSprite("DownFloor_Drawer_0.png");
+		const float4& Position = HouseMoveVector + float4(67.0f, -197.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "DownFloor_Books_2.png", Position, static_cast<int>(EHOUSEDEPTH::UnderBook));
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		float4 Position = HouseMoveVector  + float4{ 130.0f , -179.0f };
-		Position.Z = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::Rug);
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-		Object->m_Renderer->SetSprite("DownFloor_Carpet.png");
+		const float4& Position = HouseMoveVector + float4(641.0f, -485.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "DownFloor_Drawer_1.png", Position, static_cast<int>(EHOUSEDEPTH::Object), false , -20.0f);
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		float4 Position = HouseMoveVector  + float4{ 580.0f , -184.0f };
-		Position.Z = DepthFunction::CalculateObjectDepth(m_BackScale.Y,Position.Y);
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-		Object->m_Renderer->SetSprite("DownFloor_Books_5.png");
+		const float4& Position = HouseMoveVector + float4(544.0f, -476.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "DownFloor_Drawer_0.png", Position, static_cast<int>(EHOUSEDEPTH::Object), false , -20.0f);
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		float4 Position = HouseMoveVector  + float4{ 409.0f , -325.0f };
-		Position.Z = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::Sign);
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-		Object->m_Renderer->SetSprite("WitchHouse_PotBase_MagicCircle_2.png");
+		const float4& Position = HouseMoveVector + float4(130.0f, -179.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "DownFloor_Carpet.png", Position, static_cast<int>(EHOUSEDEPTH::Rug));
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		float4 Position = HouseMoveVector  + float4{ 409.0f , -325.0f };
-		Position.Z = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::Sign);
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-		Object->m_Renderer->SetSprite("WitchHouse_PotBase_MagicCircle_1.png");
+		const float4& Position = HouseMoveVector + float4(580.0f, -184.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "DownFloor_Books_5.png", Position, static_cast<int>(EHOUSEDEPTH::Object), false);
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		float4 Position = HouseMoveVector  + float4{ 409.0f , -325.0f };
-		Position.Z = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::Sign);
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-		Object->m_Renderer->SetSprite("PotBase_MagicCircle_0.png");
+		const float4& Position = HouseMoveVector + float4(409.0f, -325.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "WitchHouse_PotBase_MagicCircle_2.png", Position, static_cast<int>(EHOUSEDEPTH::Sign));
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		float4 Position = HouseMoveVector  + float4{ 68.0f , -205.0f };
-		Position.Z = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::Shadow);
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-		Object->m_Renderer->SetSprite("DownFloor_Books_Shadow_2.png");
+		const float4& Position = HouseMoveVector + float4(409.0f, -325.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "WitchHouse_PotBase_MagicCircle_1.png", Position, static_cast<int>(EHOUSEDEPTH::Sign));
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		float4 Position = HouseMoveVector  + float4{ 205.0f , -211.0f };
-		Position.Z = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::Shadow);
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-		Object->m_Renderer->SetSprite("DownFloor_Chair_Shadow.png");
+		const float4& Position = HouseMoveVector + float4(409.0f, -325.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "PotBase_MagicCircle_0.png", Position, static_cast<int>(EHOUSEDEPTH::Sign));
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		float4 Position = HouseMoveVector  + float4{ 455.0f , -209.0f };
-		Position.Z = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::Shadow);
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-		Object->m_Renderer->SetSprite("DownFloor_Chair_Shadow.png");
+		const float4& Position = HouseMoveVector + float4(68.0f, -205.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "DownFloor_Books_Shadow_2.png", Position, static_cast<int>(EHOUSEDEPTH::Shadow));
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		float4 Position = HouseMoveVector  + float4{ 130.0f , -181.0f };
-		Position.Z = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::Shadow);
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-		Object->m_Renderer->SetSprite("DownFloor_Chair_Shadow.png");
+		const float4& Position = HouseMoveVector + float4(205.0f, -211.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "DownFloor_Chair_Shadow.png", Position, static_cast<int>(EHOUSEDEPTH::Shadow));
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		float4 Position = HouseMoveVector  + float4{ 617.0f , -397.0f };
-		Position.Z = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::Shadow);
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-		Object->m_Renderer->SetSprite("DownFloor_Desk_Shadow.png");
+		const float4& Position = HouseMoveVector + float4(455.0f, -209.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "DownFloor_Chair_Shadow.png", Position, static_cast<int>(EHOUSEDEPTH::Shadow));
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		float4 Position = HouseMoveVector  + float4{ 48.0f , -161.0f };
-		Position.Z = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::Shadow);
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-		Object->m_Renderer->SetSprite("DownFloor_Chair_Shadow.png");
+		const float4& Position = HouseMoveVector + float4(130.0f, -181.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "DownFloor_Chair_Shadow.png", Position, static_cast<int>(EHOUSEDEPTH::Shadow));
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		float4 Position = HouseMoveVector  + float4{ 224.0f , -490.0f };
-		Position.Z = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::Shadow);
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-		Object->m_Renderer->SetSprite("DownFloor_Books_Shadow_0.png");
+		const float4& Position = HouseMoveVector + float4(617.0f, -397.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "DownFloor_Desk_Shadow.png", Position, static_cast<int>(EHOUSEDEPTH::Shadow));
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		float4 Position = HouseMoveVector  + float4{ 409.0f , -325.0f };
-		Position.Z = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::Rug);
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-		Object->m_Renderer->SetSprite("PotBase.png");
+		const float4& Position = HouseMoveVector + float4(48.0f, -161.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "DownFloor_Chair_Shadow.png", Position, static_cast<int>(EHOUSEDEPTH::Shadow));
 	}
-
-
-#pragma region Frame
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		float4 Position = HouseMoveVector  + float4{ 350.0f , -255.0f };
-		Position.Z = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::FRAME);
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-		Object->m_Renderer->SetSprite("DownFloor_Frame.png");
+		const float4& Position = HouseMoveVector + float4(224.0f, -490.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "DownFloor_Books_Shadow_0.png", Position, static_cast<int>(EHOUSEDEPTH::Shadow));
 	}
 
-#pragma endregion 
+	{
+		const float4& Position = HouseMoveVector + float4(409.0f, -325.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "PotBase.png", Position, static_cast<int>(EHOUSEDEPTH::Rug));
+	}
+
+	{
+		const float4& Position = HouseMoveVector + float4(350.0f, -255.0f);
+		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "DownFloor_Frame.png", Position, static_cast<int>(EHOUSEDEPTH::FRAME));
+	}
 }
-
 
 #pragma endregion 
 

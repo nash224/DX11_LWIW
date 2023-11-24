@@ -155,7 +155,7 @@ void Ellie::BroomSetting()
 
 void Ellie::ChangeBroomAndVirgilIndexToRidingMode(int _HeadIndex, int _BodyIndex, int _VirgilIndex)
 {
-	if (true == Broom.BroomRenderer.empty() && nullptr == Virgil)
+	if (true == Broom.BroomRenderer.empty() && nullptr == VirgilRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
@@ -163,5 +163,5 @@ void Ellie::ChangeBroomAndVirgilIndexToRidingMode(int _HeadIndex, int _BodyIndex
 
 	Broom.BroomRenderer[static_cast<int>(EllieBroom::EBROOMSTRUCT::Head)]->ChangeCurSprite(_HeadIndex);
 	Broom.BroomRenderer[static_cast<int>(EllieBroom::EBROOMSTRUCT::Body)]->ChangeCurSprite(_BodyIndex);
-	Virgil->ChangeCurSprite(_VirgilIndex);
+	VirgilRenderer->ChangeCurSprite(_VirgilIndex);
 }

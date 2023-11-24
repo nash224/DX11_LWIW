@@ -15,6 +15,7 @@ Dust_Extractor::~Dust_Extractor()
 void Dust_Extractor::Start()
 {
 	Dust::Start();
+	Dust::SetDustScaleRatio(1.5f);
 
 	SetTopic();
 }
@@ -28,9 +29,6 @@ void Dust_Extractor::Release()
 {
 	Dust::Release();
 }
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 void Dust_Extractor::SetTopic()
 {

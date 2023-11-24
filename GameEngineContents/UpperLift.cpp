@@ -19,6 +19,7 @@ void UpperLift::Start()
 {
 	InteractiveActor::CreateAndSetCollision(ECOLLISION::Entity, { 120.0f, 80.0f }, float4::ZERO, ColType::AABBBOX2D);
 	InteractiveActor::SetInteractionOption(EINTERACTION_BUTTONTYPE::Gear, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Nothing);
+	InteractiveActor::SetGearName("작업실로 이동");
 
 	if (nullptr == InteractiveActor::InteractiveCol)
 	{

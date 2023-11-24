@@ -1,7 +1,7 @@
 #pragma once
 #include "ContentsResource.h"
 
-enum  class EQUESTTYPE
+enum class EQUEST
 {
 	Main,
 	Side,
@@ -23,8 +23,7 @@ public:
 		std::string _Name,
 		std::string _QuestName,
 		std::string _Contents,
-		EQUESTTYPE _QuestType = EQUESTTYPE::Main
-	)
+		EQUEST _QuestType = EQUEST::Main)
 		:
 		Name(_Name),
 		QuestName(_QuestName),
@@ -43,8 +42,8 @@ public:
 
 public:
 	std::string Name;
-	EQUESTTYPE QuestType = EQUESTTYPE::None;
 	std::string QuestName;
 	std::string Contents;
+	EQUEST QuestType = EQUEST::None;
 
 };

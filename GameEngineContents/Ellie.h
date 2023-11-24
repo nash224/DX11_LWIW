@@ -253,8 +253,8 @@ private:
 
 	EllieBroom Broom;
 	std::shared_ptr<GameEngineSpriteRenderer> ShadowRenderer = nullptr;
-	std::shared_ptr<GameEngineSpriteRenderer> EllieFx = nullptr;
-	std::shared_ptr<GameEngineSpriteRenderer> Virgil = nullptr;
+	std::shared_ptr<GameEngineSpriteRenderer> EllieFxRenderer = nullptr;
+	std::shared_ptr<GameEngineSpriteRenderer> VirgilRenderer = nullptr;
 	std::shared_ptr<GameEngineCollision> EllieCol = nullptr;
 	std::shared_ptr<GameEngineCollision> NetCollision = nullptr;
 	InteractiveActor* OtherEntity = nullptr;
