@@ -159,6 +159,9 @@ void DynamicEntity::ApplyOnlyMovement(float _Delta)
 
 float DynamicEntity::GetVolumeReductionByDistance()
 {
+	static constexpr const float Max_Volume_Distance = 150.0f;
+	static constexpr const float Min_Volume_Distance = 300.0f;
+
 	if (true == CameraControler::MainCameraControler.expired())
 	{
 		MsgBoxAssert("객체가 존재하지 않습니다.");

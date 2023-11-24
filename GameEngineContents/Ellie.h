@@ -37,7 +37,6 @@ enum class EELLIE_STATUS
 	Riding,
 };
 
-
 struct PixelCheckPoint
 {
 public:
@@ -108,7 +107,7 @@ public:
 
 	EELLIE_STATE GetState() const
 	{
-		return m_State;
+		return State;
 	}
 
 	float GetStamina() const
@@ -143,7 +142,6 @@ protected:
 	void ChangeBroomSprite();
 
 
-	// 레벨 시작 초기화 함수
 	void OnLevelStart();
 	void RenewStatus();
 	void ChangeStatus(const EELLIE_STATUS _Status);
@@ -228,15 +226,11 @@ private:
 	void ConsumeBroomFuel(float _Delta);
 
 private:
-	// 방향 키 감지
 	bool DetectMovement();
 	bool DetectVerticalMovement();
 	bool DetectHorizontalMovement();
 
-	// 방향 계산 함수
 	float4 GetDirectionVectorToDir(const EDIRECTION _Direction);
-	
-
 	void CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce);
 	EDIRECTION ReturnDirectionCheckBothSide(EDIRECTION _Direction, const float4& _LeftCheckPoint, const float4& _RightCheckPoint);
 
@@ -251,26 +245,24 @@ private:
 	void CheckDayChange();
 
 private:
-	// 방향키
 	EHORIZONTAL_KEY_STATE HorizontalInputKey = EHORIZONTAL_KEY_STATE::Center;
 	EVERTICAL_KEY_STATE VerticalInputKey = EVERTICAL_KEY_STATE::Center;
 
-	// 행동
-	EELLIE_STATE m_State = EELLIE_STATE::None;
+	EELLIE_STATE State = EELLIE_STATE::None;
 	EELLIE_STATE WaitState = EELLIE_STATE::None;
 
 	EllieBroom Broom;
 	std::shared_ptr<GameEngineSpriteRenderer> ShadowRenderer = nullptr;
 	std::shared_ptr<GameEngineSpriteRenderer> EllieFx = nullptr;
 	std::shared_ptr<GameEngineSpriteRenderer> Virgil = nullptr;
-	std::shared_ptr<GameEngineCollision> m_EllieCol = nullptr;
+	std::shared_ptr<GameEngineCollision> EllieCol = nullptr;
 	std::shared_ptr<GameEngineCollision> NetCollision = nullptr;
 	InteractiveActor* OtherEntity = nullptr;
-	PixelCheckPoint m_PixelCheckPoint;
+	PixelCheckPoint CheckPoint;
 
 
 	
-
+	float StateTime = 0.0f;
 	float Broom_Particle_Time = 0.0f;
 	float BroomUsingTime = 0.0f;
 

@@ -15,7 +15,7 @@ void Ellie::UpdateCollision()
 
 void Ellie::UpdatePortalCollsiion()
 {
-	m_EllieCol->Collision(ECOLLISION::Portal, [&](std::vector<GameEngineCollision*>& _Collision)
+	EllieCol->Collision(ECOLLISION::Portal, [&](std::vector<GameEngineCollision*>& _Collision)
 		{
 			for (size_t i = 0; i < _Collision.size(); i++)
 			{
@@ -72,7 +72,7 @@ void Ellie::UpdateInteractionCollsiion()
 		EllieRightFOVAngle += 360.0f;
 	}
 
-	m_EllieCol->Collision(ECOLLISION::Entity, [&](std::vector<GameEngineCollision*>& _Collisions)
+	EllieCol->Collision(ECOLLISION::Entity, [&](std::vector<GameEngineCollision*>& _Collisions)
 		{
 			std::vector<float> vecDistance;
 
@@ -207,7 +207,7 @@ void Ellie::UpdateInteractionCollsiion()
 					{
 						if (true == GameEngineInput::IsPress('Z', this))
 						{
-							if (EELLIE_STATE::Idle != m_State)
+							if (EELLIE_STATE::Idle != State)
 							{
 								ChangeState(EELLIE_STATE::Idle);
 							}

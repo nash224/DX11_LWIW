@@ -173,19 +173,19 @@ void TestLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 		bush = nullptr;
 	}
 
-	std::vector<std::shared_ptr<SilverStarFlower>> SBFGroup = GetObjectGroupConvert<SilverStarFlower>(EUPDATEORDER::Objects);
+	const std::vector<std::shared_ptr<SilverStarFlower>>& SBFGroup = GetObjectGroupConvert<SilverStarFlower>(EUPDATEORDER::Objects);
 	for (std::weak_ptr<SilverStarFlower> SBF : SBFGroup)
 	{
 		SBF.lock()->Death();
 	}
 
-	std::vector<std::shared_ptr<WitchFlower>> WFGroup = GetObjectGroupConvert<WitchFlower>(EUPDATEORDER::Objects);
+	const std::vector<std::shared_ptr<WitchFlower>>& WFGroup = GetObjectGroupConvert<WitchFlower>(EUPDATEORDER::Objects);
 	for (std::weak_ptr<WitchFlower> WF : WFGroup)
 	{
 		WF.lock()->Death();
 	}
 
-	std::vector<std::shared_ptr<MongSiri_Population>> PopulationGroup = GetObjectGroupConvert<MongSiri_Population>(EUPDATEORDER::Objects);
+	const std::vector<std::shared_ptr<MongSiri_Population>>& PopulationGroup = GetObjectGroupConvert<MongSiri_Population>(EUPDATEORDER::Objects);
 	for (std::weak_ptr<MongSiri_Population> Population : PopulationGroup)
 	{
 		Population.lock()->ActorRelaese();

@@ -88,7 +88,7 @@ void Ellie::Release()
 	Virgil = nullptr;
 	EllieFx = nullptr;
 
-	m_EllieCol = nullptr;
+	EllieCol = nullptr;
 	InteractiveCol = nullptr;
 	NetCollision = nullptr;
 
@@ -97,8 +97,6 @@ void Ellie::Release()
 	Broom.BroomRenderer.clear();
 }
 
-
-// Ellie는 PlayLevel에서 Off할 수 있지만, Off한 채로 LevelStart 할 수는 없습니다.
 void Ellie::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	OnLevelStart();
@@ -111,15 +109,11 @@ void Ellie::LevelEnd(class GameEngineLevel* _NextLevel)
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
-
 void Ellie::CollisionSetting()
 {
-	m_EllieCol = CreateComponent<GameEngineCollision>(ECOLLISION::Player);
-	m_EllieCol->Transform.SetLocalScale(float4{ 4.0f , 4.0f });
-	m_EllieCol->SetCollisionType(ColType::AABBBOX2D);
+	EllieCol = CreateComponent<GameEngineCollision>(ECOLLISION::Player);
+	EllieCol->Transform.SetLocalScale(float4{ 4.0f , 4.0f });
+	EllieCol->SetCollisionType(ColType::AABBBOX2D);
 
 	NetCollision = CreateComponent<GameEngineCollision>(ECOLLISION::Net);
 	NetCollision->Transform.SetLocalScale(float4(140.0f, 4.0f));
@@ -152,19 +146,19 @@ void Ellie::OnLevelStart()
 
 void Ellie::RenewStatus()
 {
-	if (EELLIE_STATUS::Normal == g_Status && EELLIE_STATE::Idle != m_State)
+	if (EELLIE_STATUS::Normal == g_Status && EELLIE_STATE::Idle != State)
 	{
   		ChangeState(EELLIE_STATE::Idle);
 		return;
 	}
 
-	if (EELLIE_STATUS::Riding == g_Status && EELLIE_STATE::Riding_Standing != m_State)
+	if (EELLIE_STATUS::Riding == g_Status && EELLIE_STATE::Riding_Standing != State)
 	{
 		ChangeState(EELLIE_STATE::Riding_Standing);
 		return;
 	}
 
-	if (EELLIE_STATE::None == m_State)
+	if (EELLIE_STATE::None == State)
 	{
 		MsgBoxAssert("등록되지 않은 행동패턴입니다.");
 		return;
@@ -230,19 +224,19 @@ void Ellie::SetPixelPointBaseOnCenter()
 {
 	static constexpr const float CheckPointGap = 2.0f;
 
-	const float4& m_PixelCheckPosBaseOnCenter = float4::ZERO;
+	const float4& CheckPosBaseOnCenter = float4::ZERO;
 
-	const float4& m_PixelCheckScale = { 10.0f , 10.0f };
-	const float4& HalfPixelCheckScale = m_PixelCheckScale.Half();
+	const float4& CheckScale = { 10.0f , 10.0f };
+	const float4& HalfCheckScale = CheckScale.Half();
 
-	m_PixelCheckPoint.TopLeft = m_PixelCheckPosBaseOnCenter + float4{ -HalfPixelCheckScale.X + CheckPointGap , HalfPixelCheckScale.Y };
-	m_PixelCheckPoint.TopRight = m_PixelCheckPosBaseOnCenter + float4{ HalfPixelCheckScale.X - CheckPointGap , HalfPixelCheckScale.Y };
-	m_PixelCheckPoint.LeftTop = m_PixelCheckPosBaseOnCenter + float4{ -HalfPixelCheckScale.X , HalfPixelCheckScale.Y - CheckPointGap };
-	m_PixelCheckPoint.LeftBottom = m_PixelCheckPosBaseOnCenter + float4{ -HalfPixelCheckScale.X , -HalfPixelCheckScale.Y + CheckPointGap };
-	m_PixelCheckPoint.RightTop = m_PixelCheckPosBaseOnCenter + float4{ HalfPixelCheckScale.X , HalfPixelCheckScale.Y - CheckPointGap };
-	m_PixelCheckPoint.RightBottom = m_PixelCheckPosBaseOnCenter + float4{ HalfPixelCheckScale.X , -HalfPixelCheckScale.Y + CheckPointGap };
-	m_PixelCheckPoint.BottomLeft = m_PixelCheckPosBaseOnCenter + float4{ -HalfPixelCheckScale.X + CheckPointGap , -HalfPixelCheckScale.Y };
-	m_PixelCheckPoint.BottomRight = m_PixelCheckPosBaseOnCenter + float4{ HalfPixelCheckScale.X - CheckPointGap , -HalfPixelCheckScale.Y };
+	CheckPoint.TopLeft = CheckPosBaseOnCenter + float4{ -HalfCheckScale.X + CheckPointGap , HalfCheckScale.Y };
+	CheckPoint.TopRight = CheckPosBaseOnCenter + float4{ HalfCheckScale.X - CheckPointGap , HalfCheckScale.Y };
+	CheckPoint.LeftTop = CheckPosBaseOnCenter + float4{ -HalfCheckScale.X , HalfCheckScale.Y - CheckPointGap };
+	CheckPoint.LeftBottom = CheckPosBaseOnCenter + float4{ -HalfCheckScale.X , -HalfCheckScale.Y + CheckPointGap };
+	CheckPoint.RightTop = CheckPosBaseOnCenter + float4{ HalfCheckScale.X , HalfCheckScale.Y - CheckPointGap };
+	CheckPoint.RightBottom = CheckPosBaseOnCenter + float4{ HalfCheckScale.X , -HalfCheckScale.Y + CheckPointGap };
+	CheckPoint.BottomLeft = CheckPosBaseOnCenter + float4{ -HalfCheckScale.X + CheckPointGap , -HalfCheckScale.Y };
+	CheckPoint.BottomRight = CheckPosBaseOnCenter + float4{ HalfCheckScale.X - CheckPointGap , -HalfCheckScale.Y };
 }
 
 
@@ -251,7 +245,7 @@ void Ellie::SetPixelPointBaseOnCenter()
 #pragma region State 함수
 void Ellie::UpdateState(float _Delta)
 {
-	switch (m_State)
+	switch (State)
 	{
 	case EELLIE_STATE::None:
 	{
@@ -285,9 +279,9 @@ void Ellie::UpdateState(float _Delta)
 
 void Ellie::ChangeState(EELLIE_STATE _State)
 {
-	if (_State != m_State)
+	if (_State != State)
 	{
-		switch (m_State)
+		switch (State)
 		{
 		case EELLIE_STATE::None:																	break;
 		case EELLIE_STATE::Idle:									EndIdle();						break;
@@ -329,7 +323,7 @@ void Ellie::ChangeState(EELLIE_STATE _State)
 		}
 
 
-		m_State = _State;
+		State = _State;
 
 		switch (_State)
 		{
@@ -361,13 +355,6 @@ void Ellie::ChangeState(EELLIE_STATE _State)
 			break;
 		}
 	}
-	else
-	{
-#ifdef DEBUG
-			ssert("같은 행동으로 바꾸려고 했습니다.");
-		return;
-#endif // DEBUG
-	}	
 }
 
 
@@ -441,7 +428,7 @@ void Ellie::ChangeShawdowSprite(std::string_view _AnimationName)
 
 	static constexpr const int OnlySpriteUse = 0;
 
-	switch (m_State)
+	switch (State)
 	{
 	case EELLIE_STATE::Idle:
 	case EELLIE_STATE::Walk:
@@ -489,7 +476,7 @@ void Ellie::ChangeVirgilSprite(std::string_view _AnimationName)
 
 	bool isNeedVirgil = true;
 
-	switch (m_State)
+	switch (State)
 	{
 	case EELLIE_STATE::Idle:
 	case EELLIE_STATE::SlowWalk:
@@ -542,7 +529,7 @@ void Ellie::ChangeBroomSprite()
 
 	std::string BroomSpriteName = "Broomstick_Basic_";
 
-	switch (m_State)
+	switch (State)
 	{
 	case EELLIE_STATE::Riding_Standing:
 		BroomSpriteName += "Boosting.png";
@@ -781,11 +768,11 @@ float4 Ellie::GetDirectionVectorToDir(const EDIRECTION _Direction)
 
 void Ellie::CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce)
 {
-	float4 DirVector = GetDirectionVectorToDir(m_Dir);
+	const float4& DirVector = GetDirectionVectorToDir(m_Dir);
 
-	m_MoveVector = DirVector * _MAXMoveForce;
+	SetMoveVector(DirVector * _MAXMoveForce);
 	
-	float4 CurPos = Transform.GetWorldPosition();
+	const float4& CurPos = Transform.GetWorldPosition();
 
 	float4 LeftCheckPoint = CurPos;
 	float4 RightCheckPoint = CurPos;
@@ -796,36 +783,36 @@ void Ellie::CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce)
 	switch (m_Dir)
 	{
 	case EDIRECTION::UP:
-		LeftCheckPoint += m_PixelCheckPoint.TopLeft;
-		RightCheckPoint += m_PixelCheckPoint.TopRight;
+		LeftCheckPoint += CheckPoint.TopLeft;
+		RightCheckPoint += CheckPoint.TopRight;
 		break;
 	case EDIRECTION::LEFTUP:
-		LeftCheckPoint += m_PixelCheckPoint.LeftTop;
-		RightCheckPoint += m_PixelCheckPoint.TopLeft;
+		LeftCheckPoint += CheckPoint.LeftTop;
+		RightCheckPoint += CheckPoint.TopLeft;
 		break;
 	case EDIRECTION::LEFT:
-		LeftCheckPoint += m_PixelCheckPoint.LeftBottom;
-		RightCheckPoint += m_PixelCheckPoint.LeftTop;
+		LeftCheckPoint += CheckPoint.LeftBottom;
+		RightCheckPoint += CheckPoint.LeftTop;
 		break;
 	case EDIRECTION::LEFTDOWN:
-		LeftCheckPoint += m_PixelCheckPoint.BottomLeft;
-		RightCheckPoint += m_PixelCheckPoint.LeftBottom;
+		LeftCheckPoint += CheckPoint.BottomLeft;
+		RightCheckPoint += CheckPoint.LeftBottom;
 		break;
 	case EDIRECTION::DOWN:
-		LeftCheckPoint += m_PixelCheckPoint.BottomRight;
-		RightCheckPoint += m_PixelCheckPoint.BottomRight;
+		LeftCheckPoint += CheckPoint.BottomRight;
+		RightCheckPoint += CheckPoint.BottomRight;
 		break;
 	case EDIRECTION::RIGHTDOWN:
-		LeftCheckPoint += m_PixelCheckPoint.RightBottom;
-		RightCheckPoint += m_PixelCheckPoint.BottomRight;
+		LeftCheckPoint += CheckPoint.RightBottom;
+		RightCheckPoint += CheckPoint.BottomRight;
 		break;
 	case EDIRECTION::RIGHT:
-		LeftCheckPoint += m_PixelCheckPoint.RightTop;
-		RightCheckPoint += m_PixelCheckPoint.RightBottom;
+		LeftCheckPoint += CheckPoint.RightTop;
+		RightCheckPoint += CheckPoint.RightBottom;
 		break;
 	case EDIRECTION::RIGHTUP:
-		LeftCheckPoint += m_PixelCheckPoint.TopRight;
-		RightCheckPoint += m_PixelCheckPoint.RightTop;
+		LeftCheckPoint += CheckPoint.TopRight;
+		RightCheckPoint += CheckPoint.RightTop;
 		break;
 	default:
 		break;
@@ -839,12 +826,12 @@ void Ellie::CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce)
 	}
 	else if (CheckDir == EDIRECTION::CENTER)
 	{
-		m_MoveVector = float4::ZERO;
+		ResetMoveVector();
 	}
 	else
 	{
 		MoveDirVector = GetDirectionVectorToDir(CheckDir);
-		m_MoveVector = MoveDirVector * _MAXMoveForce * FrictionForce;
+		SetMoveVector(MoveDirVector * _MAXMoveForce * FrictionForce);
 	}
 }
 
@@ -910,19 +897,11 @@ float4 Ellie::GetMoveForceByDir(float _Delta, float _MAXMoveForce, float _Accele
 
 void Ellie::LimitMoveVector(float _MAXMoveForce)
 {
-	const float4& MoveVectorSize = DirectX::XMVector2Length(m_MoveVector.DirectXVector);
-	float LimitedSpeed = 0.0f;
-	if (MoveVectorSize.X > _MAXMoveForce)
-	{
-		LimitedSpeed = _MAXMoveForce;
-	}
-	else
-	{
-		LimitedSpeed = MoveVectorSize.X;
-	}
+	const float4& MoveVectorSize = DirectX::XMVector2Length(DynamicEntity::GetMoveVector().DirectXVector);
+	const float4& MoveUnitVector = DirectX::XMVector2Normalize(DynamicEntity::GetMoveVector().DirectXVector);
+ 	const float LimitedSpeed = std::clamp(MoveVectorSize.X, 0.0f, _MAXMoveForce);
 
-	const float4& MoveUnitVector = DirectX::XMVector2Normalize(m_MoveVector.DirectXVector);
-	m_MoveVector = MoveUnitVector * LimitedSpeed;
+	DynamicEntity::SetMoveVector(MoveUnitVector * LimitedSpeed);
 }
 
 #pragma endregion 

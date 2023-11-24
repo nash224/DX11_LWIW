@@ -51,16 +51,16 @@ void AlchemyPot::Update(float _Delta)
 
 void AlchemyPot::Release()
 {
-	m_PotRenderer = nullptr;
-	m_WaterRenderer = nullptr;
-	m_FxRenderer = nullptr;
-	m_FireRenderer = nullptr;
-	m_SteamRenderer = nullptr;
+	PotRenderer = nullptr;
+	WaterRenderer = nullptr;
+	FxRenderer = nullptr;
+	FireRenderer = nullptr;
+	SteamRenderer = nullptr;
 
 	InteractiveCol = nullptr;
 
 	// 연금UI
-	m_Dispensation = nullptr;
+	DispensationPage = nullptr;
 	s_PotPointer = nullptr;
 }
 
@@ -111,80 +111,74 @@ void AlchemyPot::RendererSetting()
 		GameEngineSprite::CreateCut("Pot_Fx_Success.png", 5, 5);
 	}
 
-	m_PotRenderer = CreateComponent<GameEngineSpriteRenderer>();
-	m_PotRenderer->SetSprite("DownFloor_Pot_0.png");
-	m_PotRenderer->Transform.SetLocalPosition({ 0.0f , -8.0f });
+	PotRenderer = CreateComponent<GameEngineSpriteRenderer>();
+	PotRenderer->SetSprite("DownFloor_Pot_0.png");
+	PotRenderer->Transform.SetLocalPosition({ 0.0f , -8.0f });
 
 
-	m_WaterRenderer = CreateComponent<GameEngineSpriteRenderer>();
-	m_WaterRenderer->AutoSpriteSizeOn();
-	m_WaterRenderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, -1.0f));
-	m_WaterRenderer->CreateAnimation("Idle", "Pot_Fx_IdleA.png", 0.1f, 0, 21);
-	m_WaterRenderer->ChangeAnimation("Idle");
+	WaterRenderer = CreateComponent<GameEngineSpriteRenderer>();
+	WaterRenderer->AutoSpriteSizeOn();
+	WaterRenderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, -1.0f));
+	WaterRenderer->CreateAnimation("Idle", "Pot_Fx_IdleA.png", 0.1f, 0, 21);
+	WaterRenderer->ChangeAnimation("Idle");
 
 
-	m_FxRenderer = CreateComponent<GameEngineSpriteRenderer>();
-	m_FxRenderer->AutoSpriteSizeOn();
-	m_FxRenderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, -2.0f));
-	m_FxRenderer->CreateAnimation("Idle", "Pot_Fx_IdleA.png", 0.1f, 0, 21, false);
-	m_FxRenderer->CreateAnimation("Boil", "Pot_Fx_Boil.png", 0.1f, 0, 14, false);
-	m_FxRenderer->CreateAnimation("Fail", "Pot_Fx_Fail.png", 0.1f, 0, 18, false);
-	m_FxRenderer->CreateAnimation("Success", "Pot_Fx_Success.png", 0.1f, 0, 21, false);
+	FxRenderer = CreateComponent<GameEngineSpriteRenderer>();
+	FxRenderer->AutoSpriteSizeOn();
+	FxRenderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, -2.0f));
+	FxRenderer->CreateAnimation("Idle", "Pot_Fx_IdleA.png", 0.1f, 0, 21, false);
+	FxRenderer->CreateAnimation("Boil", "Pot_Fx_Boil.png", 0.1f, 0, 14, false);
+	FxRenderer->CreateAnimation("Fail", "Pot_Fx_Fail.png", 0.1f, 0, 18, false);
+	FxRenderer->CreateAnimation("Success", "Pot_Fx_Success.png", 0.1f, 0, 21, false);
 
 
-	m_FxRenderer->SetStartEvent("Boil", [&](GameEngineSpriteRenderer* _Renderer)
+	FxRenderer->SetStartEvent("Boil", [&](GameEngineSpriteRenderer* _Renderer)
 		{
-			m_FireRenderer->ChangeAnimation("Large");
-			m_SteamRenderer->Off();
+			FireRenderer->ChangeAnimation("Large");
+			SteamRenderer->Off();
 		});
 
 
-	m_FxRenderer->SetFrameEvent("Fail", 9, [&](GameEngineSpriteRenderer* _Renderer)
+	FxRenderer->SetFrameEvent("Fail", 9, [&](GameEngineSpriteRenderer* _Renderer)
 		{
-			if (nullptr == Ellie::MainEllie)
+			if (nullptr != Ellie::MainEllie)
 			{
-				MsgBoxAssert("앨리가 존재하지 않습니다.");
-				return;
+				Ellie::MainEllie->WaitDone(EELLIE_STATE::Fail);
 			}
-
-			Ellie::MainEllie->WaitDone(EELLIE_STATE::Fail);
 		});
-	m_FxRenderer->SetEndEvent("Fail", std::bind(&AlchemyPot::EndPotionCreation, this));
+	FxRenderer->SetEndEvent("Fail", std::bind(&AlchemyPot::EndPotionCreation, this));
 
-	m_FxRenderer->SetFrameEvent("Success", 16, [&](GameEngineSpriteRenderer* _Renderer)
+	FxRenderer->SetFrameEvent("Success", 16, [&](GameEngineSpriteRenderer* _Renderer)
 		{
-			if (nullptr == Ellie::MainEllie)
+			if (nullptr != Ellie::MainEllie)
 			{
-				MsgBoxAssert("앨리가 존재하지 않습니다.");
-				return;
+				Ellie::MainEllie->WaitDone(EELLIE_STATE::Cheer);
 			}
-
-			Ellie::MainEllie->WaitDone(EELLIE_STATE::Cheer);
 		});
-	m_FxRenderer->SetEndEvent("Success", std::bind(&AlchemyPot::EndPotionCreation, this));
+	FxRenderer->SetEndEvent("Success", std::bind(&AlchemyPot::EndPotionCreation, this));
 
-	m_FxRenderer->Off();
+	FxRenderer->Off();
 
 
-	m_FireRenderer = CreateComponent<GameEngineSpriteRenderer>();
-	m_FireRenderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, -1.0f));
-	m_FireRenderer->CreateAnimation("Small", "Pot_Fire_Small.png", 0.1f, 1, 23);
-	m_FireRenderer->CreateAnimation("Large", "Pot_Fire_Large.png", 0.1f, 1, 23);
-	m_FireRenderer->AutoSpriteSizeOn();
+	FireRenderer = CreateComponent<GameEngineSpriteRenderer>();
+	FireRenderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, -1.0f));
+	FireRenderer->CreateAnimation("Small", "Pot_Fire_Small.png", 0.1f, 1, 23);
+	FireRenderer->CreateAnimation("Large", "Pot_Fire_Large.png", 0.1f, 1, 23);
+	FireRenderer->AutoSpriteSizeOn();
 	
-	m_FireRenderer->ChangeAnimation("Small");
+	FireRenderer->ChangeAnimation("Small");
 
-	m_SteamRenderer = CreateComponent<GameEngineSpriteRenderer>();
-	m_SteamRenderer->AutoSpriteSizeOn();
-	m_SteamRenderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, -2.0f));
-	m_SteamRenderer->CreateAnimation("Steam", "Pot_Fire_Large.png", 0.1f, 1, 23);
-	m_SteamRenderer->ChangeAnimation("Steam");
+	SteamRenderer = CreateComponent<GameEngineSpriteRenderer>();
+	SteamRenderer->AutoSpriteSizeOn();
+	SteamRenderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, -2.0f));
+	SteamRenderer->CreateAnimation("Steam", "Pot_Fire_Large.png", 0.1f, 1, 23);
+	SteamRenderer->ChangeAnimation("Steam");
 }
 
 void AlchemyPot::DispensationSetting()
 {
-	m_Dispensation = GetLevel()->CreateActor<UI_Dispensation>();
-	m_Dispensation->Init();
+	DispensationPage = GetLevel()->CreateActor<UI_Dispensation>();
+	DispensationPage->Init();
 }
 
 void AlchemyPot::StateSetting()
@@ -222,22 +216,22 @@ void AlchemyPot::ChangePotAnimation(std::string_view _StateName)
 	std::string AnimationName = "";
 	AnimationName += _StateName.data();
 	
-	if (nullptr == m_FxRenderer)
+	if (nullptr == FxRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	m_FxRenderer->ChangeAnimation(AnimationName);
+	FxRenderer->ChangeAnimation(AnimationName);
 }
 
 
 
 void AlchemyPot::StartBroken(GameEngineState* _Parent)
 {
-	m_FireRenderer->Off();
-	m_SteamRenderer->Off();
-	m_WaterRenderer->Off();
+	FireRenderer->Off();
+	SteamRenderer->Off();
+	WaterRenderer->Off();
 
 	if (nullptr == InteractiveActor::InteractiveCol)
 	{
@@ -255,13 +249,13 @@ void AlchemyPot::StartIdle(GameEngineState* _Parent)
 
 void AlchemyPot::StartBoil(GameEngineState* _Parent)
 {
-	if (nullptr == m_FxRenderer)
+	if (nullptr == FxRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	m_FxRenderer->On();
+	FxRenderer->On();
 
 	PlaySFX("SFX_MakingPotPutIn_01.wav");
 	PlaySFX("SFX_MakingPotStart.wav");
@@ -308,20 +302,20 @@ void AlchemyPot::UpdateIdle(float _Delta, GameEngineState* _Parent)
 {
 	if (true == IsEnalbeActive)
 	{
-		if (nullptr == m_Dispensation)
+		if (nullptr == DispensationPage)
 		{
 			MsgBoxAssert("연금UI가 존재하지 않습니다.");
 			return;
 		}
 
-		m_Dispensation->AlchemyPotPtr = this;
-		m_Dispensation->Open();
+		DispensationPage->AlchemyPotPtr = this;
+		DispensationPage->Open();
 	}
 }
 
 void AlchemyPot::UpdateBoil(float _Delta, GameEngineState* _Parent)
 {
-	if (nullptr != m_FxRenderer && true == m_FxRenderer->IsCurAnimationEnd())
+	if (nullptr != FxRenderer && true == FxRenderer->IsCurAnimationEnd())
 	{
 		if (false == CraftedPotion.empty())
 		{
@@ -338,7 +332,7 @@ void AlchemyPot::UpdateBoil(float _Delta, GameEngineState* _Parent)
 
 void AlchemyPot::UpdateFail(float _Delta, GameEngineState* _Parent)
 {
-	if (nullptr != m_FxRenderer && true == m_FxRenderer->IsCurAnimationEnd())
+	if (nullptr != FxRenderer && true == FxRenderer->IsCurAnimationEnd())
 	{
 		State.ChangeState(EPOTSTATE::Idle);
 		return;
@@ -347,7 +341,7 @@ void AlchemyPot::UpdateFail(float _Delta, GameEngineState* _Parent)
 
 void AlchemyPot::UpdateSuccess(float _Delta, GameEngineState* _Parent)
 {
-	if (nullptr != m_FxRenderer && true == m_FxRenderer->IsCurAnimationEnd())
+	if (nullptr != FxRenderer && true == FxRenderer->IsCurAnimationEnd())
 	{
 		State.ChangeState(EPOTSTATE::Idle);
 		return;
@@ -357,19 +351,9 @@ void AlchemyPot::UpdateSuccess(float _Delta, GameEngineState* _Parent)
 
 void AlchemyPot::EndBroken(GameEngineState* _Parent)
 {
-	if (nullptr == m_FireRenderer)
-	{
-		MsgBoxAssert("렌더러가 존재하지 않습니다.");
-		return;
-	}
-
-	if (nullptr == m_SteamRenderer)
-	{
-		MsgBoxAssert("렌더러가 존재하지 않습니다.");
-		return;
-	}
-
-	if (nullptr == m_WaterRenderer)
+	if (nullptr == FireRenderer
+		|| nullptr == SteamRenderer
+		|| nullptr == WaterRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
@@ -381,9 +365,9 @@ void AlchemyPot::EndBroken(GameEngineState* _Parent)
 		return;
 	}
 
-	m_FireRenderer->On();
-	m_SteamRenderer->On();
-	m_WaterRenderer->On();
+	FireRenderer->On();
+	SteamRenderer->On();
+	WaterRenderer->On();
 	InteractiveActor::InteractiveCol->On();
 }
 
@@ -404,34 +388,24 @@ void AlchemyPot::EndSuccess(GameEngineState* _Parent)
 
 void AlchemyPot::EndPotionCreation()
 {
-	if (nullptr == m_FireRenderer)
+	if (nullptr == FireRenderer
+		|| nullptr == SteamRenderer
+		|| nullptr == FxRenderer)
 	{
 		MsgBoxAssert("있을수 없는 일입니다.");
 		return;
 	}
 
-	if (nullptr == m_SteamRenderer)
-	{
-		MsgBoxAssert("있을수 없는 일입니다.");
-		return;
-	}
-
-	if (nullptr == m_FxRenderer)
-	{
-		MsgBoxAssert("렌더러가 존재하지 않습니다.");
-		return;
-	}
-
-	if (nullptr == m_Dispensation)
+	if (nullptr == DispensationPage)
 	{
 		MsgBoxAssert("연금페이지가 존재하지 않는데 사용하려 했습니다.");
 		return;
 	}
 
-	m_FireRenderer->ChangeAnimation("Small");
-	m_SteamRenderer->On();
-	m_FxRenderer->Off();
-	m_Dispensation->Close();
+	FireRenderer->ChangeAnimation("Small");
+	SteamRenderer->On();
+	FxRenderer->Off();
+	DispensationPage->Close();
 }
 
 void AlchemyPot::DispensatePotion(std::string_view _CraftedPotionName)

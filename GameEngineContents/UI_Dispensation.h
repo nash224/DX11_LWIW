@@ -70,9 +70,9 @@ private:
 
 
 private:
-	std::shared_ptr<GameEngineUIRenderer> m_Base = nullptr;
-	std::shared_ptr<GameEngineUIRenderer> m_Frame = nullptr;
-	std::shared_ptr<GameEngineUIRenderer> m_Empty_Slot = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> Base = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> Frame = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> EmptySlot = nullptr;
 	std::shared_ptr<GameEngineUIRenderer> fire_icon_1 = nullptr;
 	std::shared_ptr<GameEngineUIRenderer> fire_icon_2 = nullptr;
 	std::shared_ptr<GameEngineUIRenderer> Fire_Gauge = nullptr;
@@ -81,11 +81,11 @@ private:
 	std::shared_ptr<GameEngineUIRenderer> Direction_CounterClockwise = nullptr;
 	std::shared_ptr<GameEngineUIRenderer> Direction_Clockwise = nullptr;
 
-	std::vector<DispensationSlotInfo> m_DispensationSlotInfo;
+	std::vector<DispensationSlotInfo> DispensationSlot;
 
 	UI_ButtonGuide UIGuide;
 
-	std::string CreatedProductName = "";
+	std::string CreatedProductName;
 
 	EBREWING_FIRE CurFire = EBREWING_FIRE::Three;
 	EBREWING_DIRECTION CurStir = EBREWING_DIRECTION::StirNone;

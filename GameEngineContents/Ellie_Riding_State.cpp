@@ -74,7 +74,7 @@ void Ellie::UpdateRiding_Standing(float _Delta)
 
 void Ellie::StartRiding_Moving()
 {
-	m_StateTime = 0.0f;
+	StateTime = 0.0f;
 
 	Ellie::PlaySFX("SFX_Broomstick_Moving_01.wav");
 	ChangeAnimationByDirection("Riding_Moving");
@@ -282,11 +282,11 @@ void Ellie::GenerateBroomDust(float _Delta)
 {
 	static constexpr float Particle_Cool_Time = 0.12f;
 
-	m_StateTime += _Delta;
+	StateTime += _Delta;
 
-	if (m_StateTime > Particle_Cool_Time)
+	if (StateTime > Particle_Cool_Time)
 	{
-		m_StateTime -= Particle_Cool_Time;
+		StateTime -= Particle_Cool_Time;
 
 		// ReverseSpeedCheck
 		CreateBroomParticle();
@@ -297,11 +297,11 @@ void Ellie::GenerateBoostBroomDust(float _Delta)
 {
 	static constexpr float Particle_Cool_Time = 0.04f;
 
-	m_StateTime += _Delta;
+	StateTime += _Delta;
 
-	if (m_StateTime > Particle_Cool_Time)
+	if (StateTime > Particle_Cool_Time)
 	{
-		m_StateTime -= Particle_Cool_Time;
+		StateTime -= Particle_Cool_Time;
 
 		// ReverseSpeedCheck
 		static constexpr float MinParticleDistance = 0.0f;
@@ -362,12 +362,12 @@ void Ellie::ConsumeBroomFuel(float _Delta)
 	{
 		BroomUsingTime -= PayCostCycle;
 
-		if (EELLIE_STATE::Riding_Moving == m_State)
+		if (EELLIE_STATE::Riding_Moving == State)
 		{
 			static constexpr const float MovingCost = 2.0f;
 			BroomFuel -= MovingCost;
 		}
-		else if (EELLIE_STATE::Riding_Boosting == m_State)
+		else if (EELLIE_STATE::Riding_Boosting == State)
 		{
 			static constexpr const float BoostingCost = 4.0f;
 			BroomFuel -= BoostingCost;

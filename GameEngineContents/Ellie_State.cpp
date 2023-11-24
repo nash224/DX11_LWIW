@@ -35,7 +35,7 @@ void Ellie::StartWalk()
 
 void Ellie::StartRun()
 {
-	m_StateTime = 0.0f;
+	StateTime = 0.0f;
 
 	ChangeAnimationByDirection("Run");
 }
@@ -350,12 +350,12 @@ void Ellie::UpdateRun(float _Delta)
 
 	static constexpr const float RunCostCoolDown = 0.5f;
 
-	m_StateTime += _Delta;
-	if (m_StateTime > RunCostCoolDown)
+	StateTime += _Delta;
+	if (StateTime > RunCostCoolDown)
 	{
 		static constexpr const float RunCost = 2.0f;
 
-		m_StateTime -= RunCostCoolDown;
+		StateTime -= RunCostCoolDown;
 		Stamina -= RunCost;
 	}
 

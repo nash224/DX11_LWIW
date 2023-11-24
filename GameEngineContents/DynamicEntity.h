@@ -35,6 +35,21 @@ protected:
 		m_MoveVector = float4::ZERO;
 	}
 
+	inline float4 GetMoveVector() const
+	{
+		return m_MoveVector;
+	}
+
+	inline void SetMoveVector(const float4& _Vector)
+	{
+		m_MoveVector = _Vector;
+	}
+
+	inline void AddMoveVector(const float4& _Vector)
+	{
+		m_MoveVector += _Vector;
+	}
+
 	void ApplyMovement(float _Delta);
 	void ApplyOnlyMovement(float _Delta);
 
@@ -47,11 +62,6 @@ protected:
 
 	float4 m_MoveVector = float4::ZERO;
 	float4 m_MoveForce = float4::ZERO;
-
-	float m_StateTime = 0.0f;
-
-	static constexpr const float Max_Volume_Distance = 150.0f;
-	static constexpr const float Min_Volume_Distance = 300.0f;
 
 };
 

@@ -32,9 +32,9 @@ void UI_Dispensation::Update(float _Delta)
 
 void UI_Dispensation::Release()
 {
-	m_Base = nullptr;
-	m_Frame = nullptr;
-	m_Empty_Slot = nullptr;
+	Base = nullptr;
+	Frame = nullptr;
+	EmptySlot = nullptr;
 	fire_icon_1 = nullptr;
 	fire_icon_2 = nullptr;
 	Fire_Gauge = nullptr;
@@ -44,7 +44,7 @@ void UI_Dispensation::Release()
 	Direction_Clockwise = nullptr;
 	AlchemyPotPtr = nullptr;
 
-	m_DispensationSlotInfo.clear();
+	DispensationSlot.clear();
 }
 
 void UI_Dispensation::LevelStart(class GameEngineLevel* _NextLevel)
@@ -80,17 +80,17 @@ void UI_Dispensation::RendererSetting()
 		GameEngineSprite::CreateCut("dispensation_fire_gauge_pin.png", 5, 1);
 	}
 
-	m_Base = CreateComponent<GameEngineUIRenderer>();
-	m_Base->Transform.SetLocalPosition(float4(0.0f, 10.0f, DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Base)));
-	m_Base->SetSprite("Dispensation_Base.png");
+	Base = CreateComponent<GameEngineUIRenderer>();
+	Base->Transform.SetLocalPosition(float4(0.0f, 10.0f, DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Base)));
+	Base->SetSprite("Dispensation_Base.png");
 
-	m_Frame = CreateComponent<GameEngineUIRenderer>();
-	m_Frame->Transform.SetLocalPosition(float4(0.0f, 20.0f, DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame)));
-	m_Frame->SetSprite("dispensation_partsb.png");
+	Frame = CreateComponent<GameEngineUIRenderer>();
+	Frame->Transform.SetLocalPosition(float4(0.0f, 20.0f, DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame)));
+	Frame->SetSprite("dispensation_partsb.png");
 
-	m_Empty_Slot = CreateComponent<GameEngineUIRenderer>();
-	m_Empty_Slot->Transform.SetLocalPosition(float4(0.0f, 149.0f, DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment)));
-	m_Empty_Slot->SetSprite("dispensation_itemslot_set.png");
+	EmptySlot = CreateComponent<GameEngineUIRenderer>();
+	EmptySlot->Transform.SetLocalPosition(float4(0.0f, 149.0f, DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment)));
+	EmptySlot->SetSprite("dispensation_itemslot_set.png");
 
 	fire_icon_1 = CreateComponent<GameEngineUIRenderer>();
 	fire_icon_1->Transform.SetLocalPosition(float4(-88.0f, 8.0f, DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame)));
@@ -133,16 +133,16 @@ void UI_Dispensation::RendererSetting()
 	UIGuide.SetGuideInfo(this, Paras);
 	UIGuide.On();
 
-	m_DispensationSlotInfo.resize(3);
+	DispensationSlot.resize(3);
 
-	for (int i = 0; i < m_DispensationSlotInfo.size(); i++)
+	for (int i = 0; i < DispensationSlot.size(); i++)
 	{
 		float4 Position = float4(-72.0f + (72.0f * i), 149.0f);
 		Position.Z = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Component);
 
-		m_DispensationSlotInfo[i].ItemImg = CreateComponent<GameEngineUIRenderer>();
-		m_DispensationSlotInfo[i].ItemImg->Transform.SetLocalPosition(Position);
-		m_DispensationSlotInfo[i].ItemImg->Off();
+		DispensationSlot[i].ItemImg = CreateComponent<GameEngineUIRenderer>();
+		DispensationSlot[i].ItemImg->Transform.SetLocalPosition(Position);
+		DispensationSlot[i].ItemImg->Off();
 	}
 }
 
@@ -203,16 +203,16 @@ bool UI_Dispensation::SelectThis(std::string_view _ItemName, int _ItemCount)
 	DispensationSlotInfo* SlotInfo = FindSlot(_ItemName);
 	if (-1 != EmptySlotNumber && nullptr == SlotInfo)
 	{
-		m_DispensationSlotInfo[EmptySlotNumber].ItemName = _ItemName;
-		m_DispensationSlotInfo[EmptySlotNumber].ItemCount = _ItemCount;
+		DispensationSlot[EmptySlotNumber].ItemName = _ItemName;
+		DispensationSlot[EmptySlotNumber].ItemCount = _ItemCount;
 
-		if (nullptr == m_DispensationSlotInfo[EmptySlotNumber].ItemImg)
+		if (nullptr == DispensationSlot[EmptySlotNumber].ItemImg)
 		{
 			MsgBoxAssert("렌더러를 생성하지 않고 사용하려 했습니다.");
 			return false;
 		}
-		m_DispensationSlotInfo[EmptySlotNumber].ItemImg->SetSprite(_ItemName.data() + std::string(".png"));
-		m_DispensationSlotInfo[EmptySlotNumber].ItemImg->On();
+		DispensationSlot[EmptySlotNumber].ItemImg->SetSprite(_ItemName.data() + std::string(".png"));
+		DispensationSlot[EmptySlotNumber].ItemImg->On();
 
 		return true;
 	}
@@ -221,12 +221,11 @@ bool UI_Dispensation::SelectThis(std::string_view _ItemName, int _ItemCount)
 	return false;
 }
 
-// 남는 슬롯이 없으면 -1을 반환합니다.
 int UI_Dispensation::ReturnEmptySlot()
 {
-	for (int i = 0; i < m_DispensationSlotInfo.size(); i++)
+	for (int i = 0; i < DispensationSlot.size(); i++)
 	{
-		if (true == m_DispensationSlotInfo[i].ItemName.empty())
+		if (true == DispensationSlot[i].ItemName.empty())
 		{
 			return i;
 		}
@@ -235,12 +234,11 @@ int UI_Dispensation::ReturnEmptySlot()
 	return -1;
 }
 
-// 아이템을 찾아서 슬롯을 반환해줍니다.
 DispensationSlotInfo* UI_Dispensation::FindSlot(std::string_view _ItemName)
 {
-	for (size_t i = 0; i < m_DispensationSlotInfo.size(); i++)
+	for (size_t i = 0; i < DispensationSlot.size(); i++)
 	{
-		DispensationSlotInfo& Info = m_DispensationSlotInfo[i];
+		DispensationSlotInfo& Info = DispensationSlot[i];
 		if (Info.ItemName == _ItemName)
 		{
 			return &Info;
@@ -250,8 +248,6 @@ DispensationSlotInfo* UI_Dispensation::FindSlot(std::string_view _ItemName)
 	return nullptr;
 }
 
-
-// 선택된 슬롯을 해줍니다.
 bool UI_Dispensation::UnSelectThis(std::string_view _ItemName)
 {
 	DispensationSlotInfo* Info = FindSlot(_ItemName);
@@ -273,34 +269,32 @@ bool UI_Dispensation::UnSelectThis(std::string_view _ItemName)
 	return true;
 }
 
-// 슬롯 정보를 초기화합니다.
 void UI_Dispensation::ClearSlotInfo()
 {
-	for (size_t i = 0; i < m_DispensationSlotInfo.size(); i++)
+	for (size_t i = 0; i < DispensationSlot.size(); i++)
 	{
-		m_DispensationSlotInfo[i].ItemCount = 0;
-		m_DispensationSlotInfo[i].ItemName = "";
-		m_DispensationSlotInfo[i].ItemImg->Off();
+		DispensationSlot[i].ItemCount = 0;
+		DispensationSlot[i].ItemName = "";
+		DispensationSlot[i].ItemImg->Off();
 	}
 }
 
 
-// 래시피가 일치하면 연금을 합니다.
 void UI_Dispensation::Dispensation()
 {
 	const std::vector<ProductRecipeData::MaterialInfo> infoArray =
 	{
-		{m_DispensationSlotInfo[0].ItemName, m_DispensationSlotInfo[0].ItemCount },
-		{m_DispensationSlotInfo[1].ItemName, m_DispensationSlotInfo[1].ItemCount},
-		{m_DispensationSlotInfo[2].ItemName, m_DispensationSlotInfo[2].ItemCount}
+		{DispensationSlot[0].ItemName, DispensationSlot[0].ItemCount },
+		{DispensationSlot[1].ItemName, DispensationSlot[1].ItemCount},
+		{DispensationSlot[2].ItemName, DispensationSlot[2].ItemCount}
 	};
 	const ProductRecipeData CurRecipeData = ProductRecipeData{ infoArray, EBREWING_DIFFICULTY::Normal, CurStir, CurFire};
 
 	if (true == CheckDispensation(CurRecipeData))
 	{
-		for (size_t i = 0; i < m_DispensationSlotInfo.size(); i++)
+		for (size_t i = 0; i < DispensationSlot.size(); i++)
 		{
-			PopDispensationMaterial(m_DispensationSlotInfo[i].ItemName);
+			PopDispensationMaterial(DispensationSlot[i].ItemName);
 		}
 	}
 	else
@@ -308,7 +302,6 @@ void UI_Dispensation::Dispensation()
 		CreatedProductName.clear();
 	}
 
-	// 포션제작하라고 한다.
 	AlchemyPotPtr->DispensatePotion(CreatedProductName);
 
 	Off();

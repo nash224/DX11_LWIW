@@ -1,23 +1,24 @@
 #pragma once
 #include "StaticEntity.h"
 
-enum class EPOTSTATE
-{
-	None,
-	Broken,
-	Idle,
-	Boil,
-	Fail,
-	Success
-};
-
 
 
 // Ό³Έν :
 class AlchemyPot : public StaticEntity
 {
 private:
-	std::shared_ptr<class UI_Dispensation> m_Dispensation = nullptr;
+	enum class EPOTSTATE
+	{
+		None,
+		Broken,
+		Idle,
+		Boil,
+		Fail,
+		Success
+	};
+
+private:
+	std::shared_ptr<class UI_Dispensation> DispensationPage = nullptr;
 
 	static AlchemyPot* s_PotPointer;
 
@@ -74,21 +75,18 @@ private:
 	void CheckCraftFireCrackerEvent();
 	void ShowCraftPotionEvent();
 	void ShowFireCrackerEvent();
-	
 
 
 private:
-	std::shared_ptr<GameEngineSpriteRenderer> m_PotRenderer;
-	std::shared_ptr<GameEngineSpriteRenderer> m_WaterRenderer;
-	std::shared_ptr<GameEngineSpriteRenderer> m_FxRenderer;
-	std::shared_ptr<GameEngineSpriteRenderer> m_FireRenderer;
-	std::shared_ptr<GameEngineSpriteRenderer> m_SteamRenderer;
+	std::shared_ptr<GameEngineSpriteRenderer> PotRenderer;
+	std::shared_ptr<GameEngineSpriteRenderer> WaterRenderer;
+	std::shared_ptr<GameEngineSpriteRenderer> FxRenderer;
+	std::shared_ptr<GameEngineSpriteRenderer> FireRenderer;
+	std::shared_ptr<GameEngineSpriteRenderer> SteamRenderer;
 
 	GameEngineState State;
 
 	std::string CraftedPotion;
-
-	EPOTSTATE m_State = EPOTSTATE::None;
 
 };
 

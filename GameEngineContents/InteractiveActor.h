@@ -69,8 +69,15 @@ public:
 	}
 
 
-	void SetInteractionButtonType(const EINTERACTION_BUTTONTYPE _Type);
-	void SetInteractionType(const EINTERACTION_TYPE _Type);
+	inline void SetInteractionButtonType(const EINTERACTION_BUTTONTYPE _Type)
+	{
+		Option.ButtonType = _Type;
+	}
+
+	inline void SetInteractionType(const EINTERACTION_TYPE _Type)
+	{
+		Option.InteractionType = _Type;
+	}
 
 	inline void SetCollectionMethodType(const ECOLLECTION_METHOD _Type)
 	{

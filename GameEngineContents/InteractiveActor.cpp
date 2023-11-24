@@ -65,17 +65,6 @@ void InteractiveActor::SetNearInteractivePositionAndRange(const float4& _Interac
 }
 
 
-// 상호작용 옵션
-void InteractiveActor::SetInteractionButtonType(const EINTERACTION_BUTTONTYPE _Type)
-{
-	Option.ButtonType = _Type;
-}
-
-void InteractiveActor::SetInteractionType(const EINTERACTION_TYPE _Type)
-{
-	Option.InteractionType = _Type;
-}
-
 void InteractiveActor::SetInteractionOption(
 	const EINTERACTION_BUTTONTYPE _BUTTONTYPE,
 	const EINTERACTION_TYPE _Type,
