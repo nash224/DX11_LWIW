@@ -23,16 +23,16 @@ public:
 	void Init();
 
 protected:
-	void Start() override;
-	void Update(float _Delta) override;
-	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
+	void Start() override {}
+	void Update(float _Delta) override {}
+	void Release() override {}
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
-	void CreateProp(class GameEngineLevel* _CurLevel);
-	void CreateTrain(class GameEngineLevel* _CurLevel);
-	void CreateChainProp(class GameEngineLevel* _CurLevel);
+	void CreateProp();
+	void CreateTrain();
+	void CreateChainProp();
 
 private:
 
