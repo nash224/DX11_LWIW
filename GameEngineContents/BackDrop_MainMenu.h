@@ -33,16 +33,12 @@ private:
 	void CreateProp(class GameEngineLevel* _CurLevel);
 	void CreateTrain(class GameEngineLevel* _CurLevel);
 	void CreateChainProp(class GameEngineLevel* _CurLevel);
-	void CreateButton();
 
 private:
 
-	// ChainProp
-	const float CONST_MountainSpeed = -60.0f;
-	const float CONST_BridgeSpeed = -480.0f;
 	const float CONST_TreeSpeed = -1200.0f;
 
-	const float COSNT_TreeSpawnDistance = 2400.0f;
+	
 
 
 };

@@ -3,12 +3,10 @@
 
 #include "TrainPart.h"
 
+
+static constexpr int TrainMaxCount = 5;
+
 MainMenu_Trains::MainMenu_Trains() 
-	:
-	m_State(TrainState::None),
-	m_TrainState(0),
-	m_StateTime(0.0f),
-	m_RattleCycle(0.3f)
 {	
 }
 MainMenu_Trains::~MainMenu_Trains()
@@ -18,8 +16,8 @@ MainMenu_Trains::~MainMenu_Trains()
 
 void MainMenu_Trains::Start()
 {
-	m_TrainState = 0;
-	m_State = TrainState::RattleUp;
+	CurTrainNumber = 0;
+	State = ETRAINSTATE::RattleUp;
 }
 
 void MainMenu_Trains::Update(float _Delta)
@@ -34,90 +32,72 @@ void MainMenu_Trains::Release()
 	TrainSoundPlayer.Stop();
 }
 
-void MainMenu_Trains::LevelStart(class GameEngineLevel* _NextLevel)
-{
-
-}
-
 void MainMenu_Trains::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	Death();
 }
 
-
-/////////////////////////////////////////////////////////////////////////////////////
-
-
 void MainMenu_Trains::SetRattleCycle(float _Value)
 {
-	m_RattleCycle = _Value;
+	RattleCycle = _Value;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////
 
 
 #pragma region 기차 생성
 
 void MainMenu_Trains::Init()
 {
-	GameEngineLevel* CurLevel = GetLevel();
+	vecTrain.reserve(TrainMaxCount);
 
-
-	vecTrain.reserve(TrainCount);
+	const float TrainDepth = DepthFunction::CalculateFixDepth(ETITLERENDERDEPTH::Trains);
+	const float LightDepth = DepthFunction::CalculateFixDepth(ETITLERENDERDEPTH::Trains_Light);
 
 	{
-		std::shared_ptr<TrainPart> Object = CurLevel->CreateActor<TrainPart>(EUPDATEORDER::Objects);
-		Object->CreateRenderer();
-		Object->SetSprite("Title_Train_Train.png", "Title_Train_Window_0.png");
+		std::shared_ptr<TrainPart> Object = GetLevel()->CreateActor<TrainPart>(EUPDATEORDER::Objects);
+		Object->Init();
+		Object->SetTrainSprite("Title_Train_Train.png", "Title_Train_Window_0.png");
 
-		float4 TrainPosition = { 462.0f , -334.0f, DepthFunction::CalculateFixDepth(ETITLERENDERDEPTH::Trains) };
-		float4 TrainLightPosition = { 470.0f , -354.0f , DepthFunction::CalculateFixDepth(ETITLERENDERDEPTH::Trains_Light) };
+		const float4& TrainPosition = { 462.0f , -334.0f, TrainDepth };
+		const float4& TrainLightPosition = { 470.0f , -354.0f , LightDepth };
 		Object->SetLocalPosition(TrainPosition, TrainLightPosition);
 		vecTrain.push_back(Object);
 	}
 
 	{
-		std::shared_ptr<TrainPart> Object = CurLevel->CreateActor<TrainPart>(EUPDATEORDER::Objects);
-		Object->CreateRenderer();
-		Object->SetSprite("Title_Train_Train_1.png", "Title_Train_Window_1.png");
-
-		float4 TrainPosition = { 350.0f , -334.0f, DepthFunction::CalculateFixDepth(ETITLERENDERDEPTH::Trains) };
-		float4 TrainLightPosition = { 356.0f , -354.0f , DepthFunction::CalculateFixDepth(ETITLERENDERDEPTH::Trains_Light) };
+		const float4& TrainPosition = { 350.0f , -334.0f, TrainDepth };
+		const float4& TrainLightPosition = { 356.0f , -354.0f , LightDepth };
+		std::shared_ptr<TrainPart> Object = GetLevel()->CreateActor<TrainPart>(EUPDATEORDER::Objects);
+		Object->Init();
+		Object->SetTrainSprite("Title_Train_Train_1.png", "Title_Train_Window_1.png");
 		Object->SetLocalPosition(TrainPosition, TrainLightPosition);
 		vecTrain.push_back(Object);
 	}
 
 	{
-		std::shared_ptr<TrainPart> Object = CurLevel->CreateActor<TrainPart>(EUPDATEORDER::Objects);
-		Object->CreateRenderer();
-		Object->SetSprite("Title_Train_Train_2.png", "Title_Train_Window_2.png");
-		float4 TrainPosition = { 240.0f , -334.0f, DepthFunction::CalculateFixDepth(ETITLERENDERDEPTH::Trains) };
-		float4 TrainLightPosition = { 244.0f , -354.0f , DepthFunction::CalculateFixDepth(ETITLERENDERDEPTH::Trains_Light) };
+		const float4& TrainPosition = { 240.0f , -334.0f, TrainDepth };
+		const float4& TrainLightPosition = { 244.0f , -354.0f , LightDepth };
+		std::shared_ptr<TrainPart> Object = GetLevel()->CreateActor<TrainPart>(EUPDATEORDER::Objects);
+		Object->Init();
+		Object->SetTrainSprite("Title_Train_Train_2.png", "Title_Train_Window_2.png");
 		Object->SetLocalPosition(TrainPosition, TrainLightPosition);
 		vecTrain.push_back(Object);
 	}
 
 	{
-		std::shared_ptr<TrainPart> Object = CurLevel->CreateActor<TrainPart>(EUPDATEORDER::Objects);
-		Object->CreateRenderer();
-		Object->SetSprite("Title_Train_Train_3.png", "Title_Train_Light.png");
-		float4 TrainPosition = { 16.0f , -334.0f, DepthFunction::CalculateFixDepth(ETITLERENDERDEPTH::Trains) };
-		float4 TrainLightPosition = { 56.0f , -360.0f, DepthFunction::CalculateFixDepth(ETITLERENDERDEPTH::Trains_Light) };
+		const float4& TrainPosition = { 16.0f , -334.0f, TrainDepth };
+		const float4& TrainLightPosition = { 56.0f , -360.0f, LightDepth };
+		std::shared_ptr<TrainPart> Object = GetLevel()->CreateActor<TrainPart>(EUPDATEORDER::Objects);
+		Object->Init();
+		Object->SetTrainSprite("Title_Train_Train_3.png", "Title_Train_Light.png");
 		Object->SetLocalPosition(TrainPosition, TrainLightPosition);
 		vecTrain.push_back(Object);
 	}
 
 	{
-		std::shared_ptr<TrainPart> Object = CurLevel->CreateActor<TrainPart>(EUPDATEORDER::Objects);
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("액터 생성을 실패하였습니다.");
-			return;
-		}
-
-		Object->CreateLastTrainRenderer();
-		Object->SetSprite("Title_Train_Train_4.png");
-		float4 TrainPosition = { 0.0f , -334.0f, DepthFunction::CalculateFixDepth(ETITLERENDERDEPTH::Trains) };
+		const float4& TrainPosition = { 0.0f , -334.0f, TrainDepth };
+		std::shared_ptr<TrainPart> Object = GetLevel()->CreateActor<TrainPart>(EUPDATEORDER::Objects);
+		Object->LastTrainInit();
+		Object->SetTrainSprite("Title_Train_Train_4.png");
 		Object->SetLocalPosition(TrainPosition);
 		vecTrain.push_back(Object);
 	}
@@ -134,7 +114,7 @@ void MainMenu_Trains::SoundStateSetting()
 	CreateStateParameter OnplayState;
 	OnplayState.Stay = [&](float _Delta, GameEngineState* _Parent)
 		{
-			static constexpr const float SoundWaitTime = 1.0f;
+			static constexpr float SoundWaitTime = 1.0f;
 			if (_Parent->GetStateTime() > SoundWaitTime)
 			{
 				TrainSoundState.ChangeState(ETRAINSOUNDSTATE::TurnDown);
@@ -146,7 +126,7 @@ void MainMenu_Trains::SoundStateSetting()
 	CreateStateParameter TurnDownState;
 	TurnDownState.Stay = [&](float _Delta, GameEngineState* _Parent)
 		{
-			static constexpr const float Train_Sound_Turn_Down_Speed = 0.6f;
+			static constexpr float Train_Sound_Turn_Down_Speed = 0.6f;
 
 			float Volume = _Delta / Train_Sound_Turn_Down_Speed;
 			TrainSoundPlayer.SetVolume(Volume * GlobalValue::GetSFXVolume());
@@ -160,10 +140,6 @@ void MainMenu_Trains::SoundStateSetting()
 
 
 	CreateStateParameter NoneState;
-	NoneState.Start = [&](GameEngineState* _Parent)
-		{
-
-		};
 	TrainSoundState.CreateState(ETRAINSOUNDSTATE::None, NoneState);
 }
 
@@ -172,21 +148,21 @@ void MainMenu_Trains::SoundStateSetting()
 
 void MainMenu_Trains::UpdateTrainFSM(float _Delta)
 {
-	switch (m_State)
+	switch (State)
 	{
-	case TrainState::None:
+	case ETRAINSTATE::None:
 	{
 		MsgBoxAssert("행동을 지정해주지 않았습니다.");
 		return;
 	}
 		break;
-	case TrainState::RattleUp:
+	case ETRAINSTATE::RattleUp:
 		UpdateRattleUp(_Delta);
 		break;
-	case TrainState::RattleDown:
+	case ETRAINSTATE::RattleDown:
 		UpdateRattleDown(_Delta);
 		break;
-	case TrainState::Wait:
+	case ETRAINSTATE::Wait:
 		UpdateWait(_Delta);
 		break;
 	default:
@@ -196,32 +172,32 @@ void MainMenu_Trains::UpdateTrainFSM(float _Delta)
 
 }
 
-void MainMenu_Trains::ChangeState(TrainState _State)
+void MainMenu_Trains::ChangeState(ETRAINSTATE _State)
 {
-	if (_State != m_State)
+	if (_State != State)
 	{
 		switch (_State)
 		{
-		case TrainState::None:
+		case ETRAINSTATE::None:
 		{
 			MsgBoxAssert("행동을 None 으로 지정해줄 수 없습니다.");
 			return;
 		}
 			break;
-		case TrainState::RattleUp:
+		case ETRAINSTATE::RattleUp:
 			StartRattleUp();
 			break;
-		case TrainState::RattleDown:
+		case ETRAINSTATE::RattleDown:
 			StartRattleDown();
 			break;
-		case TrainState::Wait:
+		case ETRAINSTATE::Wait:
 			StartWait();
 			break;
 		default:
 			break;
 		}
 
-		m_State = _State;
+		State = _State;
 	}
 }
 
@@ -229,24 +205,21 @@ void MainMenu_Trains::ChangeState(TrainState _State)
 
 void MainMenu_Trains::StartRattleUp()
 {
-	std::shared_ptr<TrainPart> Train = vecTrain[m_TrainState];
-	if (nullptr == Train)
-	{
-		MsgBoxAssert("기차가 존재하지 않습니다.");
-		return;
-	}
-
-	Train->AddLocalPosition(CONST_RattleUpDistance);
+	std::shared_ptr<TrainPart> Train = vecTrain.at(CurTrainNumber);
+	const float4& RattleUpDistance = float4{ 0.0f , 2.0f };
+	Train->AddLocalPosition(RattleUpDistance);
 }
 
 void MainMenu_Trains::UpdateRattleUp(float _Delta)
 {
-	m_StateTime += _Delta;
-	if (m_StateTime > CONST_RattleTime)
-	{
-		m_StateTime -= CONST_RattleTime;
+	static constexpr float RattleTime = 0.1f;
 
-		ChangeState(TrainState::RattleDown);
+	StateTime += _Delta;
+	if (StateTime > RattleTime)
+	{
+		StateTime -= RattleTime;
+
+		ChangeState(ETRAINSTATE::RattleDown);
 		return;
 	}
 }
@@ -255,27 +228,28 @@ void MainMenu_Trains::UpdateRattleUp(float _Delta)
 
 void MainMenu_Trains::StartRattleDown()
 {
-	std::shared_ptr<TrainPart> Train = vecTrain[m_TrainState];
-	Train->AddLocalPosition(CONST_RattleDownDistance);
+	std::shared_ptr<TrainPart> Train = vecTrain.at(CurTrainNumber);
+	const float4& RattleDownDistance = float4{ 0.0f , -2.0f };
+	Train->AddLocalPosition(RattleDownDistance);
 }
 
 void MainMenu_Trains::UpdateRattleDown(float _Delta)
 {
-	m_StateTime += _Delta;
-	if (m_StateTime > m_RattleCycle)
+	StateTime += _Delta;
+	if (StateTime > RattleCycle)
 	{
-		m_StateTime -= m_RattleCycle;
+		StateTime -= RattleCycle;
 
-		bool isNextTrain = (m_TrainState < TrainCount - 1);
+		bool isNextTrain = (CurTrainNumber < TrainMaxCount - 1);
 		if (isNextTrain)
 		{
-			m_TrainState++;
-			ChangeState(TrainState::RattleUp);
+			CurTrainNumber++;
+			ChangeState(ETRAINSTATE::RattleUp);
 			return;
 		}
 		else
 		{
-			ChangeState(TrainState::Wait);
+			ChangeState(ETRAINSTATE::Wait);
 			return;
 		}
 	}
@@ -284,20 +258,21 @@ void MainMenu_Trains::UpdateRattleDown(float _Delta)
 
 void MainMenu_Trains::StartWait()
 {
-	m_TrainState = 0;
+	CurTrainNumber = 0;
 }
 
 void MainMenu_Trains::UpdateWait(float _Delta)
 {
-	m_StateTime += _Delta;
+	static constexpr float WaitTime = 1.0f;
+	StateTime += _Delta;
 
-	if (m_StateTime > CONST_WaitTime)
+	if (StateTime > WaitTime)
 	{
-		m_StateTime -= CONST_WaitTime;
+		StateTime -= WaitTime;
 
 		TrainSound();
 
-		ChangeState(TrainState::RattleUp);
+		ChangeState(ETRAINSTATE::RattleUp);
 		return;
 	}
 }

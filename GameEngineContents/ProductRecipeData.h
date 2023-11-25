@@ -55,17 +55,17 @@ public:
 
 		std::vector<MaterialInfo> CheckMaterial;
 		CheckMaterial.resize(3);
-		for (size_t i = 0; i < CheckMaterial.size(); i++)
+		for (int i = 0; i < CheckMaterial.size(); i++)
 		{
 			CheckMaterial[i] = Material[i];
 		}
 
 
-		for (size_t MCount = 0; MCount < _Other->Material.size(); MCount++)
+		for (int MCount = 0; MCount < _Other->Material.size(); MCount++)
 		{
 			bool IsCollect = false;
 
-			for (size_t RCount = 0; RCount < CheckMaterial.size(); RCount++)
+			for (int RCount = 0; RCount < CheckMaterial.size(); RCount++)
 			{
 				if (CheckMaterial[RCount].MaterialName == _Other->Material[MCount].MaterialName)
 				{

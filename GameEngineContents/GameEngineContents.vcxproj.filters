@@ -718,6 +718,9 @@
     <ClInclude Include="UI_QuestUnit.h">
       <Filter>Manager\UIManager\Hub\MainBoard</Filter>
     </ClInclude>
+    <ClInclude Include="LoopTextureActor.h">
+      <Filter>Actor\Prop\RenderActor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -1204,6 +1207,9 @@
     </ClCompile>
     <ClCompile Include="UI_QuestUnit.cpp">
       <Filter>Manager\UIManager\Hub\MainBoard</Filter>
+    </ClCompile>
+    <ClCompile Include="LoopTextureActor.cpp">
+      <Filter>Actor\Prop\RenderActor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

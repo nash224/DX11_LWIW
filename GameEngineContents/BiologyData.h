@@ -1,11 +1,6 @@
 #pragma once
 #include "ContentsResource.h"
 
-
-
-
-
-
 // Ό³Έν :
 class BiologyData final : public ContentsResource<BiologyData>
 {
@@ -15,10 +10,10 @@ public:
 	~BiologyData();
 
 	BiologyData(
-		std::string _BiologyName = "",
-		std::string _KoreanName = "",
-		std::string _ItemName = "",
-		ETOOLTYPE _GatherTool = ETOOLTYPE::None,
+		std::string_view _BiologyName,
+		std::string_view _KoreanName,
+		std::string_view _ItemName,
+		ETOOLTYPE _GatherTool,
 		EECOLOGYTYPE _EcologicalGroup = EECOLOGYTYPE::None,
 		EECOLOGYTYPE _Habitat = EECOLOGYTYPE::None,
 		EECOLOGYTYPE _AppearanceTime = EECOLOGYTYPE::None

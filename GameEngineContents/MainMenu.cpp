@@ -14,7 +14,6 @@
 #include "TitleUI.h"
 
 MainMenu::MainMenu()
-	: m_BackDrop(nullptr)
 {
 }
 
@@ -120,8 +119,8 @@ void MainMenu::LoadSprite()
 
 void MainMenu::InitActor()
 {
-	m_BackDrop = CreateActor<BackDrop_MainMenu>(EUPDATEORDER::Objects);
-	m_BackDrop->Init();
+	Back = CreateActor<BackDrop_MainMenu>(EUPDATEORDER::Objects);
+	Back->Init();
 
 	std::shared_ptr<UI_MainMenu_Button> Title_UI = CreateActor<UI_MainMenu_Button>(EUPDATEORDER::Objects);
 	Title_UI->Init();

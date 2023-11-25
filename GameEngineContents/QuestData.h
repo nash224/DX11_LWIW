@@ -20,9 +20,9 @@ public:
 
 
 	QuestData(
-		std::string _Name,
-		std::string _QuestName,
-		std::string _Contents,
+		std::string_view _Name,
+		std::string_view _QuestName,
+		std::string_view _Contents,
 		EQUEST _QuestType = EQUEST::Main)
 		:
 		Name(_Name),

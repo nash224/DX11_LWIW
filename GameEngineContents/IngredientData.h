@@ -10,9 +10,9 @@ public:
 	~IngredientData();
 
 	IngredientData(
-		std::string _Name,
-		std::string _KoreanName,
-		std::string _SourceName,
+		std::string_view _Name,
+		std::string_view _KoreanName,
+		std::string_view _SourceName,
 		EBrewingMachineType _BrewingMachine = EBrewingMachineType::None,
 		unsigned int _SourceCount = 0
 	)
@@ -25,17 +25,6 @@ public:
 	{
 
 	}
-
-	//bool operator==(const IngredientData& _Other) const
-	//{
-	//	if (true)
-	//	{
-
-	//	}
-
-	//	return ReturnValue;
-	//}
-
 
 	// delete Function
 	//IngredientData(const IngredientData& _Other) = delete;

@@ -3,8 +3,8 @@
 
 TrainPart::TrainPart() 
 	:
-	m_TrainRenderer(nullptr),
-	m_LightRenderer(nullptr)
+	TrainRenderer(nullptr),
+	LightRenderer(nullptr)
 {
 }
 
@@ -13,25 +13,10 @@ TrainPart::~TrainPart()
 }
 
 
-void TrainPart::Start()
-{
-
-}
-
-void TrainPart::Update(float _Delta)
-{
-
-}
-
 void TrainPart::Release()
 {
-	m_TrainRenderer = nullptr;
-	m_LightRenderer = nullptr;
-}
-
-void TrainPart::LevelStart(class GameEngineLevel* _NextLevel)
-{
-
+	TrainRenderer = nullptr;
+	LightRenderer = nullptr;
 }
 
 void TrainPart::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -44,66 +29,50 @@ void TrainPart::LevelEnd(class GameEngineLevel* _NextLevel)
 /////////////////////////////////////////////////////////////////////////////////////
 
 
-void TrainPart::CreateLastTrainRenderer()
+void TrainPart::LastTrainInit()
 {
-	m_TrainRenderer = CreateComponent<GameEngineSpriteRenderer>();
-	if (nullptr == m_TrainRenderer)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
+	TrainRenderer = CreateComponent<GameEngineSpriteRenderer>();
 }
 
 
-void TrainPart::CreateRenderer()
+void TrainPart::Init()
 {
-	m_TrainRenderer = CreateComponent<GameEngineSpriteRenderer>();
-	if (nullptr == m_TrainRenderer)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
-
-	m_LightRenderer = CreateComponent<GameEngineSpriteRenderer>();
-	if (nullptr == m_LightRenderer)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
+	TrainRenderer = CreateComponent<GameEngineSpriteRenderer>();
+	LightRenderer = CreateComponent<GameEngineSpriteRenderer>();
 }
 
-void TrainPart::SetSprite(std::string_view _TrainFileName, std::string_view _LightFileName /*= ""*/)
+void TrainPart::SetTrainSprite(std::string_view _TrainFileName, std::string_view _LightFileName /*= ""*/)
 {
-	if (nullptr == m_TrainRenderer)
+	if (nullptr == TrainRenderer)
 	{
 		MsgBoxAssert("렌더러를 생성하지 않았습니다.");;
 		return;
 	}
 
-	m_TrainRenderer->SetSprite(_TrainFileName);
+	TrainRenderer->SetSprite(_TrainFileName);
 
-	if (nullptr != m_LightRenderer)
+	if (nullptr != LightRenderer)
 	{
-		m_LightRenderer->SetSprite(_LightFileName);
+		LightRenderer->SetSprite(_LightFileName);
 	}
 }
 
 void TrainPart::SetLocalPosition(const float4& _TrainPosition, const float4& _LightPosition /*= float4::ZERO*/, PivotType _Pivot /*= PivotType::LeftTop*/)
 {
-	if (nullptr == m_TrainRenderer)
+	if (nullptr == TrainRenderer)
 	{
 		MsgBoxAssert("렌더러를 생성하지 않았습니다.");;
 		return;
 	}
 
-	m_TrainRenderer->Transform.SetLocalPosition(_TrainPosition);
-	m_TrainRenderer->SetPivotType(_Pivot);
+	TrainRenderer->Transform.SetLocalPosition(_TrainPosition);
+	TrainRenderer->SetPivotType(_Pivot);
 
 
-	if (nullptr != m_LightRenderer)
+	if (nullptr != LightRenderer)
 	{
-		m_LightRenderer->Transform.SetLocalPosition(_LightPosition);
-		m_LightRenderer->SetPivotType(_Pivot);
+		LightRenderer->Transform.SetLocalPosition(_LightPosition);
+		LightRenderer->SetPivotType(_Pivot);
 	}
 }
 

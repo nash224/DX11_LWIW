@@ -8,7 +8,7 @@ class BackDrop_MainMenu;
 class MainMenu : public ContentsLevel
 {
 public :
-	std::shared_ptr<BackDrop_MainMenu> m_BackDrop;
+	std::shared_ptr<BackDrop_MainMenu> Back;
 
 public:
 	// constrcuter destructer

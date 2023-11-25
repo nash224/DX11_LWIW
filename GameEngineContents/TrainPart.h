@@ -19,25 +19,22 @@ public:
 	TrainPart& operator=(TrainPart&& _Other) noexcept = delete;
 
 protected:
-	void Start() override;
-	void Update(float _Delta) override;
+	void Start() override {}
+	void Update(float _Delta) override {}
 	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
-
-
-
 private:
-	void CreateLastTrainRenderer();
-	void CreateRenderer();
-	void SetSprite(std::string_view _TrainFileName , std::string_view _LightFileName = "");
+	void LastTrainInit();
+	void Init();
+	void SetTrainSprite(std::string_view _TrainFileName , std::string_view _LightFileName = "");
 	void SetLocalPosition(const float4& _TrainPosition, const float4& _LightPosition = float4::ZERO, PivotType _Pivot = PivotType::LeftTop);
 	void AddLocalPosition(const float4& _float4);
 
 
 private:
-	std::shared_ptr<GameEngineSpriteRenderer> m_TrainRenderer;
-	std::shared_ptr<GameEngineSpriteRenderer> m_LightRenderer;
+	std::shared_ptr<GameEngineSpriteRenderer> TrainRenderer;
+	std::shared_ptr<GameEngineSpriteRenderer> LightRenderer;
 };
 

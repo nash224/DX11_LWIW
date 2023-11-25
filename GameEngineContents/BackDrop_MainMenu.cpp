@@ -3,6 +3,7 @@
 
 #include "Prop.h"
 #include "ChainProp.h"
+#include "LoopTextureActor.h"
 #include "RendererActor.h"
 #include "MainMenu_Trains.h"
 
@@ -77,7 +78,6 @@ void BackDrop_MainMenu::Init()
 	CreateProp(CurLevel);
 	CreateTrain(CurLevel);
 	CreateChainProp(CurLevel);
-	CreateButton();
 }
 
 
@@ -272,55 +272,59 @@ void BackDrop_MainMenu::CreateChainProp(class GameEngineLevel* _CurLevel)
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	
+	static constexpr float MountainSpeed = -60.0f;
+	static constexpr float BridgeSpeed = -480.0f;
+	static constexpr float TreeSpeed = -1200.0f;
+	static constexpr float TreeSpawnDistance = 2400.0f;
+	const float4& WinScale = GlobalValue::GetWindowScale();
+
 	{
-		std::shared_ptr<ChainProp> Object = _CurLevel->CreateActor<ChainProp>(EUPDATEORDER::Objects);
-		Object->SetSprite("Title_Train_Mountain.png");
-		Object->SetSpeed(CONST_MountainSpeed);
-		Object->SetDepth(ETITLERENDERDEPTH::Props_0);
-		Object->CalculateAndSetRegenLocation(float4{ 480.0f , -275.0f });
-		Object->SetAutoSpawnPoint();
+		const float Depth = DepthFunction::CalculateFixDepth(ETITLERENDERDEPTH::Props_0);
+		std::shared_ptr<LoopTextureActor> Object = _CurLevel->CreateActor<LoopTextureActor>(EUPDATEORDER::Objects);
+		Object->Transform.SetLocalPosition(float4(WinScale.hX(), -275.0f, Depth));
+		Object->Init();
+		Object->Renderer->SetSprite("Title_Train_Mountain.png");
+		Object->SetSpeed(MountainSpeed);
 	}
 
 	{
-		std::shared_ptr<ChainProp> Object = _CurLevel->CreateActor<ChainProp>(EUPDATEORDER::Objects);
-
-		Object->SetMaterial("Texture2D_Overlay");
-		Object->SetSprite("Title_Train_MountainWater_blur.png");
-		Object->SetSpeed(CONST_MountainSpeed);
-		Object->SetDepth(ETITLERENDERDEPTH::Mountain_blur);
-		Object->CalculateAndSetRegenLocation(float4{ 480.0f , -451.0f });
-		Object->SetAutoSpawnPoint();
+		const float Depth = DepthFunction::CalculateFixDepth(ETITLERENDERDEPTH::Mountain_blur);
+		std::shared_ptr<LoopTextureActor> Object = _CurLevel->CreateActor<LoopTextureActor>(EUPDATEORDER::Objects);
+		Object->Transform.SetLocalPosition(float4(WinScale.hX(), -451.0f, Depth));
+		Object->Init();
+		Object->Renderer->SetMaterial("Texture2D_Overlay");
+		Object->Renderer->SetSampler("EngineBaseWRAPSampler");
+		Object->Renderer->SetSprite("Title_Train_MountainWater_blur.png");
+		Object->SetSpeed(MountainSpeed);
 	}
 
 	{
-		std::shared_ptr<ChainProp> Object = _CurLevel->CreateActor<ChainProp>(EUPDATEORDER::Objects);
-
-		Object->SetSprite("Title_Train_Bridge_Down.png");
-		Object->SetSpeed(CONST_BridgeSpeed);
-		Object->SetDepth(ETITLERENDERDEPTH::Bridge_Down);
-		Object->CalculateAndSetRegenLocation(float4{ 529.0f , -490.0f });
-		Object->SetAutoSpawnPoint();
+		const float Depth = DepthFunction::CalculateFixDepth(ETITLERENDERDEPTH::Bridge_Down);
+		std::shared_ptr<LoopTextureActor> Object = _CurLevel->CreateActor<LoopTextureActor>(EUPDATEORDER::Objects);
+		Object->Transform.SetLocalPosition(float4(530.0f, -500.0f, Depth));
+		Object->Init();
+		Object->Renderer->SetSprite("Title_Train_Bridge_Down.png");
+		Object->SetSpeed(BridgeSpeed);
 	}
 
 	{
-		std::shared_ptr<ChainProp> Object = _CurLevel->CreateActor<ChainProp>(EUPDATEORDER::Objects);
-		
-		Object->SetSprite("Title_Train_Bridge.png");
-		Object->SetSpeed(CONST_BridgeSpeed);
-		Object->SetDepth(ETITLERENDERDEPTH::Bridge);
-		Object->CalculateAndSetRegenLocation(float4{ 530.0f , -436.0f });
-		Object->SetAutoSpawnPoint();
+		const float Depth = DepthFunction::CalculateFixDepth(ETITLERENDERDEPTH::Bridge);
+		std::shared_ptr<LoopTextureActor> Object = _CurLevel->CreateActor<LoopTextureActor>(EUPDATEORDER::Objects);
+		Object->Transform.SetLocalPosition(float4(530.0f, -436.0f, Depth));
+		Object->Init();
+		Object->Renderer->SetSprite("Title_Train_Bridge.png");
+		Object->SetSpeed(BridgeSpeed);
 	}
 
 	{
-		std::shared_ptr<ChainProp> Object = _CurLevel->CreateActor<ChainProp>(EUPDATEORDER::Objects);
-
-		Object->SetMaterial("Texture2D_Overlay");
-		Object->SetSprite("Title_Train_WaterShine_blur.png");
+		const float Depth = DepthFunction::CalculateFixDepth(ETITLERENDERDEPTH::Water_blur);
+		std::shared_ptr<LoopTextureActor> Object = _CurLevel->CreateActor<LoopTextureActor>(EUPDATEORDER::Objects);
+		Object->Transform.SetLocalPosition(float4(544.0f, -483.0f, Depth));
+		Object->Init();
+		Object->Renderer->SetMaterial("Texture2D_Overlay");
+		Object->Renderer->SetSampler("EngineBaseWRAPSampler");
+		Object->Renderer->SetSprite("Title_Train_WaterShine_blur.png");
 		Object->SetSpeed(-400.0f);
-		Object->SetDepth(ETITLERENDERDEPTH::Water_blur);
-		Object->CalculateAndSetRegenLocation(float4{ 544.0f , -483.0f });
-		Object->SetAutoSpawnPoint();
 	}
 
 	{
@@ -338,35 +342,25 @@ void BackDrop_MainMenu::CreateChainProp(class GameEngineLevel* _CurLevel)
 
 	{
 		std::shared_ptr<ChainProp> Object = _CurLevel->CreateActor<ChainProp>(EUPDATEORDER::Objects);
-
 		Object->SetSprite("Title_Train_Tree_0.png");
-		Object->SetSpeed(CONST_TreeSpeed);
+		Object->SetSpeed(TreeSpeed);
 		Object->SetDepth(ETITLERENDERDEPTH::Tree);
-
 		Object->SetFirstLocation(float4{ 300.0f , -410.0f });
-		Object->SetRegenLocation(float4{ COSNT_TreeSpawnDistance , -410.0f });
+		Object->SetRegenLocation(float4{ TreeSpawnDistance  , -410.0f });
 		Object->SetAutoSpawnPoint();
 	}
 
 
 	{
 		std::shared_ptr<ChainProp> Object = _CurLevel->CreateActor<ChainProp>(EUPDATEORDER::Objects);
-
 		Object->SetSprite("Title_Train_Tree_1.png");
-		Object->SetSpeed(CONST_TreeSpeed);
+		Object->SetSpeed(TreeSpeed);
 		Object->SetDepth(ETITLERENDERDEPTH::Tree);
-
 		Object->SetFirstLocation(float4{ 900.0f , -418.0f });
-		Object->SetRegenLocation(float4{ COSNT_TreeSpawnDistance , -418.0f });
+		Object->SetRegenLocation(float4{ TreeSpawnDistance  , -418.0f });
 		Object->SetAutoSpawnPoint();
 	}
 
 }
 
 #pragma endregion 
-
-void BackDrop_MainMenu::CreateButton() 
-{
-
-}
-
