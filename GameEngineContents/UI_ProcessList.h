@@ -2,9 +2,6 @@
 #include "UI_ButtonGuide.h"
 
 
-#define PROCESS_FIRST_SLOT_POSITION { -4.0f, 134.0f }
-
-
 // 설명 :
 class UI_ProcessList : public GameEngineActor
 {
@@ -21,6 +18,8 @@ private:
 		std::shared_ptr<GameEngineUIRenderer> ScrollBar = nullptr;
 		std::shared_ptr<GameEngineUIRenderer> Cursor = nullptr;
 
+		float ScrollBarYSize = 0.0f;
+		float ScrollBarTotalYSize = 0.0f;
 
 	};
 
@@ -58,6 +57,8 @@ private:
 	void MoveCursor(int _Value);
 	void ResetCursor();
 	void RenewSlot();
+	void RenewCursor();
+	void SetScrollBarMovePosition(float _YPos);
 
 private:
 	std::vector<std::shared_ptr<class UI_ProcessListUnit>> SlotVec;
@@ -68,8 +69,6 @@ private:
 
 	int CurrentCursor = 0;
 	int CurCursorLine = 0;
-
-	inline static constexpr int PROCESS_MAX_SLOT = 5;
-	inline static constexpr float PROCESS_SLOT_GAP = 64.0f;
+	int StartLine = 0;
 
 };

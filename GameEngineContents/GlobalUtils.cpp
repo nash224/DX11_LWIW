@@ -154,6 +154,17 @@ GameEngineSoundPlayer SFXFunction::PlaySFX(std::string_view _SoundFileName)
 	return SoundPlayer;
 }
 
+void SFXFunction::LoadSoundFile(const std::vector<GameEngineFile>& _Files)
+{
+	for (GameEngineFile pFile : _Files)
+	{
+		if (nullptr == GameEngineSound::FindSound(pFile.GetFileName()))
+		{
+			GameEngineSound::SoundLoad(pFile.GetStringPath());
+		}
+	}
+}
+
 int StringFunction::GetNewLineCount(std::string_view _Text)
 {
 	int NewLineCount = 0;

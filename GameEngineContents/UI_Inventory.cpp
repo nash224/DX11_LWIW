@@ -311,6 +311,8 @@ void UI_Inventory::Init()
 	ExternUISetting();
 
 	LockSlot(UnlockSlotY);
+
+	const float4 INVENTORY_POSITION = float4{ -288.0f , 28.0f };
 	Transform.AddLocalPosition(INVENTORY_POSITION);
 
 

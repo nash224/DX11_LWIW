@@ -83,6 +83,13 @@ void Extractor::InitExtractor()
 		return;
 	}
 
+	
+	if (bool TestCode = false)
+	{
+		State.ChangeState(EJUICERSTATE::Idle);
+		return;
+	}
+
 	if (true == Quest.lock()->isQuestComplete())
 	{
 		State.ChangeState(EJUICERSTATE::Idle);

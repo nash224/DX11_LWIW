@@ -9,8 +9,19 @@
 
 #include "IngredientData.h"
 
+
+#define PROCESS_FIRST_SLOT_POSITION { -4.0f, 134.0f }
+
+static constexpr int PROCESS_MAX_SLOT = 5;
+static constexpr float PROCESS_SLOT_GAP = 64.0f;
+static constexpr float Scroll_Start_Y_Pos = 136.0f;
+
 UI_ProcessList::UI_ProcessList() 
 {
+	GameEngineDirectory Dir;
+	Dir.MoveParentToExistsChild("Resources");
+	Dir.MoveChild("Resources\\Sound\\UI\\Common");
+	SFXFunction::LoadSoundFile(Dir.GetAllFile());
 }
 
 UI_ProcessList::~UI_ProcessList() 
@@ -48,11 +59,6 @@ void UI_ProcessList::LevelEnd(class GameEngineLevel* _NextLevel)
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
-
-
 void UI_ProcessList::Init()
 {
 	RendererSetting();
@@ -82,7 +88,6 @@ void UI_ProcessList::RendererSetting()
 	BaseRenderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Base)));
 	BaseRenderer->SetSprite("Process_Base.png");
 
-
 	Off();
 }
 
@@ -106,7 +111,6 @@ void UI_ProcessList::CursorSetting()
 	const float FrameDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame);
 	const float AttachmentDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
 
-
 	CursorInfo.UpArrow = CreateComponent<GameEngineUIRenderer>();
 	CursorInfo.UpArrow->Transform.SetLocalPosition(float4(115.0f, 150.0f, FrameDepth));
 	CursorInfo.UpArrow->SetSprite("Process_A_ScrollArrow.png");
@@ -116,19 +120,35 @@ void UI_ProcessList::CursorSetting()
 	CursorInfo.DownArrow->SetSprite("Process_B_ScrollArrow.png");
 
 	CursorInfo.ScrollBase = CreateComponent<GameEngineUIRenderer>();
-	CursorInfo.ScrollBase->Transform.SetLocalPosition(float4(115.0f, 0.0f, FrameDepth));
+	CursorInfo.ScrollBase->SetPivotType(PivotType::Top);
+	CursorInfo.ScrollBase->Transform.SetLocalPosition(float4(115.0f, Scroll_Start_Y_Pos, FrameDepth));
 	CursorInfo.ScrollBase->SetSprite("Process_A_ScrollBase.png");
 
 	CursorInfo.ScrollBar = CreateComponent<GameEngineUIRenderer>();
-	CursorInfo.ScrollBar->Transform.SetLocalPosition(float4(115.0f, 0.0f, AttachmentDepth));
+	CursorInfo.ScrollBar->SetPivotType(PivotType::Bottom);
+	CursorInfo.ScrollBar->Transform.SetLocalPosition(float4(115.0f, Scroll_Start_Y_Pos, AttachmentDepth));
 	CursorInfo.ScrollBar->SetSprite("Process_A_ScrollBar.png");
+	
 
 	CursorInfo.Cursor = CreateComponent<GameEngineUIRenderer>();
 	CursorInfo.Cursor->SetSprite("Process_A_Cursor.png");
+
+
+	std::weak_ptr<GameEngineTexture> ScrollBTexture = CursorInfo.ScrollBar->GetSprite()->GetSpriteData(0).Texture;
+	if (true == ScrollBTexture.expired())
+	{
+		MsgBoxAssert("존재하지 않는 텍스처를 사용하려했습니다.");
+		return;
+	}
+	const float4& ScrollScale = ScrollBTexture.lock()->GetScale();
+	CursorInfo.ScrollBarTotalYSize = ScrollScale.Y;
+
+	const float SizeRatio = PROCESS_MAX_SLOT / static_cast<float>(SlotVec.size());
+	CursorInfo.ScrollBarYSize = SizeRatio * CursorInfo.ScrollBarTotalYSize;
+
+	CursorInfo.ScrollBar->GetImageTransform().SetLocalScale(float4(ScrollScale.X, CursorInfo.ScrollBarYSize));
 }
 
-
-/////////////////////////////////////////////////////////////////////////////////////
 
 // Open Process WIndow Panel
 void UI_ProcessList::Open()
@@ -171,8 +191,6 @@ void UI_ProcessList::CloseAllSlot()
 
 
 
-/////////////////////////////////////////////////////////////////////////////////////
-
 void UI_ProcessList::UpdateInput()
 {
 	if (GameEngineInput::IsDown('Z', this))
@@ -209,6 +227,7 @@ void UI_ProcessList::UpdateInput()
 	{
 		MoveCursor(static_cast<int>(EMOVECURSOR::Up));
 		RenewSlot();
+		RenewCursor();
 		return;
 	}
 
@@ -216,12 +235,15 @@ void UI_ProcessList::UpdateInput()
 	{
 		MoveCursor(static_cast<int>(EMOVECURSOR::Down));
 		RenewSlot();
+		RenewCursor();
 		return;
 	}
 }
 
 void UI_ProcessList::MoveCursor(int _Value)
 {
+	SFXFunction::PlaySFX("SFX_InventoryMove_01.wav");
+
 	int MoveLine = 0;
 	if (1 == _Value)
 	{
@@ -289,7 +311,7 @@ void UI_ProcessList::MoveCursor(int _Value)
 	}
 
 	float4 CursorPosition = PROCESS_FIRST_SLOT_POSITION;
-	float CursorYPositon = -PROCESS_SLOT_GAP * static_cast<float>(CurCursorLine);
+	const float CursorYPositon = -PROCESS_SLOT_GAP * static_cast<float>(CurCursorLine);
 	CursorPosition += float4(0.0f, CursorYPositon);
 	CursorPosition.Z = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Cursor);
 
@@ -330,6 +352,7 @@ void UI_ProcessList::RenewSlot()
 	{
 		if (CurCursorLine == 0)
 		{
+			StartLine = 0;
 			for (int i = 0; i < PROCESS_MAX_SLOT; i++)
 			{
 				float4 SlotPosition = PROCESS_FIRST_SLOT_POSITION;
@@ -340,8 +363,7 @@ void UI_ProcessList::RenewSlot()
 		}
 		else if (1 <= CurCursorLine && CurCursorLine <= 3)
 		{
-
-			const int StartLine = CurrentCursor - CurCursorLine;
+			StartLine = CurrentCursor - CurCursorLine;
 			for (int i = 0; i < PROCESS_MAX_SLOT; i++)
 			{
 				float4 SlotPosition = PROCESS_FIRST_SLOT_POSITION;
@@ -354,16 +376,55 @@ void UI_ProcessList::RenewSlot()
 		}
 		else
 		{
-			const int StartNumber = SlotCount - PROCESS_MAX_SLOT;
+			StartLine = SlotCount - PROCESS_MAX_SLOT;
 			for (int i = 0; i < PROCESS_MAX_SLOT; i++)
 			{
 				float4 SlotPosition = PROCESS_FIRST_SLOT_POSITION;
 				SlotPosition.Y += -PROCESS_SLOT_GAP * static_cast<float>(i);
 
-				const int OutPutSlotNumber = StartNumber + i;
+				const int OutPutSlotNumber = StartLine + i;
 				SlotVec[OutPutSlotNumber]->Transform.SetLocalPosition(SlotPosition);
 				SlotVec[OutPutSlotNumber]->On();
 			}
 		}
 	}
+}
+
+// 스크롤 바 이론
+// 스크롤바가 움직이는 조건
+// 렌더 슬롯 라인이 바뀔때
+// 스크롤바 영역 : Total Scroll Scale
+// 스크롤바 사이즈 : ScrollYScale = Total Scroll Scale * float(SlotSize / Max_Slot)
+// 남은 스크롤바 사이즈 : RemainYSize = Total Size - ScrollYScale;
+// 적용할 거리 : SetPosition = (RemainYSize / StartLine)
+
+void UI_ProcessList::RenewCursor()
+{
+	const int SlotCnt = static_cast<int>(SlotVec.size());
+	if (SlotCnt <= PROCESS_MAX_SLOT)
+	{
+		return;
+	}
+
+	const float RemainYSize = CursorInfo.ScrollBarTotalYSize - CursorInfo.ScrollBarYSize;
+	float YPosition = 0.0f;
+	if (StartLine != 0)
+	{
+		YPosition = -RemainYSize / static_cast<float>(StartLine);
+	}
+	SetScrollBarMovePosition(YPosition);
+}
+
+void UI_ProcessList::SetScrollBarMovePosition(float _YPos)
+{
+	if (nullptr == CursorInfo.ScrollBar)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
+	
+	const float AttachmentDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
+	const float4& ScrollBarPosition = float4(115.0f, Scroll_Start_Y_Pos + _YPos, AttachmentDepth);
+
+	CursorInfo.ScrollBar->Transform.SetLocalPosition(ScrollBarPosition);
 }

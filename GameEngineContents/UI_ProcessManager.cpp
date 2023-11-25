@@ -26,30 +26,16 @@ void UI_ProcessManager::Start()
 	GameEngineInput::AddInputObject(this);
 }
 
-void UI_ProcessManager::Update(float _Delta)
-{
-
-}
-
 void UI_ProcessManager::Release()
 {
 	ProcessListWindow = nullptr;
 	ProcessWindow = nullptr;
 }
 
-void UI_ProcessManager::LevelStart(class GameEngineLevel* _NextLevel)
-{
-
-}
-
 void UI_ProcessManager::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	Death();
 }
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 
 void UI_ProcessManager::Init()
@@ -132,6 +118,8 @@ void UI_ProcessManager::Close()
 	}
 
 	Off();
+
+	SFXFunction::PlaySFX("SFX_JucierClose_01.wav");
 }
 
 
@@ -143,12 +131,28 @@ void UI_ProcessManager::OpenProcessWindow(std::string_view ProductName, int _Scr
 	}
 	ProcessListWindow->Close();
 	ProcessWindow->Open(ProductName, _ScrCount);
+
+	SFXFunction::PlaySFX(GetOpenSoundFileName());
 }
 
 void UI_ProcessManager::OpenListWindow()
 {
 	ProcessWindow->Close();
 	ProcessListWindow->Open();
+
+	SFXFunction::PlaySFX(GetOpenSoundFileName());
+}
+
+std::string UI_ProcessManager::GetOpenSoundFileName()
+{
+	static int SoundChance = 0;
+	++SoundChance;
+	if (SoundChance % 2 == 0)
+	{
+		return "SFX_JucierOpen_01.wav";
+	}
+
+	return "SFX_JucierOpen_02.wav";
 }
 
 void UI_ProcessManager::JuicyDone()

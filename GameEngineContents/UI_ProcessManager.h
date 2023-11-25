@@ -32,23 +32,23 @@ public:
 	 
 protected:
 	void Start() override;
-	void Update(float _Delta) override;
+	void Update(float _Delta) override {}
 	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
 	void OpenProcessWindow(std::string_view ProductName, int _ScrCount);
 	void OpenListWindow();
+	std::string GetOpenSoundFileName();
 
-private:
 	void CreateJuicyItem();
 
 private:
 	std::shared_ptr<class UI_ProcessList> ProcessListWindow;
 	std::shared_ptr<class UI_ProcessB> ProcessWindow;
 
-	std::string CreatedProductName = "";
+	std::string CreatedProductName;
 	bool IsJuicying = false;
 
 };

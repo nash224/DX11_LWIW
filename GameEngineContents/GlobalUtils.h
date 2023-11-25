@@ -49,6 +49,7 @@ struct SFXFunction
 {
 public:
 	static GameEngineSoundPlayer PlaySFX(std::string_view _SoundFileName);
+	static void LoadSoundFile(const std::vector<GameEngineFile>& _Files);
 
 };
 

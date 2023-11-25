@@ -5,8 +5,6 @@
 static constexpr unsigned int Max_XSlot = 4;
 static constexpr unsigned int Max_YSlot = 6;
 
-#define INVENTORY_POSITION { -288.0f , 28.0f }
-
 
 
 struct InventoryInfo
