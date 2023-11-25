@@ -72,6 +72,8 @@ enum class ETITLERENDERDEPTH
 	Bridge_blur,
 	Bridge_Down,
 	Mountain_blur,
+	Cloud_blur_2,
+	Cloud_blur_1,
 	Water,
 	Cloud_4 = 400,
 	Cloud_3,
@@ -79,6 +81,7 @@ enum class ETITLERENDERDEPTH
 	Cloud_1,
 	Cloud_0,
 	Moon = 500,
+	Comet = 550,
 	Star = 600,
 	Back_ = 700,
 };

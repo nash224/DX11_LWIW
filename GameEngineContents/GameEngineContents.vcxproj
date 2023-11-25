@@ -236,6 +236,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Comet.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="CometSpawner.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="HoldingGauge.cpp">
       <SubType>
       </SubType>
@@ -836,6 +844,14 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="BGMManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Comet.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CometSpawner.h">
       <SubType>
       </SubType>
     </ClInclude>

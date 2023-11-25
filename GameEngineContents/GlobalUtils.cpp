@@ -179,3 +179,10 @@ int StringFunction::GetNewLineCount(std::string_view _Text)
 
 	return NewLineCount;
 }
+
+float RandomFunction::GetRandomfValue(float _Min, float _Max)
+{
+	GameEngineRandom RandomClass;
+	RandomClass.SetSeed(GlobalValue::GetSeedValue());
+	return RandomClass.RandomFloat(_Min, _Max);
+}

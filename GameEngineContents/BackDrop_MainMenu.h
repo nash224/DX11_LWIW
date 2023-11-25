@@ -30,7 +30,8 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
-	void CreateProp();
+	void PropSetting();
+	void CometSpawnerSetting();
 	void CreateTrain();
 	void CreateChainProp();
 

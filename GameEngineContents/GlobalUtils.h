@@ -59,3 +59,10 @@ public:
 	static int GetNewLineCount(std::string_view _Text);
 
 };
+
+struct RandomFunction
+{
+public:
+	static float GetRandomfValue(float _Min, float _Max);
+
+};

@@ -5,6 +5,7 @@
 #include "LoopTextureActor.h"
 #include "RendererActor.h"
 #include "MainMenu_Trains.h"
+#include "CometSpawner.h"
 
 BackDrop_MainMenu::BackDrop_MainMenu() 
 {
@@ -46,13 +47,14 @@ void BackDrop_MainMenu::Init()
 		}
 	}
 
-	CreateProp();
+	PropSetting();
+	CometSpawnerSetting();
 	CreateTrain();
 	CreateChainProp();
 }
 
 
-void BackDrop_MainMenu::CreateProp()
+void BackDrop_MainMenu::PropSetting()
 {
 	{
 		const float Depth = DepthFunction::CalculateFixDepth(ETITLERENDERDEPTH::Back_);
@@ -181,6 +183,11 @@ void BackDrop_MainMenu::CreateProp()
 	}
 }
 
+void BackDrop_MainMenu::CometSpawnerSetting()
+{
+	GetLevel()->CreateActor<CometSpawner>(EUPDATEORDER::Objects);
+}
+
 void BackDrop_MainMenu::CreateTrain()
 {
 	std::shared_ptr<MainMenu_Trains> Trans = GetLevel()->CreateActor<MainMenu_Trains>(EUPDATEORDER::Objects);
@@ -239,6 +246,26 @@ void BackDrop_MainMenu::CreateChainProp()
 		Object->SetSpeed(-42.0f);
 		Object->SetDepth(ETITLERENDERDEPTH::Cloud_4);
 		Object->CalculateAndSetRegenLocation(float4{ 770.0f , -260.0f });
+	}
+
+	{
+		std::shared_ptr<ChainProp> Object = GetLevel()->CreateActor<ChainProp>(EUPDATEORDER::Objects);
+
+		Object->SetSprite("Title_Train_CloudBlur_1.png");
+		Object->SetSpawnPoint(100.0f);
+		Object->SetSpeed(-42.0f);
+		Object->SetDepth(ETITLERENDERDEPTH::Cloud_blur_1);
+		Object->CalculateAndSetRegenLocation(float4{ 770.0f , -460.0f });
+	}
+
+	{
+		std::shared_ptr<ChainProp> Object = GetLevel()->CreateActor<ChainProp>(EUPDATEORDER::Objects);
+
+		Object->SetSprite("Title_Train_CloudBlur_0.png");
+		Object->SetSpawnPoint(130.0f);
+		Object->SetSpeed(-40.0f);
+		Object->SetDepth(ETITLERENDERDEPTH::Cloud_blur_2);
+		Object->CalculateAndSetRegenLocation(float4{ 360.0f , -485.0f });
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////

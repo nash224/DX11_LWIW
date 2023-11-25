@@ -721,6 +721,12 @@
     <ClInclude Include="LoopTextureActor.h">
       <Filter>Actor\Prop\RenderActor</Filter>
     </ClInclude>
+    <ClInclude Include="CometSpawner.h">
+      <Filter>Actor\Prop</Filter>
+    </ClInclude>
+    <ClInclude Include="Comet.h">
+      <Filter>Actor\Prop</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -1210,6 +1216,12 @@
     </ClCompile>
     <ClCompile Include="LoopTextureActor.cpp">
       <Filter>Actor\Prop\RenderActor</Filter>
+    </ClCompile>
+    <ClCompile Include="CometSpawner.cpp">
+      <Filter>Actor\Prop</Filter>
+    </ClCompile>
+    <ClCompile Include="Comet.cpp">
+      <Filter>Actor\Prop</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
