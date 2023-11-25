@@ -3,6 +3,13 @@
 #include "Math.fx"
 
 
+// =====================================================================
+//
+// 참고 사이트
+// https://www.shadertoy.com/view/ldlfD4
+//
+// =====================================================================
+
 struct GameEngineVertex2D
 {
     float4 POSITION : POSITION;
@@ -54,7 +61,7 @@ PixelOutPut GaugeShader_VS(GameEngineVertex2D _Input)
         CalUV.x += 1;
     }
 
-    if (0 != FlipUp)
+    if (0 != FlipUp) 
     {
         CalUV.y *= -1;
         CalUV.y += 1;
@@ -67,13 +74,6 @@ PixelOutPut GaugeShader_VS(GameEngineVertex2D _Input)
 }
 
 
-cbuffer GaugeInfo : register(b4)
-{
-    int LineGauge;
-    int FromLeft;
-    int CircleGuage;
-    float Gauge;
-};
 
 cbuffer ColorData : register(b1)
 {
@@ -81,6 +81,13 @@ cbuffer ColorData : register(b1)
     float4 MulColor;
 };
 
+cbuffer GaugeInfo : register(b4)
+{
+    int LineGauge;
+    int FromLeft;
+    int CircleGuage;
+    float Gauge;
+};
 
 Texture2D DiffuseTex : register(t0);
 SamplerState DiffuseTexSampler : register(s0);
@@ -98,7 +105,7 @@ struct PixelOut
 };
 
 
-static const float PI = 3.14159265358979323846264338327950288419716939937510f;
+static const float PI = 3.141592f;
 
 
 
@@ -108,10 +115,10 @@ PixelOut GaugeShader_PS(PixelOutPut _Input) : SV_Target0
     
     float4 Color = DiffuseTex.Sample(DiffuseTexSampler, _Input.TEXCOORD.xy);
     
-    if (1 == LineGauge)
+    if (1 == LineGauge) // 라인 진행 바
     {
-        float GaugeRatio = Gauge;
-        if (0 != FromLeft)
+        float GaugeRatio = Gauge; // 0 ~ 1
+        if (0 != FromLeft) // 오른쪽부터 줄어들때
         {
             GaugeRatio *= -1.0f;
             GaugeRatio += 1.0f;
@@ -130,13 +137,13 @@ PixelOut GaugeShader_PS(PixelOutPut _Input) : SV_Target0
         }
     }
     
-    if (1 == CircleGuage)
+    if (1 == CircleGuage) // 원형 진행 바
     {
         float PI2 = PI * 2.0f;
-        float FillAngle = Gauge * PI2;
+        float FillAngle = Gauge * PI2; // 0 ~ 360
         
-        float UVAngle = -atan2(_Input.TEXCOORD.x - 0.5f, _Input.TEXCOORD.y - 0.5f) + PI;
-        if (UVAngle > FillAngle)
+        float UVAngle = -atan2(_Input.TEXCOORD.x - 0.5f, _Input.TEXCOORD.y - 0.5f) + PI; // 중앙점 (0.5f, 0.5f)기준 현재 픽셀 각도
+        if (UVAngle > FillAngle) // 현재 각도가 채워지는 각도보다 크면 클립
         {
             clip(-1);
         }
@@ -160,3 +167,4 @@ PixelOut GaugeShader_PS(PixelOutPut _Input) : SV_Target0
     
     return Result;
 }
+

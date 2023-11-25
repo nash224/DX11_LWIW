@@ -9,7 +9,7 @@
 // 데이터 배열은 1차원 배열로 설정합니다.
 void Inventory::Init()
 {
-	size_t Amount = Max_XSlot * Max_YSlot;
+	int Amount = Max_XSlot * Max_YSlot;
 
 	InventoryData.resize(Amount);
 }
@@ -83,14 +83,14 @@ void Inventory::PopItem(std::string_view _ItemName, unsigned int _Count)
 // 빈슬롯이 있는지 검사합니다.
 bool Inventory::CheckEmptySlot(std::string_view _ItemName)
 {
-	int UnlockSlotCount = UI_Inventory::UnlockSlotY * Max_YSlot;
+	unsigned int UnlockSlotCount = UI_Inventory::UnlockSlotY * Max_YSlot;
 
 	if (true == IsContain(_ItemName))
 	{
 		return true;
 	}
 
-	for (size_t i = 0; i < UnlockSlotCount; i++)
+	for (unsigned int i = 0; i < UnlockSlotCount; i++)
 	{
 		if (0 == InventoryData[i].ItemCount)
 		{
@@ -192,7 +192,7 @@ void Inventory::ClearData(const unsigned int _X, const unsigned int _Y)
 
 	int Value = _Y * MaxSlot + _X;
 
-	InventoryData[Value].SourceName = "";
+	InventoryData[Value].SourceName.clear();
 	InventoryData[Value].ItemCount = 0;
 
 	InventoryParent->EraseSlotImg(_X, _Y);
@@ -201,7 +201,7 @@ void Inventory::ClearData(const unsigned int _X, const unsigned int _Y)
 
 void Inventory::ClearData(const unsigned int _SlotNumber)
 {
-	InventoryData[_SlotNumber].SourceName = "";
+	InventoryData[_SlotNumber].SourceName.clear();
 	InventoryData[_SlotNumber].ItemCount = 0;
 
 	int MaxSlot = Max_XSlot;
@@ -254,6 +254,10 @@ UI_Inventory::~UI_Inventory()
 }
 
 
+static constexpr float GridSpacing = 12.0f;
+static constexpr float CursorInter = 0.4f;
+
+
 void UI_Inventory::Start()
 {
 	UI_ToggleActor::Start();
@@ -266,7 +270,7 @@ void UI_Inventory::Update(float _Delta)
 		OpenUpdate();
 	}
 
-	m_InventoryState.Update(_Delta);
+	InventoryState.Update(_Delta);
 }
 
 void UI_Inventory::Release()
@@ -274,8 +278,8 @@ void UI_Inventory::Release()
 	Data = nullptr;
 	MainInventory = nullptr;
 
-	m_DropManager = nullptr;
-	m_InventoryBase = nullptr;
+	DropManager = nullptr;
+	InventoryBase = nullptr;
 	CursorInfo.Cursor = nullptr;
 	CursorInfo.CursorOutline = nullptr;
 	CursorInfo.NameTooltip = nullptr;
@@ -283,20 +287,6 @@ void UI_Inventory::Release()
 
 	InventorySlotArray.clear();
 }
-
-void UI_Inventory::LevelStart(class GameEngineLevel* _NextLevel)
-{
-	UI_ToggleActor::LevelStart(_NextLevel);
-}
-
-void UI_Inventory::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-	UI_ToggleActor::LevelEnd(_NextLevel);
-}
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 // 인벤토리 배열과 데이터 배열을 생성합니다.
 // 단, 데이터 배열은 한번만 생성됩니다.
@@ -336,11 +326,11 @@ void UI_Inventory::Init()
 
 void UI_Inventory::CreateBase()
 {
-	float4 BasePosition = { 0.0f , 0.0f , DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Base) };
+	const float4& BasePosition = { 0.0f , 0.0f , DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Base) };
 
-	m_InventoryBase = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Base);
-	m_InventoryBase->SetSprite("Inventory_Base.png");
-	m_InventoryBase->Transform.AddLocalPosition(BasePosition);
+	InventoryBase = CreateComponent<GameEngineUIRenderer>(EUI_RENDERORDERDEPTH::Base);
+	InventoryBase->SetSprite("Inventory_Base.png");
+	InventoryBase->Transform.AddLocalPosition(BasePosition);
 }
 
 void UI_Inventory::CreateSlotArray()
@@ -352,13 +342,13 @@ void UI_Inventory::CreateSlotArray()
 		return;
 	}
 
-	m_GridScale = Texture->GetScale();
+	GridScale = Texture->GetScale();
 
 	InventorySlotArray.resize(Max_YSlot);
-	for (size_t y = 0; y < InventorySlotArray.size(); y++)
+	for (unsigned int y = 0; y < static_cast<unsigned int>(InventorySlotArray.size()); y++)
 	{
 		InventorySlotArray[y].resize(Max_XSlot);
-		for (size_t x = 0; x < Max_XSlot; x++)
+		for (unsigned int x = 0; x < Max_XSlot; x++)
 		{
 			const float4& IndexPos = CalculateIndexToPos(x, y);
 
@@ -368,24 +358,23 @@ void UI_Inventory::CreateSlotArray()
 
 			const float4& ItemCountCorrection = float4(18.0f, -12.0f);
 
-			const float4& FramePos = float4(IndexPos.X, IndexPos.Y, FrameDepth);
-			const float4& IconPos = float4(IndexPos.X, IndexPos.Y, IconDepth);
-			const float4& ItemCountPos = float4(IndexPos.X + ItemCountCorrection.X, IndexPos.Y + ItemCountCorrection.Y, FontDepth);
 
 			const float fontSize = 8.0f;
 
 
 			std::shared_ptr<GameEngineUIRenderer> Empty = CreateComponent<GameEngineUIRenderer>();
 			Empty->SetSprite("Inventory_Empty_Slot.png");
-			Empty->Transform.SetLocalPosition(FramePos);
+			Empty->Transform.SetLocalPosition(float4(IndexPos.X, IndexPos.Y, FrameDepth));
 
 
 			InventorySlotArray[y][x].SlotEmpty = Empty;
 
 			std::shared_ptr<GameEngineUIRenderer> Slot = CreateComponent<GameEngineUIRenderer>();
-			Slot->Transform.SetLocalPosition(IconPos);
+			Slot->Transform.SetLocalPosition(float4(IndexPos.X, IndexPos.Y, IconDepth));
 			Slot->Off();
 			InventorySlotArray[y][x].Slot = Slot;
+
+			const float4& ItemCountPos = float4(IndexPos.X + ItemCountCorrection.X, IndexPos.Y + ItemCountCorrection.Y, FontDepth);
 
 			std::shared_ptr<GameEngineUIRenderer> ItemCount = CreateComponent<GameEngineUIRenderer>();
 			ItemCount->Transform.SetLocalPosition(ItemCountPos);
@@ -404,14 +393,14 @@ void UI_Inventory::StateSetting()
 	NormalPara.Start = std::bind(&UI_Inventory::StartInventory, this, std::placeholders::_1);
 	NormalPara.Stay = std::bind(&UI_Inventory::UpdateInventory, this, std::placeholders::_1, std::placeholders::_2);
 	NormalPara.End = std::bind(&UI_Inventory::EndInventory, this, std::placeholders::_1);
-	m_InventoryState.CreateState(EINVENTORYMODE::Normal, NormalPara);
+	InventoryState.CreateState(EINVENTORYMODE::Normal, NormalPara);
 
 	CreateStateParameter DispensationPara;
 	DispensationPara.Start = [&](GameEngineState* _Parent) {IsJustOpen = true, InventoryMode = EINVENTORYMODE::Dispensation; };
 	DispensationPara.Stay = std::bind(&UI_Inventory::UpdateDispensation, this, std::placeholders::_1, std::placeholders::_2);
-	m_InventoryState.CreateState(EINVENTORYMODE::Dispensation, DispensationPara);
+	InventoryState.CreateState(EINVENTORYMODE::Dispensation, DispensationPara);
 
-	m_InventoryState.ChangeState(EINVENTORYMODE::Normal);
+	InventoryState.ChangeState(EINVENTORYMODE::Normal);
 }
 
 
@@ -453,8 +442,8 @@ void UI_Inventory::CreateCursor()
 
 void UI_Inventory::CreateNoticeDropManager()
 {
-	m_DropManager = GetLevel()->CreateActor<UI_DropManager>(EUPDATEORDER::UIMagnaer);
-	m_DropManager->Init();
+	DropManager = GetLevel()->CreateActor<UI_DropManager>(EUPDATEORDER::UIMagnaer);
+	DropManager->Init();
 }
 
 // 전역으로 한번만 실행됩니다.
@@ -482,7 +471,7 @@ void UI_Inventory::ExternUISetting()
 {
 	SelectItem.resize(3);
 
-	for (size_t i = 0; i < SelectItem.size(); i++)
+	for (unsigned int i = 0; i < static_cast<unsigned int>(SelectItem.size()); i++)
 	{
 		SelectItem[i].Cursor = CreateComponent<GameEngineUIRenderer>();
 		SelectItem[i].Cursor->SetSprite("Inventory_SelectCursor.png");
@@ -496,9 +485,9 @@ void UI_Inventory::ExternUISetting()
 
 void UI_Inventory::LockSlot(const unsigned int _Y)
 {
-	for (size_t y = _Y; y < InventorySlotArray.size(); y++)
+	for (unsigned int y = _Y; y < InventorySlotArray.size(); y++)
 	{
-		for (size_t x = 0; x < InventorySlotArray[y].size(); x++)
+		for (unsigned int x = 0; x < InventorySlotArray[y].size(); x++)
 		{
 			std::shared_ptr<GameEngineUIRenderer> Slot = InventorySlotArray[y][x].Slot;
 			Slot->SetSprite("Inventory_SlotLock.png");
@@ -594,9 +583,9 @@ void UI_Inventory::UnlockSlot(const unsigned int _Count /*= 1*/)
 		return;
 	}
 
-	for (size_t y = PrevUnlockSlotY; y < UnlockSlotY; y++)
+	for (unsigned int y = PrevUnlockSlotY; y < UnlockSlotY; y++)
 	{
-		for (size_t x = 0; x < InventorySlotArray[y].size(); x++)
+		for (unsigned int x = 0; x < InventorySlotArray[y].size(); x++)
 		{
 			std::shared_ptr<GameEngineUIRenderer> Slot = InventorySlotArray[y][x].Slot;
 			if (nullptr == Slot)
@@ -613,7 +602,7 @@ void UI_Inventory::UnlockSlot(const unsigned int _Count /*= 1*/)
 
 void UI_Inventory::UsingOtherComponent(EINVENTORYMODE _Mode)
 {
-	m_InventoryState.ChangeState(_Mode);
+	InventoryState.ChangeState(_Mode);
 }
 
 int UI_Inventory::ReturnItemCount(std::string_view _ItemName)
@@ -696,21 +685,21 @@ void UI_Inventory::CloseInternal()
 		UnSelectAll();
 	}
 
-	m_InventoryState.ChangeState(EINVENTORYMODE::Normal);
+	InventoryState.ChangeState(EINVENTORYMODE::Normal);
 }
 
 float4 UI_Inventory::CalculateIndexToPos(const size_t _x, const size_t _y)
 {
 	if (false == IsFirstPosCalculated)
 	{
-		float4 HGridScale = m_GridScale.Half();
+		float4 HGridScale = GridScale.Half();
 		FirstGridPosition.X = -((GridSpacing / 2.0f) + HGridScale.X) * ((static_cast<float>(Max_XSlot / 2) - 0.5f) * 2.0f);
 		FirstGridPosition.Y = ((GridSpacing / 2.0f) + HGridScale.Y) * ((static_cast<float>(Max_YSlot / 2) - 0.5f) * 2.0f);
 
 		IsFirstPosCalculated = true;
 	}
 
-	float4 TargetDistance = { static_cast<float>(_x) * (GridSpacing + m_GridScale.X) , -static_cast<float>(_y) * (GridSpacing + m_GridScale.Y) };
+	float4 TargetDistance = { static_cast<float>(_x) * (GridSpacing + GridScale.X) , -static_cast<float>(_y) * (GridSpacing + GridScale.Y) };
 	float4 ReturnValue = FirstGridPosition + TargetDistance;
 	return ReturnValue;
 }
@@ -724,70 +713,46 @@ void UI_Inventory::CursorThis(const unsigned int _X, const unsigned int _Y)
 	const float CursorDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Cursor);
 	const float OutLineDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::CursorOutLine);
 
-	const float4& CursorPosition = float4(IndexPosition.X, IndexPosition.Y, CursorDepth);
-	const float4& OutlinePosition = float4(IndexPosition.X, IndexPosition.Y, OutLineDepth);
-
-
+	if (nullptr == CursorInfo.Cursor
+		|| nullptr == CursorInfo.CursorOutline
+		|| nullptr == CursorInfo.NameTooltip)
 	{
-		if (nullptr == CursorInfo.Cursor)
-		{
-			MsgBoxAssert("커서를 생성하지 않고 사용하려 했습니다.");
-			return;
-		}
-
-		CursorInfo.Cursor->Transform.SetLocalPosition(CursorPosition);
+		MsgBoxAssert("커서를 생성하지 않고 사용하려 했습니다.");
+		return;
 	}
 
+	CursorInfo.Cursor->Transform.SetLocalPosition(float4(IndexPosition.X, IndexPosition.Y, CursorDepth));
+	CursorInfo.CursorOutline->Transform.SetLocalPosition(float4(IndexPosition.X, IndexPosition.Y, OutLineDepth));
 
+	if (true == Data->IsContain(_X, _Y))
 	{
-		if (nullptr == CursorInfo.CursorOutline)
-		{
-			MsgBoxAssert("커서를 생성하지 않고 사용하려 했습니다.");
-			return;
-		}
+		const float TooltipDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Cursor);
+		const float ItemFontDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Font);
 
-		CursorInfo.CursorOutline->Transform.SetLocalPosition(OutlinePosition);
+		const float FontYCorrection = 6.0f;
+
+		const float4& TooltipPosition = float4(IndexPosition.X, IndexPosition.Y + NameTagPosition.Y, TooltipDepth);
+		const float4& FontPosition = float4(IndexPosition.X, IndexPosition.Y + NameTagPosition.Y + FontYCorrection, ItemFontDepth);
+
+		CursorInfo.NameTooltip->Transform.SetLocalPosition(TooltipPosition);
+		CursorInfo.NameTooltip->On();
+
+
+		const InventoryInfo& ItemInfo = Data->ReturnInventoryInfo(_X, _Y);
+		std::string KRItemName = ReturnItemKRName(ItemInfo.SourceName);
+
+		CursorInfo.ItemFont->Transform.SetLocalPosition(FontPosition);
+		CursorInfo.ItemFont->ChangeText(KRItemName);
+		CursorInfo.ItemFont->On();
+	}
+	else
+	{
+		CursorInfo.NameTooltip->Off();
+		CursorInfo.ItemFont->Off();
 	}
 
-
-	{
-		if (nullptr == CursorInfo.NameTooltip)
-		{
-			MsgBoxAssert("커서를 생성하지 않고 사용하려 했습니다.");
-			return;
-		}
-
-		if (true == Data->IsContain(_X, _Y))
-		{
-			const float TooltipDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Cursor);
-			const float ItemFontDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Font);
-
-			const float FontYCorrection = 6.0f;
-
-			const float4& TooltipPosition = float4(IndexPosition.X, IndexPosition.Y + NameTagPosition.Y, TooltipDepth);
-			const float4& FontPosition = float4(IndexPosition.X, IndexPosition.Y + NameTagPosition.Y + FontYCorrection, ItemFontDepth);
-
-
-			CursorInfo.NameTooltip->Transform.SetLocalPosition(TooltipPosition);
-			CursorInfo.NameTooltip->On();
-
-
-			const InventoryInfo& ItemInfo = Data->ReturnInventoryInfo(_X, _Y);
-			std::string KRItemName = ReturnItemKRName(ItemInfo.SourceName);
-
-			CursorInfo.ItemFont->Transform.SetLocalPosition(FontPosition);
-			CursorInfo.ItemFont->ChangeText(KRItemName);
-			CursorInfo.ItemFont->On();
-		}
-		else
-		{
-			CursorInfo.NameTooltip->Off();
-			CursorInfo.ItemFont->Off();
-		}
-	}
-
-	m_CurrentSlotX = _X;
-	m_CurrentSlotY = _Y;
+	CurrentSlotX = _X;
+	CurrentSlotY = _Y;
 }
 
 void UI_Inventory::ClearSlot(const unsigned int _X, const unsigned int _Y)
@@ -801,7 +766,7 @@ void UI_Inventory::ClearSlot(const unsigned int _X, const unsigned int _Y)
 	Data->ClearData(_X, _Y);
 }
 
-void UI_Inventory::EraseSlotImg(const int _X, const int _Y)
+void UI_Inventory::EraseSlotImg(unsigned int _X, unsigned int _Y)
 {
 	const InventorySlotInfo& SlotData = InventorySlotArray[_Y][_X];
 
@@ -818,11 +783,11 @@ void UI_Inventory::EraseSlotImg(const int _X, const int _Y)
 
 void UI_Inventory::ClearAllSlotImg()
 {
-	for (size_t y = 0; y < UnlockSlotY; y++)
+	for (unsigned int y = 0; y < UnlockSlotY; y++)
 	{
-		for (size_t x = 0; x < Max_XSlot; x++)
+		for (unsigned int x = 0; x < Max_XSlot; x++)
 		{
-			EraseSlotImg(static_cast<int>(x), static_cast<int>(y));
+			EraseSlotImg(x, y);
 		}
 	}
 }
@@ -833,9 +798,9 @@ void UI_Inventory::OpenUpdate()
 	ClearAllSlotImg();
 	RenewInventory();
 	MainInventory = this;
-	m_CurrentSlotX = 0;
-	m_CurrentSlotY = 0;
-	CursorThis(m_CurrentSlotX, m_CurrentSlotY);
+	CurrentSlotX = 0;
+	CurrentSlotY = 0;
+	CursorThis(CurrentSlotX, CurrentSlotY);
 }
 
 
@@ -861,7 +826,7 @@ void UI_Inventory::UpdateInventory(float _Delta, GameEngineState* _Parent)
 	{
 		if (true == GameEngineInput::IsDown('3', this))
 		{
-			ClearSlot(m_CurrentSlotX, m_CurrentSlotY);
+			ClearSlot(CurrentSlotX, CurrentSlotY);
 		}
 	}
 
@@ -919,36 +884,36 @@ void UI_Inventory::MoveCursor(const int _X, const int _Y)
 {
 	SFXFunction::PlaySFX("SFX_InventoryMove_01.wav");
 
-	m_CurrentSlotX += _X;
-	m_CurrentSlotY += _Y;
+	CurrentSlotX += _X;
+	CurrentSlotY += _Y;
 
-	bool isOverLeft = (-1 == m_CurrentSlotX);
-	bool isOverRight = (Max_XSlot == m_CurrentSlotX);
-	bool isOverUp = (-1 == m_CurrentSlotY);
-	bool isOverDown = (UnlockSlotY == m_CurrentSlotY);
+	bool isOverLeft = (-1 == CurrentSlotX);
+	bool isOverRight = (Max_XSlot == CurrentSlotX);
+	bool isOverUp = (-1 == CurrentSlotY);
+	bool isOverDown = (UnlockSlotY == CurrentSlotY);
 
 
 	if (isOverLeft)
 	{
-		m_CurrentSlotX = Max_XSlot - 1;
+		CurrentSlotX = Max_XSlot - 1;
 	}
 
 	if (isOverRight)
 	{
-		m_CurrentSlotX = 0;
+		CurrentSlotX = 0;
 	}
 
 	if (isOverUp)
 	{
-		m_CurrentSlotY = UnlockSlotY - 1;
+		CurrentSlotY = UnlockSlotY - 1;
 	}
 
 	if (isOverDown)
 	{
-		m_CurrentSlotY = 0;
+		CurrentSlotY = 0;
 	}
 
-	CursorThis(m_CurrentSlotX, m_CurrentSlotY);
+	CursorThis(CurrentSlotX, CurrentSlotY);
 }
 
 std::string UI_Inventory::ReturnItemKRName(std::string_view _ItemName)
@@ -991,13 +956,13 @@ bool UI_Inventory::UpdateDispensationSelect()
 	if (true == GameEngineInput::IsDown('Z', this))
 	{
 		// 빈칸 클릭하면 리턴
-		if (false == Data->IsContain(m_CurrentSlotX, m_CurrentSlotY))
+		if (false == Data->IsContain(CurrentSlotX, CurrentSlotY))
 		{
 			return false;
 		}
 
 
-		int SelectNumber = ReturnSelectNumber(m_CurrentSlotX, m_CurrentSlotY);
+		int SelectNumber = ReturnSelectNumber(CurrentSlotX, CurrentSlotY);
 		bool isUnSelect = (-1 == SelectNumber);
 
 		if (isUnSelect)
@@ -1018,7 +983,7 @@ bool UI_Inventory::UpdateDispensationSelect()
 
 int UI_Inventory::ReturnSelectNumber(int _XSlot, int _YSlot)
 {
-	InventoryInfo& InventoryData = Data->ReturnInventoryInfo(m_CurrentSlotX, m_CurrentSlotY);
+	InventoryInfo& InventoryData = Data->ReturnInventoryInfo(CurrentSlotX, CurrentSlotY);
 	for (int i = 0; i < SelectItem.size(); i++)
 	{
 		if (SelectItem[i].ItemName == InventoryData.SourceName)
@@ -1046,7 +1011,7 @@ void UI_Inventory::DispensationSelectThis()
 		return;
 	}
 
-	InventoryInfo& InventoryData = Data->ReturnInventoryInfo(m_CurrentSlotX, m_CurrentSlotY);
+	InventoryInfo& InventoryData = Data->ReturnInventoryInfo(CurrentSlotX, CurrentSlotY);
 	std::weak_ptr<ItemData> Item = ItemData::Find(InventoryData.SourceName);
 	if (true == Item.expired())
 	{
@@ -1076,9 +1041,9 @@ void UI_Inventory::DispensationSelectThis()
 
 
 		SelectItem[EmptySlotNumber].ItemName = InventoryData.SourceName;
-		SelectItem[EmptySlotNumber].SelectCount = m_CurrentSlotX * m_CurrentSlotY;
+		SelectItem[EmptySlotNumber].SelectCount = CurrentSlotX * CurrentSlotY;
 
-		float4 CursorPosition = CalculateIndexToPos(m_CurrentSlotX, m_CurrentSlotY);
+		float4 CursorPosition = CalculateIndexToPos(CurrentSlotX, CurrentSlotY);
 		CursorPosition.Z = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Cursor);
 		SelectItem[EmptySlotNumber].Cursor->Transform.SetLocalPosition(CursorPosition);
 		SelectItem[EmptySlotNumber].Cursor->On();

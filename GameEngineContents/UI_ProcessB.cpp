@@ -24,12 +24,15 @@ void UI_ProcessB::Start()
 
 void UI_ProcessB::Update(float _Delta)
 {
+	if (true == GameEngineInput::IsUp('Z', this))
+	{
+		IsJustOpen = false;
+	}
+
 	if (false == IsJustOpen)
 	{
 		UpdateInput(_Delta);
 	}
-
-	IsJustOpen = false;
 }
 
 void UI_ProcessB::Release()
@@ -53,11 +56,7 @@ void UI_ProcessB::LevelEnd(class GameEngineLevel* _NextLevel)
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
-
-// 2번째창 이니셜
 void UI_ProcessB::Init()
 {
 	RendererSetting();
@@ -73,8 +72,9 @@ void UI_ProcessB::Init()
 	UIGuide.SetGuideInfo(this, Paras);
 	UIGuide.On();
 
+	IsJustOpen = true;
+
 	Off();
-	// Open("WitchFlower_Water",4);
 }
 
 void UI_ProcessB::RendererSetting()
@@ -226,9 +226,10 @@ void UI_ProcessB::Close()
 
 void UI_ProcessB::UpdateInput(float _Delta)
 {
-	if (SourceInfo.ScrCount >= SourceInfo.NeedCount)
+	bool isScrEnough = (SourceInfo.ScrCount >= SourceInfo.NeedCount);
+	if (isScrEnough)
 	{
-		if (false == IsJustOpen && true == GameEngineInput::IsPress('Z', this))
+		if (true == GameEngineInput::IsPress('Z', this))
 		{
 			UpdateGauge(_Delta);
 		}

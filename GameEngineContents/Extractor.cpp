@@ -1,7 +1,6 @@
 #include "PreCompile.h"
 #include "Extractor.h"
 
-
 #include "UI_ProcessManager.h"
 
 #include "ContentsEvent.h"

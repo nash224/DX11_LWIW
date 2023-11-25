@@ -134,6 +134,7 @@
     <FxCompile Include="ContentsRenderBase.fx" />
     <FxCompile Include="GaugeShader.fx" />
     <FxCompile Include="Math.fx" />
+    <FxCompile Include="MotionBlurEffect.fx" />
     <FxCompile Include="OutLineEffect.fx" />
     <FxCompile Include="SkyLightEffect.fx" />
     <FxCompile Include="TestShader.fx" />

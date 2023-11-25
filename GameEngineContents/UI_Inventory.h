@@ -2,20 +2,17 @@
 #include "UI_ToggleActor.h"
 #include "UI_ButtonGuide.h"
 
-static constexpr const int Max_XSlot = 4;
-static constexpr const int Max_YSlot = 6;
+static constexpr unsigned int Max_XSlot = 4;
+static constexpr unsigned int Max_YSlot = 6;
 
 #define INVENTORY_POSITION { -288.0f , 28.0f }
-
-static constexpr const float GridSpacing = 12.0f;
-static constexpr const float CursorInter = 0.4f;
 
 
 
 struct InventoryInfo
 {
 public:
-	std::string SourceName = "";
+	std::string SourceName;
 	unsigned int ItemCount = 0;
 
 };
@@ -132,8 +129,8 @@ protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
-	void LevelEnd(class GameEngineLevel* _NextLevel) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
+	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 private:
 	// 생성 : 인벤토리
@@ -164,7 +161,7 @@ private:
 	void CursorThis(const unsigned int _X, const unsigned int _Y);
 
 	void ClearSlot(const unsigned int _X, const unsigned int _Y);
-	void EraseSlotImg(const int _X, const int _Y);
+	void EraseSlotImg(unsigned int _X, unsigned int _Y);
 	void ClearAllSlotImg();
 
 	void OpenUpdate();
@@ -185,20 +182,20 @@ private:
 
 private:
 	std::vector<std::vector<InventorySlotInfo>> InventorySlotArray;
-	std::shared_ptr<class UI_DropManager> m_DropManager = nullptr;
-	std::shared_ptr<GameEngineSpriteRenderer> m_InventoryBase = nullptr;
+	std::shared_ptr<class UI_DropManager> DropManager = nullptr;
+	std::shared_ptr<GameEngineSpriteRenderer> InventoryBase = nullptr;
 
 	InventoryCursorInfo CursorInfo;
 	UI_ButtonGuide InventoryGuide;
 
-	GameEngineState m_InventoryState;
+	GameEngineState InventoryState;
 	EINVENTORYMODE InventoryMode = EINVENTORYMODE::None;
 
-	float4 m_GridScale = float4::ZERO;
+	float4 GridScale = float4::ZERO;
 	float4 FirstGridPosition = float4::ZERO;
 
-	int m_CurrentSlotX = 0;
-	int m_CurrentSlotY = 0;
+	int CurrentSlotX = 0;
+	int CurrentSlotY = 0;
 
 	bool IsFirstPosCalculated = false;
 

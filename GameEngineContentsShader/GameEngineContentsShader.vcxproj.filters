@@ -19,6 +19,9 @@
     <FxCompile Include="Math.fx">
       <Filter>Header</Filter>
     </FxCompile>
+    <FxCompile Include="MotionBlurEffect.fx">
+      <Filter>Effect</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Effect">

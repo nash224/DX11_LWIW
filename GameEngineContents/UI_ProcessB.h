@@ -81,7 +81,7 @@ private:
 	UI_ButtonGuide UIGuide;
 
 	bool IsJuicying = false;
-	bool IsJustOpen = false;
+	bool IsJustOpen = true;
 
 	const float4 BlackColor = float4(0.1f, 0.1f, 0.1f, 1.0f);
 
