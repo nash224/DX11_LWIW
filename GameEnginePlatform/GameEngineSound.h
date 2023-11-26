@@ -6,7 +6,7 @@
 // ¼±¾ð
 #include <GameEnginePlatform/ThirdParty/FMOD/inc/fmod.hpp>
 
-class GameEngineSoundPlayer 
+class GameEngineSoundPlayer
 {
 	friend class GameEngineSound;
 
@@ -14,8 +14,10 @@ public:
 	void SetLoop(int _Count);
 	void SetVolume(float _Volume);
 	void Stop();
+	bool IsPlaying();
+	std::string GetCurSoundName();
 
-	GameEngineSoundPlayer() 
+	GameEngineSoundPlayer()
 	{
 
 	}
@@ -44,7 +46,7 @@ private:
 	static std::map<std::string, std::shared_ptr<GameEngineSound>> AllSound;
 
 public:
-	static void SetGlobalVolume(float _Value) 
+	static void SetGlobalVolume(float _Value)
 	{
 		GlobalVolume = _Value;
 	}

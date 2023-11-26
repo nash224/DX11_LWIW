@@ -191,11 +191,9 @@ void DebugTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 		ImGui::Checkbox("Show PixelDebug", &PlayLevel::PixelDebugMode);
 	}
 
-	float4 CameraPosition = CameraControler::MainCameraControler.lock()->GetCameraCurrentPostion();
-	ImGui::Text(("CameraPos :" + CameraPosition.ToString()).c_str());
-
-
 	OnFPSTime(_DeltaTime);
+	ImGui::SeparatorText("Show Position");
+	CameraPos();
 	ScreenMousePos();
 	WorldMousePos(_Level);
 	SkyColor();
@@ -206,6 +204,7 @@ void DebugTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 
 void DebugTab::OnFPSTime(float _DeltaTime)
 {
+	ImGui::SeparatorText("Fps");
 	static float GUI_UpdateTime = 0.0f;
 
 	GUI_UpdateTime += _DeltaTime;
@@ -217,6 +216,12 @@ void DebugTab::OnFPSTime(float _DeltaTime)
 	const std::string FPS_String = "FPS : " + std::to_string(iFPS);
 
 	ImGui::Text(FPS_String.c_str());
+}
+
+void DebugTab::CameraPos()
+{
+	float4 CameraPosition = CameraControler::MainCameraControler.lock()->GetCameraCurrentPostion();
+	ImGui::Text(("CameraPos :" + CameraPosition.ToString()).c_str());
 }
 
 void DebugTab::ScreenMousePos()
@@ -235,6 +240,7 @@ void DebugTab::WorldMousePos(GameEngineLevel* _CurLevel)
 
 void DebugTab::SkyColor()
 {
+	ImGui::SeparatorText("Sky Light");
 	if (nullptr != SkyLerp::MainSkyManager)
 	{
 		if (ImGui::SliderFloat4("Sky Color", &SkyLerp::MainSkyManager->SkyColor.R, 0.0f, 1.0f, "%.2f"))
@@ -257,6 +263,7 @@ void DebugTab::SkyOn()
 
 void DebugTab::TimeDebug()
 {
+	ImGui::SeparatorText("TimeDebug");
 	if (nullptr != PlayLevel::s_TimeManager)
 	{
 		if (ImGui::SliderFloat("TimeCustom", &TimeCustom, 0.0f, PlayLevel::s_TimeManager->GetMaxTime(), "%.0f"))
@@ -270,6 +277,11 @@ void DebugTab::TimeDebug()
 		ImGui::Text(std::string("Time : " + std::to_string(PlayLevel::s_TimeManager->GetHour())).c_str());
 		ImGui::SameLine();
 		ImGui::Text(std::string(": " + std::to_string(PlayLevel::s_TimeManager->GetMinute())).c_str());
+
+		
+		ImGui::Checkbox("Time Pause", &PlayLevel::s_TimeManager->GetPause());
+		ImGui::SameLine();
+		ImGui::SliderFloat("Time Ratio", &PlayLevel::s_TimeManager->GetTimeFlowRatio(), 1.0f, 5.0f, "%.0f");
 	}
 }
 

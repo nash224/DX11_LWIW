@@ -15,7 +15,7 @@ public:
 
 
 public:
-	std::string Name = "";
+	std::string Name;
 
 };
 
@@ -78,6 +78,7 @@ class DebugTab : public UITab
 	void OnGUI(GameEngineLevel* _Level, float _DeltaTime) override;
 
 	void OnFPSTime(float _DeltaTime);
+	void CameraPos();
 	void ScreenMousePos();
 	void WorldMousePos(GameEngineLevel* _CurLevel);
 	void SkyColor();
@@ -96,7 +97,7 @@ public:
 
 private:
 
-	std::string SpriteName = "";
+	std::string SpriteName;
 
 	bool isSkyOn = true;
 	int SliderAmount = 0;
@@ -171,7 +172,6 @@ public:
 
 	void SaveTab(GameEngineLevel* _Level, float _DeltaTime);
 	void SettingTab(GameEngineLevel* _Lesvel, float _DeltaTime);
-	void EditorTab(GameEngineLevel* _Level, float _DeltaTime);
 	void LoadTab(GameEngineLevel* _Level, float _DeltaTime);
 	void HelpTab(GameEngineLevel* _Level, float _DeltaTime);
 
@@ -219,7 +219,7 @@ public:
 
 	std::string ActorType;
 
-	std::string TabName = "";
+	std::string TabName;
 
 };
 

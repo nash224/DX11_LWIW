@@ -110,13 +110,13 @@ void FlowerBird::StartTurn()
 // 방향 좌우 전환
 void FlowerBird::SwapDirection()
 {
-	if (EDIRECTION::LEFT == m_Dir)
+	if (EDIRECTION::LEFT == Dir)
 	{
-		m_Dir = EDIRECTION::RIGHT;
+		Dir = EDIRECTION::RIGHT;
 	}
-	else if (EDIRECTION::RIGHT == m_Dir)
+	else if (EDIRECTION::RIGHT == Dir)
 	{
-		m_Dir = EDIRECTION::LEFT;
+		Dir = EDIRECTION::LEFT;
 	}
 }
 
@@ -375,12 +375,12 @@ void FlowerBird::DecideFlyDirection()
 	{
 		float ReverseFlyDegree = 180.0f - FlyDegree;
 		m_BirdFlyDirection = float4::GetUnitVectorFromDeg(ReverseFlyDegree);
-		m_Dir = EDIRECTION::RIGHT;
+		Dir = EDIRECTION::RIGHT;
 	}
 	else
 	{
 		m_BirdFlyDirection = float4::GetUnitVectorFromDeg(FlyDegree);
-		m_Dir = EDIRECTION::LEFT;
+		Dir = EDIRECTION::LEFT;
 	}
 
 	static constexpr float FlySpeed = 600.0f;

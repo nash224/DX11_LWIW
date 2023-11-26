@@ -27,6 +27,10 @@ PixelOutPut MotionBlurEffect_VS(GameEngineVertex2D _Input)
 Texture2D Texure : register(t0);
 SamplerState TexSampler : register(s0);
 
+// 카메라 벡터 => 방향 및 스칼라
+// NumSample
+// 
+
 float4 MotionBlurEffect_PS(PixelOutPut _Input) : SV_Target0
 {
     float4 Result = (float4) 0.0f;

@@ -51,7 +51,7 @@ void Ellie::UpdateInteractionCollsiion()
 
 	float4 ElliePosition = Transform.GetWorldPosition();
 
-	float4 DirectionVector = GetDirectionVectorToDir(m_Dir);
+	float4 DirectionVector = GetDirectionVectorToDir(Dir);
 
 	float EllieFOVAngle = DirectionVector.Angle2DDeg();
 	if (DirectionVector.Y < 0.0f)

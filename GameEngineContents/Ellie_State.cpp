@@ -67,7 +67,7 @@ void Ellie::StartApproach()
 	// 상대방을 바라보는 방향을 구합니다.
 	float4 OtherPosition = OtherEntity->GetInteractiveLocalPositon();
 	float4 TargetDistance = OtherPosition - Transform.GetLocalPosition();
-	m_Dir = GetDirectionFromVector(TargetDistance);
+	Dir = GetDirectionFromVector(TargetDistance);
 
 	ChangeAnimationByDirection("Walk");
 }
@@ -733,8 +733,14 @@ bool Ellie::InputRidingMode()
 {
 	if (true == ContentsEvent::HasWitchBroom)
 	{
+		if (CoolTime != 0.0f)
+		{
+			return false;
+		}
+
 		if (true == GameEngineInput::IsDown(VK_CONTROL, this))
 		{
+			CoolTime = 0.8f;
 			ChangeState(EELLIE_STATE::Riding_Standing);
 			return true;
 		}

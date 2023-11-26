@@ -85,7 +85,7 @@ void MongSiri::SearchJumpLocation()
 	if (EMONGSIRISTATUS::Normal == Status )
 	{
 		GameEngineRandom RandomClass;
-		RandomClass.SetSeed(reinterpret_cast<__int64>(this) + GlobalValue::GetSeedValue());
+		RandomClass.SetSeed(GlobalValue::GetSeedValue());
 
 
 		if (nullptr == MongSiriParant)
@@ -137,7 +137,7 @@ void MongSiri::SearchJumpLocation()
 		TargetForce = TargetUnitVector * MongSiriJumpPower;
 	}
 
-	if (EMONGSIRISTATUS::Escape == Status )
+	if (EMONGSIRISTATUS::Escape == Status)
 	{
 		if (nullptr == MongSiriParant)
 		{
@@ -171,7 +171,7 @@ void MongSiri::SearchJumpLocation()
 
 	TargetForce.Z = 0.0f;
 
-	m_Dir = GetDiagonalDirectionFromVector(TargetForce);
+	Dir = GetDiagonalDirectionFromVector(TargetForce);
 }
 
 void MongSiri::UpdateJump(float _Delta)
@@ -205,7 +205,7 @@ void MongSiri::UpdateJump(float _Delta)
 			}
 		}
 
-		m_MoveVector = TargetForce;
+		SetMoveVector(TargetForce);
 		DynamicEntity::ApplyMovement(_Delta);
 	}
 }
@@ -213,7 +213,7 @@ void MongSiri::UpdateJump(float _Delta)
 void MongSiri::EndJump()
 {
 	TargetForce = float4::ZERO;
-	m_MoveVector = float4::ZERO;
+	ResetMoveVector();
 }
 
 
@@ -309,7 +309,7 @@ void MongSiri::GetCaught()
 
 void MongSiri::StartCaught()
 {
-	m_Dir = EDIRECTION::LEFTDOWN;
+	Dir = EDIRECTION::LEFTDOWN;
 	ChangeAnimationByDircetion("Idle");
 }
 
@@ -400,9 +400,9 @@ void MongSiri::AutoChangeDirAnimation(std::string_view _StateName)
 	const float4& MyPos = Transform.GetLocalPosition();
 	const float4& VectorToEllie = ElliePos - MyPos;
 	const float Radian = std::atan2f(VectorToEllie.Y, VectorToEllie.X);
-	DynamicEntity::m_Dir = DynamicEntity::GetDirectionToDegree(Radian* GameEngineMath::R2D);
+	DynamicEntity::Dir = DynamicEntity::GetDirectionToDegree(Radian* GameEngineMath::R2D);
 
-	if (RenderDir != DynamicEntity::m_Dir)
+	if (RenderDir != DynamicEntity::Dir)
 	{
 		std::weak_ptr<GameEngineFrameAnimation> Animation = InteractiveActor::BodyRenderer->CurAnimation();
 		if (true == Animation.expired())

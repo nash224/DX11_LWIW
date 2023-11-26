@@ -59,6 +59,7 @@ void Ellie::Start()
 void Ellie::Update(float _Delta)
 {
 	UpdateState(_Delta);
+	UpdateCoolTime(_Delta);
 	UpdateCollision();
 	UpdateTestCode();
 }
@@ -67,7 +68,10 @@ void Ellie::UpdateTestCode()
 {
 	if (true == GameEngineInput::IsDown('1', this))
 	{
-		BackDrop_PlayLevel::MainBackDrop->CreateItem("Mongsiri_Collect", Transform.GetLocalPosition());
+		if (nullptr != UIManager::MainUIManager)
+		{
+			BackDrop_PlayLevel::MainBackDrop->CreateItem("Mongsiri_Collect", Transform.GetLocalPosition());
+		}
 	}
 
 	if (true == GameEngineInput::IsDown('2', this))
@@ -203,7 +207,7 @@ void Ellie::SetAnimationByDirection(EDIRECTION _Dir /*= EDIRECTION::CENTER*/)
 {
 	if (EDIRECTION::CENTER != _Dir)
 	{
-		m_Dir = _Dir;
+		Dir = _Dir;
 
 		if (EELLIE_STATUS::Normal == g_Status)
 		{
@@ -276,6 +280,17 @@ void Ellie::UpdateState(float _Delta)
 	}
 }
 
+void Ellie::UpdateCoolTime(float _Delta)
+{
+	if (CoolTime > 0.0f)
+	{
+		CoolTime -= _Delta;
+		if (CoolTime < 0.0f)
+		{
+			CoolTime = 0.0f;
+		}
+	}
+}
 
 void Ellie::ChangeState(EELLIE_STATE _State)
 {
@@ -374,7 +389,7 @@ void Ellie::ChangeAnimationByDirection(std::string_view _StateName, bool _Direct
 
 	if (true == _DirectionInfluence)
 	{
-		switch (m_Dir)
+		switch (Dir)
 		{
 		case EDIRECTION::UP:
 			AnimaitonName += "_UP";
@@ -405,7 +420,7 @@ void Ellie::ChangeAnimationByDirection(std::string_view _StateName, bool _Direct
 		}
 	}
 
-	m_RenderDir = m_Dir;
+	RenderDir = Dir;
 
 	if (nullptr == BodyRenderer)
 	{
@@ -559,7 +574,7 @@ void Ellie::ChangeBroomSprite()
 
 void Ellie::ChangeDirectionAnimation(std::string_view _StateName)
 {
-	if (m_Dir != m_RenderDir)
+	if (Dir != RenderDir)
 	{
 		if (nullptr == BodyRenderer)
 		{
@@ -590,41 +605,41 @@ bool Ellie::DetectMovement()
 		{
 			if (EVERTICAL_KEY_STATE::Down == VerticalInputKey )
 			{
-				m_Dir = EDIRECTION::DOWN;
+				Dir = EDIRECTION::DOWN;
 			}
 			else
 			{
-				m_Dir = EDIRECTION::UP;
+				Dir = EDIRECTION::UP;
 			}
 		}
 		else if (EHORIZONTAL_KEY_STATE::Left == HorizontalInputKey)
 		{
 			if (EVERTICAL_KEY_STATE::Down == VerticalInputKey )
 			{
-				m_Dir = EDIRECTION::LEFTDOWN;
+				Dir = EDIRECTION::LEFTDOWN;
 			}
 			else if (EVERTICAL_KEY_STATE::Up == VerticalInputKey )
 			{
-				m_Dir = EDIRECTION::LEFTUP;
+				Dir = EDIRECTION::LEFTUP;
 			}
 			else
 			{
-				m_Dir = EDIRECTION::LEFT;
+				Dir = EDIRECTION::LEFT;
 			}
 		}
 		else
 		{
 			if (EVERTICAL_KEY_STATE::Down == VerticalInputKey )
 			{
-				m_Dir = EDIRECTION::RIGHTDOWN;
+				Dir = EDIRECTION::RIGHTDOWN;
 			}
 			else if (EVERTICAL_KEY_STATE::Up == VerticalInputKey )
 			{
-				m_Dir = EDIRECTION::RIGHTUP;
+				Dir = EDIRECTION::RIGHTUP;
 			}
 			else
 			{
-				m_Dir = EDIRECTION::RIGHT;
+				Dir = EDIRECTION::RIGHT;
 			}
 		}
 
@@ -768,7 +783,7 @@ float4 Ellie::GetDirectionVectorToDir(const EDIRECTION _Direction)
 
 void Ellie::CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce)
 {
-	const float4& DirVector = GetDirectionVectorToDir(m_Dir);
+	const float4& DirVector = GetDirectionVectorToDir(Dir);
 
 	SetMoveVector(DirVector * _MAXMoveForce);
 	
@@ -780,7 +795,7 @@ void Ellie::CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce)
 	EDIRECTION CheckDir = EDIRECTION::CENTER;
 
 
-	switch (m_Dir)
+	switch (Dir)
 	{
 	case EDIRECTION::UP:
 		LeftCheckPoint += CheckPoint.TopLeft;
@@ -818,9 +833,9 @@ void Ellie::CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce)
 		break;
 	}
 
-	CheckDir = ReturnDirectionCheckBothSide(m_Dir, LeftCheckPoint, RightCheckPoint);
+	CheckDir = ReturnDirectionCheckBothSide(Dir, LeftCheckPoint, RightCheckPoint);
 
-	if (CheckDir == m_Dir)
+	if (CheckDir == Dir)
 	{
 
 	}
@@ -840,7 +855,7 @@ EDIRECTION Ellie::ReturnDirectionCheckBothSide(EDIRECTION _Direction, const floa
 {
 	if (nullptr == BackDrop_PlayLevel::MainBackDrop)
 	{
-		return m_Dir;
+		return Dir;
 	}
 
 	int DirNum = static_cast<int>(_Direction);
@@ -885,7 +900,7 @@ EDIRECTION Ellie::ReturnDirectionCheckBothSide(EDIRECTION _Direction, const floa
 
 float4 Ellie::GetMoveForceByDir(float _Delta, float _MAXMoveForce, float _Acceleration_Time)
 {
-	const float4& DirVector = GetDirectionVectorToDir(m_Dir);
+	const float4& DirVector = GetDirectionVectorToDir(Dir);
 
 	const float4& MaxForce = { DirVector.X * _MAXMoveForce / _Acceleration_Time, DirVector.Y * _MAXMoveForce / _Acceleration_Time };
 

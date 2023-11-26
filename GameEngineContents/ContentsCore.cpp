@@ -20,6 +20,7 @@
 
 ContentsCore::ContentsCore()
 {
+	GameEngineInput::AddInputObject(this);
 }
 
 ContentsCore::~ContentsCore()
@@ -45,7 +46,7 @@ void ContentsCore::Start()
 	
 
 	
-	GameEngineGUI::CreateGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
+	ImGuiCoreWindow = GameEngineGUI::CreateGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
 
 
 	GameEngineCore::CreateLevel<LogoLevel>("LogoLevel");
@@ -61,5 +62,39 @@ void ContentsCore::Start()
 	GameEngineCore::ChangeLevel("MainMenu");
 
 
-	GameEngineGUI::CreateGUIWindow<ContentsGUI>("ContentsGUI");
+	ImGuiContentWindow = GameEngineGUI::CreateGUIWindow<ContentsGUI>("ContentsGUI");
+}
+
+void ContentsCore::Update(float _Delta)
+{
+	if (GameEngineInput::IsDown(VK_F6, this))
+	{
+		if (nullptr != ImGuiCoreWindow)
+		{
+			if (true == ImGuiCoreWindow->IsUpdate())
+			{
+				ImGuiCoreWindow->Off();
+			}
+			else
+			{
+				ImGuiCoreWindow->On();
+			}
+		}
+	}
+
+	if (GameEngineInput::IsDown(VK_F7, this))
+	{
+		if (nullptr != ImGuiContentWindow)
+		{
+			if (true == ImGuiContentWindow->IsUpdate())
+			{
+				ImGuiContentWindow->Off();
+			}
+			else
+			{
+				ImGuiContentWindow->On();
+			}
+		}
+	}
+
 }

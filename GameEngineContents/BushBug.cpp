@@ -41,6 +41,7 @@ void BushBug::Update(float _Delta)
 
 	MainState.Update(_Delta);
 	Alight.UpdateLightLerp();
+	DynamicEntity::UpdateSoundVolumeByDistance();
 }
 
 void BushBug::Release()

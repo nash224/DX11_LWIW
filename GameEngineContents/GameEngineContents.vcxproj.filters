@@ -268,6 +268,9 @@
     <Filter Include="Level\BackManager\2.Play\UpFloor">
       <UniqueIdentifier>{5ac030be-3fbc-41cc-87f1-c83d4c793644}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{124d7494-cddb-47e0-8664-505456c546b5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -726,6 +729,9 @@
     </ClInclude>
     <ClInclude Include="Comet.h">
       <Filter>Actor\Prop</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentMath.h">
+      <Filter>Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1222,6 +1228,9 @@
     </ClCompile>
     <ClCompile Include="Comet.cpp">
       <Filter>Actor\Prop</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentMath.cpp">
+      <Filter>Math</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

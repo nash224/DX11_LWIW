@@ -14,6 +14,8 @@ enum class EDAYSTATE
 // Ό³Έν :
 class TimeManager 
 {
+	friend class ContentsGUI;
+
 public:
 	// constrcuter destructer
 	TimeManager();
@@ -53,6 +55,16 @@ public:
 
 	void ChangeDay();
 
+	inline bool& GetPause()
+	{
+		return IsPause;
+	}
+
+	inline float& GetTimeFlowRatio()
+	{
+		return TimeFlowRatio;
+	}
+
 protected:
 
 private:
@@ -67,13 +79,13 @@ private:
 
 	EDAYSTATE DayState = EDAYSTATE::None;
 
-	static constexpr const int Start_Day_Hour = 9;
-	static constexpr const int Start_Night_Hour = 19;
-	static constexpr const int End_Day_Hour = 24;
+	static constexpr int Start_Day_Hour = 9;
+	static constexpr int Start_Night_Hour = 19;
+	static constexpr int End_Day_Hour = 24;
 
-	static constexpr const int One_Minutes_Per_Hour = 60;
+	static constexpr int One_Minutes_Per_Hour = 60;
 
-	static constexpr const int Ratio_Per_TenMinute = 5;
+	static constexpr int Ratio_Per_TenMinute = 5;
 
 };
 

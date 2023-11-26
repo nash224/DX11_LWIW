@@ -46,6 +46,7 @@ void MongSiri::Update(float _Delta)
 
 	UpdateState(_Delta);
 	Emotion.Update(_Delta);
+	DynamicEntity::UpdateSoundVolumeByDistance();
 }
 
 void MongSiri::Release()
@@ -55,10 +56,6 @@ void MongSiri::Release()
 	ShadowRenderer = nullptr;
 	Emotion.Release();
 }
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 
 void MongSiri::Init()
@@ -294,20 +291,20 @@ void MongSiri::RendererSetting()
 void MongSiri::InitDirection()
 {
 	GameEngineRandom RandomClass;
-	int DirctionNumber = RandomClass.RandomInt(0, 3);
+	const int DirctionNumber = RandomClass.RandomInt(0, 3);
 	switch (DirctionNumber)
 	{
 	case 0:
-		m_Dir = EDIRECTION::UP;
+		Dir = EDIRECTION::UP;
 		break;
 	case 1:
-		m_Dir = EDIRECTION::RIGHT;
+		Dir = EDIRECTION::RIGHT;
 		break;
 	case 2:
-		m_Dir = EDIRECTION::DOWN;
+		Dir = EDIRECTION::DOWN;
 		break;
 	case 3:
-		m_Dir = EDIRECTION::LEFT;
+		Dir = EDIRECTION::LEFT;
 		break;
 	default:
 		break;
@@ -335,7 +332,7 @@ void MongSiri::LookStateSetting()
 
 void MongSiri::UpdateState(float _Delta)
 {
-	switch (m_State)
+	switch (State)
 	{
 	case EMONGSIRISTATE::Idle:								UpdateIdle(_Delta);				break;
 	case EMONGSIRISTATE::Jump:								UpdateJump(_Delta);				break;
@@ -352,9 +349,9 @@ void MongSiri::UpdateState(float _Delta)
 
 void MongSiri::ChangeState(EMONGSIRISTATE _State)
 {
-	if (m_State != _State)
+	if (State != _State)
 	{
-		switch (m_State)
+		switch (State)
 		{
 		case EMONGSIRISTATE::Idle:							EndIdle();						break;
 		case EMONGSIRISTATE::Jump:							EndJump();						break;
@@ -383,7 +380,7 @@ void MongSiri::ChangeState(EMONGSIRISTATE _State)
 			break;
 		}
 
-		m_State = _State;
+		State = _State;
 	}
 }
 
@@ -408,7 +405,7 @@ void MongSiri::ChangeAnimationByDircetion(std::string_view _StateName, unsigned 
 
 	std::string AnimationName = _StateName.data();
 
-	switch (m_Dir)
+	switch (Dir)
 	{
 	case EDIRECTION::CENTER:
 		break;
@@ -441,13 +438,13 @@ void MongSiri::ChangeAnimationByDircetion(std::string_view _StateName, unsigned 
 		break;
 	}
 
-	RenderDir = m_Dir;
+	DynamicEntity::RenderDir = DynamicEntity::Dir;
 
 	InteractiveActor::BodyRenderer->ChangeAnimation(AnimationName, false, _Index);
 }
 
 
-bool MongSiri::IsPlayerAround()
+bool MongSiri::IsPlayerAround() const
 {
 	if (nullptr != Ellie::MainEllie)
 	{

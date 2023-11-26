@@ -11,7 +11,6 @@ enum class EMONGSIRISTATUS
 	None,
 };
 
-
 // Ό³Έν :
 class MongSiri : public DynamicEntity
 {
@@ -69,7 +68,7 @@ private:
 	void ChangeAnimationByDircetion(std::string_view _StateName, unsigned int _Index = 0);
 	void AutoChangeDirAnimation(std::string_view _StateName);
 
-	bool IsPlayerAround();
+	bool IsPlayerAround() const;
 
 	void UpdateState(float _Delta);
 	void ChangeState(EMONGSIRISTATE _State);
@@ -112,7 +111,7 @@ private:
 
 	GameEngineState LookState;
 
-	EMONGSIRISTATE m_State = EMONGSIRISTATE::None;
+	EMONGSIRISTATE State = EMONGSIRISTATE::None;
 	EMONGSIRISTATUS Status = EMONGSIRISTATUS::None;
 
 	EDIRECTION RenderDir = EDIRECTION::CENTER;

@@ -33,7 +33,7 @@ public:
 
 protected:
 	void Start() override;
-	void Update(float _Delta) override {}
+	void Update(float _Delta) override;
 	void Release() override {}
 
 private:
@@ -42,6 +42,10 @@ private:
 	void InitMaterialResoruces();
 	void InitAutoCompile();
 
-	
+private:
+	std::shared_ptr<class GameEngineCoreWindow> ImGuiCoreWindow;
+	std::shared_ptr<class ContentsGUI> ImGuiContentWindow;
+
+
 };
 

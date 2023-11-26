@@ -15,8 +15,8 @@ DynamicEntity::~DynamicEntity()
 
 void DynamicEntity::Start()
 {
-	SetInteractionButtonType(EINTERACTION_BUTTONTYPE::Gathering);
-	SetInteractionType(EINTERACTION_TYPE::Near);
+	InteractiveActor::SetInteractionButtonType(EINTERACTION_BUTTONTYPE::Gathering);
+	InteractiveActor::SetInteractionType(EINTERACTION_TYPE::Near);
 }
 
 void DynamicEntity::Update(float _Delta)
@@ -30,12 +30,10 @@ void DynamicEntity::Release()
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 
 // 8방향 반환
-EDIRECTION DynamicEntity::GetDirectionFromVector(const float4& _MoveVector)
+EDIRECTION DynamicEntity::GetDirectionFromVector(const float4& _MoveVector) const
 {
 	float4 UnitVetor = _MoveVector;
 	UnitVetor.Z = 0.0f;
@@ -46,7 +44,7 @@ EDIRECTION DynamicEntity::GetDirectionFromVector(const float4& _MoveVector)
 }
 
 // 대각선 방향 반환
-EDIRECTION DynamicEntity::GetDiagonalDirectionFromVector(const float4& _MoveVector)
+EDIRECTION DynamicEntity::GetDiagonalDirectionFromVector(const float4& _MoveVector) const
 {
 	float4 UnitVetor = _MoveVector;
 	UnitVetor.Z = 0.0f;
@@ -76,10 +74,10 @@ EDIRECTION DynamicEntity::GetDiagonalDirectionFromVector(const float4& _MoveVect
 	}
 
 	MsgBoxAssert("잘못된 반환입니다.");
-	return m_Dir;
+	return Dir;
 }
 
-EDIRECTION DynamicEntity::GetDirectionToDegree(const float _Degree)
+EDIRECTION DynamicEntity::GetDirectionToDegree(const float _Degree) const
 {
 	float Degree = _Degree;
 
@@ -138,29 +136,29 @@ EDIRECTION DynamicEntity::GetDirectionToDegree(const float _Degree)
 	}
 
 	MsgBoxAssert("잘못된 반환입니다.");
-	return m_Dir;
+	return Dir;
 }
 
 
 // 위치 적용 (깊이 적용)
 void DynamicEntity::ApplyMovement(float _Delta)
 {
-	const float4& MoveVector = m_MoveVector* _Delta;
-	Transform.AddLocalPosition(MoveVector);
+	const float4& Vector = GetMoveVector()* _Delta;
+	Transform.AddLocalPosition(Vector);
 
 	InteractiveActor::ApplyDepth();
 }
 
 void DynamicEntity::ApplyOnlyMovement(float _Delta)
 {
-	const float4& MoveVector = m_MoveVector * _Delta;
-	Transform.AddLocalPosition(MoveVector);
+	const float4& Vector = GetMoveVector() * _Delta;
+	Transform.AddLocalPosition(Vector);
 }
 
-float DynamicEntity::GetVolumeReductionByDistance()
+float DynamicEntity::GetVolumeReductionByDistance() const
 {
-	static constexpr const float Max_Volume_Distance = 150.0f;
-	static constexpr const float Min_Volume_Distance = 300.0f;
+	static constexpr float Max_Volume_Distance = 150.0f;
+	static constexpr float Min_Volume_Distance = 300.0f;
 
 	if (true == CameraControler::MainCameraControler.expired())
 	{
@@ -173,7 +171,7 @@ float DynamicEntity::GetVolumeReductionByDistance()
 	const float4& VectorToEllie = MyPos - CameraPos;
 
 	const float4& Size = DirectX::XMVector2Length(VectorToEllie.DirectXVector);
-	float Distance = Size.X;
+	const float Distance = Size.X;
 
 	if (Max_Volume_Distance > Distance)
 	{
@@ -192,6 +190,15 @@ void DynamicEntity::PlaySFX(std::string_view _FileName)
 {
 	float Volume = GlobalValue::GetSFXVolume() * GetVolumeReductionByDistance();
 
-	GameEngineSoundPlayer SoundPlayer = GameEngineSound::SoundPlay(_FileName);
+	SoundPlayer = GameEngineSound::SoundPlay(_FileName);
 	SoundPlayer.SetVolume(Volume);
+}
+
+void DynamicEntity::UpdateSoundVolumeByDistance()
+{
+	if (true == SoundPlayer.IsPlaying())
+	{
+		float Volume = GlobalValue::GetSFXVolume() * GetVolumeReductionByDistance();
+		SoundPlayer.SetVolume(Volume);
+	}
 }

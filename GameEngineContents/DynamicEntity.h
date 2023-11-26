@@ -26,9 +26,9 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 protected:
-	EDIRECTION GetDirectionFromVector(const float4& _MoveVector);
-	EDIRECTION GetDiagonalDirectionFromVector(const float4& _MoveVector);
-	EDIRECTION GetDirectionToDegree(const float _Degree);
+	EDIRECTION GetDirectionFromVector(const float4& _MoveVector) const;
+	EDIRECTION GetDiagonalDirectionFromVector(const float4& _MoveVector) const;
+	EDIRECTION GetDirectionToDegree(const float _Degree) const;
 
 	inline void ResetMoveVector()
 	{
@@ -53,15 +53,17 @@ protected:
 	void ApplyMovement(float _Delta);
 	void ApplyOnlyMovement(float _Delta);
 
-	float GetVolumeReductionByDistance();
+	float GetVolumeReductionByDistance() const;
 	void PlaySFX(std::string_view _FileName);
+	void UpdateSoundVolumeByDistance();
 
 protected:
-	EDIRECTION m_Dir = EDIRECTION::LEFT;
-	EDIRECTION m_RenderDir = EDIRECTION::CENTER;
+	EDIRECTION Dir = EDIRECTION::LEFT;
+	EDIRECTION RenderDir = EDIRECTION::CENTER;
+
+	GameEngineSoundPlayer SoundPlayer;
 
 	float4 m_MoveVector = float4::ZERO;
-	float4 m_MoveForce = float4::ZERO;
 
 };
 

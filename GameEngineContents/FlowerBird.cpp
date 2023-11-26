@@ -45,18 +45,17 @@ FlowerBird::~FlowerBird()
 void FlowerBird::Start()
 {
 	DynamicEntity::Start();
-
-	SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Gloves);
-	CreateAndSetCollision(ECOLLISION::Entity, { 300.0f }, float4::ZERO, ColType::SPHERE2D);
+	InteractiveActor::SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Gloves);
+	InteractiveActor::CreateAndSetCollision(ECOLLISION::Entity, { 300.0f }, float4::ZERO, ColType::SPHERE2D);
 }
 
 void FlowerBird::Update(float _Delta)
 {
 	DynamicEntity::Update(_Delta);
-
+	
 	UpdateState(_Delta);
-
 	Emotion.Update(_Delta);
+	DynamicEntity::UpdateSoundVolumeByDistance();
 }
 
 void FlowerBird::Release()
@@ -172,10 +171,10 @@ void FlowerBird::DirectionSetting()
 	switch (Value)
 	{
 	case 0:
-		m_Dir = EDIRECTION::LEFT;
+		Dir = EDIRECTION::LEFT;
 		break;
 	case 1:
-		m_Dir = EDIRECTION::RIGHT;
+		Dir = EDIRECTION::RIGHT;
 		break;
 	default:
 		break;
@@ -261,13 +260,13 @@ void FlowerBird::ChangeFlowerBirdAnimation(std::string_view _AnimationName)
 		return;
 	}
 
-	if (EDIRECTION::LEFT == m_Dir)
+	if (EDIRECTION::LEFT == Dir)
 	{
 		ShadowRenderer->LeftFlip();
 		BodyRenderer->LeftFlip();
 	}
 
-	if (EDIRECTION::RIGHT == m_Dir)
+	if (EDIRECTION::RIGHT == Dir)
 	{
 		ShadowRenderer->RightFlip();
 		BodyRenderer->RightFlip();

@@ -147,6 +147,7 @@ protected:
 	void ChangeStatus(const EELLIE_STATUS _Status);
 
 private:
+	void UpdateCoolTime(float _Delta);
 	void UpdateCollision();
 	void UpdatePortalCollsiion();
 	void UpdateInteractionCollsiion();
@@ -263,6 +264,7 @@ private:
 
 	
 	float StateTime = 0.0f;
+	float CoolTime = 0.0f;
 	float Broom_Particle_Time = 0.0f;
 	float BroomUsingTime = 0.0f;
 

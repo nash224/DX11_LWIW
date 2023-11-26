@@ -10,7 +10,6 @@ void Ellie::StartRiding_Standing()
 	if (EELLIE_STATUS::Normal == g_Status)
 	{
 		m_MoveVector = float4::ZERO;
-		m_MoveForce = float4::ZERO;
 
 		Ellie::PlaySFX("SFX_Broomstick_Ride_02.wav");
 		OnRideFx();
@@ -36,6 +35,12 @@ void Ellie::UpdateRiding_Standing(float _Delta)
 		{
 			if (true == GameEngineInput::IsDown(VK_CONTROL, this))
 			{
+				if (0.0f != CoolTime)
+				{
+					return;
+				}
+
+				CoolTime = 0.8f;
 				ChangeState(EELLIE_STATE::Idle);
 				return;
 			}
@@ -54,6 +59,12 @@ void Ellie::UpdateRiding_Standing(float _Delta)
 		{
 			if (true == GameEngineInput::IsDown(VK_CONTROL, this))
 			{
+				if (0.0f != CoolTime)
+				{
+					return;
+				}
+
+				CoolTime = 0.8f;
 				ChangeState(EELLIE_STATE::Idle);
 				return;
 			}
@@ -86,6 +97,12 @@ void Ellie::UpdateRiding_Moving(float _Delta)
 	{
 		if (true == GameEngineInput::IsDown(VK_CONTROL, this))
 		{
+			if (0.0f != CoolTime)
+			{
+				return;
+			}
+
+			CoolTime = 0.8f;
 			ChangeState(EELLIE_STATE::Idle);
 			return;
 		}
@@ -101,6 +118,12 @@ void Ellie::UpdateRiding_Moving(float _Delta)
 	{
 		if (true == GameEngineInput::IsDown(VK_CONTROL, this))
 		{
+			if (0.0f != CoolTime)
+			{
+				return;
+			}
+
+			CoolTime = 0.8f;
 			ChangeState(EELLIE_STATE::Idle);
 			return;
 		}
@@ -136,6 +159,12 @@ void Ellie::UpdateRiding_Boosting(float _Delta)
 	{
 		if (true == GameEngineInput::IsDown(VK_CONTROL, this))
 		{
+			if (0.0f != CoolTime)
+			{
+				return;
+			}
+
+			CoolTime = 0.8f;
 			ChangeState(EELLIE_STATE::Idle);
 			return;
 		}
@@ -151,6 +180,12 @@ void Ellie::UpdateRiding_Boosting(float _Delta)
 	{
 		if (true == GameEngineInput::IsDown(VK_CONTROL, this))
 		{
+			if (0.0f != CoolTime)
+			{
+				return;
+			}
+
+			CoolTime = 0.8f;
 			ChangeState(EELLIE_STATE::Idle);
 			return;
 		}
@@ -177,7 +212,7 @@ void Ellie::UpdateRiding_Boosting(float _Delta)
 
 void Ellie::DecelerateNotDir(float _Delta, const float _Force)
 {
-	const float4& DirVector = GetDirectionVectorToDir(m_Dir);
+	const float4& DirVector = GetDirectionVectorToDir(Dir);
 	bool HorizontalCheck = m_MoveVector.X * DirVector.X < 0.0f;
 
 	if (EHORIZONTAL_KEY_STATE::Center == HorizontalInputKey || true == HorizontalCheck)
@@ -275,7 +310,7 @@ void Ellie::CreateBroomParticle(float _ParticleDistance /*= 0.0f*/)
 
 	const std::shared_ptr<BroomParticle>& Particle = GetLevel()->CreateActor<BroomParticle>(EUPDATEORDER::Objects);
 	Particle->Transform.SetLocalPosition(ParticlePosition);
-	Particle->Init(GetDirectionVectorToDir(m_Dir));
+	Particle->Init(GetDirectionVectorToDir(Dir));
 }
 
 void Ellie::GenerateBroomDust(float _Delta)
@@ -346,7 +381,7 @@ float4 Ellie::GetBroomParticlePosition(float _ParticleDistance)
 	const float4& CenterPoint = float4(8.0f, YCorrection) + Transform.GetLocalPosition() + PlusVector * _ParticleDistance;
 
 	static constexpr const float ParticleDistance = 60.0f;
-	float4 DirVector = GetDirectionVectorToDir(m_Dir);
+	float4 DirVector = GetDirectionVectorToDir(Dir);
 	DirVector.X = -DirVector.X;
 	DirVector.Y = -DirVector.Y;
 	const float4& ReturnValue = CenterPoint + DirVector * ParticleDistance;
