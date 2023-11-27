@@ -49,7 +49,7 @@ void Ellie::UpdateInteractionCollsiion()
 		return;
 	}
 
-	float4 ElliePosition = Transform.GetWorldPosition();
+	const float4& ElliePosition = Transform.GetWorldPosition();
 
 	float4 DirectionVector = GetDirectionVectorToDir(Dir);
 
@@ -85,7 +85,7 @@ void Ellie::UpdateInteractionCollsiion()
 
 				bool IsAngle = false;
 
-				float4 OtherPosition = Collision->Transform.GetWorldPosition();
+				const float4& OtherPosition = Collision->Transform.GetWorldPosition();
 				float4 EllieVectorTowardObject = OtherPosition - ElliePosition;
 
 				EllieVectorTowardObject.Z = 0.0f;
@@ -196,7 +196,7 @@ void Ellie::UpdateInteractionCollsiion()
 								OtherEntity = Entity;
 								ChangeState(EELLIE_STATE::Approach);
 							}
-
+							
 							if (EINTERACTION_TYPE::Far == Entity->GetInteractionType())
 							{
 								Entity->IsReach = true;

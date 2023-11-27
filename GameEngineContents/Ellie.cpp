@@ -835,18 +835,17 @@ void Ellie::CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce)
 
 	CheckDir = ReturnDirectionCheckBothSide(Dir, LeftCheckPoint, RightCheckPoint);
 
-	if (CheckDir == Dir)
+	if (CheckDir != Dir)
 	{
-
-	}
-	else if (CheckDir == EDIRECTION::CENTER)
-	{
-		ResetMoveVector();
-	}
-	else
-	{
-		MoveDirVector = GetDirectionVectorToDir(CheckDir);
-		SetMoveVector(MoveDirVector * _MAXMoveForce * FrictionForce);
+		if (CheckDir == EDIRECTION::CENTER)
+		{
+			ResetMoveVector();
+		}
+		else
+		{
+			MoveDirVector = GetDirectionVectorToDir(CheckDir);
+			SetMoveVector(MoveDirVector * _MAXMoveForce * FrictionForce);
+		}
 	}
 }
 

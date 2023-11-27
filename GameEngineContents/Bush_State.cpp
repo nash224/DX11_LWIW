@@ -125,7 +125,7 @@ void Bush::CreateBushBug()
 {
 	// 고올든 벌레 소환
 	std::shared_ptr<BushBug> BushBugPtr = GetLevel()->CreateActor<BushBug>();
-	float4 SpawnPosition = Transform.GetLocalPosition() + float4( 5.0f, 7.0f );
+	float4 SpawnPosition = Transform.GetLocalPosition() + float4( 5.0f, 27.0f );
 
 	if (nullptr != BackDrop_PlayLevel::MainBackDrop)
 	{

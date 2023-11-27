@@ -21,6 +21,7 @@
 #include "TestCircleGauge.h"
 #include "UI_ButtonGuide.h"
 #include "UI_QuestUnit.h"
+#include "UI_Hub_MainBoard.h"
 
 #include "QuestData.h"
 
@@ -133,6 +134,18 @@ void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
 			SilverBellFlower->Transform.SetLocalPosition(float4(100.0f + (100.0f * static_cast<float>(i)), -200.0f));
 			SilverBellFlower->Init();
 		}
+	}
+
+	if (false) 
+	{
+		std::shared_ptr<UI_QuestUnit> QuestUnit = CreateActor<UI_QuestUnit>(EUPDATEORDER::UIComponent);
+		QuestUnit->Init("FindLetter");
+	}
+
+	if (true) 
+	{
+		std::shared_ptr<UI_Hub_MainBoard> MainBoard = CreateActor<UI_Hub_MainBoard>(EUPDATEORDER::UIComponent);
+		MainBoard->Init();
 	}
 
 	{

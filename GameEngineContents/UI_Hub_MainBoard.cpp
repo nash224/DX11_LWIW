@@ -83,7 +83,7 @@ bool QuestManager::IsQuestRegister(std::string_view _QuestName)
 	return ReturnValue;
 }
 
-std::unique_ptr<QuestManager> UI_Hub_MainBoard::s_QuestManager;
+std::unique_ptr<QuestManager> UI_Hub_MainBoard::s_QuestManager = nullptr;
 UI_Hub_MainBoard::UI_Hub_MainBoard() 
 {
 }
@@ -101,15 +101,16 @@ void UI_Hub_MainBoard::Start()
 void UI_Hub_MainBoard::Release()
 {
 	s_QuestManager = nullptr;
+	for (std::shared_ptr<UI_QuestUnit> QuestUnit : QuestList)
+	{
+		QuestUnit->Death();
+	}
 	QuestList.clear();
 }
 
 void UI_Hub_MainBoard::LevelStart(GameEngineLevel* _NextLevel)
 {
-	if (false == IsSameList())
-	{
-		RenewUnitList();
-	}
+	RenewUnitList();
 }
 
 void UI_Hub_MainBoard::LevelEnd(GameEngineLevel* _NextLevel)
@@ -130,6 +131,7 @@ void UI_Hub_MainBoard::Init()
 void UI_Hub_MainBoard::InitQuestManager()
 {
 	s_QuestManager = std::make_unique<QuestManager>();
+	RegisterQuest("FindLetter");
 }
 
 
@@ -148,6 +150,7 @@ void UI_Hub_MainBoard::RegisterQuest(std::string_view _QuestName)
 void UI_Hub_MainBoard::CreateQuestUnit(std::string_view _QuestName)
 {
 	std::shared_ptr<UI_QuestUnit> Unit = GetLevel()->CreateActor<UI_QuestUnit>(EUPDATEORDER::UIComponent);
+	/*Unit->SetParent(this, static_cast<int>(EUPDATEORDER::UIComponent));*/
 	Unit->Init(_QuestName);
 
 	QuestList.push_back(Unit);
