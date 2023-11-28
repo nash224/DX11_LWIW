@@ -35,10 +35,7 @@ void DynamicEntity::Release()
 // 8방향 반환
 EDIRECTION DynamicEntity::GetDirectionFromVector(const float4& _MoveVector) const
 {
-	float4 UnitVetor = _MoveVector;
-	UnitVetor.Z = 0.0f;
-	UnitVetor = UnitVetor.NormalizeReturn();
-	float Degree = UnitVetor.Angle2DDeg();
+	float Degree = atan2f(_MoveVector.Y, _MoveVector.X);
 
 	return GetDirectionToDegree(Degree);
 }

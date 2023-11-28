@@ -61,12 +61,12 @@ void Ellie::StartApproach()
 		OtherEntity->GetCaught();
 	}
 
-	IsControl = false;					// 다가가는 행동을 할땐 조작이 불가능합니다.
-	IsCollected = false;					// 해당 자원을 수집했는지 확인합니다.
+	IsControl = false;	// 다가가는 행동을 할땐 조작이 불가능합니다.
+	IsCollected = false; // 해당 자원을 수집했는지 확인합니다.
 
 	// 상대방을 바라보는 방향을 구합니다.
-	float4 OtherPosition = OtherEntity->GetInteractiveLocalPositon();
-	float4 TargetDistance = OtherPosition - Transform.GetLocalPosition();
+	const float4 OtherPosition = OtherEntity->GetInteractiveLocalPositon();
+	const float4 TargetDistance = OtherPosition - Transform.GetLocalPosition();
 	Dir = GetDirectionFromVector(TargetDistance);
 
 	ChangeAnimationByDirection("Walk");
@@ -383,7 +383,7 @@ void Ellie::UpdateApproach(float _Delta)
 		return;
 	}
 
-	float4 OtherPosition = OtherEntity->GetInteractiveLocalPositon();
+	const float4& OtherPosition = OtherEntity->GetInteractiveLocalPositon();
 	float4 TargetDistance = OtherPosition - Transform.GetLocalPosition();
 	
 	const float4 Dist = DirectX::XMVector2Length(TargetDistance.DirectXVector);
