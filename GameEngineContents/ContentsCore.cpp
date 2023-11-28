@@ -47,6 +47,7 @@ void ContentsCore::Start()
 
 	
 	ImGuiCoreWindow = GameEngineGUI::CreateGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
+	ImGuiCoreWindow->Off();
 
 
 	GameEngineCore::CreateLevel<LogoLevel>("LogoLevel");
@@ -63,6 +64,7 @@ void ContentsCore::Start()
 
 
 	ImGuiContentWindow = GameEngineGUI::CreateGUIWindow<ContentsGUI>("ContentsGUI");
+	ImGuiContentWindow->Off();
 }
 
 void ContentsCore::Update(float _Delta)

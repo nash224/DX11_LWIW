@@ -199,3 +199,11 @@ void DynamicEntity::UpdateSoundVolumeByDistance()
 		SoundPlayer.SetVolume(Volume);
 	}
 }
+
+void DynamicEntity::StopSFX()
+{
+	if (true == SoundPlayer.IsPlaying())
+	{
+		SoundPlayer.Stop();
+	}
+}

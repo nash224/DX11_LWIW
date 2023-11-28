@@ -249,4 +249,6 @@ bool ArrangementHelper::ArrangeRendererOnePixel(GameEngineObject* _Target, char 
 		OutputDebugStringA(_Target->Transform.GetLocalPosition().ToString().c_str());
 		return true;
 	}
+
+	return false;
 }

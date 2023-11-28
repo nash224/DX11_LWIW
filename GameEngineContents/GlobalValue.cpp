@@ -6,6 +6,7 @@ float4 GlobalValue::WindowScale = float4::ZERO;
 int GlobalValue::RandomSeed = 0;
 float GlobalValue::GlobalSoundVolume = 1.0f;
 float GlobalValue::SFXVolume = 1.0f;
+float GlobalValue::BGMVolume = 1.0f;
 void GlobalValue::SetWindowScale(const float4& _Scale)
 {
 	WindowScale = _Scale;
@@ -46,4 +47,34 @@ float GlobalValue::GetSFXVolume()
 void GlobalValue::SetSFXVolume(float _Volume)
 {
 	SFXVolume = _Volume;
+}
+
+float GlobalValue::GetBGMVolume()
+{
+	return GlobalSoundVolume * BGMVolume;
+}
+
+void GlobalValue::SetBGMVolume(float _Volume)
+{
+	if (_Volume > 1.0f)
+	{
+		_Volume = 1.0f;
+	}
+
+	BGMVolume = _Volume;
+}
+
+float& GlobalValue::GetSFXVolumePointer()
+{
+	return SFXVolume;
+}
+
+float& GlobalValue::GetGlobalVolumePointer()
+{
+	return GlobalSoundVolume;
+}
+
+float& GlobalValue::GetBGMVolumePointer()
+{
+	return BGMVolume;
 }

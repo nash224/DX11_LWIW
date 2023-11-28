@@ -15,7 +15,7 @@ LootedItem::~LootedItem()
 
 void LootedItem::Start()
 {
-	StaticEntity::Start();
+	InteractiveActor::Start();
 
 	InteractiveActor::CreateAndSetCollision(ECOLLISION::Entity, { 120.0f, 80.0f }, 0.0f, ColType::SPHERE2D);
 	InteractiveActor::SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::Near, ECOLLECTION_METHOD::Sit, ETOOLTYPE::Nothing);
@@ -23,32 +23,20 @@ void LootedItem::Start()
 
 void LootedItem::Update(float _Delta)
 {
-	StaticEntity::Update(_Delta);
+	InteractiveActor::Update(_Delta);
 	UpdateFallingItem(_Delta);
 	UpdateItemInteraction();
 }
 
 void LootedItem::Release()
 {
-	StaticEntity::Release();
-}
-
-void LootedItem::LevelStart(class GameEngineLevel* _NextLevel)
-{
-	StaticEntity::LevelStart(_NextLevel);
+	InteractiveActor::Release();
 }
 
 
 // 이 객체를 지울때 GameEngineLevel의 GetObjectGroupConvert로 그룹을 받아와서 지울 수 있습니다.
-// 날이 바뀌면 위 함수를 호출하여 모든 플레이 레벨의 아이템을 지울 예정입니다.
-void LootedItem::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-	StaticEntity::LevelEnd(_NextLevel);
-}
+// 날이 바뀌면 모두 정리됩니다.
 
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 void LootedItem::SetStack(const int _Value)
 {
@@ -101,9 +89,6 @@ void LootedItem::CreateItemRenderer(std::string_view _ItemName)
 
 	ItemName = _ItemName;
 }
-
-
-/////////////////////////////////////////////////////////////////////////////////////
 
 
 void LootedItem::UpdateFallingItem(float _Delta)

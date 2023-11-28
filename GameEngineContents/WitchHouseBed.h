@@ -1,8 +1,8 @@
 #pragma once
-#include "StaticEntity.h"
+#include "InteractiveActor.h"
 
 // Ό³Έν :
-class WitchHouseBed : public StaticEntity
+class WitchHouseBed : public InteractiveActor
 {
 private:
 	enum class EBEDSTATE

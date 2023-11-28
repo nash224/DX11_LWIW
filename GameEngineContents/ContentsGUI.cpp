@@ -18,6 +18,7 @@
 #include "FireWorks.h"
 
 #include "ItemData.h"
+#include "BGMManager.h"
 
 
 
@@ -199,6 +200,7 @@ void DebugTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	SkyColor();
 	SkyOn();
 	TimeDebug();
+	SoundDebug();
 }
 
 
@@ -285,6 +287,17 @@ void DebugTab::TimeDebug()
 	}
 }
 
+void DebugTab::SoundDebug()
+{
+	ImGui::SeparatorText("SoundDebug");
+	ImGui::SliderFloat("Global Volume", &GlobalValue::GetGlobalVolumePointer(), 0.0f, 2.0f, "%.1f");
+	if (true == ImGui::SliderFloat("BGM Volume", &GlobalValue::GetBGMVolumePointer(), 0.0f, 1.0f, "%.1f"))
+	{
+		ContentsLevel::MainPlaySound->SetVolume();
+	}
+	
+	ImGui::SliderFloat("SFX Volume", &GlobalValue::GetSFXVolumePointer(), 0.0f, 1.0f, "%.1f");
+}
 
 
 void ManualTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)

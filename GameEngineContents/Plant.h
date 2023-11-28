@@ -1,5 +1,5 @@
 #pragma once
-#include "StaticEntity.h"
+#include "InteractiveActor.h"
 
 enum class EPLANTSTATE
 {
@@ -10,7 +10,7 @@ enum class EPLANTSTATE
 
 
 // Ό³Έν :
-class Plant : public StaticEntity
+class Plant : public InteractiveActor
 {
 public:
 	// constrcuter destructer
@@ -27,8 +27,8 @@ protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
-	void LevelEnd(class GameEngineLevel* _NextLevel) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
+	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 protected:
 	void ChangeState(EPLANTSTATE _State);

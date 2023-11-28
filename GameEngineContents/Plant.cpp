@@ -23,7 +23,7 @@ Plant::~Plant()
 
 void Plant::Start()
 {
-	StaticEntity::Start();
+	InteractiveActor::Start();
 
 	SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::Near, ECOLLECTION_METHOD::RootUp, ETOOLTYPE::Gloves);
 	SetNearInteractivePositionAndRange(float4::ZERO, 6.0f);
@@ -31,36 +31,21 @@ void Plant::Start()
 
 void Plant::Update(float _Delta)
 {
-	StaticEntity::Update(_Delta);
+	InteractiveActor::Update(_Delta);
 
 	UpdateState(_Delta);
 }
 
 void Plant::Release()
 {
-	StaticEntity::Release();
+	InteractiveActor::Release();
 
 	BodyRenderer = nullptr;
 }
 
-void Plant::LevelStart(class GameEngineLevel* _NextLevel)
-{
-	StaticEntity::LevelStart(_NextLevel);
-}
-
-void Plant::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-	StaticEntity::LevelEnd(_NextLevel);
-}
 
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
-// 자식에서 Init
-
-
-/////////////////////////////////////////////////////////////////////////////////////
 
 void Plant::UpdateState(float _Delta)
 {
@@ -140,7 +125,7 @@ void Plant::StartUpRoot()
 	SetInteractionButtonType(EINTERACTION_BUTTONTYPE::None);
 	InteractiveCol->Off();
 
-	PlaySFX("SFX_PlantsRootUp_01.wav");
+	SFXFunction::PlaySFX("SFX_PlantsRootUp_01.wav");
 	ChangePlantAnimation("UpRoot");
 }
 

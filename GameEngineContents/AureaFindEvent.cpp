@@ -221,7 +221,7 @@ void AureaFindEvent::ConversationSetting()
 
 	VirgilConveration.SetConversationEndEvent(ECURSEEVENTTOPIC::Closer, [&]()
 		{
-			if (true == CameraControler::MainCameraControler.expired())
+			if (false == CameraControler::MainCameraControler.expired())
 			{
 				CameraControler::MainCameraControler.lock()->SetCameraMode(ECAMERAMODE::Play);
 			}

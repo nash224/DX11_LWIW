@@ -1,9 +1,9 @@
 #pragma once
-#include "StaticEntity.h"
+#include "InteractiveActor.h"
 #include "Conversation.h"
 
 // Ό³Έν :
-class InteractiveLetter : public StaticEntity
+class InteractiveLetter : public InteractiveActor
 {
 private:
 	enum class ELETTERTOPICTYPE
@@ -38,7 +38,7 @@ protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:

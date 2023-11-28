@@ -23,7 +23,7 @@ void Dust::Start()
 
 void Dust::Update(float _Delta)
 {
-	StaticEntity::Update(_Delta);
+	InteractiveActor::Update(_Delta);
 
 	AboutConversation.UpdateConversation(_Delta);
 	State.Update(_Delta);
@@ -31,7 +31,7 @@ void Dust::Update(float _Delta)
 
 void Dust::Release()
 {
-	StaticEntity::Release();
+	InteractiveActor::Release();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////

@@ -13,6 +13,8 @@ enum class EPLAYBGMTYPE
 // Ό³Έν :
 class BGMManager
 {
+	friend class ContentsGUI;
+
 private:
 	enum class EBGMSTATE
 	{
@@ -55,6 +57,8 @@ public:
 		return PlayType;
 	}
 
+	void SetVolume();
+
 	void Update(float _Delta);
 
 protected:
@@ -69,7 +73,7 @@ protected:
 
 	void StartStop(GameEngineState* _Parent);
 
-	void SetVolume();
+	
 
 private:
 	GameEngineState State;

@@ -1,9 +1,9 @@
 #pragma once
-#include "StaticEntity.h"
+#include "InteractiveActor.h"
 #include "Conversation.h"
 
 // Ό³Έν :
-class Dust : public StaticEntity
+class Dust : public InteractiveActor
 {
 	enum class EDUSTSTATE
 	{

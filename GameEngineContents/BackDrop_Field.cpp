@@ -46,6 +46,7 @@ void BackDrop_Field::LevelStart(class GameEngineLevel* _NextLevel)
 		if (FieldDay!= TimeDay)
 		{
 			FieldDay = TimeDay;
+			isNight = false;
 
 			FieldState.ChangeState(EDAYSTATE::DayChange);
 		}
@@ -57,9 +58,6 @@ void BackDrop_Field::LevelEnd(class GameEngineLevel* _NextLevel)
 	BackDrop_PlayLevel::LevelEnd(_NextLevel);
 }
 
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 #pragma region CreateCreture
 

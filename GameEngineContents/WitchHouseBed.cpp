@@ -26,14 +26,14 @@ void WitchHouseBed::Start()
 
 void WitchHouseBed::Update(float _Delta)
 {
-	StaticEntity::Update(_Delta);
+	InteractiveActor::Update(_Delta);
 
 	State.Update(_Delta);
 }
 
 void WitchHouseBed::Release()
 {
-	StaticEntity::Release();
+	InteractiveActor::Release();
 }
 
 void WitchHouseBed::LevelEnd(class GameEngineLevel* _NextLevel)

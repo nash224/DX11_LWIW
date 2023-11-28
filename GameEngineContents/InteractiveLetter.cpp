@@ -29,7 +29,7 @@ void InteractiveLetter::Start()
 
 void InteractiveLetter::Update(float _Delta)
 {
-	StaticEntity::Update(_Delta);
+	InteractiveActor::Update(_Delta);
 
 	LetterConversation.UpdateConversation(_Delta);
 	State.Update(_Delta);
@@ -37,14 +37,9 @@ void InteractiveLetter::Update(float _Delta)
 
 void InteractiveLetter::Release()
 {
-	StaticEntity::Release();
+	InteractiveActor::Release();
 
 	CutsceneFrame = nullptr;
-}
-
-void InteractiveLetter::LevelStart(class GameEngineLevel* _NextLevel)
-{
-
 }
 
 void InteractiveLetter::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -53,8 +48,6 @@ void InteractiveLetter::LevelEnd(class GameEngineLevel* _NextLevel)
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 void InteractiveLetter::Init()
 {

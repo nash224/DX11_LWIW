@@ -16,10 +16,6 @@ void BGMManager::Update(float _Delta)
 	State.Update(_Delta);
 }
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
-
 void BGMManager::Init()
 {
 	StateSetting();
@@ -177,8 +173,8 @@ void BGMManager::SetVolume()
 		BGMVolume = Min_BGM_Volume;
 	}
 
-	BGM.SetVolume(BGMVolume);
-	BGM_SFX.SetVolume(BGMVolume);
+	BGM.SetVolume(BGMVolume * GlobalValue::GetBGMVolume());
+	BGM_SFX.SetVolume(BGMVolume * GlobalValue::GetBGMVolume());
 }
 
 

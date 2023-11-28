@@ -1,8 +1,8 @@
 #pragma once
-#include "StaticEntity.h"
+#include "InteractiveActor.h"
 
 // Ό³Έν :
-class LootedItem : public StaticEntity
+class LootedItem : public InteractiveActor
 {
 	friend class BackDrop_PlayLevel;
 
@@ -30,8 +30,8 @@ protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
-	void LevelEnd(class GameEngineLevel* _NextLevel) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
+	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 private:
 	void CreateItemRenderer(std::string_view _ItemName);

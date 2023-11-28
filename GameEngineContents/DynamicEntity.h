@@ -56,6 +56,7 @@ protected:
 
 	float GetVolumeReductionByDistance() const;
 	void PlaySFX(std::string_view _FileName);
+	void StopSFX();
 	void UpdateSoundVolumeByDistance();
 
 protected:

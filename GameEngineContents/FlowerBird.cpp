@@ -68,10 +68,6 @@ void FlowerBird::Release()
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
-
 void FlowerBird::Init()
 {
 	ApplyDepth();
@@ -126,12 +122,6 @@ void FlowerBird::AnimationSetting()
 	ShadowRenderer->Transform.AddLocalPosition({ 0.0f,30.0f });
 
 
-
-	BodyRenderer->SetStartEvent("Turn", [&](GameEngineSpriteRenderer* _Renderer)
-		{
-			PlaySFX(RandomBirdCrySoundName());
-		});
-
 	BodyRenderer->SetFrameEvent("Pick", 4, [&](GameEngineSpriteRenderer* _Renderer)
 		{
 			ShadowRenderer->SetSprite("FlowerBird_IdleC.png", 2);
@@ -147,13 +137,6 @@ void FlowerBird::AnimationSetting()
 			ShadowRenderer->SetSprite("FlowerBird_Standing.png", 1);
 		});
 
-
-	BodyRenderer->SetStartEvent("Fly", [&](GameEngineSpriteRenderer* _Renderer)
-		{
-			PlaySFX("SFX_BirdFly_01.wav");
-
-			ShadowRenderer->Off();
-		});
 
 	BodyRenderer->SetStartEvent("Fly_Bloom", [&](GameEngineSpriteRenderer* _Renderer)
 		{

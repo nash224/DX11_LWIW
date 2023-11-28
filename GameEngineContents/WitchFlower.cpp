@@ -33,19 +33,6 @@ void WitchFlower::Release()
 	ShadowRenderer = nullptr;
 }
 
-void WitchFlower::LevelStart(class GameEngineLevel* _NextLevel)
-{
-	Plant::LevelStart(_NextLevel);
-}
-
-void WitchFlower::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-	Plant::LevelEnd(_NextLevel);
-}
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 void WitchFlower::Init()
 {

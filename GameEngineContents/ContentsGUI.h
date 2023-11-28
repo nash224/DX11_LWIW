@@ -84,6 +84,7 @@ class DebugTab : public UITab
 	void SkyColor();
 	void SkyOn();
 	void TimeDebug();
+	void SoundDebug();
 
 public:
 	DebugTab(std::string_view _Name)

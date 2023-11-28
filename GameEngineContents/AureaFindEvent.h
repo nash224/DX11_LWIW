@@ -71,7 +71,7 @@ private:
 	float4 CameraDirection = float4::ZERO;
 	float4 TargetPos = float4::ZERO;
 
-	static constexpr const float CameraMovePower = 300.0f;
+	static constexpr float CameraMovePower = 300.0f;
 
 };
 
