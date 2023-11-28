@@ -271,6 +271,9 @@
     <Filter Include="Math">
       <UniqueIdentifier>{124d7494-cddb-47e0-8664-505456c546b5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Rendering\Renderer\Gauge">
+      <UniqueIdentifier>{87951ab5-ea2f-4bf5-8e7a-fb436f3fe6b8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -732,6 +735,12 @@
     </ClInclude>
     <ClInclude Include="ContentMath.h">
       <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="GaugeRenderer.h">
+      <Filter>Rendering\Renderer\Gauge</Filter>
+    </ClInclude>
+    <ClInclude Include="GaugeUIRenderer.h">
+      <Filter>Rendering\Renderer\Gauge</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1231,6 +1240,12 @@
     </ClCompile>
     <ClCompile Include="ContentMath.cpp">
       <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="GaugeRenderer.cpp">
+      <Filter>Rendering\Renderer\Gauge</Filter>
+    </ClCompile>
+    <ClCompile Include="GaugeUIRenderer.cpp">
+      <Filter>Rendering\Renderer\Gauge</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -4,8 +4,10 @@ struct FileLoadFunction
 {
 public:
 	static void LoadAllFileInPath(std::string_view _Path);
+	static void LoadTextureAndCreateSingleSpriteInPath(std::string_view _Path);
 	static void LoadAllDirFile(std::string_view _Path);
 	static void ReleaseAllTextureInPath(std::string_view _Path);
+	static void ReleaseAllTextureAndSpriteInPath(std::string_view _Path);
 	static std::vector<GameEngineFile> GetAllFileInPath(std::string_view _Path);
 	static std::vector<GameEngineDirectory> GetAllDirInPath(std::string_view _Path);
 

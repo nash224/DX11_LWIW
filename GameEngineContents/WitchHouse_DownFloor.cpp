@@ -39,6 +39,7 @@ void WitchHouse_DownFloor::LevelStart(class GameEngineLevel* _NextLevel)
 	PlayLevel::LevelStart(_NextLevel);
 
 	LoadTexture();
+	FileLoadFunction::LoadTextureAndCreateSingleSpriteInPath("Resources\\PlayContents\\Lift");
 	LoadActor();
 
 	SetEllieLevelChangeLocation(_NextLevel);
@@ -50,6 +51,7 @@ void WitchHouse_DownFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	PlayLevel::LevelEnd(_NextLevel);
 
+	FileLoadFunction::ReleaseAllTextureAndSpriteInPath("Resources\\PlayContents\\Lift");
 	ReleaseTexture();
 }
 

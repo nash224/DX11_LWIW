@@ -9,13 +9,24 @@ void FileLoadFunction::LoadAllFileInPath(std::string_view _Path)
 	std::string ParentString = GetParentString(_Path);
 	Dir.MoveParentToExistsChild(ParentString);
 	Dir.MoveChild(_Path);
-
 	std::vector<GameEngineFile> Files = Dir.GetAllFile();
-
-	for (size_t i = 0; i < Files.size(); i++)
+	for (GameEngineFile& pFile : Files)
 	{
-		GameEngineFile& File = Files[i];
-		GameEngineTexture::Load(File.GetStringPath());
+		GameEngineTexture::Load(pFile.GetStringPath());
+	}
+}
+
+void FileLoadFunction::LoadTextureAndCreateSingleSpriteInPath(std::string_view _Path)
+{
+	GameEngineDirectory Dir;
+	std::string ParentString = GetParentString(_Path);
+	Dir.MoveParentToExistsChild(ParentString);
+	Dir.MoveChild(_Path);
+	std::vector<GameEngineFile> Files = Dir.GetAllFile();
+	for (GameEngineFile& pFile : Files)
+	{
+		GameEngineTexture::Load(pFile.GetStringPath());
+		GameEngineSprite::CreateSingle(pFile.GetFileName());
 	}
 }
 
@@ -26,20 +37,13 @@ void FileLoadFunction::LoadAllDirFile(std::string_view _Path)
 	std::string ParentString = GetParentString(_Path);
 	Dir.MoveParentToExistsChild(ParentString);
 	Dir.MoveChild(_Path);
-
-
-	//std::vector<GameEngineFile> Files = Dir.GetAllFile();
-	
-	std::vector<GameEngineDirectory> Directory = Dir.GetAllDirectory();
-	
-	for (size_t DirectoryCount = 0; DirectoryCount < Directory.size(); DirectoryCount++)
+	std::vector<GameEngineDirectory> Directorys = Dir.GetAllDirectory();
+	for (GameEngineDirectory& Direction : Directorys)
 	{
-		std::vector<GameEngineFile> Files = Directory[DirectoryCount].GetAllFile();
-
-		for (size_t i = 0; i < Files.size(); i++)
+		std::vector<GameEngineFile> Files = Direction.GetAllFile();
+		for (GameEngineFile& pFile: Files)
 		{
-			GameEngineFile& File = Files[i];
-			GameEngineTexture::Load(File.GetStringPath());
+			GameEngineTexture::Load(pFile.GetStringPath());
 		}
 	}
 }
@@ -53,12 +57,23 @@ void FileLoadFunction::ReleaseAllTextureInPath(std::string_view _Path)
 	Dir.MoveChild(_Path);
 
 	std::vector<GameEngineFile> Files = Dir.GetAllFile();
-
-	for (size_t i = 0; i < Files.size(); i++)
+	for (GameEngineFile& pFile : Files)
 	{
-		GameEngineFile& File = Files[i];
-		std::string FileName = File.GetFileName();
-		GameEngineTexture::Release(File.GetFileName());
+		GameEngineTexture::Release(pFile.GetFileName());
+	}
+}
+
+void FileLoadFunction::ReleaseAllTextureAndSpriteInPath(std::string_view _Path)
+{
+	GameEngineDirectory Dir;
+	std::string ParentString = GetParentString(_Path);
+	Dir.MoveParentToExistsChild(ParentString);
+	Dir.MoveChild(_Path);
+	std::vector<GameEngineFile> Files = Dir.GetAllFile();
+	for (GameEngineFile& pFile : Files)
+	{
+		GameEngineSprite::Release(pFile.GetFileName());
+		GameEngineTexture::Release(pFile.GetFileName());
 	}
 }
 

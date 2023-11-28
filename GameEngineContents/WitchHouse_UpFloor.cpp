@@ -39,6 +39,7 @@ void WitchHouse_UpFloor::LevelStart(class GameEngineLevel* _NextLevel)
 	PlayLevel::LevelStart(_NextLevel);
 
 	LoadTexture();
+	FileLoadFunction::LoadTextureAndCreateSingleSpriteInPath("Resources\\PlayContents\\Lift");
 	LoadActor();
 
 
@@ -49,6 +50,7 @@ void WitchHouse_UpFloor::LevelStart(class GameEngineLevel* _NextLevel)
 
 void WitchHouse_UpFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 {
+	FileLoadFunction::ReleaseAllTextureAndSpriteInPath("Resources\\PlayContents\\Lift");
 	ReleaseTexture();
 }
 
