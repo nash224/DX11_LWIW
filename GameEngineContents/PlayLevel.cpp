@@ -19,6 +19,7 @@
 
 #include "SkyLightEffect.h"
 
+std::weak_ptr<PlayLevel> PlayLevel::s_MainPlayLevel;
 std::unique_ptr<TimeManager> PlayLevel::s_TimeManager;
 std::unique_ptr<AlertManager> PlayLevel::s_AlertManager;
 PlayLevel::PlayLevel()
@@ -67,11 +68,16 @@ void PlayLevel::LevelStart(GameEngineLevel* _NextLevel)
 {
 	ContentsLevel::LevelStart(_NextLevel);
 
+	s_MainPlayLevel = GetDynamic_Cast_This<PlayLevel>();
+
+	PrevLevelName = _NextLevel->GetName();
+
 	if (false == LevelInitCheck)
 	{
 		CreateEllie();
 		CreateUIManager();
 	}
+	
 
 	LevelInitCheck = true;
 

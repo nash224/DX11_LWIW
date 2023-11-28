@@ -25,6 +25,7 @@ class BaseLift : public InteractiveActor
 
 public:
 	static std::weak_ptr<BaseLift> MainLiftPtr;
+	static bool isEnable;
 
 private:
 	enum class ELIFTSTATE
@@ -47,6 +48,9 @@ public:
 	BaseLift& operator=(BaseLift&& _Other) noexcept = delete;
 
 	virtual void Init();
+	void ActiveEv();
+	void LiftToArrive();
+	void EnableEv();
 
 protected:
 	void Start() override;
@@ -71,12 +75,9 @@ protected:
 	virtual void EndEnter(GameEngineState* _Parent);
 	virtual void EndArrive(GameEngineState* _Parent);
 
-
-	void ActiveEv();
-	void LiftToArrive();
-
 	void AddSpeed(float _Delta, float _Speed);
 	void MoveEv(float _Delta, ELIFTDIR _LiftType);
+	void SetEv(ELIFTDIR _LiftType);
 
 	void AppearLift();
 	void DisappearLift();
@@ -84,7 +85,8 @@ protected:
 protected:
 	static constexpr float AccelerationTime = 0.6f;
 	static constexpr float MaxSpeed = 40.0f;
-	const float EnterDistance = 20.0f;
+	const float EnterDistance = 30.0f;
+	const float ArriveStartDistance = 60.0f;
 	float LiftSpeed = 0.0f;
 	float4 LiftArrivePoint = float4::ZERO;
 	std::string ChangeLevelName;
@@ -96,6 +98,7 @@ private:
 	LiftStruct Lift;
 
 	bool isChangeLevel = false;
+	bool isArriveInit = false;
 
 };
 

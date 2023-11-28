@@ -228,7 +228,7 @@ void UI_Conversation::UpdateVirgilOutputtState(float _Delta, GameEngineState* _P
 
 		const std::wstring PrintMessage = Dialogue.Virgil_Message.substr(0, Dialogue.OutputCount);
 		const std::string OutPutMessage = GameEngineString::UnicodeToAnsi(PrintMessage);
-		Dialogue.Virgil_Font->SetText(Dialogue.FontName, OutPutMessage, Dialogue.FontSize, Dialogue.FontColor);
+		Dialogue.Virgil_Font->SetText(Dialogue.FontName, OutPutMessage, 16.0f, Dialogue.FontColor);
 
 		PlayConversationSound("SFX_Voice_02.wav");
 

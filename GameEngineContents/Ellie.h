@@ -102,6 +102,7 @@ public:
 
 	void SetLocalPosition(const float4& _Pos);
 	void AddLocalPosition(const float4& _Pos);
+	void OnLevelStart();
 	void OnControl();
 	void OffControl();
 	void FinishWork();
@@ -145,7 +146,6 @@ protected:
 	void ChangeBroomSprite();
 
 
-	void OnLevelStart();
 	void RenewStatus();
 	void ChangeStatus(const EELLIE_STATUS _Status);
 

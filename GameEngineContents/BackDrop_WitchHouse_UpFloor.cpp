@@ -64,12 +64,7 @@ void BackDrop_WitchHouse_UpFloor::Init()
 	LiftSetting();
 	BedSetting();
 
-	{
-		std::shared_ptr<UpperLiftEvent> Object = GetLevel()->CreateActor<UpperLiftEvent>(EUPDATEORDER::Entity);
-		Object->Init();
-	}
-
-	CheckHouseDustEvent();
+	/*CheckHouseDustEvent();*/
 }
 
 #pragma region Resource
@@ -172,16 +167,6 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 		Object->Init();
 		Object->m_Renderer->SetSprite("UpFloor_Cabinet.png");
 	}
-
-	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		float4 Position = HouseLocation  + float4{ 208.0f , -263.0f };
-		Position.Z = DepthFunction::CalculateObjectDepth(m_BackScale.Y, Position.Y -20.0f);
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-		Object->m_Renderer->SetSprite("UpFloor_Plant_L.png");
-	}
-
 
 	{
 		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
@@ -417,19 +402,16 @@ void BackDrop_WitchHouse_UpFloor::LoadPortalActor(GameEngineLevel* _Level)
 
 void BackDrop_WitchHouse_UpFloor::LiftSetting()
 {
-	/*{
-		const float4& LiftPosition = HouseLocation  + float4{ 174.0f , -184.0f };
+	std::shared_ptr<UpperLiftA> Lift = GetLevel()->CreateActor<UpperLiftA>(EUPDATEORDER::Entity);
+	Lift->Transform.SetLocalPosition(float4(513.0f, -242.0f));
+	Lift->Init();
 
-		std::weak_ptr<UpperLift> Object = GetLevel()->CreateActor<UpperLift>(EUPDATEORDER::Entity);
-		Object.lock()->Transform.SetLocalPosition(LiftPosition);
-		Object.lock()->Init();
-	}*/
-
-
+	if (false == PlayLevel::s_MainPlayLevel.expired())
 	{
-		std::shared_ptr<UpperLiftA> Object = GetLevel()->CreateActor<UpperLiftA>(EUPDATEORDER::Entity);
-		Object->Transform.SetLocalPosition(float4(512.0f, -242.0f));
-		Object->Init();
+		if (PlayLevel::s_MainPlayLevel.lock()->GetPrevLevelName() == "WitchHouse_DownFloor")
+		{
+			Lift->LiftToArrive();
+		}
 	}
 }
 

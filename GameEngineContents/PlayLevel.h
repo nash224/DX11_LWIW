@@ -18,6 +18,7 @@ protected:
 	};
 
 public:
+	static std::weak_ptr<PlayLevel> s_MainPlayLevel;
 	static std::unique_ptr<class TimeManager> s_TimeManager;
 	static std::unique_ptr<class AlertManager> s_AlertManager;
 
@@ -32,7 +33,10 @@ public:
 	PlayLevel& operator=(const PlayLevel& _Other) = delete;
 	PlayLevel& operator=(PlayLevel&& _Other) noexcept = delete;
 
-
+	std::string_view GetPrevLevelName() const
+	{
+		return PrevLevelName;
+	}
 
 protected:
 	void Start() override;
@@ -58,5 +62,6 @@ protected:
 
 private:
 	std::string LocationKRName;
+	std::string PrevLevelName;
 
 };

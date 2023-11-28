@@ -7,6 +7,7 @@
 
 std::weak_ptr<BaseLift> BaseLift::MainLiftPtr;
 
+bool BaseLift::isEnable = false;
 BaseLift::BaseLift() 
 {
 }
@@ -45,6 +46,16 @@ void BaseLift::Init()
 	LiftSetting();
 	StateSetting();
 
+	LiftArrivePoint = Transform.GetLocalPosition();
+
+	if (false == isEnable)
+	{
+		if (nullptr != InteractiveActor::InteractiveCol)
+		{
+			InteractiveActor::InteractiveCol->Off();
+		}
+	}
+
 	MainLiftPtr = GetDynamic_Cast_This<BaseLift>();
 }
 
@@ -74,6 +85,12 @@ void BaseLift::StateSetting()
 	EnterPara.Start = std::bind(&BaseLift::StartEnter, this, std::placeholders::_1);
 	EnterPara.Stay = std::bind(&BaseLift::UpdateEnter, this, std::placeholders::_1, std::placeholders::_2);
 	State.CreateState(ELIFTSTATE::Enter, EnterPara);
+
+	CreateStateParameter ArrivePara;
+	ArrivePara.Start = std::bind(&BaseLift::StartArrive, this, std::placeholders::_1);
+	ArrivePara.Stay = std::bind(&BaseLift::UpdateArrive, this, std::placeholders::_1, std::placeholders::_2);
+	ArrivePara.End = std::bind(&BaseLift::EndArrive, this, std::placeholders::_1);
+	State.CreateState(ELIFTSTATE::Arrive, ArrivePara);
 }
 
 
@@ -108,27 +125,18 @@ void BaseLift::StartArrive(GameEngineState* _Parent)
 {
 	if (nullptr != InteractiveActor::InteractiveCol)
 	{
-		Ellie::MainEllie->SetLocalPosition(Transform.GetLocalPosition());
 		InteractiveActor::InteractiveCol->Off();
-		Ellie::MainEllie->SetAnimationByDirection(EDIRECTION::DOWN);
 	}
-
-	if (nullptr != Ellie::MainEllie)
-	{
-		Ellie::MainEllie->OffControl();
-	}
-
-	LiftSpeed = 0.0f;
 }
 
 
 
 void BaseLift::UpdateEnter(float _Delta, GameEngineState* _Parent)
 {
- 	const float4& CurLiftPos = Lift.Lift->Transform.GetLocalPosition();
-	const float MoveDistance = LiftArrivePoint.Y - CurLiftPos.Y;
+ 	const float4& CurLiftPos = Transform.GetLocalPosition();
+	const float MoveDistance = std::fabs(LiftArrivePoint.Y - CurLiftPos.Y);
 
-	if (false == isChangeLevel && MoveDistance > EnterDistance)
+	if (false == isChangeLevel && EnterDistance < MoveDistance)
 	{
 		std::shared_ptr<FadeObject> Fade = GetLevel()->CreateActor<FadeObject>(EUPDATEORDER::Fade);
 		Fade->CallFadeOut(ChangeLevelName, 1.0f);
@@ -141,11 +149,29 @@ void BaseLift::UpdateEnter(float _Delta, GameEngineState* _Parent)
 
 void BaseLift::UpdateArrive(float _Delta, GameEngineState* _Parent)
 {
-	static constexpr float ArriveRange = 3.0f;
-	const float4& CurLiftPos = Lift.Lift->Transform.GetLocalPosition();
-	const float DistanceToArrivePoint = std::fabs(CurLiftPos.Y - LiftArrivePoint.Y);
-	
-	if (DistanceToArrivePoint < ArriveRange)
+	if (false == isArriveInit)
+	{
+		if (nullptr != Ellie::MainEllie)
+		{
+			Ellie::MainEllie->SetAnimationByDirection(EDIRECTION::DOWN);
+			Ellie::MainEllie->OffControl();
+		}
+
+		LiftSpeed = MaxSpeed;
+		SetEv(EnterType);
+
+		isArriveInit = true;
+	}
+
+	const float4& CurPos = Transform.GetLocalPosition();
+
+	const float DistanceToArrivePoint = std::fabs(CurPos.Y - LiftArrivePoint.Y);
+	if (DistanceToArrivePoint < 12.0f)
+	{
+		AddSpeed(_Delta, -MaxSpeed);
+	}
+
+	if (LiftSpeed == 0.0f)
 	{
 		State.ChangeState(ELIFTSTATE::Ready);
 		return;
@@ -170,6 +196,7 @@ void BaseLift::EndArrive(GameEngineState* _Parent)
 	if (nullptr != Ellie::MainEllie)
 	{
 		Ellie::MainEllie->OnControl();
+		Ellie::MainEllie->SetLocalPosition(LiftArrivePoint);
 	}
 }
 
@@ -191,11 +218,11 @@ void BaseLift::LiftToArrive()
 void BaseLift::AddSpeed(float _Delta, float _Speed)
 {
 	LiftSpeed += _Speed * _Delta / AccelerationTime;
-	if (LiftSpeed > _Speed)
+	if (_Speed > 0.0f && LiftSpeed > _Speed)
 	{
 		LiftSpeed = _Speed;
 	}
-	if (LiftSpeed < 0.0f)
+	if (_Speed < 0.0f && LiftSpeed < 0.0f)
 	{
 		LiftSpeed = 0.0f;
 	}
@@ -220,10 +247,32 @@ void BaseLift::MoveEv(float _Delta, ELIFTDIR _LiftType)
 		Ellie::MainEllie->AddLocalPosition(LiftMoveVector);
 	}
 
-	Lift.Lift->Transform.AddLocalPosition(LiftMoveVector);
-	Lift.Pattern->Transform.AddLocalPosition(LiftMoveVector);
+	Transform.AddLocalPosition(LiftMoveVector);
 }
 
+void BaseLift::SetEv(ELIFTDIR _LiftType)
+{
+	const float4& CurPos = Transform.GetLocalPosition();
+	float4 LiftMoveVector;
+	if (ELIFTDIR::Up == _LiftType)
+	{
+		LiftMoveVector = float4::UP;
+	}
+	else if (ELIFTDIR::Down == _LiftType)
+	{
+		LiftMoveVector = float4::DOWN;
+	}
+
+	LiftMoveVector *= ArriveStartDistance;
+	LiftMoveVector = CurPos + LiftMoveVector;
+
+	if (nullptr != Ellie::MainEllie)
+	{
+		Ellie::MainEllie->SetLocalPosition(LiftMoveVector);
+	}
+
+	Transform.SetLocalPosition(LiftMoveVector);
+}
 
 void BaseLift::AppearLift()
 {
@@ -249,4 +298,13 @@ void BaseLift::DisappearLift()
 
 	Lift.Lift->Off();
 	Lift.Pattern->Off();
+}
+
+void BaseLift::EnableEv()
+{
+	isEnable = true;
+	if (nullptr != InteractiveActor::InteractiveCol)
+	{
+		InteractiveActor::InteractiveCol->On();
+	}
 }

@@ -1,7 +1,7 @@
 #include "PreCompile.h"
 #include "UpperLiftA.h"
 
-
+#include "Dust_Elevator.h"
 
 void UpperLiftEvent::Init()
 {
@@ -9,7 +9,7 @@ void UpperLiftEvent::Init()
 	const float WallDepth = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::Lift_Wall);
 
 	FloorRenderer = CreateComponent<GameEngineSpriteRenderer>();
-	FloorRenderer->Transform.SetLocalPosition(float4(517.0f, -289.0f, FloorDepth));
+	FloorRenderer->Transform.SetLocalPosition(float4(518.0f, -288.0f, FloorDepth));
 	FloorRenderer->SetSprite("MakingRoom_Gate_Floor.png");
 
 	WallRenderer= CreateComponent<GameEngineSpriteRenderer>();
@@ -108,5 +108,3 @@ void UpperLiftA::EndArrive(GameEngineState* _Parent)
 
 	HideFloor.lock()->Death();
 }
-
-

@@ -748,6 +748,9 @@
     <ClInclude Include="UpperLiftA.h">
       <Filter>Actor\Interactive\Static\WitchLift</Filter>
     </ClInclude>
+    <ClInclude Include="LowerLiftA.h">
+      <Filter>Actor\Interactive\Static\WitchLift</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -1257,6 +1260,9 @@
       <Filter>Actor\Interactive\Static\WitchLift</Filter>
     </ClCompile>
     <ClCompile Include="UpperLiftA.cpp">
+      <Filter>Actor\Interactive\Static\WitchLift</Filter>
+    </ClCompile>
+    <ClCompile Include="LowerLiftA.cpp">
       <Filter>Actor\Interactive\Static\WitchLift</Filter>
     </ClCompile>
   </ItemGroup>

@@ -103,7 +103,7 @@ void Ellie::Release()
 
 void Ellie::LevelStart(class GameEngineLevel* _NextLevel)
 {
-	OnLevelStart();
+ 	OnLevelStart();
 	CheckDayChange();
 }
 

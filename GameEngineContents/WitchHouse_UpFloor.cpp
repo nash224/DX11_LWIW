@@ -6,6 +6,7 @@
 #include "CameraControler.h"
 
 #include "Ellie.h"
+#include "UpperLiftA.h"
 
 
 WitchHouse_UpFloor::WitchHouse_UpFloor()
@@ -38,14 +39,16 @@ void WitchHouse_UpFloor::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	PlayLevel::LevelStart(_NextLevel);
 
+	SetEllieLevelChangeLocation(_NextLevel);
+	CameraSetting();
+
 	LoadTexture();
 	FileLoadFunction::LoadTextureAndCreateSingleSpriteInPath("Resources\\PlayContents\\Lift");
-	LoadActor();
 
-
-	SetEllieLevelChangeLocation(_NextLevel);
-
-	CameraSetting();
+	if (nullptr == Back)
+	{
+		Back = CreateActor<BackDrop_WitchHouse_UpFloor>(EUPDATEORDER::Objects);
+	}
 }
 
 void WitchHouse_UpFloor::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -69,16 +72,6 @@ void WitchHouse_UpFloor::LoadTexture()
 		{
 			GameEngineTexture::Load(pFile.GetStringPath());
 		}
-	}
-}
-
-
-
-void WitchHouse_UpFloor::LoadActor()
-{
-	if (nullptr == Back)
-	{
-		Back = CreateActor<BackDrop_WitchHouse_UpFloor>(EUPDATEORDER::Objects);
 	}
 }
 

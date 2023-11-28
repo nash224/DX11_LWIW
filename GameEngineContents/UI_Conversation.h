@@ -67,7 +67,7 @@ public:
 
 
 		static constexpr const unsigned int Main_Message_Max_Line_String_Count = 24;
-		static constexpr const unsigned int Virgil_Message_Max_Line_String_Count = 15;
+		static constexpr const unsigned int Virgil_Message_Max_Line_String_Count = 17;
 		static constexpr const float Over_Message_Line_Y_Distance = 6.0f;
 
 

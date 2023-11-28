@@ -38,9 +38,6 @@ private:
 
 	void DustEventSetting();
 
-	void CheckFindWorkPlaceEvent();
-	void ShowFindWorkPlaceEvent();
-
 private:
 	const float4 HousePoint = float4( 150.0f , -10.0f );
 };

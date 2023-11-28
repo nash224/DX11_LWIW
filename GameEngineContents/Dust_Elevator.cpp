@@ -2,6 +2,7 @@
 #include "Dust_Elevator.h"
 
 #include "UpperLift.h"
+#include "BaseLift.h"
 
 
 Dust_Elevator::Dust_Elevator() 
@@ -30,9 +31,6 @@ void Dust_Elevator::Release()
 	Dust::Release();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
 void Dust_Elevator::SetTopic()
 {
 	std::vector<ConversationData> Datas =
@@ -52,5 +50,8 @@ void Dust_Elevator::SetTopic()
 
 void Dust_Elevator::ActiveUpperLift()
 {
-	UpperLift::ActiveLift();
+	if (false == BaseLift::MainLiftPtr.expired())
+	{
+		BaseLift::MainLiftPtr.lock()->EnableEv();
+	}
 }

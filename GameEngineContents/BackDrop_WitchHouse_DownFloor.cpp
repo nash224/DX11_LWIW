@@ -8,13 +8,10 @@
 #include "Extractor.h"
 #include "Roaster.h"
 #include "LowerLift.h"
-#include "BaseLift.h"
+#include "LowerLiftA.h"
 
 #include "Dust_Pot.h"
 #include "Dust_Extractor.h"
-
-#include "ContentsEvent.h"
-#include "WorkplaceFindEvent.h"
 
 
 BackDrop_WitchHouse_DownFloor::BackDrop_WitchHouse_DownFloor() 
@@ -58,9 +55,6 @@ void BackDrop_WitchHouse_DownFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
 void BackDrop_WitchHouse_DownFloor::Init()
 {
 	BackDrop_PlayLevel::MainBackDrop = this;
@@ -78,8 +72,6 @@ void BackDrop_WitchHouse_DownFloor::Init()
 	CreateProp();
 	CreatePixelMap();
 	CreateStaticActor();
-
-	CheckFindWorkPlaceEvent();
 }
 
 
@@ -163,15 +155,15 @@ void BackDrop_WitchHouse_DownFloor::CreateProp()
 		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "DownFloor_Paper_1.png", Position, static_cast<int>(EHOUSEDEPTH::Object), false);
 	}
 
-	{
-		const float4& Position = HousePoint + float4(399.0f, -159.0f);
-		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "Ev_Enter_1.png", Position, static_cast<int>(EHOUSEDEPTH::Rug));
-	}
+	//{
+	//	const float4& Position = HousePoint + float4(399.0f, -159.0f);
+	//	CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "Ev_Enter_1.png", Position, static_cast<int>(EHOUSEDEPTH::Rug));
+	//}
 
-	{
-		const float4& Position = HousePoint + float4(398.0f, -164.0f);
-		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "Ev_Enter_2.png", Position, static_cast<int>(EHOUSEDEPTH::Rug));
-	}
+	//{
+	//	const float4& Position = HousePoint + float4(398.0f, -164.0f);
+	//	CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "Ev_Enter_2.png", Position, static_cast<int>(EHOUSEDEPTH::Rug));
+	//}
 
 	{
 		const float4& Position = HousePoint + float4(201.0f, -167.0f);
@@ -399,8 +391,10 @@ void BackDrop_WitchHouse_DownFloor::CreateStaticActor()
 	}
 
 	{
-		std::shared_ptr<LowerLift> Object = GetLevel()->CreateActor<LowerLift>(EUPDATEORDER::Entity);
+		std::shared_ptr<LowerLiftA> Object = GetLevel()->CreateActor<LowerLiftA>(EUPDATEORDER::Entity);
 		Object->Transform.SetLocalPosition(float4(548.0f, -172.0f));
+		Object->Init();
+		Object->LiftToArrive();
 	}
 }
 
@@ -460,26 +454,4 @@ void BackDrop_WitchHouse_DownFloor::DustEventSetting()
 		DustHandBook.lock()->Init("WitchHouse_Dust_3.png");
 		DustHandBook.lock()->AddDepth(-1.0f);
 	}
-}
-
-void BackDrop_WitchHouse_DownFloor::CheckFindWorkPlaceEvent()
-{
-	std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("FindWorkPlace");
-	if (true == Quest.expired())
-	{
-		MsgBoxAssert("생성되지 않은 퀘스트입니다.");
-		return;
-	}
-
-	if (false == Quest.lock()->isQuestComplete())
-	{
-		ShowFindWorkPlaceEvent();
-		Quest.lock()->QuestComplete();
-	}
-}
-
-void BackDrop_WitchHouse_DownFloor::ShowFindWorkPlaceEvent()
-{
-	std::weak_ptr<WorkplaceFindEvent> Event = GetLevel()->CreateActor<WorkplaceFindEvent>(EUPDATEORDER::Entity);
-	Event.lock()->Init();
 }
