@@ -89,12 +89,12 @@ private:
 	bool isGoDream = false;
 	bool isLeftCursor = false;
 
-	static constexpr float SlotYPos = -28.0f;
-	static constexpr float PopUp_Time = 0.1f;
-	static constexpr int Max_Slot_Count = 2;
+	static constexpr float PopUp_Time = 0.14f;
+	static constexpr float TransitionTime = 0.1f;
+	static constexpr float ScaleUpRatio = 1.2f;
+	static constexpr float PopUpScaleRatio = 1.0f;
+	
 
-	static constexpr float HeadFont_Size = 17.0f;
-	static constexpr float SlotFont_Size = 14.0f;
 
 };
 

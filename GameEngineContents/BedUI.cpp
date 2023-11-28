@@ -2,8 +2,14 @@
 #include "BedUI.h"
 
 #include "Ellie.h"
-
 #include "FadeObject.h"
+
+
+static constexpr float HeadFont_Size = 17.0f;
+static constexpr float SlotFont_Size = 14.0f;
+static constexpr float SlotYPos = -28.0f;
+
+static constexpr int Max_Slot_Count = 2;
 
 BedUI::BedUI() 
 {
@@ -33,9 +39,6 @@ void BedUI::LevelEnd(class GameEngineLevel* _NextLevel)
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
 void BedUI::Init()
 {
 	RendererSetting();
@@ -51,21 +54,16 @@ void BedUI::RendererSetting()
 	const float CursorDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Window_Cursor);
 	const float FontDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Window_Font);
 
-	const float4& BasePosition = float4(0.0f, 0.0f, BaseDepth);
-	const float4& CursorPosition = float4(0.0f, 0.0f, CursorDepth);
-	const float4& HeadFontPosition = float4(0.0f, 45.0f, FontDepth);
-
-
 	BaseRenderer = CreateComponent<GameEngineUIRenderer>();
-	BaseRenderer->Transform.SetLocalPosition(BasePosition);
+	BaseRenderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, BaseDepth));
 	BaseRenderer->SetSprite("BedUI_Base.png");
 
 	HedFontRenderer = CreateComponent<GameEngineUIRenderer>();
-	HedFontRenderer->Transform.SetLocalPosition(HeadFontPosition);
+	HedFontRenderer->Transform.SetLocalPosition(float4(0.0f, 40.0f, CursorDepth));
 	HedFontRenderer->SetText(GlobalValue::Font_Sandoll, "내일 9:00시 기상하게 됩니다.\n주무시겠습니까?", HeadFont_Size, float4::ZERO, FW1_TEXT_FLAG::FW1_CENTER);
 
 	CursorInfo.CursorRenderer = CreateComponent<GameEngineUIRenderer>();
-	CursorInfo.CursorRenderer->Transform.SetLocalPosition(CursorPosition);
+	CursorInfo.CursorRenderer->Transform.SetLocalPosition(float4(0.0f, 45.0f, FontDepth));
 	CursorInfo.CursorRenderer->SetSprite("BedUI_TooltipCursor.png");
 
 	std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Find("BedUI_TooltipSlot.png");
@@ -88,14 +86,9 @@ void BedUI::RendererSetting()
 			XPos *= -1.0f;
 		}
 
-		const float4& TooltipPosition = float4(XPos, YPos, TooltipDepth);
-
 		SlotInfo[i].TooltipRenderer = CreateComponent<GameEngineUIRenderer>();
-		SlotInfo[i].TooltipRenderer->Transform.SetLocalPosition(TooltipPosition);
+		SlotInfo[i].TooltipRenderer->Transform.SetLocalPosition(float4(XPos, YPos, TooltipDepth));
 		SlotInfo[i].TooltipRenderer->SetSprite("BedUI_TooltipSlot.png");
-
-
-		const float4& SlotFontPosition = float4(XPos, YPos + 6.0f, FontDepth);
 
 		std::string Answer;
 		if (0 == i)
@@ -108,7 +101,7 @@ void BedUI::RendererSetting()
 		}
 
 		SlotInfo[i].FontRenderer = CreateComponent<GameEngineUIRenderer>();
-		SlotInfo[i].FontRenderer->Transform.SetLocalPosition(SlotFontPosition);
+		SlotInfo[i].FontRenderer->Transform.SetLocalPosition(float4(XPos, YPos + 6.0f, FontDepth));
 		SlotInfo[i].FontRenderer->SetText(GlobalValue::Font_Sandoll, Answer, SlotFont_Size, float4::ZERO, FW1_TEXT_FLAG::FW1_CENTER);
 	}
 }
@@ -149,12 +142,23 @@ void BedUI::UpdatePopUp(float _Delta, GameEngineState* _Parent)
 {
 	const float StateTime = _Parent->GetStateTime();
 
-	const float Size = StateTime / PopUp_Time;
+	float Size = 0.0f;
+	if (StateTime < TransitionTime)
+	{
+		Size = ScaleUpRatio * (StateTime / TransitionTime);
+	}
+	if (StateTime > TransitionTime)
+	{
+		const float DecreaseScale = ScaleUpRatio - PopUpScaleRatio;
+		const float DecreaseTime = (TransitionTime - StateTime);
+		Size = ScaleUpRatio - DecreaseScale * DecreaseTime / PopUpScaleRatio;
+	}
+	
 	SetScale(Size);
 
 	if (StateTime > PopUp_Time)
 	{
-		SetScale(1.0f);
+		SetScale(PopUpScaleRatio);
 		State.ChangeState(EBEDUISTATE::Select);
 		return;
 	}
@@ -169,7 +173,21 @@ void BedUI::UpdateDisappear(float _Delta, GameEngineState* _Parent)
 {
 	const float StateTime = _Parent->GetStateTime();
 
-	const float Size = 1.0f - StateTime / PopUp_Time;
+
+	float Size = 0.0f;
+	const float ScaleUpTime = PopUp_Time - TransitionTime;
+	const float ScaleUpSize = ScaleUpRatio - PopUpScaleRatio;
+	if (StateTime < ScaleUpTime)
+	{
+		Size = PopUpScaleRatio + ScaleUpSize * (StateTime / ScaleUpTime);
+	}
+	if (StateTime > ScaleUpTime)
+	{
+		const float SizeDownTime = StateTime - ScaleUpTime;
+		const float SizeDownTimeRatio = SizeDownTime / TransitionTime;
+		Size = ScaleUpRatio - ScaleUpRatio * SizeDownTimeRatio;
+	}
+
 	SetScale(Size);
 
 	if (StateTime > PopUp_Time)
