@@ -25,8 +25,8 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
-	void CreateProp(GameEngineLevel* _Level);
-	void CreatePixelMap(GameEngineLevel* _Level);
+	void CreateProp();
+	void CreatePixelMap();
 	void CreateStaticActor();
 
 	void CreateRenderActor(int _UpdateOrder, 
@@ -38,7 +38,10 @@ private:
 
 	void DustEventSetting();
 
+	void CheckFindWorkPlaceEvent();
+	void ShowFindWorkPlaceEvent();
+
 private:
-	const float4 HouseMoveVector = float4( 150.0f , -10.0f );
+	const float4 HousePoint = float4( 150.0f , -10.0f );
 };
 

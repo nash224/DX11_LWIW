@@ -42,6 +42,6 @@ void WorkplaceFindEvent::ConversationSetting()
 
 	SingleEvent::EventConveration.SetConversationEndEvent(EWORKPLACEFINDTOPIC::Find, [&]()
 		{
-			SingleEvent::State.ChangeState(ESINGLESTATE::Single);
+			ConversationDone();
 		});
 }

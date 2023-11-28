@@ -73,11 +73,10 @@ void Aurea::RendererSetting()
 	AureaRenderer->Transform.SetLocalPosition({ 0.0f, RendererCorrection });
 	AureaRenderer->ChangeAnimation("Idle");
 
-
-	float4 ShadowPosition = float4{ 0.0f, RendererCorrection , DepthFunction::CalculateFixDepth(ERENDERDEPTH::ObjectShadow) };
+	const float Depth = DepthFunction::CalculateFixDepth(ERENDERDEPTH::ObjectShadow);
 
 	ShadowRenderer = CreateComponent<GameEngineSpriteRenderer>();
-	ShadowRenderer->Transform.SetLocalPosition(ShadowPosition);
+	ShadowRenderer->Transform.SetLocalPosition(float4{ 0.0f, RendererCorrection , Depth });
 	ShadowRenderer->SetSprite("Aurea_idle.png", 1);
 }
 

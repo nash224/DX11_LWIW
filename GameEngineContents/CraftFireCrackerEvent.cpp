@@ -44,6 +44,6 @@ void CraftFireCrackerEvent::ConversationSetting()
 
 	SingleEvent::EventConveration.SetConversationEndEvent(ECRAFTTOPIC::Finally, [&]()
 		{
-			Death();
+			ConversationDone();
 		});
 }

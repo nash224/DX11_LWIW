@@ -37,6 +37,12 @@ bool ContentsEvent::House_Dust::QuestClearPrerequisite()
 }
 
 
+bool ContentsEvent::FindWorkPlace::QuestClearPrerequisite()
+{
+	return !isQuestCompleted;
+}
+
+
 
 
 bool ContentsEvent::Craft_Potion::QuestClearPrerequisite()

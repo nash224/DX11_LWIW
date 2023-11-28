@@ -34,6 +34,8 @@
 //  
 //
 
+static constexpr int MaxQuestSlot = 3;
+
 QuestManager::QuestManager() 
 {
 }
@@ -134,7 +136,6 @@ void UI_Hub_MainBoard::InitQuestManager()
 	RegisterQuest("FindLetter");
 }
 
-
 void UI_Hub_MainBoard::RegisterQuest(std::string_view _QuestName)
 {
 	if (nullptr == s_QuestManager)
@@ -176,6 +177,47 @@ void UI_Hub_MainBoard::PopQuest(std::string_view _QuestName)
 
 	MsgBoxAssert("퀘스트를 제거하지 못했습니다.");
 	return;
+}
+
+
+void UI_Hub_MainBoard::Open()
+{
+	OpenFrom(0);
+}
+
+void UI_Hub_MainBoard::OpenFrom(int _StartSlot)
+{
+	int SlotNum = 0;
+	int OpenSlot = 0;
+	for (std::shared_ptr<UI_QuestUnit>& QuestUnit : QuestList)
+	{
+		if (SlotNum < _StartSlot)
+		{
+			++SlotNum;
+			continue;
+		}
+		++SlotNum;
+		if (OpenSlot >= MaxQuestSlot)
+		{
+			break;
+		}
+
+		if (nullptr == QuestUnit)
+		{
+			std::string QuestName = QuestUnit->Data.lock()->QuestName;
+			MsgBoxAssert(QuestName + "존재하지 않는 퀘스트가 있습니다.");
+			return;
+		}
+
+		const float YPos = QuestUnit->RenderYScale + 10.0f * static_cast<float>(OpenSlot);
+		QuestUnit->Transform.SetLocalPosition(float4(0.0f, YPos));
+		++OpenSlot;
+	}
+}
+
+void UI_Hub_MainBoard::Close()
+{
+
 }
 
 void UI_Hub_MainBoard::RemoveAllQuestList()

@@ -46,6 +46,12 @@ public:
 	UI_Hub_MainBoard& operator=(UI_Hub_MainBoard&& _Other) noexcept = delete;
 	
 	void Init();
+	void RegisterQuest(std::string_view _QuestName);
+	void PopQuest(std::string_view _QuestName);
+
+	void Open();
+	void OpenFrom(int _StartSlot);
+	void Close();
 
 protected:
 	void Start() override;
@@ -55,9 +61,7 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 	void InitQuestManager();
-	void RegisterQuest(std::string_view _QuestName);
 	void CreateQuestUnit(std::string_view _QuestName);
-	void PopQuest(std::string_view _QuestName);
 
 	void RemoveAllQuestList();
 	void RenewUnitList();

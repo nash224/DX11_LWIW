@@ -32,8 +32,6 @@ void AureaFindEvent::LevelEnd(class GameEngineLevel* _NextLevel)
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 void AureaFindEvent::Init()
 {
@@ -166,7 +164,7 @@ void AureaFindEvent::UpdateStay(float _Delta, GameEngineState* _Parent)
 
 void AureaFindEvent::UpdateAureaFocusOff(float _Delta, GameEngineState* _Parent)
 {
-	if (true == CameraControler::MainCameraControler.expired())
+	if (false == CameraControler::MainCameraControler.expired())
 	{
 		const float4& MoveCameraVector = CameraDirection * CameraMovePower * _Delta;
 		CameraControler::MainCameraControler.lock()->AddCameraPos(MoveCameraVector);

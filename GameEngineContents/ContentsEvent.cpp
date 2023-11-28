@@ -41,6 +41,7 @@ void ContentsEvent::Init()
 
 	CreateQuest<ContentsEvent::StartTraining>("StartTraining");
 	CreateQuest<ContentsEvent::House_Dust>("House_Dust");
+	CreateQuest<ContentsEvent::FindWorkPlace>("FindWorkPlace");
 	CreateQuest<ContentsEvent::Craft_Potion>("Craft_Potion");
 	CreateQuest<ContentsEvent::Repair_Extractor>("Repair_Extractor");
 

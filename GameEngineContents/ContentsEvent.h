@@ -5,6 +5,7 @@ enum class EQUESTTYPE
 	StartTraining,
 	House_Dust,
 	Clean_Dust,
+	FindWorkPlace,
 	Craft_Potion,
 	Repair_Extractor,
 	Aurea_Find,
@@ -125,6 +126,13 @@ public:
 	};
 
 	class House_Dust : public QuestUnitBase
+	{
+	public:
+		bool QuestClearPrerequisite() override;
+
+	};
+
+	class FindWorkPlace : public QuestUnitBase
 	{
 	public:
 		bool QuestClearPrerequisite() override;
