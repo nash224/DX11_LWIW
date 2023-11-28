@@ -17,7 +17,7 @@ void LootedItem::Start()
 {
 	StaticEntity::Start();
 
-	InteractiveActor::CreateAndSetCollision(ECOLLISION::Entity, { 80.0f, 80.0f }, 0.0f, ColType::SPHERE2D);
+	InteractiveActor::CreateAndSetCollision(ECOLLISION::Entity, { 120.0f, 80.0f }, 0.0f, ColType::SPHERE2D);
 	InteractiveActor::SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::Near, ECOLLECTION_METHOD::Sit, ETOOLTYPE::Nothing);
 }
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "InteractiveActor.h"
 
+
 // Ό³Έν :
 class DynamicEntity : public InteractiveActor
 {

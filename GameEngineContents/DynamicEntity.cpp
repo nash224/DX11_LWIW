@@ -35,7 +35,7 @@ void DynamicEntity::Release()
 // 8방향 반환
 EDIRECTION DynamicEntity::GetDirectionFromVector(const float4& _MoveVector) const
 {
-	float Degree = atan2f(_MoveVector.Y, _MoveVector.X);
+	float Degree = std::atan2f(_MoveVector.Y, _MoveVector.X) * GameEngineMath::R2D;
 
 	return GetDirectionToDegree(Degree);
 }
