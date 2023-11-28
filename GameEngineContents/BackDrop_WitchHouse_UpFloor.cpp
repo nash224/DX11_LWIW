@@ -14,6 +14,8 @@
 #include "NormalProp.h"
 
 #include "UpperLift.h"
+#include "UpperLiftA.h"
+#include "BaseLift.h"
 #include "WitchHouseBed.h"
 
 
@@ -61,6 +63,11 @@ void BackDrop_WitchHouse_UpFloor::Init()
 	LoadPortalActor(CurLevel);
 	LiftSetting();
 	BedSetting();
+
+	{
+		std::shared_ptr<UpperLiftEvent> Object = GetLevel()->CreateActor<UpperLiftEvent>(EUPDATEORDER::Entity);
+		Object->Init();
+	}
 
 	CheckHouseDustEvent();
 }
@@ -410,12 +417,19 @@ void BackDrop_WitchHouse_UpFloor::LoadPortalActor(GameEngineLevel* _Level)
 
 void BackDrop_WitchHouse_UpFloor::LiftSetting()
 {
-	{
+	/*{
 		const float4& LiftPosition = HouseLocation  + float4{ 174.0f , -184.0f };
 
 		std::weak_ptr<UpperLift> Object = GetLevel()->CreateActor<UpperLift>(EUPDATEORDER::Entity);
 		Object.lock()->Transform.SetLocalPosition(LiftPosition);
 		Object.lock()->Init();
+	}*/
+
+
+	{
+		std::shared_ptr<UpperLiftA> Object = GetLevel()->CreateActor<UpperLiftA>(EUPDATEORDER::Entity);
+		Object->Transform.SetLocalPosition(float4(512.0f, -242.0f));
+		Object->Init();
 	}
 }
 

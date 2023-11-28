@@ -25,6 +25,7 @@ enum class EELLIE_STATE
 	MongSiri,
 	Wait,
 	Juicy,
+	Lift,
 	Cheer,
 	Fail,
 	Drink,
@@ -99,6 +100,8 @@ public:
 	// ¿Ã¥œº»
 	void Init();
 
+	void SetLocalPosition(const float4& _Pos);
+	void AddLocalPosition(const float4& _Pos);
 	void OnControl();
 	void OffControl();
 	void FinishWork();
@@ -177,6 +180,7 @@ private:
 	void StartMongSiri();
 	void StartWait();
 	void StartJuicy();
+	void StartLift();
 	void StartCheer();
 	void StartFail();
 	void StartDrink();
@@ -197,6 +201,7 @@ private:
 	void UpdateMongSiri(float _Delta);
 	void UpdateWait(float _Delta);
 	void UpdateJuicy(float _Delta);
+	void UpdateLift(float _Delta);
 	void UpdateCheer(float _Delta);
 	void UpdateFail(float _Delta);
 	void UpdateDrink(float _Delta);

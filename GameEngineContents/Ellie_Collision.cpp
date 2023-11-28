@@ -53,14 +53,14 @@ void Ellie::UpdateInteractionCollsiion()
 
 	float4 DirectionVector = GetDirectionVectorToDir(Dir);
 
-	float EllieFOVAngle = DirectionVector.Angle2DDeg();
+	float EllieDirAngle = DirectionVector.Angle2DDeg();
 	if (DirectionVector.Y < 0.0f)
 	{
-		EllieFOVAngle = 360.0f - EllieFOVAngle;
+		EllieDirAngle = 360.0f - EllieDirAngle;
 	}
 
-	float EllieLeftFOVAngle = EllieFOVAngle + FOVAngle;
-	float EllieRightFOVAngle = EllieFOVAngle - FOVAngle;
+	float EllieLeftFOVAngle = EllieDirAngle + FOVAngle;
+	float EllieRightFOVAngle = EllieDirAngle - FOVAngle;
 
 	if (EllieLeftFOVAngle >= 360.0f)
 	{
@@ -76,10 +76,10 @@ void Ellie::UpdateInteractionCollsiion()
 		{
 			std::vector<float> vecDistance;
 
-			size_t Amount = _Collisions.size();
+			int Amount = static_cast<int>(_Collisions.size());
 			vecDistance.resize(Amount);
 
-			for (size_t i = 0; i < Amount; i++)
+			for (int i = 0; i < Amount; i++)
 			{
 				GameEngineCollision* Collision = _Collisions[i];
 
@@ -129,13 +129,13 @@ void Ellie::UpdateInteractionCollsiion()
 			int ShortestNumber = -1;
 			float ShortestDistance = 1000.0f;
 
-			for (size_t i = 0; i < Amount; i++)
+			for (int i = 0; i < Amount; i++)
 			{
 				float EntitySize = vecDistance[i];
 
 				if (0.0f != vecDistance[i] && ShortestDistance > EntitySize)
 				{
-					ShortestNumber = static_cast<int>(i);
+					ShortestNumber = i;
 					ShortestDistance = EntitySize;
 				}
 			}

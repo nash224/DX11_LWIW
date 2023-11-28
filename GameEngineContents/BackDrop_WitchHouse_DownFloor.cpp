@@ -8,6 +8,7 @@
 #include "Extractor.h"
 #include "Roaster.h"
 #include "LowerLift.h"
+#include "BaseLift.h"
 
 #include "Dust_Pot.h"
 #include "Dust_Extractor.h"

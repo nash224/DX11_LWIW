@@ -151,7 +151,7 @@ void UI_Hub_MainBoard::RegisterQuest(std::string_view _QuestName)
 void UI_Hub_MainBoard::CreateQuestUnit(std::string_view _QuestName)
 {
 	std::shared_ptr<UI_QuestUnit> Unit = GetLevel()->CreateActor<UI_QuestUnit>(EUPDATEORDER::UIComponent);
-	/*Unit->SetParent(this, static_cast<int>(EUPDATEORDER::UIComponent));*/
+	Unit->ChangeParent(this, static_cast<int>(EUPDATEORDER::UIComponent));
 	Unit->Init(_QuestName);
 
 	QuestList.push_back(Unit);

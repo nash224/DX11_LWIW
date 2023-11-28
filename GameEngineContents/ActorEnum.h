@@ -56,6 +56,7 @@ enum class ECOLLECTION_METHOD
 	MongSiri,
 	Juicy,
 	AlchemyPot,
+	Lift,
 	None,
 };
 

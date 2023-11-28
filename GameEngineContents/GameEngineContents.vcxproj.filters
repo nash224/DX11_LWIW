@@ -742,6 +742,12 @@
     <ClInclude Include="GaugeUIRenderer.h">
       <Filter>Rendering\Renderer\Gauge</Filter>
     </ClInclude>
+    <ClInclude Include="BaseLift.h">
+      <Filter>Actor\Interactive\Static\WitchLift</Filter>
+    </ClInclude>
+    <ClInclude Include="UpperLiftA.h">
+      <Filter>Actor\Interactive\Static\WitchLift</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -1246,6 +1252,12 @@
     </ClCompile>
     <ClCompile Include="GaugeUIRenderer.cpp">
       <Filter>Rendering\Renderer\Gauge</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseLift.cpp">
+      <Filter>Actor\Interactive\Static\WitchLift</Filter>
+    </ClCompile>
+    <ClCompile Include="UpperLiftA.cpp">
+      <Filter>Actor\Interactive\Static\WitchLift</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

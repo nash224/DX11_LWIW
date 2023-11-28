@@ -72,3 +72,16 @@ public:
 	static float GetRandomfValue(float _Min, float _Max);
 
 };
+
+
+class ArrangementHelper
+{
+public:
+	static void RegisterInput(void* _Ptr);
+	static void InputUpdate(GameEngineObject* _Target, void* _Ptr);
+
+private:
+	static bool ArrangeRendererOnePixel(GameEngineObject* _Target, char _Character, void* _Ptr, const float4& _MoveVector);
+	static float Speed;
+
+};

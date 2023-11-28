@@ -6,6 +6,13 @@
 
 #include "ItemData.h"
 
+#define SYSTEM_NOTICE_ITEM_FRIST_POSITION { -384.0f , -4.0f }
+#define SYSTEM_NOTICE_ITEM_GAP 42.0f
+#define SYSTEM_NOTICE_ITEM_MOVETIME 0.2f
+
+#define SYSTEM_NOTICE_STAYTIME 2.4f
+
+
 
 UI_Drop::UI_Drop() 
 {
@@ -18,7 +25,7 @@ UI_Drop::~UI_Drop()
 
 void UI_Drop::Start()
 {
-	m_Line = 0;
+	UILine = 0;
 }
 
 void UI_Drop::Update(float _Delta)
@@ -29,8 +36,8 @@ void UI_Drop::Update(float _Delta)
 
 void UI_Drop::Release()
 {
-	m_ItemDropRenderer.SystemNotice_Base = nullptr;
-	m_ItemDropRenderer.Item_Img = nullptr;
+	ItemDrop.SystemNotice_Base = nullptr;
+	ItemDrop.Item_Img = nullptr;
 	ManagerPtr = nullptr;
 }
 
@@ -67,24 +74,20 @@ void UI_Drop::RendererSetting(std::string_view _ItemName)
 	const float IconDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Img);
 	const float NameDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Font);
 
-	const float4& BasePosition = float4(0.0f, 0.0f, BaseDepth);
-	const float4& IconPosition = float4(-52.0f, 0.0f, IconDepth);
-	const float4& FontPosition = float4(-30.0f, 7.0f, NameDepth);
-
-	m_ItemDropRenderer.SystemNotice_Base = CreateComponent<GameEngineUIRenderer>();
-	m_ItemDropRenderer.SystemNotice_Base->Transform.SetLocalPosition(BasePosition);
-	m_ItemDropRenderer.SystemNotice_Base->SetSprite("SystemNotice_Item.png");
+	ItemDrop.SystemNotice_Base = CreateComponent<GameEngineUIRenderer>();
+	ItemDrop.SystemNotice_Base->Transform.SetLocalPosition(float4(0.0f, 0.0f, BaseDepth));
+	ItemDrop.SystemNotice_Base->SetSprite("SystemNotice_Item.png");
 
 
-	m_ItemDropRenderer.Item_Img = CreateComponent<GameEngineUIRenderer>();
-	m_ItemDropRenderer.Item_Img->Transform.SetLocalPosition(IconPosition);
-	m_ItemDropRenderer.Item_Img->SetSprite(itemData.lock()->Name + ".png");
+	ItemDrop.Item_Img = CreateComponent<GameEngineUIRenderer>();
+	ItemDrop.Item_Img->Transform.SetLocalPosition(float4(-52.0f, 0.0f, IconDepth));
+	ItemDrop.Item_Img->SetSprite(itemData.lock()->Name + ".png");
 
 	const float FontSize = 15.0f;
 
-	m_ItemDropRenderer.ItemName = CreateComponent<GameEngineUIRenderer>();
-	m_ItemDropRenderer.ItemName->SetText(GlobalValue::Font_Sandoll, itemData.lock()->KoreanName, FontSize, float4::WHITE);
-	m_ItemDropRenderer.ItemName->Transform.SetLocalPosition(FontPosition);
+	ItemDrop.ItemName = CreateComponent<GameEngineUIRenderer>();
+	ItemDrop.ItemName->SetText(GlobalValue::Font_Sandoll, itemData.lock()->KoreanName, FontSize, float4::WHITE);
+	ItemDrop.ItemName->Transform.SetLocalPosition(float4(-30.0f, 7.0f, NameDepth));
 
 	AddColorData(0.0f);
 }
@@ -92,20 +95,20 @@ void UI_Drop::RendererSetting(std::string_view _ItemName)
 // 알파값 설정
 void UI_Drop::AddColorData(float _AddValue)
 {
-	if (nullptr == m_ItemDropRenderer.SystemNotice_Base)
+	if (nullptr == ItemDrop.SystemNotice_Base)
 	{
 		MsgBoxAssert("렌더러를 불러오지 못했습니다.");
 		return;
 	}
 	
-	if (nullptr == m_ItemDropRenderer.Item_Img)
+	if (nullptr == ItemDrop.Item_Img)
 	{
 		MsgBoxAssert("렌더러를 불러오지 못했습니다.");
 		return;
 	}
 
-	m_ItemDropRenderer.SystemNotice_Base->GetColorData().MulColor.A = _AddValue;
-	m_ItemDropRenderer.Item_Img->GetColorData().MulColor.A = _AddValue;
+	ItemDrop.SystemNotice_Base->GetColorData().MulColor.A = _AddValue;
+	ItemDrop.Item_Img->GetColorData().MulColor.A = _AddValue;
 }
 
 
@@ -136,14 +139,14 @@ void UI_Drop::StateSetting()
 
 void UI_Drop::MoveUnderLine()
 {
-	++m_Line;
+	++UILine;
 	PositionState.ChangeState(ENOTICEPOSITIONSTATE::Awake);
 }
 
 
 void UI_Drop::StartAwake(GameEngineState* _Parent)
 {
-	m_TargetPosition = float4(SYSTEM_NOTICE_ITEM_FRIST_POSITION).Y - m_Line * SYSTEM_NOTICE_ITEM_GAP;
+	m_TargetPosition = float4(SYSTEM_NOTICE_ITEM_FRIST_POSITION).Y - UILine * SYSTEM_NOTICE_ITEM_GAP;
 }
 
 void UI_Drop::UpdateAwake(float _Delta, GameEngineState* _Parent)
@@ -153,7 +156,7 @@ void UI_Drop::UpdateAwake(float _Delta, GameEngineState* _Parent)
 	Transform.AddLocalPosition(float4(0.0f, -Speed));
 
 
-	if (m_Line >= 4 && false == isDisappear)
+	if (UILine >= 4 && false == isDisappear)
 	{
 		isDisappear = true;
 		ColorState.ChangeState(ENOTICECOLORSTATE::Disappear);
@@ -162,7 +165,7 @@ void UI_Drop::UpdateAwake(float _Delta, GameEngineState* _Parent)
 	if (Transform.GetLocalPosition().Y < m_TargetPosition)
 	{
 		float4 TargetPosition = SYSTEM_NOTICE_ITEM_FRIST_POSITION;
-		TargetPosition.Y -= m_Line * SYSTEM_NOTICE_ITEM_GAP;
+		TargetPosition.Y -= UILine * SYSTEM_NOTICE_ITEM_GAP;
 		Transform.SetLocalPosition( TargetPosition );
 
 		PositionState.ChangeState(ENOTICEPOSITIONSTATE::Stay);

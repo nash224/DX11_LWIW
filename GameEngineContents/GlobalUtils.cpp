@@ -201,3 +201,52 @@ float RandomFunction::GetRandomfValue(float _Min, float _Max)
 	RandomClass.SetSeed(GlobalValue::GetSeedValue());
 	return RandomClass.RandomFloat(_Min, _Max);
 }
+
+
+float ArrangementHelper::Speed = 1.0f;
+void ArrangementHelper::RegisterInput(void* _Ptr)
+{
+	GameEngineInput::AddInputObject(_Ptr);
+}
+
+void ArrangementHelper::InputUpdate(GameEngineObject* _Target, void* _Ptr)
+{
+	if (ArrangeRendererOnePixel(_Target, '7', _Ptr, float4::LEFT))
+	{
+		return;
+	}
+	if (ArrangeRendererOnePixel(_Target, '8', _Ptr, float4::RIGHT))
+	{
+		return;
+	}
+	if (ArrangeRendererOnePixel(_Target, '9', _Ptr, float4::UP))
+	{
+		return;
+	}
+	if (ArrangeRendererOnePixel(_Target, '0', _Ptr, float4::DOWN))
+	{
+		return;
+	}
+	if (true == GameEngineInput::IsDown('K', _Ptr))
+	{
+		Speed *= 10.0f;
+		return;
+	}
+	if (true == GameEngineInput::IsDown('L', _Ptr))
+	{
+		Speed *= 0.1f;
+		return;
+	}
+}
+
+bool ArrangementHelper::ArrangeRendererOnePixel(GameEngineObject* _Target, char _Character, void* _Ptr, const float4& _MoveVector)
+{
+	if (true == GameEngineInput::IsDown(_Character, _Ptr))
+	{
+		const float4& MoveVector = _MoveVector * Speed;
+
+		_Target->Transform.AddLocalPosition(MoveVector);
+		OutputDebugStringA(_Target->Transform.GetLocalPosition().ToString().c_str());
+		return true;
+	}
+}

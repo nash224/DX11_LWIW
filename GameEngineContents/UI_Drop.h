@@ -1,17 +1,12 @@
 #pragma once
 
-#define SYSTEM_NOTICE_ITEM_FRIST_POSITION { -384.0f , -4.0f }
-#define SYSTEM_NOTICE_ITEM_GAP 42.0f
-#define SYSTEM_NOTICE_ITEM_MOVETIME 0.2f
-
-#define SYSTEM_NOTICE_STAYTIME 2.4f
 
 
 // Ό³Έν :
 class UI_Drop : public GameEngineActor
 {
 private:
-	class ItemDropRenderer
+	class ItemDropStruct
 	{
 	public:
 		std::shared_ptr<GameEngineUIRenderer> SystemNotice_Base = nullptr;
@@ -51,13 +46,11 @@ public:
 	UI_Drop& operator=(const UI_Drop& _Other) = delete;
 	UI_Drop& operator=(UI_Drop&& _Other) noexcept = delete;
 
+	int UILine = 0;
 
 	void Init(std::string_view _ItemName);
 
 	void MoveUnderLine();
-
-public:
-	int m_Line = 0;
 
 protected:
 	void Start() override;
@@ -87,7 +80,7 @@ private:
 
 
 private:
-	ItemDropRenderer m_ItemDropRenderer;
+	ItemDropStruct ItemDrop;
 	GameEngineState PositionState;
 	GameEngineState ColorState;
 

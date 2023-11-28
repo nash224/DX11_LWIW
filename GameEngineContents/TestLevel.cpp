@@ -22,6 +22,7 @@
 #include "UI_ButtonGuide.h"
 #include "UI_QuestUnit.h"
 #include "UI_Hub_MainBoard.h"
+#include "BaseLift.h"
 
 #include "QuestData.h"
 
@@ -67,6 +68,8 @@ void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	ContentsLevel::LevelStart(_NextLevel);
 
+	FileLoadFunction::LoadTextureAndCreateSingleSpriteInPath("Resources\\PlayContents\\Lift");
+
 	CameraControler::MainCameraControler.lock()->SetCameraMode(ECAMERAMODE::Fix);
 
 	const float4 WinScale = GlobalValue::GetWindowScale();
@@ -104,6 +107,12 @@ void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
 	}
 
 	{
+		std::shared_ptr<BaseLift> Lift = CreateActor<BaseLift>(EUPDATEORDER::UIMagnaer);
+		Lift->Transform.SetLocalPosition(float4(540.0f, -480.0f));
+		Lift->Init();
+	}
+
+	{
 		bush = CreateActor<Bush>(EUPDATEORDER::Objects);
 		bush->SetBushType(EBUSHTYPE::BushBug);
 		bush->Transform.SetLocalPosition(float4(700.0f, -400.0f));
@@ -138,11 +147,11 @@ void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
 
 	if (false) 
 	{
-		std::shared_ptr<UI_QuestUnit> QuestUnit = CreateActor<UI_QuestUnit>(EUPDATEORDER::UIComponent);
-		QuestUnit->Init("FindLetter");
+		//std::shared_ptr<UI_QuestUnit> QuestUnit = CreateActor<UI_QuestUnit>(EUPDATEORDER::UIComponent);
+		// QuestUnit->Init("FindLetter");
 	}
 
-	if (true) 
+	if (false) 
 	{
 		std::shared_ptr<UI_Hub_MainBoard> MainBoard = CreateActor<UI_Hub_MainBoard>(EUPDATEORDER::UIComponent);
 		MainBoard->Init();
@@ -171,6 +180,8 @@ void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
 
 void TestLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 {
+	FileLoadFunction::ReleaseAllTextureAndSpriteInPath("Resources\\PlayContents\\Lift");
+
 	if (nullptr != Map)
 	{
 		Map->Death();

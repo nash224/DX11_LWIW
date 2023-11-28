@@ -7,6 +7,7 @@
 #include "Extractor.h"
 #include "UI_Hub_Tool.h"
 #include "UI_ProcessManager.h"
+#include "BaseLift.h"
 
 
 void Ellie::StartIdle()
@@ -70,6 +71,18 @@ void Ellie::StartApproach()
 	Dir = GetDirectionFromVector(TargetDistance);
 
 	ChangeAnimationByDirection("Walk");
+}
+
+void Ellie::StartLift()
+{
+	OtherEntity = nullptr;
+	if (true == BaseLift::MainLiftPtr.expired())
+	{
+		MsgBoxAssert("엘리베티어가 존재하지 않습니다.");
+		return;
+	}
+	BaseLift::MainLiftPtr.lock()->ActiveEv();
+	ChangeAnimationByDirection("Idle");
 }
 
 void Ellie::StartButterflyNet()
@@ -413,6 +426,12 @@ void Ellie::UpdateApproach(float _Delta)
 			ChangeState(EELLIE_STATE::Wait);
 			return;
 		}
+
+		if (ECOLLECTION_METHOD::Lift == OtherEntity->GetCollectionMethod())
+		{
+			ChangeState(EELLIE_STATE::Lift);
+			return;
+		}
 	}
 	else
 	{
@@ -560,6 +579,11 @@ void Ellie::UpdateJuicy(float _Delta)
 		ChangeState(EELLIE_STATE::Wait);
 		return;
 	}
+}
+
+void Ellie::UpdateLift(float _Delta)
+{
+
 }
 
 

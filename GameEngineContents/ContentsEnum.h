@@ -89,8 +89,12 @@ enum class ETITLERENDERDEPTH
 enum class EHOUSEDEPTH
 {
 	FRAME = -1,
+	Lift_Floor,
 	Object,
 	GroundDust = 2000,
+	LiftPattern,
+	Lift,
+	Lift_Wall,
 	Shadow = 3000,
 	UnderBook,
 	Chair,
