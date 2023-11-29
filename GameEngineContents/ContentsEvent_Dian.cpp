@@ -85,7 +85,7 @@ void ContentsEvent::Dian_BadWeedPotion::CompleteInternal()
 
 	if (nullptr != UI_Inventory::MainInventory)
 	{
-		UI_Inventory::MainInventory->PushItem("Item_Etc_11");
+		UI_Inventory::MainInventory->PushItem("Item_Etc_12");
 		UI_Inventory::MainInventory->UnlockSlot();
 	}
 

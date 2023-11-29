@@ -199,9 +199,9 @@ void Dian::ConversationSetting()
 			{
 				if (nullptr != UI_Inventory::MainInventory)
 				{
-					if (false == UI_Inventory::MainInventory->IsItem("Item_Etc_12"))
+					if (false == UI_Inventory::MainInventory->IsItem("Item_Etc_11"))
 					{
-						UI_Inventory::MainInventory->PushItem("Item_Etc_12");
+						UI_Inventory::MainInventory->PushItem("Item_Etc_11");
 						UI_Inventory::MainInventory->UnlockSlot();
 						ContentsEvent::HasWitchBroom = true;
 					}

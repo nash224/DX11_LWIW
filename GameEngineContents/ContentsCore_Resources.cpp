@@ -107,8 +107,8 @@ void ContentsCore::LoadContentsData()
 	ItemData::CreateData("Food_CranApple", { "Food_CranApple", "사과", EITEM_TYPE::Food });
 
 	// 도구
-	ItemData::CreateData("Item_Etc_11", { "Item_Etc_11", "잠자리채", EITEM_TYPE::Tool });
-	ItemData::CreateData("Item_Etc_12", { "Item_Etc_12", "빗자루", EITEM_TYPE::Tool });
+	ItemData::CreateData("Item_Etc_11", { "Item_Etc_11", "빗자루", EITEM_TYPE::Tool });
+	ItemData::CreateData("Item_Etc_12", { "Item_Etc_12", "잠자리채", EITEM_TYPE::Tool });
 
 
 
