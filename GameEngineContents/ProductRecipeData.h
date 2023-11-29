@@ -1,6 +1,20 @@
 #pragma once
 #include "ContentsResource.h"
 
+enum class EPRODUCTDESCTYPE
+{
+	Observation,
+	Method,
+	Extra,
+	None,
+};
+
+struct ProduectDESC
+{
+	EPRODUCTDESCTYPE DESCType;
+	std::string DESC;
+};
+
 class MaterialInfo
 {
 public:
@@ -16,7 +30,13 @@ public:
 	struct MaterialInfo
 	{
 		std::string MaterialName;
-		std::uint32_t MaterialCount = 0;
+		unsigned int MaterialCount = 0;
+	};
+
+	struct ProduectDESC
+	{
+		EPRODUCTDESCTYPE DESCType;
+		std::string DESC;
 	};
 
 public:
@@ -26,12 +46,13 @@ public:
 
 
 	ProductRecipeData(
-		const std::vector<MaterialInfo>& MaterialArray,
+		const std::vector<MaterialInfo>& _MaterialArray,
 		EBREWING_DIFFICULTY _Star,
 		EBREWING_DIRECTION _Ladle,
 		EBREWING_FIRE _Fire, 
 		std::string_view _ProductName = "", 
-		std::string_view _KoreanName = ""
+		std::string_view _KoreanName = "",
+		const std::vector<ProduectDESC>& _DESCArray = {}
 	);
 
 	ProductRecipeData(const ProductRecipeData& _Other) = default;
@@ -98,5 +119,6 @@ public:
 	EBREWING_DIRECTION Ladle = EBREWING_DIRECTION::StirNone;
 	EBREWING_FIRE Fire = EBREWING_FIRE::Three;
 	std::vector<MaterialInfo> Material;
+	std::vector<ProduectDESC> DESC;
 };
 

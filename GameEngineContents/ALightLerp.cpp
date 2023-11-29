@@ -6,7 +6,9 @@
 void ALightLerp::Init(GameEngineActor* _Actor, const ALightLerpParameter& _Para)
 {
 	LightRenderer = _Actor->CreateComponent<GameEngineSpriteRenderer>();
+
 	SetLightRendererSetting(_Para.Color);
+
 	LightRenderer->SetSprite(_Para.SpriteName);
 	if (_Para.Scale != float4::ZERO)
 	{

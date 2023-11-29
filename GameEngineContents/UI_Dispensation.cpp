@@ -151,6 +151,8 @@ void UI_Dispensation::RendererSetting()
 
 void UI_Dispensation::Open()
 {
+	GameEngineInput::IsOnlyInputObject(this);
+
 	if (nullptr == UIManager::MainUIManager)
 	{
 		MsgBoxAssert("UI 매니저가 존재하지 않습니다.");
@@ -164,6 +166,8 @@ void UI_Dispensation::Open()
 
 void UI_Dispensation::Close()
 {
+	GameEngineInput::IsObjectAllInputOn();
+
 	if (nullptr == UIManager::MainUIManager)
 	{
 		MsgBoxAssert("UI 매니저가 존재하지 않습니다.");
@@ -403,19 +407,14 @@ void UI_Dispensation::LowHit()
 	int iFire = static_cast<int>(CurFire);
 	--iFire;
 
-	if (nullptr == Fire_Gauge)
+	if (nullptr == Fire_Gauge
+		|| nullptr == Fire_Gauge_Pin)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
 	Fire_Gauge->SetSprite("Dispensation_Fire_Gauge.png", iFire);
-
-	if (nullptr == Fire_Gauge_Pin)
-	{
-		MsgBoxAssert("렌더러가 존재하지 않습니다.");
-		return;
-	}
 
 	Fire_Gauge_Pin->SetSprite("dispensation_fire_gauge_pin.png", iFire);
 
@@ -503,27 +502,15 @@ void UI_Dispensation::NextStirOption()
 // 선택하지 않은 휘젓기 스프라이트 이름이 
 void UI_Dispensation::ChangeAllDirectionReset()
 {
-	if (nullptr == Direction_None)
+	if (nullptr == Direction_None
+		|| nullptr == Direction_CounterClockwise
+		|| nullptr == Direction_Clockwise)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
 	Direction_None->SetSprite("Dispensation_Direction_None.png");
-
-	if (nullptr == Direction_CounterClockwise)
-	{
-		MsgBoxAssert("렌더러가 존재하지 않습니다.");
-		return;
-	}
-
 	Direction_CounterClockwise->SetSprite("Dispensation_Direction_CounterClockwise.png");
-
-	if (nullptr == Direction_Clockwise)
-	{
-		MsgBoxAssert("렌더러가 존재하지 않습니다.");
-		return;
-	}
-
 	Direction_Clockwise->SetSprite("Dispensation_Direction_Clockwise.png");
 }

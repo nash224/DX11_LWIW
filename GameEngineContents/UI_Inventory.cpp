@@ -19,7 +19,7 @@ void Inventory::Init()
 // 인벤토리에 동일한 이름의 아이템이 있으면 아이템의 수를 더하고, 아이템이 없으면 빈 슬롯에 넣습니다.
 bool Inventory::PushItem(std::string_view _ItemName, unsigned int _Count)
 {
-	size_t LockNumber = Max_XSlot * static_cast<size_t>(InventoryParent->UnlockSlotY);
+	int LockNumber = Max_XSlot * InventoryParent->UnlockSlotY;
 
 	int Value = ReturnSlotNumber(_ItemName);
 
@@ -27,7 +27,7 @@ bool Inventory::PushItem(std::string_view _ItemName, unsigned int _Count)
 	if (isNotContainItem)
 	{
 		// 빈자리가 있으면 빈자리를 찾아서
-		for (size_t i = 0; i < LockNumber; i++)
+		for (int i = 0; i < LockNumber; i++)
 		{
 			if (true == InventoryData[i].SourceName.empty())
 			{
@@ -105,7 +105,7 @@ bool Inventory::CheckEmptySlot(std::string_view _ItemName)
 bool Inventory::IsContain(std::string_view _ItemName)
 {
 	std::string ItemName = _ItemName.data();
-	for (size_t y = 0; y < InventoryData.size(); y++)
+	for (int y = 0; y < InventoryData.size(); y++)
 	{
 		if (ItemName == InventoryData[y].SourceName)
 		{
@@ -155,7 +155,7 @@ InventoryInfo& Inventory::ReturnInventoryInfo(unsigned int _X, unsigned int _Y)
 
 InventoryInfo* Inventory::Find(std::string_view _ItemName)
 {
-	for (size_t i = 0; i < InventoryData.size(); i++)
+	for (int i = 0; i < InventoryData.size(); i++)
 	{
 		if (_ItemName == InventoryData[i].SourceName)
 		{
@@ -220,7 +220,7 @@ void Inventory::RenewInventory()
 		return;
 	}
 
-	for (size_t i = 0; i < InventoryData.size(); i++)
+	for (int i = 0; i < InventoryData.size(); i++)
 	{
 		if (false == InventoryData[i].SourceName.empty())
 		{
@@ -690,7 +690,7 @@ void UI_Inventory::CloseInternal()
 	InventoryState.ChangeState(EINVENTORYMODE::Normal);
 }
 
-float4 UI_Inventory::CalculateIndexToPos(const size_t _x, const size_t _y)
+float4 UI_Inventory::CalculateIndexToPos(int _x, int _y)
 {
 	if (false == IsFirstPosCalculated)
 	{
@@ -733,17 +733,14 @@ void UI_Inventory::CursorThis(const unsigned int _X, const unsigned int _Y)
 
 		const float FontYCorrection = 6.0f;
 
-		const float4& TooltipPosition = float4(IndexPosition.X, IndexPosition.Y + NameTagPosition.Y, TooltipDepth);
-		const float4& FontPosition = float4(IndexPosition.X, IndexPosition.Y + NameTagPosition.Y + FontYCorrection, ItemFontDepth);
-
-		CursorInfo.NameTooltip->Transform.SetLocalPosition(TooltipPosition);
+		CursorInfo.NameTooltip->Transform.SetLocalPosition(float4(IndexPosition.X, IndexPosition.Y + NameTagPosition.Y, TooltipDepth));
 		CursorInfo.NameTooltip->On();
 
 
 		const InventoryInfo& ItemInfo = Data->ReturnInventoryInfo(_X, _Y);
 		std::string KRItemName = ReturnItemKRName(ItemInfo.SourceName);
 
-		CursorInfo.ItemFont->Transform.SetLocalPosition(FontPosition);
+		CursorInfo.ItemFont->Transform.SetLocalPosition(float4(IndexPosition.X, IndexPosition.Y + NameTagPosition.Y + FontYCorrection, ItemFontDepth));
 		CursorInfo.ItemFont->ChangeText(KRItemName);
 		CursorInfo.ItemFont->On();
 	}
@@ -941,10 +938,30 @@ void UI_Inventory::UpdateDispensation(float _Delta, GameEngineState* _Parent)
 		return;
 	}
 
-	if (true == UpdateCursor())
+	if (true == GameEngineInput::IsDown(VK_LEFT, UI_Dispensation::MainDispensation))
 	{
+		MoveCursor(-1, 0);
 		return;
 	}
+
+	if (true == GameEngineInput::IsDown(VK_RIGHT, UI_Dispensation::MainDispensation))
+	{
+		MoveCursor(1, 0);
+		return;
+	}
+
+	if (true == GameEngineInput::IsDown(VK_UP, UI_Dispensation::MainDispensation))
+	{
+		MoveCursor(0, -1);
+		return;
+	}
+
+	if (true == GameEngineInput::IsDown(VK_DOWN, UI_Dispensation::MainDispensation))
+	{
+		MoveCursor(0, 1);
+		return;
+	}
+
 
 	if (true == UpdateDispensationSelect())
 	{
@@ -955,7 +972,7 @@ void UI_Inventory::UpdateDispensation(float _Delta, GameEngineState* _Parent)
 
 bool UI_Inventory::UpdateDispensationSelect()
 {
-	if (true == GameEngineInput::IsDown('Z', this))
+	if (true == GameEngineInput::IsDown('Z', UI_Dispensation::MainDispensation))
 	{
 		// 빈칸 클릭하면 리턴
 		if (false == Data->IsContain(CurrentSlotX, CurrentSlotY))
@@ -1054,11 +1071,11 @@ void UI_Inventory::DispensationSelectThis()
 
 int UI_Inventory::ReturnEmptySelectSlot()
 {
-	for (size_t i = 0; i < SelectItem.size(); i++)
+	for (int i = 0; i < SelectItem.size(); i++)
 	{
 		if (true == SelectItem[i].ItemName.empty())
 		{
-			return static_cast<int>(i);
+			return i;
 		}
 	}
 

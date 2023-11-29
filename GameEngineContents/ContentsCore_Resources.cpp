@@ -106,8 +106,8 @@ void ContentsCore::LoadContentsData()
 	ItemData::CreateData("Food_CranApple", { "Food_CranApple", "사과", EITEM_TYPE::Food });
 
 	// 도구
-	ItemData::CreateData("Item_Etc_11", { "Item_Etc_11", "빗자루", EITEM_TYPE::Tool });
-	ItemData::CreateData("Item_Etc_12", { "Item_Etc_12", "잠자리채", EITEM_TYPE::Tool });
+	ItemData::CreateData("Item_Etc_11", { "Item_Etc_11", "잠자리채", EITEM_TYPE::Tool });
+	ItemData::CreateData("Item_Etc_12", { "Item_Etc_12", "빗자루", EITEM_TYPE::Tool });
 
 
 
@@ -135,11 +135,12 @@ void ContentsCore::LoadContentsData()
 	BiologyData::CreateData("MapleHerb", { "MapleHerb", "단풍 허브", "MapleHerb_Collect", ETOOLTYPE::Gloves, EECOLOGYTYPE::GreenForest, EECOLOGYTYPE::ForestPlateau, EECOLOGYTYPE::AllDay });
 
 	// 물약
-	ProductRecipeData::CreateData("BadGrassPotion", { std::vector<ProductRecipeData::MaterialInfo>{{"Mongsiri_Water", 1}, {"WitchFlower_Water", 1 } }, EBREWING_DIFFICULTY::Easy, EBREWING_DIRECTION::StirNone, EBREWING_FIRE::Four, "BadGrassPotion", "나쁜 풀 제거 물약" });
-	ProductRecipeData::CreateData("NutritionPotion", { std::vector<ProductRecipeData::MaterialInfo>{{"SilverStarFlower_Water", 1}, {"MapleHerb_Water", 1 },{"BushBug_Water", 1  }}, EBREWING_DIFFICULTY::Normal, EBREWING_DIRECTION::StirRight, EBREWING_FIRE::Three, "NutritionPotion", "영양 공급 물약" });
-	ProductRecipeData::CreateData("FirecrackerPotion", { std::vector<ProductRecipeData::MaterialInfo>{{"SilverStarFlower_Water", 1,}, { "FlowerBird_Water", 1 },{"BushBug_Water", 1} }, EBREWING_DIFFICULTY::Hard, EBREWING_DIRECTION::StirRight, EBREWING_FIRE::Three, "FirecrackerPotion", "폭죽 물약" });
+	ProductRecipeData::CreateData("BadGrassPotion", { std::vector<ProductRecipeData::MaterialInfo>{{"Mongsiri_Water", 1}, {"WitchFlower_Water", 1 } }, EBREWING_DIFFICULTY::Easy, EBREWING_DIRECTION::StirNone, EBREWING_FIRE::Four, "BadGrassPotion", "나쁜 풀 제거 물약" , {} });
+	ProductRecipeData::CreateData("NutritionPotion", { std::vector<ProductRecipeData::MaterialInfo>{{"SilverStarFlower_Water", 1}, {"MapleHerb_Water", 1 },{"BushBug_Water", 1  }}, EBREWING_DIFFICULTY::Normal, EBREWING_DIRECTION::StirRight, EBREWING_FIRE::Three, "NutritionPotion", "영양 공급 물약", {} });
+	ProductRecipeData::CreateData("FirecrackerPotion", { std::vector<ProductRecipeData::MaterialInfo>{{"SilverStarFlower_Water", 1,}, { "FlowerBird_Water", 1 },{"BushBug_Water", 1} }, EBREWING_DIFFICULTY::Hard, EBREWING_DIRECTION::StirLeft, EBREWING_FIRE::Two, "FirecrackerPotion", "폭죽 물약" , {} });
 
 	// 사탕
+	/*std::vector<ProduectDESC> UncurseCandyDESCArray = { {EPRODUCTDESCTYPE::Observation, "마녀가 무언가 만들 때 많이 사용하기 때문에, 마녀 꽃이라는 이름이 붙여졌다."},{EPRODUCTDESCTYPE::, "마녀가 무언가 만들 때 많이 사용하기 때문에, 마녀 꽃이라는 이름이 붙여졌다."} };*/
 	ProductRecipeData::CreateData("UncurseCandy", { std::vector<ProductRecipeData::MaterialInfo>{{"Mongsiri_Water", 1}, {"MapleHerb_Water", 1 } }, EBREWING_DIFFICULTY::Easy, EBREWING_DIRECTION::StirNone, EBREWING_FIRE::Three,  "UncurseCandy", "저주해제 사탕" });
 	ProductRecipeData::CreateData("HealingCandy", { std::vector<ProductRecipeData::MaterialInfo>{{"WitchFlower_Water", 1}, {"MapleHerb_Water", 1 } }, EBREWING_DIFFICULTY::Easy, EBREWING_DIRECTION::StirRight, EBREWING_FIRE::Four, "HealingCandy", "치료 사탕" });
 

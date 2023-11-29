@@ -155,7 +155,7 @@ private:
 	void OpenInternal() override;
 	void CloseInternal() override;
 
-	float4 CalculateIndexToPos(const size_t _x, const size_t _y);
+	float4 CalculateIndexToPos(int _x, int _y);
 	void CursorThis(const unsigned int _X, const unsigned int _Y);
 
 	void ClearSlot(const unsigned int _X, const unsigned int _Y);

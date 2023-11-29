@@ -270,17 +270,18 @@ void Ellie::WallCollision()
 		return;
 	}
 
+	const float4& CurPosition = Transform.GetLocalPosition();
 	const float4& CheckUnitVector = DirectX::XMVector2Normalize(m_MoveVector.DirectXVector);
 	const float4& LeftCheckUnitVector = float4::Cross3D(CheckUnitVector.DirectXVector, float4::FORWARD);
 	const float4& RightCheckUnitVector = float4::Cross3D(CheckUnitVector.DirectXVector, float4::BACKWARD);
 	static constexpr float CheckDistanceToMyPos = 10.0f;
 
 	static constexpr int Max_Check_Count = 8;
-	int CheckCount = Max_Check_Count;
-	while (CheckCount > 0)
+	float fCount = 0.0f;
+
+	for (; fCount < static_cast<float>(Max_Check_Count); fCount += 0.5f)
 	{
-		const float4& CurPosition = Transform.GetLocalPosition();
-		const float4& CheckPos = CurPosition + CheckUnitVector * CheckDistanceToMyPos;
+		const float4& CheckPos = CurPosition + CheckUnitVector * (CheckDistanceToMyPos - fCount);
 
 		const float4& LeftCheckPos = LeftCheckUnitVector * CheckDistanceToMyPos + CheckPos;
 		const float4& RightCheckPos = RightCheckUnitVector * CheckDistanceToMyPos + CheckPos;
@@ -293,14 +294,17 @@ void Ellie::WallCollision()
 			break;
 		}
 
-		float4 BackVector;
-		BackVector.X = -CheckUnitVector.X;
-		BackVector.Y = -CheckUnitVector.Y;
-
-		Transform.AddLocalPosition(BackVector);
-
-		--CheckCount;
 	}
+
+	if (fCount == 0.0f)
+	{
+		return;
+	}
+	float4 BackVector;
+	BackVector.X = -CheckUnitVector.X * fCount;
+	BackVector.Y = -CheckUnitVector.Y * fCount;
+
+	Transform.AddLocalPosition(BackVector);
 }
 
 
@@ -380,7 +384,10 @@ float4 Ellie::GetBroomParticlePosition(float _ParticleDistance)
 
 	const float4& CenterPoint = float4(8.0f, YCorrection) + Transform.GetLocalPosition() + PlusVector * _ParticleDistance;
 
-	static constexpr const float ParticleDistance = 60.0f;
+	GameEngineRandom RandomClass;
+	RandomClass.SetSeed(GlobalValue::GetSeedValue());
+	const float ParticleDistance = RandomClass.RandomFloat(60.0f, 72.0f);
+
 	float4 DirVector = GetDirectionVectorToDir(Dir);
 	DirVector.X = -DirVector.X;
 	DirVector.Y = -DirVector.Y;

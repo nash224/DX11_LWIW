@@ -49,17 +49,8 @@
     <Filter Include="Component">
       <UniqueIdentifier>{17384fb5-9a1c-4bc6-ad5c-a141315e595f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component\PixelCollision">
-      <UniqueIdentifier>{8a668e94-d491-4242-b5ac-e210bb340594}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Component\ALight">
       <UniqueIdentifier>{be118570-faa6-4c87-b115-ac88aef36ec5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\Emoji">
-      <UniqueIdentifier>{d171a8ed-9849-413c-81e7-ee744aaa8902}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\CircleProgressBar">
-      <UniqueIdentifier>{6f59f50b-5f64-48a3-a69b-f7a88373d951}</UniqueIdentifier>
     </Filter>
     <Filter Include="Global">
       <UniqueIdentifier>{ab10a2eb-9b67-4702-ba81-0ac60c48954b}</UniqueIdentifier>
@@ -273,6 +264,15 @@
     </Filter>
     <Filter Include="Rendering\Renderer\Gauge">
       <UniqueIdentifier>{87951ab5-ea2f-4bf5-8e7a-fb436f3fe6b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\PixelCollision">
+      <UniqueIdentifier>{8a668e94-d491-4242-b5ac-e210bb340594}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\CircleProgressBar">
+      <UniqueIdentifier>{6f59f50b-5f64-48a3-a69b-f7a88373d951}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Emoji">
+      <UniqueIdentifier>{d171a8ed-9849-413c-81e7-ee744aaa8902}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
