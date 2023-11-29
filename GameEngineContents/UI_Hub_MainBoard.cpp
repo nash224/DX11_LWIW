@@ -181,7 +181,7 @@ void UI_Hub_MainBoard::Init()
 	MainBoard.Alert->SetAutoScaleRatio(2.0f);
 	MainBoard.Alert->CreateAnimation("Notice", "Quest_Notice_Notification.png", 0.1f, 1);
 	MainBoard.Alert->ChangeAnimation("Notice");
-	MainBoard.Alert->FindAnimation("Notice")->Inter[7] = 1.0f;
+	MainBoard.Alert->FindAnimation("Notice")->Inter[0] = 1.0f;
 	MainBoard.Alert->Off();
 
 

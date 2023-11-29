@@ -195,6 +195,65 @@ int StringFunction::GetNewLineCount(std::string_view _Text)
 	return NewLineCount;
 }
 
+std::string StringFunction::InsertNewLineBTWWord(std::string_view _Text, int _NumCharPerLine)
+{
+	int NewLineCnt = 0;
+	int LineCharCnt = 0;
+	int ESCapeAndSignCnt = 0;
+	
+	// std::wstring Text = _Text.data(); // std::string_view의 첨자는 std::string과 달리 상수 레퍼런스를 반환하기 때문에 최적화를 위해 받아서 쓴다.
+	std::wstring Text = GameEngineString::AnsiToUnicode(_Text);
+	std::wstring Result;
+	std::wstring Word;
+
+	Result.reserve(64);
+
+	for (int i = 0; i != Text.size(); i++)
+	{
+		const wchar_t Char = Text[i];
+		if (Char == ' ' || Char == '.' || Char == ',' || Char == '!' || Char == '\'')
+		{
+			if (Word.empty())
+			{
+				Result.push_back(Text[i]);
+			}
+			else
+			{
+				if (Word.size() + LineCharCnt >= _NumCharPerLine)
+				{
+					Result.push_back('\n');
+					LineCharCnt = static_cast<int>(Word.size());
+					ESCapeAndSignCnt = 0;
+				}
+
+				Result += Word;
+				Result.push_back(Text[i]);
+				Word.clear();
+			}
+
+			if (++ESCapeAndSignCnt > 3)
+			{
+				++LineCharCnt;
+				ESCapeAndSignCnt = 0;
+			}
+		}
+		else
+		{
+			Word.push_back(Text[i]);
+			++LineCharCnt;
+		}
+		
+		if (_NumCharPerLine <= LineCharCnt)
+		{
+			Result.push_back('\n');
+			LineCharCnt = 0;
+			ESCapeAndSignCnt = 0;
+		}
+	}
+
+	return GameEngineString::UnicodeToAnsi(Result);
+}
+
 float RandomFunction::GetRandomfValue(float _Min, float _Max)
 {
 	GameEngineRandom RandomClass;

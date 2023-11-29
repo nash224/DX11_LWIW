@@ -37,6 +37,7 @@ private:
 		std::shared_ptr<GameEngineUIRenderer> Star;
 		std::shared_ptr<GameEngineUIRenderer> Fire;
 		std::shared_ptr<GameEngineUIRenderer> Ladle;
+		std::shared_ptr<GameEngineUIRenderer> DESC;
 
 		std::vector<PageItemSlotStruct> ItemSlots;
 		PageFontStruct PageFont;

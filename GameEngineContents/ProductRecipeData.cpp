@@ -10,18 +10,17 @@ ProductRecipeData::~ProductRecipeData()
 }
 
 ProductRecipeData::ProductRecipeData(
-	const std::vector<MaterialInfo>& MaterialArray, 
+	const std::vector<MaterialInfo>& _MaterialArray,
 	EBREWING_DIFFICULTY _Star, EBREWING_DIRECTION _Ladle, EBREWING_FIRE _Fire, 
-	std::string_view _ProductName, std::string_view _KoreanName,
-	const std::vector<ProduectDESC>& _DESCArray)
+	std::string_view _ProductName, std::string_view _KoreanName, std::string_view _Content)
 	:
 	ProductName(_ProductName),
 	KoreanName(_KoreanName),
 	Star(_Star),
 	Ladle(_Ladle),
 	Fire(_Fire),
-	Material(MaterialArray),
-	DESC(_DESCArray)
+	Material(_MaterialArray),
+	Content(_Content)
 {
 }
 

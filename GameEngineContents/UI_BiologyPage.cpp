@@ -13,8 +13,7 @@ UI_BiologyPage::~UI_BiologyPage()
 {
 }
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
+
 
 // 페이지를 생성해줍니다.
 void UI_BiologyPage::CreatePage(std::string_view _BiologyName, int& PageCount)
@@ -49,25 +48,25 @@ void UI_BiologyPage::CreatePage(std::string_view _BiologyName, int& PageCount)
 	const float4& BlackFontColor = float4(0.1f, 0.1f, 0.1f, 1.0f);
 
 
-	PageInfo.NameTag.Base = CreateComponent<GameEngineUIRenderer>();
-	PageInfo.NameTag.Base->SetSprite("CreatureName.png");
-	PageInfo.NameTag.Base->Transform.SetLocalPosition(float4(1.0f, 150.0f, AttachmentDepth));
+	PageInfo.Base = CreateComponent<GameEngineUIRenderer>();
+	PageInfo.Base->SetSprite("CreatureName.png");
+	PageInfo.Base->Transform.SetLocalPosition(float4(1.0f, 150.0f, AttachmentDepth));
 
-	PageInfo.NameTag.MaterialName = CreateComponent<GameEngineUIRenderer>();
-	PageInfo.NameTag.MaterialName->SetText(GlobalValue::Font_Sandoll, Data->KoreanName, 20.0f, float4::ZERO, FW1_TEXT_FLAG::FW1_CENTER);
-	PageInfo.NameTag.MaterialName->Transform.SetLocalPosition(float4(1.0f, 158.0f, FontDepth));
+	PageInfo.MaterialName = CreateComponent<GameEngineUIRenderer>();
+	PageInfo.MaterialName->SetText(GlobalValue::Font_Sandoll, Data->KoreanName, 20.0f, float4::ZERO, FW1_TEXT_FLAG::FW1_CENTER);
+	PageInfo.MaterialName->Transform.SetLocalPosition(float4(1.0f, 158.0f, FontDepth));
 
 	PageInfo.Frame = CreateComponent<GameEngineUIRenderer>();
 	PageInfo.Frame->SetSprite("Base_LayoutLine_1.png");
 	PageInfo.Frame->Transform.SetLocalPosition(float4(0.0f, -29.0f, FrameDepth));
 
-	PageInfo.Illustration.Photo = CreateComponent<GameEngineUIRenderer>();
-	PageInfo.Illustration.Photo->SetSprite("Photo.png");
-	PageInfo.Illustration.Photo->Transform.SetLocalPosition(float4(-84.0f, 49.0f, AttachmentDepth));
+	PageInfo.Illustration = CreateComponent<GameEngineUIRenderer>();
+	PageInfo.Illustration->SetSprite("Photo.png");
+	PageInfo.Illustration->Transform.SetLocalPosition(float4(-84.0f, 49.0f, AttachmentDepth));
 
-	PageInfo.Illustration.Illustration = CreateComponent<GameEngineUIRenderer>();
-	PageInfo.Illustration.Illustration->SetSprite(Name + "_Illustration.png");
-	PageInfo.Illustration.Illustration->Transform.SetLocalPosition(float4(-84.0f, 49.0f, ComponentDepth));
+	PageInfo.Illustration = CreateComponent<GameEngineUIRenderer>();
+	PageInfo.Illustration->SetSprite(Name + "_Illustration.png");
+	PageInfo.Illustration->Transform.SetLocalPosition(float4(-84.0f, 49.0f, ComponentDepth));
 
 
 	PageInfo.Ecological.Font = CreateComponent<GameEngineUIRenderer>();
@@ -108,6 +107,29 @@ void UI_BiologyPage::CreatePage(std::string_view _BiologyName, int& PageCount)
 	PageInfo.Item.ItemName = CreateComponent<GameEngineUIRenderer>();
 	PageInfo.Item.ItemName->SetText(GlobalValue::Font_Sandoll, MaterialData->KoreanName, 15.0f, BlackFontColor, FW1_TEXT_FLAG::FW1_LEFT);
 	PageInfo.Item.ItemName->Transform.SetLocalPosition(float4(36.0f, 4.0f, FontDepth));
+
+
+
+	const float DescFontSize = 13.0f;
+	const float NewLineGap = 0.0f;
+	const float NextMarkGap = 22.0f;
+	float YPos = -50.0f;
+	PageInfo.DESCArray.resize(Data->DESCArray.size());
+	for (int i = 0; i < Data->DESCArray.size(); i++)
+	{
+		std::string NewLineDesc = StringFunction::InsertNewLineBTWWord(Data->DESCArray[i].DESC, 26);
+		int NewLineCnt = StringFunction::GetNewLineCount(NewLineDesc);
+
+		PageInfo.DESCArray[i].Mark = CreateComponent<GameEngineUIRenderer>();
+		PageInfo.DESCArray[i].Mark->Transform.SetLocalPosition(float4(-130.0f, YPos, ComponentDepth));
+		PageInfo.DESCArray[i].Mark->SetSprite("Info_Icon.png", static_cast<int>(Data->DESCArray[i].DESCType));
+
+		PageInfo.DESCArray[i].Content = CreateComponent<GameEngineUIRenderer>();
+		PageInfo.DESCArray[i].Content->Transform.SetLocalPosition(float4(-116.0f, YPos + 8.0f, FontDepth));
+		PageInfo.DESCArray[i].Content->SetText(GlobalValue::Font_Sandoll, NewLineDesc, DescFontSize, BlackFontColor, FW1_TEXT_FLAG::FW1_LEFT);
+
+		YPos -= static_cast<float>(NewLineCnt) * DescFontSize + NextMarkGap;
+	}
 
 	Off();
 }

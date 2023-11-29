@@ -14,6 +14,11 @@ UI_Dictionary::UI_Dictionary()
 		s_CurrentCategory = EDICTIONARYCATEGORY::CreaturePage;
 		s_CurrentLeftPage = 1;
 	}
+
+	if (nullptr == GameEngineSprite::Find("Info_Icon.png"))
+	{
+		GameEngineSprite::CreateCut("Info_Icon.png", 3, 1);
+	}
 }
 
 UI_Dictionary::~UI_Dictionary() 

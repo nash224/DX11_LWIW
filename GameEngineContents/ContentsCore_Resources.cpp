@@ -124,31 +124,45 @@ void ContentsCore::LoadContentsData()
 	IngredientData::CreateData("MapleHerb_Water", { "MapleHerb_Water", "단풍 허브 즙", "MapleHerb_Collect", EBrewingMachineType::Extractor, 2 });
 
 	// 동물
-	BiologyData::CreateData("Mongsiri", { "Mongsiri", "몽시리", "Mongsiri_Collect", ETOOLTYPE::Gloves, EECOLOGYTYPE::GreenForest ,EECOLOGYTYPE::ForestPlains, EECOLOGYTYPE::Day });
-	BiologyData::CreateData("PumpkinTerrier", { "PumpkinTerrier", "호박 강아지", "PumpkinTerrier_Collect", ETOOLTYPE::Gloves, EECOLOGYTYPE::GreenForest, EECOLOGYTYPE::ForestPlains, EECOLOGYTYPE::AllDay });
-	BiologyData::CreateData("BushBug", { "BushBug", "덤불 깨비", "BushBug_Collect", ETOOLTYPE::Dragonfly, EECOLOGYTYPE::GreenForest, EECOLOGYTYPE::None, EECOLOGYTYPE::AllDay });
-	BiologyData::CreateData("FlowerBird", { "FlowerBird", "새싹새", "FlowerBird_Collect", ETOOLTYPE::Gloves, EECOLOGYTYPE::GreenForest, EECOLOGYTYPE::ForestPlateau, EECOLOGYTYPE::Day });
-	BiologyData::CreateData("BubbleLizard", { "BubbleLizard", "푸른 방울 도마뱀", "BubbleLizard_Collect", ETOOLTYPE::Gloves, EECOLOGYTYPE::GreenForest, EECOLOGYTYPE::ForestWaterfall, EECOLOGYTYPE::Day });
+	BiologyData::CreateData("Mongsiri", { "Mongsiri", "몽시리", "Mongsiri_Collect", ETOOLTYPE::Gloves, EECOLOGYTYPE::GreenForest ,EECOLOGYTYPE::ForestPlains, EECOLOGYTYPE::Day, 
+		{ {EBIOLOGYDESCTYPE::Observation, "굴을 파고 생활하며 2~4마리가 같은 굴에서 산다. 호기심이 많아 사람이 가까이 오면 먼저 다가간다."},{EBIOLOGYDESCTYPE::Method, "편안한 그립감을 주는 볼을 잡고 늘리면 보송보송한 털이 자연스레 손에 남아 있다."} } });
+	BiologyData::CreateData("PumpkinTerrier", { "PumpkinTerrier", "호박 강아지", "PumpkinTerrier_Collect", ETOOLTYPE::Gloves, EECOLOGYTYPE::GreenForest, EECOLOGYTYPE::ForestPlains, EECOLOGYTYPE::AllDay, 
+		{ {EBIOLOGYDESCTYPE::Observation, "'호박류'의 식물을 먹고 산다. 재생력이 강한 호박 덩굴에 몸이 감싸여 있는 경우가 많다."},{EBIOLOGYDESCTYPE::Method, "놀이를 좋아해서, 채집을 시도하면 술래잡기를 하려 한다."}, {EBIOLOGYDESCTYPE::Extra, "본래의 모습이 궁금하다면 감싸고 있는 덩굴을 모두 제거해보자."} } });
+	BiologyData::CreateData("BushBug", { "BushBug", "덤불 깨비", "BushBug_Collect", ETOOLTYPE::Dragonfly, EECOLOGYTYPE::GreenForest, EECOLOGYTYPE::None, EECOLOGYTYPE::AllDay, 
+		{ {EBIOLOGYDESCTYPE::Observation, "덤불 안에 집을 짓고 산다. 작은 몸집에 맞지 않는 커다란 날개를 가지고 있다."},{EBIOLOGYDESCTYPE::Method, "움직이는 덤불을 본다면, 힘차게 흔들어보자. 일단 발견하면 채집하는 것은 어렵지 않다."} } });
+	BiologyData::CreateData("FlowerBird", { "FlowerBird", "새싹새", "FlowerBird_Collect", ETOOLTYPE::Gloves, EECOLOGYTYPE::GreenForest, EECOLOGYTYPE::ForestPlateau, EECOLOGYTYPE::Day, 
+		{ {EBIOLOGYDESCTYPE::Observation, "초록숲 어디서나 볼 수 있는 흔한 새."},{EBIOLOGYDESCTYPE::Method, "머리 위의 싹은 시들거나 꽃을 피운다. 꽃을 피울 때, 놀래키면 꽃을 떨어트린다."},{EBIOLOGYDESCTYPE::Extra, "영양을 잘 섭취한 경우에는, 꽃을 많이 피우기도 한다."} } });
+	BiologyData::CreateData("BubbleLizard", { "BubbleLizard", "푸른 방울 도마뱀", "BubbleLizard_Collect", ETOOLTYPE::Gloves, EECOLOGYTYPE::GreenForest, EECOLOGYTYPE::ForestWaterfall, EECOLOGYTYPE::Day, 
+		{ {EBIOLOGYDESCTYPE::Observation, "날씨가 좋으면 연못 밖으로 나와 햇볕을 쬐어 일광욕을 한다. 맹한 표정으로 침을 흘리는 모습이 인기가 좋다."},{EBIOLOGYDESCTYPE::Method, "배를 만져주면 굉장히 좋아한다. 기분이 좋을 때 내뿜는 단단한 방울은 재료로 사용된다."} } });
 
 	// 식물
-	BiologyData::CreateData("WitchFlower", { "WitchFlower", "마녀꽃", "WitchFlower_Collect", ETOOLTYPE::Gloves, EECOLOGYTYPE::GreenForest, EECOLOGYTYPE::None, EECOLOGYTYPE::AllDay });
-	BiologyData::CreateData("SilverStarFlower", { "SilverStarFlower", "은별방울꽃", "SilverStarFlower_Collect", ETOOLTYPE::Dragonfly, EECOLOGYTYPE::GreenForest, EECOLOGYTYPE::ForestWaterfall, EECOLOGYTYPE::Night });
-	BiologyData::CreateData("MapleHerb", { "MapleHerb", "단풍 허브", "MapleHerb_Collect", ETOOLTYPE::Gloves, EECOLOGYTYPE::GreenForest, EECOLOGYTYPE::ForestPlateau, EECOLOGYTYPE::AllDay });
+	BiologyData::CreateData("WitchFlower", { "WitchFlower", "마녀꽃", "WitchFlower_Collect", ETOOLTYPE::Gloves, EECOLOGYTYPE::GreenForest, EECOLOGYTYPE::None, EECOLOGYTYPE::AllDay, 
+		{ {EBIOLOGYDESCTYPE::Observation, "마녀가 무언가 만들 때 많이 사용하기 때문에, 마녀 꽃이라는 이름이 붙여졌다."},{EBIOLOGYDESCTYPE::Method, "다가가서 줄기를 잡고 가볍게 힘을 주면, 쑥 뽑혀 나온다."} } });
+	BiologyData::CreateData("SilverStarFlower", { "SilverStarFlower", "은별방울꽃", "SilverStarFlower_Collect", ETOOLTYPE::Dragonfly, EECOLOGYTYPE::GreenForest, EECOLOGYTYPE::ForestWaterfall, EECOLOGYTYPE::Night, 
+		{ {EBIOLOGYDESCTYPE::Observation, "은색 종 모양의 꽃은 실제 종처럼 은은한 소리를 낸다. 퍼지는 종소리는 어쩐지 서글픈 마음을 불러 일으킨다."},{EBIOLOGYDESCTYPE::Method, "밤에 빛을 내고 있을 때 부딧히면, 봉오리가 열리며 꽃가루가 흩뿌려진다."} } });
+	BiologyData::CreateData("MapleHerb", { "MapleHerb", "단풍 허브", "MapleHerb_Collect", ETOOLTYPE::Gloves, EECOLOGYTYPE::GreenForest, EECOLOGYTYPE::ForestPlateau, EECOLOGYTYPE::AllDay , 
+		{ {EBIOLOGYDESCTYPE::Observation, "절벽에 뿌리를 내리고 자라는 붉은색을 허브, 겁쟁이 풀이라고도 불리는데, 아이들이 담력 시험의 일환으로 풀을 따기 때문이다."},{EBIOLOGYDESCTYPE::Method, "땅에 자라는 식물과 달리 뿌리를 사방으로 뻗어 있기 때문에, 위로 잡아 뽑기 보다는 좌우로 흔들면서 뽑는 것이 좋다."} } });
+
 
 	// 물약
-	ProductRecipeData::CreateData("BadGrassPotion", { std::vector<ProductRecipeData::MaterialInfo>{{"Mongsiri_Water", 1}, {"WitchFlower_Water", 1 } }, EBREWING_DIFFICULTY::Easy, EBREWING_DIRECTION::StirNone, EBREWING_FIRE::Four, "BadGrassPotion", "나쁜 풀 제거 물약" , {} });
-	ProductRecipeData::CreateData("NutritionPotion", { std::vector<ProductRecipeData::MaterialInfo>{{"SilverStarFlower_Water", 1}, {"MapleHerb_Water", 1 },{"BushBug_Water", 1  }}, EBREWING_DIFFICULTY::Normal, EBREWING_DIRECTION::StirRight, EBREWING_FIRE::Three, "NutritionPotion", "영양 공급 물약", {} });
-	ProductRecipeData::CreateData("FirecrackerPotion", { std::vector<ProductRecipeData::MaterialInfo>{{"SilverStarFlower_Water", 1,}, { "FlowerBird_Water", 1 },{"BushBug_Water", 1} }, EBREWING_DIFFICULTY::Hard, EBREWING_DIRECTION::StirLeft, EBREWING_FIRE::Two, "FirecrackerPotion", "폭죽 물약" , {} });
+	std::string BadGrassPotionContent = "마녀들이 정원을 관리할 때 주로 사용하게 되는 물약이다. 만들 때 '나쁜 풀'에 대해 잘 생각하지 않으면 맛없는 야채들이 함께 사라지는 대참사가 벌어질 수도 있다.";
+	std::string NutritionPotionContent = "대상에게 순간 다량의 영양분을 공급한다. 초보 원예가들에게 한 줄기 빛이 되는 듯 했으나, 지속 시간이 지난 후에 다시 시드는 식물들은 그들에게 더 큰 좌절감만 안겨줬다는 후문이 있다.";
+	std::string FirecrackerPotionContent = "알아서 높이 날아올라 일정 높이 이상이 되면 터지면서 아름다운 불꽃으로 장관을 만드는 물약이다.";
+	ProductRecipeData::CreateData("BadGrassPotion", { std::vector<ProductRecipeData::MaterialInfo>{{"Mongsiri_Water", 1}, {"WitchFlower_Water", 1 } }, EBREWING_DIFFICULTY::Easy, EBREWING_DIRECTION::StirNone, EBREWING_FIRE::Four, "BadGrassPotion", "나쁜 풀 제거 물약", BadGrassPotionContent });
+	ProductRecipeData::CreateData("NutritionPotion", { std::vector<ProductRecipeData::MaterialInfo>{{"SilverStarFlower_Water", 1}, {"MapleHerb_Water", 1 },{"BushBug_Water", 1  }}, EBREWING_DIFFICULTY::Normal, EBREWING_DIRECTION::StirRight, EBREWING_FIRE::Three, "NutritionPotion", "영양 공급 물약", NutritionPotionContent });
+	ProductRecipeData::CreateData("FirecrackerPotion", { std::vector<ProductRecipeData::MaterialInfo>{{"SilverStarFlower_Water", 1,}, { "FlowerBird_Water", 1 },{"BushBug_Water", 1} }, EBREWING_DIFFICULTY::Hard, EBREWING_DIRECTION::StirLeft, EBREWING_FIRE::Two, "FirecrackerPotion", "폭죽 물약", FirecrackerPotionContent });
+	
 
 	// 사탕
-	/*std::vector<ProduectDESC> UncurseCandyDESCArray = { {EPRODUCTDESCTYPE::Observation, "마녀가 무언가 만들 때 많이 사용하기 때문에, 마녀 꽃이라는 이름이 붙여졌다."},{EPRODUCTDESCTYPE::, "마녀가 무언가 만들 때 많이 사용하기 때문에, 마녀 꽃이라는 이름이 붙여졌다."} };*/
-	ProductRecipeData::CreateData("UncurseCandy", { std::vector<ProductRecipeData::MaterialInfo>{{"Mongsiri_Water", 1}, {"MapleHerb_Water", 1 } }, EBREWING_DIFFICULTY::Easy, EBREWING_DIRECTION::StirNone, EBREWING_FIRE::Three,  "UncurseCandy", "저주해제 사탕" });
-	ProductRecipeData::CreateData("HealingCandy", { std::vector<ProductRecipeData::MaterialInfo>{{"WitchFlower_Water", 1}, {"MapleHerb_Water", 1 } }, EBREWING_DIFFICULTY::Easy, EBREWING_DIRECTION::StirRight, EBREWING_FIRE::Four, "HealingCandy", "치료 사탕" });
+	std::string UncurseCandyContent = "양치 한 걸 까먹게하는 저주, 자주 넘어지게 하는 저주 등 가벼운 저주를 풀 수 있는 사탕이다. 달콤한 박하맛이 맛있다.";
+	std::string HealingCandyContent = "무릎 까진거, 손가락 살짝 베인거, 가시 박힌거 정도는 치료해주는 사탕이다. 어린아이들을 위한 박하맛이 가미된 사탕이다. 중독성이 있기 때문에 반드시 양철통에 넣어 높은 서랍에 보관할 것.";
+	ProductRecipeData::CreateData("UncurseCandy", { std::vector<ProductRecipeData::MaterialInfo>{{"Mongsiri_Water", 1}, {"MapleHerb_Water", 1 } }, EBREWING_DIFFICULTY::Easy, EBREWING_DIRECTION::StirNone, EBREWING_FIRE::Three,  "UncurseCandy", "저주해제 사탕", UncurseCandyContent });
+	ProductRecipeData::CreateData("HealingCandy", { std::vector<ProductRecipeData::MaterialInfo>{{"WitchFlower_Water", 1}, {"MapleHerb_Water", 1 } }, EBREWING_DIFFICULTY::Easy, EBREWING_DIRECTION::StirRight, EBREWING_FIRE::Four, "HealingCandy", "치료 사탕", HealingCandyContent });
 
 	QuestData::CreateData("FindLetter", { "FindLetter" , "편지 읽기", "마당에 있는 편지를 읽어보자." });
 	QuestData::CreateData("StartTraining", { "StartTraining" , "수습 시작", "폭죽 물약을 만들어서 정식 \n마녀가 되자." });
 	QuestData::CreateData("Repair_Extractor", { "Repair_Extractor" , "착즙기 수리", "착즙기를 수리할 방법을 \n찾아보자." });
-	QuestData::CreateData("Craft_Potion", { "Craft_Potion" , "나쁜 풀 제거 물약 제조", "D 키를 눌러 도감을 확인 후,\n나쁜 풀 제거 물약을 제작하자." });
+	QuestData::CreateData("Craft_Potion", { "Craft_Potion" , "나쁜 풀 제거 물약 제조", "D 키를 눌러 도감을 확인 후,\n나쁜 풀 제거 물약을 제작하자." }); 
 	QuestData::CreateData("Aurea_Cure", { "Aurea_Cure" , "저주 해제 사탕 제조", "아우레아에게 저주 해제\n사탕을 주자." });
 	QuestData::CreateData("Dian_BadWeedPotion", { "Dian_BadWeedPotion" , "물약 검증", "다이엔에게 나쁜 풀 제거\n물약을 주자." });
 	QuestData::CreateData("Dian_Cracker_Recipe", { "Dian_Cracker_Recipe" , "폭죽 포션 레시피", "다이엔에게 영양 공급\n물약을 주자." });

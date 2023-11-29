@@ -125,14 +125,14 @@ PixelOut GaugeShader_PS(PixelOutPut _Input) : SV_Target0
         
             if (_Input.TEXCOORD.x < GaugeRatio)
             {
-                clip(-1);
+                discard;
             }
         }
         else
         {
             if (_Input.TEXCOORD.x > GaugeRatio)
             {
-                clip(-1);
+                discard;
             }
         }
     }
@@ -145,14 +145,14 @@ PixelOut GaugeShader_PS(PixelOutPut _Input) : SV_Target0
         float UVAngle = -atan2(_Input.TEXCOORD.x - 0.5f, _Input.TEXCOORD.y - 0.5f) + PI; // 중앙점 (0.5f, 0.5f)기준 현재 픽셀 각도
         if (UVAngle > FillAngle) // 현재 각도가 채워지는 각도보다 크면 클립
         {
-            clip(-1);
+            discard;
         }
     }
 
     
     if (0.0f >= Color.a)
     {
-        clip(-1);
+        discard;
     }
     
     Color += PlusColor;

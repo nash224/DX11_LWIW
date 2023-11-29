@@ -93,6 +93,12 @@ void UI_ProductPage::CreatePage(std::string_view _ProduectName, int& PageCount)
 	Page.PageFont.Fire->SetText(GlobalValue::Font_Sandoll, GetLadleString(Data->Ladle), ConditionFontSize, float4::ZERO, FW1_TEXT_FLAG::FW1_CENTER);
 	Page.PageFont.Fire->Transform.SetLocalPosition(float4(79.0f + OptionGap * 2.0f, 129.0f + ConditionYCorrection, FontDepth));
 
+	std::string ContentText = StringFunction::InsertNewLineBTWWord(Data->Content, 24);
+
+	Page.DESC = CreateComponent<GameEngineUIRenderer>();
+	Page.DESC->SetText(GlobalValue::Font_Sandoll, ContentText, 14.0f, float4(0.1f, 0.1f, 0.1f, 1.0f));
+	Page.DESC->Transform.SetLocalPosition(float4(-306.0f, -58.0f, FontDepth));
+
 
 	static constexpr float MaterialFontSize = 14.0f;
 	static constexpr float MaterialFontCorrection = -26.0f;

@@ -9,50 +9,46 @@
 class UI_BiologyPage : public UI_DictionaryPage
 {
 private:
-	class NameTagStruct
-	{
-	public:
-		std::shared_ptr<GameEngineSpriteRenderer> Base = nullptr;
-		std::shared_ptr<GameEngineSpriteRenderer> MaterialName = nullptr;
-	};
-
-	class IllustrationStruct
-	{
-	public:
-		std::shared_ptr<GameEngineSpriteRenderer> Photo = nullptr;
-		std::shared_ptr<GameEngineSpriteRenderer> Illustration = nullptr;
-
-	};
-
 	class EcologicalStruct
 	{
 	public:
-		std::shared_ptr<GameEngineSpriteRenderer> Font = nullptr;
-		std::shared_ptr<GameEngineSpriteRenderer> Slot1 = nullptr;
-		std::shared_ptr<GameEngineSpriteRenderer> Slot2 = nullptr;
-		std::shared_ptr<GameEngineSpriteRenderer> Slot3 = nullptr;
+		std::shared_ptr<GameEngineUIRenderer> Font = nullptr;
+		std::shared_ptr<GameEngineUIRenderer> Slot1 = nullptr;
+		std::shared_ptr<GameEngineUIRenderer> Slot2 = nullptr;
+		std::shared_ptr<GameEngineUIRenderer> Slot3 = nullptr;
 
 	};
 
 	class ItemSlot
 	{
 	public:
-		std::shared_ptr<GameEngineSpriteRenderer> ItemSpace = nullptr;
-		std::shared_ptr<GameEngineSpriteRenderer> ItemImg = nullptr;
-		std::shared_ptr<GameEngineSpriteRenderer> ItemName = nullptr;
+		std::shared_ptr<GameEngineUIRenderer> ItemSpace = nullptr;
+		std::shared_ptr<GameEngineUIRenderer> ItemImg = nullptr;
+		std::shared_ptr<GameEngineUIRenderer> ItemName = nullptr;
 
 	};
 
-	struct BiologyPageInfo
+	struct BiologyDESCStruct
 	{
 	public:
-		NameTagStruct NameTag;
-		IllustrationStruct Illustration;
+		std::shared_ptr<GameEngineUIRenderer> Mark = nullptr;
+		std::shared_ptr<GameEngineUIRenderer> Content = nullptr;
+
+	};
+
+	struct BiologyPageStruct
+	{
+	public:
 		EcologicalStruct Ecological;
 		ItemSlot Item;
+		std::vector<BiologyDESCStruct> DESCArray;
 
-		std::shared_ptr<GameEngineSpriteRenderer> Frame = nullptr;
-		std::shared_ptr<GameEngineSpriteRenderer> Tool = nullptr;
+		std::shared_ptr<GameEngineUIRenderer> Base = nullptr;
+		std::shared_ptr<GameEngineUIRenderer> MaterialName = nullptr;
+		std::shared_ptr<GameEngineUIRenderer> Photo = nullptr;
+		std::shared_ptr<GameEngineUIRenderer> Illustration = nullptr;
+		std::shared_ptr<GameEngineUIRenderer> Frame = nullptr;
+		std::shared_ptr<GameEngineUIRenderer> Tool = nullptr;
 
 	};
 
@@ -80,7 +76,7 @@ private:
 	std::string ReturnEcologyTypeFileName(EECOLOGYTYPE _Type);
 
 private:
-	BiologyPageInfo PageInfo;
+	BiologyPageStruct PageInfo;
 
 
 };

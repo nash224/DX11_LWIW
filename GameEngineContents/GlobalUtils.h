@@ -63,6 +63,7 @@ struct StringFunction
 {
 public:
 	static int GetNewLineCount(std::string_view _Text);
+	static std::string InsertNewLineBTWWord(std::string_view _Text, int _NumCharPerLine);
 
 };
 
