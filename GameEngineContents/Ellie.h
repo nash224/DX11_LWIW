@@ -227,7 +227,8 @@ private:
 	void GenerateBroomDust(float _Delta);
 	void GenerateBoostBroomDust(float _Delta);
 	void CreateBroomParticle(float _ParticleDistance = 0.0f);
-	float4 GetBroomParticlePosition(float _ParticleDistance);
+	float4 GetBroomParticlePosition(float _ParticleDistance); 
+	bool ChecckCollideWall();
 
 	void ConsumeBroomFuel(float _Delta);
 
@@ -243,7 +244,7 @@ private:
 	void DecelerateNotDir(float _Delta, const float _MaxMoveForce);
 	float4 GetMoveForceByDir(float _Delta, float _MAXMoveForce, float _Acceleration_Time);
 	void LimitMoveVector(float _MAXMoveForce);
-	void WallCollision();
+	bool WallCollision();
 
 	void PlaySFX(std::string_view _FileName);
 

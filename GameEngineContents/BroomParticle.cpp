@@ -38,7 +38,6 @@ void BroomParticle::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void BroomParticle::Init(const float4& _DirVector)
 {
-	ApplyDepth();
 	RendererSetting(_DirVector);
 }
 
@@ -50,11 +49,6 @@ void BroomParticle::RendererSetting(const float4& _DirVector)
 	FxRenderer->SetSprite("Broom_Particle.png");
 	FxRenderer->SetPivotValue(_DirVector);
 	SetFlip(_DirVector.X);
-}
-
-void BroomParticle::SetPivot(const float4& _DirVector) 
-{
-
 }
 
 void BroomParticle::SetFlip(const float _VectorX)
@@ -76,14 +70,4 @@ void BroomParticle::ParticleUpate(float _Delta)
 	Transform.SetLocalScale(float4(LiveTimeRatio, LiveTimeRatio, 1.0f));
 
 	FxRenderer->GetColorData().MulColor.A = LiveTimeRatio;
-}
-
-void BroomParticle::ApplyDepth()
-{
-	const float4& MyPos = Transform.GetLocalPosition();
-	if (nullptr != BackDrop_PlayLevel::MainBackDrop)
-	{
-		const float4& BackScale = BackDrop_PlayLevel::MainBackDrop->GetBackGroundScale();
-		DepthFunction::CalculateObjectDepth(BackScale.Y, MyPos.Y + 7.0f);
-	}
 }

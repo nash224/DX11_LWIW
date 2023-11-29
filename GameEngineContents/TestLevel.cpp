@@ -153,7 +153,7 @@ void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
 
 	if (false) 
 	{
-		std::shared_ptr<UI_Hub_MainBoard> MainBoard = CreateActor<UI_Hub_MainBoard>(EUPDATEORDER::UIComponent);
+		std::shared_ptr<UI_Hub_MainBoard> MainBoard = CreateActor<UI_Hub_MainBoard>(EUPDATEORDER::UIMagnaer);
 		MainBoard->Init();
 	}
 

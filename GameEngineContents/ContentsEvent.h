@@ -210,6 +210,7 @@ public:
 	{
 	public:
 		bool QuestClearPrerequisite() override;
+		void CompleteInternal() override;
 	};
 
 

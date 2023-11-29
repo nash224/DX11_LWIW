@@ -5,7 +5,7 @@
 
 #include "AlertManager.h"
 #include "UI_Inventory.h"
-
+#include "UI_Hub_MainBoard.h"
 
 
 bool ContentsEvent::Aurea_Find::QuestClearPrerequisite()
@@ -20,6 +20,11 @@ void ContentsEvent::Aurea_Cure::AcceptInternal()
 	if (nullptr != PlayLevel::s_AlertManager)
 	{
 		PlayLevel::s_AlertManager->RegisterAlert(AlertData("历林秦力 荤帕 力累", EALERTTYPE::QuestAccept));
+	}
+
+	if (nullptr != UI_Hub_MainBoard::s_QuestManager)
+	{
+		UI_Hub_MainBoard::s_QuestManager->RegisterData("Aurea_Cure");
 	}
 }
 
@@ -50,5 +55,10 @@ void ContentsEvent::Aurea_Cure::CompleteInternal()
 	if (nullptr != PlayLevel::s_AlertManager)
 	{
 		PlayLevel::s_AlertManager->RegisterAlert(AlertData("历林秦力 荤帕 力累", EALERTTYPE::QuestClear));
+	}
+
+	if (nullptr != UI_Hub_MainBoard::s_QuestManager)
+	{
+		UI_Hub_MainBoard::s_QuestManager->PopData("Aurea_Cure");
 	}
 }

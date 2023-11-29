@@ -7,6 +7,7 @@
 
 #include "UI_Inventory.h"
 #include "UI_Alert_Quest.h"
+#include "UI_Hub_MainBoard.h"
 
 
 bool ContentsEvent::Crow_Meet::QuestClearPrerequisite()
@@ -50,6 +51,11 @@ void ContentsEvent::Dian_BadWeedPotion::AcceptInternal()
 	{
 		PlayLevel::s_AlertManager->RegisterAlert(AlertData("¹°¾à °ËÁõ", EALERTTYPE::QuestAccept));
 	}
+
+	if (nullptr != UI_Hub_MainBoard::s_QuestManager)
+	{
+		UI_Hub_MainBoard::s_QuestManager->RegisterData("Dian_BadWeedPotion");
+	}
 }
 
 bool ContentsEvent::Dian_BadWeedPotion::QuestClearPrerequisite()
@@ -72,6 +78,11 @@ void ContentsEvent::Dian_BadWeedPotion::CompleteInternal()
 		PlayLevel::s_AlertManager->RegisterAlert(AlertData("¹°¾à °ËÁõ", EALERTTYPE::QuestClear));
 	}
 
+	if (nullptr != UI_Hub_MainBoard::s_QuestManager)
+	{
+		UI_Hub_MainBoard::s_QuestManager->PopData("Dian_BadWeedPotion");
+	}
+
 	if (nullptr != UI_Inventory::MainInventory)
 	{
 		UI_Inventory::MainInventory->PushItem("Item_Etc_11");
@@ -86,7 +97,12 @@ void ContentsEvent::Dian_Cracker::AcceptInternal()
 {
 	if (nullptr != PlayLevel::s_AlertManager)
 	{
-		PlayLevel::s_AlertManager->RegisterAlert(AlertData("ºÒ²É³îÀÌ Æ÷¼Ç ·¹½ÃÇÇ", EALERTTYPE::QuestAccept));
+		PlayLevel::s_AlertManager->RegisterAlert(AlertData("ÆøÁ× Æ÷¼Ç ·¹½ÃÇÇ", EALERTTYPE::QuestAccept));
+	}
+
+	if (nullptr != UI_Hub_MainBoard::s_QuestManager)
+	{
+		UI_Hub_MainBoard::s_QuestManager->RegisterData("Dian_Cracker_Recipe");
 	}
 }
 
@@ -107,6 +123,12 @@ void ContentsEvent::Dian_Cracker::CompleteInternal()
 {
 	if (nullptr != PlayLevel::s_AlertManager)
 	{
-		PlayLevel::s_AlertManager->RegisterAlert(AlertData("ºÒ²É³îÀÌ Æ÷¼Ç ·¹½ÃÇÇ", EALERTTYPE::QuestClear));
+		PlayLevel::s_AlertManager->RegisterAlert(AlertData("ÆøÁ× Æ÷¼Ç ·¹½ÃÇÇ", EALERTTYPE::QuestClear));
+	}
+
+	if (nullptr != UI_Hub_MainBoard::s_QuestManager)
+	{
+		UI_Hub_MainBoard::s_QuestManager->RegisterData("Craft_Cracker_Potion");
+		UI_Hub_MainBoard::s_QuestManager->PopData("Dian_Cracker_Recipe");
 	}
 }

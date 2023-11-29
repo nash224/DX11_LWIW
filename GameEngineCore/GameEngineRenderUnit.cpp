@@ -110,7 +110,7 @@ void GameEngineRenderUnit::Draw()
 
 		GameEngineActor* Parent = ParentRenderer->GetParent<GameEngineActor>();
 
-		if (nullptr != Parent && Parent->GetLevel()->GetMainCamera()->GetProjectionType() == EPROJECTIONTYPE::Orthographic)
+		if (nullptr != Parent && ParentRenderer->GetCamera()->GetProjectionType() == EPROJECTIONTYPE::Orthographic)
 		{
 			float4 ScreenPos = ParentRenderer->Transform.GetWorldPosition();
 

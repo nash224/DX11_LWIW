@@ -94,7 +94,6 @@ void UIManager::Init()
 	m_ConversationUI = GetLevel()->CreateActor<UI_Conversation>(EUPDATEORDER::UIComponent);
 	m_ConversationUI->Init();
 
-
 	Reset();
 }
 

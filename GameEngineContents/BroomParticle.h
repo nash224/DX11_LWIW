@@ -24,9 +24,7 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
-	void ApplyDepth();
 	void RendererSetting(const float4& _DirVector);
-	void SetPivot(const float4& _DirVector);
 	void SetFlip(const float _VectorX);
 	void ParticleUpate(float _Delta);
 

@@ -751,6 +751,9 @@
     <ClInclude Include="LowerLiftA.h">
       <Filter>Actor\Interactive\Static\WitchLift</Filter>
     </ClInclude>
+    <ClInclude Include="BroomCollisionParticle.h">
+      <Filter>Actor\Interactive\Dynamic\Ellie\Broom\Ride_Particle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -1264,6 +1267,9 @@
     </ClCompile>
     <ClCompile Include="LowerLiftA.cpp">
       <Filter>Actor\Interactive\Static\WitchLift</Filter>
+    </ClCompile>
+    <ClCompile Include="BroomCollisionParticle.cpp">
+      <Filter>Actor\Interactive\Dynamic\Ellie\Broom\Ride_Particle</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

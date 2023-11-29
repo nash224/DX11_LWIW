@@ -20,7 +20,7 @@ public:
 
 protected:
 	void Start() override {}
-	void Update(float _Delta) override {}
+	void Update(float _Delta) override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
@@ -37,5 +37,6 @@ private:
 	std::shared_ptr<class UI_Hub_QuickSlot> UIQuickSlot = nullptr;
 	std::shared_ptr<class UI_Hub_Broom> UIBroom = nullptr;
 	std::shared_ptr<class UI_Hub_Calender> UICalender = nullptr;
+	std::shared_ptr<class UI_Hub_MainBoard> UIMainBoard = nullptr;
 };
 

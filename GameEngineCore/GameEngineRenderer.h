@@ -99,6 +99,11 @@ public:
 
 	float4 GetScreenPosition();
 
+	GameEngineCamera* GetCamera()
+	{
+		return Camera;
+	}
+
 protected:
 	void Start();
 	void Update(float _Delta) override;

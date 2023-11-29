@@ -6,16 +6,26 @@
 #include "UI_Hub_QuickSlot.h"
 #include "UI_Hub_Broom.h"
 #include "UI_Hub_Calender.h"
+#include "UI_Hub_MainBoard.h"
 
 
 UI_Hub::UI_Hub() 
 {
+	GameEngineInput::AddInputObject(this);
 }
 
 UI_Hub::~UI_Hub() 
 {
 }
 
+
+void UI_Hub::Update(float _Delta)
+{
+	if (true == GameEngineInput::IsDown(VK_TAB, this))
+	{
+		UIMainBoard->Open();
+	}
+}
 
 void UI_Hub::Init()
 {
@@ -36,11 +46,12 @@ void UI_Hub::Init()
 	UICalender = GetLevel()->CreateActor<UI_Hub_Calender>(EUPDATEORDER::UIComponent);
 	UICalender->Init();
 
+	UIMainBoard = GetLevel()->CreateActor<UI_Hub_MainBoard>(EUPDATEORDER::UIComponent);
+	UIMainBoard->Init();
+
 	Reset();
 }
 
-
-/////////////////////////////////////////////////////////////////////////////////////
 
 void UI_Hub::OpenInternal()
 {
@@ -67,6 +78,11 @@ void UI_Hub::OpenInternal()
 	if (nullptr != UICalender)
 	{
 		UICalender->On();
+	}
+
+	if (nullptr != UIMainBoard)
+	{
+		UIMainBoard->On();
 	}
 }
 
@@ -96,6 +112,11 @@ void UI_Hub::CloseInternal()
 	{
 		UICalender->Off();
 	}
+
+	if (nullptr != UIMainBoard)
+	{
+		UIMainBoard->Off();
+	}
 }
 
 void UI_Hub::Reset()
@@ -123,5 +144,10 @@ void UI_Hub::Reset()
 	if (nullptr != UICalender)
 	{
 		UICalender->On();
+	}
+
+	if (nullptr != UIMainBoard)
+	{
+		UIMainBoard->On();
 	}
 }

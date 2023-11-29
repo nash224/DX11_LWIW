@@ -1,5 +1,6 @@
 #include "PreCompile.h"
 #include "UI_QuestUnit.h"
+#include "UI_Hub_MainBoard.h"
 
 static constexpr float ContentFontSize = 15.0f;
 static constexpr float SubjectBaseYRenderScale = 24.0f;
@@ -27,6 +28,23 @@ void UI_QuestUnit::Release()
 void UI_QuestUnit::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	Death();
+
+	if (nullptr != MaibBoardPointer)
+	{
+		std::list<std::shared_ptr<UI_QuestUnit>>::iterator StartIter = MaibBoardPointer->QuestList.begin();
+		std::list<std::shared_ptr<UI_QuestUnit>>::iterator EndIter = MaibBoardPointer->QuestList.end();
+
+		for (; StartIter != EndIter; )
+		{
+			if ((*StartIter).get() == this)
+			{
+				StartIter = MaibBoardPointer->QuestList.erase(StartIter);
+				return;
+			}
+
+			++StartIter;
+		}
+	}
 }
 
 void UI_QuestUnit::Init(std::string_view _Data)
@@ -45,7 +63,6 @@ void UI_QuestUnit::Init(std::string_view _Data)
 	const float FontDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Font);
 
 	const int ContentsNewLineCount = StringFunction::GetNewLineCount(Data.lock()->Contents);
-	RenderYScale = GetRenderYSize(ContentsNewLineCount + 1);
 
 	QuestUnit.SubjectBase = CreateComponent<GameEngineUIRenderer>();
 	QuestUnit.SubjectBase->Transform.SetLocalPosition(float4(0.0f, 0.0f, FrameDepth));
@@ -59,10 +76,13 @@ void UI_QuestUnit::Init(std::string_view _Data)
 	QuestUnit.Subject->Transform.SetLocalPosition(float4(-90.0f, -6.0f, FontDepth));
 	QuestUnit.Subject->SetText(GlobalValue::Font_Sandoll, GetSubjectTextToType(Data.lock()->QuestType), ContentFontSize, float4::WHITE);
 
+	const float ContentBaseYScale = GetRenderYSize(ContentsNewLineCount + 1);
+	RenderYScale = QuestUnit.SubjectBase->GetCurSprite().Texture->GetScale().Y + ContentBaseYScale;
+
 	QuestUnit.ContentBase = CreateComponent<GameEngineUIRenderer>();
 	QuestUnit.ContentBase->Transform.SetLocalPosition(float4(0.0f, -SubjectBaseYRenderScale, FrameDepth));
 	QuestUnit.ContentBase->SetSprite("HUD_Quest_Content_2.png");
-	QuestUnit.ContentBase->GetImageTransform().SetLocalScale(float4(196.0f, RenderYScale));
+	QuestUnit.ContentBase->GetImageTransform().SetLocalScale(float4(196.0f, ContentBaseYScale));
 	QuestUnit.ContentBase->SetPivotType(PivotType::Top);
 
 	QuestUnit.QuestName = CreateComponent<GameEngineUIRenderer>();
@@ -76,6 +96,17 @@ void UI_QuestUnit::Init(std::string_view _Data)
 	QuestUnit.Dot = CreateComponent<GameEngineUIRenderer>();
 	QuestUnit.Dot->Transform.SetLocalPosition(float4(-86.0f, -60.0f, FontDepth));
 	QuestUnit.Dot->SetText(GlobalValue::Font_Sandoll, std::string("¡Ü"), 5.0f, float4::WHITE);
+}
+
+void UI_QuestUnit::SetLocalPosition(const float4& _Position)
+{
+	const float4& MyPosition = Transform.GetLocalPosition();
+	Transform.SetLocalPosition(float4(_Position.X + 106.0f, MyPosition.Y));
+}
+
+void UI_QuestUnit::AddLocalPosition(const float4& _Position)
+{
+	Transform.AddLocalPosition(float4(_Position.X));
 }
 
 std::string UI_QuestUnit::GetSubjectTextToType(EQUEST _Type)
@@ -104,7 +135,7 @@ std::string UI_QuestUnit::GetSubjectTextToType(EQUEST _Type)
 
 float UI_QuestUnit::GetRenderYSize(int _ContentLineCount)
 {
-	static constexpr float ContentBasicYSize = 24.0f;
+	static constexpr float ContentBasicYSize = 40.0f;
 
 	std::weak_ptr<GameEngineTexture> SubjectBaseTexture = GameEngineTexture::Find("HUD_Quest_Content_1.png");
 	if (true == SubjectBaseTexture.expired())
@@ -113,7 +144,6 @@ float UI_QuestUnit::GetRenderYSize(int _ContentLineCount)
 		return 0.0f;
 	}
 
-	const float4& SubjectBaseTextureScale = SubjectBaseTexture.lock()->GetScale();
-	const float BaseYScale = SubjectBaseTextureScale.Y + ContentBasicYSize + ContentFontSize * static_cast<float>(_ContentLineCount);
+	const float BaseYScale = ContentBasicYSize + ContentFontSize * static_cast<float>(_ContentLineCount);
 	return BaseYScale;
 }

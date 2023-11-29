@@ -4,6 +4,7 @@
 #include "RidingFx.h"
 #include "BroomParticle.h"
 #include "BackDrop_PlayLevel.h"
+#include "BroomCollisionParticle.h"
 
 void Ellie::StartRiding_Standing()
 {
@@ -78,7 +79,13 @@ void Ellie::UpdateRiding_Standing(float _Delta)
 
 	DecelerateNotDir(_Delta, Riding_Boost_Speed);
 	DynamicEntity::ApplyOnlyMovement(_Delta);
-	WallCollision();
+	if (true == WallCollision())
+	{
+		if (true == ChecckCollideWall())
+		{
+			ResetMoveVector();
+		}
+	}
 	InteractiveActor::ApplyDepth();
 }
 
@@ -139,7 +146,13 @@ void Ellie::UpdateRiding_Moving(float _Delta)
 	m_MoveVector += GetMoveForceByDir(_Delta, Riding_Move_Speed, Riding_Move_Acceleration_Time);
 	LimitMoveVector(Riding_Move_Speed);
 	DynamicEntity::ApplyOnlyMovement(_Delta);
-	WallCollision();
+	if (true == WallCollision())
+	{
+		if (true == ChecckCollideWall())
+		{
+			ResetMoveVector();
+		}
+	}
 	InteractiveActor::ApplyDepth();
 
 	ConsumeBroomFuel(_Delta);
@@ -201,7 +214,13 @@ void Ellie::UpdateRiding_Boosting(float _Delta)
 	m_MoveVector += GetMoveForceByDir(_Delta, Riding_Boost_Speed, Riding_Boost_Acceleration_Time);
 	LimitMoveVector(Riding_Boost_Speed);
 	DynamicEntity::ApplyOnlyMovement(_Delta);
-	WallCollision();
+	if (true == WallCollision())
+	{
+		if (true == ChecckCollideWall())
+		{
+			ResetMoveVector();
+		}
+	}
 	InteractiveActor::ApplyDepth();
 
 	ConsumeBroomFuel(_Delta);
@@ -263,11 +282,17 @@ void Ellie::DecelerateNotDir(float _Delta, const float _Force)
 	}
 }
 
-void Ellie::WallCollision()
+bool Ellie::WallCollision()
 {
 	if (nullptr == BackDrop_PlayLevel::MainBackDrop)
 	{
-		return;
+		return false;
+	}
+
+	if (0.0f == GetMoveVector().X
+		&& 0.0f == GetMoveVector().Y)
+	{
+		return false;
 	}
 
 	const float4& CurPosition = Transform.GetLocalPosition();
@@ -293,18 +318,18 @@ void Ellie::WallCollision()
 		{
 			break;
 		}
-
 	}
 
 	if (fCount == 0.0f)
 	{
-		return;
+		return false;
 	}
 	float4 BackVector;
 	BackVector.X = -CheckUnitVector.X * fCount;
 	BackVector.Y = -CheckUnitVector.Y * fCount;
 
 	Transform.AddLocalPosition(BackVector);
+	return true;
 }
 
 
@@ -415,4 +440,16 @@ void Ellie::ConsumeBroomFuel(float _Delta)
 			BroomFuel -= BoostingCost;
 		}
 	}
+}
+
+bool Ellie::ChecckCollideWall()
+{
+	float4 CollisionForce = DirectX::XMVector2Length(GetMoveVector().DirectXVector);
+	const float ParticleActivationForce = 30.0f;
+	if (CollisionForce.X > ParticleActivationForce)
+	{
+		return true;
+	}
+
+	return false;
 }

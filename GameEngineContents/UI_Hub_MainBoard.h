@@ -18,20 +18,46 @@ public:
 
 	void RegisterData(std::string_view _QuestName);
 	void PopData(std::string_view _QuestName);
-	bool IsQuestRegister(std::string_view _QuestName);
 
 private:
 	std::list<std::string> QuestContainer;
 	std::list<std::string> ClearContainer;
 
+	bool IsQuestRegister(std::string_view _QuestName);
+
 };
 
+struct MainBoardStruct
+{
+	friend class UI_Hub_MainBoard;
 
+private:
+	std::shared_ptr<GameEngineUIRenderer> Base;
+	std::shared_ptr<GameEngineUIRenderer> Toggle;
+	std::shared_ptr<GameEngineUIRenderer> TabButton;
+	std::shared_ptr<GameEngineUIRenderer> Alert;
+
+};
 
 // Ό³Έν :
 class UI_Hub_MainBoard : public UI_Hub_Actor
 {
+	friend class UI_QuestUnit;
+	friend class QuestManager;
+
 private:
+	static bool isShowAlertMark;
+
+private:
+	enum class EMAINBOARDSTATE
+	{
+		Open,
+		Stay,
+		Close,
+		None,
+	};
+
+public:
 	static std::unique_ptr<QuestManager> s_QuestManager;
 
 public:
@@ -55,9 +81,9 @@ public:
 
 protected:
 	void Start() override;
-	void Update(float _Delta) override {}
+	void Update(float _Delta) override;
 	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 	void InitQuestManager();
@@ -67,9 +93,32 @@ protected:
 	void RenewUnitList();
 	bool IsSameList();
 
-private:
-	std::shared_ptr<GameEngineSpriteRenderer> Base;
+	////
+	// State
+	void StateSetting();
 
+	// Start
+	void StartNone(GameEngineState* _Parent);
+	void StartOpen(GameEngineState* _Parent);
+	void StartStay(GameEngineState* _Parent);
+	void StartClose(GameEngineState* _Parent);
+
+	// Update
+	void UpdateOpen(float _Delta, GameEngineState* _Parent);
+	void UpdateStay(float _Delta, GameEngineState* _Parent);
+	void UpdateClose(float _Delta, GameEngineState* _Parent);
+
+	// End
+	void EndOpen(GameEngineState* _Parent);
+
+	void AddPosAllQuestUnit(const float4& _Pos);
+	void SetPosAllQuestUnit(const float4& _Pos);
+
+private:
 	std::list<std::shared_ptr<class UI_QuestUnit>> QuestList;
+
+	GameEngineState State;
+	MainBoardStruct MainBoard;
+	const float MoveSpeed = 800.0f;
 
 };

@@ -30,6 +30,8 @@ public:
 	UI_QuestUnit& operator=(UI_QuestUnit&& _Other) noexcept = delete;
 
 	void Init(std::string_view _Data);
+	void SetLocalPosition(const float4& _Position);
+	void AddLocalPosition(const float4& _Position);
 
 protected:
 	void Start() override {}
@@ -41,9 +43,11 @@ protected:
 	std::string GetSubjectTextToType(EQUEST _Type);
 	float GetRenderYSize(int _ContentLineCount);
 
+
 private:
 	UIQuestUnitSturct QuestUnit;
 	std::weak_ptr<QuestData> Data;
+	class UI_Hub_MainBoard* MaibBoardPointer = nullptr;
 
 	float RenderYScale = 0.0f;
 

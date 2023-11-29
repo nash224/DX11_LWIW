@@ -240,6 +240,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="BroomCollisionParticle.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Comet.cpp">
       <SubType>
       </SubType>
@@ -872,6 +876,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="BGMManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BroomCollisionParticle.h">
       <SubType>
       </SubType>
     </ClInclude>

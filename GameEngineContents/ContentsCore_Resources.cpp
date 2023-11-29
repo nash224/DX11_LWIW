@@ -23,6 +23,7 @@ void ContentsCore::InitResources()
 	FileLoadFunction::LoadAllFileInPath("Resources\\PlayContents\\PlayResourecs\\Fx");					// Fx
 
 	GameEngineSprite::CreateSingle("Broom_Particle.png");
+	GameEngineSprite::CreateSingle("Broomstick_Collide_Particle.png");
 
 	{
 		//UI
@@ -145,6 +146,14 @@ void ContentsCore::LoadContentsData()
 	ProductRecipeData::CreateData("HealingCandy", { std::vector<ProductRecipeData::MaterialInfo>{{"WitchFlower_Water", 1}, {"MapleHerb_Water", 1 } }, EBREWING_DIFFICULTY::Easy, EBREWING_DIRECTION::StirRight, EBREWING_FIRE::Four, "HealingCandy", "치료 사탕" });
 
 	QuestData::CreateData("FindLetter", { "FindLetter" , "편지 읽기", "마당에 있는 편지를 읽어보자." });
+	QuestData::CreateData("StartTraining", { "StartTraining" , "수습 시작", "폭죽 물약을 만들어서 정식 \n마녀가 되자." });
+	QuestData::CreateData("Repair_Extractor", { "Repair_Extractor" , "착즙기 수리", "착즙기를 수리할 방법을 \n찾아보자." });
+	QuestData::CreateData("Craft_Potion", { "Craft_Potion" , "나쁜 풀 제거 물약 제조", "D 키를 눌러 도감을 확인 후,\n나쁜 풀 제거 물약을 제작하자." });
+	QuestData::CreateData("Aurea_Cure", { "Aurea_Cure" , "저주 해제 사탕 제조", "아우레아에게 저주 해제\n사탕을 주자." });
+	QuestData::CreateData("Dian_BadWeedPotion", { "Dian_BadWeedPotion" , "물약 검증", "다이엔에게 나쁜 풀 제거\n물약을 주자." });
+	QuestData::CreateData("Dian_Cracker_Recipe", { "Dian_Cracker_Recipe" , "폭죽 포션 레시피", "다이엔에게 영양 공급\n물약을 주자." });
+	QuestData::CreateData("Craft_Cracker_Potion", { "Craft_Cracker_Potion" , "폭죽 포션 제작", "수습을 마치기 위해 폭죽\n물약을 제작하자." });
+	QuestData::CreateData("Show_Cracker_Potion", { "Show_Cracker_Potion" , "정식까지 한 걸음", "초록숲 평원으로 가서\n정식 마녀가 되자." });
 }
 
 

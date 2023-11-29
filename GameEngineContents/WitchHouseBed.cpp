@@ -19,6 +19,7 @@ void WitchHouseBed::Start()
 {
 	InteractiveActor::CreateAndSetCollision(ECOLLISION::Entity, float4(90.0f, 120.0f), float4::ZERO, ColType::AABBBOX2D);
 	InteractiveActor::SetInteractionOption(EINTERACTION_BUTTONTYPE::Gear, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Nothing);
+	InteractiveActor::SetGearName("¿·¿⁄±‚");
 
 	StateSetting();
 	UISetting();
