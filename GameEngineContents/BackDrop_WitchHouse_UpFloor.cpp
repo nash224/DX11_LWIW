@@ -64,7 +64,7 @@ void BackDrop_WitchHouse_UpFloor::Init()
 	LiftSetting();
 	BedSetting();
 
-	/*CheckHouseDustEvent();*/
+	CheckHouseDustEvent();
 }
 
 #pragma region Resource

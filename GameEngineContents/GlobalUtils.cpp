@@ -201,7 +201,6 @@ std::string StringFunction::InsertNewLineBTWWord(std::string_view _Text, int _Nu
 	int LineCharCnt = 0;
 	int ESCapeAndSignCnt = 0;
 	
-	// std::wstring Text = _Text.data(); // std::string_view의 첨자는 std::string과 달리 상수 레퍼런스를 반환하기 때문에 최적화를 위해 받아서 쓴다.
 	std::wstring Text = GameEngineString::AnsiToUnicode(_Text);
 	std::wstring Result;
 	std::wstring Word;

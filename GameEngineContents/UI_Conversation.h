@@ -1,8 +1,6 @@
 #pragma once
 #include "Conversation.h"
 
-#define ELLIE_PORTRAIT { -400.0f , -250.0f }
-
 
 // Ό³Έν :
 class UI_Conversation : public GameEngineActor
@@ -10,31 +8,20 @@ class UI_Conversation : public GameEngineActor
 public:
 	static UI_Conversation* MainConversationUI;
 
-
 public:
-
-	class PortraitInfo
+	class PortraitStruct
 	{
 	public:
 		std::shared_ptr<GameEngineUIRenderer> Ellie;
 		std::shared_ptr<GameEngineUIRenderer> Virgil;
 		std::shared_ptr<GameEngineUIRenderer> Other;
 
-		int Default_Index = 0;
-		unsigned int VirgilIndex = 0;
-
-		bool isNoNpc = false;
-
-	public:
-		static constexpr const int Ellie_Portrait_Default_Index = 1;
-		static constexpr const float Portrait_Default_X_Gap = 340.0f;
-
-		const float4 UnsaidColor = float4(0.3f, 0.3f, 0.3f, 1.0f);
-		const float4 SayingColor = float4::ONE;
+		int DefaultIndex = 0;
+		int VirgilIndex = 0;
 
 	};
 
-	class DialogueInfo
+	class DialogueStruct
 	{
 	public:
 		std::shared_ptr<GameEngineUIRenderer> Left_Tail;
@@ -48,33 +35,6 @@ public:
 		std::shared_ptr<GameEngineUIRenderer> Virgil_Cursor;
 		std::shared_ptr<GameEngineUIRenderer> Virgil_Font;
 		std::wstring Virgil_Message;
-
-		std::string FontName;
-		float4 FontColor;
-		int OutputCount = 0;
-		bool isOutPutMessage = false;
-
-	public:
-		static constexpr const float Virgil_Dialogue_Animation_Inter = 0.2f;
-		
-		static constexpr const float FontSize = 18.0f;
-
-		const float4 Main_Dialogue_1th_Line_Position = float4(-164.0f, -174.0f);
-		const float4 Virgil_Dialogue_1th_Line_Position = float4(-440.0f, 90.0f);
-
-
-		const float4 Virgil_Dialogue_Position = float4(-340.0f, 70.0f);
-
-
-		static constexpr const unsigned int Main_Message_Max_Line_String_Count = 24;
-		static constexpr const unsigned int Virgil_Message_Max_Line_String_Count = 17;
-		static constexpr const float Over_Message_Line_Y_Distance = 6.0f;
-
-
-		static constexpr const float Message_Output_Once_Inter = 0.11f;
-
-		static constexpr const int Skip_Able_Count = 1;
-
 
 	};
 
@@ -104,7 +64,7 @@ public:
 	void ShowConversation(const ConversationData& _Data);
 	void EndConversation();
 
-	bool IsConversation();
+	bool IsConversation() const;
 
 
 protected:
@@ -127,8 +87,6 @@ protected:
 
 	void UpdateOutputState(float _Delta, GameEngineState* _Parent);
 	void UpdateVirgilOutputtState(float _Delta, GameEngineState* _Parent);
-	void PlayPageSound();
-	void PlayConversationSound(std::string_view _FileName);
 
 	void EndOutputState(GameEngineState* _Parent);
 	void EndVirgilOutputState(GameEngineState* _Parent);
@@ -153,23 +111,37 @@ protected:
 
 	const unsigned int ReturnVirgilIndexToElliePortrait(unsigned int _Index);
 
-	void LoseSpeechControlVirgil();
+	void NotVirgilSay();
 
 	void OnRightTail();
 	void OnLeftTail();
 	void ResetAllTail();
 
-	
-
+	void PlayPageSound();
 
 private:
-	PortraitInfo Portrait;
-	DialogueInfo Dialogue;
+	PortraitStruct Portrait;
+	DialogueStruct Dialogue;
 
 	GameEngineState State;
 	float StateTime = 0.0f;
 
+	int OutputCount = 0;
+	const float OutPutSize = 18.0f;
+
 	bool isJustVirgilTalked = false;
+	bool isOutPutMessage = false;
+	bool isNoneNpc = false;
+
+	std::string OutPutFontStyle;
+
+	const float4 MainDialogue_FirstLinePosition = float4(-164.0f, -174.0f);
+	const float4 SayingColor = float4::ONE;
+	float4 OutputFontColor;
+
+	static constexpr unsigned int MainMessage_MaxCharCount = 24;
+	static constexpr unsigned int VirgilMessage_MaxCharCount = 17;
+	static constexpr int EnableSkip_CharCount = 1;
+	static constexpr float MessageOutputInter = 0.11f;
 
 };
-

@@ -92,60 +92,52 @@ void UI_Conversation::StateSetting()
 
 void UI_Conversation::StartDoneState(GameEngineState* _Parent)
 {
-	Dialogue.OutputCount = 0;
-
-	Dialogue.isOutPutMessage = false;
+	OutputCount = 0;
+	isOutPutMessage = false;
 }
 
 void UI_Conversation::StartOutputState(GameEngineState* _Parent)
 {
-	if (nullptr == Dialogue.Main_Cursor)
+	if (nullptr == Dialogue.Main_Cursor
+		|| nullptr == Dialogue.Main_Font)
 	{
 		MsgBoxAssert("생성되지 않은 컴포넌트를 사용하려 했습니다.");
-		return;
-	}
-
-	if (nullptr == Dialogue.Main_Font)
-	{
-		MsgBoxAssert("존재하지 않는 컴포넌트를 사용하려 했습니다.");
 		return;
 	}
 
 	Dialogue.Main_Cursor->Off();
+	Dialogue.Main_Font->SetText(OutPutFontStyle, std::string(), OutPutSize, OutputFontColor);
 
-	Dialogue.Main_Font->SetText(Dialogue.FontName, std::string(), Dialogue.FontSize, Dialogue.FontColor);
+	PlayPageSound();
 
-	Dialogue.isOutPutMessage = true;
+	isOutPutMessage = true;
 }
 
 void UI_Conversation::StartVirgilOutputState(GameEngineState* _Parent)
 {
-	if (nullptr == Dialogue.Virgil_Cursor)
+	if (nullptr == Dialogue.Virgil_Cursor || nullptr == Dialogue.Virgil_Font)
 	{
 		MsgBoxAssert("생성되지 않은 컴포넌트를 사용하려 했습니다.");
 		return;
 	}
 
-	if (nullptr == Dialogue.Virgil_Font)
-	{
-		MsgBoxAssert("존재하지 않는 컴포넌트를 사용하려 했습니다.");
-		return;
-	}
+	const float VirgilFontSize = 16.0f;
 
 	Dialogue.Virgil_Cursor->Off();
+	Dialogue.Virgil_Font->SetText(OutPutFontStyle, std::string(), VirgilFontSize, OutputFontColor);
 
-	Dialogue.Virgil_Font->SetText(Dialogue.FontName, std::string(), Dialogue.FontSize, Dialogue.FontColor);
+	PlayPageSound();
 
-	Dialogue.isOutPutMessage = true;
+	isOutPutMessage = true;
 }
 
 void UI_Conversation::UpdateOutputState(float _Delta, GameEngineState* _Parent)
 {
-	bool isSkip = (Dialogue.OutputCount > Dialogue.Skip_Able_Count && true == GameEngineInput::IsDown('Z', this));
+	bool isSkip = (OutputCount > EnableSkip_CharCount && true == GameEngineInput::IsDown('Z', this));
 	if (isSkip)
 	{
 		const std::string OutPutMessage = GameEngineString::UnicodeToAnsi(Dialogue.Main_Message);
-		Dialogue.Main_Font->SetText(Dialogue.FontName, OutPutMessage, Dialogue.FontSize, Dialogue.FontColor);
+		Dialogue.Main_Font->SetText(OutPutFontStyle, OutPutMessage, OutPutSize, OutputFontColor);
 
 		State.ChangeState(EUICONERSATIONSTATE::Done);
 
@@ -155,12 +147,12 @@ void UI_Conversation::UpdateOutputState(float _Delta, GameEngineState* _Parent)
 	}
 
 	StateTime += _Delta;
-	if (StateTime > Dialogue.Message_Output_Once_Inter)
+	if (StateTime > MessageOutputInter)
 	{
-		StateTime -= Dialogue.Message_Output_Once_Inter;
+		StateTime -= MessageOutputInter;
 
 		const int MessageSize = static_cast<int>(Dialogue.Main_Message.size() + 1);
-		bool isDoneOutput = (Dialogue.OutputCount >= MessageSize);
+		bool isDoneOutput = (OutputCount >= MessageSize);
 		if (isDoneOutput)
 		{
 			State.ChangeState(EUICONERSATIONSTATE::Done);
@@ -170,31 +162,32 @@ void UI_Conversation::UpdateOutputState(float _Delta, GameEngineState* _Parent)
 
 		while (true)
 		{
-			if (Dialogue.Main_Message[Dialogue.OutputCount] != L' ')
+			if (Dialogue.Main_Message[OutputCount] != L' ')
 			{
 				break;
 			}
 
-			++Dialogue.OutputCount;
+			++OutputCount;
 		}
 
-		const std::wstring PrintMessage = Dialogue.Main_Message.substr(0, Dialogue.OutputCount);
+		const std::wstring PrintMessage = Dialogue.Main_Message.substr(0, OutputCount);
 		const std::string OutPutMessage = GameEngineString::UnicodeToAnsi(PrintMessage);
-		Dialogue.Main_Font->SetText(Dialogue.FontName, OutPutMessage, Dialogue.FontSize, Dialogue.FontColor);
+		Dialogue.Main_Font->SetText(OutPutFontStyle, OutPutMessage, OutPutSize, OutputFontColor);
 
-		PlayConversationSound("SFX_Voice_01.wav");
+		SFXFunction::PlaySFX("SFX_Voice_01.wav");
 
-		++Dialogue.OutputCount;
+		++OutputCount;
 	}
 }
 
 void UI_Conversation::UpdateVirgilOutputtState(float _Delta, GameEngineState* _Parent)
 {
-	bool isSkip = (Dialogue.OutputCount > Dialogue.Skip_Able_Count && true == GameEngineInput::IsDown('Z', this));
+	bool isSkip = (OutputCount > EnableSkip_CharCount && true == GameEngineInput::IsDown('Z', this));
 	if (isSkip)
 	{
 		const std::string OutPutMessage = GameEngineString::UnicodeToAnsi(Dialogue.Virgil_Message);
-		Dialogue.Virgil_Font->SetText(Dialogue.FontName, OutPutMessage, Dialogue.FontSize, Dialogue.FontColor);
+		Dialogue.Virgil_Font->ChangeText(OutPutMessage);
+		Dialogue.Virgil_Font->SetTextColor(OutputFontColor);
 
 		State.ChangeState(EUICONERSATIONSTATE::Done);
 
@@ -204,12 +197,12 @@ void UI_Conversation::UpdateVirgilOutputtState(float _Delta, GameEngineState* _P
 	}
 
 	StateTime += _Delta;
-	if (StateTime > Dialogue.Message_Output_Once_Inter)
+	if (StateTime > MessageOutputInter)
 	{
-		StateTime -= Dialogue.Message_Output_Once_Inter;
+		StateTime -= MessageOutputInter;
 
-		const int MessageSize = static_cast<int>(Dialogue.Virgil_Message.size() + 1);
-		bool isDoneOutput = (Dialogue.OutputCount >= MessageSize);
+		const int MessageSize = static_cast<int>(Dialogue.Virgil_Message.size());
+		bool isDoneOutput = (OutputCount > MessageSize);
 		if (isDoneOutput)
 		{
 			State.ChangeState(EUICONERSATIONSTATE::Done);
@@ -218,36 +211,24 @@ void UI_Conversation::UpdateVirgilOutputtState(float _Delta, GameEngineState* _P
 
 		while (true)
 		{
-			if (Dialogue.Virgil_Message[Dialogue.OutputCount] != L' ')
+			if (Dialogue.Virgil_Message[OutputCount] != L' ')
 			{
 				break;
 			}
 
-			++Dialogue.OutputCount;
+			++OutputCount;
 		}
 
-		const std::wstring PrintMessage = Dialogue.Virgil_Message.substr(0, Dialogue.OutputCount);
+		const int ToOutputString = OutputCount + 1;
+		const std::wstring PrintMessage = Dialogue.Virgil_Message.substr(0, ToOutputString);
 		const std::string OutPutMessage = GameEngineString::UnicodeToAnsi(PrintMessage);
-		Dialogue.Virgil_Font->SetText(Dialogue.FontName, OutPutMessage, 16.0f, Dialogue.FontColor);
+		Dialogue.Virgil_Font->ChangeText(OutPutMessage);
 
-		PlayConversationSound("SFX_Voice_02.wav");
+		SFXFunction::PlaySFX("SFX_Voice_02.wav");
 
-		++Dialogue.OutputCount;
+		++OutputCount;
 	}
 }
-
-void UI_Conversation::PlayPageSound()
-{
-	GameEngineSoundPlayer PageSound = GameEngineSound::SoundPlay("SFX_InventoryMove_01.wav");
-	PageSound.SetVolume(GlobalValue::GetSFXVolume());
-}
-
-void UI_Conversation::PlayConversationSound(std::string_view _FileName)
-{
-	GameEngineSoundPlayer ConversationSound = GameEngineSound::SoundPlay(_FileName);
-	ConversationSound.SetVolume(GlobalValue::GetSFXVolume());
-}
-
 
 void UI_Conversation::EndOutputState(GameEngineState* _Parent)
 {
@@ -276,9 +257,9 @@ void UI_Conversation::EndConversation()
 	Reset();
 }
 
-bool UI_Conversation::IsConversation()
+bool UI_Conversation::IsConversation() const
 {
-	return Dialogue.isOutPutMessage;
+	return isOutPutMessage;
 }
 
 
@@ -288,13 +269,15 @@ void UI_Conversation::Reset()
 	Portrait.Other->Off();
 	Portrait.Virgil->Off();
 
-	Portrait.Default_Index = 0;
-	Portrait.isNoNpc = false;
+	Portrait.DefaultIndex = 0;
+	isNoneNpc = false;
 
-	const int Virgil_Default_Index = ReturnVirgilIndexToElliePortrait(Portrait.Ellie_Portrait_Default_Index);
+	const int ElliePortrait_DefaultIndex = 1;
 
-	Portrait.Ellie->ChangeCurSprite(Portrait.Ellie_Portrait_Default_Index);
-	Portrait.Virgil->ChangeCurSprite(Virgil_Default_Index);
+	const int Virgil_DefaultIndex = ReturnVirgilIndexToElliePortrait(ElliePortrait_DefaultIndex);
+
+	Portrait.Ellie->ChangeCurSprite(ElliePortrait_DefaultIndex);
+	Portrait.Virgil->ChangeCurSprite(Virgil_DefaultIndex);
 
 	Dialogue.Left_Tail->Off();
 	Dialogue.Right_Tail->Off();
@@ -318,25 +301,10 @@ void UI_Conversation::ResetVirgil()
 
 void UI_Conversation::StartConversation(std::string_view _NPCSpriteName, int _NPC_Default_Sprite_Index, int _Ellie_First_Sprite_Index /*= 1*/)
 {
-	if (nullptr == Portrait.Other)
-	{
-		MsgBoxAssert("생성하지 않은 컨포넌트를 사용하려 했습니다.");
-		return;
-	}
-
-	if (nullptr == Portrait.Ellie)
-	{
-		MsgBoxAssert("생성하지 않은 컨포넌트를 사용하려 했습니다.");
-		return;
-	}
-
-	if (nullptr == Portrait.Virgil)
-	{
-		MsgBoxAssert("생성하지 않은 컨포넌트를 사용하려 했습니다.");
-		return;
-	}
-
-	if (nullptr == Dialogue.Main_Dialogue)
+	if (nullptr == Portrait.Other
+		|| nullptr == Portrait.Virgil
+		|| nullptr == Dialogue.Main_Dialogue
+		|| nullptr == Portrait.Ellie)
 	{
 		MsgBoxAssert("생성하지 않은 컨포넌트를 사용하려 했습니다.");
 		return;
@@ -355,21 +323,21 @@ void UI_Conversation::StartConversation(std::string_view _NPCSpriteName, int _NP
 
 	if (true == _NPCSpriteName.empty())
 	{
-		Portrait.isNoNpc = true;
+		isNoneNpc = true;
 		Portrait.Other->Off();
 	}
 	else
 	{
 		Portrait.Other->SetSprite(_NPCSpriteName);
 
-		bool isDeaultIndexSetting = (-1 != Portrait.Default_Index);
+		bool isDeaultIndexSetting = (-1 != Portrait.DefaultIndex);
 		if (isDeaultIndexSetting)
 		{
-			Portrait.Default_Index = _NPC_Default_Sprite_Index;
+			Portrait.DefaultIndex = _NPC_Default_Sprite_Index;
 		}
 		else
 		{
-			Portrait.Default_Index = -1;
+			Portrait.DefaultIndex = -1;
 		}
 	}
 	
@@ -379,13 +347,13 @@ void UI_Conversation::StartConversation(std::string_view _NPCSpriteName, int _NP
 
 void UI_Conversation::ShowConversation(const ConversationData& _Data)
 {
-	Dialogue.FontName = _Data.Font.FontName;
-	Dialogue.FontColor = _Data.Font.Color;
+	OutPutFontStyle = _Data.Font.FontName;
+	OutputFontColor = _Data.Font.Color;
 
 	bool VirgilNotConverse = (ECONVERSATIONENTITY::Virgil != _Data.ConversationEntity);
 	if (true == isJustVirgilTalked && VirgilNotConverse)
 	{
-		LoseSpeechControlVirgil();
+		NotVirgilSay();
 		isJustVirgilTalked = false;
 	}
 
@@ -416,19 +384,17 @@ void UI_Conversation::ShowConversation(const ConversationData& _Data)
 	default:
 		break;
 	}
-
-	PlayPageSound();
 }
 
 
 void UI_Conversation::NPCDefaultIndexSetting()
 {
-	if (true == Portrait.isNoNpc)
+	if (true == isNoneNpc)
 	{
 		return;
 	}
 
-	if (-1 == Portrait.Default_Index)
+	if (-1 == Portrait.DefaultIndex)
 	{
 		return;
 	}
@@ -439,17 +405,17 @@ void UI_Conversation::NPCDefaultIndexSetting()
 		return;
 	}
 
-	Portrait.Other->ChangeCurSprite(Portrait.Default_Index);
+	Portrait.Other->ChangeCurSprite(Portrait.DefaultIndex);
 }
 
 void UI_Conversation::SetEllieExpression(unsigned int _SpriteIndex)
 {
 	SetAllExpressionBlack();
-	Portrait.Ellie->GetColorData().MulColor = Portrait.SayingColor;
-	Portrait.Virgil->GetColorData().MulColor = Portrait.SayingColor;
+	Portrait.Ellie->GetColorData().MulColor = SayingColor;
+	Portrait.Virgil->GetColorData().MulColor = SayingColor;
 
 
-	const std::uint32_t Virgil_Sprite_Index = ReturnVirgilIndexToElliePortrait(_SpriteIndex);
+	const int Virgil_Sprite_Index = ReturnVirgilIndexToElliePortrait(_SpriteIndex);
 
 	Portrait.Ellie->ChangeCurSprite(_SpriteIndex);
 	Portrait.Virgil->ChangeCurSprite(Virgil_Sprite_Index);
@@ -459,14 +425,14 @@ void UI_Conversation::SetEllieExpression(unsigned int _SpriteIndex)
 
 void UI_Conversation::SetNPCExpression(unsigned int _SpriteIndex)
 {
-	if (true == Portrait.isNoNpc)
+	if (true == isNoneNpc)
 	{
 		return;
 	}
 
 	SetAllExpressionBlack();
 
-	Portrait.Other->GetColorData().MulColor = Portrait.SayingColor;
+	Portrait.Other->GetColorData().MulColor = SayingColor;
 	Portrait.Other->ChangeCurSprite(_SpriteIndex);
 }
 
@@ -474,8 +440,8 @@ void UI_Conversation::SetVirgilExpression(unsigned int _SpriteIndex)
 {
 	SetAllExpressionBlack();
 
-	Portrait.Ellie->GetColorData().MulColor = Portrait.SayingColor;
-	Portrait.Virgil->GetColorData().MulColor = Portrait.SayingColor;
+	Portrait.Ellie->GetColorData().MulColor = SayingColor;
+	Portrait.Virgil->GetColorData().MulColor = SayingColor;
 	
 
 	if (false == isJustVirgilTalked)
@@ -489,30 +455,22 @@ void UI_Conversation::SetVirgilExpression(unsigned int _SpriteIndex)
 
 void UI_Conversation::SetAllExpressionBlack()
 {
-	if (nullptr == Portrait.Virgil)
+	if (nullptr == Portrait.Virgil
+		|| nullptr == Portrait.Other
+		|| nullptr == Portrait.Ellie)
 	{
 		MsgBoxAssert("생성하지 않은 컴포넌트를 사용하려 했습니다.");
 		return;
 	}
 
-	if (nullptr == Portrait.Other)
-	{
-		MsgBoxAssert("생성하지 않은 컴포넌트를 사용하려 했습니다.");
-		return;
-	}
+	const float4 UnsaidColor = float4(0.3f, 0.3f, 0.3f, 1.0f);
 
-	if (nullptr == Portrait.Ellie)
-	{
-		MsgBoxAssert("생성하지 않은 컴포넌트를 사용하려 했습니다.");
-		return;
-	}
+	Portrait.Virgil->GetColorData().MulColor = UnsaidColor;
+	Portrait.Ellie->GetColorData().MulColor = UnsaidColor;
 
-	Portrait.Virgil->GetColorData().MulColor = Portrait.UnsaidColor;
-	Portrait.Ellie->GetColorData().MulColor = Portrait.UnsaidColor;
-
-	if (false == Portrait.isNoNpc)
+	if (false == isNoneNpc)
 	{
-		Portrait.Other->GetColorData().MulColor = Portrait.UnsaidColor;
+		Portrait.Other->GetColorData().MulColor = UnsaidColor;
 	}
 }
 
@@ -527,17 +485,17 @@ void UI_Conversation::SetMainMessage()
 
 	float4 MessageLinePosition;
 
-	bool isMessageOverLineStringCount = (Dialogue.Main_Message.size() > Dialogue.Main_Message_Max_Line_String_Count);
+	bool isMessageOverLineStringCount = (Dialogue.Main_Message.size() > MainMessage_MaxCharCount);
 	if (isMessageOverLineStringCount)
 	{
-		MessageLinePosition = Place2thLinePosition(Dialogue.Main_Dialogue_1th_Line_Position);
+		MessageLinePosition = Place2thLinePosition(MainDialogue_FirstLinePosition);
 
-		const unsigned int InputLineNumber = Dialogue.Main_Message_Max_Line_String_Count;
+		const unsigned int InputLineNumber = MainMessage_MaxCharCount;
 		Dialogue.Main_Message.insert(InputLineNumber, L"\n");
 	}
 	else
 	{
-		MessageLinePosition = Place1thLinePosition(Dialogue.Main_Dialogue_1th_Line_Position);
+		MessageLinePosition = Place1thLinePosition(MainDialogue_FirstLinePosition);
 	}
 
 	Dialogue.Main_Font->Transform.SetLocalPosition(MessageLinePosition);
@@ -552,25 +510,25 @@ void UI_Conversation::SetVirgilMessage()
 		return;
 	}
 
-	Dialogue.Virgil_Dialogue->On();
-
+	const float4& VirgilDialogue_FirstLinePosition = float4(-440.0f, 90.0f);
 
 	float4 MessageLinePosition;
 
-	bool isMessageOverLineStringCount = (Dialogue.Virgil_Message.size() > Dialogue.Virgil_Message_Max_Line_String_Count);
+	bool isMessageOverLineStringCount = (Dialogue.Virgil_Message.size() > VirgilMessage_MaxCharCount);
 	if (isMessageOverLineStringCount)
 	{
-		MessageLinePosition = Place2thLinePosition(Dialogue.Virgil_Dialogue_1th_Line_Position);
+		MessageLinePosition = Place2thLinePosition(VirgilDialogue_FirstLinePosition);
 
-		const unsigned int InputLineNumber = Dialogue.Virgil_Message_Max_Line_String_Count;
+		const unsigned int InputLineNumber = VirgilMessage_MaxCharCount;
 		Dialogue.Virgil_Message.insert(InputLineNumber, L"\n");
 	}
 	else
 	{
-		MessageLinePosition = Place1thLinePosition(Dialogue.Virgil_Dialogue_1th_Line_Position);
+		MessageLinePosition = Place1thLinePosition(VirgilDialogue_FirstLinePosition);
 	}
 
 	Dialogue.Virgil_Font->Transform.SetLocalPosition(MessageLinePosition);
+	Dialogue.Virgil_Dialogue->On();
 	Dialogue.Virgil_Font->On();
 }
 
@@ -591,8 +549,10 @@ float4 UI_Conversation::Place2thLinePosition(const float4& _LinePosition)
 
 float4 UI_Conversation::CalculateNextLinePosition(const float4& _MessagePosition)
 {
+	const float NewLine_Correction = 6.0f;
+
 	float4 MessagePosition = _MessagePosition;
-	MessagePosition.Y += Dialogue.Over_Message_Line_Y_Distance;
+	MessagePosition.Y += NewLine_Correction;
 	return MessagePosition;
 }
 
@@ -619,7 +579,7 @@ const unsigned int UI_Conversation::ReturnVirgilIndexToElliePortrait(unsigned in
 }
 
 
-void UI_Conversation::LoseSpeechControlVirgil()
+void UI_Conversation::NotVirgilSay()
 {
 	if (nullptr == Portrait.Virgil)
 	{
@@ -637,7 +597,7 @@ void UI_Conversation::OnRightTail()
 {
 	ResetAllTail();
 
-	if (true == Portrait.isNoNpc)
+	if (true == isNoneNpc)
 	{
 		return;
 	}
@@ -654,13 +614,8 @@ void UI_Conversation::OnLeftTail()
 
 void UI_Conversation::ResetAllTail()
 {
-	if (nullptr == Dialogue.Left_Tail)
-	{
-		MsgBoxAssert("생성하지 않은 컴포넌트를 사용하려 했습니다.");
-		return;
-	}
-
-	if (nullptr == Dialogue.Right_Tail)
+	if (nullptr == Dialogue.Left_Tail
+		|| nullptr == Dialogue.Right_Tail)
 	{
 		MsgBoxAssert("생성하지 않은 컴포넌트를 사용하려 했습니다.");
 		return;
@@ -668,4 +623,10 @@ void UI_Conversation::ResetAllTail()
 
 	Dialogue.Left_Tail->Off();
 	Dialogue.Right_Tail->Off();
+}
+
+
+void UI_Conversation::PlayPageSound()
+{
+	SFXFunction::PlaySFX("SFX_InventoryMove_01.wav");
 }
