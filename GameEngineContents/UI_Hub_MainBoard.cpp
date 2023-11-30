@@ -379,14 +379,9 @@ void UI_Hub_MainBoard::StateSetting()
 
 void UI_Hub_MainBoard::StartOpen(GameEngineState* _Parent)
 {
-	if (false == isShowAlertMark)
+	if (nullptr != MainBoard.Alert)
 	{
-		if (nullptr != MainBoard.Alert)
-		{
-			MainBoard.Alert->Off();
-		}
-
-		isShowAlertMark = true;
+		MainBoard.Alert->Off();
 	}
 
 	const float4& Posision = float4(GlobalValue::GetWindowScale().hX(), 0.0f);
