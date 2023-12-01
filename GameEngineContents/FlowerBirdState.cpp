@@ -368,13 +368,7 @@ void FlowerBird::StartFly()
 
 void FlowerBird::DecideFlyDirection()
 {
-	if (nullptr == Ellie::MainEllie)
-	{
-		MsgBoxAssert("¸ÞÀÎ ¾Ù¸®¸¦ ¸ð¸¨´Ï´Ù.");
-		return;
-	}
-
-	float4 ElliePosition = Ellie::MainEllie->Transform.GetLocalPosition();
+	float4 ElliePosition = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->Transform.GetLocalPosition();
 	float4 MyPosition = Transform.GetLocalPosition();
 
 	if (ElliePosition.X - MyPosition.X > 0.0f)
@@ -389,8 +383,7 @@ void FlowerBird::DecideFlyDirection()
 		Dir = EDIRECTION::LEFT;
 	}
 
-	static constexpr float FlySpeed = 600.0f;
-
+	const float FlySpeed = 600.0f;
 	m_MoveVector = m_BirdFlyDirection * FlySpeed;
 	PlusDepth = 300.0f;
 }
@@ -409,8 +402,8 @@ void FlowerBird::UpdateFly(float _Delta)
 		return;
 	}
 
-	const float4& CameraPosition = CameraControler::MainCameraControler.lock()->GetCameraCurrentPostion();
-	const float4& HWinScale = GlobalValue::GetWindowScale();
+	float4 CameraPosition = CameraControler::MainCameraControler.lock()->GetCameraCurrentPostion();
+	float4 HWinScale = GlobalValue::GetWindowScale();
 
 	bool isExitOutOfCamera = (MyPosition.X - ExitCameraCorrection < CameraPosition.X - HWinScale.X);
 	if (isExitOutOfCamera)
@@ -459,19 +452,17 @@ bool FlowerBird::RecognizeWalkingEllie()
 {
 	static constexpr float DetectionEllieWalkRange = 70.0f;
 
-	if (nullptr != Ellie::MainEllie)
+	const std::shared_ptr<Ellie>& MainPlayerPtr = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr();
+	EELLIE_STATE CurEllieState = MainPlayerPtr->GetState();
+	if (EELLIE_STATE::SlowWalk == CurEllieState && EELLIE_STATE::Idle != CurEllieState)
 	{
-		EELLIE_STATE CurEllieState = Ellie::MainEllie->GetState();
-		if (EELLIE_STATE::SlowWalk == CurEllieState && EELLIE_STATE::Idle != CurEllieState)
-		{
-			const float4& MyPosition = Transform.GetLocalPosition();
-			const float4& ElliePosition = Ellie::MainEllie->Transform.GetLocalPosition();
-			const float4& Size = DirectX::XMVector2Length((ElliePosition - MyPosition).DirectXVector);
+		const float4 MyPosition = Transform.GetLocalPosition();
+		const float4 ElliePosition = MainPlayerPtr->Transform.GetLocalPosition();
+		const float4 Size = DirectX::XMVector2Length((ElliePosition - MyPosition).DirectXVector);
 
-			if (Size.X < DetectionEllieWalkRange)
-			{
-				return true;
-			}
+		if (Size.X < DetectionEllieWalkRange)
+		{
+			return true;
 		}
 	}
 	
@@ -482,19 +473,17 @@ bool FlowerBird::RecognizeEllie()
 {
 	static constexpr float DetectionEllieRange = 120.0f;
 
-	if (nullptr != Ellie::MainEllie)
+	const std::shared_ptr<Ellie>& MainPlayerPtr = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr();
+	EELLIE_STATE CurEllieState = MainPlayerPtr->GetState();
+	if (EELLIE_STATE::SlowWalk != CurEllieState && EELLIE_STATE::Idle != CurEllieState)
 	{
-		EELLIE_STATE CurEllieState = Ellie::MainEllie->GetState();
-		if (EELLIE_STATE::SlowWalk != CurEllieState && EELLIE_STATE::Idle != CurEllieState)
-		{
-			const float4& MyPosition = Transform.GetLocalPosition();
-			const float4& ElliePosition = Ellie::MainEllie->Transform.GetLocalPosition();
-			const float4& Size = DirectX::XMVector2Length((ElliePosition - MyPosition).DirectXVector);
+		float4 MyPosition = Transform.GetLocalPosition();
+		float4 ElliePosition = MainPlayerPtr->Transform.GetLocalPosition();
+		float4 Size = DirectX::XMVector2Length((ElliePosition - MyPosition).DirectXVector);
 
-			if (Size.X < DetectionEllieRange)
-			{
- 				return true;
-			}
+		if (Size.X < DetectionEllieRange)
+		{
+ 			return true;
 		}
 	}
 

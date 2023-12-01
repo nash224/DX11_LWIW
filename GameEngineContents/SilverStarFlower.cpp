@@ -157,22 +157,19 @@ void SilverStarFlower::LightUpdate(float _Delta, GameEngineState* _Parent)
 	static constexpr const float RecognitionRange = 20.0f;
 	static constexpr const float Net_Recognition_Range = 50.0f;
 
-	if (nullptr != Ellie::MainEllie)
+	const float Distance = CalculateDistanceToEllie();
+	bool isEllieTouch = (Distance < RecognitionRange);
+	if (isEllieTouch)
 	{
-		const float Distance = CalculateDistanceToEllie();
-		bool isEllieTouch = (Distance < RecognitionRange);
-		if (isEllieTouch)
-		{
-			State.ChangeState(ESILVERBELLSTATE::Touch);
-			return;
-		}
+		State.ChangeState(ESILVERBELLSTATE::Touch);
+		return;
+	}
 
-		bool isNetTouch = (Distance < Net_Recognition_Range);
-		if (isNetTouch && EELLIE_STATE::ButterflyNet == Ellie::MainEllie->GetState())
-		{
-			State.ChangeState(ESILVERBELLSTATE::Touch);
-			return;
-		}
+	bool isNetTouch = (Distance < Net_Recognition_Range);
+	if (isNetTouch && EELLIE_STATE::ButterflyNet == PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->GetState())
+	{
+		State.ChangeState(ESILVERBELLSTATE::Touch);
+		return;
 	}
 
 	UpperALight.UpdateLightLerp();
@@ -206,7 +203,7 @@ void SilverStarFlower::TouchUpdate(float _Delta, GameEngineState* _Parent)
 
 float SilverStarFlower::CalculateDistanceToEllie()
 {
-	const float4& ElliePos = Ellie::MainEllie->Transform.GetLocalPosition();
+	const float4 ElliePos = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->Transform.GetLocalPosition();
 	float4 MyPos = Transform.GetLocalPosition();
 	MyPos.Y += RendererYCorrection * 0.5f;
 	float4 Distance = MyPos - ElliePos;

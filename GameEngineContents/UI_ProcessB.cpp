@@ -257,10 +257,7 @@ void UI_ProcessB::UpdateInput(float _Delta)
 
 void UI_ProcessB::JuicyThis()
 {
-	if (nullptr != Ellie::MainEllie)
-	{
-		Ellie::MainEllie->WaitDone(EELLIE_STATE::Juicy);
-	}
+	PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->WaitDone(EELLIE_STATE::Juicy);
 
 	UI_Inventory::PopItem(SourceInfo.ScrName, SourceInfo.NeedCount);
 

@@ -1,12 +1,10 @@
 #include "PreCompile.h"
 #include "BackDrop_PlayLevel.h"
 
-
 #include "NormalProp.h"
 #include "StaticEntity.h"
 
 #include "LootedItem.h"
-
 
 
 BackDrop_PlayLevel* BackDrop_PlayLevel::MainBackDrop = nullptr;

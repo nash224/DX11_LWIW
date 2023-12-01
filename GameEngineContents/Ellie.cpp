@@ -8,8 +8,6 @@
 #include "BackDrop_PlayLevel.h"
 
 
-
-Ellie* Ellie::MainEllie = nullptr;
 EELLIE_STATUS Ellie::g_Status = EELLIE_STATUS::None;
 float Ellie::Stamina = 0.0f;
 float Ellie::BroomFuel = MAX_FUEL;
@@ -141,7 +139,6 @@ void Ellie::OnLevelStart()
 	RenewStatus();
 	ResetMoveVector();
 	ApplyDepth();
-	MainEllie = this;
 	OnControl();
 }
 
@@ -225,10 +222,10 @@ void Ellie::SetPixelPointBaseOnCenter()
 {
 	static constexpr const float CheckPointGap = 2.0f;
 
-	const float4& CheckPosBaseOnCenter = float4::ZERO;
+	const float4 CheckPosBaseOnCenter = float4::ZERO;
 
-	const float4& CheckScale = { 10.0f , 10.0f };
-	const float4& HalfCheckScale = CheckScale.Half();
+	const float4 CheckScale = { 10.0f , 10.0f };
+	const float4 HalfCheckScale = CheckScale.Half();
 
 	CheckPoint.TopLeft = CheckPosBaseOnCenter + float4{ -HalfCheckScale.X + CheckPointGap , HalfCheckScale.Y };
 	CheckPoint.TopRight = CheckPosBaseOnCenter + float4{ HalfCheckScale.X - CheckPointGap , HalfCheckScale.Y };

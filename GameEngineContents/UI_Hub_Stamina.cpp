@@ -8,10 +8,7 @@ float UI_Hub_Stamina::RenderStamina = -1;
 float UI_Hub_Stamina::RecoverableStamina = -1;
 UI_Hub_Stamina::UI_Hub_Stamina() 
 {
-	if (nullptr != Ellie::MainEllie)
-	{
-		RenderStamina = Ellie::MainEllie->GetStamina();
-	}
+	RenderStamina = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->GetStamina();
 }
 
 UI_Hub_Stamina::~UI_Hub_Stamina() 

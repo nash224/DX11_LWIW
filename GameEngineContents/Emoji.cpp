@@ -157,14 +157,9 @@ float Emoji::GetDistanceToEllie()
 		return 0.0f;
 	}
 
-	if (nullptr == Ellie::MainEllie)
-	{
-		return 0.0f;
-	}
-	
-	const float4& ElliePos = Ellie::MainEllie->Transform.GetLocalPosition();
-	const float4& MyPos = Parent->Transform.GetLocalPosition();
-	const float4& Result = DirectX::XMVector2Length((MyPos - ElliePos).DirectXVector);
+	const float4 ElliePos = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->Transform.GetLocalPosition();
+	const float4 MyPos = Parent->Transform.GetLocalPosition();
+	const float4 Result = DirectX::XMVector2Length((MyPos - ElliePos).DirectXVector);
 	return Result.X;
 }
 

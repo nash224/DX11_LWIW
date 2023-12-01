@@ -217,11 +217,6 @@ void MongSiri::EndJump()
 }
 
 
-// 가만히 보는 상태
-// 점프할지 말지 결정하는 상태
-// 귀 쫑끗
-// 
-
 void MongSiri::StartLook()
 {
 	LookState.ChangeState(ELOOKSTATE::Recognize);
@@ -265,13 +260,10 @@ void MongSiri::UpdateRecognize(float _Delta, GameEngineState* _Parent)
 				return;
 			}
 
-			static constexpr float MIN_Inter = 0.2f;
-			static constexpr float MAX_Inter = 2.4f;
-
 			GameEngineRandom RandomClass;
-			RandomClass.SetSeed(reinterpret_cast<__int64>(this) + GlobalValue::GetSeedValue());
-			const float fChance = RandomClass.RandomFloat(MIN_Inter, MAX_Inter);
+			RandomClass.SetSeed(GlobalValue::GetSeedValue());
 
+			const float fChance = RandomClass.RandomFloat(0.2f, 2.4f);
 			Animation.lock()->Inter[3] = fChance;
 		}
 	}
@@ -287,7 +279,7 @@ void MongSiri::StartNotRecognize(GameEngineState* _Parent)
 
 void MongSiri::UpdateNotRecognize(float _Delta, GameEngineState* _Parent)
 {
-	static constexpr float LookAtCoolTime = 1.0f;
+	const float LookAtCoolTime = 1.0f;
 
 	if (_Parent->GetStateTime() > LookAtCoolTime || EMONGSIRISTATUS::Escape == Status)
 	{
@@ -330,8 +322,6 @@ void MongSiri::StartCollected()
 		return;
 	}
 
-	
-
 	InteractiveCol->Off();
 	ChangeAnimation("Collected");
 }
@@ -365,6 +355,11 @@ void MongSiri::EndCollected()
 
 void MongSiri::StartDisappear()
 {
+	if (nullptr != InteractiveActor::InteractiveCol)
+	{
+		InteractiveActor::InteractiveCol->Off();
+	}
+
 	ChangeAnimation("Disappear");
 }
 
@@ -391,14 +386,9 @@ void MongSiri::UpdateDisappear(float _Delta)
 
 void MongSiri::AutoChangeDirAnimation(std::string_view _StateName)
 {
-	if (nullptr == Ellie::MainEllie)
-	{
-		return;
-	}
-
-	const float4& ElliePos = Ellie::MainEllie->Transform.GetLocalPosition();
-	const float4& MyPos = Transform.GetLocalPosition();
-	const float4& VectorToEllie = ElliePos - MyPos;
+	const float4 ElliePos = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->Transform.GetLocalPosition();
+	const float4 MyPos = Transform.GetLocalPosition();
+	const float4 VectorToEllie = ElliePos - MyPos;
 	const float Radian = std::atan2f(VectorToEllie.Y, VectorToEllie.X);
 	DynamicEntity::Dir = DynamicEntity::GetDirectionToDegree(Radian* GameEngineMath::R2D);
 

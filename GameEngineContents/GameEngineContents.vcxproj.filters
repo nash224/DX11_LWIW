@@ -649,12 +649,6 @@
     <ClInclude Include="CraftPotionEvent.h">
       <Filter>Event\SingleEvent</Filter>
     </ClInclude>
-    <ClInclude Include="LowerLift.h">
-      <Filter>Actor\Interactive\Static\WitchLift</Filter>
-    </ClInclude>
-    <ClInclude Include="UpperLift.h">
-      <Filter>Actor\Interactive\Static\WitchLift</Filter>
-    </ClInclude>
     <ClInclude Include="Dian.h">
       <Filter>Actor\Interactive\NPC\Dian</Filter>
     </ClInclude>
@@ -1162,12 +1156,6 @@
     </ClCompile>
     <ClCompile Include="CraftPotionEvent.cpp">
       <Filter>Event\SingleEvent</Filter>
-    </ClCompile>
-    <ClCompile Include="LowerLift.cpp">
-      <Filter>Actor\Interactive\Static\WitchLift</Filter>
-    </ClCompile>
-    <ClCompile Include="UpperLift.cpp">
-      <Filter>Actor\Interactive\Static\WitchLift</Filter>
     </ClCompile>
     <ClCompile Include="Dian.cpp">
       <Filter>Actor\Interactive\NPC\Dian</Filter>

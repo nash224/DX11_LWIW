@@ -13,7 +13,6 @@
 #include "RendererActor.h"
 #include "NormalProp.h"
 
-#include "UpperLift.h"
 #include "UpperLiftA.h"
 #include "BaseLift.h"
 #include "WitchHouseBed.h"

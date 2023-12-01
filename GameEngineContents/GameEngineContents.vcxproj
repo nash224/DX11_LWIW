@@ -371,10 +371,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="LowerLift.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="LowerLiftA.cpp">
       <SubType>
       </SubType>
@@ -780,10 +776,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="UpperLift.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="WitchFlower.cpp">
       <SubType>
       </SubType>
@@ -1001,10 +993,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="LoopTextureActor.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="LowerLift.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -1401,10 +1389,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="UI_ToggleActor.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="UpperLift.h">
       <SubType>
       </SubType>
     </ClInclude>

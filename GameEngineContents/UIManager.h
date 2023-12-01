@@ -58,8 +58,6 @@ private:
 	void InputUpdate();
 
 private:
-	EUI_TYPE m_State = EUI_TYPE::None;
-
 	bool SwitchOpenHub = false;								// 허브를 자동으로 킬 수 있습니다.
 	bool HubPreServeCheck = false;								// 현재 컴포넌트가 작동중이지만 허브를 유지할 수 있는 변수입니다.
 	bool IsActiveComponent = false;							// 허브를 닫지 않고 컴포넌트를 열지 결정합니다.

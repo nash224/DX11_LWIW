@@ -56,9 +56,6 @@ public:
 // 설명 : 주인공 앨리입니다. 
 class Ellie : public DynamicEntity
 {
-public:
-	static Ellie* MainEllie;
-
 private:
 	static EELLIE_STATUS g_Status;
 	static int Day;

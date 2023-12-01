@@ -140,19 +140,13 @@ void AlchemyPot::RendererSetting()
 
 	FxRenderer->SetFrameEvent("Fail", 9, [&](GameEngineSpriteRenderer* _Renderer)
 		{
-			if (nullptr != Ellie::MainEllie)
-			{
-				Ellie::MainEllie->WaitDone(EELLIE_STATE::Fail);
-			}
+			PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->WaitDone(EELLIE_STATE::Fail);
 		});
 	FxRenderer->SetEndEvent("Fail", std::bind(&AlchemyPot::EndPotionCreation, this));
 
 	FxRenderer->SetFrameEvent("Success", 16, [&](GameEngineSpriteRenderer* _Renderer)
 		{
-			if (nullptr != Ellie::MainEllie)
-			{
-				Ellie::MainEllie->WaitDone(EELLIE_STATE::Cheer);
-			}
+			PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->WaitDone(EELLIE_STATE::Cheer);
 		});
 	FxRenderer->SetEndEvent("Success", std::bind(&AlchemyPot::EndPotionCreation, this));
 
@@ -212,8 +206,8 @@ void AlchemyPot::StateSetting()
 
 void AlchemyPot::ChangePotAnimation(std::string_view _StateName)
 {
-	std::string AnimationName = "";
-	AnimationName += _StateName.data();
+	std::string AnimationName;
+	AnimationName = _StateName.data();
 	
 	if (nullptr == FxRenderer)
 	{
