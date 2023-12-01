@@ -37,12 +37,7 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
-
-	void LoadResource();
-	void ReleaseResource();
-
 	void UpdateExit();
-
 
 private:
 	EndingBackDrop BackDrop;

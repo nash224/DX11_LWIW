@@ -61,8 +61,7 @@ public:
 
 	float4 GetInteractiveLocalPositon() const
 	{
-		float4 ReturnValue = InteractiveLocalPosition + Transform.GetLocalPosition();
-		return ReturnValue;
+		return InteractiveLocalPosition + Transform.GetLocalPosition();
 	}
 
 	inline float GetInteractiveRange() const
@@ -118,8 +117,8 @@ public:
 		IsReach = true;
 	}
 
-
 	void ApplyDepth();
+
 	inline void SetDepthBias(float _DepthBias)
 	{
 		PlusDepth = _DepthBias;
@@ -135,16 +134,14 @@ protected:
 protected:
 	std::shared_ptr<GameEngineSpriteRenderer> BodyRenderer = nullptr;
 	std::shared_ptr<GameEngineCollision> InteractiveCol = nullptr;
-
 	InteractOption Option;
 
-	float4 InteractiveLocalPosition = float4::ZERO;											
+	float4 InteractiveLocalPosition = float4::ZERO;
 	float InteractiveRange = 3.0f;
-
-	float PlusDepth = 0.0f;				
-	
 	bool IsReach = false;
 	bool IsEnalbeActive = false;
+
+	float PlusDepth = 0.0f;
 
 };
 

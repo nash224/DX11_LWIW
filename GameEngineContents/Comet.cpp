@@ -11,7 +11,6 @@ Comet::~Comet()
 
 void Comet::Start()
 {
-	FallTime = RandomFunction::GetRandomfValue(0.4f, 0.7f);
 	const float AnimationInter = FallTime / 6.0f;
 
 	Init();
@@ -21,8 +20,8 @@ void Comet::Start()
 	m_Renderer->ChangeAnimation("Fall");
 	m_Renderer->SetPivotType(PivotType::RightUp);
 
-	const float4& LeftBotDirVector = float4(-1.0f, -1.0f);
-	FallDirection = LeftBotDirVector.NormalizeReturn();
+	FallTime = RandomFunction::GetRandomfValue(0.4f, 0.7f);
+	FallDirection = float4(-1.0f, -1.0f).NormalizeReturn();
 }
 
 void Comet::Update(float _Delta)
@@ -41,6 +40,7 @@ void Comet::Update(float _Delta)
 
 void Comet::Release()
 {
+	RendererActor::Release();
 }
 
 void Comet::LevelEnd(class GameEngineLevel* _NextLevel)

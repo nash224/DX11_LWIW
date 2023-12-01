@@ -5,8 +5,6 @@
 #include "SequentialProp.h"
 
 ChainProp::ChainProp()
-	:
-	m_Speed(0.0f)
 {
 }
 
@@ -14,11 +12,6 @@ ChainProp::~ChainProp()
 {
 }
 
-
-void ChainProp::Start()
-{
-
-}
 
 void ChainProp::Update(float _Delta)
 {
@@ -31,25 +24,16 @@ void ChainProp::Release()
 	listProps.clear();
 }
 
-void ChainProp::LevelStart(class GameEngineLevel* _NextLevel)
-{
-
-}
-
 void ChainProp::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	Death();
 }
 
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
 void ChainProp::SetSprite(std::string_view _FileName)
 {
 	m_SpriteFileName = _FileName.data();
 
-	std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Find(_FileName);
+	const std::shared_ptr<GameEngineTexture>& Texture = GameEngineTexture::Find(_FileName);
 	if (nullptr == Texture)
 	{
 		MsgBoxAssert(m_SpriteFileName + "텍스처를 불러오지 못했습니다.");
@@ -101,18 +85,15 @@ void ChainProp::CalculateAndSetRegenLocation(const float4& _Position)
 		return;
 	}
 
-	float4 WinScale = GlobalValue::GetWindowScale();
 	float4 HTextureScale = m_TextureScale.Half();
-
-	float4 RegenPos = float4::ZERO;
-
-	if (m_TextureScale.X >= WinScale.X)
+	float4 RegenPos;
+	if (m_TextureScale.X >= GlobalValue::GetWindowScale().X)
 	{
 		RegenPos = float4{ m_TextureScale.X + HTextureScale.X , _Position.Y };
 	}
 	else
 	{
-		RegenPos = float4{ WinScale.X + HTextureScale.X , _Position.Y };
+		RegenPos = float4{ GlobalValue::GetWindowScale().X + HTextureScale.X , _Position.Y };
 	}
 
 	m_FirstLocation = _Position;

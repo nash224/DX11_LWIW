@@ -20,13 +20,13 @@ public:
 	BackDrop_MainMenu& operator=(BackDrop_MainMenu&& _Other) noexcept = delete;
 
 
-	void Init();
+	void RenewMap();
 
 protected:
 	void Start() override {}
 	void Update(float _Delta) override {}
 	void Release() override {}
-	void LevelStart(class GameEngineLevel* _NextLevel) override {}
+	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:

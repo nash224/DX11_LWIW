@@ -19,10 +19,10 @@ public:
 	ChainProp& operator=(ChainProp&& _Other) noexcept = delete;
 
 protected:
-	void Start() override;
+	void Start() override {}
 	void Update(float _Delta) override;
 	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 public:
@@ -52,8 +52,6 @@ public:
 	}
 
 private:
-
-private:
 	// 업데이트 
 	void UpdateSeries();
 	void EraseOverScreenProp();
@@ -63,11 +61,9 @@ private:
 
 private:
 	std::list<std::shared_ptr<SequentialProp>> listProps;
-
-private:
 	std::string MaterialName;
+	std::string m_SpriteFileName;
 
-	std::string m_SpriteFileName = "";
 	float4 m_TextureScale = float4::ZERO;
 	int m_Depth = 0;
 	int m_Order = 0;

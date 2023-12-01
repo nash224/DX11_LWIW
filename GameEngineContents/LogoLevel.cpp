@@ -55,9 +55,6 @@ void LogoLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
 
 void LogoLevel::LoadTexture()
 {
@@ -65,9 +62,8 @@ void LogoLevel::LoadTexture()
 	Dir.MoveParentToExistsChild("Resources");
 	Dir.MoveChild("Resources\\Logo");
 	std::vector<GameEngineFile> Files = Dir.GetAllFile();
-	for (size_t i = 0; i < Files.size(); i++)
+	for (GameEngineFile& pFile : Files)
 	{
-		GameEngineFile pFile = Files[i];
 		GameEngineTexture::Load(pFile.GetStringPath());
 	}
 }
@@ -78,9 +74,8 @@ void LogoLevel::LoadSprite()
 	Dir.MoveParentToExistsChild("Resources");
 	Dir.MoveChild("Resources\\Logo");
 	std::vector<GameEngineFile> Files = Dir.GetAllFile();
-	for (size_t i = 0; i < Files.size(); i++)
+	for (GameEngineFile& pFile : Files)
 	{
-		GameEngineFile pFile = Files[i];
 		GameEngineSprite::CreateSingle(pFile.GetFileName());
 	}
 }
@@ -128,16 +123,14 @@ void LogoLevel::UpdateFade(float _Delta)
 }
 
 
-
 void LogoLevel::ReleaseSprite()
 {
 	GameEngineDirectory Dir;
 	Dir.MoveParentToExistsChild("Resources");
 	Dir.MoveChild("Resources\\Logo");
 	std::vector<GameEngineFile> Files = Dir.GetAllFile();
-	for (size_t i = 0; i < Files.size(); i++)
+	for (GameEngineFile& pFile : Files)
 	{
-		GameEngineFile pFile = Files[i];
 		GameEngineSprite::Release(pFile.GetFileName());
 	}
 
@@ -149,9 +142,8 @@ void LogoLevel::ReleaseTexture()
 	Dir.MoveParentToExistsChild("Resources");
 	Dir.MoveChild("Resources\\Logo");
 	std::vector<GameEngineFile> Files = Dir.GetAllFile();
-	for (size_t i = 0; i < Files.size(); i++)
+	for (GameEngineFile& pFile : Files)
 	{
-		GameEngineFile pFile = Files[i];
 		GameEngineTexture::Release(pFile.GetFileName());
 	}
 }

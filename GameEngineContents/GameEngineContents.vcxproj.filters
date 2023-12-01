@@ -748,6 +748,9 @@
     <ClInclude Include="BroomCollisionParticle.h">
       <Filter>Actor\Interactive\Dynamic\Ellie\Broom\Ride_Particle</Filter>
     </ClInclude>
+    <ClInclude Include="ContentsActor.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -1258,6 +1261,9 @@
     </ClCompile>
     <ClCompile Include="BroomCollisionParticle.cpp">
       <Filter>Actor\Interactive\Dynamic\Ellie\Broom\Ride_Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="ContentsActor.cpp">
+      <Filter>Actor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

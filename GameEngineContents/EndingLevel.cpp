@@ -40,7 +40,20 @@ void EndingLevel::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	ContentsLevel::LevelStart(_NextLevel);
 
-	LoadResource();
+	if (nullptr == GameEngineTexture::Find("Ending_Logo.png"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\PlayContents\\Ending\\");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pfile : Files)
+		{
+			GameEngineTexture::Load(pfile.GetStringPath());
+		}
+	}
+
+	GameEngineSprite::CreateSingle("Ending_Logo.png");
+
 	BackDrop.RendererSetting(this);
 
 	std::shared_ptr<FadeObject> Fade = CreateActor<FadeObject>(EUPDATEORDER::Fade);
@@ -50,12 +63,21 @@ void EndingLevel::LevelStart(class GameEngineLevel* _NextLevel)
 void EndingLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	BackDrop.RendererRelease();
-	ReleaseResource();
+	
+	GameEngineSprite::Release("Ending_Logo.png");
+
+	if (nullptr == GameEngineTexture::Find("Ending_Logo.png"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\PlayContents\\Ending");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pfile : Files)
+		{
+			GameEngineTexture::Release(pfile.GetFileName());
+		}
+	}
 }
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 void EndingLevel::EndingBackDrop::RendererSetting(GameEngineLevel* _Level)
 {
@@ -123,48 +145,13 @@ void EndingLevel::EndingBackDrop::RendererSetting(GameEngineLevel* _Level)
 
 void EndingLevel::EndingBackDrop::RendererRelease()
 {
-	Logo = nullptr;
-	BackBase = nullptr;
-	Font = nullptr;
-	EndButton = nullptr;
-	EndText = nullptr;
+	Logo->Death();
+	BackBase->Death();
+	Font->Death();
+	EndButton->Death();
+	EndText->Death();
 }
 
-
-
-void EndingLevel::LoadResource()
-{
-	if (nullptr == GameEngineTexture::Find("Ending_Logo.png"))
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExistsChild("Resources");
-		Dir.MoveChild("Resources\\PlayContents\\Ending\\");
-		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-		for (GameEngineFile& pfile : Files)
-		{
-			GameEngineTexture::Load(pfile.GetStringPath());
-		}
-	}
-
-	GameEngineSprite::CreateSingle("Ending_Logo.png");
-}
-
-void EndingLevel::ReleaseResource()
-{
-	GameEngineSprite::Release("Ending_Logo.png");
-
-	if (nullptr == GameEngineTexture::Find("Ending_Logo.png"))
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExistsChild("Resources");
-		Dir.MoveChild("Resources\\PlayContents\\Ending");
-		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-		for (GameEngineFile& pfile : Files)
-		{
-			GameEngineTexture::Release(pfile.GetFileName());
-		}
-	}
-}
 
 void EndingLevel::UpdateExit()
 {

@@ -252,6 +252,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ContentsActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ContentsMath.cpp">
       <SubType>
       </SubType>
@@ -880,6 +884,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="CometSpawner.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ContentsActor.h">
       <SubType>
       </SubType>
     </ClInclude>

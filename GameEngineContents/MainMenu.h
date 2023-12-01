@@ -22,25 +22,12 @@ public:
 	MainMenu& operator=(MainMenu&& _Other) noexcept = delete;
 
 protected:
-
-private:
 	void Start() override;
 	void Update(float _Delta) override;
 	void LevelStart(GameEngineLevel* _PrevLevel) override;
 	void LevelEnd(GameEngineLevel* _NextLevel) override;
 
-
 private:
-	void LoadTexture();
-	void LoadSprite();
-	void InitActor();
-
-
-	void ReleaseSprite();
-	void ReleaseTexture();
-
-private:
-	
 
 };
 

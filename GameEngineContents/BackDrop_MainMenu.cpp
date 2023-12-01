@@ -6,34 +6,11 @@
 #include "RendererActor.h"
 #include "MainMenu_Trains.h"
 #include "CometSpawner.h"
+#include "UI_MainMenu_Button.h"
 
 BackDrop_MainMenu::BackDrop_MainMenu() 
 {
-}
-
-BackDrop_MainMenu::~BackDrop_MainMenu() 
-{
-}
-
-
-void BackDrop_MainMenu::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-	Death();
-}
-
-
-
-void BackDrop_MainMenu::Init()
-{
-	std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Find("Title_Train_Sky.png");
-	if (nullptr == Texture)
-	{
-		MsgBoxAssert("텍스처를 불러오지 못했습니다.");
-		return;
-	}
-
-	BackScale = Texture->GetScale();
-
+	BackScale = GlobalValue::GetWindowScale();
 
 	if (nullptr == GameEngineSound::FindSound("BGM_MainTheme.wav"))
 	{
@@ -46,11 +23,95 @@ void BackDrop_MainMenu::Init()
 			GameEngineSound::SoundLoad(pFile.GetStringPath());
 		}
 	}
+}
 
+BackDrop_MainMenu::~BackDrop_MainMenu() 
+{
+}
+
+
+void BackDrop_MainMenu::LevelStart(class GameEngineLevel* _NextLevel)
+{
+	FileLoadFunction::LoadAllFileInPath("Resources\\Main\\Train\\TitleSpriteName");
+	FileLoadFunction::LoadAllFileInPath("Resources\\Main\\Train\\TitleSprite");
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\Main\\Train\\Title_train_star");
+
+		GameEngineSprite::CreateFolder(Dir.GetStringPath());
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\Main\\Train\\TitleSpriteName");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pFile : Files)
+		{
+			GameEngineSprite::CreateSingle(pFile.GetFileName());
+		}
+	}
+
+	GameEngineSprite::CreateCut("trainsmoke_big.png", 4, 1);
+	GameEngineSprite::CreateCut("trainsmoke_mid.png", 5, 1);
+	GameEngineSprite::CreateCut("trainsmoke_small.png", 4, 1);
+
+	RenewMap();
+}
+
+void BackDrop_MainMenu::LevelEnd(class GameEngineLevel* _NextLevel)
+{
+	GameEngineSprite::Release("Title_train_star");
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\Main\\Train\\TitleSprite");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pFile : Files)
+		{
+			GameEngineSprite::Release(pFile.GetFileName());
+			GameEngineTexture::Release(pFile.GetFileName());
+		}
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\Main\\Train\\TitleSpriteName");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pFile :Files)
+		{
+			GameEngineSprite::Release(pFile.GetFileName());
+			GameEngineTexture::Release(pFile.GetFileName());
+		}
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\Main\\Train\\Title_train_star");
+
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pFile : Files)
+		{
+			GameEngineTexture::Release(pFile.GetFileName());
+		}
+	}
+}
+
+
+void BackDrop_MainMenu::RenewMap()
+{
 	PropSetting();
 	CometSpawnerSetting();
 	TrainSetting();
 	ChainPropSetting();
+
+	std::shared_ptr<UI_MainMenu_Button> Title_UI = GetLevel()->CreateActor<UI_MainMenu_Button>(EUPDATEORDER::Objects);
+	Title_UI->Init();
 }
 
 
@@ -173,11 +234,9 @@ void BackDrop_MainMenu::PropSetting()
 	}
 
 	{
-		const float4& Position = float4(300.0f, 100.0f, DepthFunction::CalculateFixDepth(ETITLERENDERDEPTH::Logo));
-
 		std::shared_ptr<GameEngineUIRenderer> _Logo = CreateComponent<GameEngineUIRenderer>();
 		_Logo->SetSprite("Logo.png");
-		_Logo->Transform.SetLocalPosition(Position);
+		_Logo->Transform.SetLocalPosition(float4(300.0f, 100.0f, DepthFunction::CalculateFixDepth(ETITLERENDERDEPTH::Logo)));
 		_Logo->AutoSpriteSizeOn();
 		_Logo->SetAutoScaleRatio(0.5f);
 	}
@@ -261,13 +320,11 @@ void BackDrop_MainMenu::ChainPropSetting()
 		Object->CalculateAndSetRegenLocation(float4{ 360.0f , -485.0f });
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	
-	static constexpr float MountainSpeed = -60.0f;
-	static constexpr float BridgeSpeed = -480.0f;
-	static constexpr float TreeSpeed = -1200.0f;
-	static constexpr float TreeSpawnDistance = 2400.0f;
+	const float MountainSpeed = -60.0f;
+	const float BridgeSpeed = -480.0f;
+	const float TreeSpeed = -1200.0f;
+	const float TreeSpawnDistance = 2400.0f;
 
 	{
 		const float Depth = DepthFunction::CalculateFixDepth(ETITLERENDERDEPTH::Props_0);
