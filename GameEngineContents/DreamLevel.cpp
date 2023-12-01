@@ -1,7 +1,6 @@
 #include "PreCompile.h"
 #include "DreamLevel.h"
 
-
 #include "CameraControler.h"
 #include "BGMManager.h"
 
@@ -50,10 +49,8 @@ void DreamLevel::LevelStart(class GameEngineLevel* _NextLevel)
 	ResLoad();
 	RendererSetting();
 
-	static constexpr const float Ending_FadeIn_Duration = 1.2f;
-
 	std::shared_ptr<FadeObject> Fade = CreateActor<FadeObject>(EUPDATEORDER::Fade);
-	Fade->CallFadeIn(Ending_FadeIn_Duration);
+	Fade->CallFadeIn(1.2f);
 
 	State.ChangeState(EDREAMSTATE::Stay);
 }
@@ -66,14 +63,10 @@ void DreamLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 	PlayLevel::s_TimeManager->ChangeDay();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
 
 void DreamLevel::RendererSetting()
 {
-	const float4& WinScale = GlobalValue::GetWindowScale();
-	const float4& HWinScale = WinScale.Half();
+	const float4 HWinScale = GlobalValue::GetWindowScale().Half();
 	float4 BasePosition = HWinScale;
 	BasePosition.Y *= -1.0f;
 	BasePosition.Z = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Back_Paint);
@@ -82,7 +75,7 @@ void DreamLevel::RendererSetting()
 	BaseBackGround->Transform.SetLocalPosition(BasePosition);
 	BaseBackGround->Init();
 	BaseBackGround->m_Renderer->GetColorData().PlusColor = float4(-1.0f, -1.0f, -1.0f, 1.0f);
-	BaseBackGround->m_Renderer->GetImageTransform().SetLocalScale(WinScale);
+	BaseBackGround->m_Renderer->GetImageTransform().SetLocalScale(GlobalValue::GetWindowScale());
 
 
 	float4 BackGroundPosition = HWinScale;
@@ -90,13 +83,11 @@ void DreamLevel::RendererSetting()
 	BackGroundPosition.Z = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Object);
 
 
-	static constexpr const float Ending_Animation_Inter = 0.18f;
-
 	std::shared_ptr<RendererActor> EndingBackGround = CreateActor<RendererActor>(EUPDATEORDER::Objects);
 	EndingBackGround->Transform.SetLocalPosition(BackGroundPosition);
 	EndingBackGround->Init();
 	EndingBackGround->m_Renderer->AutoSpriteSizeOn();
-	EndingBackGround->m_Renderer->CreateAnimation("Dream", "Sleep_1.png", Ending_Animation_Inter, 1, 11);
+	EndingBackGround->m_Renderer->CreateAnimation("Dream", "Sleep_1.png", 0.18f, 1, 11);
 	EndingBackGround->m_Renderer->ChangeAnimation("Dream");
 }
 
@@ -113,9 +104,9 @@ void DreamLevel::StateSetting()
 
 void DreamLevel::UpdateStay(float _Delta, GameEngineState* _Parent)
 {
-	static constexpr float Max_Dream_Time = 6.0f;
+	const float MaxDreamTime = 6.0f;
 
-	if (_Parent->GetStateTime() > Max_Dream_Time)
+	if (_Parent->GetStateTime() > MaxDreamTime)
 	{
 		_Parent->ChangeState(EDREAMSTATE::None);
 	}

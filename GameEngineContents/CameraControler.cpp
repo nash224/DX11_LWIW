@@ -80,8 +80,7 @@ void CameraControler::SetBackDropScale(const float4& _Scale)
 
 void CameraControler::AddCameraPos(const float4& _Position)
 {
-	const float4& CameraPos = MainCameraPointer->Transform.GetLocalPosition();
-	float4 CameraMovePosition = CameraPos + _Position;
+	float4 CameraMovePosition = MainCameraPointer->Transform.GetLocalPosition() + _Position;
 	CameraMovePosition.Z = CAMERA_DEPTH;
 
 	MainCameraPointer->Transform.SetLocalPosition(CameraMovePosition);

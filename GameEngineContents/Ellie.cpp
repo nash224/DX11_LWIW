@@ -63,7 +63,7 @@ void Ellie::Start()
 
 void Ellie::Update(float _Delta)
 {
-	UpdateState(_Delta);
+ 	UpdateState(_Delta);
 	UpdateCoolTime(_Delta);
 	UpdateCollision();
 	UpdateTestCode();
@@ -848,15 +848,16 @@ void Ellie::CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce)
 
 EDIRECTION Ellie::ReturnDirectionCheckBothSide(EDIRECTION _Direction, const float4& _LeftCheckPoint, const float4& _RightCheckPoint)
 {
-	if (nullptr == BackDrop_PlayLevel::MainBackDrop)
+	const std::shared_ptr<BackDrop_PlayLevel>& MainBackDropPtr = PlayLevel::GetPlayLevelPtr()->GetBackDropPtr();
+	if (nullptr == MainBackDropPtr)
 	{
 		return Dir;
 	}
 
 	int DirNum = static_cast<int>(_Direction);
 
-	bool LeftCheck = BackDrop_PlayLevel::MainBackDrop->IsColorAtPosition(_LeftCheckPoint, GameEngineColor::RED);
-	bool RightCheck = BackDrop_PlayLevel::MainBackDrop->IsColorAtPosition(_RightCheckPoint, GameEngineColor::RED);
+	bool LeftCheck = MainBackDropPtr->IsColorAtPosition(_LeftCheckPoint, GameEngineColor::RED);
+	bool RightCheck = MainBackDropPtr->IsColorAtPosition(_RightCheckPoint, GameEngineColor::RED);
 
 	bool isLeftWall = (true == LeftCheck && false == RightCheck);
 	if (isLeftWall)

@@ -152,7 +152,7 @@ void BackDrop_CenterField::LoadSerBin()
 		unsigned int ActorCount = 0;
 		LoadBin >> ActorCount;
 
-		for (int i = 0; i < ActorCount; i++)
+		for (unsigned int i = 0; i < ActorCount; i++)
 		{
 			const std::shared_ptr<NormalProp>& Object = GetLevel()->CreateActor<NormalProp>();
 			Object->DeSerializer(LoadBin);
@@ -175,7 +175,7 @@ void BackDrop_CenterField::LoadSerBin()
 		unsigned int ActorCount = 0;
 		LoadBin >> ActorCount;
 
-		for (int i = 0; i < ActorCount; i++)
+		for (unsigned int i = 0; i < ActorCount; i++)
 		{
 			std::shared_ptr<GroundRenderUnit> Object = GetLevel()->CreateActor<GroundRenderUnit>();
 			Object->DeSerializer(LoadBin);

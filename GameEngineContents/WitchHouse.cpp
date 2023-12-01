@@ -42,7 +42,15 @@ void WitchHouse::Init()
 {
 	static constexpr float YRender_Correction = 148.0f;
 
-	const float4& BackScale = BackDrop_PlayLevel::MainBackDrop->GetBackGroundScale();
+
+	const std::shared_ptr<BackDrop_PlayLevel>& BackDropPtr = PlayLevel::GetPlayLevelPtr()->GetBackDropPtr();
+	if (nullptr == BackDropPtr)
+	{
+		MsgBoxAssert("배경 매니저가 존재하지 않습니다.");
+		return;
+	}
+
+	const float4& BackScale = BackDropPtr->GetBackGroundScale();
 	const float HouseYPosition = -350.0f;
 	float HouseZ = DepthFunction::CalculateObjectDepth(BackScale.Y, HouseYPosition + 50.0f);
 	const float4& HousePosition = float4(BackScale.hX(), YRender_Correction + HouseYPosition, HouseZ);

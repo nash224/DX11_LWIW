@@ -122,7 +122,6 @@ std::shared_ptr<class BackDrop_PlayLevel> PlayLevel::GetBackDropPtr() const
 {
 	if (nullptr == Back)
 	{
-		MsgBoxAssert("배경매니저가 존재하지 않습니다.");
 		return nullptr;
 	}
 

@@ -112,7 +112,7 @@ void UIManager::UseUIComponent()
 void UIManager::DoneUIComponent()
 {
 	HubPtr->Open();
-	SetEllieControl(true);
+ 	SetEllieControl(true);
 }
 
 std::shared_ptr<class UI_Conversation> UIManager::GetConversationPtr() const

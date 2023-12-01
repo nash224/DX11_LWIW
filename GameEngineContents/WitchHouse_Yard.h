@@ -23,13 +23,10 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
-	void LoadTexture();
-	void LoadActor();
+	void SetPlayerPosition(class GameEngineLevel* _NextLevel) const;
 
-	void SetElliePosToEnter(class GameEngineLevel* _NextLevel);
-	void CameraSetting();
-
-	void ReleaseTexture();
+	void LoadLevelTexture();
+	void ReleaseLevelTexture();
 
 };
 

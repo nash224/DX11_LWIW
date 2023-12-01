@@ -222,8 +222,6 @@ void UI_ProcessB::Close()
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////
-
 void UI_ProcessB::UpdateInput(float _Delta)
 {
 	bool isScrEnough = (SourceInfo.ScrCount >= SourceInfo.NeedCount);
@@ -274,7 +272,7 @@ void UI_ProcessB::JuicyThis()
 
 void UI_ProcessB::UpdateGauge(float _Delta)
 {
-	static constexpr float GaugeTime = 1.0f;
+	const float GaugeTime = 1.0f;
 
 	PressTime += _Delta;
 	if (PressTime >= GaugeTime)

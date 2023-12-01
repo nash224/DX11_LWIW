@@ -5,32 +5,20 @@
 
 void ALightLerp::Init(GameEngineActor* _Actor, const ALightLerpParameter& _Para)
 {
+	LightColor = _Para.Color;
+
 	LightRenderer = _Actor->CreateComponent<GameEngineSpriteRenderer>();
-
-	SetLightRendererSetting(_Para.Color);
-
+	LightRenderer->SetMaterial("2DTexture_Light");
 	LightRenderer->SetSprite(_Para.SpriteName);
+	LightRenderer->GetColorData().MulColor = _Para.Color;
+	LightRenderer->RenderBaseInfoValue.Target3 = 1;
 	if (_Para.Scale != float4::ZERO)
 	{
 		LightRenderer->GetImageTransform().SetLocalScale(float4(_Para.Scale));
 	}
-	LightRenderer->Transform.SetLocalPosition(_Para.Position);
-	LightRenderer->Transform.AddLocalPosition(float4(0.0f, 0.0f, -0.01f));
+	LightRenderer->Transform.SetLocalPosition(_Para.Position + float4(0.0f, 0.0f, -0.01f));
 
-}
-
-void ALightLerp::SetLightRendererSetting(const float4& _Color)
-{
-	if (nullptr == LightRenderer)
-	{
-		MsgBoxAssert("라이트 렌더러가 존재하지 않습니다.");
-		return;
-	}
-
-	LightRenderer->SetMaterial("2DTexture_Light");
-	LightRenderer->GetColorData().MulColor = _Color;
-	LightRenderer->RenderBaseInfoValue.Target3 = 1;
-	LightColor = _Color;
+	UpdateLightLerp();
 }
 
 void ALightLerp::SetLightAlpha(float _Alpha)
@@ -40,7 +28,7 @@ void ALightLerp::SetLightAlpha(float _Alpha)
 
 void ALightLerp::SetPosition(const float4& _Pos)
 {
-	LightRenderer->Transform.SetLocalPosition(_Pos);
+	LightRenderer->Transform.SetLocalPosition(_Pos + float4(0.0f, 0.0f, -0.01f));
 }
 
 void ALightLerp::UpdateLightLerp()
@@ -52,7 +40,5 @@ void ALightLerp::UpdateLightLerp()
 	}
 
 	const float ALightValue = SkyLerp::MainSkyManager->GetALightValue();
-
-	float LightAlpha = LightColor.A * ALightValue * Alpha;
-	LightRenderer->GetColorData().MulColor.A = LightAlpha;
+	LightRenderer->GetColorData().MulColor.A = LightColor.A * ALightValue * Alpha;
 }

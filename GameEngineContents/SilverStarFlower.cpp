@@ -129,7 +129,7 @@ void SilverStarFlower::TouchStart(GameEngineState* _Parent)
 	}
 
 	CreatePollenSpawner();
-	PlaySFX("SFX_SliverStarFlower_Ring.wav");
+	SFXFunction::PlaySFX("SFX_SliverStarFlower_Ring.wav");
 }
 
 void SilverStarFlower::UnLightStart(GameEngineState* _Parent)
@@ -154,8 +154,8 @@ void SilverStarFlower::DayUpdate(float _Delta, GameEngineState* _Parent)
 
 void SilverStarFlower::LightUpdate(float _Delta, GameEngineState* _Parent)
 {
-	static constexpr const float RecognitionRange = 20.0f;
-	static constexpr const float Net_Recognition_Range = 50.0f;
+	const float RecognitionRange = 20.0f;
+	const float Net_RecognitionRange = 50.0f;
 
 	const float Distance = CalculateDistanceToEllie();
 	bool isEllieTouch = (Distance < RecognitionRange);
@@ -165,7 +165,7 @@ void SilverStarFlower::LightUpdate(float _Delta, GameEngineState* _Parent)
 		return;
 	}
 
-	bool isNetTouch = (Distance < Net_Recognition_Range);
+	bool isNetTouch = (Distance < Net_RecognitionRange);
 	if (isNetTouch && EELLIE_STATE::ButterflyNet == PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->GetState())
 	{
 		State.ChangeState(ESILVERBELLSTATE::Touch);

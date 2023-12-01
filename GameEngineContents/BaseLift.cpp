@@ -39,10 +39,14 @@ void BaseLift::Release()
 void BaseLift::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	Death();
+
+	FileLoadFunction::ReleaseAllTextureAndSpriteInPath("Resources\\PlayContents\\Lift");
 }
 
 void BaseLift::Init()
 {
+	FileLoadFunction::LoadTextureAndCreateSingleSpriteInPath("Resources\\PlayContents\\Lift");
+
 	LiftSetting();
 	StateSetting();
 
@@ -75,6 +79,27 @@ void BaseLift::LiftSetting()
 	Lift.Pattern->Off();
 }
 
+
+void BaseLift::EnableEv()
+{
+	isEnable = true;
+	if (nullptr != InteractiveActor::InteractiveCol)
+	{
+		InteractiveActor::InteractiveCol->On();
+	}
+}
+
+void BaseLift::ActiveEv()
+{
+	State.ChangeState(ELIFTSTATE::Enter);
+}
+
+void BaseLift::LiftToArrive()
+{
+	State.ChangeState(ELIFTSTATE::Arrive);
+}
+
+
 void BaseLift::StateSetting()
 {
 	CreateStateParameter ReadyPara;
@@ -92,9 +117,6 @@ void BaseLift::StateSetting()
 	ArrivePara.End = std::bind(&BaseLift::EndArrive, this, std::placeholders::_1);
 	State.CreateState(ELIFTSTATE::Arrive, ArrivePara);
 }
-
-
-
 
 void BaseLift::StartReady(GameEngineState* _Parent)
 {
@@ -191,18 +213,6 @@ void BaseLift::EndArrive(GameEngineState* _Parent)
 	PlayerPtr->SetLocalPosition(LiftArrivePoint);
 }
 
-
-void BaseLift::ActiveEv()
-{
-	State.ChangeState(ELIFTSTATE::Enter);
-}
-
-
-void BaseLift::LiftToArrive()
-{
-	State.ChangeState(ELIFTSTATE::Arrive);
-}
-
 void BaseLift::AddSpeed(float _Delta, float _Speed)
 {
 	LiftSpeed += _Speed * _Delta / AccelerationTime;
@@ -279,13 +289,4 @@ void BaseLift::DisappearLift()
 
 	Lift.Lift->Off();
 	Lift.Pattern->Off();
-}
-
-void BaseLift::EnableEv()
-{
-	isEnable = true;
-	if (nullptr != InteractiveActor::InteractiveCol)
-	{
-		InteractiveActor::InteractiveCol->On();
-	}
 }

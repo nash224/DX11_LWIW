@@ -8,9 +8,6 @@ class BackDrop_PlayLevel : public BackDrop
 	friend class Ellie;
 
 public:
-	static BackDrop_PlayLevel* MainBackDrop;
-
-public:
 	// constrcuter destructer
 	BackDrop_PlayLevel();
 	~BackDrop_PlayLevel();

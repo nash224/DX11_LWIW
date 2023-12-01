@@ -7,7 +7,6 @@
 #include "AlchemyPot.h"
 #include "Extractor.h"
 #include "Roaster.h"
-#include "LowerLift.h"
 #include "LowerLiftA.h"
 
 #include "Dust_Pot.h"
@@ -55,9 +54,6 @@ void BackDrop_WitchHouse_DownFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void BackDrop_WitchHouse_DownFloor::RenewMap()
 {
-	BackDrop_PlayLevel::MainBackDrop = this;
-
-
 	GameEngineDirectory Dir;
 	Dir.MoveParentToExistsChild("Resources");
 	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_DownFloor\\DownSingle");

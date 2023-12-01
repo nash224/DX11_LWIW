@@ -64,11 +64,6 @@ void Extractor::LevelEnd(class GameEngineLevel* _NextLevel)
 	Death(); 
 }
 
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
-
 void Extractor::InitExtractor()
 {
 	RendererSetting();
@@ -120,7 +115,7 @@ void Extractor::RendererSetting()
 
 	ExtractorRenderer->SetFrameEvent("Juicy", 3, [&](GameEngineSpriteRenderer* _Renderer)
 		{
-			StaticEntity::PlaySFX("SFX_JucierActive_02.wav");
+			SFXFunction::PlaySFX("SFX_JucierActive_02.wav");
 		});
 }
 
@@ -192,7 +187,7 @@ void Extractor::StartIdle(GameEngineState* _Parent)
 
 void Extractor::StartJuicy(GameEngineState* _Parent)
 {
-	StaticEntity::PlaySFX(RandomOpenJuicySoundFilleName());
+	SFXFunction::PlaySFX(RandomOpenJuicySoundFilleName());
 	ChangeExtractorAnimation("Juicy");
 }
 
@@ -239,22 +234,18 @@ void Extractor::UpdateJuicy(float _Delta, GameEngineState* _Parent)
 }
 
 
-
 void Extractor::EndJuicy(GameEngineState* _Parent)
 {
-	StaticEntity::PlaySFX("SFX_JucierClose_01.wav");
+	SFXFunction::PlaySFX("SFX_JucierClose_01.wav");
 }
-
-
 
 std::string Extractor::RandomOpenJuicySoundFilleName()
 {
 	GameEngineRandom RandomClass;
-	int SelectValue = RandomClass.RandomInt(1, 2);
 
 	std::string_view FileName;
 
-	switch (SelectValue)
+	switch (RandomClass.RandomInt(1, 2))
 	{
 	case 1:
 		FileName = "SFX_JucierOpen_01.wav";

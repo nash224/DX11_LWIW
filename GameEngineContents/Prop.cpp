@@ -89,13 +89,14 @@ void Prop::SetRendererImageScale(const float4& _Scale)
 // 플레이 레벨에서 ZSort
 void Prop::SetPositionAndDepth(const float4& _Position)
 {
-	if (nullptr == BackDrop_PlayLevel::MainBackDrop)
+	const std::shared_ptr<BackDrop_PlayLevel>& BackDropPtr = PlayLevel::GetPlayLevelPtr()->GetBackDropPtr();
+	if (nullptr == BackDropPtr)
 	{
 		MsgBoxAssert("배경 매니저가 존재하지 않습니다.");
 		return;
 	}
 
-	float Depth = DepthFunction::CalculateObjectDepth(BackDrop_PlayLevel::MainBackDrop->GetBackGroundScale().Y, _Position.Y);
+	float Depth = DepthFunction::CalculateObjectDepth(BackDropPtr->GetBackGroundScale().Y, _Position.Y);
 	Transform.SetLocalPosition({ _Position.X, _Position.Y, Depth });
 }
 

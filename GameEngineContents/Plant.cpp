@@ -25,72 +25,37 @@ void Plant::Start()
 {
 	InteractiveActor::Start();
 
-	SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::Near, ECOLLECTION_METHOD::RootUp, ETOOLTYPE::Gloves);
-	SetNearInteractivePositionAndRange(float4::ZERO, 6.0f);
+	InteractiveActor::SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::Near, ECOLLECTION_METHOD::RootUp, ETOOLTYPE::Gloves);
+	InteractiveActor::SetNearInteractivePositionAndRange(float4::ZERO, 6.0f);
+
+	StateSetting();
 }
 
 void Plant::Update(float _Delta)
 {
 	InteractiveActor::Update(_Delta);
-
-	UpdateState(_Delta);
+	State.Update(_Delta);
 }
 
 void Plant::Release()
 {
 	InteractiveActor::Release();
-
-	BodyRenderer = nullptr;
 }
 
 
-
-
-
-void Plant::UpdateState(float _Delta)
+void Plant::StateSetting()
 {
-	switch (m_State)
-	{
-	case EPLANTSTATE::Idle:						UpdateIdle(_Delta);						break;
-	case EPLANTSTATE::UpRoot:					UpdateUpRoot(_Delta);					break;
-	case EPLANTSTATE::None:
-	{
-		MsgBoxAssert("행동을 지정해주지 않았습니다.");
-		return;
-	}
-		break;
-	default:
-		break;
-	}
+	CreateStateParameter IdleState;
+	IdleState.Start = std::bind(&Plant::StartIdle, this, std::placeholders::_1);
+	IdleState.Stay = std::bind(&Plant::UpdateIdle, this, std::placeholders::_1, std::placeholders::_2);
+	State.CreateState(EPLANTSTATE::Idle, IdleState);
+
+	CreateStateParameter UpRootState;
+	UpRootState.Start = std::bind(&Plant::StartUpRoot, this, std::placeholders::_1);
+	UpRootState.Stay = std::bind(&Plant::UpdateUpRoot, this, std::placeholders::_1, std::placeholders::_2);
+	State.CreateState(EPLANTSTATE::UpRoot, UpRootState);
 }
 
-void Plant::ChangeState(EPLANTSTATE _State)
-{
-	if (_State != m_State)
-	{
-		switch (_State)
-		{
-		case EPLANTSTATE::Idle:					StartIdle();				break;
-		case EPLANTSTATE::UpRoot:				StartUpRoot();				break;
-		case EPLANTSTATE::None:
-		{
-			MsgBoxAssert("해당 행동패턴으로 변경할 수 없습니다.");
-			return;
-		}
-			break;
-		default:
-			break;
-		}
-
-
-		m_State = _State;
-	}
-	else
-	{
-		MsgBoxAssert("같은 상태로 바꾸려고 했습니다.");
-		return;
-	}
-}
 
 void Plant::ChangePlantAnimation(std::string_view _Name)
 {
@@ -103,24 +68,12 @@ void Plant::ChangePlantAnimation(std::string_view _Name)
 	BodyRenderer->ChangeAnimation(_Name);
 }
 
-
-
-void Plant::StartIdle()
+void Plant::StartIdle(GameEngineState* _Parent)
 {
 	ChangePlantAnimation("Idle");
 }
 
-void Plant::UpdateIdle(float _Delta)
-{
-	if (true == IsEnalbeActive)
-	{
-		ChangeState(EPLANTSTATE::UpRoot);
-		return;
-	}
-}
-
-
-void Plant::StartUpRoot()
+void Plant::StartUpRoot(GameEngineState* _Parent)
 {
 	SetInteractionButtonType(EINTERACTION_BUTTONTYPE::None);
 	InteractiveCol->Off();
@@ -129,10 +82,20 @@ void Plant::StartUpRoot()
 	ChangePlantAnimation("UpRoot");
 }
 
-void Plant::UpdateUpRoot(float _Delta)
+
+void Plant::UpdateIdle(float _Delta, GameEngineState* _Parent)
+{
+	if (true == IsEnalbeActive)
+	{
+		State.ChangeState(EPLANTSTATE::UpRoot);
+		return;
+	}
+}
+
+void Plant::UpdateUpRoot(float _Delta, GameEngineState* _Parent)
 {
 	if (true == BodyRenderer->IsCurAnimationEnd())
 	{
-		ChildRooting();
+		RootInternal();
 	}
 }

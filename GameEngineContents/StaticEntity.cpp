@@ -23,8 +23,6 @@ void StaticEntity::Release()
 	PixelRenderer = nullptr;
 	PixelCol = nullptr;
 }
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 
 bool StaticEntity::GetPixelCheck()
@@ -63,11 +61,4 @@ void StaticEntity::UpdatePixelCollision()
 			PixelRenderer->Off();
 		}
 	}
-}
-
-
-void StaticEntity::PlaySFX(std::string_view _FileName)
-{
-	GameEngineSoundPlayer SoundPlayer = GameEngineSound::SoundPlay(_FileName);
-	SoundPlayer.SetVolume(GlobalValue::GetSFXVolume());
 }

@@ -24,7 +24,11 @@ void WitchHouse_Yard::Start()
 
 	if (nullptr != ContentsLevel::LevelCamera)
 	{
+		float4 SettingPos = GlobalValue::GetWindowScale().Half();
+		SettingPos.Y *= -1.0f;
+
 		ContentsLevel::LevelCamera->SetCameraMode(ECAMERAMODE::Fix);
+		ContentsLevel::LevelCamera->SetLocalPostion(SettingPos);
 	}
 }
 
@@ -37,34 +41,18 @@ void WitchHouse_Yard::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	FieldLevel::LevelStart(_NextLevel);
 
-	LoadTexture();
-
-	SetElliePosToEnter(_NextLevel);
-
-	CameraSetting();
+	LoadLevelTexture();
+	SetPlayerPosition(_NextLevel);
 }
 
 void WitchHouse_Yard::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	FieldLevel::LevelEnd(_NextLevel);
 
-	ReleaseTexture();
+	ReleaseLevelTexture();
 }
 
-void WitchHouse_Yard::LoadTexture()
-{
-	std::vector<GameEngineDirectory> Dirs = FileLoadFunction::GetAllDirInPath("Resources\\PlayContents\\WitchHouse_Yard");
-	for (GameEngineDirectory& Dir : Dirs)
-	{
-		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-		for (GameEngineFile& pFile : Files)
-		{
-			GameEngineTexture::Load(pFile.GetStringPath());
-		}
-	}
-}
-
-void WitchHouse_Yard::SetElliePosToEnter(class GameEngineLevel* _NextLevel)
+void WitchHouse_Yard::SetPlayerPosition(class GameEngineLevel* _NextLevel) const
 {
 	if (nullptr == PlayLevel::Player)
 	{
@@ -72,8 +60,8 @@ void WitchHouse_Yard::SetElliePosToEnter(class GameEngineLevel* _NextLevel)
 		return;
 	}
 
-	const float4& HWinScale = GlobalValue::GetWindowScale().Half();
-	float4 SpawnPosition = float4::ZERO;
+	const float4 HWinScale = GlobalValue::GetWindowScale().Half();
+	float4 SpawnPosition;
 
 	if (nullptr == _NextLevel)
 	{
@@ -97,18 +85,21 @@ void WitchHouse_Yard::SetElliePosToEnter(class GameEngineLevel* _NextLevel)
 	PlayLevel::Player->Transform.SetLocalPosition(SpawnPosition);
 }
 
-void WitchHouse_Yard::CameraSetting()
-{
-	if (nullptr != ContentsLevel::LevelCamera)
-	{
-		float4 SettingPos = GlobalValue::GetWindowScale().Half();
-		SettingPos.Y *= -1.0f;
 
-		ContentsLevel::LevelCamera->SetLocalPostion(SettingPos);
+void WitchHouse_Yard::LoadLevelTexture()
+{
+	std::vector<GameEngineDirectory> Dirs = FileLoadFunction::GetAllDirInPath("Resources\\PlayContents\\WitchHouse_Yard");
+	for (GameEngineDirectory& Dir : Dirs)
+	{
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pFile : Files)
+		{
+			GameEngineTexture::Load(pFile.GetStringPath());
+		}
 	}
 }
 
-void WitchHouse_Yard::ReleaseTexture()
+void WitchHouse_Yard::ReleaseLevelTexture()
 {
 	std::vector<GameEngineDirectory> Dirs = FileLoadFunction::GetAllDirInPath("Resources\\PlayContents\\WitchHouse_Yard");
 	for (GameEngineDirectory& Dir : Dirs)

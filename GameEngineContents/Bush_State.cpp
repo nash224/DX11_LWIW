@@ -29,7 +29,8 @@ void Bush::UpdateApple(float _Delta)
 {
 	if (true == IsEnalbeActive)
 	{
-		if (nullptr == BackDrop_PlayLevel::MainBackDrop)
+		const std::shared_ptr<BackDrop_PlayLevel>& BackDropPtr = PlayLevel::GetPlayLevelPtr()->GetBackDropPtr();
+		if (nullptr == BackDropPtr)
 		{
 			MsgBoxAssert("배경 매니저가 존재하지 않습니다.");
 			return;
@@ -37,7 +38,7 @@ void Bush::UpdateApple(float _Delta)
 
 		const float4& MyPosition = Transform.GetLocalPosition();
 		float4 ItemPosition = { MyPosition.X, MyPosition.Y - 50.0f, DepthFunction::CalculateFixDepth(ERENDERDEPTH::RootedItem) };
-		BackDrop_PlayLevel::MainBackDrop->CreateItem("Food_CranApple", ItemPosition);
+		BackDropPtr->CreateItem("Food_CranApple", ItemPosition);
 
 		ChangeState(EBUSHSTATE::Shake);
 		return;
@@ -127,9 +128,10 @@ void Bush::CreateBushBug()
 	std::shared_ptr<BushBug> BushBugPtr = GetLevel()->CreateActor<BushBug>();
 	float4 SpawnPosition = Transform.GetLocalPosition() + float4( 5.0f, 27.0f );
 
-	if (nullptr != BackDrop_PlayLevel::MainBackDrop)
+	const std::shared_ptr<BackDrop_PlayLevel>& BackDropPtr = PlayLevel::GetPlayLevelPtr()->GetBackDropPtr();
+	if (nullptr != BackDropPtr)
 	{
-		SpawnPosition.Z = DepthFunction::CalculateObjectDepth(BackDrop_PlayLevel::MainBackDrop->GetBackGroundScale().Y, SpawnPosition.Y);
+		SpawnPosition.Z = DepthFunction::CalculateObjectDepth(BackDropPtr->GetBackGroundScale().Y, SpawnPosition.Y);
 	}
 
 	BushBugPtr->Transform.SetLocalPosition(SpawnPosition);

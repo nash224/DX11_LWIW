@@ -36,7 +36,6 @@ public:
 
 	void SetLightAlpha(float _Alpha);
 	void SetPosition(const float4& _Pos);
-	void SetLightRendererSetting(const float4& _Color = float4::ONE);
 	void UpdateLightLerp();
 
 	inline void On()
@@ -57,8 +56,6 @@ public:
 
 protected:
 	std::shared_ptr<GameEngineSpriteRenderer> LightRenderer;
-
-private:
 	float4 LightColor = float4::ZERO;
 	float Alpha = 1.0f;
 

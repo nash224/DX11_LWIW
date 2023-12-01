@@ -7,10 +7,8 @@
 #include "LootedItem.h"
 
 
-BackDrop_PlayLevel* BackDrop_PlayLevel::MainBackDrop = nullptr;
 BackDrop_PlayLevel::BackDrop_PlayLevel() 
 {
-	MainBackDrop = this;
 }
 
 BackDrop_PlayLevel::~BackDrop_PlayLevel() 
@@ -19,7 +17,6 @@ BackDrop_PlayLevel::~BackDrop_PlayLevel()
 
 void BackDrop_PlayLevel::LevelStart(class GameEngineLevel* _NextLevel)
 {
-	MainBackDrop = this;
 }
 
 void BackDrop_PlayLevel::LevelEnd(class GameEngineLevel* _NextLevel)

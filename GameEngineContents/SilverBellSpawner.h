@@ -26,9 +26,6 @@ protected:
 
 private:
 	float CreatePollenCoolTime = 0.0f;
-	static constexpr const float Create_Pollen_Time = 0.2f;
-
-	static constexpr const float Limit_CreatePollen_Time = 2.0f;
 
 };
 

@@ -24,13 +24,12 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
-	void LoadTexture();
-
-	void SetEllieLevelChangeLocation(class GameEngineLevel* _NextLevel);
-
-	void ReleaseTexture();
+	void SetPlayerPos(class GameEngineLevel* _NextLevel) const;
 
 	void AutoPlayBGM();
+
+	void LoadTexture();
+	void ReleaseTexture();
 
 };
 

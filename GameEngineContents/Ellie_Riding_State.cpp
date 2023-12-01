@@ -231,7 +231,7 @@ void Ellie::UpdateRiding_Boosting(float _Delta)
 
 void Ellie::DecelerateNotDir(float _Delta, const float _Force)
 {
-	const float4& DirVector = GetDirectionVectorToDir(Dir);
+	const float4 DirVector = GetDirectionVectorToDir(Dir);
 	bool HorizontalCheck = m_MoveVector.X * DirVector.X < 0.0f;
 
 	if (EHORIZONTAL_KEY_STATE::Center == HorizontalInputKey || true == HorizontalCheck)
@@ -284,7 +284,8 @@ void Ellie::DecelerateNotDir(float _Delta, const float _Force)
 
 bool Ellie::WallCollision()
 {
-	if (nullptr == BackDrop_PlayLevel::MainBackDrop)
+	const std::shared_ptr<BackDrop_PlayLevel>& BackDropPtr = PlayLevel::GetPlayLevelPtr()->GetBackDropPtr();
+	if (nullptr == BackDropPtr)
 	{
 		return false;
 	}
@@ -295,10 +296,9 @@ bool Ellie::WallCollision()
 		return false;
 	}
 
-	const float4& CurPosition = Transform.GetLocalPosition();
-	const float4& CheckUnitVector = DirectX::XMVector2Normalize(m_MoveVector.DirectXVector);
-	const float4& LeftCheckUnitVector = float4::Cross3D(CheckUnitVector.DirectXVector, float4::FORWARD);
-	const float4& RightCheckUnitVector = float4::Cross3D(CheckUnitVector.DirectXVector, float4::BACKWARD);
+	const float4 CheckUnitVector = DirectX::XMVector2Normalize(GetMoveVector().DirectXVector);
+	const float4 LeftCheckUnitVector = float4::Cross3D(CheckUnitVector.DirectXVector, float4::FORWARD);
+	const float4 RightCheckUnitVector = float4::Cross3D(CheckUnitVector.DirectXVector, float4::BACKWARD);
 	static constexpr float CheckDistanceToMyPos = 10.0f;
 
 	static constexpr int Max_Check_Count = 8;
@@ -306,13 +306,12 @@ bool Ellie::WallCollision()
 
 	for (; fCount < static_cast<float>(Max_Check_Count); fCount += 0.5f)
 	{
-		const float4& CheckPos = CurPosition + CheckUnitVector * (CheckDistanceToMyPos - fCount);
+		const float4 CheckPos = Transform.GetLocalPosition() + CheckUnitVector * (CheckDistanceToMyPos - fCount);
+		const float4 LeftCheckPos = LeftCheckUnitVector * CheckDistanceToMyPos + CheckPos;
+		const float4 RightCheckPos = RightCheckUnitVector * CheckDistanceToMyPos + CheckPos;
 
-		const float4& LeftCheckPos = LeftCheckUnitVector * CheckDistanceToMyPos + CheckPos;
-		const float4& RightCheckPos = RightCheckUnitVector * CheckDistanceToMyPos + CheckPos;
-
-		bool LeftCheck = BackDrop_PlayLevel::MainBackDrop->IsColorAtPosition(LeftCheckPos, GameEngineColor::RED);
-		bool RightCheck = BackDrop_PlayLevel::MainBackDrop->IsColorAtPosition(RightCheckPos, GameEngineColor::RED);
+		bool LeftCheck = BackDropPtr->IsColorAtPosition(LeftCheckPos, GameEngineColor::RED);
+		bool RightCheck = BackDropPtr->IsColorAtPosition(RightCheckPos, GameEngineColor::RED);
 		bool isWall = (LeftCheck || RightCheck);
 		if (false == isWall)
 		{
@@ -335,7 +334,7 @@ bool Ellie::WallCollision()
 
 void Ellie::CreateBroomParticle(float _ParticleDistance /*= 0.0f*/)
 {
-	const float4& ParticlePosition = GetBroomParticlePosition(_ParticleDistance);
+	const float4 ParticlePosition = GetBroomParticlePosition(_ParticleDistance);
 
 	const std::shared_ptr<BroomParticle>& Particle = GetLevel()->CreateActor<BroomParticle>(EUPDATEORDER::Objects);
 	Particle->Transform.SetLocalPosition(ParticlePosition);
@@ -407,7 +406,7 @@ float4 Ellie::GetBroomParticlePosition(float _ParticleDistance)
 
 	static constexpr float YCorrection = 28.0f;
 
-	const float4& CenterPoint = float4(8.0f, YCorrection) + Transform.GetLocalPosition() + PlusVector * _ParticleDistance;
+	const float4 CenterPoint = float4(8.0f, YCorrection) + Transform.GetLocalPosition() + PlusVector * _ParticleDistance;
 
 	GameEngineRandom RandomClass;
 	RandomClass.SetSeed(GlobalValue::GetSeedValue());

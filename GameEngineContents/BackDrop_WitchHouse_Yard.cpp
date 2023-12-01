@@ -28,7 +28,6 @@ BackDrop_WitchHouse_Yard::~BackDrop_WitchHouse_Yard()
 
 void BackDrop_WitchHouse_Yard::LevelStart(class GameEngineLevel* _NextLevel)
 {
-	MainBackDrop = this;
 	RenewMap();
 }
 
@@ -42,8 +41,6 @@ void BackDrop_WitchHouse_Yard::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void BackDrop_WitchHouse_Yard::RenewMap()
 {
-	MainBackDrop = this;
-
 	LoadSprite();
 
 	CreateBase();

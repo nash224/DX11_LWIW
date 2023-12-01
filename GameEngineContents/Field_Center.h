@@ -25,16 +25,12 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
-	void LoadTexture();
 
-	void SetEllieLevelChangeLocation(class GameEngineLevel* _NextLevel);
+	void SetPlayerPos(class GameEngineLevel* _NextLevel) const;
 	void CameraSetting();
 
+	void LoadTexture();
 	void ReleaseTexture();
-
-
-private:
-	std::shared_ptr<BackDrop_CenterField> Back = nullptr;
 
 };
 

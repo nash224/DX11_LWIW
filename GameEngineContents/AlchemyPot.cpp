@@ -250,12 +250,12 @@ void AlchemyPot::StartBoil(GameEngineState* _Parent)
 
 	FxRenderer->On();
 
-	PlaySFX("SFX_MakingPotPutIn_01.wav");
-	PlaySFX("SFX_MakingPotStart.wav");
+	SFXFunction::PlaySFX("SFX_MakingPotPutIn_01.wav");
+	SFXFunction::PlaySFX("SFX_MakingPotStart.wav");
 
 	if (false == CraftedPotion.empty())
 	{
-		PlaySFX("SFX_MakingPotSucces_02.wav");
+		SFXFunction::PlaySFX("SFX_MakingPotSucces_02.wav");
 	}
 
 	ChangePotAnimation("Boil");
@@ -264,7 +264,7 @@ void AlchemyPot::StartBoil(GameEngineState* _Parent)
 
 void AlchemyPot::StartFail(GameEngineState* _Parent)
 {
-	PlaySFX("SFX_MakingPotFail_02.wav");
+	SFXFunction::PlaySFX("SFX_MakingPotFail_02.wav");
 
 	ChangePotAnimation("Fail");
 }

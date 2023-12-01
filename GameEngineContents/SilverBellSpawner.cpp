@@ -24,15 +24,14 @@ void SilverBellSpawner::LevelEnd(class GameEngineLevel* _NextLevel)
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
 void SilverBellSpawner::UpdateSpawner(float _Delta)
 {
-	if (GetLiveTime() > Limit_CreatePollen_Time)
+	if (GetLiveTime() > 2.0f)
 	{
 		Death();
 	}
+
+	const float Create_Pollen_Time = 0.2f;
 
 	CreatePollenCoolTime += _Delta;
 	if (CreatePollenCoolTime > Create_Pollen_Time)
@@ -45,14 +44,14 @@ void SilverBellSpawner::UpdateSpawner(float _Delta)
 void SilverBellSpawner::CreatePollen()
 {
 	GameEngineRandom RandomClass;
-	RandomClass.SetSeed(reinterpret_cast<__int64>(this) + GlobalValue::GetSeedValue());
-	float RandomAngle = RandomClass.RandomFloat(3.0f, 150.0f);
+	RandomClass.SetSeed(GlobalValue::GetSeedValue());
+
 	float RandomDistance = RandomClass.RandomFloat(5.0f, 10.0f);
 
-	const float4& DirectionVector = float4::GetUnitVectorFromDeg(RandomAngle);
-	const float4& RandomVector = DirectionVector * RandomDistance;
-	const float4& FlowerPosition = Transform.GetLocalPosition();
-	const float4& PollenPosition = FlowerPosition + RandomVector + float4(0.0f, 16.0f, -0.2f);
+	const float4 DirectionVector = float4::GetUnitVectorFromDeg(RandomClass.RandomFloat(3.0f, 150.0f));
+	const float4 RandomVector = DirectionVector * RandomDistance;
+	const float4 FlowerPosition = Transform.GetLocalPosition();
+	const float4 PollenPosition = FlowerPosition + RandomVector + float4(0.0f, 16.0f, -0.2f);
 
 	std::shared_ptr<SilverStarPollen> Pollen = GetLevel()->CreateActor<SilverStarPollen>(EUPDATEORDER::Objects);
 	Pollen->Transform.SetLocalPosition(PollenPosition);

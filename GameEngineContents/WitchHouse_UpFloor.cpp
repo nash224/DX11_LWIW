@@ -26,10 +26,10 @@ void WitchHouse_UpFloor::Start()
 
 	if (nullptr != ContentsLevel::LevelCamera)
 	{
-		ContentsLevel::LevelCamera->SetCameraMode(ECAMERAMODE::Fix);
 		float4 SettingPos = GlobalValue::GetWindowScale().Half();
 		SettingPos.Y *= -1.0f;
 
+		ContentsLevel::LevelCamera->SetCameraMode(ECAMERAMODE::Fix);
 		ContentsLevel::LevelCamera->SetLocalPostion(SettingPos);
 	}
 }
@@ -45,7 +45,7 @@ void WitchHouse_UpFloor::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	PlayLevel::LevelStart(_NextLevel);
 
-	SetEllieLevelChangeLocation(_NextLevel);
+	SetPlayerPos(_NextLevel);
 
 	LoadTexture();
 	FileLoadFunction::LoadTextureAndCreateSingleSpriteInPath("Resources\\PlayContents\\Lift");
@@ -58,7 +58,41 @@ void WitchHouse_UpFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 }
 
 
-#pragma region LoadRes
+void WitchHouse_UpFloor::SetPlayerPos(class GameEngineLevel* _NextLevel) const
+{
+	if (nullptr == PlayLevel::Player)
+	{
+		return;
+	}
+
+	float4 SpawnPosition;
+	if (_NextLevel->GetName() == "WitchHouse_Yard")
+	{
+		PlayLevel::Player->SetAnimationByDirection(EDIRECTION::UP);
+		PlayLevel::Player->Transform.SetLocalPosition(float4(465.0f, -353.0f));
+	}
+
+	if (_NextLevel->GetName() == "DreamLevel")
+	{
+		PlayLevel::Player->SetAnimationByDirection(EDIRECTION::DOWN);
+		PlayLevel::Player->Transform.SetLocalPosition(float4(440.0f, -271.0f));
+	}
+}
+
+
+void WitchHouse_UpFloor::AutoPlayBGM()
+{
+	if (nullptr != ContentsLevel::MainPlaySound)
+	{
+		const int bgmType = MainPlaySound->GetPlayType();
+		if (static_cast<int>(EPLAYBGMTYPE::House) != bgmType)
+		{
+			ContentsLevel::MainPlaySound->NoneBGM();
+		}
+	}
+}
+
+
 void WitchHouse_UpFloor::LoadTexture()
 {
 	GameEngineDirectory Dir;
@@ -75,38 +109,6 @@ void WitchHouse_UpFloor::LoadTexture()
 	}
 }
 
-
-void WitchHouse_UpFloor::SetEllieLevelChangeLocation(class GameEngineLevel* _NextLevel)
-{
-	if (nullptr == PlayLevel::Player)
-	{
-		return;
-	}
-
-	float4 SpawnPosition = float4::ZERO;
-
-	std::string NextLevelName = _NextLevel->GetName();
-	if (NextLevelName == "WitchHouse_Yard")
-	{
-		PlayLevel::Player->SetAnimationByDirection(EDIRECTION::UP);
-		SpawnPosition = { 465.0f , -353.0f };
-	}
-	else if (NextLevelName == "WitchHouse_DownFloor")
-	{
-		PlayLevel::Player->SetAnimationByDirection(EDIRECTION::DOWN);
-		SpawnPosition = { 515.0f , -235.0f };
-	}
-	else if (NextLevelName == "DreamLevel")
-	{
-		PlayLevel::Player->SetAnimationByDirection(EDIRECTION::DOWN);
-		SpawnPosition = { 440.0f , -271.0f };
-	}
-
-	PlayLevel::Player->Transform.SetLocalPosition(SpawnPosition);
-}
-
-#pragma endregion 
-
 void WitchHouse_UpFloor::ReleaseTexture()
 {
 	GameEngineDirectory Dir;
@@ -119,18 +121,6 @@ void WitchHouse_UpFloor::ReleaseTexture()
 		for (GameEngineFile& pFile : Files)
 		{
 			GameEngineTexture::Release(pFile.GetFileName());
-		}
-	}
-}
-
-void WitchHouse_UpFloor::AutoPlayBGM()
-{
-	if (nullptr != ContentsLevel::MainPlaySound)
-	{
-		const int bgmType = MainPlaySound->GetPlayType();
-		if (static_cast<int>(EPLAYBGMTYPE::House) != bgmType)
-		{
-			ContentsLevel::MainPlaySound->NoneBGM();
 		}
 	}
 }

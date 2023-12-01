@@ -31,25 +31,22 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 protected:
-	void ChangeState(EPLANTSTATE _State);
-
-private:
-	void UpdateState(float _Delta);
+	void StateSetting();
 	void ChangePlantAnimation(std::string_view _Name);
 
-	void StartIdle();
-	void UpdateIdle(float _Delta);
+	void StartIdle(GameEngineState* _Parent);
+	void StartUpRoot(GameEngineState* _Parent);
 
-	void StartUpRoot();
-	void UpdateUpRoot(float _Delta);
+	void UpdateIdle(float _Delta, GameEngineState* _Parent);
+	void UpdateUpRoot(float _Delta, GameEngineState* _Parent);
+
 	// 뿌리를 뽑을때 어떻게 할꺼냐 
 	// 자식에서 재정의합니다.
-	virtual void ChildRooting() {}
-
+	virtual void RootInternal() {}
 
 protected:
+	GameEngineState State;
 	EPLANTSTATE m_State = EPLANTSTATE::None;
-
 
 };
 

@@ -14,7 +14,7 @@ void Ellie::RendererSetting()
 
 	BodyRenderer = CreateComponent<GameEngineSpriteRenderer>(EllieGroupOrder);
 	ShadowRenderer = CreateComponent<GameEngineSpriteRenderer>(EllieGroupOrder);
-	EllieFxRenderer = CreateComponent<GameEngineSpriteRenderer>(EllieGroupOrder);
+	EllieFxRenderer = CreateComponent<GameEngineSpriteRenderer>();
 	VirgilRenderer = CreateComponent<GameEngineSpriteRenderer>(EllieGroupOrder);
 
 	VirgilRenderer->RenderBaseInfoValue.Target3 = 1;
@@ -59,17 +59,17 @@ void Ellie::RendererSetting()
 
 #pragma region 기본 조작
 
-	static constexpr const float EllieIdleInter = 0.2f;
-	static constexpr const float Ellie_SlowWalk_Inter = 0.2f;
-	static constexpr const float Ellie_Run_Inter = 0.1f;
-	static constexpr const float Ellie_Throw_Inter = 0.1f;
-	static constexpr const float Ellie_Riding_Idle_Inter = 0.1f;
-	static constexpr const float Ellie_Riding_Move_Inter = 0.1f;
-	static constexpr const float Ellie_Riding_Boost_Inter = 0.1f;
-	static constexpr const float Ellie_ButterflyNet_Inter = 0.1f;
-	static constexpr const float Ellie_RootUp_Inter = 0.12f;
-	static constexpr const float Ellie_Sit_Inter = 0.12f;
-	static constexpr const float Ellie_MongSiri_Inter = 0.2f;
+	static constexpr float EllieIdleInter = 0.2f;
+	static constexpr float Ellie_SlowWalk_Inter = 0.2f;
+	static constexpr float Ellie_Run_Inter = 0.1f;
+	static constexpr float Ellie_Throw_Inter = 0.1f;
+	static constexpr float Ellie_Riding_Idle_Inter = 0.1f;
+	static constexpr float Ellie_Riding_Move_Inter = 0.1f;
+	static constexpr float Ellie_Riding_Boost_Inter = 0.1f;
+	static constexpr float Ellie_ButterflyNet_Inter = 0.1f;
+	static constexpr float Ellie_RootUp_Inter = 0.12f;
+	static constexpr float Ellie_Sit_Inter = 0.12f;
+	static constexpr float Ellie_MongSiri_Inter = 0.2f;
 
 
 	{

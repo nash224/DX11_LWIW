@@ -1,14 +1,15 @@
 #include "PreCompile.h"
 #include "UI_ProcessManager.h"
 
+#include "IngredientData.h"
 
 #include "UIManager.h"
 #include "UI_Inventory.h"
-
 #include "UI_ProcessList.h"
 #include "UI_ProcessB.h"
 
-#include "IngredientData.h"
+#include "Ellie.h"
+
 
 
 UI_ProcessManager* UI_ProcessManager::ProcessManager = nullptr;
@@ -94,6 +95,7 @@ void UI_ProcessManager::Open()
 void UI_ProcessManager::Close()
 {
 	PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr()->DoneUIComponent();
+	PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->FinishWork();
 
 	if (nullptr != ProcessListWindow)
 	{

@@ -122,9 +122,10 @@ void MongSiri_Population::CheckInstallationHoleSpace()
 			break;
 		}
 
-		if (nullptr != BackDrop_PlayLevel::MainBackDrop)
+		const std::shared_ptr<BackDrop_PlayLevel>& BackDropPtr = PlayLevel::GetPlayLevelPtr()->GetBackDropPtr();
+		if (nullptr != BackDropPtr)
 		{
-			if (true == BackDrop_PlayLevel::MainBackDrop->IsColorAtPosition(CheckPoint, GameEngineColor::RED))
+			if (true == BackDropPtr->IsColorAtPosition(CheckPoint, GameEngineColor::RED))
 			{
 				MsgBoxAssert("현재 지역에는 설치할 수 없습니다.");
 				return;

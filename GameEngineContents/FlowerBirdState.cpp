@@ -256,13 +256,14 @@ void FlowerBird::UpdateBloom(float _Delta)
 
 		if (CurIndex >= 3)
 		{
-			if (nullptr == BackDrop_PlayLevel::MainBackDrop)
+			const std::shared_ptr<BackDrop_PlayLevel>& MainBackDropPtr = PlayLevel::GetPlayLevelPtr()->GetBackDropPtr();
+			if (nullptr == MainBackDropPtr)
 			{
 				MsgBoxAssert("배경 매니저를 불러오지 못했습니다.");
 				return;
 			}
 
-			BackDrop_PlayLevel::MainBackDrop->CreateItem("FlowerBird_Collect", Transform.GetLocalPosition());
+			MainBackDropPtr->CreateItem("FlowerBird_Collect", Transform.GetLocalPosition());
 		}
 
 		ChangeState(EFLOWERBIRDSTATE::Fly);

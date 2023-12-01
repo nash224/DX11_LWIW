@@ -55,9 +55,6 @@ void BranchTree::Release()
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
 void BranchTree::Init()
 {
 	ApplyDepth();
@@ -91,37 +88,27 @@ void BranchTree::BranchRendererSetting()
 {
 	BranchRenderers.resize(static_cast<int>(EBRANCHFALLORDER::Max));
 
-	{
-		float4 Position = { -20.0f , -14.0f };
-		Position.Y += TreeRenderCorrection;
-		Position.Z = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Roof);
+	const float BranchDepth = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Roof);
 
+	{
 		std::shared_ptr<GameEngineSpriteRenderer> BranchRenderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
 		BranchRenderer->SetSprite("Branch.png");
-		BranchRenderer->Transform.SetLocalPosition(Position);
+		BranchRenderer->Transform.SetLocalPosition(float4(-20.0f, -14.0f + TreeRenderCorrection, BranchDepth));
 		BranchRenderer->LeftFlip();
 		BranchRenderers[static_cast<int>(EBRANCHFALLORDER::First)] = BranchRenderer;
 	}
 
 	{
-		float4 Position = { 50.0f , 26.0f };
-		Position.Y += TreeRenderCorrection;
-		Position.Z = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Roof);
-
 		std::shared_ptr<GameEngineSpriteRenderer> BranchRenderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
 		BranchRenderer->SetSprite("Branch.png");
-		BranchRenderer->Transform.SetLocalPosition(Position);
+		BranchRenderer->Transform.SetLocalPosition(float4(50.0f, 26.0f + TreeRenderCorrection, BranchDepth));
 		BranchRenderers[static_cast<int>(EBRANCHFALLORDER::Second)] = BranchRenderer;
 	}
 
 	{
-		float4 Position = { -22.0f , 54.0f };
-		Position.Y += TreeRenderCorrection;
-		Position.Z = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Roof);
-
 		std::shared_ptr<GameEngineSpriteRenderer> BranchRenderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::NonAlphaBlend);
 		BranchRenderer->SetSprite("Branch_1.png");
-		BranchRenderer->Transform.SetLocalPosition(Position);
+		BranchRenderer->Transform.SetLocalPosition(float4(-22.0f, 54.0f + TreeRenderCorrection, BranchDepth));
 		BranchRenderers[static_cast<int>(EBRANCHFALLORDER::Third)] = BranchRenderer;
 	}
 
@@ -177,7 +164,7 @@ void BranchTree::StartShake(GameEngineState* _Parent)
 	IsShaked = false;
 
 	ChangeAnimation("Shake");
-	PlaySFX("SFX_TreeShake.wav");
+	SFXFunction::PlaySFX("SFX_TreeShake.wav");
 }
 
 void BranchTree::UpdateShake(float _Delta, GameEngineState* _Parent)
@@ -280,21 +267,20 @@ void BranchTree::EraseBranch()
 
 void BranchTree::DropBranchItem()
 {
-	static constexpr float FallingDistanceBranchMinRange = 5.0f;
-	static constexpr float FallingDistanceBranchMaxRange = 25.0f;
-
-	if (nullptr == BackDrop_PlayLevel::MainBackDrop)
+	const std::shared_ptr<BackDrop_PlayLevel>& MainBackDropPtr = PlayLevel::GetPlayLevelPtr()->GetBackDropPtr();
+	if (nullptr == MainBackDropPtr)
 	{
 		MsgBoxAssert("배경 매니저 포인터가 NUll을 가리킵니다.");
 		return;
 	}
 
 	GameEngineRandom RandomClass;
-	RandomClass.SetSeed(reinterpret_cast<__int64>(this) + GlobalValue::GetSeedValue());
+	RandomClass.SetSeed(GlobalValue::GetSeedValue());
 
-	const float4& FallingPoint = float4{ 30.0f, 30.0f };
+	const float MinRange = 5.0f;
+	const float MaxRange = 25.0f;
 
-	const float4& RandomFallingPosition = RandomClass.RandomVectorBox2D(FallingDistanceBranchMinRange, FallingDistanceBranchMaxRange, FallingDistanceBranchMinRange, FallingDistanceBranchMaxRange);
-	const float4& FallingPosition = Transform.GetLocalPosition() + RandomFallingPosition;
-	BackDrop_PlayLevel::MainBackDrop->CreateItem("Branch_Collect", FallingPosition, 1, 80.0f);
+	const float4 RandomFallingPosition = RandomClass.RandomVectorBox2D(MinRange, MaxRange, MinRange, MaxRange);
+	const float4 FallingPosition = Transform.GetLocalPosition() + RandomFallingPosition;
+	MainBackDropPtr->CreateItem("Branch_Collect", FallingPosition, 1, 80.0f);
 }

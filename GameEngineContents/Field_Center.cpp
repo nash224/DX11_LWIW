@@ -46,7 +46,7 @@ void Field_Center::LevelStart(class GameEngineLevel* _NextLevel)
 
 	LoadTexture();
 
-	SetEllieLevelChangeLocation(_NextLevel);
+	SetPlayerPos(_NextLevel);
 	CameraSetting();
 }
 
@@ -58,7 +58,46 @@ void Field_Center::LevelEnd(class GameEngineLevel* _NextLevel)
 }
 
 
-#pragma region LoadAndInit
+void Field_Center::SetPlayerPos(class GameEngineLevel* _NextLevel) const
+{
+	if (nullptr == PlayLevel::Player)
+	{
+		MsgBoxAssert("레벨에 플레이어가 존재하지 않습니다.");
+		return;
+	}
+
+	float4 SpawnPosition;
+
+	if (_NextLevel->GetName() == "WitchHouse_Yard")
+	{
+		SpawnPosition = { 1430.0f , -50.0f };
+		PlayLevel::Player->SetAnimationByDirection(EDIRECTION::DOWN);
+	}
+	else
+	{
+		SpawnPosition = { 1430.0f , -50.0f };
+		PlayLevel::Player->SetAnimationByDirection(EDIRECTION::DOWN);
+	}
+
+	PlayLevel::Player->Transform.SetLocalPosition(SpawnPosition);
+}
+
+void Field_Center::CameraSetting()
+{
+	if (nullptr != ContentsLevel::LevelCamera)
+	{
+		if (nullptr == Player)
+		{
+			MsgBoxAssert("플레이어가 존재하지 않습니다.");
+			return;
+		}
+
+		ContentsLevel::LevelCamera->SetFocusActor(PlayLevel::Player.get());
+		ContentsLevel::LevelCamera->SetAutoInitialPosition(PlayLevel::Player->Transform.GetWorldPosition());
+	}
+}
+
+
 void Field_Center::LoadTexture()
 {
 	GameEngineDirectory Dir;
@@ -71,42 +110,6 @@ void Field_Center::LoadTexture()
 		GameEngineTexture::Load(File.GetStringPath());
 	}
 }
-
-void Field_Center::SetEllieLevelChangeLocation(class GameEngineLevel* _NextLevel)
-{
-	float4 SpawnPosition = float4::ZERO;
-
-	if (_NextLevel->GetName() == "WitchHouse_Yard")
-	{
-		SpawnPosition = { 1430.0f , -50.0f };
-	}
-	else
-	{
-		SpawnPosition = { 1430.0f , -50.0f };
-	}
-
-	if (nullptr != PlayLevel::Player)
-	{
-		PlayLevel::Player->Transform.SetLocalPosition(SpawnPosition);
-	}
-}
-
-void Field_Center::CameraSetting()
-{
-	if (false == CameraControler::MainCameraControler.expired())
-	{
-		if (nullptr == Player)
-		{
-			MsgBoxAssert("플레이어가 존재하지 않습니다.");
-			return;
-		}
-
-		CameraControler::MainCameraControler.lock()->SetFocusActor(Player.get());
-		CameraControler::MainCameraControler.lock()->SetAutoInitialPosition(Player->Transform.GetWorldPosition());
-	}
-}
-
-#pragma endregion
 
 void Field_Center::ReleaseTexture()
 {

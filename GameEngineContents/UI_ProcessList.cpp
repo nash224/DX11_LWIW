@@ -140,7 +140,7 @@ void UI_ProcessList::CursorSetting()
 		MsgBoxAssert("존재하지 않는 텍스처를 사용하려했습니다.");
 		return;
 	}
-	const float4& ScrollScale = ScrollBTexture.lock()->GetScale();
+	const float4 ScrollScale = ScrollBTexture.lock()->GetScale();
 	CursorInfo.ScrollBarTotalYSize = ScrollScale.Y;
 
 	const float SizeRatio = PROCESS_MAX_SLOT / static_cast<float>(SlotVec.size());

@@ -93,12 +93,10 @@ protected:
 	ELIFTDIR EnterType = ELIFTDIR::Up;
 	ELIFTDIR ArriveType = ELIFTDIR::Down;
 
-private:
 	GameEngineState State;
 	LiftStruct Lift;
 
 	bool isChangeLevel = false;
 	bool isArriveInit = false;
-
 };
 

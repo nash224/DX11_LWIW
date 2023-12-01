@@ -197,9 +197,10 @@ void MongSiri::UpdateJump(float _Delta)
 	bool isJumpFrame = (InteractiveActor::BodyRenderer->GetCurIndex() > 2 && InteractiveActor::BodyRenderer->GetCurIndex() < 9);
 	if (isJumpFrame)
 	{
-		if (nullptr != BackDrop_PlayLevel::MainBackDrop)
+		const std::shared_ptr<BackDrop_PlayLevel>& MainBackDropPtr = PlayLevel::GetPlayLevelPtr()->GetBackDropPtr();
+		if (nullptr != MainBackDropPtr)
 		{
-			if (true == BackDrop_PlayLevel::MainBackDrop->IsColorAtPosition(Transform.GetLocalPosition() + TargetForce * _Delta, GameEngineColor::RED))
+			if (true == MainBackDropPtr->IsColorAtPosition(Transform.GetLocalPosition() + TargetForce * _Delta, GameEngineColor::RED))
 			{
 				TargetForce = float4::ZERO;
 			}

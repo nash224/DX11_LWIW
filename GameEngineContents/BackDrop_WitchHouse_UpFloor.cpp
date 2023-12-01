@@ -47,8 +47,6 @@ void BackDrop_WitchHouse_UpFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void BackDrop_WitchHouse_UpFloor::RenewMap()
 {
-	MainBackDrop = this;
-
 	LoadResources();
 
 	GameEngineLevel* CurLevel = GetLevel();

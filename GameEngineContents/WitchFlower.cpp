@@ -38,7 +38,7 @@ void WitchFlower::Init()
 {
 	ApplyDepth();
 	RendererSetting();
-	ChangeState(EPLANTSTATE::Idle);
+	Plant::State.ChangeState(EPLANTSTATE::Idle);
 }
 
 void WitchFlower::RendererSetting()
@@ -122,7 +122,7 @@ void WitchFlower::RendererSetting()
 }
 
 // 여기 재정의
-void WitchFlower::ChildRooting()
+void WitchFlower::RootInternal()
 {
 	UI_Inventory::PushItem("WitchFlower_Collect");
 	Death();
