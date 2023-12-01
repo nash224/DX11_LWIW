@@ -25,6 +25,6 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 protected:
-	float4 m_BackScale = float4::ZERO;
+	float4 BackScale = float4::ZERO;
 
 };

@@ -54,12 +54,9 @@ bool ContentsEvent::FindWorkPlace::QuestClearPrerequisite()
 
 bool ContentsEvent::Craft_Potion::QuestClearPrerequisite()
 {
-	if (nullptr != UI_Inventory::MainInventory)
+	if (true == UI_Inventory::IsItem("BadGrassPotion"))
 	{
-		if (true == UI_Inventory::MainInventory->IsItem("BadGrassPotion"))
-		{
-			return true;
-		}
+		return true;
 	}
 
 	return false;
@@ -99,12 +96,9 @@ bool ContentsEvent::Repair_Extractor::QuestClearPrerequisite()
 		return false;
 	}
 
-	if (nullptr != UI_Inventory::MainInventory)
+	if (true == UI_Inventory::IsItem("Item_Etc_10"))
 	{
-		if (true == UI_Inventory::MainInventory->IsItem("Item_Etc_10"))
-		{
-			return true;
-		}
+		return true;
 	}
 
 	return false;
@@ -137,27 +131,21 @@ void ContentsEvent::Repair_Extractor::CompleteInternal()
 		UI_Hub_MainBoard::s_QuestManager->PopData("Repair_Extractor");
 	}
 
-	if (nullptr != UI_Inventory::MainInventory)
-	{
-		UI_Inventory::MainInventory->PopItem("Item_Etc_10", 1);
-	}
+	UI_Inventory::PopItem("Item_Etc_10", 1);
 }
 
 
 bool ContentsEvent::Craft_Cracker_Potion::QuestClearPrerequisite()
 {
-	if (nullptr != UI_Inventory::MainInventory)
+	if (true == UI_Inventory::IsItem("FirecrackerPotion"))
 	{
-		if (true == UI_Inventory::MainInventory->IsItem("FirecrackerPotion"))
+		if (nullptr != UI_Hub_MainBoard::s_QuestManager)
 		{
-			if (nullptr != UI_Hub_MainBoard::s_QuestManager)
-			{
-				UI_Hub_MainBoard::s_QuestManager->PopData("Craft_Cracker_Potion");
-				UI_Hub_MainBoard::s_QuestManager->RegisterData("Show_Cracker_Potion");
-			}
-
-			return true;
+			UI_Hub_MainBoard::s_QuestManager->PopData("Craft_Cracker_Potion");
+			UI_Hub_MainBoard::s_QuestManager->RegisterData("Show_Cracker_Potion");
 		}
+
+		return true;
 	}
 
 	return false;

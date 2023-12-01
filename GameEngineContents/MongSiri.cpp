@@ -238,10 +238,7 @@ void MongSiri::RendererSetting()
 
 	InteractiveActor::BodyRenderer->SetEndEvent("CollectedA", [&](GameEngineSpriteRenderer* _Renderer)
 		{
-			if (nullptr != UI_Inventory::MainInventory)
-			{
-				UI_Inventory::MainInventory->PushItem("Mongsiri_Collect");
-			}
+			UI_Inventory::PushItem("Mongsiri_Collect");
 
 			_Renderer->ChangeAnimation("CollectedB");
 		});

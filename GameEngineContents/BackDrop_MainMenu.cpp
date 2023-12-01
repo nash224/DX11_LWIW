@@ -32,7 +32,7 @@ void BackDrop_MainMenu::Init()
 		return;
 	}
 
-	m_BackScale = Texture->GetScale();
+	BackScale = Texture->GetScale();
 
 
 	if (nullptr == GameEngineSound::FindSound("BGM_MainTheme.wav"))
@@ -49,8 +49,8 @@ void BackDrop_MainMenu::Init()
 
 	PropSetting();
 	CometSpawnerSetting();
-	CreateTrain();
-	CreateChainProp();
+	TrainSetting();
+	ChainPropSetting();
 }
 
 
@@ -188,18 +188,17 @@ void BackDrop_MainMenu::CometSpawnerSetting()
 	GetLevel()->CreateActor<CometSpawner>(EUPDATEORDER::Objects);
 }
 
-void BackDrop_MainMenu::CreateTrain()
+void BackDrop_MainMenu::TrainSetting()
 {
 	std::shared_ptr<MainMenu_Trains> Trans = GetLevel()->CreateActor<MainMenu_Trains>(EUPDATEORDER::Objects);
 	Trans->Init();
 }
 
 #pragma region 眉牢 家前 积己
-void BackDrop_MainMenu::CreateChainProp()
+void BackDrop_MainMenu::ChainPropSetting()
 {
 	{
 		std::shared_ptr<ChainProp> Object = GetLevel()->CreateActor<ChainProp>(EUPDATEORDER::Objects);
-
 		Object->SetSprite("Title_Train_Cloud_0.png");
 		Object->SetSpawnPoint(300.0f);
 		Object->SetSpeed(-20.0f);
@@ -210,7 +209,6 @@ void BackDrop_MainMenu::CreateChainProp()
 
 	{
 		std::shared_ptr<ChainProp> Object = GetLevel()->CreateActor<ChainProp>(EUPDATEORDER::Objects);
-
 		Object->SetSprite("Title_Train_Cloud_3.png");
 		Object->SetSpawnPoint(200.0f);
 		Object->SetSpeed(-27.0f);
@@ -220,7 +218,6 @@ void BackDrop_MainMenu::CreateChainProp()
 
 	{
 		std::shared_ptr<ChainProp> Object = GetLevel()->CreateActor<ChainProp>(EUPDATEORDER::Objects);
-
 		Object->SetSprite("Title_Train_Cloud_3.png");
 		Object->SetSpawnPoint(100.0f);
 		Object->SetSpeed(-30.0f);
@@ -230,7 +227,6 @@ void BackDrop_MainMenu::CreateChainProp()
 
 	{
 		std::shared_ptr<ChainProp> Object = GetLevel()->CreateActor<ChainProp>(EUPDATEORDER::Objects);
-
 		Object->SetSprite("Title_Train_Cloud_0.png");
 		Object->SetSpawnPoint(130.0f);
 		Object->SetSpeed(-40.0f);
@@ -240,7 +236,6 @@ void BackDrop_MainMenu::CreateChainProp()
 
 	{
 		std::shared_ptr<ChainProp> Object = GetLevel()->CreateActor<ChainProp>(EUPDATEORDER::Objects);
-
 		Object->SetSprite("Title_Train_Cloud_1.png");
 		Object->SetSpawnPoint(100.0f);
 		Object->SetSpeed(-42.0f);
@@ -250,7 +245,6 @@ void BackDrop_MainMenu::CreateChainProp()
 
 	{
 		std::shared_ptr<ChainProp> Object = GetLevel()->CreateActor<ChainProp>(EUPDATEORDER::Objects);
-
 		Object->SetSprite("Title_Train_CloudBlur_1.png");
 		Object->SetSpawnPoint(100.0f);
 		Object->SetSpeed(-42.0f);
@@ -260,7 +254,6 @@ void BackDrop_MainMenu::CreateChainProp()
 
 	{
 		std::shared_ptr<ChainProp> Object = GetLevel()->CreateActor<ChainProp>(EUPDATEORDER::Objects);
-
 		Object->SetSprite("Title_Train_CloudBlur_0.png");
 		Object->SetSpawnPoint(130.0f);
 		Object->SetSpeed(-40.0f);
@@ -275,12 +268,11 @@ void BackDrop_MainMenu::CreateChainProp()
 	static constexpr float BridgeSpeed = -480.0f;
 	static constexpr float TreeSpeed = -1200.0f;
 	static constexpr float TreeSpawnDistance = 2400.0f;
-	const float4& WinScale = GlobalValue::GetWindowScale();
 
 	{
 		const float Depth = DepthFunction::CalculateFixDepth(ETITLERENDERDEPTH::Props_0);
 		std::shared_ptr<LoopTextureActor> Object = GetLevel()->CreateActor<LoopTextureActor>(EUPDATEORDER::Objects);
-		Object->Transform.SetLocalPosition(float4(WinScale.hX(), -275.0f, Depth));
+		Object->Transform.SetLocalPosition(float4(GlobalValue::GetWindowScale().hX(), -275.0f, Depth));
 		Object->Init();
 		Object->Renderer->SetSprite("Title_Train_Mountain.png");
 		Object->SetSpeed(MountainSpeed);
@@ -289,7 +281,7 @@ void BackDrop_MainMenu::CreateChainProp()
 	{
 		const float Depth = DepthFunction::CalculateFixDepth(ETITLERENDERDEPTH::Mountain_blur);
 		std::shared_ptr<LoopTextureActor> Object = GetLevel()->CreateActor<LoopTextureActor>(EUPDATEORDER::Objects);
-		Object->Transform.SetLocalPosition(float4(WinScale.hX(), -451.0f, Depth));
+		Object->Transform.SetLocalPosition(float4(GlobalValue::GetWindowScale().hX(), -451.0f, Depth));
 		Object->Init();
 		Object->Renderer->SetMaterial("Texture2D_Overlay");
 		Object->Renderer->SetSampler("EngineBaseWRAPSampler");
@@ -328,7 +320,6 @@ void BackDrop_MainMenu::CreateChainProp()
 
 	{
 		std::shared_ptr<ChainProp> Object = GetLevel()->CreateActor<ChainProp>(EUPDATEORDER::Objects);
-
 		Object->SetMaterial("Texture2D_Overlay");
 		Object->SetSprite("cookie_1.png");
 		Object->SetColor(float4(0.7f, 0.6f, 0.8f, 0.2f));

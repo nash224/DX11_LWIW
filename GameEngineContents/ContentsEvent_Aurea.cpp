@@ -30,12 +30,9 @@ void ContentsEvent::Aurea_Cure::AcceptInternal()
 
 bool ContentsEvent::Aurea_Cure::QuestClearPrerequisite()
 {
-	if (nullptr != UI_Inventory::MainInventory)
+	if (true == UI_Inventory::IsItem("UncurseCandy"))
 	{
-		if (true == UI_Inventory::MainInventory->IsItem("UncurseCandy"))
-		{
-			return true;
-		}
+		return true;
 	}
 
 	return false;
@@ -43,13 +40,10 @@ bool ContentsEvent::Aurea_Cure::QuestClearPrerequisite()
 
 void ContentsEvent::Aurea_Cure::CompleteInternal()
 {
-	if (nullptr != UI_Inventory::MainInventory)
+	if (false == UI_Inventory::IsItem("Item_Etc_10"))
 	{
-		if (false == UI_Inventory::MainInventory->IsItem("Item_Etc_10"))
-		{
-			UI_Inventory::MainInventory->UnlockSlot();
-			UI_Inventory::MainInventory->PushItem("Item_Etc_10", 1);
-		}
+		UI_Inventory::UnlockSlot();
+		UI_Inventory::PushItem("Item_Etc_10", 1);
 	}
 
 	if (nullptr != PlayLevel::s_AlertManager)

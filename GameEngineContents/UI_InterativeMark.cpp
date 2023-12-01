@@ -46,8 +46,6 @@ void UI_InterativeMark::LevelEnd(class GameEngineLevel* _NextLevel)
 	Reset();
 }
 
-
-
 void UI_InterativeMark::Init()
 {
 	if (nullptr == GameEngineSprite::Find("PointArrow.png"))

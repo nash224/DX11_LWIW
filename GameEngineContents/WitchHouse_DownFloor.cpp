@@ -21,9 +21,16 @@ void WitchHouse_DownFloor::Start()
 {
 	PlayLevel::Start();
 
+	Back = CreateActor<BackDrop_WitchHouse_DownFloor>(EUPDATEORDER::Back);
+
 	if (nullptr != ContentsLevel::LevelCamera)
 	{
 		ContentsLevel::LevelCamera->SetCameraMode(ECAMERAMODE::Fix);
+
+		float4 SettingPos = GlobalValue::GetWindowScale().Half();
+		SettingPos.Y *= -1.0f;
+
+		ContentsLevel::LevelCamera->SetLocalPostion(SettingPos);
 	}
 }
 
@@ -40,11 +47,6 @@ void WitchHouse_DownFloor::LevelStart(class GameEngineLevel* _NextLevel)
 
 	LoadTexture();
 	FileLoadFunction::LoadTextureAndCreateSingleSpriteInPath("Resources\\PlayContents\\Lift");
-	LoadActor();
-
-	SetEllieLevelChangeLocation(_NextLevel);
-
-	CameraSetting();
 }
 
 void WitchHouse_DownFloor::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -73,17 +75,6 @@ void WitchHouse_DownFloor::LoadTexture()
 	}
 }
 
-void WitchHouse_DownFloor::LoadActor()
-{
-	if (nullptr == Back)
-	{
-		Back = CreateActor<BackDrop_WitchHouse_DownFloor>(EUPDATEORDER::Objects);
-	}
-
-	Back->Init();
-}
-
-
 void WitchHouse_DownFloor::SetEllieLevelChangeLocation(class GameEngineLevel* _NextLevel)
 {
 	if (nullptr == PlayLevel::Player)
@@ -97,12 +88,13 @@ void WitchHouse_DownFloor::SetEllieLevelChangeLocation(class GameEngineLevel* _N
 
 void WitchHouse_DownFloor::CameraSetting()
 {
-	if (false == CameraControler::MainCameraControler.expired())
+	if (nullptr != ContentsLevel::LevelCamera)
 	{
 		float4 SettingPos = GlobalValue::GetWindowScale().Half();
 		SettingPos.Y *= -1.0f;
 
-		CameraControler::MainCameraControler.lock()->SetLocalPostion(SettingPos);
+		ContentsLevel::LevelCamera->SetLocalPostion(SettingPos);
+
 	}
 }
 

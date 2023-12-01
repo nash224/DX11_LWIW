@@ -15,7 +15,7 @@ public:
 	BackDrop_WitchHouse_DownFloor& operator=(const BackDrop_WitchHouse_DownFloor& _Other) = delete;
 	BackDrop_WitchHouse_DownFloor& operator=(BackDrop_WitchHouse_DownFloor&& _Other) noexcept = delete;
 
-	void Init();
+	void RenewMap();
 
 protected:
 	void Start() override;
@@ -25,16 +25,9 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
-	void CreateProp();
-	void CreatePixelMap();
-	void CreateStaticActor();
-
-	void CreateRenderActor(int _UpdateOrder, 
-		std::string_view _SpriteName, 
-		const float4& _Position, 
-		int _DepthType, 
-		bool _isFixDepth = true, 
-		float _DepthCorrection = 0.0f);
+	void PropSetting();
+	void PixelMapSetting();
+	void InteractiveActorSetting();
 
 	void DustEventSetting();
 

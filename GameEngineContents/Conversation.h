@@ -5,8 +5,7 @@ class ConversationFont
 public:
 	ConversationFont(
 		float4 _Color = float4(0.0f, 0.0f, 0.0f, 1.0f),
-		std::string_view _FontName = GlobalValue::Font_Sandoll
-	)
+		std::string_view _FontName = GlobalValue::Font_Sandoll)
 		:
 		Color(_Color),
 		FontName(_FontName)
@@ -53,7 +52,8 @@ public:
 };
 
 
-class Topic
+// 제어블록 공유
+class Topic : public std::enable_shared_from_this<Topic>
 {
 public:
 	std::vector<ConversationData> Data;
@@ -87,6 +87,7 @@ public:
 	Conversation& operator=(const Conversation& _Other) = delete;
 	Conversation& operator=(Conversation&& _Other) noexcept = delete;
 
+	// Setting
 	template<typename TopicType>
 	void CreateTopic(TopicType _ConversationType, const Topic& _Topic)
 	{
@@ -95,19 +96,7 @@ public:
 
 	void CreateTopic(int _ConversationType, const Topic& _Topic);
 
-
 	const std::shared_ptr<Topic> FindTopic(int _ConversationType);
-
-	template<typename ConversationType>
-	void StartConversation(ConversationType _ConversationType)
-	{
-		StartConversation(static_cast<int>(_ConversationType));
-	}
-
-	void StartConversation(int _ConversationType);
-
-	void UpdateConversation(float _Delta);
-
 
 
 	template<typename EnumType>
@@ -137,12 +126,28 @@ public:
 	void SetConversationEndEvent(int _Topic, std::function<void()> _Function);
 
 
+	// Start
+	template<typename ConversationType>
+	void StartConversation(ConversationType _ConversationType)
+	{
+		StartConversation(static_cast<int>(_ConversationType));
+	}
+
+	void StartConversation(int _ConversationType);
+
+
+	// Update
+	void UpdateConversation(float _Delta);
+
+	// Release
+	void Release();
+
 protected:
 	void ConverseLine();
-	void ConversationBTWEvent();
 	void NextConversationLine();
-	void EndConversationEvent();
 	void EndConversation();
+	void CallLineEvent();
+	void CallEndConversationEvent();
 
 private:
 	std::map<int, std::shared_ptr<Topic>> Topics;

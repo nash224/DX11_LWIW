@@ -32,14 +32,8 @@ protected:
 private:
 	void PropSetting();
 	void CometSpawnerSetting();
-	void CreateTrain();
-	void CreateChainProp();
-
-private:
-
-	const float CONST_TreeSpeed = -1200.0f;
-
-	
+	void TrainSetting();
+	void ChainPropSetting();
 
 
 };

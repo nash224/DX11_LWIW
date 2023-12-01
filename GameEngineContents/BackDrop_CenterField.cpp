@@ -21,8 +21,7 @@
 
 BackDrop_CenterField::BackDrop_CenterField() 
 {
-	BackDrop::m_BackScale = float4(1920.0f, 1280.0f);
-	GameEngineInput::AddInputObject(this);
+	BackDrop::BackScale = float4(1920.0f, 1280.0f);
 }
 
 BackDrop_CenterField::~BackDrop_CenterField() 
@@ -37,16 +36,13 @@ void BackDrop_CenterField::Start()
 void BackDrop_CenterField::Update(float _Delta)
 {
 	BackDrop_Field::Update(_Delta);
-
-	if (true == GameEngineInput::IsDown('B', this))
-	{
-		ShowFireWorksEvent();
-	}
 }
 
 void BackDrop_CenterField::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	BackDrop_Field::LevelStart(_NextLevel);
+
+	RenewMap();
 	SpriteFileLoad();
 
 	CheckFireWorksEvent();
@@ -60,14 +56,8 @@ void BackDrop_CenterField::LevelEnd(class GameEngineLevel* _NextLevel)
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
-
-void BackDrop_CenterField::Init()
+void BackDrop_CenterField::RenewMap()
 {
-	BackDrop_PlayLevel::MainBackDrop = this;
-
 	SpriteFileLoad();
 
 	BackDrop_PlayLevel::PixelVec.reserve(256);
@@ -87,8 +77,8 @@ void BackDrop_CenterField::SpriteFileLoad()
 	GameEngineDirectory Dir;
 	Dir.MoveParentToExistsChild("Resources");
 	Dir.MoveChild("Resources\\PlayContents\\FieldCenter");
-	const std::vector<GameEngineFile> Files = Dir.GetAllFile();
-	for (GameEngineFile pFile : Files)
+	std::vector<GameEngineFile> Files = Dir.GetAllFile();
+	for (GameEngineFile& pFile : Files)
 	{
 		GameEngineSprite::CreateSingle(pFile.GetFileName());
 	}
@@ -99,8 +89,8 @@ void BackDrop_CenterField::ReleaseSpriteFile()
 	GameEngineDirectory Dir;
 	Dir.MoveParentToExistsChild("Resources");
 	Dir.MoveChild("Resources\\PlayContents\\FieldCenter");
-	const std::vector<GameEngineFile> Files = Dir.GetAllFile();
-	for (GameEngineFile pFile : Files)
+	std::vector<GameEngineFile> Files = Dir.GetAllFile();
+	for (GameEngineFile& pFile : Files)
 	{
 		GameEngineSprite::Release(pFile.GetFileName());
 	}
@@ -117,7 +107,7 @@ void BackDrop_CenterField::CreateMap()
 	const std::shared_ptr<GameEngineTexture> MapTexture = GameEngineTexture::Find("CenterMap.png");
 	const float4 MapScale = MapTexture->GetScale();
 
-	m_BackScale = MapScale;
+	BackScale = MapScale;
 
 
 	{
@@ -142,7 +132,7 @@ void BackDrop_CenterField::CreateMap()
 		BaseGorund->Transform.SetLocalPosition(BasePosition);
 		BaseGorund->Init();
 		BaseGorund->m_Renderer->SetSprite("GroundBase.png");
-		BaseGorund->m_Renderer->SetImageScale(m_BackScale);
+		BaseGorund->m_Renderer->SetImageScale(BackScale);
 	}
 }
 
@@ -162,7 +152,7 @@ void BackDrop_CenterField::LoadSerBin()
 		unsigned int ActorCount = 0;
 		LoadBin >> ActorCount;
 
-		for (size_t i = 0; i < ActorCount; i++)
+		for (int i = 0; i < ActorCount; i++)
 		{
 			const std::shared_ptr<NormalProp>& Object = GetLevel()->CreateActor<NormalProp>();
 			Object->DeSerializer(LoadBin);
@@ -185,7 +175,7 @@ void BackDrop_CenterField::LoadSerBin()
 		unsigned int ActorCount = 0;
 		LoadBin >> ActorCount;
 
-		for (size_t i = 0; i < ActorCount; i++)
+		for (int i = 0; i < ActorCount; i++)
 		{
 			std::shared_ptr<GroundRenderUnit> Object = GetLevel()->CreateActor<GroundRenderUnit>();
 			Object->DeSerializer(LoadBin);
@@ -293,26 +283,23 @@ void BackDrop_CenterField::ReleaseAllCreature()
 
 void BackDrop_CenterField::CheckFireWorksEvent()
 {
-	if (nullptr != UI_Inventory::MainInventory)
+	if (true == UI_Inventory::IsItem("FirecrackerPotion"))
 	{
-		if (true == UI_Inventory::MainInventory->IsItem("FirecrackerPotion"))
+		std::vector<std::shared_ptr<FadeObject>> FadeObjects = GetLevel()->GetObjectGroupConvert<FadeObject>(EUPDATEORDER::Fade);
+		for (std::weak_ptr<FadeObject> Fade : FadeObjects)
 		{
-			const std::vector<std::shared_ptr<FadeObject>>& FadeObjects = GetLevel()->GetObjectGroupConvert<FadeObject>(EUPDATEORDER::Fade);
-			for (std::weak_ptr<FadeObject> Fade : FadeObjects)
+			if (true == Fade.expired())
 			{
-				if (true == Fade.expired())
-				{
-					continue;
-				}
-
-				Fade.lock()->Death();
+				continue;
 			}
 
-			ReleaseEntity<FlowerBird>();
-			ReleaseMongSiriPopulation();
-			ShowFireWorksEvent();
-			return;
+			Fade.lock()->Death();
 		}
+
+		ReleaseEntity<FlowerBird>();
+		ReleaseMongSiriPopulation();
+		ShowFireWorksEvent();
+		return;
 	}
 }
 

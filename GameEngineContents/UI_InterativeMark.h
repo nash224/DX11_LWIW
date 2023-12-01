@@ -33,10 +33,7 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 
-private:
 	void CurLevelPointer();
-
-private:
 	void UpdateMark(float _Delta);
 
 private:

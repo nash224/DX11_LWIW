@@ -15,7 +15,7 @@ public:
 	BackDrop_WitchHouse_Yard& operator=(const BackDrop_WitchHouse_Yard& _Other) = delete;
 	BackDrop_WitchHouse_Yard& operator=(BackDrop_WitchHouse_Yard&& _Other) noexcept = delete;
 
-	void Init();
+	void RenewMap();
 
 protected:
 	void Start() override {}

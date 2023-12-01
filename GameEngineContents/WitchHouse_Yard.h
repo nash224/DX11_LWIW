@@ -31,9 +31,5 @@ private:
 
 	void ReleaseTexture();
 
-
-private:
-	std::shared_ptr<BackDrop_WitchHouse_Yard> Back = nullptr;
-
 };
 

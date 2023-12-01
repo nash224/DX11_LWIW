@@ -10,23 +10,15 @@ FireSky::~FireSky()
 }
 
 
-
-void FireSky::Update(float _Delta)
-{
-}
-
 void FireSky::Release()
 {
+	LineRenderer = nullptr;
 }
 
 void FireSky::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	Death();
 }
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 void FireSky::Init()
 {

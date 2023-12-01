@@ -1,7 +1,10 @@
 #include "PreCompile.h"
 #include "FieldLevel.h"
 
+#include <GameEngineCore/GameEngineRenderTarget.h>
+
 #include "SkyLerp.h"
+#include "SkyLightEffect.h"
 #include "TimeManager.h"
 #include "BGMManager.h"
 
@@ -22,6 +25,8 @@ void FieldLevel::Start()
 
 	Sky = CreateActor<SkyLerp>(EUPDATEORDER::Sky);
 	Sky->Init();
+
+	GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<SkyLightEffect>();
 }
 
 void FieldLevel::Update(float _Delta)

@@ -743,7 +743,7 @@ bool Ellie::UsingTool()
 {
 	if (true == GameEngineInput::IsDown('Z', this))
 	{
-		if (ETOOLTYPE::Dragonfly == UI_Hub_Tool::m_CurrentTool)
+		if (ETOOLTYPE::Dragonfly == UI_Hub_Tool::CurRenderToolType)
 		{
 			ChangeState(EELLIE_STATE::ButterflyNet);
 			return true;

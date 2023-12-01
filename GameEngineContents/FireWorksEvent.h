@@ -24,7 +24,7 @@ private:
 	};
 
 private:
-	class FarsightedScenryInfo
+	class FarsightedScenryStruct
 	{
 		friend class FireWorksEvent;
 
@@ -62,37 +62,39 @@ protected:
 
 	void PotionSetting();
 	void ConversationSetting();
+
+	///////
+	// State
 	void StateSetting();
 
+	// State::Start
 	void StartFadeIn(GameEngineState* _Parent);
-	void UpdateFadeIn(float _Delta, GameEngineState* _Parent);\
-
 	void StartReadyConversation(GameEngineState* _Parent);
-
 	void StartFireWorks(GameEngineState* _Parent);
-	void UpdateFireWorks(float _Delta, GameEngineState* _Parent);
-
 	void StartLastConversation(GameEngineState* _Parent);
-
 	void StartEndTraining(GameEngineState* _Parent);
-	void UpdateEndTraining(float _Delta, GameEngineState* _Parent);
-
 	void StartFadeOut(GameEngineState* _Parent);
 
-	void EllieSetting();
+	// State::Update
+	void UpdateFadeIn(float _Delta, GameEngineState* _Parent);\
+	void UpdateFireWorks(float _Delta, GameEngineState* _Parent);
+	void UpdateEndTraining(float _Delta, GameEngineState* _Parent);
+
+
+	void SetElliePlacement() const;
 	void CheckEndtrainingEvent();
 
 private:
-	FarsightedScenryInfo SceneryInfo;
+	FarsightedScenryStruct SceneryInfo;
 	Conversation EventConversation;
 
 	GameEngineState State;
+	float StateTime = 0.0f;
 
 	std::shared_ptr<class FireWorks> CrackerPotion;
 
 	static constexpr float LastFadeTime = 1.2f;
 
-	float StateTime = 0.0f;
 
 };
 

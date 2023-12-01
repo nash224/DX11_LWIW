@@ -4,7 +4,6 @@
 // GUI
 #include <GameEngineCore/GameEngineCoreWindow.h>
 
-
 // Manager
 #include "CameraControler.h"
 #include "UIManager.h"
@@ -16,10 +15,9 @@
 #include "Ellie.h"
 #include "FadeObject.h"
 #include "UI_Alert_Enter.h"
-
 #include "SkyLightEffect.h"
 
-std::weak_ptr<PlayLevel> PlayLevel::s_MainPlayLevel;
+PlayLevel* PlayLevel::s_MainPlayLevel = nullptr;
 std::unique_ptr<TimeManager> PlayLevel::s_TimeManager;
 std::unique_ptr<AlertManager> PlayLevel::s_AlertManager;
 PlayLevel::PlayLevel()
@@ -35,18 +33,22 @@ void PlayLevel::Start()
 {
 	ContentsLevel::Start();
 
+	s_MainPlayLevel = this;
+
+	Player = CreateActor<Ellie>(EUPDATEORDER::Player);
+
+	UIManagerPtr = CreateActor<UIManager>(EUPDATEORDER::UIMagnaer);
+	UIManagerPtr->Init();
+
 	if (nullptr == s_TimeManager)
 	{
 		s_TimeManager = std::make_unique<TimeManager>();
-		s_TimeManager->Init();
 	}
 
 	if (nullptr == s_AlertManager)
 	{
 		s_AlertManager = std::make_unique<AlertManager>();
 	}
-
-	EffectSetting();
 }
 
 void PlayLevel::Update(float _Delta)
@@ -68,24 +70,13 @@ void PlayLevel::LevelStart(GameEngineLevel* _NextLevel)
 {
 	ContentsLevel::LevelStart(_NextLevel);
 
-	s_MainPlayLevel = GetDynamic_Cast_This<PlayLevel>();
-
+	s_MainPlayLevel = this;
 	PrevLevelName = _NextLevel->GetName();
-
-	if (false == LevelInitCheck)
-	{
-		CreateEllie();
-		CreateUIManager();
-	}
-	
-
-	LevelInitCheck = true;
 
 	{
 		std::shared_ptr<FadeObject> Fade = CreateActor<FadeObject>(EUPDATEORDER::Fade);
 		Fade->CallFadeIn(0.2f);
 	}
-
 
 	if (false == LocationKRName.empty())
 	{
@@ -93,26 +84,47 @@ void PlayLevel::LevelStart(GameEngineLevel* _NextLevel)
 	}
 }
 
-void PlayLevel::CreateUIManager()
-{
-	UI_Manager = CreateActor<UIManager>(EUPDATEORDER::UIMagnaer);
-	UI_Manager->Init();
-}
 
-void PlayLevel::CreateEllie()
+PlayLevel* PlayLevel::GetPlayLevelPtr()
 {
-	Player = CreateActor<Ellie>(EUPDATEORDER::Player);
-	Player->Init();
-}
-
-void PlayLevel::SetLocationName(std::string_view _KRName)
-{
-	LocationKRName = _KRName;
-}
-
-void PlayLevel::EffectSetting()
-{
+	if (nullptr == s_MainPlayLevel)
 	{
-		GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<SkyLightEffect>();
+		MsgBoxAssert("메인 레벨 포인터가 존재하지 않습니다.");
+		return nullptr;
 	}
+
+	return s_MainPlayLevel;
+}
+
+std::shared_ptr<class UIManager> PlayLevel::GetUIManagerPtr() const
+{
+	if (nullptr == UIManagerPtr)
+	{
+		MsgBoxAssert("UI매니저가 존재하지 않습니다.");
+		return nullptr;
+	}
+
+	return UIManagerPtr;
+}
+
+std::shared_ptr<class Ellie> PlayLevel::GetPlayerPtr() const
+{
+	if (nullptr == Player)
+	{
+		MsgBoxAssert("UI매니저가 존재하지 않습니다.");
+		return nullptr;
+	}
+
+	return Player;
+}
+
+std::shared_ptr<class BackDrop_PlayLevel> PlayLevel::GetBackDropPtr() const
+{
+	if (nullptr == Back)
+	{
+		MsgBoxAssert("배경매니저가 존재하지 않습니다.");
+		return nullptr;
+	}
+
+	return Back;
 }

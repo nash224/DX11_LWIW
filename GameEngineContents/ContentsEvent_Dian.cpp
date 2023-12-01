@@ -60,12 +60,9 @@ void ContentsEvent::Dian_BadWeedPotion::AcceptInternal()
 
 bool ContentsEvent::Dian_BadWeedPotion::QuestClearPrerequisite()
 {
-	if (nullptr != UI_Inventory::MainInventory)
+	if (true == UI_Inventory::IsItem("BadGrassPotion"))
 	{
-		if (true == UI_Inventory::MainInventory->IsItem("BadGrassPotion"))
-		{
-			return true;
-		}
+		return true;
 	}
 
 	return false;
@@ -83,11 +80,8 @@ void ContentsEvent::Dian_BadWeedPotion::CompleteInternal()
 		UI_Hub_MainBoard::s_QuestManager->PopData("Dian_BadWeedPotion");
 	}
 
-	if (nullptr != UI_Inventory::MainInventory)
-	{
-		UI_Inventory::MainInventory->PushItem("Item_Etc_12");
-		UI_Inventory::MainInventory->UnlockSlot();
-	}
+	UI_Inventory::PushItem("Item_Etc_12");
+	UI_Inventory::UnlockSlot();
 
 	ContentsEvent::ToolData[static_cast<int>(ETOOLTYPE::Dragonfly)] = true;
 }
@@ -108,12 +102,9 @@ void ContentsEvent::Dian_Cracker::AcceptInternal()
 
 bool ContentsEvent::Dian_Cracker::QuestClearPrerequisite()
 {
-	if (nullptr != UI_Inventory::MainInventory)
+	if (true == UI_Inventory::IsItem("NutritionPotion"))
 	{
-		if (true == UI_Inventory::MainInventory->IsItem("NutritionPotion"))
-		{
-			return true;
-		}
+		return true;
 	}
 
 	return false;

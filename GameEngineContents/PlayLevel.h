@@ -6,21 +6,15 @@
 // Ό³Έν :
 class Ellie;
 class PortalObject;
-class UIManager;
 class PlayLevel : public ContentsLevel
 {
-protected:
-	enum class ELEVELTYPE
-	{
-		Field,
-		House,
-		None,
-	};
-
 public:
-	static std::weak_ptr<PlayLevel> s_MainPlayLevel;
+	static PlayLevel* s_MainPlayLevel;
 	static std::unique_ptr<class TimeManager> s_TimeManager;
-	static std::unique_ptr<class AlertManager> s_AlertManager;
+	static std::unique_ptr<class AlertManager> s_AlertManager; 
+	std::shared_ptr<Ellie> Player = nullptr;
+	std::shared_ptr<class UIManager> UIManagerPtr = nullptr;
+	std::shared_ptr<class BackDrop_PlayLevel> Back = nullptr;
 
 public:
 	// constrcuter destructer
@@ -38,29 +32,18 @@ public:
 		return PrevLevelName;
 	}
 
+	static PlayLevel* GetPlayLevelPtr();
+	std::shared_ptr<class UIManager> GetUIManagerPtr() const;
+	std::shared_ptr<class Ellie> GetPlayerPtr() const;
+	std::shared_ptr<class BackDrop_PlayLevel> GetBackDropPtr() const;
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
-	void SetLocationName(std::string_view _KRName);
-
-private:
-	void EffectSetting();
-
-	void CreateUIManager();
-	void CreateEllie();
-
 protected:
-	std::shared_ptr<Ellie> Player = nullptr;
-	std::shared_ptr<UIManager> UI_Manager = nullptr;
-
-	bool LevelInitCheck = false;
-
-	ELEVELTYPE LevelType = ELEVELTYPE::None;
-
-private:
 	std::string LocationKRName;
 	std::string PrevLevelName;
 

@@ -5,7 +5,7 @@
 class UI_Hub_Tool : public UI_Hub_Actor
 {
 public:
-	static ETOOLTYPE m_CurrentTool;
+	static ETOOLTYPE CurRenderToolType;
 
 public:
 	// constrcuter destructer
@@ -41,15 +41,15 @@ private:
 
 
 private:
-	std::shared_ptr<GameEngineUIRenderer> m_Tool = nullptr;
-	std::shared_ptr<GameEngineUIRenderer> m_LeftArrow = nullptr;
-	std::shared_ptr<GameEngineUIRenderer> m_RightArrow = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> Tool = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> LeftArrow = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> RightArrow = nullptr;
 
 
 private:
-	bool IsChangeTool = false;
+	bool isChangeTool = false;
 
-	int m_CurrentToolRenderNumber = -1;
+	int CurRenderToolNum = -1;
 	
 };
 

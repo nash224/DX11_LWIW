@@ -21,16 +21,30 @@ BackDrop_PlayLevel::~BackDrop_PlayLevel()
 
 void BackDrop_PlayLevel::LevelStart(class GameEngineLevel* _NextLevel)
 {
-	BackDrop::LevelStart(_NextLevel);
-
 	MainBackDrop = this;
 }
 
 void BackDrop_PlayLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-	BackDrop::LevelEnd(_NextLevel);
-
 	PixelVec.clear();
+}
+
+
+void BackDrop_PlayLevel::CreateItem(std::string_view _ItemName, const float4& _Position, const int _Stack /*= 1*/, const float _FallYPosition /*= 0.0f*/)
+{
+	std::shared_ptr<LootedItem> Item = GetLevel()->CreateActor<LootedItem>(EUPDATEORDER::Entity);
+	const float Depth = DepthFunction::CalculateFixDepth(ERENDERDEPTH::RootedItem);
+	Item->Transform.SetLocalPosition(float4(_Position.X, _Position.Y, Depth));
+	Item->BackManager = this;
+
+	Item->SetStack(_Stack);
+
+	if (0.0f != _FallYPosition)
+	{
+		Item->SetFallingTargetPosition(_FallYPosition);
+	}
+
+	Item->Init(_ItemName);
 }
 
 
@@ -78,43 +92,29 @@ bool BackDrop_PlayLevel::IsColorAtPosition(const float4& _Position, GameEngineCo
 	return false;
 }
 
-// 깊이버퍼 계산
 
-float BackDrop_PlayLevel::ReturnPlusDepth(const float _PositionY) const
+void BackDrop_PlayLevel::CreateRenderActor(
+	int _UpdateOrder,
+	std::string_view _SpriteName,
+	const float4& _Position,
+	int _DepthType,
+	bool _isFixDepth /*= true*/,
+	float _DepthCorrection/*= 0.0f*/)
 {
-	float4 BackGroundScale = m_BackScale;
-	if (float4::ZERO == BackGroundScale)
+	float Depth = 0.0f;
+	if (true == _isFixDepth)
 	{
-		BackGroundScale = GlobalValue::GetWindowScale();
+		Depth = DepthFunction::CalculateFixDepth(_DepthType);
+	}
+	else
+	{
+		Depth = DepthFunction::CalculateObjectDepth(BackScale.Y, _Position.Y + _DepthCorrection);
 	}
 
-	float PlusDepth = _PositionY / BackGroundScale.Y * 100.0f;
-	return PlusDepth;
+	const float4 Position = float4(_Position.X, _Position.Y, Depth);
+
+	std::shared_ptr<RendererActor> Object = GetLevel()->CreateActor<RendererActor>(_UpdateOrder);
+	Object->Transform.SetLocalPosition(Position);
+	Object->Init();
+	Object->m_Renderer->SetSprite(_SpriteName);
 }
-
-
-// 아이템 생성 : 
-// 아이템 이름
-// 위치
-// 개수
-// 떨어질 거리
-void BackDrop_PlayLevel::CreateItem(std::string_view _ItemName, const float4& _Position, const int _Stack /*= 1*/, const float _FallYPosition /*= 0.0f*/)
-{
-	std::shared_ptr<LootedItem> Item = GetLevel()->CreateActor<LootedItem>(EUPDATEORDER::Entity);
-
-	Item->BackManager = this;
-
-	float4 Position = _Position;
-	Position.Z = DepthFunction::CalculateFixDepth(ERENDERDEPTH::RootedItem);
-	Item->Transform.SetLocalPosition(Position);
-
-	Item->SetStack(_Stack);
-
-	if (0.0f != _FallYPosition)
-	{
-		Item->SetFallingTargetPosition(_FallYPosition);
-	}
-
-	Item->Init(_ItemName);
-}
-

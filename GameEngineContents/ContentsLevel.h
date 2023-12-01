@@ -1,7 +1,6 @@
 #pragma once
 
 // Ό³Έν :
-class CameraControler;
 class ContentsLevel : public GameEngineLevel
 {
 public:
@@ -20,6 +19,8 @@ public:
 	ContentsLevel& operator=(const ContentsLevel& _Other) = delete;
 	ContentsLevel& operator=(ContentsLevel&& _Other) noexcept = delete;
 
+	std::shared_ptr<class CameraControler> GetLevelCameraPtr() const;
+
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
@@ -29,8 +30,8 @@ protected:
 protected:
 	void ChangeDebugMode();
 
-protected:
-	std::shared_ptr<CameraControler> LevelCamera = nullptr;
+	
+	std::shared_ptr<class CameraControler> LevelCamera = nullptr;
 
 };
 

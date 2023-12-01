@@ -3,7 +3,6 @@
 
 
 
-UI_Conversation* UI_Conversation::MainConversationUI = nullptr;
 UI_Conversation::UI_Conversation()
 {
 	if (nullptr == GameEngineSound::FindSound("SFX_Voice_01.wav"))
@@ -53,19 +52,11 @@ void UI_Conversation::Release()
 
 void UI_Conversation::LevelStart(class GameEngineLevel* _NextLevel)
 {
-	MainConversationUI = this;
+
 }
-
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
 
 void UI_Conversation::Init()
 {
-	MainConversationUI = this;
-
 	RendererSetting();
 	StateSetting();
 }
@@ -254,7 +245,9 @@ void UI_Conversation::EndVirgilOutputState(GameEngineState* _Parent)
 
 void UI_Conversation::EndConversation()
 {
-	Reset();
+	GameEngineInput::IsObjectAllInputOn();
+	Off();
+	// Reset();
 }
 
 bool UI_Conversation::IsConversation() const
@@ -343,6 +336,8 @@ void UI_Conversation::StartConversation(std::string_view _NPCSpriteName, int _NP
 	
 
 	Dialogue.Main_Dialogue->On();
+	GameEngineInput::IsOnlyInputObject(this);
+	On();
 }
 
 void UI_Conversation::ShowConversation(const ConversationData& _Data)

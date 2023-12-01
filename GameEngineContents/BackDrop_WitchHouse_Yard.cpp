@@ -7,7 +7,6 @@
 
 #include "ContentsEvent.h"
 #include "CrowEvent.h"
-#include "HouseDustEvent.h"
 #include "InteractiveLetter.h"
 
 #include "Dian.h"
@@ -20,6 +19,7 @@
 
 BackDrop_WitchHouse_Yard::BackDrop_WitchHouse_Yard() 
 {
+	BackScale = GlobalValue::GetWindowScale();
 }
 
 BackDrop_WitchHouse_Yard::~BackDrop_WitchHouse_Yard() 
@@ -29,24 +29,20 @@ BackDrop_WitchHouse_Yard::~BackDrop_WitchHouse_Yard()
 void BackDrop_WitchHouse_Yard::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	MainBackDrop = this;
-	Init();
+	RenewMap();
 }
 
 
 void BackDrop_WitchHouse_Yard::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-	BackDrop_PlayLevel::LevelEnd(_NextLevel);
-
 	ReleaseYardSprite();
 }
 
 
 
-void BackDrop_WitchHouse_Yard::Init()
+void BackDrop_WitchHouse_Yard::RenewMap()
 {
 	MainBackDrop = this;
-	
-	m_BackScale = GlobalValue::GetWindowScale();
 
 	LoadSprite();
 
@@ -91,7 +87,7 @@ void BackDrop_WitchHouse_Yard::LoadSerBin()
 		unsigned int ActorCount = 0;
 		LoadBin >> ActorCount;
 
-		for (size_t i = 0; i < ActorCount; i++)
+		for (unsigned int i = 0; i < ActorCount; i++)
 		{
 			std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>();
 			Object->DeSerializer(LoadBin);
@@ -114,7 +110,7 @@ void BackDrop_WitchHouse_Yard::LoadSerBin()
 		unsigned int ActorCount = 0;
 		LoadBin >> ActorCount;
 
-		for (size_t i = 0; i < ActorCount; i++)
+		for (unsigned int i = 0; i < ActorCount; i++)
 		{
 			std::shared_ptr<GroundRenderUnit> Object = GetLevel()->CreateActor<GroundRenderUnit>();
 			Object->DeSerializer(LoadBin);
@@ -144,7 +140,7 @@ void BackDrop_WitchHouse_Yard::CreateNormalProp()
 {
 	{
 		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		Object->Transform.SetLocalPosition({ 700.0f , -214.0f , DepthFunction::CalculateObjectDepth(m_BackScale.Y, -234.0f) });
+		Object->Transform.SetLocalPosition({ 700.0f , -214.0f , DepthFunction::CalculateObjectDepth(BackScale.Y, -234.0f) });
 		Object->Init();
 		Object->m_Renderer->SetSprite("Yard_Pumpkins.png");
 		Object->m_Renderer->Transform.SetLocalPosition(float4(0.0f, 10.0f));
@@ -152,7 +148,7 @@ void BackDrop_WitchHouse_Yard::CreateNormalProp()
 
 	{
 		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		Object->Transform.SetLocalPosition({ 700.0f , -228.0f , DepthFunction::CalculateObjectDepth(m_BackScale.Y,-228.0f) });
+		Object->Transform.SetLocalPosition({ 700.0f , -228.0f , DepthFunction::CalculateObjectDepth(BackScale.Y,-228.0f) });
 		Object->Init();
 		Object->m_Renderer->SetSprite("Yard_Stone_L_0.png");
 		Object->SetPixelCollision("Yard_Stone_L_0_Pixel.png");
@@ -178,7 +174,7 @@ void BackDrop_WitchHouse_Yard::CreateHouse()
 
 	{
 		std::shared_ptr<NormalProp> PixelObject = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		PixelObject->Transform.SetLocalPosition(float4(m_BackScale.Half().X, -202.0f));
+		PixelObject->Transform.SetLocalPosition(float4(BackScale.Half().X, -202.0f));
 		PixelObject->SetPixelCollision("WitchHouse_Base_Pixel.png");
 		PixelVec.push_back(PixelObject);
 	}
@@ -286,7 +282,11 @@ void BackDrop_WitchHouse_Yard::CheckDianSpawn()
 		const int EventViewDayCount = CastedQuest->GetEventDay();
 		if (EventViewDayCount < CurDayCount)
 		{
-			CreateDian();
+			const int CurHour = PlayLevel::s_TimeManager->GetHour();
+			if (CurHour < 19)
+			{
+				CreateDian();
+			}
 		}
 	}
 }
@@ -315,10 +315,9 @@ void BackDrop_WitchHouse_Yard::ReleaseYardSprite()
 		Dir.MoveParentToExistsChild("Resources");
 		Dir.MoveChild("Resources\\PlayContents\\WitchHouse_Yard\\YardSingle");
 		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-		for (size_t i = 0; i < Files.size(); i++)
+		for (GameEngineFile& pFile : Files)
 		{
-			GameEngineFile File = Files[i];
-			GameEngineSprite::Release(File.GetFileName());
+			GameEngineSprite::Release(pFile.GetFileName());
 		}
 	}
 }

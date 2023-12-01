@@ -1,8 +1,8 @@
 #pragma once
-#include "Conversation.h"
+#include "SingleEvent.h"
 
 // Ό³Έν :
-class HouseDustEvent : public GameEngineActor
+class HouseDustEvent : public SingleEvent
 {
 public:
 	enum class EHOUSEDUSTSTATE
@@ -28,26 +28,14 @@ public:
 	HouseDustEvent& operator=(const HouseDustEvent& _Other) = delete;
 	HouseDustEvent& operator=(HouseDustEvent&& _Other) noexcept = delete;
 
-	void Init();
-
 protected:
 	void Start() override {}
 	void Update(float _Delta) override;
-	void Release() override {}
+	void Release() override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
-	void ConversationSetting();
-	void StateSetting();
-
-	void StartHouseDust(GameEngineState* _Parent);
-	void EndHouseDust(GameEngineState* _Parent);
-
-
-private:
-	GameEngineState State;
-	Conversation AboutHouseConveration;
-
+	void ConversationSetting() override;
 
 };

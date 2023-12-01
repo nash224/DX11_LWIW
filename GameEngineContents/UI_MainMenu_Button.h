@@ -13,7 +13,7 @@ private:
 	};
 
 private:
-	class PressAnyButton
+	class TitleButtonStruct
 	{
 	public:
 		std::shared_ptr<GameEngineUIRenderer> Button_Font;
@@ -44,7 +44,6 @@ protected:
 	void StateSetting();
 
 	void StartAnyPress(GameEngineState* _Parent);
-	void StartNone(GameEngineState* _Parent);
 
 	void UpdateAnyPress(float _Delta, GameEngineState* _Parent);
 
@@ -54,9 +53,7 @@ protected:
 
 private:
 	GameEngineState UIState;
-	PressAnyButton TitleButton_Press;
-
-	
+	TitleButtonStruct ButtonStruct;
 
 };
 

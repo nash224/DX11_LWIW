@@ -1,22 +1,25 @@
 #pragma once
-
 #include "UI_Inventory.h"
-
-enum class EUI_TYPE
-{
-	None,
-	Play,
-	Inventory,
-	Dictionary,
-	MainBoard,
-};
-
 
 // 설명 :
 class UIManager : public GameEngineActor
 {
 public:
-	static UIManager* MainUIManager;
+	std::shared_ptr<class UI_Hub> HubPtr = nullptr;									// 허브
+	std::shared_ptr<class UI_Inventory> InventoryPtr = nullptr;						// 인벤토리
+	std::shared_ptr<class UI_Dictionary> DictionaryPtr = nullptr;					// 사전
+	std::shared_ptr<class UI_InterativeMark> InteractiveMarkPtr = nullptr;			// 마크기능
+	std::shared_ptr<class UI_Conversation> UIConversationPtr = nullptr;
+
+private:
+	enum class EUI_TYPE
+	{
+		None,
+		Play,
+		Inventory,
+		Dictionary,
+		MainBoard,
+	};
 
 public:
 	// constrcuter destructer
@@ -34,6 +37,10 @@ public:
 	void OpenInventory(EINVENTORYMODE _Mode);
 	void CloseInventory();
 
+	std::shared_ptr<class UI_Conversation> GetConversationPtr() const;
+	std::shared_ptr<class UI_Inventory> GetInventoryPtr() const;
+	std::shared_ptr<class UI_InterativeMark> GetMarkPtr() const;
+
 	void UseUIComponent();
 	void DoneUIComponent();
 
@@ -41,27 +48,16 @@ public:
 protected:
 	void Start() override;
 	void Update(float _Delta) override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
-	void LevelEnd(class GameEngineLevel* _NextLevel) override;
-
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
+	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 private:
 	void Reset();
 
-private:
 	void DectectOpenUIComponent();
-	void UpdateInputToOpenUIComponent();
-
-
+	void InputUpdate();
 
 private:
-	std::shared_ptr<class UI_Hub> m_Hub = nullptr;									// 허브
-	std::shared_ptr<class UI_Inventory> m_Inventory = nullptr;						// 인벤토리
-	std::shared_ptr<class UI_Dictionary> m_Dictionary = nullptr;					// 사전
-	std::shared_ptr<class UI_InterativeMark> m_InteractiveMark = nullptr;			// 마크기능
-	std::shared_ptr<class UI_Conversation> m_ConversationUI = nullptr;
-
-
 	EUI_TYPE m_State = EUI_TYPE::None;
 
 	bool SwitchOpenHub = false;								// 허브를 자동으로 킬 수 있습니다.

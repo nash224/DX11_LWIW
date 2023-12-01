@@ -26,7 +26,6 @@ protected:
 
 private:
 	void LoadTexture();
-	void OnLevelBackDrop();
 
 	void SetEllieLevelChangeLocation(class GameEngineLevel* _NextLevel);
 	void CameraSetting();

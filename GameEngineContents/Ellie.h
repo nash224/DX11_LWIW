@@ -246,8 +246,6 @@ private:
 	void LimitMoveVector(float _MAXMoveForce);
 	bool WallCollision();
 
-	void PlaySFX(std::string_view _FileName);
-
 	void DayChangeEvent();
 	void CheckDayChange();
 

@@ -3,6 +3,9 @@
 
 #include "CameraControler.h"
 
+
+static constexpr int MaxPopCount = 6;
+
 #define Light1 {0.0f, 0.0f, 0.0f, 0.0f} 
 #define Light2 {0.25f, 0.28f, 0.156f, 1.0f} 
 #define Light3 {0.1f, 0.25f, 0.17f, 0.58f} 
@@ -51,6 +54,7 @@ void FireWorks::Release()
 	LightRenderer = nullptr;
 	FxRenderer = nullptr;
 	Crackers.clear();
+	LightData.clear();
 
 	GameEngineSprite::Release("Pot_2.png");
 	GameEngineSprite::Release("FireLine.png");
@@ -71,15 +75,12 @@ void FireWorks::LevelEnd(class GameEngineLevel* _NextLevel)
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
 
 void FireWorks::Init()
 {
 	RendererSetting();
 	StateSetting();
-	FireLineStateInfo.StateSetting();
+	RayLightStateInfo.StateSetting();
 	CrackersSetting();
 }
 
@@ -128,9 +129,8 @@ void FireWorks::RendererSetting()
 	FxRenderer->SetStartEvent("Ray", [](GameEngineSpriteRenderer* _Renderer)
 		{
 			const float4& TexScale = _Renderer->GetCurSprite().Texture->GetScale();
-			const float PlusYPos = TexScale.Half().Y;
 
-			_Renderer->Transform.SetLocalPosition(float4(0.0f, 120.0f + PlusYPos));
+			_Renderer->Transform.SetLocalPosition(float4(0.0f, 120.0f + TexScale.Half().Y));
 		});
 
 	FxRenderer->SetEndEvent("Ray", [](GameEngineSpriteRenderer* _Renderer)
@@ -241,22 +241,23 @@ void FireWorks::StartLight(GameEngineState* _Parent)
 	LightRenderer->On();
 
 	LightStateTime = 0.0f;
-	ChangeCount = 0;
+	LightTransitionCount = 0;
 }
 
 void FireWorks::UpdateLight(float _Delta, GameEngineState* _Parent)
 {
+	const float ChangeLightTime = 0.25f;
 	LightStateTime += _Delta / ChangeLightTime;
 
-	const int NextLightNum = ChangeCount + 1;
-	LightLerp(LightData[ChangeCount], LightData[NextLightNum], LightStateTime);
+	const int NextLightNum = LightTransitionCount + 1;
+	LightLerp(LightData[LightTransitionCount], LightData[NextLightNum], LightStateTime);
 
 	if (LightStateTime > 1.0f)
 	{
 		LightStateTime -= 1.0f;
-		++ChangeCount;
+		++LightTransitionCount;
 		int DataSize = static_cast<int>(LightData.size());
-		if (ChangeCount >= DataSize - 1)
+		if (LightTransitionCount >= DataSize - 1)
 		{
 			SetLightColor(LightData[4]);
 			State.ChangeState(ECRACKERPOTIONSTATE::Fire);
@@ -275,43 +276,33 @@ void FireWorks::StartFire(GameEngineState* _Parent)
 
 void FireWorks::StartFocusRayLight(GameEngineState* _Parent)
 {
-	FireLineStateInfo.Parent = this;
-	FireLineStateInfo.State.ChangeState(FireWorks::RayLightInfo::EFIRELINESTATE::Ready);
+	RayLightStateInfo.Parent = this;
+	RayLightStateInfo.State.ChangeState(FireWorks::RayLightState::EFIRELINESTATE::Ready);
 
-	if (true == CameraControler::MainCameraControler.expired())
-	{
-		MsgBoxAssert("카메라 컨트롤러가 null입니다.");
-		return;
-	}
-	
-	CameraControler::MainCameraControler.lock()->SetCameraMode(ECAMERAMODE::Cinematic);
+	PlayLevel::GetPlayLevelPtr();
+	PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr()->SetCameraMode(ECAMERAMODE::Cinematic);
 
-	const float4& CameraPos = CameraControler::MainCameraControler.lock()->GetCameraCurrentPostion();
-	CameraTargetStopPos = CameraPos + float4(0.0f, TargetDistance);
+	const float4& CameraPos = PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr()->GetCameraCurrentPostion();
+	LimitCameraPos = CameraPos + float4(0.0f, TargetDistance);
 
-	FirePlayer = SFXFunction::PlaySFX("SFX_Firework.wav");
+	SFXFunction::PlaySFX("SFX_Firework.wav");
 }
 
 
 void FireWorks::UpdateFocusRayLight(float _Delta, GameEngineState* _Parent)
 {
-	if (true == CameraControler::MainCameraControler.expired())
-	{
-		MsgBoxAssert("존재하지 않는 카메라 매니저를 사욯하려 했습니다.");
-		return;
-	}
+	const std::shared_ptr<CameraControler>& CurCameraPtr = PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr();
 
-	FireLineStateInfo.State.Update(_Delta);
+	RayLightStateInfo.State.Update(_Delta);
 
-	static constexpr float TargetTime = 1.8f;
-
+	const float TargetTime = 1.8f;
 	const float CameraMoveForce = TargetDistance* _Delta / TargetTime;
-	CameraControler::MainCameraControler.lock()->AddCameraPos(float4(0.0f, CameraMoveForce));
+	CurCameraPtr->AddCameraPos(float4(0.0f, CameraMoveForce));
 
-	const float4& CameraPos = CameraControler::MainCameraControler.lock()->GetCameraCurrentPostion();
-	if (CameraPos.Y > CameraTargetStopPos.Y)
+	const float4& CameraPos = CurCameraPtr->GetCameraCurrentPostion();
+	if (CameraPos.Y > LimitCameraPos.Y)
 	{
-		CameraControler::MainCameraControler.lock()->SetCameraPos(CameraTargetStopPos);
+		CurCameraPtr->SetCameraPos(LimitCameraPos);
 		State.ChangeState(ECRACKERPOTIONSTATE::Wait);
 		return;
 	}
@@ -319,17 +310,17 @@ void FireWorks::UpdateFocusRayLight(float _Delta, GameEngineState* _Parent)
 
 void FireWorks::UpdateWait(float _Delta, GameEngineState* _Parent)
 {
-	FireLineStateInfo.State.Update(_Delta);
+	RayLightStateInfo.State.Update(_Delta);
 }
 
 void FireWorks::UpdatePopCrackers(float _Delta, GameEngineState* _Parent)
 {
 	const float NextPopTime = Crackers[CurPopCount].NextPopTime;
 
-	StateTime += _Delta;
-	if (StateTime > NextPopTime)
+	PopRemainTime += _Delta;
+	if (PopRemainTime > NextPopTime)
 	{
-		StateTime -= NextPopTime;
+		PopRemainTime -= NextPopTime;
 
 		Crackers[CurPopCount].PopRenderer->On();
 
@@ -371,20 +362,20 @@ void FireWorks::LightLerp(const float4& _ColorA, const float4& _ColorB, float _T
 }
 
 
-void FireWorks::RayLightInfo::StateSetting()
+void FireWorks::RayLightState::StateSetting()
 {
 	CreateStateParameter ReadyState;
-	ReadyState.Start = std::bind(&FireWorks::RayLightInfo::StartReady, this, std::placeholders::_1);
-	ReadyState.Stay = std::bind(&FireWorks::RayLightInfo::UpdateReady, this, std::placeholders::_1, std::placeholders::_2);
+	ReadyState.Start = std::bind(&FireWorks::RayLightState::StartReady, this, std::placeholders::_1);
+	ReadyState.Stay = std::bind(&FireWorks::RayLightState::UpdateReady, this, std::placeholders::_1, std::placeholders::_2);
 	State.CreateState(EFIRELINESTATE::Ready, ReadyState);
 
 	CreateStateParameter RayState;
-	RayState.Start = std::bind(&FireWorks::RayLightInfo::StartRay, this, std::placeholders::_1);
+	RayState.Start = std::bind(&FireWorks::RayLightState::StartRay, this, std::placeholders::_1);
 	State.CreateState(EFIRELINESTATE::Ray, RayState);
 }
 
 
-void FireWorks::RayLightInfo::StartReady(GameEngineState* _Parent)
+void FireWorks::RayLightState::StartReady(GameEngineState* _Parent)
 {
 	if (nullptr == Parent || nullptr == Parent->FxRenderer)
 	{
@@ -395,10 +386,9 @@ void FireWorks::RayLightInfo::StartReady(GameEngineState* _Parent)
 	Parent->FxRenderer->Off();
 }
 
-void FireWorks::RayLightInfo::UpdateReady(float _Delta, GameEngineState* _Parent)
+void FireWorks::RayLightState::UpdateReady(float _Delta, GameEngineState* _Parent)
 {
-	static constexpr float ReadyTime = 0.1f;
-
+	const float ReadyTime = 0.1f;
 	if (_Parent->GetStateTime() > ReadyTime)
 	{
 		State.ChangeState(EFIRELINESTATE::Ray);
@@ -406,7 +396,7 @@ void FireWorks::RayLightInfo::UpdateReady(float _Delta, GameEngineState* _Parent
 	}
 }
 
-void FireWorks::RayLightInfo::StartRay(GameEngineState* _Parent)
+void FireWorks::RayLightState::StartRay(GameEngineState* _Parent)
 {
 	if (nullptr == Parent || nullptr == Parent->FxRenderer)
 	{

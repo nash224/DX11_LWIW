@@ -41,6 +41,13 @@ Ellie::Ellie()
 		}
 	}
 
+	if (false == FirstInitCheck)
+	{
+		g_Status = EELLIE_STATUS::Normal;
+		FirstInitCheck = true;
+	}
+
+	SetPixelPointBaseOnCenter();
 
 	CheckDayChange();
 }
@@ -66,21 +73,7 @@ void Ellie::Update(float _Delta)
 
 void Ellie::UpdateTestCode()
 {
-	if (true == GameEngineInput::IsDown('1', this))
-	{
-		if (nullptr != UIManager::MainUIManager)
-		{
-			BackDrop_PlayLevel::MainBackDrop->CreateItem("Mongsiri_Collect", Transform.GetLocalPosition());
-		}
-	}
 
-	if (true == GameEngineInput::IsDown('2', this))
-	{
-		if (nullptr != UIManager::MainUIManager)
-		{
-			UIManager::MainUIManager->DoneUIComponent();
-		}
-	}
 }
 
 
@@ -128,15 +121,7 @@ void Ellie::CollisionSetting()
 
 void Ellie::Init()
 {
-	if (false == FirstInitCheck)
-	{
-		g_Status = EELLIE_STATUS::Normal;
-		FirstInitCheck = true;
-	}
 
-	SetPixelPointBaseOnCenter();
-
-	OnLevelStart();
 }
 
 void Ellie::SetLocalPosition(const float4& _Pos)
@@ -157,6 +142,7 @@ void Ellie::OnLevelStart()
 	ResetMoveVector();
 	ApplyDepth();
 	MainEllie = this;
+	OnControl();
 }
 
 void Ellie::RenewStatus()
@@ -182,24 +168,24 @@ void Ellie::RenewStatus()
 
 void Ellie::ChangeStatus(const EELLIE_STATUS _Status)
 {
-	if (_Status != g_Status)
-	{
-		g_Status = _Status;
-	}
+	g_Status = _Status;
 }
 
 void Ellie::OnControl()
 {
-	IsControl = true;
+	GameEngineInput::InputObjectOn(this);
+	if (nullptr != EllieCol)
+	{
+		EllieCol->On();
+	}
 }
 
 void Ellie::OffControl()
 {
-	IsControl = false;
-
-	if (EELLIE_STATE::None == WaitState)
+	GameEngineInput::InputObjectOff(this);
+	if (nullptr != EllieCol)
 	{
-		RenewStatus();
+		EllieCol->Off();
 	}
 }
 
@@ -932,13 +918,6 @@ void Ellie::LimitMoveVector(float _MAXMoveForce)
 }
 
 #pragma endregion 
-
-
-void Ellie::PlaySFX(std::string_view _FileName)
-{
-	GameEngineSoundPlayer SoundPlayer = GameEngineSound::SoundPlay(_FileName);
-	SoundPlayer.SetVolume(GlobalValue::GetSFXVolume());
-}
 
 void Ellie::CheckDayChange()
 {

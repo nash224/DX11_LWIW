@@ -72,8 +72,6 @@ private:
 	std::function<void()> StartEvent;
 	std::function<void()> EndEvent;
 
-	static constexpr const float RemoveDustTime = 1.6f;
-
 	float DustScaleRatio = 1.0f;
 
 };

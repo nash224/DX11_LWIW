@@ -8,6 +8,7 @@
 static constexpr float HeadFont_Size = 17.0f;
 static constexpr float SlotFont_Size = 14.0f;
 static constexpr float SlotYPos = -28.0f;
+static constexpr float Tooltip_Gap = 12.0f;
 
 static constexpr int Max_Slot_Count = 2;
 
@@ -66,7 +67,7 @@ void BedUI::RendererSetting()
 	CursorInfo.CursorRenderer->Transform.SetLocalPosition(float4(0.0f, 45.0f, FontDepth));
 	CursorInfo.CursorRenderer->SetSprite("BedUI_TooltipCursor.png");
 
-	std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Find("BedUI_TooltipSlot.png");
+	const std::shared_ptr<GameEngineTexture>& Texture = GameEngineTexture::Find("BedUI_TooltipSlot.png");
 	if (nullptr == Texture)
 	{
 		MsgBoxAssert(std::string("BedUI_TooltipSlot.png") + "가 로드되어있지 않습니다.");
@@ -74,12 +75,11 @@ void BedUI::RendererSetting()
 	}
 
 	TooltipScale = Texture->GetScale();
-	const float Tooltip_HalfSize = TooltipScale.hX();
 
 	SlotInfo.resize(Max_Slot_Count);
 	for (int i = 0; i < static_cast<int>(SlotInfo.size()); i++)
 	{
-		float XPos = Tooltip_HalfSize + Tooltip_Gap * 0.5f;
+		float XPos = TooltipScale.hX() + Tooltip_Gap * 0.5f;
 		const float YPos = SlotYPos;
 		if (0 == i)
 		{
@@ -128,7 +128,7 @@ void BedUI::StateSetting()
 
 void BedUI::StartPopUp(GameEngineState* _Parent)
 {
-	SetScale(0.0f);
+	SetUIWindowScale(0.0f);
 }
 
 void BedUI::StartGoDream(GameEngineState* _Parent)
@@ -154,11 +154,11 @@ void BedUI::UpdatePopUp(float _Delta, GameEngineState* _Parent)
 		Size = ScaleUpRatio - DecreaseScale * DecreaseTime / PopUpScaleRatio;
 	}
 	
-	SetScale(Size);
+	SetUIWindowScale(Size);
 
 	if (StateTime > PopUp_Time)
 	{
-		SetScale(PopUpScaleRatio);
+		SetUIWindowScale(PopUpScaleRatio);
 		State.ChangeState(EBEDUISTATE::Select);
 		return;
 	}
@@ -188,11 +188,11 @@ void BedUI::UpdateDisappear(float _Delta, GameEngineState* _Parent)
 		Size = ScaleUpRatio - ScaleUpRatio * SizeDownTimeRatio;
 	}
 
-	SetScale(Size);
+	SetUIWindowScale(Size);
 
 	if (StateTime > PopUp_Time)
 	{
-		SetScale(0.0f);
+		SetUIWindowScale(0.0f);
 
 		if (true == isGoDream)
 		{
@@ -211,10 +211,7 @@ void BedUI::UpdateDisappear(float _Delta, GameEngineState* _Parent)
 
 void BedUI::Open()
 {
-	if (nullptr != Ellie::MainEllie)
-	{
-		Ellie::MainEllie->OffControl();
-	}
+	PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->OffControl();
 
 	Reset();
 	State.ChangeState(EBEDUISTATE::PopUp);
@@ -224,10 +221,7 @@ void BedUI::Open()
 
 void BedUI::Close()
 {
-	if (nullptr != Ellie::MainEllie)
-	{
-		Ellie::MainEllie->OnControl();
-	}
+	PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->OnControl();
 
 	Off();
 }
@@ -238,18 +232,22 @@ void BedUI::Reset()
 	isLeftCursor = true;
 }
 
-void BedUI::SetScale(float _Size)
+void BedUI::SetUIWindowScale(float _Size)
 {
 	SetFontScale(_Size);
 
-	const float4& Scale = float4(_Size, _Size, 1.0f);
-	Transform.SetLocalScale(Scale);
+	Transform.SetLocalScale(float4(_Size, _Size, 1.0f));
 }
 
 void BedUI::SetFontScale(float _Size)
 {
-	const float HeadFontScale = HeadFont_Size * _Size;
-	HedFontRenderer->ChangeFontScale(HeadFontScale);
+	if (nullptr == HedFontRenderer)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않는데 참조하려고 했습니다.");
+		return;
+	}
+
+	HedFontRenderer->ChangeFontScale(HeadFont_Size * _Size);
 
 	for (const BedUISlot& Slot : SlotInfo)
 	{
@@ -264,6 +262,9 @@ void BedUI::SetFontScale(float _Size)
 		Slot.FontRenderer->ChangeFontScale(SlotFontScale);
 	}
 }
+
+
+#pragma region Update Cursor
 
 void BedUI::UpdateCursor()
 {
@@ -363,3 +364,4 @@ void BedUI::SetCursorLocalPosition(bool _isLeft)
 
 	CursorInfo.CursorRenderer->Transform.SetLocalPosition(TooltipPosition);
 }
+#pragma endregion

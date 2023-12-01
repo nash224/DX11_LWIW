@@ -11,10 +11,8 @@ const float4 ConversationFont::Color_BLACK = float4(0.0f, 0.0f, 0.0f, 1.0f);
 const ConversationFont ConversationFont::VigilDefaultFont = ConversationFont(ConversationFont::Color_BLACK, GlobalValue::Font_JejuHanlasan);
 Conversation::Conversation()
 {
-	GameEngineInput::AddInputObject(this);
+	
 }
-
-
 
 void Conversation::CreateTopic(int _ConversationType, const Topic& _Topic)
 {
@@ -37,7 +35,7 @@ const std::shared_ptr<Topic> Conversation::FindTopic(int _ConversationType)
 
 void Conversation::SetStartConversationEvent(int _Topic, std::function<void()> _Function)
 {
-	std::shared_ptr<Topic> CurTopic = Topics[_Topic];
+	const std::shared_ptr<Topic>& CurTopic = Topics[_Topic];
 	if (nullptr == CurTopic)
 	{
 		MsgBoxAssert("존재하지 않는 주제에 이벤트를 설정하려 했습니다.");
@@ -49,7 +47,7 @@ void Conversation::SetStartConversationEvent(int _Topic, std::function<void()> _
 
 void Conversation::SetConversationEvent(int _Topic, int _index, std::function<void()> _Function)
 {
-	std::shared_ptr<Topic> CurTopic = Topics[_Topic];
+	const std::shared_ptr<Topic>& CurTopic = Topics[_Topic];
 	if (nullptr == CurTopic)
 	{
 		MsgBoxAssert("존재하지 않는 주제에 이벤트를 설정하려 했습니다.");
@@ -71,56 +69,65 @@ void Conversation::SetConversationEndEvent(int _Topic, std::function<void()> _Fu
 }
 
 
+#pragma region StartConverse
 
 void Conversation::StartConversation(int _ConversationType)
 {
-	if (nullptr == UIManager::MainUIManager)
-	{
-		MsgBoxAssert("UI 매니저가 존재하지 않습니다.");
-		return;
-	}
-
-	if (nullptr == UI_Conversation::MainConversationUI)
-	{
-		MsgBoxAssert("대화 UI가 존재하지 않습니다.");
-		return;
-	}
-
-	UIManager::MainUIManager->UseUIComponent();
-
 	CurTopic = FindTopic(_ConversationType);
 	CurLine = 0;
 
-	UI_Conversation::MainConversationUI->StartConversation(CurTopic->EntitySpriteName, CurTopic->Default_Npc_Sprite_Index, CurTopic->Elli_First_Sprite_Index);
+	const std::shared_ptr<UIManager>& ManagerPtr = PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr();
+	ManagerPtr->UseUIComponent();
+	ManagerPtr->GetConversationPtr()->StartConversation(CurTopic->EntitySpriteName, CurTopic->Default_Npc_Sprite_Index, CurTopic->Elli_First_Sprite_Index);
 
 	ConverseLine();
 }
+#pragma endregion
 
-void Conversation::ConverseLine()
+
+#pragma region ConversationUpdate
+
+void Conversation::UpdateConversation(float _Delta)
 {
 	if (nullptr == CurTopic)
 	{
-		MsgBoxAssert("주제를 정하지 않고 대화를 시도하려 했습니다.");
 		return;
 	}
 
-	if (nullptr == UI_Conversation::MainConversationUI)
+	if (nullptr == PlayLevel::s_MainPlayLevel)
 	{
-		MsgBoxAssert("대화 UI가 존재하지 않습니다.");
+		MsgBoxAssert("참조하지 못했습니다.");
 		return;
 	}
 
-	UI_Conversation::MainConversationUI->ShowConversation(CurTopic->Data[CurLine]);
+	const std::shared_ptr<UI_Conversation>& UIConversationPtr = PlayLevel::s_MainPlayLevel->UIManagerPtr->GetConversationPtr();
 
-	ConversationBTWEvent();
+	bool isDoneConverse = (false == UIConversationPtr->IsConversation());
+
+	bool isKeyDownSkip = (isDoneConverse && true == GameEngineInput::IsDown('T', UIConversationPtr.get()));
+	if (isKeyDownSkip)
+	{
+		EndConversation();
+		return;
+	}
+
+	bool isKeyDownNextConversation = (isDoneConverse && true == GameEngineInput::IsDown('Z', UIConversationPtr.get()));
+	if (isKeyDownNextConversation)
+	{
+		NextConversationLine();
+		return;
+	}
 }
+
+#pragma endregion
+
 
 void Conversation::NextConversationLine()
 {
 	const std::vector<ConversationData>& Data = CurTopic->Data;
-
 	if (Data.empty())
 	{
+		EndConversation();
 		return;
 	}
 
@@ -136,7 +143,43 @@ void Conversation::NextConversationLine()
 	ConverseLine();
 }
 
-void Conversation::ConversationBTWEvent()
+void Conversation::ConverseLine()
+{
+	if (nullptr == CurTopic)
+	{
+		MsgBoxAssert("주제를 정하지 않고 대화를 시도하려 했습니다.");
+		return;
+	}
+
+	const std::shared_ptr<UIManager>& UIManagerPtr = PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr();
+	UIManagerPtr->GetConversationPtr()->ShowConversation(CurTopic->Data[CurLine]);
+
+	CallLineEvent();
+}
+
+void Conversation::EndConversation()
+{
+	if (nullptr == PlayLevel::s_MainPlayLevel)
+	{
+		MsgBoxAssert("참조하지 못했습니다.");
+		return;
+	}
+
+ 	const std::shared_ptr<UIManager>& UIManagerPtr = PlayLevel::s_MainPlayLevel->GetUIManagerPtr();
+
+	UIManagerPtr->GetConversationPtr()->EndConversation();
+	UIManagerPtr->DoneUIComponent();
+
+	std::shared_ptr<Topic> TempTopic = CurTopic;
+	CallEndConversationEvent();
+
+	if (TempTopic == CurTopic)
+	{
+		CurTopic = nullptr;
+	}
+}
+
+void Conversation::CallLineEvent()
 {
 	const ConversationData& LineData = CurTopic->Data[CurLine];
 	if (nullptr != LineData.Event)
@@ -145,7 +188,7 @@ void Conversation::ConversationBTWEvent()
 	}
 }
 
-void Conversation::EndConversationEvent()
+void Conversation::CallEndConversationEvent()
 {
 	if (nullptr != CurTopic->EndEvent)
 	{
@@ -153,56 +196,8 @@ void Conversation::EndConversationEvent()
 	}
 }
 
-void Conversation::EndConversation()
+void Conversation::Release()
 {
-	if (nullptr == UIManager::MainUIManager)
-	{
-		MsgBoxAssert("UI 매니저가 존재하지 않습니다.");
-		return;
-	}
-
-	if (nullptr == UI_Conversation::MainConversationUI)
-	{
-		MsgBoxAssert("대화 UI가 존재하지 않습니다.");
-		return;
-	}
-
-
-	UI_Conversation::MainConversationUI->EndConversation();
-
-	UIManager::MainUIManager->DoneUIComponent();
-
-	std::shared_ptr<Topic> TempTopic = CurTopic;
-	EndConversationEvent();
-
-	if (TempTopic == CurTopic)
-	{
-		CurTopic = nullptr;
-	}
-}
-
-
-void Conversation::UpdateConversation(float _Delta)
-{
-	if (nullptr == CurTopic)
-	{
-		return;
-	}
-
-	bool IsEndPrintMessage = (false == UI_Conversation::MainConversationUI->IsConversation());
-
-	bool isKeyDownSkip = (IsEndPrintMessage && true == GameEngineInput::IsDown('T', this));
-	if (isKeyDownSkip)
-	{
-		EndConversation();
-		return;
-	}
-
-
-	bool isKeyDownNextConversation = (IsEndPrintMessage && true == GameEngineInput::IsDown('Z', this));
-	if (isKeyDownNextConversation)
-	{
-		NextConversationLine();
-		return;
-	}
+	Topics.clear();
+	CurTopic = nullptr;
 }

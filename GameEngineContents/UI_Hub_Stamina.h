@@ -2,9 +2,11 @@
 #include "UI_Hub_Actor.h"
 #include "ContentsUIRenderer.h"
 
-struct StaminaInfo
+struct StaminaStruct
 {
-public:
+	friend class UI_Hub_Stamina;
+
+private:
 	std::shared_ptr<GameEngineUIRenderer> FrameRenderer = nullptr;
 	std::shared_ptr<ContentsUIRenderer> StaminaGaugeRenderer = nullptr;
 	std::shared_ptr<GameEngineUIRenderer> RecoverableGaugeRenderer = nullptr;
@@ -42,7 +44,7 @@ protected:
 	void UpdateGauge();
 
 private:
-	StaminaInfo UIStamina;
+	StaminaStruct UIStamina;
 
 };
 

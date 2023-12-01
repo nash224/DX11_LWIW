@@ -160,10 +160,7 @@ void BushBug::UpdateMove(float _Delta, GameEngineState* _Parent)
 {
 	if (true == IsEnalbeActive)
 	{
-		if (nullptr != UI_Inventory::MainInventory)
-		{
-			UI_Inventory::MainInventory->PushItem("BushBug_Collect");
-		}
+		UI_Inventory::PushItem("BushBug_Collect");
 
 		Death();
 	}

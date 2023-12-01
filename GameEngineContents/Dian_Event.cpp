@@ -39,16 +39,13 @@ bool Dian::CheckPotionVerificationEvent()
 	}
 	else if (true == Quest.lock()->CheckPrerequisiteQuest())
 	{
-		if (nullptr != UI_Inventory::MainInventory)
+		if (false == UI_Inventory::IsItem("BadGrassPotion"))
 		{
-			if (false == UI_Inventory::MainInventory->IsItem("BadGrassPotion"))
-			{
-				MsgBoxAssert("존재하지 않는 퀘스트 아이템으로 퀘스트를 클리어하려 했습니다.");
-				return false;
-			}
-
-			UI_Inventory::MainInventory->PopItem("BadGrassPotion", 1);
+			MsgBoxAssert("존재하지 않는 퀘스트 아이템으로 퀘스트를 클리어하려 했습니다.");
+			return false;
 		}
+
+		UI_Inventory::PopItem("BadGrassPotion", 1);
 
 		NPCEntity::ConverseWithEllie(EDIANTOPICTYPE::DragonFly);
 		return true;
@@ -85,16 +82,13 @@ bool Dian::CheckDian_CrackerEvent()
 	}
 	else if (true == CrackerQuest.lock()->CheckPrerequisiteQuest())
 	{
-		if (nullptr != UI_Inventory::MainInventory)
+		if (false == UI_Inventory::IsItem("NutritionPotion"))
 		{
-			if (false == UI_Inventory::MainInventory->IsItem("NutritionPotion"))
-			{
-				MsgBoxAssert("존재하지 않는 퀘스트 아이템으로 퀘스트를 클리어하려 했습니다.");
-				return false;
-			}
-
-			UI_Inventory::MainInventory->PopItem("NutritionPotion", 1);
+			MsgBoxAssert("존재하지 않는 퀘스트 아이템으로 퀘스트를 클리어하려 했습니다.");
+			return false;
 		}
+
+		UI_Inventory::PopItem("NutritionPotion", 1);
 
 		NPCEntity::ConverseWithEllie(EDIANTOPICTYPE::FireCrackerRecipe);
 		return true;

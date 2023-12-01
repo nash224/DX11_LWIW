@@ -23,11 +23,6 @@ void UI_QuestUnit::Release()
 	QuestUnit.QuestName = nullptr;
 	QuestUnit.Subject = nullptr;
 	QuestUnit.SubjectBase = nullptr;
-}
-
-void UI_QuestUnit::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-	Death();
 
 	if (nullptr != MaibBoardPointer)
 	{
@@ -47,9 +42,14 @@ void UI_QuestUnit::LevelEnd(class GameEngineLevel* _NextLevel)
 	}
 }
 
+void UI_QuestUnit::LevelEnd(class GameEngineLevel* _NextLevel)
+{
+	Death();
+}
+
 void UI_QuestUnit::Init(std::string_view _Data)
 {
-	std::shared_ptr<QuestData> FindData = QuestData::Find(_Data);
+	const std::shared_ptr<QuestData>& FindData = QuestData::Find(_Data);
 	if (nullptr == FindData)
 	{
 		MsgBoxAssert("존재하지 않는 데이터입니다.");
@@ -70,8 +70,6 @@ void UI_QuestUnit::Init(std::string_view _Data)
 	QuestUnit.SubjectBase->GetImageTransform().SetLocalScale(float4(196.0f, SubjectBaseYRenderScale));
 	QuestUnit.SubjectBase->SetPivotType(PivotType::Top);
 
-	static constexpr float QuestNameFontSize = 16.0f;
-
 	QuestUnit.Subject = CreateComponent<GameEngineUIRenderer>();
 	QuestUnit.Subject->Transform.SetLocalPosition(float4(-90.0f, -6.0f, FontDepth));
 	QuestUnit.Subject->SetText(GlobalValue::Font_Sandoll, GetSubjectTextToType(Data.lock()->QuestType), ContentFontSize, float4::WHITE);
@@ -87,7 +85,7 @@ void UI_QuestUnit::Init(std::string_view _Data)
 
 	QuestUnit.QuestName = CreateComponent<GameEngineUIRenderer>();
 	QuestUnit.QuestName->Transform.SetLocalPosition(float4(-88.0f, -32.0f, FontDepth));
-	QuestUnit.QuestName->SetText(GlobalValue::Font_Sandoll, Data.lock()->QuestName, QuestNameFontSize, float4::ZERO);
+	QuestUnit.QuestName->SetText(GlobalValue::Font_Sandoll, Data.lock()->QuestName, 16.0f, float4::ZERO);
 
 	QuestUnit.QuestContent = CreateComponent<GameEngineUIRenderer>();
 	QuestUnit.QuestContent->Transform.SetLocalPosition(float4(-72.0f, -56.0f, FontDepth));
@@ -135,14 +133,14 @@ std::string UI_QuestUnit::GetSubjectTextToType(EQUEST _Type)
 
 float UI_QuestUnit::GetRenderYSize(int _ContentLineCount)
 {
-	static constexpr float ContentBasicYSize = 40.0f;
-
 	std::weak_ptr<GameEngineTexture> SubjectBaseTexture = GameEngineTexture::Find("HUD_Quest_Content_1.png");
 	if (true == SubjectBaseTexture.expired())
 	{
 		MsgBoxAssert("등록되지 않은 텍스처를 참조하려했습니다.");
 		return 0.0f;
 	}
+
+	const float ContentBasicYSize = 40.0f;
 
 	const float BaseYScale = ContentBasicYSize + ContentFontSize * static_cast<float>(_ContentLineCount);
 	return BaseYScale;

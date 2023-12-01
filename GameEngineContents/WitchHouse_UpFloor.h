@@ -27,14 +27,10 @@ private:
 	void LoadTexture();
 
 	void SetEllieLevelChangeLocation(class GameEngineLevel* _NextLevel);
-	void CameraSetting();
 
 	void ReleaseTexture();
 
 	void AutoPlayBGM();
-
-private:
-	std::shared_ptr<BackDrop_WitchHouse_UpFloor> Back = nullptr;
 
 };
 

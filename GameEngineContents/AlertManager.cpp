@@ -4,6 +4,8 @@
 #include "UI_Alert_Enter.h"
 #include "UI_Alert_Quest.h"
 
+#include "PlayLevel.h"
+
 bool AlertManager::isAlerting = false;
 AlertManager::AlertManager() 
 {
@@ -13,10 +15,6 @@ AlertManager::~AlertManager()
 {
 }
 
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 void AlertManager::RegisterAlert(const AlertData& _Data)
 {
@@ -50,23 +48,16 @@ void AlertManager::Update(float _Delta)
 
 void AlertManager::AlertCall(const std::shared_ptr<AlertData>& _Data)
 {
-	std::weak_ptr<GameEngineLevel> CurLevel = GameEngineCore::GetCurLevel();
-	if (true == CurLevel.expired())
-	{
-		MsgBoxAssert("존재하지 않는 포인터가 들어있습니다.");
-		return;
-	}
-
 	switch (_Data->Type)
 	{
 	case EALERTTYPE::Enter:
-		UI_Alert_Enter::AlertLevelEnter(CurLevel.lock().get(), _Data->AlertName);
+		UI_Alert_Enter::AlertLevelEnter(PlayLevel::GetPlayLevelPtr(), _Data->AlertName);
 		break;
 	case EALERTTYPE::QuestAccept:
-		UI_Alert_Quest::CallAlertQuest(CurLevel.lock().get(), _Data->AlertName, EALERTTYPE::QuestAccept);
+		UI_Alert_Quest::CallAlertQuest(PlayLevel::GetPlayLevelPtr(), _Data->AlertName, EALERTTYPE::QuestAccept);
 		break;
 	case EALERTTYPE::QuestClear:
-		UI_Alert_Quest::CallAlertQuest(CurLevel.lock().get(), _Data->AlertName, EALERTTYPE::QuestClear);
+		UI_Alert_Quest::CallAlertQuest(PlayLevel::GetPlayLevelPtr(), _Data->AlertName, EALERTTYPE::QuestClear);
 		break;
 	case EALERTTYPE::Tutorial:
 		break;

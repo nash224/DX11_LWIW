@@ -113,7 +113,6 @@ void InteractiveLetter::ConversationSetting()
 					CutsceneFrame = nullptr;
 				}
 
-
 				std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("StartTraining");
 				if (true == Quest.expired())
 				{
@@ -123,12 +122,7 @@ void InteractiveLetter::ConversationSetting()
 
 				Quest.lock()->QuestAccept();
 
-
-				if (nullptr != UIManager::MainUIManager)
-				{
-					UIManager::MainUIManager->UseUIComponent();
-				}
-
+				PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr()->UseUIComponent();
 
 				State.ChangeState(ELETTERSTATE::Disappear);
 			});
@@ -164,10 +158,7 @@ void InteractiveLetter::StartDisappear(GameEngineState* _Parent)
 	std::shared_ptr<DustFx> Dust = GetLevel()->CreateActor<DustFx>(EUPDATEORDER::Objects);
 	Dust->Init(Transform.GetLocalPosition() + float4(0.0f, 0.0f, -2.0f));
 
-	if (nullptr != UIManager::MainUIManager)
-	{
-		UIManager::MainUIManager->DoneUIComponent();
-	}
+	PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr()->DoneUIComponent();
 
 	Death();
 }

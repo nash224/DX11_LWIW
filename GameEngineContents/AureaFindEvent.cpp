@@ -24,6 +24,7 @@ void AureaFindEvent::Update(float _Delta)
 void AureaFindEvent::Release()
 {
 	AureaPtr = nullptr;
+	VirgilConveration.Release();
 }
 
 void AureaFindEvent::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -38,8 +39,6 @@ void AureaFindEvent::Init()
 	ConversationSetting();
 	StateSetting();
 }
-
-
 
 void AureaFindEvent::StateSetting()
 {
@@ -78,25 +77,20 @@ void AureaFindEvent::StartFirstConversation(GameEngineState* _Parent)
 
 void AureaFindEvent::StartAureaFocusOn(GameEngineState* _Parent)
 {
-
-	if (true == CameraControler::MainCameraControler.expired())
+	if (nullptr == AureaPtr)
 	{
-		MsgBoxAssert("카메라가 존재하지 않는데 사용하려 했습니다.");
+		MsgBoxAssert("존재하지 않는 NPC를 참조하려 했습니다.");
 		return;
 	}
 
-	if (nullptr == Ellie::MainEllie)
-	{
-		MsgBoxAssert("플레이어가 존재하지 않습니다.");
-		return;
-	}
+	const std::shared_ptr<CameraControler>& LevelCameraPtr = PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr();
+	LevelCameraPtr->SetCameraMode(ECAMERAMODE::Cinematic);
 
-	CameraControler::MainCameraControler.lock()->SetCameraMode(ECAMERAMODE::Cinematic);
+	const float4& ElliePos = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->Transform.GetLocalPosition();
+	const float4& CameraPos = LevelCameraPtr->AdjustCameraInitialPosition(ElliePos);
 
-	const float4& ElliePos = Ellie::MainEllie->Transform.GetLocalPosition();
-	const float4& CameraPos = CameraControler::MainCameraControler.lock()->AdjustCameraInitialPosition(ElliePos);
-	const float4& NPCPos = AureaPtr->Transform.GetLocalPosition();
-	TargetPos = CameraControler::MainCameraControler.lock()->AdjustCameraInitialPosition(NPCPos);
+	TargetPos = LevelCameraPtr->AdjustCameraInitialPosition(AureaPtr->Transform.GetLocalPosition());
+
 	const float4& TargetVector = TargetPos - CameraPos;
 	const float Radian = std::atan2f(TargetVector.Y, TargetVector.X);
 	CameraDirection = float4::GetUnitVectorFromRad(Radian);
@@ -104,28 +98,14 @@ void AureaFindEvent::StartAureaFocusOn(GameEngineState* _Parent)
 
 void AureaFindEvent::StartAureaFocusOff(GameEngineState* _Parent)
 {
-	std::weak_ptr<GameEngineCamera> Camera = GetLevel()->GetMainCamera();
-	if (true == Camera.expired())
-	{
-		MsgBoxAssert("존재하지 않는 카메라입니다.");
-		return;
-	}
-
-	if (nullptr == Ellie::MainEllie)
-	{
-		MsgBoxAssert("플레이어가 존재하지 않습니다.");
-		return;
-	}
-
-	const float4& WinScale = GlobalValue::GetWindowScale();
-	const float4& CameraPos = Camera.lock()->Transform.GetLocalPosition();
-	const float4& ElliePos = Ellie::MainEllie->Transform.GetLocalPosition();
+	const float4& CameraPos = PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr()->GetCameraCurrentPostion();
+	const float4& ElliePos = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->Transform.GetLocalPosition();
 
 	TargetPos = ElliePos;
 
-	if (ElliePos.Y >= -WinScale.hY())
+	if (ElliePos.Y >= -GlobalValue::GetWindowScale().hY())
 	{
-		TargetPos.Y = -WinScale.hY();
+		TargetPos.Y = -GlobalValue::GetWindowScale().hY();
 	}
 
 	const float4& TargetVector = TargetPos - CameraPos;
@@ -141,16 +121,13 @@ void AureaFindEvent::StartSecondConversation(GameEngineState* _Parent)
 
 void AureaFindEvent::UpdateAureaFocusOn(float _Delta, GameEngineState* _Parent)
 {
-	if (false == CameraControler::MainCameraControler.expired())
-	{
-		const float4& MoveCameraVector = CameraDirection* CameraMovePower* _Delta;
-		CameraControler::MainCameraControler.lock()->AddCameraPos(MoveCameraVector);
+	const float4& MoveCameraVector = CameraDirection* CameraMovePower* _Delta;
+	PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr()->AddCameraPos(MoveCameraVector);
 
-		float Distance = CalculateDistanceCamemeraToActor(TargetPos);
-		if (Distance < 4.0f)
-		{
-			State.ChangeState(ECURSEEVENTSTATE::Stay);
-		}
+	float Distance = CalculateDistanceCamemeraToActor(TargetPos);
+	if (Distance < 4.0f)
+	{
+		State.ChangeState(ECURSEEVENTSTATE::Stay);
 	}
 }
 
@@ -164,16 +141,13 @@ void AureaFindEvent::UpdateStay(float _Delta, GameEngineState* _Parent)
 
 void AureaFindEvent::UpdateAureaFocusOff(float _Delta, GameEngineState* _Parent)
 {
-	if (false == CameraControler::MainCameraControler.expired())
-	{
-		const float4& MoveCameraVector = CameraDirection * CameraMovePower * _Delta;
-		CameraControler::MainCameraControler.lock()->AddCameraPos(MoveCameraVector);
+	const float4& MoveCameraVector = CameraDirection * CameraMovePower * _Delta;
+	PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr()->AddCameraPos(MoveCameraVector);
 
-		float Distance = CalculateDistanceCamemeraToActor(TargetPos);
-		if (Distance < 4.0f)
-		{
-			State.ChangeState(ECURSEEVENTSTATE::SecondConversation);
-		}
+	float Distance = CalculateDistanceCamemeraToActor(TargetPos);
+	if (Distance < 4.0f)
+	{
+		State.ChangeState(ECURSEEVENTSTATE::SecondConversation);
 	}
 }
 
@@ -200,7 +174,7 @@ void AureaFindEvent::ConversationSetting()
 
 	VirgilConveration.SetConversationEndEvent(ECURSEEVENTTOPIC::Look, [&]()
 		{
-			UIManager::MainUIManager->UseUIComponent();
+			PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr()->UseUIComponent();
 			State.ChangeState(ECURSEEVENTSTATE::AureaFocusOn);
 		});
 
@@ -221,10 +195,7 @@ void AureaFindEvent::ConversationSetting()
 
 	VirgilConveration.SetConversationEndEvent(ECURSEEVENTTOPIC::Closer, [&]()
 		{
-			if (false == CameraControler::MainCameraControler.expired())
-			{
-				CameraControler::MainCameraControler.lock()->SetCameraMode(ECAMERAMODE::Play);
-			}
+			PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr()->SetCameraMode(ECAMERAMODE::Play);
 			Death();
 		});
 }

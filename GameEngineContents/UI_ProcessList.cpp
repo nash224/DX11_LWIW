@@ -156,15 +156,9 @@ void UI_ProcessList::Open()
 	On();
 	UIGuide.On();
 
-	if (nullptr == UI_Inventory::MainInventory)
-	{
-		MsgBoxAssert("인벤토리가 존재하지 않는데 참조하려 했습니다.");
-		return;
-	}
-
 	for (std::shared_ptr<UI_ProcessListUnit>& UnitList : SlotVec)
 	{
-		int SrcCount = UI_Inventory::MainInventory->ReturnItemCount(UnitList->SrcName);
+		int SrcCount = UI_Inventory::ReturnItemCount(UnitList->SrcName);
 		UnitList->SrcCount = SrcCount;
 		UnitList->RenewRenderer();
 	}
@@ -183,7 +177,7 @@ void UI_ProcessList::Close()
 
 void UI_ProcessList::CloseAllSlot()
 {
-	for (const std::shared_ptr<UI_ProcessListUnit> ListUnit : SlotVec)
+	for (const std::shared_ptr<UI_ProcessListUnit>& ListUnit : SlotVec)
 	{
 		ListUnit->Off();
 	}

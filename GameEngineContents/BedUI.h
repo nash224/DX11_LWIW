@@ -51,14 +51,18 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
-
 private:
 	void RendererSetting();
+
+	////////
+	// State
 	void StateSetting();
 
+	// Start
 	void StartPopUp(GameEngineState* _Parent);
 	void StartGoDream(GameEngineState* _Parent);
 
+	// Update
 	void UpdatePopUp(float _Delta, GameEngineState* _Parent);
 	void UpdateSelect(float _Delta, GameEngineState* _Parent);
 	void UpdateDisappear(float _Delta, GameEngineState* _Parent);
@@ -68,11 +72,12 @@ private:
 	void Close();
 	void Reset();
 
-	void SetScale(float _Size);
+	void SetUIWindowScale(float _Size);
 	void SetFontScale(float _Size);
+
+	// Cursor
 	void UpdateCursor();
 	void MoveCursor(int _Value);
-
 	void SetCursorLocalPosition(bool _isLeft);
 
 private:
@@ -83,7 +88,6 @@ private:
 
 	GameEngineState State;
 
-	static constexpr const float Tooltip_Gap = 12.0f;
 	float4 TooltipScale = float4::ZERO;
 
 	bool isGoDream = false;
@@ -93,8 +97,6 @@ private:
 	static constexpr float TransitionTime = 0.1f;
 	static constexpr float ScaleUpRatio = 1.2f;
 	static constexpr float PopUpScaleRatio = 1.0f;
-	
-
 
 };
 

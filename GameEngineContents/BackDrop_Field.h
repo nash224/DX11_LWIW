@@ -26,7 +26,7 @@ protected:
 	void Update(float _Delta) override;
 	void Release() override {}
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
-	void LevelEnd(class GameEngineLevel* _NextLevel) override;
+	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 	
 	void CreateBush(const float4& _Position, EBUSHTYPE _Type);
@@ -41,10 +41,11 @@ protected:
 	void LeavePopulation();
 	void LeaveFlowerBird();
 
+
 	template<typename EntityType>
 	void ReleaseEntity()
 	{
-		std::vector<std::shared_ptr<EntityType>> EntityGroup = GetLevel()->GetObjectGroupConvert<EntityType>(EUPDATEORDER::Entity);
+		const std::vector<std::shared_ptr<EntityType>>& EntityGroup = GetLevel()->GetObjectGroupConvert<EntityType>(EUPDATEORDER::Entity);
 		for (std::weak_ptr<EntityType> Entity : EntityGroup)
 		{
 			if (true == Entity.expired())
@@ -85,7 +86,6 @@ private:
 	bool isNight = false;
 
 	int FieldDay = -1;
-
 
 };
 

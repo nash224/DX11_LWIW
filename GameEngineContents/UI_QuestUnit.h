@@ -43,7 +43,6 @@ protected:
 	std::string GetSubjectTextToType(EQUEST _Type);
 	float GetRenderYSize(int _ContentLineCount);
 
-
 private:
 	UIQuestUnitSturct QuestUnit;
 	std::weak_ptr<QuestData> Data;

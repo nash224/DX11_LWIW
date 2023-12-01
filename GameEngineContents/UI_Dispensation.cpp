@@ -153,13 +153,7 @@ void UI_Dispensation::Open()
 {
 	GameEngineInput::IsOnlyInputObject(this);
 
-	if (nullptr == UIManager::MainUIManager)
-	{
-		MsgBoxAssert("UI 매니저가 존재하지 않습니다.");
-		return;
-	}
-
-	UIManager::MainUIManager->OpenInventory(EINVENTORYMODE::Dispensation);
+	PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr()->OpenInventory(EINVENTORYMODE::Dispensation);
 
 	On();
 }
@@ -168,13 +162,14 @@ void UI_Dispensation::Close()
 {
 	GameEngineInput::IsObjectAllInputOn();
 
-	if (nullptr == UIManager::MainUIManager)
+	if (nullptr == PlayLevel::s_MainPlayLevel)
 	{
-		MsgBoxAssert("UI 매니저가 존재하지 않습니다.");
+		MsgBoxAssert("레벨이 존재하지 않습니다.");
 		return;
 	}
 
-	UIManager::MainUIManager->CloseInventory();
+	PlayLevel::s_MainPlayLevel->GetUIManagerPtr()->CloseInventory();
+	PlayLevel::s_MainPlayLevel->GetPlayerPtr()->FinishWork();
 
 	Off();
 
@@ -310,19 +305,13 @@ void UI_Dispensation::Dispensation()
 
 	Off();
 
-	if (nullptr == UI_Inventory::MainInventory)
-	{
-		MsgBoxAssert("인벤토리를 모릅니다.");
-		return;
-	}
-
-	UI_Inventory::MainInventory->Off();
+	PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr()->GetInventoryPtr()->Off();
 }
 
 bool UI_Dispensation::CheckDispensation(const ProductRecipeData& _Data)
 {
 	std::map<std::string, std::shared_ptr<ProductRecipeData>>& NameData = ProductRecipeData::GetAllData();
-	for (std::pair<std::string, std::shared_ptr<ProductRecipeData>> Data : NameData)
+	for (const std::pair<std::string, std::shared_ptr<ProductRecipeData>>& Data : NameData)
 	{
 		std::shared_ptr<ProductRecipeData> Recpie = Data.second;
 		if (_Data == Recpie.get())
@@ -340,20 +329,11 @@ void UI_Dispensation::PopDispensationMaterial(std::string_view _ItemName)
 {
 	if (false == _ItemName.empty())
 	{
-		if (nullptr == UI_Inventory::MainInventory)
-		{
-			MsgBoxAssert("인벤토리가 존재하지 않습니다.");
-			return;
-		}
+		const int _ItemCount = ProductRecipeData::GetNeedMaterialCount(CreatedProductName, _ItemName);
 
-		const std::uint32_t _ItemCount = ProductRecipeData::GetNeedMaterialCount(CreatedProductName, _ItemName);
-
-		UI_Inventory::MainInventory->PopItem(_ItemName, _ItemCount);
+		UI_Inventory::PopItem(_ItemName, _ItemCount);
 	}
 }
-
-
-/////////////////////////////////////////////////////////////////////////////////////
 
 
 void UI_Dispensation::UpdateKey()

@@ -5,6 +5,8 @@
 
 #include "DustFx.h"
 
+static constexpr float RemoveDustTime = 1.6f;
+
 Dust::Dust() 
 {
 }
@@ -12,7 +14,6 @@ Dust::Dust()
 Dust::~Dust() 
 {
 }
-
 
 void Dust::Start()
 {
@@ -32,10 +33,8 @@ void Dust::Update(float _Delta)
 void Dust::Release()
 {
 	InteractiveActor::Release();
+	AboutConversation.Release();
 }
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 void Dust::Init(std::string_view _DustSpriteName, bool _isGroundDust /*= false*/)
 {
@@ -72,10 +71,8 @@ void Dust::ConversationSetting()
 {
 	{
 		Topic AboutTopic;
-
 		AboutTopic.Data.reserve(64);
 		AboutTopic.Data = ConversationDatas;
-
 		AboutTopic.Data.shrink_to_fit();
 		AboutConversation.CreateTopic(EDUSTTOPICTYPE::About, AboutTopic);
 
@@ -138,10 +135,7 @@ void Dust::StateSetting()
 
 void Dust::StartRemove(GameEngineState* _Parent)
 {
-	if (nullptr != UIManager::MainUIManager)
-	{
-		UIManager::MainUIManager->UseUIComponent();
-	}
+	PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr()->UseUIComponent();
 
 	InteractiveActor::BodyRenderer->Off();
 
@@ -151,10 +145,7 @@ void Dust::StartRemove(GameEngineState* _Parent)
 
 void Dust::StartConverse(GameEngineState* _Parent)
 {
-	if (nullptr != UIManager::MainUIManager)
-	{
-		UIManager::MainUIManager->DoneUIComponent();
-	}
+	PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr()->DoneUIComponent();
 
 	AboutConversation.StartConversation(EDUSTTOPICTYPE::About);
 }

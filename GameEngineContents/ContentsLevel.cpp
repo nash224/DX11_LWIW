@@ -79,3 +79,14 @@ void ContentsLevel::ChangeDebugMode()
 		}
 	}
 }
+
+std::shared_ptr<class CameraControler> ContentsLevel::GetLevelCameraPtr() const
+{
+	if (nullptr == LevelCamera)
+	{
+		MsgBoxAssert("카메라 매니저가 존재하지 않습니다.");
+		return nullptr;
+	}
+
+	return LevelCamera;
+}

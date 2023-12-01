@@ -4,7 +4,7 @@
 #include "ContentsEvent.h"
 
 
-ETOOLTYPE UI_Hub_Tool::m_CurrentTool = ETOOLTYPE::None;
+ETOOLTYPE UI_Hub_Tool::CurRenderToolType = ETOOLTYPE::None;
 UI_Hub_Tool::UI_Hub_Tool() 
 {
 	if (nullptr == GameEngineSound::FindSound("SFX_ToolSwap_01.wav"))
@@ -17,6 +17,11 @@ UI_Hub_Tool::UI_Hub_Tool()
 		{
 			GameEngineSound::SoundLoad(pfile.GetStringPath());
 		}
+	}
+
+	if (nullptr == GameEngineSprite::Find("Tool_Icon.png"))
+	{
+		GameEngineSprite::CreateCut("Tool_Icon.png", 3, 1);
 	}
 }
 
@@ -38,41 +43,31 @@ void UI_Hub_Tool::Update(float _Delta)
 
 void UI_Hub_Tool::LevelStart(class GameEngineLevel* _NextLevel)
 {
-	ChangeToolImg(m_CurrentTool);
+	ChangeToolImg(CurRenderToolType);
 }
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 
 void UI_Hub_Tool::Init()
 {
-	if (nullptr == GameEngineSprite::Find("Tool_Icon.png"))
-	{
-		GameEngineSprite::CreateCut("Tool_Icon.png", 3, 1);
-	}
-
-	m_CurrentTool = ETOOLTYPE::Gloves;
+	CurRenderToolType = ETOOLTYPE::Gloves;
 
 	Transform.AddLocalPosition({ -418.0f , -196.0f });
 
 
-	m_Tool = CreateComponent<GameEngineUIRenderer>();
-	m_Tool->Transform.SetLocalPosition(float4(0.0f, 0.0f, DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Icon)));
-	m_Tool->SetSprite("Tool_Icon.png", static_cast<int>(m_CurrentTool));
+	Tool = CreateComponent<GameEngineUIRenderer>();
+	Tool->Transform.SetLocalPosition(float4(0.0f, 0.0f, DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Icon)));
+	Tool->SetSprite("Tool_Icon.png", static_cast<int>(CurRenderToolType));
 
-	m_LeftArrow = CreateComponent<GameEngineUIRenderer>();
-	m_LeftArrow->SetSprite("HUD_Arrow_Left.png");
-	m_LeftArrow->Transform.AddLocalPosition(float4(-28.0f, 0.0f, DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::UIArrow)));
+	LeftArrow = CreateComponent<GameEngineUIRenderer>();
+	LeftArrow->SetSprite("HUD_Arrow_Left.png");
+	LeftArrow->Transform.AddLocalPosition(float4(-28.0f, 0.0f, DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::UIArrow)));
 
-	m_RightArrow = CreateComponent<GameEngineUIRenderer>();
-	m_RightArrow->SetSprite("HUD_Arrow_Left.png");
-	m_RightArrow->LeftFlip();
-	m_RightArrow->Transform.AddLocalPosition(float4(26.0f, 0.0f, DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::UIArrow)));
+	RightArrow = CreateComponent<GameEngineUIRenderer>();
+	RightArrow->SetSprite("HUD_Arrow_Left.png");
+	RightArrow->LeftFlip();
+	RightArrow->Transform.AddLocalPosition(float4(26.0f, 0.0f, DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::UIArrow)));
 }
 
-
-/////////////////////////////////////////////////////////////////////////////////////
 
 void UI_Hub_Tool::DetectToolChange()
 {
@@ -94,7 +89,7 @@ void UI_Hub_Tool::NextTool()
 		return;
 	}
 
-	int ToolValue = static_cast<int>(m_CurrentTool);
+	int ToolValue = static_cast<int>(CurRenderToolType);
 
 	while (true)
 	{
@@ -107,14 +102,14 @@ void UI_Hub_Tool::NextTool()
 
 		if (true == ContentsEvent::ToolData[ToolValue])
 		{
-			m_CurrentTool = static_cast<ETOOLTYPE>(ToolValue);
+			CurRenderToolType = static_cast<ETOOLTYPE>(ToolValue);
 			break;
 		}
 	}
 
 	ChangeToolImg();
 
-	IsChangeTool = true;
+	isChangeTool = true;
 }
 
 void UI_Hub_Tool::PrevTool()
@@ -124,7 +119,7 @@ void UI_Hub_Tool::PrevTool()
 		return;
 	}
 
-	int ToolValue = static_cast<int>(m_CurrentTool);
+	int ToolValue = static_cast<int>(CurRenderToolType);
 
 	while (true)
 	{
@@ -137,21 +132,21 @@ void UI_Hub_Tool::PrevTool()
 
 		if (true == ContentsEvent::ToolData[ToolValue])
 		{
-			m_CurrentTool = static_cast<ETOOLTYPE>(ToolValue);
+			CurRenderToolType = static_cast<ETOOLTYPE>(ToolValue);
 			break;
 		}
 	}
-
+	
 	ChangeToolImg();
 
-	IsChangeTool = true;
+	isChangeTool = true;
 }
 
 bool UI_Hub_Tool::RemainToolCheck()
 {
 	int TrueValue = 0;
 
-	for (size_t i = 0; i < ContentsEvent::ToolData.size(); i++)
+	for (int i = 0; i < ContentsEvent::ToolData.size(); i++)
 	{
 		if (true == ContentsEvent::ToolData[i])
 		{
@@ -174,20 +169,20 @@ bool UI_Hub_Tool::RemainToolCheck()
 
 void UI_Hub_Tool::ChangeToolImg()
 {
-	if (m_CurrentToolRenderNumber == static_cast<int>(m_CurrentTool))
+	if (CurRenderToolNum == static_cast<int>(CurRenderToolType))
 	{
 		return;
 	}
 
-	if (nullptr == m_Tool)
+	if (nullptr == Tool)
 	{
 		MsgBoxAssert("존재하지 않은 렌더러를 생성하려 했습니다.");
 		return;
 	}
 
-	m_Tool->SetSprite("Tool_Icon.png", static_cast<int>(m_CurrentTool));
+	Tool->SetSprite("Tool_Icon.png", static_cast<int>(CurRenderToolType));
 
-	m_CurrentToolRenderNumber = static_cast<int>(m_CurrentTool);
+	CurRenderToolNum = static_cast<int>(CurRenderToolType);
 
 	SFXFunction::PlaySFX("SFX_ToolSwap_01.wav");
 }
@@ -195,15 +190,15 @@ void UI_Hub_Tool::ChangeToolImg()
 
 void UI_Hub_Tool::ChangeToolImg(ETOOLTYPE _Type)
 {
-	if (nullptr == m_Tool)
+	if (nullptr == Tool)
 	{
 		MsgBoxAssert("존재하지 않은 렌더러를 생성하려 했습니다.");
 		return;
 	}
 
-	m_Tool->SetSprite("Tool_Icon.png", static_cast<int>(_Type));
+	Tool->SetSprite("Tool_Icon.png", static_cast<int>(_Type));
 
-	m_CurrentToolRenderNumber = static_cast<int>(_Type);
+	CurRenderToolNum = static_cast<int>(_Type);
 }
 
 

@@ -8,17 +8,17 @@
 UI_Hub_Calender::UI_Hub_Calender() 
 {
 	PlayLevel::s_TimeManager;
+
+	if (nullptr == GameEngineSprite::Find("Month_Symbol.png"))
+	{
+		GameEngineSprite::CreateCut("Month_Symbol.png", 4, 1);
+	}
 }
 
 UI_Hub_Calender::~UI_Hub_Calender() 
 {
 }
 
-
-void UI_Hub_Calender::Start()
-{
-
-}
 
 void UI_Hub_Calender::Update(float _Delta)
 {
@@ -35,19 +35,6 @@ void UI_Hub_Calender::Release()
 	Calender.Font_Meridiem = nullptr;
 }
 
-void UI_Hub_Calender::LevelStart(class GameEngineLevel* _NextLevel)
-{
-
-}
-
-void UI_Hub_Calender::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-	
-}
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 void UI_Hub_Calender::Init()
 {
@@ -58,15 +45,8 @@ void UI_Hub_Calender::Init()
 
 void UI_Hub_Calender::RendererSetting()
 {
-	if (nullptr == GameEngineSprite::Find("Month_Symbol.png"))
-	{
-		GameEngineSprite::CreateCut("Month_Symbol.png", 4, 1);
-	}
-
-
-	static constexpr const int RendererOrder = 0;
+	const int RendererOrder = 0;
 	const float CalenderDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Frame);
-
 
 	Calender.UnderLine = CreateComponent<GameEngineUIRenderer>(RendererOrder);
 	Calender.UnderLine->Transform.SetLocalPosition(float4(0.0f , 0.0f, CalenderDepth));
@@ -101,7 +81,7 @@ void UI_Hub_Calender::UpateCalender()
 	Calender.UpdateAll();
 }
 
-void UI_Hub_Calender::CalenderInfo::UpdateAll()
+void UI_Hub_Calender::CalenderStruct::UpdateAll()
 {
 	if (nullptr != PlayLevel::s_TimeManager)
 	{
@@ -111,7 +91,7 @@ void UI_Hub_Calender::CalenderInfo::UpdateAll()
 	}
 }
 
-void UI_Hub_Calender::CalenderInfo::UpdateRenderDayAndWeek()
+void UI_Hub_Calender::CalenderStruct::UpdateRenderDayAndWeek()
 {
 	const int CurDayCount = PlayLevel::s_TimeManager->GetDayCount();
 	const int WeekNumber = CurDayCount % 7;
@@ -164,7 +144,7 @@ void UI_Hub_Calender::CalenderInfo::UpdateRenderDayAndWeek()
 	}
 }
 
-void UI_Hub_Calender::CalenderInfo::UpdateRenderTime()
+void UI_Hub_Calender::CalenderStruct::UpdateRenderTime()
 {
 	 const int CurHour = PlayLevel::s_TimeManager->GetHour();
 	 const int CurTenMinute = PlayLevel::s_TimeManager->GetMinute() / 10 * 10;
@@ -211,7 +191,7 @@ void UI_Hub_Calender::CalenderInfo::UpdateRenderTime()
 	 }
 }
 
-void UI_Hub_Calender::CalenderInfo::UpdateSymbol()
+void UI_Hub_Calender::CalenderStruct::UpdateSymbol()
 {
 	if (nullptr != PlayLevel::s_TimeManager)
 	{
@@ -245,13 +225,13 @@ void UI_Hub_Calender::CalenderInfo::UpdateSymbol()
 	}
 }
 
-void UI_Hub_Calender::CalenderInfo::UpdateMeridiem(std::string_view _Text)
+void UI_Hub_Calender::CalenderStruct::UpdateMeridiem(std::string_view _Text)
 {
 	SetCalenderFont(Font_Meridiem, _Text, Meridiem_Font_Scale);
 }
 
 
-void UI_Hub_Calender::CalenderInfo::DayReset()
+void UI_Hub_Calender::CalenderStruct::DayReset()
 {
 	RenderTime = 0;
 	RenderDayState = EDAYSTATE::None;
@@ -259,10 +239,9 @@ void UI_Hub_Calender::CalenderInfo::DayReset()
 	UpdateMeridiem("AM");
 }
 
-void UI_Hub_Calender::CalenderInfo::SetCalenderFont(
+void UI_Hub_Calender::CalenderStruct::SetCalenderFont(
 	const std::shared_ptr<GameEngineUIRenderer>& _FontRenderer, 
-	std::string_view _Text, 
-	float _Scale)
+	std::string_view _Text, float _Scale) const
 {
 	_FontRenderer->SetText(FontStyle.data(), _Text.data(), _Scale, FontColorWhite);
 }

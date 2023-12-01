@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "CrowEvent.h"
 
+#include "PlayLevel.h"
 #include "UIManager.h"
 
 
@@ -13,7 +14,7 @@ CrowEvent::CrowEvent()
 		Dir.MoveParentToExistsChild("Resources");
 		Dir.MoveChild("Resources\\Sound\\Actor\\Crow");
 		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-		for (GameEngineFile pFile : Files)
+		for (GameEngineFile& pFile : Files)
 		{
 			GameEngineSound::SoundLoad(pFile.GetStringPath());
 		}
@@ -31,10 +32,7 @@ void CrowEvent::Update(float _Delta)
 	if (false == EventStart)
 	{
 		EventStart = true;
-		if (nullptr != UIManager::MainUIManager)
-		{
-			UIManager::MainUIManager->UseUIComponent();
-		}
+		PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr()->UseUIComponent();
 	}
 
 	State.Update(_Delta);
@@ -44,7 +42,7 @@ void CrowEvent::Update(float _Delta)
 void CrowEvent::Release()
 {
 	CrowRenderer = nullptr;
-
+	CrowConveration.Release();
 
 	if (nullptr != GameEngineSprite::Find("Crow.png"))
 	{
@@ -52,19 +50,10 @@ void CrowEvent::Release()
 	}
 }
 
-void CrowEvent::LevelStart(class GameEngineLevel* _NextLevel)
-{
-
-}
-
-
 void CrowEvent::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	Death();
 }
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 void CrowEvent::Init()
 {
@@ -73,8 +62,7 @@ void CrowEvent::Init()
 		GameEngineSprite::CreateCut("Crow.png", 4, 4);
 	}
 
-	const float4 CrowPosition = float4(435.0f, -250.0f, DepthFunction::CalculateFixDepth(ERENDERDEPTH::FX));
-	Transform.SetLocalPosition(CrowPosition);
+	Transform.SetLocalPosition(float4(435.0f, -250.0f, DepthFunction::CalculateFixDepth(ERENDERDEPTH::FX)));
 
 	RendererSetting();
 	StateSetting();
@@ -83,7 +71,7 @@ void CrowEvent::Init()
 
 void CrowEvent::RendererSetting()
 {
-	const std::uint32_t RendererGroup = 0;
+	const int RendererGroup = 0;
 	CrowRenderer = CreateComponent<GameEngineSpriteRenderer>(RendererGroup);
 	CrowRenderer->AutoSpriteSizeOn();
 	CrowRenderer->CreateAnimation("Idle", "Crow.png", 5.0f,1, 1, false);
@@ -108,8 +96,7 @@ void CrowEvent::RendererSetting()
 
 	CrowRenderer->SetStartEvent("Disappear", [&](GameEngineSpriteRenderer* _Parent)
 		{
-			GameEngineSoundPlayer CrowDisappear = GameEngineSound::SoundPlay("SFX_CrowDisappear_01.wav");
-			CrowDisappear.SetVolume(GlobalValue::GetSFXVolume());
+			SFXFunction::PlaySFX("SFX_CrowDisappear_01.wav");
 		});
 
 	CrowRenderer->SetEndEvent("Disappear", [&](GameEngineSpriteRenderer* _Parent)
@@ -128,7 +115,6 @@ void CrowEvent::StateSetting()
 	EventStartState.Stay = std::bind(&CrowEvent::UpdateEventStart, this, std::placeholders::_1, std::placeholders::_2);
 	State.CreateState(ECROWSTATE::EventStart, EventStartState);
 
-
 	CreateStateParameter IdleState;
 	IdleState.Stay = std::bind(&CrowEvent::UpdateIdle, this, std::placeholders::_1, std::placeholders::_2);
 	State.CreateState(ECROWSTATE::Idle, IdleState);
@@ -142,7 +128,8 @@ void CrowEvent::StateSetting()
 
 void CrowEvent::UpdateEventStart(float _DeltaTime, GameEngineState* _Parent)
 {
-	if (_Parent->GetStateTime() > Caw_Wait_Time)
+	const float Caw_WaitTime = 2.0f;
+	if (_Parent->GetStateTime() > Caw_WaitTime)
 	{
 		State.ChangeState(ECROWSTATE::Idle);
 		ConverseWithEllie();
@@ -165,9 +152,7 @@ void CrowEvent::UpdateIdle(float _DeltaTime, GameEngineState* _Parent)
 
 		CrowRenderer->ChangeAnimation("Caw", true);
 
-
-		GameEngineSoundPlayer Caw = GameEngineSound::SoundPlay("SFX_CrowCrying_01.wav");
-		Caw.SetVolume(GlobalValue::GetSFXVolume());
+		SFXFunction::PlaySFX("SFX_CrowCrying_01.wav");
 	}
 }
 
@@ -222,14 +207,7 @@ void CrowEvent::ConversationSetting()
 		{
 			CrowRenderer->ChangeAnimation("Disappear");
 
-
-			if (nullptr == UIManager::MainUIManager)
-			{
-				MsgBoxAssert("UI매니저가 존재하지 않습니다.");
-				return;
-			}
-
-			UIManager::MainUIManager->UseUIComponent();
+			PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr()->UseUIComponent();
 
 			State.ChangeState(ECROWSTATE::Disappear);
 		});
@@ -242,10 +220,10 @@ void CrowEvent::ConversationSetting()
 	DisappearTopic.Data =
 	{
 		{ L"이렇게 갑자기?" , ECONVERSATIONENTITY::Ellie, 1 },
-		{ L"마녀 까마귀는 그렇게 말이 잘 통하는 편은 아니지." , ECONVERSATIONENTITY::Virgil, 1 ,{ConversationFont::Color_BLACK, GlobalValue::Font_JejuHanlasan}},
+		{ L"마녀 까마귀는 그렇게 말이 잘 통하는 편은 아니지." , ECONVERSATIONENTITY::Virgil, 1 , ConversationFont::VigilDefaultFont},
 		{ L"음, 그럼 일단은 계속 주변을 탐색 해볼까?" , ECONVERSATIONENTITY::Ellie, 5 },
-		{ L"마녀 카탈로그는 언제 올지 모르니까 말야" , ECONVERSATIONENTITY::Virgil, 5,{ConversationFont::Color_BLACK, GlobalValue::Font_JejuHanlasan} },
-		{ L"우선 그렇게 하자." , ECONVERSATIONENTITY::Virgil, 5,{ConversationFont::Color_BLACK, GlobalValue::Font_JejuHanlasan} },
+		{ L"마녀 카탈로그는 언제 올지 모르니까 말야" , ECONVERSATIONENTITY::Virgil, 5, ConversationFont::VigilDefaultFont },
+		{ L"우선 그렇게 하자." , ECONVERSATIONENTITY::Virgil, 5, ConversationFont::VigilDefaultFont },
 	};
 
 	DisappearTopic.Data.shrink_to_fit();

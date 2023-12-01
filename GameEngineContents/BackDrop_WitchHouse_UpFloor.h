@@ -15,7 +15,7 @@ public:
 	BackDrop_WitchHouse_UpFloor& operator=(const BackDrop_WitchHouse_UpFloor& _Other) = delete;
 	BackDrop_WitchHouse_UpFloor& operator=(BackDrop_WitchHouse_UpFloor&& _Other) noexcept = delete;
 
-	void Init();
+	void RenewMap();
 
 	float4 GetHouseLocation() const
 	{

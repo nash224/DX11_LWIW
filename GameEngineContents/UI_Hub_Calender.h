@@ -7,7 +7,7 @@
 class UI_Hub_Calender : public UI_Hub_Actor
 {
 private:
-	class CalenderInfo
+	class CalenderStruct
 	{
 	public:
 		std::shared_ptr<GameEngineUIRenderer> UnderLine;
@@ -41,10 +41,8 @@ private:
 
 		void DayReset();
 
-		void SetCalenderFont(
-			const std::shared_ptr<GameEngineUIRenderer>& _FontRenderer,
-			std::string_view _Text, 
-			float _Scale);
+		void SetCalenderFont(const std::shared_ptr<GameEngineUIRenderer>& _FontRenderer,
+			std::string_view _Text, float _Scale) const;
 
 	};
 
@@ -62,20 +60,18 @@ public:
 
 	void Init();
 	
-	
-
 protected:
-	void Start() override;
+	void Start() override {}
 	void Update(float _Delta) override;
 	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
-	void LevelEnd(class GameEngineLevel* _NextLevel) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
+	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 	void RendererSetting();
 	void UpateCalender();
 
 private:
-	CalenderInfo Calender;
+	CalenderStruct Calender;
 
 };
 

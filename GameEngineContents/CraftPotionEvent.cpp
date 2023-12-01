@@ -15,6 +15,12 @@ void CraftPotionEvent::Update(float _Delta)
 	SingleEvent::Update(_Delta);
 }
 
+
+void CraftPotionEvent::Release()
+{
+	SingleEvent::Release();
+}
+
 void CraftPotionEvent::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	Death();

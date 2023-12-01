@@ -44,15 +44,12 @@ void Aurea::CheckAureaCurseConversation()
 	}
 	else
 	{
-		if (nullptr != UI_Inventory::MainInventory)
+		if (true == UI_Inventory::IsItem("UncurseCandy"))
 		{
-			if (true == UI_Inventory::MainInventory->IsItem("UncurseCandy"))
-			{
-				UI_Inventory::MainInventory->PopItem("UncurseCandy", 1);
+			UI_Inventory::PopItem("UncurseCandy", 1);
 
-				NPCEntity::ConverseWithEllie(EAUREATOPICTYPE::CurseCure);
-				return;
-			}
+			NPCEntity::ConverseWithEllie(EAUREATOPICTYPE::CurseCure);
+			return;
 		}
 		
 		NPCEntity::ConverseWithEllie(EAUREATOPICTYPE::CursedNatural);

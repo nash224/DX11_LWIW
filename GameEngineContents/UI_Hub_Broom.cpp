@@ -27,9 +27,6 @@ void UI_Hub_Broom::Release()
 	IconRenderer = nullptr;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
 void UI_Hub_Broom::Init()
 {
 	Transform.AddLocalPosition(float4(-419.0f, -156.0f ));
@@ -47,22 +44,18 @@ void UI_Hub_Broom::RendererSetting()
 	const float GaugeDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Gauge1);
 	const float IconDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Frame);
 
-	const float4& FramePosition = float4(0.0f, 0.0f, FrameDepth);
-	const float4& GaugePosition = float4(-1.0f, 0.0f, GaugeDepth);
-	const float4& IconPosition = float4(0.0f, 32.0f, IconDepth);
-
 	FrameRenderer = CreateComponent<GameEngineUIRenderer>();
-	FrameRenderer->Transform.SetLocalPosition(FramePosition);
+	FrameRenderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, FrameDepth));
 	FrameRenderer->SetSprite("HUD_Broom_Gauge_Frame.png");
 
 	GaugeRenderer = CreateComponent<ContentsUIRenderer>();
-	GaugeRenderer->Transform.AddLocalPosition(GaugePosition);
+	GaugeRenderer->Transform.AddLocalPosition(float4(-1.0f, 0.0f, GaugeDepth));
 	GaugeRenderer->SetMaterial("GaugeTexture2D");
 	GaugeRenderer->GetGaugeInfo().LineGauge = 1;
 	GaugeRenderer->SetSprite("HUD_Broom_Gauge_1.png");
 
 	IconRenderer = CreateComponent<GameEngineUIRenderer>();
-	IconRenderer->Transform.AddLocalPosition(IconPosition);
+	IconRenderer->Transform.AddLocalPosition(float4(0.0f, 32.0f, IconDepth));
 	IconRenderer->SetSprite("Tool_BroomA.png");
 	IconRenderer->LeftFlip();
 }
@@ -115,15 +108,12 @@ void UI_Hub_Broom::UpdateHasNotBroom(float _Delta, GameEngineState* _Parent)
 
 void UI_Hub_Broom::UpdateGauge(float _Delta, GameEngineState* _Parent)
 {
-	if (nullptr != Ellie::MainEllie)
+	if (PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->GetBroomFuel() != RenderingAccFuel)
 	{
-		if (Ellie::MainEllie->GetBroomFuel() != RenderingAccFuel)
-		{
-			RenderingAccFuel = Ellie::MainEllie->GetBroomFuel();
+		RenderingAccFuel = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->GetBroomFuel();
 
-			const float FuelGaugeRatio = RenderingAccFuel / MAX_FUEL;
-			GaugeRenderer->GetGaugeInfo().Gauge = FuelGaugeRatio;
-		}
+		const float FuelGaugeRatio = RenderingAccFuel / MAX_FUEL;
+		GaugeRenderer->GetGaugeInfo().Gauge = FuelGaugeRatio;
 	}
 }
 

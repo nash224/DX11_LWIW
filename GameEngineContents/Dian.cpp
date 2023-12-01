@@ -173,11 +173,8 @@ void Dian::ConversationSetting()
 
 		NPCConversation.SetConversationEvent(EDIANTOPICTYPE::WitchCatalogue, 22, [&]()
 			{
-				if (nullptr != UI_Inventory::MainInventory)
-				{
-					UI_Inventory::MainInventory->PushItem("Item_Etc_12");
-					UI_Inventory::MainInventory->UnlockSlot();
-				}
+				UI_Inventory::PushItem("Item_Etc_12");
+				UI_Inventory::UnlockSlot();
 
 				ContentsEvent::HasWitchBroom = true;
 			});
@@ -197,14 +194,11 @@ void Dian::ConversationSetting()
 
 		NPCConversation.SetConversationEndEvent(EDIANTOPICTYPE::WitchCatalogue, [&]()
 			{
-				if (nullptr != UI_Inventory::MainInventory)
+				if (false == UI_Inventory::IsItem("Item_Etc_11"))
 				{
-					if (false == UI_Inventory::MainInventory->IsItem("Item_Etc_11"))
-					{
-						UI_Inventory::MainInventory->PushItem("Item_Etc_11");
-						UI_Inventory::MainInventory->UnlockSlot();
-						ContentsEvent::HasWitchBroom = true;
-					}
+					UI_Inventory::PushItem("Item_Etc_11");
+					UI_Inventory::UnlockSlot();
+					ContentsEvent::HasWitchBroom = true;
 				}
 
 				if (nullptr != UIFrame)

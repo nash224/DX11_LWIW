@@ -12,8 +12,12 @@ HouseDustEvent::~HouseDustEvent()
 
 void HouseDustEvent::Update(float _Delta)
 {
-	AboutHouseConveration.UpdateConversation(_Delta);
-	State.Update(_Delta);
+	SingleEvent::Update(_Delta);
+}
+
+void HouseDustEvent::Release()
+{
+	SingleEvent::Release();
 }
 
 void HouseDustEvent::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -21,11 +25,6 @@ void HouseDustEvent::LevelEnd(class GameEngineLevel* _NextLevel)
 	Death();
 }
 
-void HouseDustEvent::Init()
-{
-	ConversationSetting();
-	StateSetting();
-}
 
 void HouseDustEvent::ConversationSetting()
 {
@@ -42,30 +41,10 @@ void HouseDustEvent::ConversationSetting()
 	};
 
 	LookDustTopic.Data.shrink_to_fit();
-	AboutHouseConveration.CreateTopic(EHOUSEDUSTTOPIC::LookDust, LookDustTopic);
+	SingleEvent::EventConveration.CreateTopic(EHOUSEDUSTTOPIC::LookDust, LookDustTopic);
 
-	AboutHouseConveration.SetConversationEndEvent(EHOUSEDUSTTOPIC::LookDust, [&]()
+	SingleEvent::EventConveration.SetConversationEndEvent(EHOUSEDUSTTOPIC::LookDust, [&]()
 		{
-			State.ChangeState(EHOUSEDUSTSTATE::None);
+			ConversationDone();
 		});
-}
-
-void HouseDustEvent::StateSetting()
-{
-	CreateStateParameter LookDustState;
-	LookDustState.Start = std::bind(&HouseDustEvent::StartHouseDust, this, std::placeholders::_1);
-	LookDustState.End = std::bind(&HouseDustEvent::EndHouseDust, this, std::placeholders::_1);
-	State.CreateState(EHOUSEDUSTSTATE::LookDust, LookDustState);
-
-	State.ChangeState(EHOUSEDUSTSTATE::LookDust);
-}
-
-void HouseDustEvent::StartHouseDust(GameEngineState* _Parent)
-{
-	AboutHouseConveration.StartConversation(EHOUSEDUSTTOPIC::LookDust);
-}
-
-void HouseDustEvent::EndHouseDust(GameEngineState* _Parent)
-{
-	Death();
 }

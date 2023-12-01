@@ -185,10 +185,7 @@ void SilverStarFlower::TouchUpdate(float _Delta, GameEngineState* _Parent)
 
 	if (true == IsEnalbeActive)
 	{
-		if (nullptr != UI_Inventory::MainInventory)
-		{
-			UI_Inventory::MainInventory->PushItem("SilverStarFlower_Collect");
-		}
+		UI_Inventory::PushItem("SilverStarFlower_Collect");
 
 		State.ChangeState(ESILVERBELLSTATE::UnLight);
 		return;

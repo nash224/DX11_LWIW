@@ -15,14 +15,16 @@ void CraftFireCrackerEvent::Update(float _Delta)
 	SingleEvent::Update(_Delta);
 }
 
+void CraftFireCrackerEvent::Release()
+{
+	SingleEvent::Release();
+}
+
 void CraftFireCrackerEvent::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	Death();
 }
 
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 
 void CraftFireCrackerEvent::ConversationSetting()

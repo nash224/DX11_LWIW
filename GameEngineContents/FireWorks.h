@@ -17,7 +17,7 @@ private:
 		None,
 	};
 
-	class RayLightInfo
+	class RayLightState
 	{
 		friend class FireWorks;
 
@@ -82,14 +82,18 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 	void RendererSetting();
-	void StateSetting();
 	void CrackersSetting();
 
+	// State
+	void StateSetting();
+
+	// Start
 	void StartLight(GameEngineState* _Parent);
 	void StartFire(GameEngineState* _Parent);
 	void StartFocusRayLight(GameEngineState* _Parent);
 	void StartDone(GameEngineState* _Parent);
 
+	// Update
 	void UpdateLight(float _Delta, GameEngineState* _Parent);
 	void UpdateFocusRayLight(float _Delta, GameEngineState* _Parent);
 	void UpdateWait(float _Delta, GameEngineState* _Parent);
@@ -103,23 +107,20 @@ private:
 	std::shared_ptr<GameEngineSpriteRenderer> FxRenderer;
 
 	std::vector<float4> LightData;
-	float4 LightColor;
-
+	float4 LightColor = float4::ZERO;
 	float LightStateTime = 0.0f;
-	static constexpr float ChangeLightTime = 0.25f;
-	int ChangeCount = 0;
+	int LightTransitionCount = 0;
 
 	GameEngineState State;
-	RayLightInfo FireLineStateInfo;
-	GameEngineSoundPlayer FirePlayer;
+	RayLightState RayLightStateInfo;
 
+
+	float4 LimitCameraPos = float4::ZERO;
 	static constexpr float TargetDistance = 2000.0f;
-	float4 CameraTargetStopPos;
 
 	std::vector<CrackersInfo> Crackers;
-	static constexpr int MaxPopCount = 6;
 	int CurPopCount = 0;
-	float StateTime = 0.0f;
+	float PopRemainTime = 0.0f;
 
 	bool isFireWorkEnd = false;
 

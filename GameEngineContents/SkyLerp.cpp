@@ -78,9 +78,7 @@ void SkyLerp::Init()
 {
 	MainSkyManager = this;
 
-	static const std::uint32_t SkyOrder = 0;
-
-	Sun_Renderer = CreateComponent<GameEngineSpriteRenderer>(SkyOrder);
+	Sun_Renderer = CreateComponent<GameEngineSpriteRenderer>();
 	Sun_Renderer->SetSprite("SkyBox.png");
 	Sun_Renderer->GetImageTransform().SetLocalScale(GlobalValue::GetWindowScale() + float4(30.0f, 30.0f));
 	Sun_Renderer->GetColorData().MulColor.A = 0.0f;
@@ -129,7 +127,6 @@ void SkyLerp::Init()
 
 	SunsetStartTimeRatio = CalculateTimeRatio((SunsetStartHour - PlayLevel::s_TimeManager->GetStartHour()) * 6);
 	SunsetEndTimeRatio = CalculateTimeRatio(static_cast<int>(SkyData.size()) - 1) + SunsetStartTimeRatio;
-
 	ALightStartTimeRatio = CalculateTimeRatio((AlightStartHour - PlayLevel::s_TimeManager->GetStartHour()) * 6);
 
 	LerpSky(SkyData[0]);

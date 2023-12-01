@@ -372,10 +372,7 @@ void AlchemyPot::EndBroken(GameEngineState* _Parent)
 
 void AlchemyPot::EndSuccess(GameEngineState* _Parent)
 {
-	if (nullptr != UI_Inventory::MainInventory)
-	{
-		UI_Inventory::MainInventory->PushItem(CraftedPotion);
-	}
+	UI_Inventory::PushItem(CraftedPotion);
 
 	CheckCraftPotionEvent();
 	CheckCraftFireCrackerEvent();

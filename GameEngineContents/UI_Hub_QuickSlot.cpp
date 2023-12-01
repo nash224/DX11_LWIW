@@ -2,8 +2,6 @@
 #include "UI_Hub_QuickSlot.h"
 
 
-int UI_Hub_QuickSlot::ItemSelection = -1;
-std::list<std::string> UI_Hub_QuickSlot::QuickSlotItemList;
 UI_Hub_QuickSlot::UI_Hub_QuickSlot() 
 {
 }
@@ -13,42 +11,32 @@ UI_Hub_QuickSlot::~UI_Hub_QuickSlot()
 }
 
 
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
-
 void UI_Hub_QuickSlot::Init()
 {
 	Transform.AddLocalPosition({ 410.0f , -209.0f });
-	float4 UIPosition = float4::ZERO;
+
+	const float FrameDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Frame);
+	const float ArrowDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Indicator);
+	const float IconDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Icon);
+	
+	const float ArrowXPos = 25.0f;
 
 	m_Slot = CreateComponent<GameEngineUIRenderer>();
-	UIPosition = { 0.0f, 0.0f, DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Frame) };
-	m_Slot->Transform.SetLocalPosition(UIPosition);
+	m_Slot->Transform.SetLocalPosition(float4(0.0f, 0.0f, FrameDepth));
 	m_Slot->SetSprite("HUD_Potion_Slot.png");
 
 	m_ArrowLeft = CreateComponent<GameEngineUIRenderer>();
 	m_ArrowLeft->SetSprite("HUD_Arrow_Left.png");
-	UIPosition = { -CONST_ArrowDistanceToLocalZERO , 0.0f , DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::UIArrow) };
-	m_ArrowLeft->Transform.AddLocalPosition(UIPosition);
+	m_ArrowLeft->Transform.AddLocalPosition(float4(-ArrowXPos, 0.0f, ArrowDepth));
 
 	m_ArrowRight = CreateComponent<GameEngineUIRenderer>();
 	m_ArrowRight->SetSprite("HUD_Arrow_Left.png");
 	m_ArrowRight->LeftFlip();
-	UIPosition = { CONST_ArrowDistanceToLocalZERO , 0.0f , DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::UIArrow) };
-	m_ArrowRight->Transform.AddLocalPosition(UIPosition);
+	m_ArrowRight->Transform.AddLocalPosition(float4(ArrowXPos, 0.0f, ArrowDepth));
 
 	m_Item = CreateComponent<GameEngineUIRenderer>();
-	UIPosition = { 0.0f , 0.0f , DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Icon) };
-	m_Item->Transform.SetLocalPosition(UIPosition);
+	m_Item->Transform.SetLocalPosition(float4(0.0f, 0.0f, IconDepth));
 	m_Item->Off();
 
 	Off();
-}
-
-void UI_Hub_QuickSlot::RegisterForQuickSlot(std::string_view _ItemName)
-{
-
 }

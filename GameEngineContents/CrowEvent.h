@@ -39,7 +39,7 @@ protected:
 	void Start() override {}
 	void Update(float _Delta) override;
 	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 
@@ -60,7 +60,7 @@ private:
 
 	float StateTime = 0.0f;
 
-	static constexpr const float Caw_Wait_Time = 2.0f;
+	
 	static constexpr const float Caw_CoolTime = 8.0f;
 
 	static constexpr const float Caw_Animation_Inter = 0.12f;

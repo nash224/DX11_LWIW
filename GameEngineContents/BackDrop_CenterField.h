@@ -17,7 +17,7 @@ public:
 	BackDrop_CenterField& operator=(BackDrop_CenterField&& _Other) noexcept = delete;
 
 
-	void Init();
+	void RenewMap();
 
 protected:
 	void Start() override;

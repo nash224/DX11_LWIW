@@ -10,9 +10,7 @@ BackDrop::~BackDrop()
 {
 }
 
-
-
 float4 BackDrop::GetBackGroundScale() const
 {
-	return m_BackScale;
+	return BackScale;
 }

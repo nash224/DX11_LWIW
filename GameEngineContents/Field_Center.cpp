@@ -9,6 +9,7 @@
 
 Field_Center::Field_Center() 
 {
+	PlayLevel::LocationKRName = "ÃÊ·Ï½£ Æò¿ø";
 }
 
 Field_Center::~Field_Center() 
@@ -18,10 +19,13 @@ Field_Center::~Field_Center()
 void Field_Center::Start()
 {
 	FieldLevel::Start();
-	
+
+	Back = CreateActor<BackDrop_CenterField>(EUPDATEORDER::Back);
+
 	if (nullptr != ContentsLevel::LevelCamera)
 	{
 		ContentsLevel::LevelCamera->SetCameraMode(ECAMERAMODE::Play);
+		ContentsLevel::LevelCamera->SetBackDropScale(Back->GetBackGroundScale());
 	}
 
 	std::shared_ptr<GameEngineCoreWindow> Window = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
@@ -29,8 +33,6 @@ void Field_Center::Start()
 	{
 		Window->AddDebugRenderTarget(2, "CenterRenderTarget", GetMainCamera()->GetCameraAllRenderTarget());
 	}
-
-	SetLocationName("ÃÊ·Ï½£ Æò¿ø");
 }
 
 void Field_Center::Update(float _Delta)
@@ -43,7 +45,6 @@ void Field_Center::LevelStart(class GameEngineLevel* _NextLevel)
 	FieldLevel::LevelStart(_NextLevel);
 
 	LoadTexture();
-	OnLevelBackDrop();
 
 	SetEllieLevelChangeLocation(_NextLevel);
 	CameraSetting();
@@ -68,22 +69,6 @@ void Field_Center::LoadTexture()
 	{
 		GameEngineFile File = Files[i];
 		GameEngineTexture::Load(File.GetStringPath());
-	}
-}
-
-
-void Field_Center::OnLevelBackDrop()
-{
-	if (nullptr == Back)
-	{
-		Back = CreateActor<BackDrop_CenterField>(EUPDATEORDER::Objects);
-	}
-
-	Back->Init();
-
-	if (nullptr != ContentsLevel::LevelCamera)
-	{
-		ContentsLevel::LevelCamera->SetBackDropScale(Back->GetBackGroundScale());
 	}
 }
 

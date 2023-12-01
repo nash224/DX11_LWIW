@@ -60,7 +60,7 @@ struct SelectItemInfo
 {
 public:
 	std::shared_ptr<GameEngineUIRenderer> Cursor = nullptr;
-	std::string ItemName = "";
+	std::string ItemName;
 
 	int SelectCount = -1;
 };
@@ -71,11 +71,8 @@ class UI_Inventory : public UI_ToggleActor
 {
 	friend class Inventory;
 
-public:
-	static UI_Inventory* MainInventory;
-
 private:
-	static std::shared_ptr<Inventory> Data;
+	static std::unique_ptr<Inventory> Data;
 	static unsigned int UnlockSlotY;
 
 private:
@@ -112,16 +109,16 @@ public:
 	void Init();
 
 	static void PushItem(std::string_view _ItemName, unsigned int _Count = 1);
-	void PopItem(std::string_view _ItemName, unsigned int _Count);
+	static void PopItem(std::string_view _ItemName, unsigned int _Count);
 
-	bool IsEmptySlot(std::string_view _ItemName);
-	bool IsItem(std::string_view _ItemName, unsigned int _ItemCount = 1);
+	static bool IsEmptySlot(std::string_view _ItemName);
+	static bool IsItem(std::string_view _ItemName, unsigned int _ItemCount = 1);
 
-	void UnlockSlot(const unsigned int _Count = 1);
+	static void UnlockSlot(const unsigned int _Count = 1);
+	static int ReturnItemCount(std::string_view _ItemName);
 
 
 	void UsingOtherComponent(EINVENTORYMODE _Mode);
-	int ReturnItemCount(std::string_view _ItemName);
 
 protected:
 	void Start() override;
@@ -198,8 +195,6 @@ private:
 	bool IsFirstPosCalculated = false;
 
 	const float4 NameTagPosition = { 0.0f, 40.0f };
-
-
 
 
 private:

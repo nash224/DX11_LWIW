@@ -53,7 +53,6 @@ void LootedItem::SetFallingTargetPosition(const float _YPosition)
 	IsFalling = true;
 	FallingYDistance = _YPosition;
 
-
 	if (nullptr == InteractiveActor::InteractiveCol)
 	{
 		MsgBoxAssert("충돌체가 존재하지 않습니다.");
@@ -67,7 +66,7 @@ void LootedItem::SetFallingTargetPosition(const float _YPosition)
 void LootedItem::Init(std::string_view _ItemName)
 {
 	CreateItemRenderer(_ItemName);
-	InteractiveRange = ItemInterativeRange;
+	InteractiveRange = 20.0f;
 }
 
 
@@ -77,15 +76,7 @@ void LootedItem::Init(std::string_view _ItemName)
 void LootedItem::CreateItemRenderer(std::string_view _ItemName)
 {
 	BodyRenderer = CreateComponent<GameEngineSpriteRenderer>();
-	if (nullptr == BodyRenderer)
-	{
-		MsgBoxAssert("렌더러를 생성하지 못했습니다.");
-		return;
-	}
-
-	std::string FileName = _ItemName.data();
-	FileName += ".png";
-	BodyRenderer->SetSprite(FileName);
+	BodyRenderer->SetSprite(_ItemName.data() + std::string(".png"));
 
 	ItemName = _ItemName;
 }
@@ -98,7 +89,8 @@ void LootedItem::UpdateFallingItem(float _Delta)
 		float Speed = FallingSpeed * _Delta;
 		FallingYDistance -= Speed;
 
-		if (FallingYDistance < 0.0f)
+		bool isFallDone = (FallingYDistance < 0.0f);
+		if (isFallDone)
 		{
 			Speed = FallingYDistance;
 			FallingYDistance = 0.0f;
@@ -114,9 +106,7 @@ void LootedItem::UpdateFallingItem(float _Delta)
 			IsFalling = false;
 		}
 
-		float4 AddPosition = { 0.0f, -Speed };
-
-		Transform.AddLocalPosition(AddPosition);
+		Transform.AddLocalPosition(float4(0.0f, -Speed));
 	}
 }
 

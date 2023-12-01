@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "UI_Inventory.h"
 
+#include "UIManager.h"
 #include "UI_DropManager.h"
 #include "UI_Dispensation.h"
 
@@ -230,9 +231,7 @@ void Inventory::RenewInventory()
 }
 
 
-
-std::shared_ptr<Inventory> UI_Inventory::Data = nullptr;
-UI_Inventory* UI_Inventory::MainInventory = nullptr;
+std::unique_ptr<Inventory> UI_Inventory::Data = nullptr;
 unsigned int UI_Inventory::UnlockSlotY = 0;
 UI_Inventory::UI_Inventory()
 {
@@ -253,19 +252,20 @@ UI_Inventory::~UI_Inventory()
 {
 }
 
-
-static constexpr float GridSpacing = 12.0f;
-static constexpr float CursorInter = 0.4f;
-
-
 void UI_Inventory::Start()
 {
+	if (nullptr == Data)
+	{
+		CreateData();
+		UnlockSlotY = 2;
+	}
+
 	UI_ToggleActor::Start();
 }
 
 void UI_Inventory::Update(float _Delta)
 {
-	if (this != MainInventory)
+	if (nullptr != Data && this != Data->InventoryParent)
 	{
 		OpenUpdate();
 	}
@@ -276,7 +276,6 @@ void UI_Inventory::Update(float _Delta)
 void UI_Inventory::Release()
 {
 	Data = nullptr;
-	MainInventory = nullptr;
 
 	DropManager = nullptr;
 	InventoryBase = nullptr;
@@ -288,18 +287,9 @@ void UI_Inventory::Release()
 	InventorySlotArray.clear();
 }
 
-// 인벤토리 배열과 데이터 배열을 생성합니다.
-// 단, 데이터 배열은 한번만 생성됩니다.
+#pragma region Setting
 void UI_Inventory::Init()
 {
-	if (nullptr == Data)
-	{
-		CreateData();
-
-		UnlockSlotY = 2;
-	}
-
-
 	CreateBase();
 	CreateSlotArray();
 	CreateCursor();
@@ -337,7 +327,7 @@ void UI_Inventory::CreateBase()
 
 void UI_Inventory::CreateSlotArray()
 {
-	std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Find("Inventory_Empty_Slot.png");
+	const std::shared_ptr<GameEngineTexture>& Texture = GameEngineTexture::Find("Inventory_Empty_Slot.png");
 	if (nullptr == Texture)
 	{
 		MsgBoxAssert("텍스처를 불러오지 못했습니다.");
@@ -345,6 +335,12 @@ void UI_Inventory::CreateSlotArray()
 	}
 
 	GridScale = Texture->GetScale();
+
+	const float FrameDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
+	const float IconDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Icon);
+	const float FontDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Font);
+	const float4& ItemCountCorrection = float4(18.0f, -12.0f);
+	const float fontSize = 8.0f;
 
 	InventorySlotArray.resize(Max_YSlot);
 	for (unsigned int y = 0; y < static_cast<unsigned int>(InventorySlotArray.size()); y++)
@@ -354,21 +350,9 @@ void UI_Inventory::CreateSlotArray()
 		{
 			const float4& IndexPos = CalculateIndexToPos(x, y);
 
-			const float FrameDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
-			const float IconDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Icon);
-			const float FontDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Font);
-
-			const float4& ItemCountCorrection = float4(18.0f, -12.0f);
-
-
-			const float fontSize = 8.0f;
-
-
 			std::shared_ptr<GameEngineUIRenderer> Empty = CreateComponent<GameEngineUIRenderer>();
 			Empty->SetSprite("Inventory_Empty_Slot.png");
 			Empty->Transform.SetLocalPosition(float4(IndexPos.X, IndexPos.Y, FrameDepth));
-
-
 			InventorySlotArray[y][x].SlotEmpty = Empty;
 
 			std::shared_ptr<GameEngineUIRenderer> Slot = CreateComponent<GameEngineUIRenderer>();
@@ -389,29 +373,14 @@ void UI_Inventory::CreateSlotArray()
 }
 
 
-void UI_Inventory::StateSetting()
-{
-	CreateStateParameter NormalPara;
-	NormalPara.Start = std::bind(&UI_Inventory::StartInventory, this, std::placeholders::_1);
-	NormalPara.Stay = std::bind(&UI_Inventory::UpdateInventory, this, std::placeholders::_1, std::placeholders::_2);
-	NormalPara.End = std::bind(&UI_Inventory::EndInventory, this, std::placeholders::_1);
-	InventoryState.CreateState(EINVENTORYMODE::Normal, NormalPara);
-
-	CreateStateParameter DispensationPara;
-	DispensationPara.Start = [&](GameEngineState* _Parent) {IsJustOpen = true, InventoryMode = EINVENTORYMODE::Dispensation; };
-	DispensationPara.Stay = std::bind(&UI_Inventory::UpdateDispensation, this, std::placeholders::_1, std::placeholders::_2);
-	InventoryState.CreateState(EINVENTORYMODE::Dispensation, DispensationPara);
-
-	InventoryState.ChangeState(EINVENTORYMODE::Normal);
-}
-
-
 void UI_Inventory::CreateCursor()
 {
 	if (nullptr == GameEngineSprite::Find("Inventory_Cursor.png"))
 	{
 		GameEngineSprite::CreateCut("Inventory_Cursor.png", 2, 1);
 	}
+
+	static constexpr float CursorInter = 0.4f;
 
 	std::shared_ptr<GameEngineUIRenderer> CurSor = CreateComponent<GameEngineUIRenderer>();
 	CurSor->CreateAnimation("Cursor", "Inventory_Cursor.png", CursorInter);
@@ -448,6 +417,7 @@ void UI_Inventory::CreateNoticeDropManager()
 	DropManager->Init();
 }
 
+// 데이터 배열은 한번만 생성됩니다.
 // 전역으로 한번만 실행됩니다.
 void UI_Inventory::CreateData()
 {
@@ -464,7 +434,7 @@ void UI_Inventory::CreateData()
 #endif // DEBUG
 
 
-	Data = std::make_shared<Inventory>();
+	Data = std::make_unique<Inventory>();
 	Data->InventoryParent = this;
 	Data->Init();
 }
@@ -481,9 +451,8 @@ void UI_Inventory::ExternUISetting()
 	}
 }
 
+#pragma endregion
 
-
-/////////////////////////////////////////////////////////////////////////////////////
 
 void UI_Inventory::LockSlot(const unsigned int _Y)
 {
@@ -585,11 +554,13 @@ void UI_Inventory::UnlockSlot(const unsigned int _Count /*= 1*/)
 		return;
 	}
 
+	const std::shared_ptr<UI_Inventory>& InventoryPtr = PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr()->GetInventoryPtr();
+
 	for (unsigned int y = PrevUnlockSlotY; y < UnlockSlotY; y++)
 	{
-		for (unsigned int x = 0; x < InventorySlotArray[y].size(); x++)
+		for (unsigned int x = 0; x < InventoryPtr->InventorySlotArray[y].size(); x++)
 		{
-			std::shared_ptr<GameEngineUIRenderer> Slot = InventorySlotArray[y][x].Slot;
+			const std::shared_ptr<GameEngineUIRenderer>& Slot = InventoryPtr->InventorySlotArray[y][x].Slot;
 			if (nullptr == Slot)
 			{
 				MsgBoxAssert("존재하지 않는 슬롯에 접근하려 했습니다.");
@@ -599,12 +570,6 @@ void UI_Inventory::UnlockSlot(const unsigned int _Count /*= 1*/)
 			Slot->Off();
 		}
 	}
-}
-
-
-void UI_Inventory::UsingOtherComponent(EINVENTORYMODE _Mode)
-{
-	InventoryState.ChangeState(_Mode);
 }
 
 int UI_Inventory::ReturnItemCount(std::string_view _ItemName)
@@ -619,6 +584,11 @@ int UI_Inventory::ReturnItemCount(std::string_view _ItemName)
 	return SlotInfo->ItemCount;
 }
 
+
+void UI_Inventory::UsingOtherComponent(EINVENTORYMODE _Mode)
+{
+	InventoryState.ChangeState(_Mode);
+}
 
 void UI_Inventory::ChangeDataParent()
 {
@@ -670,14 +640,12 @@ void UI_Inventory::RenewInventory()
 	Data->RenewInventory();
 }
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 // 자식에서 해주고 싶은 행동을 수행합니다.
 void UI_Inventory::OpenInternal()
 {
+	OpenUpdate();
 	SFXFunction::PlaySFX("SFX_Open_01.wav");
-	CursorThis(0, 0);
 }
 
 void UI_Inventory::CloseInternal()
@@ -687,11 +655,15 @@ void UI_Inventory::CloseInternal()
 		UnSelectAll();
 	}
 
-	InventoryState.ChangeState(EINVENTORYMODE::Normal);
+	InventoryMode = EINVENTORYMODE::None;
+
+	InventoryState.ChangeState(EINVENTORYMODE::None);
 }
 
 float4 UI_Inventory::CalculateIndexToPos(int _x, int _y)
 {
+	static constexpr float GridSpacing = 12.0f;
+
 	if (false == IsFirstPosCalculated)
 	{
 		float4 HGridScale = GridScale.Half();
@@ -796,7 +768,6 @@ void UI_Inventory::OpenUpdate()
 	ChangeDataParent();
 	ClearAllSlotImg();
 	RenewInventory();
-	MainInventory = this;
 	CurrentSlotX = 0;
 	CurrentSlotY = 0;
 	CursorThis(CurrentSlotX, CurrentSlotY);
@@ -805,32 +776,6 @@ void UI_Inventory::OpenUpdate()
 
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
-
-
-void UI_Inventory::StartInventory(GameEngineState* _Parent)
-{
-	InventoryMode = EINVENTORYMODE::Normal;
-	InventoryGuide.On();
-}
-
-void UI_Inventory::UpdateInventory(float _Delta, GameEngineState* _Parent)
-{
-	UI_ToggleActor::Update(_Delta);
-
-	DectedCloseInventory();
-	UpdateCursor();
-
-	// 임시코드
-	if (true == GameEngineInput::IsPress(VK_CONTROL, this))
-	{
-		if (true == GameEngineInput::IsDown('3', this))
-		{
-			ClearSlot(CurrentSlotX, CurrentSlotY);
-		}
-	}
-
-	OpenCheck = false;
-}
 
 // 켜질때 입력을 무시합니다.
 void UI_Inventory::DectedCloseInventory()
@@ -843,11 +788,6 @@ void UI_Inventory::DectedCloseInventory()
 			return;
 		}
 	}
-}
-
-void UI_Inventory::EndInventory(GameEngineState* _Parent)
-{
-	InventoryGuide.Off();
 }
 
 bool UI_Inventory::UpdateCursor()
@@ -929,45 +869,6 @@ std::string UI_Inventory::ReturnItemKRName(std::string_view _ItemName)
 
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
-
-void UI_Inventory::UpdateDispensation(float _Delta, GameEngineState* _Parent)
-{
-	if (true == IsJustOpen)
-	{
-		IsJustOpen = false;
-		return;
-	}
-
-	if (true == GameEngineInput::IsDown(VK_LEFT, UI_Dispensation::MainDispensation))
-	{
-		MoveCursor(-1, 0);
-		return;
-	}
-
-	if (true == GameEngineInput::IsDown(VK_RIGHT, UI_Dispensation::MainDispensation))
-	{
-		MoveCursor(1, 0);
-		return;
-	}
-
-	if (true == GameEngineInput::IsDown(VK_UP, UI_Dispensation::MainDispensation))
-	{
-		MoveCursor(0, -1);
-		return;
-	}
-
-	if (true == GameEngineInput::IsDown(VK_DOWN, UI_Dispensation::MainDispensation))
-	{
-		MoveCursor(0, 1);
-		return;
-	}
-
-
-	if (true == UpdateDispensationSelect())
-	{
-		return;
-	}
-}
 
 
 bool UI_Inventory::UpdateDispensationSelect()
@@ -1105,5 +1006,83 @@ void UI_Inventory::UnSelectAll()
 		{
 			DispensationUnSelectThis(i);
 		}
+	}
+}
+
+
+void UI_Inventory::StateSetting()
+{
+	CreateStateParameter NormalPara;
+	NormalPara.Start = std::bind(&UI_Inventory::StartInventory, this, std::placeholders::_1);
+	NormalPara.Stay = std::bind(&UI_Inventory::UpdateInventory, this, std::placeholders::_1, std::placeholders::_2);
+	NormalPara.End = std::bind(&UI_Inventory::EndInventory, this, std::placeholders::_1);
+	InventoryState.CreateState(EINVENTORYMODE::Normal, NormalPara);
+
+	CreateStateParameter DispensationPara;
+	DispensationPara.Start = [&](GameEngineState* _Parent) {IsJustOpen = true, InventoryMode = EINVENTORYMODE::Dispensation; };
+	DispensationPara.Stay = std::bind(&UI_Inventory::UpdateDispensation, this, std::placeholders::_1, std::placeholders::_2);
+	InventoryState.CreateState(EINVENTORYMODE::Dispensation, DispensationPara);
+}
+
+void UI_Inventory::StartInventory(GameEngineState* _Parent)
+{
+	GameEngineInput::IsOnlyInputObject(this);
+	InventoryMode = EINVENTORYMODE::None;
+	InventoryGuide.On();
+}
+
+void UI_Inventory::UpdateInventory(float _Delta, GameEngineState* _Parent)
+{
+	UI_ToggleActor::Update(_Delta);
+
+	DectedCloseInventory();
+	UpdateCursor();
+
+	OpenCheck = false;
+}
+
+void UI_Inventory::EndInventory(GameEngineState* _Parent)
+{
+	GameEngineInput::IsObjectAllInputOn();
+	InventoryGuide.Off();
+}
+
+
+void UI_Inventory::UpdateDispensation(float _Delta, GameEngineState* _Parent)
+{
+	if (true == IsJustOpen)
+	{
+		IsJustOpen = false;
+		return;
+	}
+
+	if (true == GameEngineInput::IsDown(VK_LEFT, UI_Dispensation::MainDispensation))
+	{
+		MoveCursor(-1, 0);
+		return;
+	}
+
+	if (true == GameEngineInput::IsDown(VK_RIGHT, UI_Dispensation::MainDispensation))
+	{
+		MoveCursor(1, 0);
+		return;
+	}
+
+	if (true == GameEngineInput::IsDown(VK_UP, UI_Dispensation::MainDispensation))
+	{
+		MoveCursor(0, -1);
+		return;
+	}
+
+	if (true == GameEngineInput::IsDown(VK_DOWN, UI_Dispensation::MainDispensation))
+	{
+		MoveCursor(0, 1);
+		return;
+	}
+
+
+	if (true == UpdateDispensationSelect())
+	{
+		return;
 	}
 }

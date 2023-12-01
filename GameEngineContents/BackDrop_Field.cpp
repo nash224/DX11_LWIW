@@ -43,7 +43,8 @@ void BackDrop_Field::LevelStart(class GameEngineLevel* _NextLevel)
 	if (nullptr != PlayLevel::s_TimeManager)
 	{
 		int TimeDay = PlayLevel::s_TimeManager->GetDayCount();
-		if (FieldDay!= TimeDay)
+		bool UpdateDayisNotSame = (FieldDay != TimeDay);
+		if (UpdateDayisNotSame)
 		{
 			FieldDay = TimeDay;
 			isNight = false;
@@ -51,11 +52,6 @@ void BackDrop_Field::LevelStart(class GameEngineLevel* _NextLevel)
 			FieldState.ChangeState(EDAYSTATE::DayChange);
 		}
 	}
-}
-
-void BackDrop_Field::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-	BackDrop_PlayLevel::LevelEnd(_NextLevel);
 }
 
 
@@ -121,7 +117,7 @@ void BackDrop_Field::CreatePumpkinTerrier(const float4& _Position)
 
 void BackDrop_Field::LeavePopulation()
 {
-	std::vector<std::shared_ptr<MongSiri_Population>> GroupPopulation = GetLevel()->GetObjectGroupConvert<MongSiri_Population>(EUPDATEORDER::Objects);
+	const std::vector<std::shared_ptr<MongSiri_Population>>& GroupPopulation = GetLevel()->GetObjectGroupConvert<MongSiri_Population>(EUPDATEORDER::Objects);
 	for (std::weak_ptr<MongSiri_Population> Population : GroupPopulation)
 	{
 		if (true == Population.expired())
@@ -136,7 +132,7 @@ void BackDrop_Field::LeavePopulation()
 
 void BackDrop_Field::LeaveFlowerBird()
 {
-	std::vector<std::shared_ptr<FlowerBird>> BirdGroup = GetLevel()->GetObjectGroupConvert<FlowerBird>(EUPDATEORDER::Entity);
+	const std::vector<std::shared_ptr<FlowerBird>>& BirdGroup = GetLevel()->GetObjectGroupConvert<FlowerBird>(EUPDATEORDER::Entity);
 	for (std::weak_ptr<FlowerBird> Bird : BirdGroup)
 	{
 		if (true == Bird.expired())
@@ -155,7 +151,7 @@ void BackDrop_Field::LeaveFlowerBird()
 
 void BackDrop_Field::ReleaseMongSiriPopulation()
 {
-	std::vector<std::shared_ptr<MongSiri_Population>> GroupPopulation = GetLevel()->GetObjectGroupConvert<MongSiri_Population>(EUPDATEORDER::Objects);
+	const std::vector<std::shared_ptr<MongSiri_Population>>& GroupPopulation = GetLevel()->GetObjectGroupConvert<MongSiri_Population>(EUPDATEORDER::Objects);
 	for (std::weak_ptr<MongSiri_Population> Population : GroupPopulation)
 	{
 		if (true == Population.expired())

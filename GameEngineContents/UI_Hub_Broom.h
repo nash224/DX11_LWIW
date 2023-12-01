@@ -54,6 +54,5 @@ private:
 	std::shared_ptr<ContentsUIRenderer> GaugeRenderer = nullptr;
 	std::shared_ptr<GameEngineUIRenderer> IconRenderer = nullptr;
 
-
 };
 

@@ -42,7 +42,7 @@ private:
 	GameEngineState State;
 	std::weak_ptr<class BedUI> BedUIActor;
 
-	static constexpr const unsigned int Bed_Active_Hour = 9;
+	static constexpr unsigned int Bed_Active_Hour = 9;
 
 
 };

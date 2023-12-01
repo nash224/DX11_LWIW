@@ -135,18 +135,15 @@ void UI_Hub_MainBoard::Update(float _Delta)
 			MainBoard.Alert->On();
 		}
 	}
+	else if (true == isShowAlertMark)
+	{
+		if (nullptr != MainBoard.Alert && true == MainBoard.Alert->IsUpdate())
+		{
+			MainBoard.Alert->Off();
+		}
+	}
 
 	State.Update(_Delta);
-}
-
-void UI_Hub_MainBoard::Release()
-{
-	s_QuestManager = nullptr;
-	for (std::shared_ptr<UI_QuestUnit> QuestUnit : QuestList)
-	{
-		QuestUnit->Death();
-	}
-	QuestList.clear();
 }
 
 void UI_Hub_MainBoard::LevelEnd(GameEngineLevel* _NextLevel)
@@ -328,7 +325,7 @@ bool UI_Hub_MainBoard::IsSameList()
 	{
 		bool isQuestReamin = false;
 
-		for (std::shared_ptr<UI_QuestUnit> Unit : QuestList)
+		for (const std::shared_ptr<UI_QuestUnit>& Unit : QuestList)
 		{
 			if (true == Unit->Data.expired())
 			{
@@ -383,6 +380,8 @@ void UI_Hub_MainBoard::StartOpen(GameEngineState* _Parent)
 	{
 		MainBoard.Alert->Off();
 	}
+
+	isShowAlertMark = true;
 
 	const float4& Posision = float4(GlobalValue::GetWindowScale().hX(), 0.0f);
 	SetPosAllQuestUnit(Posision);

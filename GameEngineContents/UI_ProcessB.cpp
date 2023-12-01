@@ -262,13 +262,7 @@ void UI_ProcessB::JuicyThis()
 		Ellie::MainEllie->WaitDone(EELLIE_STATE::Juicy);
 	}
 
-	if (nullptr == UI_Inventory::MainInventory)
-	{
-		MsgBoxAssert("인벤토리가 존재하지 않습니다.");
-		return;
-	}
-
-	UI_Inventory::MainInventory->PopItem(SourceInfo.ScrName, SourceInfo.NeedCount);
+	UI_Inventory::PopItem(SourceInfo.ScrName, SourceInfo.NeedCount);
 
 	if (nullptr == ProcessManager)
 	{

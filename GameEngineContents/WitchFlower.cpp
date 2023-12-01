@@ -121,16 +121,9 @@ void WitchFlower::RendererSetting()
 		});
 }
 
-
-
-
 // 여기 재정의
 void WitchFlower::ChildRooting()
 {
-	if (nullptr != UI_Inventory::MainInventory)
-	{
-		UI_Inventory::MainInventory->PushItem("WitchFlower_Collect");
-	}
-
+	UI_Inventory::PushItem("WitchFlower_Collect");
 	Death();
 }

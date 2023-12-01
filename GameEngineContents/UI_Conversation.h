@@ -6,9 +6,6 @@
 class UI_Conversation : public GameEngineActor
 {
 public:
-	static UI_Conversation* MainConversationUI;
-
-public:
 	class PortraitStruct
 	{
 	public:

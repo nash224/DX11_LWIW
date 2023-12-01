@@ -68,10 +68,7 @@ void UI_Dictionary::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void UI_Dictionary::Init()
 {
-	// Base
 	CreateBase();
-
-	// Category
 	CreateCategory();
 
 	// CreaturePage
@@ -102,7 +99,7 @@ void UI_Dictionary::Init()
 	{ 
 		{ EBUTTONTYPE::Arrow_Vertical, "카테고리 이동"},
 		{ EBUTTONTYPE::Arrow_Horizontal, "페이지 이동"},
-		{ EBUTTONTYPE::D, "닫기"},
+		{ EBUTTONTYPE::X, "닫기"},
 	};
 	UIGuide.SetGuideInfo(this, Paras);
 	UIGuide.On();
@@ -244,6 +241,7 @@ void UI_Dictionary::CreatePage(EDICTIONARYCATEGORY _Type, std::string_view Name)
 
 void UI_Dictionary::OpenInternal()
 {
+	GameEngineInput::IsOnlyInputObject(this);
 	OffAllCategoryMark();
 	ChangeCategoryMark();
 	OpenNextPage(s_CurrentCategory);
@@ -252,6 +250,8 @@ void UI_Dictionary::OpenInternal()
 void UI_Dictionary::CloseInternal()
 {
 	CloseCurrentPage(s_CurrentCategory);
+
+	GameEngineInput::IsObjectAllInputOn();
 }
 
 
@@ -364,7 +364,7 @@ void UI_Dictionary::CloseCurrentPage(EDICTIONARYCATEGORY _Type)
 		break;
 	case EDICTIONARYCATEGORY::CreaturePage:
 	{
-		for (size_t i = 0; i < CreaturePages.size(); i++)
+		for (int i = 0; i < CreaturePages.size(); i++)
 		{
 			std::shared_ptr<UI_BiologyPage> Object = CreaturePages[i];
 			if (nullptr == Object)
@@ -379,7 +379,7 @@ void UI_Dictionary::CloseCurrentPage(EDICTIONARYCATEGORY _Type)
 	break;
 	case EDICTIONARYCATEGORY::PlantPage:
 	{
-		for (size_t i = 0; i < PlantPages.size(); i++)
+		for (int i = 0; i < PlantPages.size(); i++)
 		{
 			std::shared_ptr<UI_BiologyPage> Object = PlantPages[i];
 			if (nullptr == Object)
@@ -394,7 +394,7 @@ void UI_Dictionary::CloseCurrentPage(EDICTIONARYCATEGORY _Type)
 	break;
 	case EDICTIONARYCATEGORY::PotionPage:
 	{
-		for (size_t i = 0; i < PotionPages.size(); i++)
+		for (int i = 0; i < PotionPages.size(); i++)
 		{
 			std::shared_ptr<UI_ProductPage> Object = PotionPages[i];
 			if (nullptr == Object)
@@ -409,7 +409,7 @@ void UI_Dictionary::CloseCurrentPage(EDICTIONARYCATEGORY _Type)
 		break;
 	case EDICTIONARYCATEGORY::CandyPage:
 	{
-		for (size_t i = 0; i < CandyPages.size(); i++)
+		for (int i = 0; i < CandyPages.size(); i++)
 		{
 			std::shared_ptr<UI_ProductPage> Object = CandyPages[i];
 			if (nullptr == Object)
@@ -450,7 +450,7 @@ bool UI_Dictionary::CheckOpenDictionary()
 {
 	if (false == OpenCheck)
 	{
-		if (true == GameEngineInput::IsDown('D', this))
+		if (true == GameEngineInput::IsDown('X', this))
 		{
 			Close();
 			return true;

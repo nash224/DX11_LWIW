@@ -8,6 +8,7 @@
 
 WitchHouse_Yard::WitchHouse_Yard() 
 {
+	PlayLevel::LocationKRName = "¸¶³àÀÇ Á¤¿ø";
 }
 
 WitchHouse_Yard::~WitchHouse_Yard() 
@@ -19,12 +20,12 @@ void WitchHouse_Yard::Start()
 {
 	FieldLevel::Start();
 
+	Back = CreateActor<BackDrop_WitchHouse_Yard>(EUPDATEORDER::Objects);
+
 	if (nullptr != ContentsLevel::LevelCamera)
 	{
 		ContentsLevel::LevelCamera->SetCameraMode(ECAMERAMODE::Fix);
 	}
-
-	SetLocationName("¸¶³àÀÇ Á¤¿ø");
 }
 
 void WitchHouse_Yard::Update(float _Delta)
@@ -37,7 +38,6 @@ void WitchHouse_Yard::LevelStart(class GameEngineLevel* _NextLevel)
 	FieldLevel::LevelStart(_NextLevel);
 
 	LoadTexture();
-	LoadActor();
 
 	SetElliePosToEnter(_NextLevel);
 
@@ -61,14 +61,6 @@ void WitchHouse_Yard::LoadTexture()
 		{
 			GameEngineTexture::Load(pFile.GetStringPath());
 		}
-	}
-}
-
-void WitchHouse_Yard::LoadActor()
-{
-	if (nullptr == Back)
-	{
-		Back = CreateActor<BackDrop_WitchHouse_Yard>(EUPDATEORDER::Objects);
 	}
 }
 
@@ -107,12 +99,12 @@ void WitchHouse_Yard::SetElliePosToEnter(class GameEngineLevel* _NextLevel)
 
 void WitchHouse_Yard::CameraSetting()
 {
-	if (false == CameraControler::MainCameraControler.expired())
+	if (nullptr != ContentsLevel::LevelCamera)
 	{
 		float4 SettingPos = GlobalValue::GetWindowScale().Half();
 		SettingPos.Y *= -1.0f;
 
-		CameraControler::MainCameraControler.lock()->SetLocalPostion(SettingPos);
+		ContentsLevel::LevelCamera->SetLocalPostion(SettingPos);
 	}
 }
 

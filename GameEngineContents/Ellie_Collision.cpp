@@ -185,7 +185,7 @@ void Ellie::UpdateInteractionCollsiion()
 						}
 					}
 				}
-				else if (UI_Hub_Tool::m_CurrentTool != ETOOLTYPE::Dragonfly && EINTERACTION_TYPE::None != Entity->GetInteractionType())
+				else if (UI_Hub_Tool::CurRenderToolType != ETOOLTYPE::Dragonfly && EINTERACTION_TYPE::None != Entity->GetInteractionType())
 				{
 					if (EINTERACTION_PRESSTYPE::Down == Entity->GetInteractionPressType())
 					{

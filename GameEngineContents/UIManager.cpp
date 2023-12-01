@@ -1,8 +1,6 @@
 #include "PreCompile.h"
 #include "UIManager.h"
 
-
-
 #include "UI_Inventory.h"
 #include "UI_Dictionary.h"
 #include "UI_InterativeMark.h"
@@ -12,7 +10,6 @@
 #include "Ellie.h"
 
 
-UIManager* UIManager::MainUIManager = nullptr;
 UIManager::UIManager() 
 {
 	if (nullptr == GameEngineSound::FindSound("SFX_Open_01.wav"))
@@ -24,6 +21,19 @@ UIManager::UIManager()
 		for (GameEngineFile& pfile : Files)
 		{
 			GameEngineSound::SoundLoad(pfile.GetStringPath());
+		}
+	}
+
+	if (nullptr == GameEngineSprite::Find("Photo.png"))
+	{
+		std::vector<GameEngineDirectory> Dirs = FileLoadFunction::GetAllDirInPath("Resources\\PlayContents\\PlayResourecs\\UI\\UI_Sprite");
+		for (GameEngineDirectory& Dir : Dirs)
+		{
+			std::vector <GameEngineFile> Files = Dir.GetAllFile();
+			for (GameEngineFile& pFile : Files)
+			{
+				GameEngineSprite::CreateSingle(pFile.GetFileName());
+			}
 		}
 	}
 }
@@ -41,127 +51,119 @@ void UIManager::Start()
 void UIManager::Update(float _Delta)
 {
 	DectectOpenUIComponent();
-	UpdateInputToOpenUIComponent();
+	InputUpdate();
 }
-
-void UIManager::LevelStart(class GameEngineLevel* _NextLevel)
-{
-	MainUIManager = this;
-}
-
-void UIManager::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-
-}
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
 
 
 void UIManager::Init()
 {
-	MainUIManager = this;
+	HubPtr = GetLevel()->CreateActor<UI_Hub>(EUPDATEORDER::UIComponent);
+	HubPtr->Init();
 
-	if (nullptr == GameEngineSprite::Find("Photo.png"))
-	{
-		std::vector<GameEngineDirectory> Dirs = FileLoadFunction::GetAllDirInPath("Resources\\PlayContents\\PlayResourecs\\UI\\UI_Sprite");
-		for (GameEngineDirectory& Dir : Dirs)
-		{
-			std::vector <GameEngineFile> Files = Dir.GetAllFile();
-			for (GameEngineFile& pFile : Files)
-			{
-				GameEngineSprite::CreateSingle(pFile.GetFileName());
-			}
-		}
-	}
+	DictionaryPtr = GetLevel()->CreateActor<UI_Dictionary>(EUPDATEORDER::UIComponent);
+	DictionaryPtr->Init();
 
-	
+	InventoryPtr = GetLevel()->CreateActor<UI_Inventory>(EUPDATEORDER::UIComponent);
+	InventoryPtr->Init();
 
-	m_Hub = GetLevel()->CreateActor<UI_Hub>(EUPDATEORDER::UIComponent);
-	m_Hub->Init();
+	InteractiveMarkPtr = GetLevel()->CreateActor<UI_InterativeMark>(EUPDATEORDER::UIComponent);
+	InteractiveMarkPtr->Init();
 
-	m_Dictionary = GetLevel()->CreateActor<UI_Dictionary>(EUPDATEORDER::UIComponent);
-	m_Dictionary->Init();
-
-	m_Inventory = GetLevel()->CreateActor<UI_Inventory>(EUPDATEORDER::UIComponent);
-	m_Inventory->Init();
-
-	m_InteractiveMark = GetLevel()->CreateActor<UI_InterativeMark>(EUPDATEORDER::UIComponent);
-	m_InteractiveMark->Init();
-
-	m_ConversationUI = GetLevel()->CreateActor<UI_Conversation>(EUPDATEORDER::UIComponent);
-	m_ConversationUI->Init();
+	UIConversationPtr = GetLevel()->CreateActor<UI_Conversation>(EUPDATEORDER::UIComponent);
+	UIConversationPtr->Init();
 
 	Reset();
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////
 
 void UIManager::OpenInventory(EINVENTORYMODE _Mode)
 {
-	if (nullptr == m_Inventory)
+	if (nullptr == InventoryPtr)
 	{
 		MsgBoxAssert("인벤토리가 존재하지 않습니다.");
 		return;
 	}
 
-	m_Inventory->Open();
-	m_Inventory->UsingOtherComponent(_Mode);
+	InventoryPtr->Open();
+	InventoryPtr->UsingOtherComponent(_Mode);
 	UseUIComponent();
 }
 
 void UIManager::CloseInventory()
 {
-	if (nullptr == m_Inventory)
+	if (nullptr == InventoryPtr)
 	{
 		MsgBoxAssert("인벤토리가 존재하지 않습니다.");
 		return;
 	}
 
-	m_Inventory->Close();
+	InventoryPtr->Close();
 	DoneUIComponent();
 }
 
 
 void UIManager::UseUIComponent()
 {
-	m_Hub->Close();
-	IsOtherComponentUsed = true;
+	HubPtr->Close();
 	SetEllieControl(false);
 }
 
 void UIManager::DoneUIComponent()
 {
-	m_Hub->Open();
-	IsOtherComponentUsed = false;
+	HubPtr->Open();
+	SetEllieControl(true);
+}
 
-	if (nullptr != Ellie::MainEllie)
+std::shared_ptr<class UI_Conversation> UIManager::GetConversationPtr() const
+{
+	if (nullptr == UIConversationPtr)
 	{
-		Ellie::MainEllie->FinishWork();
+		MsgBoxAssert("대화 UI가 존재하지 않습니다.");
+		return nullptr;
 	}
 
-	SetEllieControl(true);
+	return UIConversationPtr;
+}
+
+std::shared_ptr<class UI_Inventory> UIManager::GetInventoryPtr() const
+{
+	if (nullptr == InventoryPtr)
+	{
+		MsgBoxAssert("인벤토리가 존재하지 않습니다.");
+		return nullptr;
+	}
+
+	return InventoryPtr;
+}
+
+std::shared_ptr<class UI_InterativeMark> UIManager::GetMarkPtr() const
+{
+	if (nullptr == InteractiveMarkPtr)
+	{
+		MsgBoxAssert("표식이 존재하지 않습니다.");
+		return nullptr;
+	}
+
+	return InteractiveMarkPtr;
 }
 
 
 void UIManager::Reset()
 {
-	if (nullptr != m_Hub)
+	if (nullptr != HubPtr)
 	{
-		m_Hub->Open();
+		HubPtr->Open();
 	}
 
-	if (nullptr != m_Dictionary)
+	if (nullptr != DictionaryPtr)
 	{
-		m_Dictionary->Close();
+		DictionaryPtr->Close();
 	}
 
-	if (nullptr != m_Inventory)
+	if (nullptr != InventoryPtr)
 	{
-		m_Inventory->Close();
+		InventoryPtr->Close();
 	}
 
 	IsActiveComponent = false;
@@ -170,26 +172,19 @@ void UIManager::Reset()
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////
 
 // UI컴포넌트가 꺼지는 것을 감지하고, 감지되면 HUB가 켜집니다.
 void UIManager::DectectOpenUIComponent()
 {
 	if (true == IsActiveComponent)
 	{
-		if (nullptr == m_Dictionary)
+		if (nullptr == DictionaryPtr || nullptr == InventoryPtr)
 		{
-			MsgBoxAssert("사전을 생성하지 않고 사용하려 했습니다.");
+			MsgBoxAssert("존재하지 않는 액터를 참조하려 했습니다.");
 			return;
 		}
 
-		if (nullptr == m_Inventory)
-		{
-			MsgBoxAssert("인벤토리을 생성하지 않고 사용하려 했습니다.");
-			return;
-		}
-
-		if (false == m_Dictionary->IsOpen && false == m_Inventory->IsOpen)
+		if (false == DictionaryPtr->IsOpen && false == InventoryPtr->IsOpen)
 		{
 			SwitchOpenHub = true;									// 허브를 열 수 있습니다.
 			IsActiveComponent = false;							// 현재 컴포넌트가 작동중인지 추적하는 변수입니다.
@@ -199,46 +194,40 @@ void UIManager::DectectOpenUIComponent()
 
 	if (true == SwitchOpenHub)
 	{
-		if (nullptr == m_Hub)
+		if (nullptr == HubPtr)
 		{
 			MsgBoxAssert("존재하지 않는 액터를 사용하려 했습니다.");
 			return;
 		}
 
-		m_Hub->Open();
+		HubPtr->Open();
 		SetEllieControl(true);
 
 		SwitchOpenHub = false;
 	}
 }
 
-// 특정 컴포넌트를 킵니다.
-void UIManager::UpdateInputToOpenUIComponent()
+// 특정 UI를 킵니다.
+void UIManager::InputUpdate()
 {
-	if (false == IsActiveComponent && false == IsOtherComponentUsed)
+	if (false == IsActiveComponent)
 	{
 		if (true == GameEngineInput::IsDown('D', this))
 		{
-			if (nullptr == m_Dictionary)
+			if (nullptr == DictionaryPtr)
 			{
 				MsgBoxAssert("존재하지 않는 액터를 사용하려 했습니다.");
 				return;
 			}
 
-			m_Dictionary->Open();
+			DictionaryPtr->Open();
 			SetEllieControl(false);
 			IsActiveComponent = true;
 		}
 
 		if (true == GameEngineInput::IsDown('S', this))
 		{
-			if (nullptr == m_Inventory)
-			{
-				MsgBoxAssert("존재하지 않는 액터를 사용하려 했습니다.");
-				return;
-			}
-
-			m_Inventory->Open();
+			OpenInventory(EINVENTORYMODE::Normal);
 			SetEllieControl(false);
 			HubPreServeCheck = true;
 			IsActiveComponent = true;
@@ -246,29 +235,24 @@ void UIManager::UpdateInputToOpenUIComponent()
 
 		if (false == HubPreServeCheck && true == IsActiveComponent)
 		{
-			if (nullptr == m_Hub)
+			if (nullptr == HubPtr)
 			{
 				MsgBoxAssert("존재하지 않는 액터를 사용하려 했습니다.");
 				return;
 			}
 
-			m_Hub->Close();
+			HubPtr->Close();
 		}
 	}
 }
 
 
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
 void UIManager::SetEllieControl(bool _Value)
 {
-	if (nullptr == Ellie::MainEllie)
-	{
-		MsgBoxAssert("앨리가 어디있는지 모릅니다. 혹시 알고 계신가요?");
-		return;
-	}
+	const std::shared_ptr<Ellie>& PlayerPtr = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr();
 
-	_Value ? Ellie::MainEllie->OnControl() : Ellie::MainEllie->OffControl();
+	if (nullptr != PlayerPtr)
+	{
+		_Value ? PlayerPtr->OnControl() : PlayerPtr->OffControl();
+	}
 }

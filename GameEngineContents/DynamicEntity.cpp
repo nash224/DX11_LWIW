@@ -30,8 +30,6 @@ void DynamicEntity::Release()
 }
 
 
-
-
 // 8방향 반환
 EDIRECTION DynamicEntity::GetDirectionFromVector(const float4& _MoveVector) const
 {
@@ -71,7 +69,7 @@ EDIRECTION DynamicEntity::GetDiagonalDirectionFromVector(const float4& _MoveVect
 	}
 
 	MsgBoxAssert("잘못된 반환입니다.");
-	return Dir;
+	return EDIRECTION::CENTER;
 }
 
 EDIRECTION DynamicEntity::GetDirectionToDegree(const float _Degree) const

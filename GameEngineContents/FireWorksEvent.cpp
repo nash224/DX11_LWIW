@@ -31,6 +31,7 @@ void FireWorksEvent::Update(float _Delta)
 void FireWorksEvent::Release()
 {
 	SceneryInfo.Release();
+	EventConversation.Release();
 }
 
 void FireWorksEvent::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -38,9 +39,6 @@ void FireWorksEvent::LevelEnd(class GameEngineLevel* _NextLevel)
 	Death();
 }
 
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 void FireWorksEvent::Init()
 {
@@ -57,7 +55,7 @@ void FireWorksEvent::PotionSetting()
 	CrackerPotion->Init();
 }
 
-void FireWorksEvent::FarsightedScenryInfo::RendererSetting(GameEngineActor* _Actor)
+void FireWorksEvent::FarsightedScenryStruct::RendererSetting(GameEngineActor* _Actor)
 {
 	const float SkyDepth = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Scenery_Sky);
 	const float GroundDepth = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Scenery_Ground);
@@ -88,12 +86,13 @@ void FireWorksEvent::FarsightedScenryInfo::RendererSetting(GameEngineActor* _Act
 	StarRenderers.reserve(StarCnt);
 	for (int i = 0; i < StarCnt; i++)
 	{
-		std::shared_ptr<GameEngineSpriteRenderer> StarRenderer = _Actor->CreateComponent<GameEngineSpriteRenderer>();
-		RandomClass.SetSeed(reinterpret_cast<__int64>(StarRenderer.get()));
+		RandomClass.SetSeed(GlobalValue::GetSeedValue());
 		float4 StarPosition = RandomClass.RandomVectorBox2D(-WinScale.hX(), WinScale.hX(), -WinScale.hY(), WinScale.hY());
+		StarPosition += float4(0.0f, 2000.0f, GroundDepth);
 		const float StarRatio = RandomClass.RandomFloat(0.8f, 1.2f);
 		const float StarInter = RandomClass.RandomFloat(0.09f, 0.12f);
-		StarPosition += float4(0.0f, 2000.0f, GroundDepth);
+
+		std::shared_ptr<GameEngineSpriteRenderer> StarRenderer = _Actor->CreateComponent<GameEngineSpriteRenderer>();
 		StarRenderer->Transform.SetLocalPosition(StarPosition);
 		StarRenderer->AutoSpriteSizeOn();
 		StarRenderer->SetAutoScaleRatio(StarRatio);
@@ -103,7 +102,7 @@ void FireWorksEvent::FarsightedScenryInfo::RendererSetting(GameEngineActor* _Act
 	}
 }
 
-void FireWorksEvent::FarsightedScenryInfo::Release()
+void FireWorksEvent::FarsightedScenryStruct::Release()
 {
 	SkyRenderer = nullptr;
 	GroundRenderer = nullptr;
@@ -128,10 +127,7 @@ void FireWorksEvent::ConversationSetting()
 
 	EventConversation.SetConversationEndEvent(EFIREWORKSEVENTTOPIC::Ready, [&]()
 		{
-			if (nullptr != UIManager::MainUIManager)
-			{
-				UIManager::MainUIManager->UseUIComponent();
-			}
+			PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr()->UseUIComponent();
 
 			State.ChangeState(EFIREWORKSSTATE::FireWorks);
 		});
@@ -151,10 +147,7 @@ void FireWorksEvent::ConversationSetting()
 
 	EventConversation.SetConversationEndEvent(EFIREWORKSEVENTTOPIC::Last, [&]()
 		{
-			if (nullptr != UIManager::MainUIManager)
-			{
-				UIManager::MainUIManager->UseUIComponent();
-			}
+			PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr()->UseUIComponent();
 
 			State.ChangeState(EFIREWORKSSTATE::EndTraining);
 		});
@@ -194,10 +187,11 @@ void FireWorksEvent::StateSetting()
 
 void FireWorksEvent::StartFadeIn(GameEngineState* _Parent)
 {
+	SetElliePlacement();
+
 	std::weak_ptr<FadeObject> Fade = GetLevel()->CreateActor<FadeObject>(EUPDATEORDER::Fade);
 	Fade.lock()->CallFadeIn(LastFadeTime);
-	
-	EllieSetting();
+
 
 	if (false == CameraControler::MainCameraControler.expired())
 	{
@@ -205,10 +199,7 @@ void FireWorksEvent::StartFadeIn(GameEngineState* _Parent)
 		CameraControler::MainCameraControler.lock()->SetCameraPos(Transform.GetLocalPosition());
 	}
 
-	if (nullptr != UIManager::MainUIManager)
-	{
-		UIManager::MainUIManager->UseUIComponent();
-	}
+	PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr()->UseUIComponent();
 
 	if (nullptr != ContentsLevel::MainPlaySound)
 	{
@@ -250,6 +241,31 @@ void FireWorksEvent::StartFireWorks(GameEngineState* _Parent)
 	StateTime = 0.0f;
 }
 
+
+void FireWorksEvent::StartLastConversation(GameEngineState* _Parent)
+{
+	EventConversation.StartConversation(EFIREWORKSEVENTTOPIC::Last);
+}
+
+void FireWorksEvent::StartEndTraining(GameEngineState* _Parent)
+{
+	CheckEndtrainingEvent();
+}
+
+void FireWorksEvent::StartFadeOut(GameEngineState* _Parent)
+{
+	std::weak_ptr<FadeObject> Fade = GetLevel()->CreateActor<FadeObject>(EUPDATEORDER::Fade);
+	if (true == Fade.expired())
+	{
+		MsgBoxAssert("포인터가 존재하지 않습니다.");
+		return;
+	}
+
+	Fade.lock()->CallFadeOut("EndingLevel", LastFadeTime);
+}
+
+
+
 void FireWorksEvent::UpdateFireWorks(float _Delta, GameEngineState* _Parent)
 {
 	if (nullptr == CrackerPotion)
@@ -270,18 +286,6 @@ void FireWorksEvent::UpdateFireWorks(float _Delta, GameEngineState* _Parent)
 	}
 }
 
-
-void FireWorksEvent::StartLastConversation(GameEngineState* _Parent)
-{
-	EventConversation.StartConversation(EFIREWORKSEVENTTOPIC::Last);
-}
-
-
-void FireWorksEvent::StartEndTraining(GameEngineState* _Parent)
-{
-	CheckEndtrainingEvent();
-}
-
 void FireWorksEvent::UpdateEndTraining(float _Delta, GameEngineState* _Parent)
 {
 	if (nullptr != PlayLevel::s_AlertManager)
@@ -294,33 +298,17 @@ void FireWorksEvent::UpdateEndTraining(float _Delta, GameEngineState* _Parent)
 }
 
 
-void FireWorksEvent::StartFadeOut(GameEngineState* _Parent)
+
+
+// 앨리 위치 조정
+void FireWorksEvent::SetElliePlacement() const
 {
-	std::weak_ptr<FadeObject> Fade = GetLevel()->CreateActor<FadeObject>(EUPDATEORDER::Fade);
-	if (true == Fade.expired())
-	{
-		MsgBoxAssert("포인터가 존재하지 않습니다.");
-		return;
-	}
-
-	Fade.lock()->CallFadeOut("EndingLevel", LastFadeTime);
-}
-
-
-void FireWorksEvent::EllieSetting()
-{
-	const float4& CurPos = Transform.GetLocalPosition();
-	const float4& ElliePos = CurPos + float4(-70.0f, -20.0f);
-
-	if (nullptr == Ellie::MainEllie)
-	{
-		MsgBoxAssert("앨리가 존재하지 않습니다.");
-		return;
-	}
+	const float4& VectorToEllie = float4(-70.0f, -20.0f);
 	
-	Ellie::MainEllie->Transform.SetLocalPosition(ElliePos);
-	Ellie::MainEllie->SetAnimationByDirection(EDIRECTION::RIGHT);
-	Ellie::MainEllie->ApplyDepth();
+	const std::shared_ptr<Ellie>& PlayerPtr = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr();
+	PlayerPtr->Transform.SetLocalPosition(VectorToEllie + Transform.GetLocalPosition());
+	PlayerPtr->SetAnimationByDirection(EDIRECTION::RIGHT);
+	PlayerPtr->ApplyDepth();
 }
 
 void FireWorksEvent::CheckEndtrainingEvent()

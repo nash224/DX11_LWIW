@@ -80,13 +80,7 @@ void UI_ProcessManager::OtherProcessSetting()
 // 열기
 void UI_ProcessManager::Open()
 {
-	if (nullptr == UIManager::MainUIManager)
-	{
-		MsgBoxAssert("UI 매니저가 존재하지 않습니다.");
-		return;
-	}
-
-	UIManager::MainUIManager->UseUIComponent();
+	PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr()->UseUIComponent();
 
 	if (nullptr != ProcessListWindow)
 	{
@@ -99,13 +93,7 @@ void UI_ProcessManager::Open()
 // 닫기
 void UI_ProcessManager::Close()
 {
-	if (nullptr == UIManager::MainUIManager)
-	{
-		MsgBoxAssert("UI 매니저가 존재하지 않습니다.");
-		return;
-	}
-
-	UIManager::MainUIManager->DoneUIComponent();
+	PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr()->DoneUIComponent();
 
 	if (nullptr != ProcessListWindow)
 	{
@@ -157,12 +145,6 @@ std::string UI_ProcessManager::GetOpenSoundFileName()
 
 void UI_ProcessManager::JuicyDone()
 {
-	if (nullptr == UI_Inventory::MainInventory)
-	{
-		MsgBoxAssert("인벤토리가 존재하지 않습니다.");
-		return;
-	}
-
 	CreateJuicyItem();
 
 	std::weak_ptr<IngredientData> Data = IngredientData::Find(CreatedProductName);
@@ -172,7 +154,7 @@ void UI_ProcessManager::JuicyDone()
 		return;
 	}
 	
-	const int ItemCount = UI_Inventory::MainInventory->ReturnItemCount(Data.lock()->SourceName);
+	const int ItemCount = UI_Inventory::ReturnItemCount(Data.lock()->SourceName);
 
 	ProcessWindow->Open(CreatedProductName, ItemCount);
 }
@@ -182,5 +164,5 @@ void UI_ProcessManager::JuicyDone()
 // JuicyDone에서 널체크를 해줍니다.
 void UI_ProcessManager::CreateJuicyItem()
 {
-	UI_Inventory::MainInventory->PushItem(CreatedProductName);
+	UI_Inventory::PushItem(CreatedProductName);
 }

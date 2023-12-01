@@ -15,13 +15,15 @@ void WorkplaceFindEvent::Update(float _Delta)
 	SingleEvent::Update(_Delta);
 }
 
+void WorkplaceFindEvent::Release()
+{
+	SingleEvent::Release();
+}
+
 void WorkplaceFindEvent::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	Death();
 }
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 
 void WorkplaceFindEvent::ConversationSetting()
