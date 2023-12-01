@@ -106,23 +106,25 @@ void BaseLift::StartReady(GameEngineState* _Parent)
 
 void BaseLift::StartEnter(GameEngineState* _Parent)
 {
+	GameEngineInput::IsOnlyInputObject(this);
+
 	if (nullptr != InteractiveActor::InteractiveCol)
 	{
 		InteractiveActor::InteractiveCol->Off();
 	}
 
-	if (nullptr != Ellie::MainEllie)
-	{
-		Ellie::MainEllie->SetLocalPosition(Transform.GetLocalPosition());
-		Ellie::MainEllie->OffControl();
-		Ellie::MainEllie->SetAnimationByDirection(EDIRECTION::DOWN);
-	}
+	const std::shared_ptr<Ellie>& PlayerPtr = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr();
+	PlayerPtr->SetLocalPosition(Transform.GetLocalPosition());
+	PlayerPtr->OffControl();
+	PlayerPtr->SetAnimationByDirection(EDIRECTION::DOWN);
+	
 
 	LiftSpeed = 0.0f;
 }
 
 void BaseLift::StartArrive(GameEngineState* _Parent)
 {
+	GameEngineInput::IsOnlyInputObject(this);
 	if (nullptr != InteractiveActor::InteractiveCol)
 	{
 		InteractiveActor::InteractiveCol->Off();
@@ -133,8 +135,7 @@ void BaseLift::StartArrive(GameEngineState* _Parent)
 
 void BaseLift::UpdateEnter(float _Delta, GameEngineState* _Parent)
 {
- 	const float4& CurLiftPos = Transform.GetLocalPosition();
-	const float MoveDistance = std::fabs(LiftArrivePoint.Y - CurLiftPos.Y);
+	const float MoveDistance = std::fabs(LiftArrivePoint.Y - Transform.GetLocalPosition().Y);
 
 	if (false == isChangeLevel && EnterDistance < MoveDistance)
 	{
@@ -151,11 +152,9 @@ void BaseLift::UpdateArrive(float _Delta, GameEngineState* _Parent)
 {
 	if (false == isArriveInit)
 	{
-		if (nullptr != Ellie::MainEllie)
-		{
-			Ellie::MainEllie->SetAnimationByDirection(EDIRECTION::DOWN);
-			Ellie::MainEllie->OffControl();
-		}
+		const std::shared_ptr<Ellie>& PlayerPtr = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr();
+		PlayerPtr->SetAnimationByDirection(EDIRECTION::DOWN);
+		PlayerPtr->OffControl();
 
 		LiftSpeed = MaxSpeed;
 		SetEv(EnterType);
@@ -163,9 +162,7 @@ void BaseLift::UpdateArrive(float _Delta, GameEngineState* _Parent)
 		isArriveInit = true;
 	}
 
-	const float4& CurPos = Transform.GetLocalPosition();
-
-	const float DistanceToArrivePoint = std::fabs(CurPos.Y - LiftArrivePoint.Y);
+	const float DistanceToArrivePoint = std::fabs(Transform.GetLocalPosition().Y - LiftArrivePoint.Y);
 	if (DistanceToArrivePoint < 12.0f)
 	{
 		AddSpeed(_Delta, -MaxSpeed);
@@ -180,28 +177,19 @@ void BaseLift::UpdateArrive(float _Delta, GameEngineState* _Parent)
 	MoveEv(_Delta, ArriveType);
 }
 
-
-
-
 void BaseLift::EndEnter(GameEngineState* _Parent)
 {
-	if (nullptr != Ellie::MainEllie)
-	{
-		Ellie::MainEllie->OnControl();
-	}
+	GameEngineInput::IsObjectAllInputOn();
+	PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->OnControl();
 }
 
 void BaseLift::EndArrive(GameEngineState* _Parent)
 {
-	if (nullptr != Ellie::MainEllie)
-	{
-		Ellie::MainEllie->OnControl();
-		Ellie::MainEllie->SetLocalPosition(LiftArrivePoint);
-	}
+	GameEngineInput::IsObjectAllInputOn();
+	const std::shared_ptr<Ellie>& PlayerPtr = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr();
+	PlayerPtr->OnControl();
+	PlayerPtr->SetLocalPosition(LiftArrivePoint);
 }
-
-
-
 
 
 void BaseLift::ActiveEv()
@@ -242,17 +230,12 @@ void BaseLift::MoveEv(float _Delta, ELIFTDIR _LiftType)
 
 	LiftMoveVector *= LiftSpeed * _Delta;
 
-	if (nullptr != Ellie::MainEllie)
-	{
-		Ellie::MainEllie->AddLocalPosition(LiftMoveVector);
-	}
-
+	PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->AddLocalPosition(LiftMoveVector);
 	Transform.AddLocalPosition(LiftMoveVector);
 }
 
 void BaseLift::SetEv(ELIFTDIR _LiftType)
 {
-	const float4& CurPos = Transform.GetLocalPosition();
 	float4 LiftMoveVector;
 	if (ELIFTDIR::Up == _LiftType)
 	{
@@ -264,12 +247,10 @@ void BaseLift::SetEv(ELIFTDIR _LiftType)
 	}
 
 	LiftMoveVector *= ArriveStartDistance;
-	LiftMoveVector = CurPos + LiftMoveVector;
+	LiftMoveVector = Transform.GetLocalPosition() + LiftMoveVector;
 
-	if (nullptr != Ellie::MainEllie)
-	{
-		Ellie::MainEllie->SetLocalPosition(LiftMoveVector);
-	}
+	PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->SetLocalPosition(LiftMoveVector);
+	
 
 	Transform.SetLocalPosition(LiftMoveVector);
 }

@@ -60,9 +60,9 @@ void FireWorksEvent::FarsightedScenryStruct::RendererSetting(GameEngineActor* _A
 	const float SkyDepth = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Scenery_Sky);
 	const float GroundDepth = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Scenery_Ground);
 
-	const float4& WinScale = GlobalValue::GetWindowScale();
+	const float4 WinScale = GlobalValue::GetWindowScale();
 
-	const float4& CurPositon = _Actor->Transform.GetLocalPosition();
+	const float4 CurPositon = _Actor->Transform.GetLocalPosition();
 	const float SkyYPos = 2000.0f + WinScale.hY();
 	const float GroundYPos = 1600.0f + WinScale.hY();
 
