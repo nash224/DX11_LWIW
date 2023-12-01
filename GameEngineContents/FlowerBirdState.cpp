@@ -105,7 +105,7 @@ void FlowerBird::StartTurn()
 	AssignTurnTime();
 
 	DynamicEntity::StopSFX();
-	DynamicEntity::PlaySFX(RandomBirdCrySoundName());
+	SoundPlayer = SFXFunction::PlaySFX(RandomBirdCrySoundName());
 
 	ChangeFlowerBirdAnimation("Turn");
 }
@@ -362,7 +362,7 @@ void FlowerBird::StartFly()
 	DecideFlyDirection();
 
 	DynamicEntity::StopSFX();
-	DynamicEntity::PlaySFX("SFX_BirdFly_01.wav");
+	SoundPlayer = SFXFunction::PlaySFX("SFX_BirdFly_01.wav");
 
 	ChangeFlowerBirdAnimation("Fly");
 }

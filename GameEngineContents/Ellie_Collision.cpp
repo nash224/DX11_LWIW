@@ -1,10 +1,13 @@
 #include "PreCompile.h"
 #include "Ellie.h"
 
+#include "ContentsMath.h"
+
 #include "InteractiveActor.h"
 #include "PortalObject.h"
 #include "UI_InterativeMark.h"
 #include "UI_Hub_Tool.h"
+
 
 
 void Ellie::UpdateCollision()
@@ -49,28 +52,10 @@ void Ellie::UpdateInteractionCollsiion()
 		return;
 	}
 
-	const float4& ElliePosition = Transform.GetWorldPosition();
-
-	float4 DirectionVector = GetDirectionVectorToDir(Dir);
-
-	float EllieDirAngle = DirectionVector.Angle2DDeg();
-	if (DirectionVector.Y < 0.0f)
-	{
-		EllieDirAngle = 360.0f - EllieDirAngle;
-	}
-
-	float EllieLeftFOVAngle = EllieDirAngle + FOVAngle;
-	float EllieRightFOVAngle = EllieDirAngle - FOVAngle;
-
-	if (EllieLeftFOVAngle >= 360.0f)
-	{
-		EllieLeftFOVAngle -= 360.0f;
-	}
-
-	if (EllieRightFOVAngle < 0.0f)
-	{
-		EllieRightFOVAngle += 360.0f;
-	}
+	float4 DirectionVector = DirectionFunction::GetVectorToDirection(Dir);
+	float DirAngle = ContentMathFunction::ReturnClampDegree(ContentMathFunction::GetDegreeToVector2D(DirectionVector));
+	float LeftFOVAngle = ContentMathFunction::ReturnClampDegree(DirAngle + FOVAngle);
+	float RightFOVAngle = ContentMathFunction::ReturnClampDegree(DirAngle - FOVAngle);
 
 	EllieCol->Collision(ECOLLISION::Entity, [&](std::vector<GameEngineCollision*>& _Collisions)
 		{
@@ -83,46 +68,18 @@ void Ellie::UpdateInteractionCollsiion()
 			{
 				GameEngineCollision* Collision = _Collisions[i];
 
-				bool IsAngle = false;
+				const float4 VectorToOther = Collision->Transform.GetWorldPosition() - Transform.GetWorldPosition();
+				const float ObjectAngle = ContentMathFunction::ReturnClampDegree(ContentMathFunction::GetDegreeToVector2D(VectorToOther));
 
-				const float4& OtherPosition = Collision->Transform.GetWorldPosition();
-				float4 EllieVectorTowardObject = OtherPosition - ElliePosition;
-
-				EllieVectorTowardObject.Z = 0.0f;
-				float ObjectAngle = EllieVectorTowardObject.NormalizeReturn().Angle2DDeg();
-				if (EllieVectorTowardObject.Y < 0.0f)
-				{
-					ObjectAngle = 360.0f - ObjectAngle;
-				}
-
-				if (EllieLeftFOVAngle - EllieRightFOVAngle > 0.0f)
-				{
-					if (EllieLeftFOVAngle >= ObjectAngle && EllieRightFOVAngle <= ObjectAngle)
-					{
-						IsAngle = true;
-					}
-				}
-				else
-				{
-					if (EllieLeftFOVAngle >= ObjectAngle && 0.0f <= ObjectAngle)
-					{
-						IsAngle = true;
-					}
-					else if (EllieRightFOVAngle <= ObjectAngle && 360.0f >= ObjectAngle)
-					{
-						IsAngle = true;
-					}
-				}
-				
-				if (false == IsAngle)
+				bool isInSight = IsInSight(ObjectAngle, LeftFOVAngle, RightFOVAngle);
+				if (false == isInSight)
 				{
 					vecDistance[i] = 0.0f;
 				}
 				else
 				{
-					EllieVectorTowardObject.Size();
-
-					vecDistance[i] = EllieVectorTowardObject.Size();
+					const float4 Size = DirectX::XMVector2Length(VectorToOther.DirectXVector);
+					vecDistance[i] = Size.X;
 				}
 			}
 
@@ -143,13 +100,12 @@ void Ellie::UpdateInteractionCollsiion()
 			if (-1 != ShortestNumber)
 			{
 				GameEngineCollision* Collision = _Collisions[ShortestNumber];
-
-				GameEngineActor* Object = Collision->GetActor();
-				if (true ==Object->IsDeath())
+				if (true == Collision->IsDeath())
 				{
 					return;
 				}
 
+				GameEngineActor* Object = Collision->GetActor();
 				InteractiveActor* Entity = dynamic_cast<InteractiveActor*>(Object);
 				if (nullptr == Entity)
 				{
@@ -227,12 +183,36 @@ void Ellie::UpdateInteractionCollsiion()
 }
 
 
+bool Ellie::IsInSight(float _AngleToObject, float _LeftFov, float _RightFov)
+{
+	if (_LeftFov - _RightFov > 0.0f)
+	{
+		if (_LeftFov >= _AngleToObject && _RightFov <= _AngleToObject)
+		{
+			return true;
+		}
+	}
+	else
+	{
+		if (_LeftFov >= _AngleToObject && 0.0f <= _AngleToObject)
+		{
+			return true;
+		}
+		else if (_RightFov <= _AngleToObject && 360.0f >= _AngleToObject)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
 
 void Ellie::CheckNetCollision()
 {
 	NetCollision->Collision(ECOLLISION::Entity, [&](std::vector<GameEngineCollision*>& _OtherGroup)
 		{
-			for (size_t i = 0; i < _OtherGroup.size(); i++)
+			for (int i = 0; i < _OtherGroup.size(); i++)
 			{
 				GameEngineCollision* Collision = _OtherGroup[i];
 				GameEngineActor* Actor = Collision->GetActor();

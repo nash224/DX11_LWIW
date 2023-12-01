@@ -252,7 +252,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="ContentMath.cpp">
+    <ClCompile Include="ContentsMath.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -883,7 +883,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="ContentMath.h">
+    <ClInclude Include="ContentsMath.h">
       <SubType>
       </SubType>
     </ClInclude>

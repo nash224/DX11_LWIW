@@ -1,6 +1,8 @@
 ﻿#include "PreCompile.h"
 #include "Ellie.h"
 
+#include "ContentsMath.h"
+
 #include "PlayLevel.h"
 #include "TimeManager.h"
 #include "UIManager.h"
@@ -39,6 +41,13 @@ Ellie::Ellie()
 		}
 	}
 
+	if (nullptr == GameEngineSprite::Find("Broomstick_Basic_Boosting.png"))
+	{
+		GameEngineSprite::CreateCut("Broomstick_Basic_Boosting.png", 6, 6);
+		GameEngineSprite::CreateCut("Broomstick_Basic_Moving.png", 6, 6);
+		GameEngineSprite::CreateCut("Broomstick_Basic_Standing.png", 6, 6);
+	}
+
 	if (false == FirstInitCheck)
 	{
 		g_Status = EELLIE_STATUS::Normal;
@@ -66,12 +75,6 @@ void Ellie::Update(float _Delta)
  	UpdateState(_Delta);
 	UpdateCoolTime(_Delta);
 	UpdateCollision();
-	UpdateTestCode();
-}
-
-void Ellie::UpdateTestCode()
-{
-
 }
 
 
@@ -104,6 +107,7 @@ void Ellie::LevelEnd(class GameEngineLevel* _NextLevel)
 }
 
 
+
 void Ellie::CollisionSetting()
 {
 	EllieCol = CreateComponent<GameEngineCollision>(ECOLLISION::Player);
@@ -114,12 +118,6 @@ void Ellie::CollisionSetting()
 	NetCollision->Transform.SetLocalScale(float4(140.0f, 4.0f));
 	NetCollision->SetCollisionType(ColType::SPHERE2D);
 	NetCollision->Off();
-}
-
-
-void Ellie::Init()
-{
-
 }
 
 void Ellie::SetLocalPosition(const float4& _Pos)
@@ -197,30 +195,10 @@ void Ellie::WaitDone(EELLIE_STATE _State)
 	IsWaitDone = true;
 }
 
-void Ellie::SetAnimationByDirection(EDIRECTION _Dir /*= EDIRECTION::CENTER*/)
-{
-	if (EDIRECTION::CENTER != _Dir)
-	{
-		Dir = _Dir;
-
-		if (EELLIE_STATUS::Normal == g_Status)
-		{
-			RenewStatus();
-			ChangeDirectionAnimation("Idle");
-		}
-
-		if (EELLIE_STATUS::Riding== g_Status)
-		{
-			RenewStatus();
-			ChangeDirectionAnimation("Riding_Standing");
-		}
-	}
-}
-
 
 void Ellie::SetPixelPointBaseOnCenter()
 {
-	static constexpr const float CheckPointGap = 2.0f;
+	const float CheckPointGap = 2.0f;
 
 	const float4 CheckPosBaseOnCenter = float4::ZERO;
 
@@ -369,10 +347,29 @@ void Ellie::ChangeState(EELLIE_STATE _State)
 }
 
 
+void Ellie::SetAnimationByDirection(EDIRECTION _Dir /*= EDIRECTION::CENTER*/)
+{
+	if (EDIRECTION::CENTER != _Dir)
+	{
+		Dir = _Dir;
+
+		if (EELLIE_STATUS::Normal == g_Status)
+		{
+			RenewStatus();
+			ChangeDirectionAnimation("Idle");
+		}
+
+		if (EELLIE_STATUS::Riding== g_Status)
+		{
+			RenewStatus();
+			ChangeDirectionAnimation("Riding_Standing");
+		}
+	}
+}
+
 void Ellie::ChangeAnimationByDirection(std::string_view _StateName, bool _DirectionInfluence /*= true*/, bool _Force /*= false*/, unsigned int _Index /*= 0*/)
 {
-	std::string AnimaitonName = "Ellie_Basic_";
-	AnimaitonName += _StateName.data();
+	std::string AnimaitonName = std::string("Ellie_Basic_") + _StateName.data();
 
 	ChangeShawdowSprite(AnimaitonName);
 	ChangeVirgilSprite(AnimaitonName);
@@ -437,8 +434,6 @@ void Ellie::ChangeShawdowSprite(std::string_view _AnimationName)
 
 	std::string ShadowSpriteName = _AnimationName.data() + std::string(".png");
 
-	static constexpr const int OnlySpriteUse = 0;
-
 	switch (State)
 	{
 	case EELLIE_STATE::Idle:
@@ -461,7 +456,7 @@ void Ellie::ChangeShawdowSprite(std::string_view _AnimationName)
 	case EELLIE_STATE::Sit:
 	case EELLIE_STATE::Fail:
 	case EELLIE_STATE::Cheer:
-		ShadowRenderer->SetSprite(ShadowSpriteName, OnlySpriteUse);
+		ShadowRenderer->SetSprite(ShadowSpriteName, 0);
 		break;
 	case EELLIE_STATE::SlowWalk:
 	case EELLIE_STATE::Juicy:
@@ -525,13 +520,6 @@ void Ellie::ChangeVirgilSprite(std::string_view _AnimationName)
 
 void Ellie::ChangeBroomSprite()
 {
-	if (nullptr == GameEngineSprite::Find("Broomstick_Basic_Boosting.png"))
-	{
-		GameEngineSprite::CreateCut("Broomstick_Basic_Boosting.png", 6, 6);
-		GameEngineSprite::CreateCut("Broomstick_Basic_Moving.png", 6, 6);
-		GameEngineSprite::CreateCut("Broomstick_Basic_Standing.png", 6, 6);
-	}
-
 	if (true == Broom.BroomRenderer.empty())
 	{
 		MsgBoxAssert("빗자루 렌더러가 존재하지 않습니다.");
@@ -585,7 +573,6 @@ void Ellie::ChangeDirectionAnimation(std::string_view _StateName)
 
 #pragma endregion
 
-/////////////////////////////////////////////////////////////////////////////////////
 
 
 #pragma region 이동 키 감지
@@ -736,58 +723,14 @@ bool Ellie::DetectHorizontalMovement()
 
 #pragma region 이동 및 방향 
 
-float4 Ellie::GetDirectionVectorToDir(const EDIRECTION _Direction)
-{
-	float4 DirVector = float4::ZERO;
-
-	switch (_Direction)
-	{
-	case EDIRECTION::UP:
-		DirVector = { 0.0f , 1.0f };
-		break;
-	case EDIRECTION::LEFTUP:
-		DirVector = { -1.0f , 1.0f };
-		DirVector.Normalize();
-		break;
-	case EDIRECTION::LEFT:
-		DirVector = { -1.0f , 0.0f };
-		break;
-	case EDIRECTION::LEFTDOWN:
-		DirVector = { -1.0f , -1.0f };
-		DirVector.Normalize();
-		break;
-	case EDIRECTION::RIGHTUP:
-		DirVector = { 1.0f , 1.0f };
-		DirVector.Normalize();
-		break;
-	case EDIRECTION::RIGHT:
-		DirVector = { 1.0f , 0.0f };
-		break;
-	case EDIRECTION::RIGHTDOWN:
-		DirVector = { 1.0f , -1.0f };
-		DirVector.Normalize();
-		break;
-	case EDIRECTION::DOWN:
-		DirVector = { 0.0f , -1.0f };
-		break;
-	default:
-		break;
-	}
-
-	return DirVector;
-}
-
 void Ellie::CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce)
 {
-	const float4& DirVector = GetDirectionVectorToDir(Dir);
+	const float4 DirVector = DirectionFunction::GetVectorToDirection(Dir);
 
 	SetMoveVector(DirVector * _MAXMoveForce);
 	
-	const float4& CurPos = Transform.GetWorldPosition();
-
-	float4 LeftCheckPoint = CurPos;
-	float4 RightCheckPoint = CurPos;
-	float4 MoveDirVector = float4::ZERO;
+	float4 LeftCheckPoint = Transform.GetWorldPosition();
+	float4 RightCheckPoint = Transform.GetWorldPosition();
 	EDIRECTION CheckDir = EDIRECTION::CENTER;
 
 
@@ -839,8 +782,8 @@ void Ellie::CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce)
 		}
 		else
 		{
-			MoveDirVector = GetDirectionVectorToDir(CheckDir);
-			SetMoveVector(MoveDirVector * _MAXMoveForce * FrictionForce);
+			float4 MoveDirVector = DirectionFunction::GetVectorToDirection(CheckDir);
+			SetMoveVector(MoveDirVector * (_MAXMoveForce * FrictionForce));
 		}
 	}
 }
@@ -896,20 +839,17 @@ EDIRECTION Ellie::ReturnDirectionCheckBothSide(EDIRECTION _Direction, const floa
 
 float4 Ellie::GetMoveForceByDir(float _Delta, float _MAXMoveForce, float _Acceleration_Time)
 {
-	const float4& DirVector = GetDirectionVectorToDir(Dir);
+	const float4 DirVector = DirectionFunction::GetVectorToDirection(Dir);
+	const float PlusSpeed = _MAXMoveForce / _Acceleration_Time;
 
-	const float4& MaxForce = { DirVector.X * _MAXMoveForce / _Acceleration_Time, DirVector.Y * _MAXMoveForce / _Acceleration_Time };
-
-	float4 ResultVector;
-	ResultVector.X = MaxForce.X * _Delta;
-	ResultVector.Y = MaxForce.Y * _Delta;
-	return ResultVector;
+	const float4 MaxForce = DirVector * PlusSpeed * _Delta;
+	return MaxForce;
 }
 
 void Ellie::LimitMoveVector(float _MAXMoveForce)
 {
-	const float4& MoveVectorSize = DirectX::XMVector2Length(DynamicEntity::GetMoveVector().DirectXVector);
-	const float4& MoveUnitVector = DirectX::XMVector2Normalize(DynamicEntity::GetMoveVector().DirectXVector);
+	const float4 MoveVectorSize = DirectX::XMVector2Length(DynamicEntity::GetMoveVector().DirectXVector);
+	const float4 MoveUnitVector = DirectX::XMVector2Normalize(DynamicEntity::GetMoveVector().DirectXVector);
  	const float LimitedSpeed = std::clamp(MoveVectorSize.X, 0.0f, _MAXMoveForce);
 
 	DynamicEntity::SetMoveVector(MoveUnitVector * LimitedSpeed);

@@ -727,7 +727,7 @@
     <ClInclude Include="Comet.h">
       <Filter>Actor\Prop</Filter>
     </ClInclude>
-    <ClInclude Include="ContentMath.h">
+    <ClInclude Include="ContentsMath.h">
       <Filter>Global\Math</Filter>
     </ClInclude>
     <ClInclude Include="GaugeRenderer.h">
@@ -1238,7 +1238,7 @@
     <ClCompile Include="Comet.cpp">
       <Filter>Actor\Prop</Filter>
     </ClCompile>
-    <ClCompile Include="ContentMath.cpp">
+    <ClCompile Include="ContentsMath.cpp">
       <Filter>Global\Math</Filter>
     </ClCompile>
     <ClCompile Include="GaugeRenderer.cpp">

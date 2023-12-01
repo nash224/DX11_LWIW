@@ -129,7 +129,7 @@ void FlowerBird::AnimationSetting()
 
 	BodyRenderer->SetFrameEvent("Bloom", 6, [&](GameEngineSpriteRenderer* _Renderer)
 		{
-			PlaySFX("SFX_FlowerBirdBloom_01.wav");
+			SoundPlayer = SFXFunction::PlaySFX("SFX_FlowerBirdBloom_01.wav");
 		});
 
 	BodyRenderer->SetEndEvent("Pick", [&](GameEngineSpriteRenderer* _Renderer)

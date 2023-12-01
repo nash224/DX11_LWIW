@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "Ellie.h"
 
+#include "ContentsMath.h"
+
 #include "BackDrop.h"
 
 #include "ContentsEvent.h"
@@ -9,13 +11,14 @@
 #include "UI_ProcessManager.h"
 #include "BaseLift.h"
 
+static constexpr const float RunCost = 2.0f;
 
 void Ellie::StartIdle()
 {
 	if (EELLIE_STATUS::Riding == g_Status)
 	{
 		OnRideFx();
-		Ellie::PlaySFX("SFX_Broomstick_Ride_03.wav");
+		SFXFunction::PlaySFX("SFX_Broomstick_Ride_03.wav");
 	}
 
 	g_Status = EELLIE_STATUS::Normal;
@@ -55,10 +58,8 @@ void Ellie::StartApproach()
 		return;
 	}
 
-	// 수집타입이 몽시리일때
 	if (ECOLLECTION_METHOD::MongSiri == OtherEntity->GetCollectionMethod())
 	{
-		// 멈추게 함
 		OtherEntity->GetCaught();
 	}
 
@@ -66,9 +67,8 @@ void Ellie::StartApproach()
 	IsCollected = false; // 해당 자원을 수집했는지 확인합니다.
 
 	// 상대방을 바라보는 방향을 구합니다.
-	const float4 OtherPosition = OtherEntity->GetInteractiveLocalPositon();
-	const float4 TargetDistance = OtherPosition - Transform.GetLocalPosition();
-	Dir = GetDirectionFromVector(TargetDistance);
+	const float4 VectorToOther = OtherEntity->GetInteractiveLocalPositon() - Transform.GetLocalPosition();
+	DirectionFunction::GetDirectionToVector(VectorToOther);
 
 	ChangeAnimationByDirection("Walk");
 }
@@ -87,10 +87,6 @@ void Ellie::StartLift()
 
 void Ellie::StartButterflyNet()
 {
-	static constexpr const float NetCost = 5.0f;
-
-	Stamina -= NetCost;
-
 	if (nullptr == NetCollision)
 	{
 		MsgBoxAssert("충돌체가 존재하지 않습니다.");
@@ -98,12 +94,14 @@ void Ellie::StartButterflyNet()
 	}
 	NetCollision->On();
 
+	const float NetCost = 5.0f;
+	Stamina -= NetCost;
+
 	ChangeAnimationByDirection("ButterflyNet");
 }
 void Ellie::StartRootUp()
 {
-	static constexpr const float RootUpCost = 20.0f;
-
+	const float RootUpCost = 20.0f;
 	Stamina -= RootUpCost;
 
 	isRootup = false;
@@ -118,8 +116,7 @@ void Ellie::StartSit()
 
 void Ellie::StartMongSiri()
 {
-	static constexpr const float MongsiriCost = 20.0f;
-
+	const float MongsiriCost = 20.0f;
 	Stamina -= MongsiriCost;
 
 	ChangeAnimationByDirection("MongSiri");
@@ -133,36 +130,23 @@ void Ellie::StartWait()
 		return;
 	}
 
+	OtherEntity->ReachThis();
+
 	IsWaitDone = false;
 	isFinishWork = false;
-
-	OtherEntity->ReachThis();
 
 	ChangeAnimationByDirection("Idle");
 }
 
 void Ellie::StartJuicy()
 {
-	static constexpr const float JuicyCost = 10.0f;
-
+	const float JuicyCost = 10.0f;
 	Stamina -= JuicyCost;
 
 	if (nullptr != BodyRenderer && nullptr == BodyRenderer->FindAnimation("Ellie_Basic_Juicy"))
 	{
 		BodyRenderer->CreateAnimation("Ellie_Basic_Juicy", "DownFloor_Extractor_0.png", 0.2f, 12, 19, false);
 		BodyRenderer->FindAnimation("Ellie_Basic_Juicy")->Inter = { 0.14f, 0.14f, 0.12f, 0.18f, 0.19f, 0.2f, 0.21f, 0.2f };
-		BodyRenderer->SetFrameEvent("Ellie_Basic_Juicy", 15, [&](GameEngineSpriteRenderer* _Renerer)
-			{
-				Extractor* ExtractorPtr = static_cast<Extractor*>(OtherEntity);
-				if (nullptr == ExtractorPtr)
-				{
-					MsgBoxAssert("형변환에 실패했습니다.");
-					return;
-				}
-
-				// 착즙기에게 당겨지라고 요청합니다.
-				ExtractorPtr->PullThis();
-			});
 
 		BodyRenderer->SetStartEvent("Ellie_Basic_Juicy", [&](GameEngineSpriteRenderer* _Renderer)
 			{
@@ -178,13 +162,15 @@ void Ellie::StartJuicy()
 			});
 	}
 
+	isPull = false;
+
 	ChangeAnimationByDirection("Juicy", false);
 }
 
 
 void Ellie::StartCheer()
 {
-	Ellie::PlaySFX("SFX_PenCompleteMelody.wav");
+	SFXFunction::PlaySFX("SFX_PenCompleteMelody.wav");
 
 	ChangeAnimationByDirection("Cheer", false);
 }
@@ -208,11 +194,6 @@ void Ellie::UpdateIdle(float _Delta)
 {
 	if (true == IsControl && false == IsHolding)
 	{
-		if (true == InputTestPattern())
-		{
-			return;
-		}
-
 		if (true == UsingTool())
 		{
 			return;
@@ -286,8 +267,6 @@ void Ellie::UpdateSlowWalk(float _Delta)
 
 void Ellie::UpdateWalk(float _Delta)
 {
-	InputTestPattern();
-
 	if (true == UsingTool())
 	{
 		return;
@@ -361,13 +340,11 @@ void Ellie::UpdateRun(float _Delta)
 	ChangeDirectionAnimation("Run");
 
 
-	static constexpr const float RunCostCoolDown = 0.5f;
+	const float RunCostCoolDown = 0.5f;
 
 	StateTime += _Delta;
 	if (StateTime > RunCostCoolDown)
 	{
-		static constexpr const float RunCost = 2.0f;
-
 		StateTime -= RunCostCoolDown;
 		Stamina -= RunCost;
 	}
@@ -396,12 +373,11 @@ void Ellie::UpdateApproach(float _Delta)
 		return;
 	}
 
-	const float4& OtherPosition = OtherEntity->GetInteractiveLocalPositon();
-	float4 TargetDistance = OtherPosition - Transform.GetLocalPosition();
+	float4 VectorToOther = OtherEntity->GetInteractiveLocalPositon() - Transform.GetLocalPosition();
 	
-	const float4 Dist = DirectX::XMVector2Length(TargetDistance.DirectXVector);
-	bool isInInterationRange = Dist.X < OtherEntity->GetInteractiveRange();
-	if (isInInterationRange)
+	const float4 Size = DirectX::XMVector2Length(VectorToOther.DirectXVector);
+	bool isInRange = Size.X < OtherEntity->GetInteractiveRange();
+	if (isInRange)
 	{
 		if (ECOLLECTION_METHOD::Sit == OtherEntity->GetCollectionMethod())
 		{
@@ -435,9 +411,9 @@ void Ellie::UpdateApproach(float _Delta)
 	}
 	else
 	{
-		TargetDistance.Z = 0.0f;
-		float4 TargetDircetion = TargetDistance.NormalizeReturn();
-		m_MoveVector = TargetDircetion * Walk_Speed;
+		
+		float4 TargetDircetion = DirectX::XMVector2Normalize(VectorToOther.DirectXVector);
+		SetMoveVector(TargetDircetion * Walk_Speed);
 		ApplyMovement(_Delta);
 	}
 }
@@ -574,6 +550,21 @@ void Ellie::UpdateJuicy(float _Delta)
 		return;
 	}
 
+	if (false == isPull && 15 == BodyRenderer->GetCurIndex())
+	{
+		Extractor* ExtractorPtr = dynamic_cast<Extractor*>(OtherEntity);
+		if (nullptr == ExtractorPtr)
+		{
+			MsgBoxAssert("형변환에 실패했습니다.");
+			return;
+		}
+
+		// 착즙기에게 당겨지라고 요청합니다.
+		ExtractorPtr->PullThis();
+
+		isPull = true;
+	}
+
 	if (true == BodyRenderer->IsCurAnimationEnd())
 	{
 		ChangeState(EELLIE_STATE::Wait);
@@ -680,21 +671,13 @@ void Ellie::EndJuicy()
 
 void Ellie::SitShadowUpdate()
 {
-	if (nullptr == BodyRenderer)
+	if (nullptr == BodyRenderer || nullptr == ShadowRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	if (nullptr == ShadowRenderer)
-	{
-		MsgBoxAssert("렌더러가 존재하지 않습니다.");
-		return;
-	}
-
-	const int CurBodyIndex = BodyRenderer->GetCurIndex();
-
-	switch (CurBodyIndex)
+	switch (BodyRenderer->GetCurIndex())
 	{
 	case 0:
 		ShadowRenderer->ChangeCurSprite(1);
@@ -719,25 +702,6 @@ void Ellie::SitShadowUpdate()
 	}
 }
 
-
-
-
-bool Ellie::InputTestPattern()
-{
-	if (true == GameEngineInput::IsDown('7', this))
-	{
-		ChangeState(EELLIE_STATE::Drink);
-		return true;
-	}
-
-	if (true == GameEngineInput::IsDown('8', this))
-	{
-		ChangeState(EELLIE_STATE::Throw);
-		return true;
-	}
-
-	return false;
-}
 
 bool Ellie::UsingTool()
 {

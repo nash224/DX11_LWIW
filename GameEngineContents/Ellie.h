@@ -94,12 +94,8 @@ public:
 	Ellie& operator=(const Ellie& _Other) = delete;
 	Ellie& operator=(Ellie&& _Other) noexcept = delete;
 
-	// ¿Ã¥œº»
-	void Init();
-
 	void SetLocalPosition(const float4& _Pos);
 	void AddLocalPosition(const float4& _Pos);
-	void OnLevelStart();
 	void OnControl();
 	void OffControl();
 	void FinishWork();
@@ -134,6 +130,8 @@ protected:
 	void BroomSetting();
 	void CollisionSetting();
 	void SetPixelPointBaseOnCenter();
+
+	void OnLevelStart();
 	
 	void ChangeBroomAndVirgilIndexToRidingMode(int _HeadIndex, int _BodyIndex, int _VirgilIndex);
 
@@ -153,7 +151,7 @@ private:
 	void UpdateInteractionCollsiion();
 	void CheckNetCollision();
 
-	void UpdateTestCode();
+	bool IsInSight(float _AngleToObject, float _LeftFov, float _RightFov);
 
 	// FSM
 	void ChangeState(EELLIE_STATE _State);
@@ -214,7 +212,6 @@ private:
 	void EndJuicy();
 
 
-	bool InputTestPattern();
 	bool UsingTool();
 	bool InputRidingMode();
 
@@ -234,7 +231,7 @@ private:
 	bool DetectVerticalMovement();
 	bool DetectHorizontalMovement();
 
-	float4 GetDirectionVectorToDir(const EDIRECTION _Direction);
+	
 	void CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce);
 	EDIRECTION ReturnDirectionCheckBothSide(EDIRECTION _Direction, const float4& _LeftCheckPoint, const float4& _RightCheckPoint);
 
@@ -275,6 +272,7 @@ private:
 	bool IsHolding = false;
 	bool IsWaitDone = false;
 	bool isRootup = false;
+	bool isPull = false;
 
 	static constexpr const float Broom_Particle_Cool_Down = 0.08f;
 

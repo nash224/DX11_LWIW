@@ -57,9 +57,6 @@ void BushBug::LevelEnd(class GameEngineLevel* _NextLevel)
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
 
 void BushBug::Init()
 {
@@ -104,7 +101,7 @@ void BushBug::ALightSetting()
 		});
 	BodyRenderer->SetFrameEvent("Idle", 3, [&](GameEngineSpriteRenderer* _Renderer)
 		{
-			PlaySFX("SFX_BushBug_Fly.wav");
+			SoundPlayer = SFXFunction::PlaySFX("SFX_BushBug_Fly.wav");
 			Alight.SetPosition(float4(-3.0f, 17.0f, -0.01f));
 		});
 	BodyRenderer->SetFrameEvent("Idle", 4, [&](GameEngineSpriteRenderer* _Renderer)
@@ -165,9 +162,8 @@ void BushBug::UpdateMove(float _Delta, GameEngineState* _Parent)
 		Death();
 	}
 
-	const float4& MyPosition = Transform.GetLocalPosition();
-	const float4& CheckDistance = SpawnPosition - MyPosition;
-	const float4& DistanceToSpawn = DirectX::XMVector2Length(CheckDistance.DirectXVector);
+	const float4 CheckDistance = SpawnPosition - Transform.GetLocalPosition();
+	const float4 DistanceToSpawn = DirectX::XMVector2Length(CheckDistance.DirectXVector);
 	if (DistanceToSpawn.X > Move_Range)
 	{
 		SearchFlyDirection();
@@ -181,22 +177,19 @@ void BushBug::SearchFlyDirection()
 	GameEngineRandom RandomClass;
 	RandomClass.SetSeed(GlobalValue::GetSeedValue());
 
-	const float4& MyPosition = Transform.GetLocalPosition();
-	const float4& TargetPos = SpawnPosition - MyPosition;
-	const float DegreeToTarget = DirectX::XMConvertToDegrees(atan2f(TargetPos.Y, TargetPos.X));
+	const float4 TargetVector = SpawnPosition - Transform.GetLocalPosition();
+	const float DegreeToTarget = DirectX::XMConvertToDegrees(atan2f(TargetVector.Y, TargetVector.X));
 
-	const float AngleChance = RandomClass.RandomFloat(0.0f, 1.0f);
-	float FlyAngle = static_cast<float>(pow(AngleChance, 2));
+	float FlyAngle = static_cast<float>(pow(RandomClass.RandomFloat(0.0f, 1.0f), 2));
 	FlyAngle *= Max_YAngle;
 
-	int ReverseDirChance = RandomClass.RandomInt(0, 1);
-	if (1 == ReverseDirChance)
+	if (1 == RandomClass.RandomInt(0, 1))
 	{
 		FlyAngle *= -1.0f;
 	}
 
 	FlyAngle = DegreeToTarget + FlyAngle;
 
-	const float4& TargetUnitVector = float4::GetUnitVectorFromDeg(FlyAngle);
-	m_MoveVector = TargetUnitVector * MoveSpeed;
+	const float4 TargetUnitVector = float4::GetUnitVectorFromDeg(FlyAngle);
+	SetMoveVector(TargetUnitVector * MoveSpeed);
 }

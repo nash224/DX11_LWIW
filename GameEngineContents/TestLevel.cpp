@@ -98,7 +98,6 @@ void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
 	{
 		Player = CreateActor<Ellie>(EUPDATEORDER::Player);
 		Player->Transform.SetLocalPosition(InitialPosition);
-		Player->Init();
 	}
 
 	{

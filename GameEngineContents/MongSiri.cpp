@@ -174,7 +174,7 @@ void MongSiri::RendererSetting()
 		});
 	InteractiveActor::BodyRenderer->SetFrameEvent("Jump", 8, [&](GameEngineSpriteRenderer*)
 		{
-			PlaySFX("SFX_MongsiriJump_01.wav");
+			SoundPlayer = SFXFunction::PlaySFX("SFX_MongsiriJump_01.wav");
 			ShadowRenderer->SetSprite("Mongsiri_Jump.png", 4);
 		});
 	InteractiveActor::BodyRenderer->SetFrameEvent("Jump", 13, [&](GameEngineSpriteRenderer*)
@@ -197,7 +197,7 @@ void MongSiri::RendererSetting()
 		});
 	InteractiveActor::BodyRenderer->SetFrameEvent("Jump_Back", 18, [&](GameEngineSpriteRenderer*)
 		{
-			PlaySFX("SFX_MongsiriJump_01.wav");
+			SoundPlayer = SFXFunction::PlaySFX("SFX_MongsiriJump_01.wav");
 			ShadowRenderer->SetSprite("Mongsiri_Jump.png", 4);
 		});
 	InteractiveActor::BodyRenderer->SetFrameEvent("Jump_Back", 23, [&](GameEngineSpriteRenderer*)
@@ -228,7 +228,7 @@ void MongSiri::RendererSetting()
 
 	InteractiveActor::BodyRenderer->SetFrameEvent("Collected", 7, [&](GameEngineSpriteRenderer* _Renderer)
 		{
-			PlaySFX("SFX_MongsiriRootUp.wav");
+			SoundPlayer = SFXFunction::PlaySFX("SFX_MongsiriRootUp.wav");
 		});
 
 	InteractiveActor::BodyRenderer->SetEndEvent("Collected", [&](GameEngineSpriteRenderer* _Renderer)
@@ -265,7 +265,7 @@ void MongSiri::RendererSetting()
 		});
 	InteractiveActor::BodyRenderer->SetFrameEvent("Disappear", 21, [&](GameEngineSpriteRenderer*)
 		{
-			PlaySFX("SFX_MongsiriHoleIn_01.wav");
+			SoundPlayer = SFXFunction::PlaySFX("SFX_MongsiriHoleIn_01.wav");
 		});
 	InteractiveActor::BodyRenderer->SetFrameEvent("Disappear", 24, [&](GameEngineSpriteRenderer*)
 		{

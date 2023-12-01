@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "MongSiri.h"
 
+#include "ContentsMath.h"
+
 #include "BackDrop_PlayLevel.h"
 
 #include "MongSiri_Population.h"
@@ -94,13 +96,10 @@ void MongSiri::SearchJumpLocation()
 			return;
 		}
 
-		const float4& MyPosition = Transform.GetLocalPosition();
-		const float4& PopulationPosition = MongSiriParant->m_PopulationLocation;
-		
-		const float4& VectorToPopulation = PopulationPosition - MyPosition;			// 스폰위치와 내 거리
+		const float4 VectorToPopulation = MongSiriParant->m_PopulationLocation - Transform.GetLocalPosition();
 		const float Degree = DirectX::XMConvertToDegrees(atan2f(VectorToPopulation.Y, VectorToPopulation.X));
 
-		const float4& Size = DirectX::XMVector2Length(VectorToPopulation.DirectXVector);
+		const float4 Size = DirectX::XMVector2Length(VectorToPopulation.DirectXVector);
 		float Distance = Size.X;
 
 		float JumpAngle = 0.0f;
@@ -120,10 +119,7 @@ void MongSiri::SearchJumpLocation()
 			JumpChangeRatio = static_cast<float>(pow(JumpChangeRatio, 2));
 			JumpChangeRatio *= 180.f;
 
-			int MultiValue = RandomClass.RandomInt(0, 1);
-
-			bool isReverseJumpChange = (1 == MultiValue);
-			if (isReverseJumpChange)
+			if (1 == RandomClass.RandomInt(0, 1))
 			{
 				JumpChangeRatio *= -1.0f;
 			}
@@ -131,47 +127,39 @@ void MongSiri::SearchJumpLocation()
 			JumpAngle = Degree + JumpChangeRatio;
 		}
 
-		const float MongSiriJumpPower = RandomClass.RandomFloat(0.0f, MongSiri_JumpMaxSpeed);
-		const float4& TargetUnitVector = float4::GetUnitVectorFromDeg(JumpAngle);
+		const float JumpPower = RandomClass.RandomFloat(0.0f, MongSiri_JumpMaxSpeed);
+		const float4 TargetUnitVector = float4::GetUnitVectorFromDeg(JumpAngle);
 
-		TargetForce = TargetUnitVector * MongSiriJumpPower;
+		SetMoveVector(TargetUnitVector * JumpPower);
 	}
 
 	if (EMONGSIRISTATUS::Escape == Status)
 	{
-		if (nullptr == MongSiriParant)
+		if (nullptr == MongSiriParant
+			|| nullptr == MongSiriParant->Hole)
 		{
 			MsgBoxAssert("몽시리 개체군이 존재하지 않습니다.");
 			return;
 		}
 
-		if (nullptr == MongSiriParant->Hole)
-		{
-			MsgBoxAssert("몽시리 구덩이가 존재하지 않습니다.");
-			return;
-		}
-
-		const float4& HolePosition = MongSiriParant->Hole->Transform.GetLocalPosition();
-		float4 TargetPosition = HolePosition - Transform.GetLocalPosition();
-		TargetPosition.Z = 0.0f;
-		float TargetDistance = TargetPosition.Size();
+		float4 TargetVector = MongSiriParant->Hole->Transform.GetLocalPosition() - Transform.GetLocalPosition();
+		float4 DistanceToHole = DirectX::XMVector2Length(TargetVector.DirectXVector);
 		
-		static constexpr const float Last_Leaping_Power = 40.0f;
-		bool isReachHole = (TargetDistance < Last_Leaping_Power);
+		TargetVector = DirectX::XMVector2Normalize(TargetVector.DirectXVector);
+
+		bool isReachHole = (DistanceToHole.X < 40.0f);
 		if (isReachHole)
 		{
 			IsOnTheHole = true;
-			TargetForce = TargetPosition.NormalizeReturn() * TargetDistance * 1.66f;
+			SetMoveVector(TargetVector * DistanceToHole.X * 1.66f);
 		}
 		else
 		{
-			TargetForce = TargetPosition.NormalizeReturn() * MongSiri_JumpMaxSpeed;
+			SetMoveVector(TargetVector * MongSiri_JumpMaxSpeed);
 		}
 	}
 
-	TargetForce.Z = 0.0f;
-
-	Dir = GetDiagonalDirectionFromVector(TargetForce);
+	Dir = DirectionFunction::GetDiagonalDirectionToVector(GetMoveVector());
 }
 
 void MongSiri::UpdateJump(float _Delta)
@@ -200,20 +188,18 @@ void MongSiri::UpdateJump(float _Delta)
 		const std::shared_ptr<BackDrop_PlayLevel>& MainBackDropPtr = PlayLevel::GetPlayLevelPtr()->GetBackDropPtr();
 		if (nullptr != MainBackDropPtr)
 		{
-			if (true == MainBackDropPtr->IsColorAtPosition(Transform.GetLocalPosition() + TargetForce * _Delta, GameEngineColor::RED))
+			if (true == MainBackDropPtr->IsColorAtPosition(Transform.GetLocalPosition() + GetMoveVector() * _Delta, GameEngineColor::RED))
 			{
-				TargetForce = float4::ZERO;
+				ResetMoveVector();
 			}
 		}
 
-		SetMoveVector(TargetForce);
 		DynamicEntity::ApplyMovement(_Delta);
 	}
 }
 
 void MongSiri::EndJump()
 {
-	TargetForce = float4::ZERO;
 	ResetMoveVector();
 }
 
@@ -264,8 +250,7 @@ void MongSiri::UpdateRecognize(float _Delta, GameEngineState* _Parent)
 			GameEngineRandom RandomClass;
 			RandomClass.SetSeed(GlobalValue::GetSeedValue());
 
-			const float fChance = RandomClass.RandomFloat(0.2f, 2.4f);
-			Animation.lock()->Inter[3] = fChance;
+			Animation.lock()->Inter[3] = RandomClass.RandomFloat(0.2f, 2.4f);
 		}
 	}
 
@@ -335,7 +320,8 @@ void MongSiri::UpdateCollected(float _Delta)
 		return;
 	}
 
-	if (true == InteractiveActor::BodyRenderer->IsCurAnimationEnd() && true == InteractiveActor::BodyRenderer->IsCurAnimation("CollectedB"))
+	if (true == InteractiveActor::BodyRenderer->IsCurAnimationEnd() 
+		&& true == InteractiveActor::BodyRenderer->IsCurAnimation("CollectedB"))
 	{
 		ChangeState(EMONGSIRISTATE::Idle);
 		return;
@@ -391,7 +377,7 @@ void MongSiri::AutoChangeDirAnimation(std::string_view _StateName)
 	const float4 MyPos = Transform.GetLocalPosition();
 	const float4 VectorToEllie = ElliePos - MyPos;
 	const float Radian = std::atan2f(VectorToEllie.Y, VectorToEllie.X);
-	DynamicEntity::Dir = DynamicEntity::GetDirectionToDegree(Radian* GameEngineMath::R2D);
+	DynamicEntity::Dir = DirectionFunction::GetDirectionToDegree(Radian * GameEngineMath::R2D);
 
 	if (RenderDir != DynamicEntity::Dir)
 	{
@@ -404,7 +390,7 @@ void MongSiri::AutoChangeDirAnimation(std::string_view _StateName)
 
 		const int currentIndex = Animation.lock()->CurIndex;
 		ChangeAnimationByDircetion(_StateName, static_cast<unsigned int>(currentIndex));
-	}
+	} 
 }
 
 void MongSiri::ShowEscapeEmotion()
