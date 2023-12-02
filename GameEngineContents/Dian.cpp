@@ -62,9 +62,7 @@ void Dian::RendererSetting()
 		GameEngineSprite::CreateCut("Dian_idle.png", 3, 3);
 	}
 
-	static constexpr const int RendererOrder = 0;
-
-	DianRenderer = CreateComponent<GameEngineSpriteRenderer>(RendererOrder);
+	DianRenderer = CreateComponent<GameEngineSpriteRenderer>();
 	DianRenderer->Transform.SetLocalPosition({ 0.0f, RendererYCorrection });
 	DianRenderer->CreateAnimation("Idle", "Dian_idle.png", 0.2f, 4, 7, true);
 	DianRenderer->AutoSpriteSizeOn();
@@ -73,7 +71,7 @@ void Dian::RendererSetting()
 
 	const float ShadowDepth = DepthFunction::CalculateFixDepth(ERENDERDEPTH::ObjectShadow);
 
-	ShadowRenderer = CreateComponent<GameEngineSpriteRenderer>(RendererOrder);
+	ShadowRenderer = CreateComponent<GameEngineSpriteRenderer>();
 	ShadowRenderer->Transform.SetLocalPosition({ 0.0f, RendererYCorrection, ShadowDepth });
 	ShadowRenderer->SetSprite("Dian_idle.png", 0);
 }
@@ -166,10 +164,9 @@ void Dian::ConversationSetting()
 		WitchCatalogueTopic.Data.shrink_to_fit();
 		NPCConversation.CreateTopic(EDIANTOPICTYPE::WitchCatalogue, WitchCatalogueTopic);
 
-
 		NPCConversation.SetConversationEvent(EDIANTOPICTYPE::WitchCatalogue, 22, [&]()
 			{
-				UI_Inventory::PushItem("Item_Etc_12");
+				UI_Inventory::PushItem("Item_Etc_11");
 				UI_Inventory::UnlockSlot();
 
 				ContentsEvent::HasWitchBroom = true;
@@ -179,6 +176,7 @@ void Dian::ConversationSetting()
 				UIFrame = GetLevel()->CreateActor<UI_Frame>(EUPDATEORDER::UIComponent);
 				UIFrame->Init(EFRAMETYPE::BroomStick);
 			});
+
 		NPCConversation.SetConversationEvent(EDIANTOPICTYPE::WitchCatalogue, 24, [&]()
 			{
 				if (nullptr != UIFrame)
@@ -203,14 +201,14 @@ void Dian::ConversationSetting()
 					UIFrame = nullptr;
 				}
 
-				std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Dian_Catalogue");
-				if (true == Quest.expired())
+				const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = ContentsEvent::FindQuest("Dian_Catalogue");
+				if (nullptr == Quest)
 				{
 					MsgBoxAssert("아직 생성하지 않은 퀘스트입니다.");
 					return;
 				}
 
-				Quest.lock()->QuestComplete();
+				Quest->QuestComplete();
 			});
 	}
 
@@ -252,26 +250,26 @@ void Dian::ConversationSetting()
 
 		NPCConversation.SetConversationEvent(EDIANTOPICTYPE::PotionVerification, 22, [&]()
 			{
-				std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Dian_BadWeedPotion");
-				if (true == Quest.expired())
+				const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = ContentsEvent::FindQuest("Dian_BadWeedPotion");
+				if (nullptr == Quest)
 				{
 					MsgBoxAssert("아직 생성하지 않은 퀘스트입니다.");
 					return;
 				}
 
-				Quest.lock()->QuestAccept();
+				Quest->QuestAccept();
 			});
 
 		NPCConversation.SetConversationEndEvent(EDIANTOPICTYPE::PotionVerification, [&]()
 			{
-				std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Dian_BadWeedPotion");
-				if (true == Quest.expired())
+				const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = ContentsEvent::FindQuest("Dian_BadWeedPotion");
+				if (nullptr == Quest)
 				{
 					MsgBoxAssert("아직 생성하지 않은 퀘스트입니다.");
 					return;
 				}
 
-				Quest.lock()->QuestAccept();
+				Quest->QuestAccept();
 			});
 	}
 
@@ -294,26 +292,26 @@ void Dian::ConversationSetting()
 
 		NPCConversation.SetConversationEvent(EDIANTOPICTYPE::DragonFly, 2, [&]()
 			{
-				std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Dian_BadWeedPotion");
-				if (true == Quest.expired())
+				const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = ContentsEvent::FindQuest("Dian_BadWeedPotion");
+				if (nullptr == Quest)
 				{
 					MsgBoxAssert("아직 생성하지 않은 퀘스트입니다.");
 					return;
 				}
 
-				Quest.lock()->QuestComplete();
+				Quest->QuestComplete();
 			});
 
 		NPCConversation.SetConversationEndEvent(EDIANTOPICTYPE::DragonFly, [&]()
 			{
-				std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Dian_BadWeedPotion");
-				if (true == Quest.expired())
+				const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = ContentsEvent::FindQuest("Dian_BadWeedPotion");
+				if (nullptr == Quest)
 				{
 					MsgBoxAssert("아직 생성하지 않은 퀘스트입니다.");
 					return;
 				}
 
-				Quest.lock()->QuestComplete();
+				Quest->QuestComplete();
 			});
 	}
 
@@ -351,26 +349,26 @@ void Dian::ConversationSetting()
 
 		NPCConversation.SetConversationEvent(EDIANTOPICTYPE::FireCracker, 19, [&]()
 			{
-				std::weak_ptr<ContentsEvent::QuestUnitBase> CrackerQuest = ContentsEvent::FindQuest("Dian_Cracker");
-				if (true == CrackerQuest.expired())
+				const std::shared_ptr<ContentsEvent::QuestUnitBase>& CrackerQuest = ContentsEvent::FindQuest("Dian_Cracker");
+				if (nullptr == CrackerQuest)
 				{
 					MsgBoxAssert("아직 생성하지 않은 퀘스트입니다.");
 					return;
 				}
 
-				CrackerQuest.lock()->QuestAccept();
+				CrackerQuest->QuestAccept();
 			});
 
 		NPCConversation.SetConversationEndEvent(EDIANTOPICTYPE::FireCracker, [&]()
 			{
-				std::weak_ptr<ContentsEvent::QuestUnitBase> CrackerQuest = ContentsEvent::FindQuest("Dian_Cracker");
-				if (true == CrackerQuest.expired())
+				const std::shared_ptr<ContentsEvent::QuestUnitBase>& CrackerQuest = ContentsEvent::FindQuest("Dian_Cracker");
+				if (nullptr == CrackerQuest)
 				{
 					MsgBoxAssert("아직 생성하지 않은 퀘스트입니다.");
 					return;
 				}
 
-				CrackerQuest.lock()->QuestAccept();
+				CrackerQuest->QuestAccept();
 
 				NPCConversation.StartConversation(EDIANTOPICTYPE::FireCrackerAfter);
 			});
@@ -410,14 +408,14 @@ void Dian::ConversationSetting()
 
 		NPCConversation.SetConversationEndEvent(EDIANTOPICTYPE::FireCrackerRecipe, [&]()
 			{
-				std::weak_ptr<ContentsEvent::QuestUnitBase> CrackerQuest = ContentsEvent::FindQuest("Dian_Cracker");
-				if (true == CrackerQuest.expired())
+				const std::shared_ptr<ContentsEvent::QuestUnitBase>& CrackerQuest = ContentsEvent::FindQuest("Dian_Cracker");
+				if (nullptr == CrackerQuest)
 				{
 					MsgBoxAssert("존재하지 않는 퀘스트입니다.");
 					return;
 				}
 
-				CrackerQuest.lock()->QuestComplete();
+				CrackerQuest->QuestComplete();
 			});
 	}
 }

@@ -24,15 +24,7 @@ void UI_ProcessB::Start()
 
 void UI_ProcessB::Update(float _Delta)
 {
-	if (true == GameEngineInput::IsUp('Z', this))
-	{
-		IsJustOpen = false;
-	}
-
-	if (false == IsJustOpen)
-	{
-		UpdateInput(_Delta);
-	}
+	UpdateInput(_Delta);
 }
 
 void UI_ProcessB::Release()
@@ -63,7 +55,6 @@ void UI_ProcessB::Init()
 	Gauge.RendererSetting(this);
 	Gauge.SetPosition(float4(70.0f, -150.0f));
 
-
 	std::vector<ButtonInfoParameter> Paras =
 	{
 		{ EBUTTONTYPE::X, "닫기"},
@@ -71,8 +62,6 @@ void UI_ProcessB::Init()
 	};
 	UIGuide.SetGuideInfo(this, Paras);
 	UIGuide.On();
-
-	IsJustOpen = true;
 
 	Off();
 }
@@ -135,7 +124,6 @@ void UI_ProcessB::RendererSetting()
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////
 
 
 void UI_ProcessB::Open(std::string_view _ProductName, int _ScrCount)
@@ -151,8 +139,8 @@ void UI_ProcessB::Open(std::string_view _ProductName, int _ScrCount)
 
 void UI_ProcessB::ProductInfoSetting(std::string_view _ProductName)
 {
-	std::weak_ptr<IngredientData> Data = IngredientData::Find(_ProductName);
-	if (true == Data.expired())
+	const std::shared_ptr<IngredientData>& Data = IngredientData::Find(_ProductName);
+	if (nullptr == Data)
 	{
 		MsgBoxAssert("등록되지 않은 아이템 정보입니다.");
 		return;
@@ -167,24 +155,24 @@ void UI_ProcessB::ProductInfoSetting(std::string_view _ProductName)
 	ProductInfo.ProductName = _ProductName;
 
 	ProductInfo.ProductRenderer->SetSprite(_ProductName.data() + std::string(".png"));
-	ProductInfo.NameRenderer->ChangeText(Data.lock()->KoreanName);
+	ProductInfo.NameRenderer->ChangeText(Data->KoreanName);
 }
 
 void UI_ProcessB::SourceInfoSetting(std::string_view _ProductName, int _ScrCount)
 {
-	std::weak_ptr<IngredientData> Data = IngredientData::Find(_ProductName);
-	if (true == Data.expired())
+	const std::shared_ptr<IngredientData>& Data = IngredientData::Find(_ProductName);
+	if (nullptr == Data)
 	{
 		MsgBoxAssert("등록되지 않은 데이터를 참조하려 했습니다.");
 		return;
 	}
 
-	SourceInfo.ScrName = Data.lock()->SourceName;
-	SourceInfo.NeedCount = Data.lock()->SourceCount;
+	SourceInfo.ScrName = Data->SourceName;
+	SourceInfo.NeedCount = Data->SourceCount;
 	SourceInfo.ScrCount = _ScrCount;
 
-	std::weak_ptr<ItemData> SrcData = ItemData::Find(Data.lock()->SourceName);
-	if (true == SrcData.expired())
+	const std::shared_ptr<ItemData>& SrcData = ItemData::Find(Data->SourceName);
+	if (nullptr == SrcData)
 	{
 		MsgBoxAssert("등록되지 않은 데이터를 참조하려 했습니다.");
 		return;
@@ -200,14 +188,14 @@ void UI_ProcessB::SourceInfoSetting(std::string_view _ProductName, int _ScrCount
 		return;
 	}
 
-	SourceInfo.SourceRenderer->SetSprite(Data.lock()->SourceName + std::string(".png"));
-	SourceInfo.NameRenderer->ChangeText(SrcData.lock()->KoreanName);
+	SourceInfo.SourceRenderer->SetSprite(Data->SourceName + std::string(".png"));
+	SourceInfo.NameRenderer->ChangeText(SrcData->KoreanName);
 	SourceInfo.SourceCntRenderer->ChangeText(std::to_string(_ScrCount));
-	SourceInfo.NeedCntRenderer->ChangeText(std::to_string(Data.lock()->SourceCount));
+	SourceInfo.NeedCntRenderer->ChangeText(std::to_string(Data->SourceCount));
 
 	if (SourceInfo.NeedCount > _ScrCount)
 	{
-		const float4& REDCOLOR = float4(0.9f, 0.1f, 0.1f, 1.0f);
+		const float4 REDCOLOR = float4(0.9f, 0.1f, 0.1f, 1.0f);
 		SourceInfo.SourceCntRenderer->SetTextColor(REDCOLOR);
 	}
 	else
@@ -224,19 +212,27 @@ void UI_ProcessB::Close()
 
 void UI_ProcessB::UpdateInput(float _Delta)
 {
-	bool isScrEnough = (SourceInfo.ScrCount >= SourceInfo.NeedCount);
-	if (isScrEnough)
+	bool NotCondition = (SourceInfo.ScrCount >= SourceInfo.NeedCount);
+	if (NotCondition)
 	{
-		if (true == GameEngineInput::IsPress('Z', this))
+		if (true == GameEngineInput::IsUp('Z', this))
 		{
-			UpdateGauge(_Delta);
+			IsJustOpen = false;
 		}
-		else
+
+		if (false == IsJustOpen)
 		{
-			PressTime = 0.0f;
-			if (true == Gauge.IsOn())
+			if (true == GameEngineInput::IsPress('Z', this))
 			{
-				Gauge.Off();
+				UpdateGauge(_Delta);
+			}
+			else
+			{
+				PressTime = 0.0f;
+				if (true == Gauge.IsOn())
+				{
+					Gauge.Off();
+				}
 			}
 		}
 	}
@@ -251,6 +247,28 @@ void UI_ProcessB::UpdateInput(float _Delta)
 
 		ProcessManager->OpenListWindow();
 	}
+}
+
+void UI_ProcessB::UpdateGauge(float _Delta)
+{
+	const float GaugeTime = 1.0f;
+
+	PressTime += _Delta;
+	if (PressTime >= GaugeTime)
+	{
+		JuicyThis();
+
+		Gauge.Off();
+		PressTime = 0.0f;
+		return;
+	}
+
+	if (false == Gauge.IsOn())
+	{
+		Gauge.On();
+	}
+
+	Gauge.SetGauge(PressTime);
 }
 
 void UI_ProcessB::JuicyThis()
@@ -268,25 +286,4 @@ void UI_ProcessB::JuicyThis()
 	ProcessManager->CreatedProductName = ProductInfo.ProductName;
 
 	Off();
-}
-
-void UI_ProcessB::UpdateGauge(float _Delta)
-{
-	const float GaugeTime = 1.0f;
-
-	PressTime += _Delta;
-	if (PressTime >= GaugeTime)
-	{
-		Gauge.Off();
-		JuicyThis();
-		PressTime = 0.0f;
-		return;
-	}
-
-	if (false == Gauge.IsOn())
-	{
-		Gauge.On();
-	}
-
-	Gauge.SetGauge(PressTime);
 }

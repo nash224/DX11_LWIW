@@ -536,7 +536,6 @@ void Ellie::UpdateMongSiri(float _Delta)
 
 void Ellie::UpdateWait(float _Delta)
 {
-	// 취소하면
 	if (true == isFinishWork)
 	{
 		OtherEntity = nullptr;
@@ -546,7 +545,6 @@ void Ellie::UpdateWait(float _Delta)
 		return;
 	}
 
-	// 끝나면 다음 실행
 	if (true == IsWaitDone)
 	{
 		ChangeState(WaitState);
@@ -565,7 +563,7 @@ void Ellie::UpdateJuicy(float _Delta)
 		return;
 	}
 
-	if (false == isPull && 15 == BodyRenderer->GetCurIndex())
+	if (false == isPull && 2 == BodyRenderer->GetCurIndex())
 	{
 		Extractor* ExtractorPtr = dynamic_cast<Extractor*>(OtherEntity);
 		if (nullptr == ExtractorPtr)
@@ -679,13 +677,7 @@ void Ellie::EndWait()
 
 void Ellie::EndJuicy()
 {
-	if (nullptr == UI_ProcessManager::ProcessManager)
-	{
-		MsgBoxAssert("가공탭이 존재하지 않습니다.");
-		return;
-	}
 
-	UI_ProcessManager::ProcessManager->JuicyDone();
 }
 
 

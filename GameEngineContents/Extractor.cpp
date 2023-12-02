@@ -71,8 +71,8 @@ void Extractor::InitExtractor()
 	StateSetting();
 
 
-	std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Repair_Extractor");
-	if (true == Quest.expired())
+	const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = ContentsEvent::FindQuest("Repair_Extractor");
+	if (nullptr == Quest)
 	{
 		MsgBoxAssert("존재하지 않는 퀘스트입니다.");
 		return;
@@ -85,7 +85,7 @@ void Extractor::InitExtractor()
 		return;
 	}
 
-	if (true == Quest.lock()->isQuestComplete())
+	if (true == Quest->isQuestComplete())
 	{
 		State.ChangeState(EJUICERSTATE::Idle);
 	}
@@ -195,16 +195,16 @@ void Extractor::UpdateBroken(float _Delta, GameEngineState* _Parent)
 {
 	if (true == IsEnalbeActive)
 	{
-		std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Repair_Extractor");
-		if (true == Quest.expired())
+		const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = ContentsEvent::FindQuest("Repair_Extractor");
+		if (nullptr == Quest)
 		{
 			MsgBoxAssert("생성되지 않은 퀘스트를 참조하려 했습니다.");
 			return;
 		}
 
-		if (true == Quest.lock()->CheckPrerequisiteQuest())
+		if (true == Quest->CheckPrerequisiteQuest())
 		{
-			Quest.lock()->QuestComplete();
+			Quest->QuestComplete();
 
 			InteractiveActor::SetInteractionType(EINTERACTION_TYPE::Near);
 
@@ -236,6 +236,14 @@ void Extractor::UpdateJuicy(float _Delta, GameEngineState* _Parent)
 
 void Extractor::EndJuicy(GameEngineState* _Parent)
 {
+	if (nullptr == UI_ProcessManager::ProcessManager)
+	{
+		MsgBoxAssert("가공탭이 존재하지 않습니다.");
+		return;
+	}
+
+	UI_ProcessManager::ProcessManager->JuicyDone();
+
 	SFXFunction::PlaySFX("SFX_JucierClose_01.wav");
 }
 
@@ -268,7 +276,6 @@ void Extractor::ActiveInteractiveCollision()
 		return;
 	}
 
-	
 	if (nullptr == s_ExtractorPointer->InteractiveActor::InteractiveCol)
 	{
 		MsgBoxAssert("충돌체가 생성되지 않았습니다.");
@@ -280,12 +287,12 @@ void Extractor::ActiveInteractiveCollision()
 
 bool Extractor::IsCureQuestClear()
 {
-	std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Aurea_Cure");
-	if (true == Quest.expired())
+	const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = ContentsEvent::FindQuest("Aurea_Cure");
+	if (nullptr == Quest)
 	{
 		MsgBoxAssert("등록되지않은 퀘스트입니다.");
 		return false;
 	}
 
-	return Quest.lock()->isQuestComplete();
+	return Quest->isQuestComplete();
 }

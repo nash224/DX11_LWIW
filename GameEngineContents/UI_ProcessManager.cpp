@@ -55,9 +55,8 @@ void UI_ProcessManager::RendererSetting()
 	if (nullptr == GameEngineSprite::Find("Process_Base.png"))
 	{
 		std::vector<GameEngineFile> Files = FileLoadFunction::GetAllFileInPath("Resources\\PlayContents\\PlayResourecs\\UI\\UI_Sprite\\UI_Process");
-		for (size_t i = 0; i < Files.size(); i++)
+		for (GameEngineFile& pFile : Files)
 		{
-			GameEngineFile pFile = Files[i];
 			GameEngineSprite::CreateSingle(pFile.GetFileName());
 		}
 	}
@@ -76,7 +75,6 @@ void UI_ProcessManager::OtherProcessSetting()
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////
 
 // 열기
 void UI_ProcessManager::Open()
@@ -149,15 +147,14 @@ void UI_ProcessManager::JuicyDone()
 {
 	CreateJuicyItem();
 
-	std::weak_ptr<IngredientData> Data = IngredientData::Find(CreatedProductName);
-	if (true == Data.expired())
+	const std::shared_ptr<IngredientData>& Data = IngredientData::Find(CreatedProductName);
+	if (nullptr == Data)
 	{
 		MsgBoxAssert("등록되지 않은 데이터입니다.");
 		return;
 	}
 	
-	const int ItemCount = UI_Inventory::ReturnItemCount(Data.lock()->SourceName);
-
+	const int ItemCount = UI_Inventory::ReturnItemCount(Data->SourceName);
 	ProcessWindow->Open(CreatedProductName, ItemCount);
 }
 

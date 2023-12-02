@@ -29,22 +29,19 @@ void UI_ProcessListUnit::LevelEnd(class GameEngineLevel* _NextLevel)
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
 void UI_ProcessListUnit::Init(std::string_view _ProcessName)
 {
-	std::weak_ptr<IngredientData> Data = IngredientData::Find(_ProcessName);
-	if (true == Data.expired())
+	const std::shared_ptr<IngredientData>& Data = IngredientData::Find(_ProcessName);
+	if (nullptr == Data)
 	{
 		MsgBoxAssert("존재하지 않는 데이터입니다.");
 		return;
 	}
 
-	ItemName = Data.lock()->Name;
-	ItemKRName = Data.lock()->KoreanName;
-	NeedCount = Data.lock()->SourceCount;
-	SrcName = Data.lock()->SourceName;
+	ItemName = Data->Name;
+	ItemKRName = Data->KoreanName;
+	NeedCount = Data->SourceCount;
+	SrcName = Data->SourceName;
 
 	const float FrameDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame);
 	const float AttachmentDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);

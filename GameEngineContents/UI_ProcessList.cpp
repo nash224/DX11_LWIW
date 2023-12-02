@@ -262,8 +262,8 @@ void UI_ProcessList::MoveCursor(int _Value)
 			return;
 		}
 	}
-	const bool isDown = (0 == _Value);
 
+	const bool isDown = (0 == _Value);
 	if (isDown)
 	{
 		const bool isNotZero = (CurrentCursor != 0);
@@ -418,7 +418,5 @@ void UI_ProcessList::SetScrollBarMovePosition(float _YPos)
 	}
 	
 	const float AttachmentDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Attachment);
-	const float4& ScrollBarPosition = float4(115.0f, Scroll_Start_Y_Pos + _YPos, AttachmentDepth);
-
-	CursorInfo.ScrollBar->Transform.SetLocalPosition(ScrollBarPosition);
+	CursorInfo.ScrollBar->Transform.SetLocalPosition(float4(115.0f, Scroll_Start_Y_Pos + _YPos, AttachmentDepth));
 }

@@ -7,14 +7,14 @@
 
 bool Dian::CheckWitchCatalogueEvent()
 {
-	std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Dian_Catalogue");
-	if (true == Quest.expired())
+	const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = ContentsEvent::FindQuest("Dian_Catalogue");
+	if (nullptr == Quest)
 	{
 		MsgBoxAssert("아직 생성하지 않은 퀘스트입니다.");
 		return false;
 	}
 
-	if (false == Quest.lock()->isQuestComplete())
+	if (false == Quest->isQuestComplete())
 	{
 		NPCEntity::ConverseWithEllie(EDIANTOPICTYPE::WitchCatalogue);
 		return true;
@@ -25,19 +25,19 @@ bool Dian::CheckWitchCatalogueEvent()
 
 bool Dian::CheckPotionVerificationEvent()
 {
-	std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Dian_BadWeedPotion");
-	if (true == Quest.expired())
+	const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = ContentsEvent::FindQuest("Dian_BadWeedPotion");
+	if (nullptr == Quest)
 	{
 		MsgBoxAssert("아직 생성하지 않은 퀘스트입니다.");
 		return false;
 	}
 
-	if (false == Quest.lock()->IsQuestAccepted())
+	if (false == Quest->IsQuestAccepted())
 	{
 		NPCEntity::ConverseWithEllie(EDIANTOPICTYPE::PotionVerification);
 		return true;
 	}
-	else if (true == Quest.lock()->CheckPrerequisiteQuest())
+	else if (true == Quest->CheckPrerequisiteQuest())
 	{
 		if (false == UI_Inventory::IsItem("BadGrassPotion"))
 		{
@@ -56,31 +56,31 @@ bool Dian::CheckPotionVerificationEvent()
 
 bool Dian::CheckDian_CrackerEvent()
 {
-	std::weak_ptr<ContentsEvent::QuestUnitBase> BadWeedPotionQuest = ContentsEvent::FindQuest("Dian_BadWeedPotion");
-	if (true == BadWeedPotionQuest.expired())
+	const std::shared_ptr<ContentsEvent::QuestUnitBase>& BadWeedPotionQuest = ContentsEvent::FindQuest("Dian_BadWeedPotion");
+	if (nullptr == BadWeedPotionQuest)
 	{
 		MsgBoxAssert("아직 생성하지 않은 퀘스트입니다.");
 		return false;
 	}
 
-	if (false == BadWeedPotionQuest.lock()->isQuestComplete())
+	if (false == BadWeedPotionQuest->isQuestComplete())
 	{
 		return false;
 	}
 
-	std::weak_ptr<ContentsEvent::QuestUnitBase> CrackerQuest = ContentsEvent::FindQuest("Dian_Cracker");
-	if (true == CrackerQuest.expired())
+	const std::shared_ptr<ContentsEvent::QuestUnitBase>& CrackerQuest = ContentsEvent::FindQuest("Dian_Cracker");
+	if (nullptr == CrackerQuest)
 	{
 		MsgBoxAssert("아직 생성하지 않은 퀘스트입니다.");
 		return false;
 	}
 
-	if (false == CrackerQuest.lock()->IsQuestAccepted())
+	if (false == CrackerQuest->IsQuestAccepted())
 	{
 		NPCEntity::ConverseWithEllie(EDIANTOPICTYPE::FireCracker);
 		return true;
 	}
-	else if (true == CrackerQuest.lock()->CheckPrerequisiteQuest())
+	else if (true == CrackerQuest->CheckPrerequisiteQuest())
 	{
 		if (false == UI_Inventory::IsItem("NutritionPotion"))
 		{

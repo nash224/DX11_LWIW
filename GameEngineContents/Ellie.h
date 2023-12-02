@@ -137,8 +137,6 @@ protected:
 
 	void OnLevelStart();
 	
-	void ChangeBroomAndVirgilIndexToRidingMode(int _HeadIndex, int _BodyIndex, int _VirgilIndex);
-
 	void ChangeFrameAnimationInterAllDirection(std::string_view _AnimationName, const std::vector<float>& _Inter);
 	void ChangeShawdowSprite(std::string_view _AnimationName);
 	void ChangeVirgilSprite(std::string_view _AnimationName);

@@ -68,7 +68,7 @@ void UI_ButtonGuide::SetGuideInfo(GameEngineActor* _Actor, const std::vector<But
 		}
 
 		float XPos = -HalfSize + TotalFrontInfoSize;
-		const float4& GuidePos = float4(XPos, RendererYPos, Depth);
+		const float4 GuidePos = float4(XPos, RendererYPos, Depth);
 		Guides[i].ButtonRenderer->Transform.SetWorldPosition(GuidePos);
 		Guides[i].GuideRenderer->Transform.SetWorldPosition(GuidePos + float4(-8.0f, 6.0f));
 	}
