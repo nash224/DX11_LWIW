@@ -33,51 +33,46 @@ void Ellie::OnRideFx()
 
 void Ellie::UpdateRiding_Standing(float _Delta)
 {
-	if (true == IsControl)
+	if (true == DetectMovement())
 	{
-		if (true == DetectMovement())
+		if (true == GameEngineInput::IsDown(VK_CONTROL, this))
 		{
-			if (true == GameEngineInput::IsDown(VK_CONTROL, this))
+			if (0.0f != CoolTime)
 			{
-				if (0.0f != CoolTime)
-				{
-					return;
-				}
-
-				CoolTime = 0.8f;
-				ChangeState(EELLIE_STATE::Idle);
 				return;
 			}
 
-			if (true == GameEngineInput::IsPress(VK_SPACE, this))
-			{
-				ChangeState(EELLIE_STATE::Riding_Boosting);
-				return;
-			}
-
-			ChangeState(EELLIE_STATE::Riding_Moving);
+			CoolTime = 0.8f;
+			ChangeState(EELLIE_STATE::Idle);
 			return;
 		}
-		// 움직이지 않았다면
-		else
-		{
-			if (true == GameEngineInput::IsDown(VK_CONTROL, this))
-			{
-				if (0.0f != CoolTime)
-				{
-					return;
-				}
 
-				CoolTime = 0.8f;
-				ChangeState(EELLIE_STATE::Idle);
-				return;
-			}
+		if (true == GameEngineInput::IsPress(VK_SPACE, this))
+		{
+			ChangeState(EELLIE_STATE::Riding_Boosting);
+			return;
 		}
+
+		ChangeState(EELLIE_STATE::Riding_Moving);
+		return;
 	}
+	// 움직이지 않았다면
 	else
 	{
-		DetectMovement();
+		if (true == GameEngineInput::IsDown(VK_CONTROL, this))
+		{
+			if (0.0f != CoolTime)
+			{
+				return;
+			}
+
+			CoolTime = 0.8f;
+			ChangeState(EELLIE_STATE::Idle);
+			return;
+		}
 	}
+
+	DetectMovement();
 
 	VirgilRendererHelper.UpdateHelper(BodyRenderer, VirgilRenderer);
 	BroomHeadRendererHelper.UpdateHelper(BodyRenderer, Broom.BroomRenderer.at(static_cast<int>(EllieBroom::EBROOMSTRUCT::Head)));

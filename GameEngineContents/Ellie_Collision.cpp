@@ -45,9 +45,9 @@ void Ellie::UpdatePortalCollsiion()
 
 void Ellie::UpdateInteractionCollsiion()
 {
-	IsHolding = false;
+	isHolding = false;
 
-	if (false == IsControl || EELLIE_STATUS::Normal != g_Status)
+	if (EELLIE_STATUS::Normal != g_Status)
 	{
 		return;
 	}
@@ -57,7 +57,7 @@ void Ellie::UpdateInteractionCollsiion()
 	float LeftFOVAngle = ContentMathFunction::ReturnClampDegree(DirAngle + FOVAngle);
 	float RightFOVAngle = ContentMathFunction::ReturnClampDegree(DirAngle - FOVAngle);
 
-	EllieCol->Collision(ECOLLISION::Entity, [&](std::vector<GameEngineCollision*>& _Collisions)
+	EllieCol->Collision(ECOLLISION::Entity, [=](std::vector<GameEngineCollision*>& _Collisions)
 		{
 			std::vector<float> vecDistance;
 
@@ -72,14 +72,14 @@ void Ellie::UpdateInteractionCollsiion()
 				const float ObjectAngle = ContentMathFunction::ReturnClampDegree(ContentMathFunction::GetDegreeToVector2D(VectorToOther));
 
 				bool isInSight = IsInSight(ObjectAngle, LeftFOVAngle, RightFOVAngle);
-				if (false == isInSight)
-				{
-					vecDistance[i] = 0.0f;
-				}
-				else
+				if (isInSight)
 				{
 					const float4 Size = DirectX::XMVector2Length(VectorToOther.DirectXVector);
 					vecDistance[i] = Size.X;
+				}
+				else
+				{
+					vecDistance[i] = 0.0f;
 				}
 			}
 
@@ -169,7 +169,7 @@ void Ellie::UpdateInteractionCollsiion()
 							}
 						
 							Entity->IsReach = true;
-							IsHolding = true;
+							isHolding = true;
 						}
 					}
 				}
@@ -217,6 +217,12 @@ void Ellie::CheckNetCollision()
 				GameEngineCollision* Collision = _OtherGroup[i];
 				GameEngineActor* Actor = Collision->GetActor();
 				InteractiveActor* Entity = dynamic_cast<InteractiveActor*>(Actor);
+				if (nullptr == Entity)
+				{
+					MsgBoxAssert("형변환에 실패했습니다.");
+					return;
+				}
+
 				if (ETOOLTYPE::Dragonfly == Entity->GetCollectionToolType())
 				{
 					Entity->ReachThis();

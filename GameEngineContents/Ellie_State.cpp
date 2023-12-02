@@ -11,7 +11,10 @@
 #include "UI_ProcessManager.h"
 #include "BaseLift.h"
 
-static constexpr const float RunCost = 2.0f;
+static constexpr float RunCost = 2.0f;
+static constexpr float NetCost = 5.0f;
+static constexpr float RootUpCost = 20.0f;
+static constexpr float MongsiriCost = 20.0f;
 
 void Ellie::StartIdle()
 {
@@ -51,7 +54,12 @@ void Ellie::StartThrow()
 
 // 접근해서 수집하는 행동입니다.
 void Ellie::StartApproach()
-{
+{	
+	if (nullptr != EllieCol)
+	{
+		EllieCol->Off();
+	}
+
 	if (nullptr == OtherEntity)
 	{
 		MsgBoxAssert("참조한 액터가 존재하지 않습니다.");
@@ -63,8 +71,7 @@ void Ellie::StartApproach()
 		OtherEntity->GetCaught();
 	}
 
-	IsControl = false;	// 다가가는 행동을 할땐 조작이 불가능합니다.
-	IsCollected = false; // 해당 자원을 수집했는지 확인합니다.
+	isDoneCollect = false;
 
 	// 상대방을 바라보는 방향을 구합니다.
 	const float4 VectorToOther = OtherEntity->GetInteractiveLocalPositon() - Transform.GetLocalPosition();
@@ -94,14 +101,12 @@ void Ellie::StartButterflyNet()
 	}
 	NetCollision->On();
 
-	const float NetCost = 5.0f;
 	Stamina -= NetCost;
 
 	ChangeAnimationByDirection("ButterflyNet");
 }
 void Ellie::StartRootUp()
 {
-	const float RootUpCost = 20.0f;
 	Stamina -= RootUpCost;
 
 	isRootup = false;
@@ -116,7 +121,6 @@ void Ellie::StartSit()
 
 void Ellie::StartMongSiri()
 {
-	const float MongsiriCost = 20.0f;
 	Stamina -= MongsiriCost;
 
 	ChangeAnimationByDirection("MongSiri");
@@ -132,7 +136,7 @@ void Ellie::StartWait()
 
 	OtherEntity->ReachThis();
 
-	IsWaitDone = false;
+	isWaitDone = false;
 	isFinishWork = false;
 
 	ChangeAnimationByDirection("Idle");
@@ -192,7 +196,7 @@ void Ellie::StartDrink()
 
 void Ellie::UpdateIdle(float _Delta)
 {
-	if (true == IsControl && false == IsHolding)
+	if (false == isHolding)
 	{
 		if (true == UsingTool())
 		{
@@ -345,12 +349,12 @@ void Ellie::UpdateRun(float _Delta)
 	ChangeDirectionAnimation("Run");
 	VirgilRendererHelper.UpdateHelper(BodyRenderer, VirgilRenderer);
 
-	const float RunCostCoolDown = 0.5f;
+	const float RunCostCoolTime = 0.5f;
 
 	StateTime += _Delta;
-	if (StateTime > RunCostCoolDown)
+	if (StateTime > RunCostCoolTime)
 	{
-		StateTime -= RunCostCoolDown;
+		StateTime -= RunCostCoolTime;
 		Stamina -= RunCost;
 	}
 
@@ -480,7 +484,7 @@ void Ellie::UpdateSit(float _Delta)
 		return;
 	}
 
-	if (false == IsCollected && 4 == BodyRenderer->GetCurIndex())
+	if (false == isDoneCollect && 4 == BodyRenderer->GetCurIndex())
 	{
 		if (nullptr == OtherEntity)
 		{
@@ -489,7 +493,7 @@ void Ellie::UpdateSit(float _Delta)
 		}
 
 		OtherEntity->IsReach = true;
-		IsCollected = true;
+		isDoneCollect = true;
 	}
 
 	if (true == BodyRenderer->IsCurAnimationEnd())
@@ -512,7 +516,7 @@ void Ellie::UpdateMongSiri(float _Delta)
 		return;
 	}
 
-	if (false == IsCollected && BodyRenderer->GetCurIndex() >= 3)
+	if (false == isDoneCollect && BodyRenderer->GetCurIndex() >= 3)
 	{
 		if (nullptr == OtherEntity)
 		{
@@ -521,7 +525,7 @@ void Ellie::UpdateMongSiri(float _Delta)
 		}
 
 		OtherEntity->IsReach = true;
-		IsCollected = true;
+		isDoneCollect = true;
 	}
 
 	if (true == BodyRenderer->IsCurAnimationEnd())
@@ -539,13 +543,12 @@ void Ellie::UpdateWait(float _Delta)
 	if (true == isFinishWork)
 	{
 		OtherEntity = nullptr;
-		IsControl = true;
 
 		ChangeState(EELLIE_STATE::Idle);
 		return;
 	}
 
-	if (true == IsWaitDone)
+	if (true == isWaitDone)
 	{
 		ChangeState(WaitState);
 		return;
@@ -650,34 +653,56 @@ void Ellie::EndButterflyNet()
 
 void Ellie::EndRootUp()
 {
+	if (nullptr != EllieCol)
+	{
+		EllieCol->On();
+	}
+
 	OtherEntity = nullptr;
-	IsControl = true;
 }
 
 
 void Ellie::EndSit()
 {
+	if (nullptr != EllieCol)
+	{
+		EllieCol->On();
+	}
+
 	OtherEntity = nullptr;
-	IsControl = true;
 }
 
 
 void Ellie::EndMongSiri()
 {
+	if (nullptr != EllieCol)
+	{
+		EllieCol->On();
+	}
+
 	OtherEntity = nullptr;
-	IsControl = true;
 }
 
 void Ellie::EndWait()
 {
+	if (nullptr != EllieCol)
+	{
+		EllieCol->On();
+	}
+
 	WaitState = EELLIE_STATE::None;
 	isFinishWork = true;
-	IsWaitDone = true;
+	isWaitDone = true;
 }
 
 void Ellie::EndJuicy()
 {
+	if (nullptr != EllieCol)
+	{
+		EllieCol->On();
+	}
 
+	OtherEntity = nullptr;
 }
 
 

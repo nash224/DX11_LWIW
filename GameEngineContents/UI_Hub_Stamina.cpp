@@ -64,8 +64,8 @@ void UI_Hub_Stamina::RenewRender()
 		{
 			RenderStamina = PlayerPtr->GetStamina();
 
- 			float StaminaGauge = RenderStamina / MAX_STAMINA;
-			UIStamina.StaminaGauge->GetGaugeInfo().Gauge = StaminaGauge;
+ 			float StaminaRatio = RenderStamina / MAX_STAMINA;
+			UIStamina.StaminaGauge->GetGaugeInfo().Gauge = StaminaRatio;
 		}
 	}
 }

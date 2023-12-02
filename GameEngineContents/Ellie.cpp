@@ -134,7 +134,7 @@ void Ellie::LevelStart(class GameEngineLevel* _NextLevel)
 
 void Ellie::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-	IsControl = true;
+
 }
 
 
@@ -169,6 +169,11 @@ void Ellie::OnLevelStart()
 	ResetMoveVector();
 	ApplyDepth();
 	OnControl();
+
+	if (nullptr != EllieCol)
+	{
+		EllieCol->On();
+	}
 }
 
 void Ellie::RenewStatus()
@@ -223,7 +228,7 @@ void Ellie::FinishWork()
 void Ellie::WaitDone(EELLIE_STATE _State)
 {
 	ChangeState(_State);
-	IsWaitDone = true;
+	isWaitDone = true;
 }
 
 

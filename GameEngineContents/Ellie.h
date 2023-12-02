@@ -268,14 +268,12 @@ private:
 	float BroomUsingTime = 0.0f;
 
 	bool isFinishWork = false;
-	bool IsControl = true;
-	bool IsCollected = false;
-	bool IsHolding = false;
-	bool IsWaitDone = false;
+	bool isDoneCollect = false;
+	bool isHolding = false;
+	bool isWaitDone = false;
 	bool isRootup = false;
 	bool isPull = false;
 
-	static constexpr const float Broom_Particle_Cool_Down = 0.08f;
 
 	static constexpr const float LWIW_Ellie_Y_Correction = 30.0f;
 	
