@@ -35,7 +35,6 @@ void UI_Hub::Init()
 	UITool->Init();
 
 	UIStamina = GetLevel()->CreateActor<UI_Hub_Stamina>(EUPDATEORDER::UIComponent);
-	UIStamina->Init();
 
 	UIQuickSlot = GetLevel()->CreateActor<UI_Hub_QuickSlot>(EUPDATEORDER::UIComponent);
 	UIQuickSlot->Init();
