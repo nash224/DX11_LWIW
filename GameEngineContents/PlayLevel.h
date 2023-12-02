@@ -1,18 +1,15 @@
 #pragma once
 #include "ContentsLevel.h"
-#include <GameEngineCore/GameEngineGUI.h>
 
 
 // Ό³Έν :
-class Ellie;
-class PortalObject;
 class PlayLevel : public ContentsLevel
 {
 public:
 	static PlayLevel* s_MainPlayLevel;
 	static std::unique_ptr<class TimeManager> s_TimeManager;
 	static std::unique_ptr<class AlertManager> s_AlertManager; 
-	std::shared_ptr<Ellie> Player = nullptr;
+	std::shared_ptr<class Ellie> Player = nullptr;
 	std::shared_ptr<class UIManager> UIManagerPtr = nullptr;
 	std::shared_ptr<class BackDrop_PlayLevel> Back = nullptr;
 

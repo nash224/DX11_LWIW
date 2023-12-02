@@ -217,29 +217,8 @@
     <Filter Include="Actor\Interactive\Static\Bush">
       <UniqueIdentifier>{9958f0f4-d110-480b-9a2d-e3753ed5311f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Interactive\Static\Plant">
-      <UniqueIdentifier>{aabcb491-481d-4380-a119-aabdaa014822}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Static\Plant\SilverBellFlower">
-      <UniqueIdentifier>{ef2cf91a-b5b9-4066-a22c-448abcd8977f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Actor\Interactive\Static\BranchTree">
       <UniqueIdentifier>{26f52f03-9544-4cb9-9bed-b4d5ab4198e5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Static\LootedItem">
-      <UniqueIdentifier>{b6d2005a-f0e8-4da1-acd3-a2da54859902}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Static\Letter">
-      <UniqueIdentifier>{3b14c426-c2d7-4ad5-877c-3e5211f4e208}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Static\Dust">
-      <UniqueIdentifier>{db8df703-58b8-401b-bbb9-81f78c5a5d4c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Static\WitchLift">
-      <UniqueIdentifier>{f961e473-ad3f-40ed-a9da-f310ed861eeb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Static\Bed">
-      <UniqueIdentifier>{37f9160f-fb2d-4236-8f18-93c511ad0d53}</UniqueIdentifier>
     </Filter>
     <Filter Include="Actor\Interactive\NPC">
       <UniqueIdentifier>{c1a15aa1-75f1-4523-8683-9d4e21a1ffb7}</UniqueIdentifier>
@@ -273,6 +252,27 @@
     </Filter>
     <Filter Include="Global\Math">
       <UniqueIdentifier>{124d7494-cddb-47e0-8664-505456c546b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\WitchLift">
+      <UniqueIdentifier>{f961e473-ad3f-40ed-a9da-f310ed861eeb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\Plant">
+      <UniqueIdentifier>{aabcb491-481d-4380-a119-aabdaa014822}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\Plant\SilverBellFlower">
+      <UniqueIdentifier>{ef2cf91a-b5b9-4066-a22c-448abcd8977f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\LootedItem">
+      <UniqueIdentifier>{b6d2005a-f0e8-4da1-acd3-a2da54859902}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\Bed">
+      <UniqueIdentifier>{37f9160f-fb2d-4236-8f18-93c511ad0d53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\Dust">
+      <UniqueIdentifier>{db8df703-58b8-401b-bbb9-81f78c5a5d4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\Letter">
+      <UniqueIdentifier>{3b14c426-c2d7-4ad5-877c-3e5211f4e208}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -404,10 +404,10 @@
       <Filter>Actor\Interactive\Static\Bush</Filter>
     </ClInclude>
     <ClInclude Include="WitchFlower.h">
-      <Filter>Actor\Interactive\Static\Plant</Filter>
+      <Filter>Actor\Interactive\Plant</Filter>
     </ClInclude>
     <ClInclude Include="Plant.h">
-      <Filter>Actor\Interactive\Static\Plant</Filter>
+      <Filter>Actor\Interactive\Plant</Filter>
     </ClInclude>
     <ClInclude Include="FlowerBird.h">
       <Filter>Actor\Interactive\Dynamic\FlowerBird</Filter>
@@ -581,13 +581,13 @@
       <Filter>Actor\Interactive\NPC\Aurea</Filter>
     </ClInclude>
     <ClInclude Include="SilverStarPollen.h">
-      <Filter>Actor\Interactive\Static\Plant\SilverBellFlower</Filter>
+      <Filter>Actor\Interactive\Plant\SilverBellFlower</Filter>
     </ClInclude>
     <ClInclude Include="SilverStarFlower.h">
-      <Filter>Actor\Interactive\Static\Plant\SilverBellFlower</Filter>
+      <Filter>Actor\Interactive\Plant\SilverBellFlower</Filter>
     </ClInclude>
     <ClInclude Include="SilverBellSpawner.h">
-      <Filter>Actor\Interactive\Static\Plant\SilverBellFlower</Filter>
+      <Filter>Actor\Interactive\Plant\SilverBellFlower</Filter>
     </ClInclude>
     <ClInclude Include="OutLineEffect.h">
       <Filter>Rendering\Effect</Filter>
@@ -602,10 +602,10 @@
       <Filter>Event</Filter>
     </ClInclude>
     <ClInclude Include="LootedItem.h">
-      <Filter>Actor\Interactive\Static\LootedItem</Filter>
+      <Filter>Actor\Interactive\LootedItem</Filter>
     </ClInclude>
     <ClInclude Include="InteractiveLetter.h">
-      <Filter>Actor\Interactive\Static\Letter</Filter>
+      <Filter>Actor\Interactive\Letter</Filter>
     </ClInclude>
     <ClInclude Include="DustFx.h">
       <Filter>Actor\Fx</Filter>
@@ -614,16 +614,16 @@
       <Filter>Manager\UIManager\Other</Filter>
     </ClInclude>
     <ClInclude Include="Dust.h">
-      <Filter>Actor\Interactive\Static\Dust</Filter>
+      <Filter>Actor\Interactive\Dust</Filter>
     </ClInclude>
     <ClInclude Include="Dust_HandBook.h">
-      <Filter>Actor\Interactive\Static\Dust</Filter>
+      <Filter>Actor\Interactive\Dust</Filter>
     </ClInclude>
     <ClInclude Include="Dust_Bag.h">
-      <Filter>Actor\Interactive\Static\Dust</Filter>
+      <Filter>Actor\Interactive\Dust</Filter>
     </ClInclude>
     <ClInclude Include="Dust_Elevator.h">
-      <Filter>Actor\Interactive\Static\Dust</Filter>
+      <Filter>Actor\Interactive\Dust</Filter>
     </ClInclude>
     <ClInclude Include="ContentsSpriteRenderer.h">
       <Filter>Rendering\Renderer</Filter>
@@ -632,10 +632,10 @@
       <Filter>Rendering\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Dust_Pot.h">
-      <Filter>Actor\Interactive\Static\Dust</Filter>
+      <Filter>Actor\Interactive\Dust</Filter>
     </ClInclude>
     <ClInclude Include="Dust_Extractor.h">
-      <Filter>Actor\Interactive\Static\Dust</Filter>
+      <Filter>Actor\Interactive\Dust</Filter>
     </ClInclude>
     <ClInclude Include="SingleEvent.h">
       <Filter>Event\SingleEvent</Filter>
@@ -653,10 +653,10 @@
       <Filter>Actor\Interactive\NPC\Dian</Filter>
     </ClInclude>
     <ClInclude Include="WitchHouseBed.h">
-      <Filter>Actor\Interactive\Static\Bed</Filter>
+      <Filter>Actor\Interactive\Bed</Filter>
     </ClInclude>
     <ClInclude Include="BedUI.h">
-      <Filter>Actor\Interactive\Static\Bed</Filter>
+      <Filter>Actor\Interactive\Bed</Filter>
     </ClInclude>
     <ClInclude Include="FireWorksEvent.h">
       <Filter>Event</Filter>
@@ -737,19 +737,22 @@
       <Filter>Rendering\Renderer\Gauge</Filter>
     </ClInclude>
     <ClInclude Include="BaseLift.h">
-      <Filter>Actor\Interactive\Static\WitchLift</Filter>
+      <Filter>Actor\Interactive\WitchLift</Filter>
     </ClInclude>
     <ClInclude Include="UpperLiftA.h">
-      <Filter>Actor\Interactive\Static\WitchLift</Filter>
+      <Filter>Actor\Interactive\WitchLift</Filter>
     </ClInclude>
     <ClInclude Include="LowerLiftA.h">
-      <Filter>Actor\Interactive\Static\WitchLift</Filter>
+      <Filter>Actor\Interactive\WitchLift</Filter>
     </ClInclude>
     <ClInclude Include="BroomCollisionParticle.h">
       <Filter>Actor\Interactive\Dynamic\Ellie\Broom\Ride_Particle</Filter>
     </ClInclude>
     <ClInclude Include="ContentsActor.h">
       <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationHelper.h">
+      <Filter>Global</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -887,10 +890,10 @@
       <Filter>Actor\Interactive\Static\Bush</Filter>
     </ClCompile>
     <ClCompile Include="Plant.cpp">
-      <Filter>Actor\Interactive\Static\Plant</Filter>
+      <Filter>Actor\Interactive\Plant</Filter>
     </ClCompile>
     <ClCompile Include="WitchFlower.cpp">
-      <Filter>Actor\Interactive\Static\Plant</Filter>
+      <Filter>Actor\Interactive\Plant</Filter>
     </ClCompile>
     <ClCompile Include="FlowerBird.cpp">
       <Filter>Actor\Interactive\Dynamic\FlowerBird</Filter>
@@ -1089,13 +1092,13 @@
       <Filter>Actor\Interactive\NPC\Aurea</Filter>
     </ClCompile>
     <ClCompile Include="SilverStarFlower.cpp">
-      <Filter>Actor\Interactive\Static\Plant\SilverBellFlower</Filter>
+      <Filter>Actor\Interactive\Plant\SilverBellFlower</Filter>
     </ClCompile>
     <ClCompile Include="SilverStarPollen.cpp">
-      <Filter>Actor\Interactive\Static\Plant\SilverBellFlower</Filter>
+      <Filter>Actor\Interactive\Plant\SilverBellFlower</Filter>
     </ClCompile>
     <ClCompile Include="SilverBellSpawner.cpp">
-      <Filter>Actor\Interactive\Static\Plant\SilverBellFlower</Filter>
+      <Filter>Actor\Interactive\Plant\SilverBellFlower</Filter>
     </ClCompile>
     <ClCompile Include="OutLineEffect.cpp">
       <Filter>Rendering\Effect</Filter>
@@ -1113,10 +1116,10 @@
       <Filter>Data\Event</Filter>
     </ClCompile>
     <ClCompile Include="LootedItem.cpp">
-      <Filter>Actor\Interactive\Static\LootedItem</Filter>
+      <Filter>Actor\Interactive\LootedItem</Filter>
     </ClCompile>
     <ClCompile Include="InteractiveLetter.cpp">
-      <Filter>Actor\Interactive\Static\Letter</Filter>
+      <Filter>Actor\Interactive\Letter</Filter>
     </ClCompile>
     <ClCompile Include="DustFx.cpp">
       <Filter>Actor\Fx</Filter>
@@ -1125,16 +1128,16 @@
       <Filter>Manager\UIManager\Other</Filter>
     </ClCompile>
     <ClCompile Include="Dust.cpp">
-      <Filter>Actor\Interactive\Static\Dust</Filter>
+      <Filter>Actor\Interactive\Dust</Filter>
     </ClCompile>
     <ClCompile Include="Dust_HandBook.cpp">
-      <Filter>Actor\Interactive\Static\Dust</Filter>
+      <Filter>Actor\Interactive\Dust</Filter>
     </ClCompile>
     <ClCompile Include="Dust_Bag.cpp">
-      <Filter>Actor\Interactive\Static\Dust</Filter>
+      <Filter>Actor\Interactive\Dust</Filter>
     </ClCompile>
     <ClCompile Include="Dust_Elevator.cpp">
-      <Filter>Actor\Interactive\Static\Dust</Filter>
+      <Filter>Actor\Interactive\Dust</Filter>
     </ClCompile>
     <ClCompile Include="ContentsSpriteRenderer.cpp">
       <Filter>Rendering\Renderer</Filter>
@@ -1143,10 +1146,10 @@
       <Filter>Rendering\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Dust_Extractor.cpp">
-      <Filter>Actor\Interactive\Static\Dust</Filter>
+      <Filter>Actor\Interactive\Dust</Filter>
     </ClCompile>
     <ClCompile Include="Dust_Pot.cpp">
-      <Filter>Actor\Interactive\Static\Dust</Filter>
+      <Filter>Actor\Interactive\Dust</Filter>
     </ClCompile>
     <ClCompile Include="HouseDustEvent.cpp">
       <Filter>Event\SingleEvent</Filter>
@@ -1167,10 +1170,10 @@
       <Filter>Actor\Interactive\NPC\Dian</Filter>
     </ClCompile>
     <ClCompile Include="WitchHouseBed.cpp">
-      <Filter>Actor\Interactive\Static\Bed</Filter>
+      <Filter>Actor\Interactive\Bed</Filter>
     </ClCompile>
     <ClCompile Include="BedUI.cpp">
-      <Filter>Actor\Interactive\Static\Bed</Filter>
+      <Filter>Actor\Interactive\Bed</Filter>
     </ClCompile>
     <ClCompile Include="FireWorksEvent.cpp">
       <Filter>Event</Filter>
@@ -1251,19 +1254,22 @@
       <Filter>Rendering\Renderer\Gauge</Filter>
     </ClCompile>
     <ClCompile Include="BaseLift.cpp">
-      <Filter>Actor\Interactive\Static\WitchLift</Filter>
+      <Filter>Actor\Interactive\WitchLift</Filter>
     </ClCompile>
     <ClCompile Include="UpperLiftA.cpp">
-      <Filter>Actor\Interactive\Static\WitchLift</Filter>
+      <Filter>Actor\Interactive\WitchLift</Filter>
     </ClCompile>
     <ClCompile Include="LowerLiftA.cpp">
-      <Filter>Actor\Interactive\Static\WitchLift</Filter>
+      <Filter>Actor\Interactive\WitchLift</Filter>
     </ClCompile>
     <ClCompile Include="BroomCollisionParticle.cpp">
       <Filter>Actor\Interactive\Dynamic\Ellie\Broom\Ride_Particle</Filter>
     </ClCompile>
     <ClCompile Include="ContentsActor.cpp">
       <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationHelper.cpp">
+      <Filter>Global</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,6 +1,6 @@
 #pragma once
 #include "DynamicEntity.h"
-#include "ActorEnum.h"
+#include "AnimationHelper.h"
 
 
 static constexpr const float MAX_STAMINA = 1000.0f;
@@ -259,6 +259,7 @@ private:
 	InteractiveActor* OtherEntity = nullptr;
 	PixelCheckPoint CheckPoint;
 
+	/*static FrameAnimationHelper VirgilRendererHelper;*/
 
 	
 	float StateTime = 0.0f;

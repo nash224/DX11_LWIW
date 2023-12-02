@@ -1,21 +1,15 @@
 #include "PreCompile.h"
 #include "PlayLevel.h"
 
-// GUI
-#include <GameEngineCore/GameEngineCoreWindow.h>
-
 // Manager
-#include "CameraControler.h"
 #include "UIManager.h"
 #include "TimeManager.h"
 #include "AlertManager.h"
-#include "BGMManager.h"
 
 // Actor
 #include "Ellie.h"
 #include "FadeObject.h"
-#include "UI_Alert_Enter.h"
-#include "SkyLightEffect.h"
+
 
 PlayLevel* PlayLevel::s_MainPlayLevel = nullptr;
 std::unique_ptr<TimeManager> PlayLevel::s_TimeManager;
