@@ -15,6 +15,9 @@ float Ellie::Stamina = 0.0f;
 float Ellie::BroomFuel = MAX_FUEL;
 int Ellie::Day = -1;
 bool Ellie::FirstInitCheck = false;
+FrameAnimationHelper Ellie::VirgilRendererHelper;
+FrameAnimationHelper Ellie::BroomHeadRendererHelper;
+FrameAnimationHelper Ellie::BroomBodyRendererHelper;
 Ellie::Ellie() 
 {
 	if (nullptr == GameEngineSound::FindSound("SFX_Broomstick_Boosting_01.wav"))
@@ -46,6 +49,34 @@ Ellie::Ellie()
 		GameEngineSprite::CreateCut("Broomstick_Basic_Boosting.png", 6, 6);
 		GameEngineSprite::CreateCut("Broomstick_Basic_Moving.png", 6, 6);
 		GameEngineSprite::CreateCut("Broomstick_Basic_Standing.png", 6, 6);
+	}
+
+	if (nullptr == GameEngineSprite::Find("Ellie_Basic_Idle.png"))
+	{
+		// 기본조작
+		GameEngineSprite::CreateCut("Ellie_Basic_Idle.png", 7, 6);
+		GameEngineSprite::CreateCut("Ellie_Basic_Walk.png", 12, 11);
+		GameEngineSprite::CreateCut("Ellie_Basic_Run.png", 9, 8);
+		GameEngineSprite::CreateCut("Ellie_Basic_Throw.png", 8, 7);
+
+		// 기본조작 - Riding
+		GameEngineSprite::CreateCut("Ellie_Basic_Riding_Standing.png", 8, 7);
+		GameEngineSprite::CreateCut("Ellie_Basic_Riding_Moving.png", 8, 7);
+		GameEngineSprite::CreateCut("Ellie_Basic_Riding_Boosting.png", 8, 7);
+
+		// 수집 
+		GameEngineSprite::CreateCut("Ellie_Basic_ButterflyNet.png", 12, 11);
+		GameEngineSprite::CreateCut("Ellie_Basic_RootUp.png", 10, 9);
+		GameEngineSprite::CreateCut("Ellie_Basic_Sit.png", 7, 7);
+		GameEngineSprite::CreateCut("Ellie_Basic_Mongsiri.png", 5, 4);
+
+		// 단일 방향
+		GameEngineSprite::CreateCut("Ellie_Basic_Cheer.png", 6, 6);
+		GameEngineSprite::CreateCut("Ellie_Basic_Fail.png", 6, 5);
+		GameEngineSprite::CreateCut("Ellie_Basic_Drink.png", 6, 5);
+
+		// Ride Fx
+		GameEngineSprite::CreateCut("Broom_Ride_Fx_Sample.png", 3, 3);
 	}
 
 	if (false == FirstInitCheck)

@@ -63,6 +63,10 @@ private:
 	static float BroomFuel;
 	static bool FirstInitCheck;
 
+	static FrameAnimationHelper VirgilRendererHelper;
+	static FrameAnimationHelper BroomHeadRendererHelper;
+	static FrameAnimationHelper BroomBodyRendererHelper;
+
 private:
 	class EllieBroom
 	{
@@ -259,8 +263,6 @@ private:
 	InteractiveActor* OtherEntity = nullptr;
 	PixelCheckPoint CheckPoint;
 
-	/*static FrameAnimationHelper VirgilRendererHelper;*/
-
 	
 	float StateTime = 0.0f;
 	float CoolTime = 0.0f;
@@ -289,5 +291,6 @@ private:
 
 	static constexpr const float FOVAngle = 60.0f;
 	static constexpr const float FrictionForce = 0.5f;
+
 
 };

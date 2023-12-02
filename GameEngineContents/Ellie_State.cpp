@@ -222,6 +222,9 @@ void Ellie::UpdateIdle(float _Delta)
 			return;
 		}
 	}
+
+
+	VirgilRendererHelper.UpdateHelper(BodyRenderer, VirgilRenderer);
 }
 
 
@@ -259,6 +262,7 @@ void Ellie::UpdateSlowWalk(float _Delta)
 
 
 	ChangeDirectionAnimation("SlowWalk");
+	VirgilRendererHelper.UpdateHelper(BodyRenderer, VirgilRenderer);
 
 	CalulationMoveForceToNormalStatus(_Delta, SlowWalk_Speed);
 	ApplyMovement(_Delta);
@@ -299,6 +303,7 @@ void Ellie::UpdateWalk(float _Delta)
 	}
 
 	ChangeDirectionAnimation("Walk");
+	VirgilRendererHelper.UpdateHelper(BodyRenderer, VirgilRenderer);
 
 	CalulationMoveForceToNormalStatus(_Delta, Walk_Speed);
 	ApplyMovement(_Delta);
@@ -338,7 +343,7 @@ void Ellie::UpdateRun(float _Delta)
 	}
 
 	ChangeDirectionAnimation("Run");
-
+	VirgilRendererHelper.UpdateHelper(BodyRenderer, VirgilRenderer);
 
 	const float RunCostCoolDown = 0.5f;
 
@@ -348,7 +353,6 @@ void Ellie::UpdateRun(float _Delta)
 		StateTime -= RunCostCoolDown;
 		Stamina -= RunCost;
 	}
-
 
 	CalulationMoveForceToNormalStatus(_Delta, Run_Speed);
 	ApplyMovement(_Delta);
@@ -374,8 +378,8 @@ void Ellie::UpdateApproach(float _Delta)
 	}
 
 	float4 VectorToOther = OtherEntity->GetInteractiveLocalPositon() - Transform.GetLocalPosition();
-	
 	const float4 Size = DirectX::XMVector2Length(VectorToOther.DirectXVector);
+
 	bool isInRange = Size.X < OtherEntity->GetInteractiveRange();
 	if (isInRange)
 	{
@@ -411,11 +415,12 @@ void Ellie::UpdateApproach(float _Delta)
 	}
 	else
 	{
-		
 		float4 TargetDircetion = DirectX::XMVector2Normalize(VectorToOther.DirectXVector);
 		SetMoveVector(TargetDircetion * Walk_Speed);
 		ApplyMovement(_Delta);
 	}
+
+	VirgilRendererHelper.UpdateHelper(BodyRenderer, VirgilRenderer);
 }
 
 
@@ -437,6 +442,8 @@ void Ellie::UpdateButterflyNet(float _Delta)
 		ChangeState(EELLIE_STATE::Idle);
 		return;
 	}
+
+	VirgilRendererHelper.UpdateHelper(BodyRenderer, VirgilRenderer);
 }
 
 
@@ -460,6 +467,8 @@ void Ellie::UpdateRootUp(float _Delta)
 		ChangeState(EELLIE_STATE::Idle);
 		return;
 	}
+
+	VirgilRendererHelper.UpdateHelper(BodyRenderer, VirgilRenderer);
 }
 
 
@@ -490,6 +499,8 @@ void Ellie::UpdateSit(float _Delta)
 	}
 
 	SitShadowUpdate();
+
+	VirgilRendererHelper.UpdateHelper(BodyRenderer, VirgilRenderer);
 }
 
 
@@ -518,6 +529,8 @@ void Ellie::UpdateMongSiri(float _Delta)
 		ChangeState(EELLIE_STATE::Idle);
 		return;
 	}
+
+	VirgilRendererHelper.UpdateHelper(BodyRenderer, VirgilRenderer);
 }
 
 
@@ -539,6 +552,8 @@ void Ellie::UpdateWait(float _Delta)
 		ChangeState(WaitState);
 		return;
 	}
+
+	VirgilRendererHelper.UpdateHelper(BodyRenderer, VirgilRenderer);
 }
 
 
@@ -570,11 +585,13 @@ void Ellie::UpdateJuicy(float _Delta)
 		ChangeState(EELLIE_STATE::Wait);
 		return;
 	}
+
+	VirgilRendererHelper.UpdateHelper(BodyRenderer, VirgilRenderer);
 }
 
 void Ellie::UpdateLift(float _Delta)
 {
-
+	VirgilRendererHelper.UpdateHelper(BodyRenderer, VirgilRenderer);
 }
 
 
@@ -585,6 +602,8 @@ void Ellie::UpdateCheer(float _Delta)
 		ChangeState(EELLIE_STATE::Idle);
 		return;
 	}
+
+	VirgilRendererHelper.UpdateHelper(BodyRenderer, VirgilRenderer);
 }
 
 
@@ -595,6 +614,8 @@ void Ellie::UpdateFail(float _Delta)
 		ChangeState(EELLIE_STATE::Idle);
 		return;
 	}
+
+	VirgilRendererHelper.UpdateHelper(BodyRenderer, VirgilRenderer);
 }
 
 void Ellie::UpdateDrink(float _Delta)
