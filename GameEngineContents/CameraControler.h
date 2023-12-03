@@ -16,9 +16,6 @@ class CameraControler : public GameEngineActor
 {
 	friend class ContentsLevel;
 
-public:
-	static std::weak_ptr<CameraControler> MainCameraControler;
-
 private:
 	struct CameraInfo
 	{

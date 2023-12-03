@@ -394,16 +394,8 @@ void FlowerBird::UpdateFly(float _Delta)
 	constexpr float ExitCameraCorrection = 50.0f;
 
 	ApplyMovement(_Delta);
-
 	float4 MyPosition = Transform.GetLocalPosition();
-
-	if (true == CameraControler::MainCameraControler.expired())
-	{
-		MsgBoxAssert("메인 카메라가 존재하지 않습니다.");
-		return;
-	}
-
-	float4 CameraPosition = CameraControler::MainCameraControler.lock()->GetCameraCurrentPostion();
+	float4 CameraPosition = PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr()->GetCameraCurrentPostion();
 	float4 HWinScale = GlobalValue::GetWindowScale();
 
 	bool isExitOutOfCamera = (MyPosition.X - ExitCameraCorrection < CameraPosition.X - HWinScale.X);

@@ -216,7 +216,7 @@ void DebugTab::OnFPSTime(float _DeltaTime)
 
 void DebugTab::CameraPos()
 {
-	float4 CameraPosition = CameraControler::MainCameraControler.lock()->GetCameraCurrentPostion();
+	float4 CameraPosition = PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr()->GetCameraCurrentPostion();
 	ImGui::Text(("CameraPos :" + CameraPosition.ToString()).c_str());
 }
 

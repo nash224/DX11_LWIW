@@ -47,14 +47,6 @@ void ContentsLevel::Update(float _Delta)
 	}
 }
 
-void ContentsLevel::LevelStart(class GameEngineLevel* _NextLevel)
-{
-	if (nullptr != LevelCamera)
-	{
-		CameraControler::MainCameraControler = LevelCamera;
-	}
-}
-
 std::shared_ptr<class CameraControler> ContentsLevel::GetLevelCameraPtr() const
 {
 	if (nullptr == LevelCamera)

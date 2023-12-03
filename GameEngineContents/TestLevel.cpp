@@ -75,7 +75,7 @@ void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
 
 	FileLoadFunction::LoadTextureAndCreateSingleSpriteInPath("Resources\\PlayContents\\Lift");
 
-	CameraControler::MainCameraControler.lock()->SetCameraMode(ECAMERAMODE::Fix);
+	PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr()->SetCameraMode(ECAMERAMODE::Fix);
 
 	const float4 WinScale = GlobalValue::GetWindowScale();
 
