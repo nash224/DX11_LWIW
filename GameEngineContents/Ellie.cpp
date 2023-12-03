@@ -115,7 +115,6 @@ void Ellie::Release()
 
 	ShadowRenderer = nullptr;
 	VirgilRenderer = nullptr;
-	EllieFxRenderer = nullptr;
 
 	EllieCol = nullptr;
 	InteractiveCol = nullptr;

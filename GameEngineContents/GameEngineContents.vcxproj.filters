@@ -763,6 +763,9 @@
     <ClInclude Include="FxBase.h">
       <Filter>Actor\Interactive\Dynamic\Ellie\Fx</Filter>
     </ClInclude>
+    <ClInclude Include="FailFx.h">
+      <Filter>Actor\Interactive\Dynamic\Ellie\Fx</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -1064,9 +1067,6 @@
     <ClCompile Include="RidingFx.cpp">
       <Filter>Actor\Interactive\Dynamic\Ellie\Broom\Ride_Fx</Filter>
     </ClCompile>
-    <ClCompile Include="Ellie_Virgil.cpp">
-      <Filter>Actor\Interactive\Dynamic\Ellie</Filter>
-    </ClCompile>
     <ClCompile Include="UI_MainMenu_Button.cpp">
       <Filter>Level\BackManager\1.MainMenu</Filter>
     </ClCompile>
@@ -1284,6 +1284,9 @@
       <Filter>Actor\Interactive\Dynamic\Ellie\Fx</Filter>
     </ClCompile>
     <ClCompile Include="FxBase.cpp">
+      <Filter>Actor\Interactive\Dynamic\Ellie\Fx</Filter>
+    </ClCompile>
+    <ClCompile Include="FailFx.cpp">
       <Filter>Actor\Interactive\Dynamic\Ellie\Fx</Filter>
     </ClCompile>
   </ItemGroup>

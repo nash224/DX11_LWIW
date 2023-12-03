@@ -131,7 +131,6 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 	void RendererSetting();
-	void VirgilSetting();
 	void BroomSetting();
 	void CollisionSetting();
 	void SetPixelPointBaseOnCenter();
@@ -258,7 +257,6 @@ private:
 
 	EllieBroom Broom;
 	std::shared_ptr<GameEngineSpriteRenderer> ShadowRenderer = nullptr;
-	std::shared_ptr<GameEngineSpriteRenderer> EllieFxRenderer = nullptr;
 	std::shared_ptr<GameEngineSpriteRenderer> VirgilRenderer = nullptr;
 	std::shared_ptr<GameEngineCollision> EllieCol = nullptr;
 	std::shared_ptr<GameEngineCollision> NetCollision = nullptr;
