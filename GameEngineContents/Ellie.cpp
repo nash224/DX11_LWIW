@@ -111,8 +111,6 @@ void Ellie::Update(float _Delta)
 
 void Ellie::Release()
 {
-	DynamicEntity::Release();
-
 	ShadowRenderer = nullptr;
 	VirgilRenderer = nullptr;
 
@@ -858,11 +856,11 @@ float4 Ellie::GetMoveForceByDir(float _Delta, float _MAXMoveForce, float _Accele
 
 void Ellie::LimitMoveVector(float _MAXMoveForce)
 {
-	const float4 MoveVectorSize = DirectX::XMVector2Length(DynamicEntity::GetMoveVector().DirectXVector);
-	const float4 MoveUnitVector = DirectX::XMVector2Normalize(DynamicEntity::GetMoveVector().DirectXVector);
+	const float4 MoveVectorSize = DirectX::XMVector2Length(ContentsActor::GetMoveVector().DirectXVector);
+	const float4 MoveUnitVector = DirectX::XMVector2Normalize(ContentsActor::GetMoveVector().DirectXVector);
  	const float LimitedSpeed = std::clamp(MoveVectorSize.X, 0.0f, _MAXMoveForce);
 
-	DynamicEntity::SetMoveVector(MoveUnitVector * LimitedSpeed);
+	ContentsActor::SetMoveVector(MoveUnitVector * LimitedSpeed);
 }
 
 #pragma endregion 

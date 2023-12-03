@@ -1,10 +1,10 @@
 #pragma once
-#include "DynamicEntity.h"
+#include "ContentsActor.h"
 #include "AnimationHelper.h"
 
 
-static constexpr const float MAX_STAMINA = 1000.0f;
-static constexpr const float MAX_FUEL = 1000.0f;
+static constexpr float MAX_STAMINA = 1000.0f;
+static constexpr float MAX_FUEL = 1000.0f;
 
 
 enum class EELLIE_STATE
@@ -54,7 +54,7 @@ public:
 
 
 // 설명 : 주인공 앨리입니다. 
-class Ellie : public DynamicEntity
+class Ellie : public ContentsActor
 {
 private:
 	static EELLIE_STATUS g_Status;
@@ -248,11 +248,12 @@ private:
 	EELLIE_STATE WaitState = EELLIE_STATE::None;
 
 	EllieBroom Broom;
+	std::shared_ptr<GameEngineSpriteRenderer> BodyRenderer = nullptr;
 	std::shared_ptr<GameEngineSpriteRenderer> ShadowRenderer = nullptr;
 	std::shared_ptr<GameEngineSpriteRenderer> VirgilRenderer = nullptr;
 	std::shared_ptr<GameEngineCollision> EllieCol = nullptr;
 	std::shared_ptr<GameEngineCollision> NetCollision = nullptr;
-	InteractiveActor* OtherEntity = nullptr;
+	class InteractiveActor* OtherEntity = nullptr;
 	PixelCheckPoint CheckPoint;
 
 	

@@ -80,7 +80,7 @@ void Ellie::UpdateRiding_Standing(float _Delta)
 
 
 	DecelerateNotDir(_Delta, Riding_Boost_Speed);
-	DynamicEntity::ApplyOnlyMovement(_Delta);
+	ContentsActor::ApplyOnlyMovement(_Delta);
 	if (true == WallCollision())
 	{
 		if (true == ChecckCollideWall())
@@ -88,7 +88,8 @@ void Ellie::UpdateRiding_Standing(float _Delta)
 			ResetMoveVector();
 		}
 	}
-	InteractiveActor::ApplyDepth();
+
+	ContentsActor::ApplyDepth();
 }
 
 
@@ -150,7 +151,7 @@ void Ellie::UpdateRiding_Moving(float _Delta)
 	DecelerateNotDir(_Delta, Riding_Move_Speed);
 	m_MoveVector += GetMoveForceByDir(_Delta, Riding_Move_Speed, Riding_Move_Acceleration_Time);
 	LimitMoveVector(Riding_Move_Speed);
-	DynamicEntity::ApplyOnlyMovement(_Delta);
+	ContentsActor::ApplyOnlyMovement(_Delta);
 	if (true == WallCollision())
 	{
 		if (true == ChecckCollideWall())
@@ -158,7 +159,7 @@ void Ellie::UpdateRiding_Moving(float _Delta)
 			ResetMoveVector();
 		}
 	}
-	InteractiveActor::ApplyDepth();
+	ContentsActor::ApplyDepth();
 
 	ConsumeBroomFuel(_Delta);
 	GenerateBroomDust(_Delta);
@@ -222,7 +223,7 @@ void Ellie::UpdateRiding_Boosting(float _Delta)
 	DecelerateNotDir(_Delta, Riding_Boost_Speed);
 	m_MoveVector += GetMoveForceByDir(_Delta, Riding_Boost_Speed, Riding_Boost_Acceleration_Time);
 	LimitMoveVector(Riding_Boost_Speed);
-	DynamicEntity::ApplyOnlyMovement(_Delta);
+	ContentsActor::ApplyOnlyMovement(_Delta);
 	if (true == WallCollision())
 	{
 		if (true == ChecckCollideWall())
@@ -230,7 +231,7 @@ void Ellie::UpdateRiding_Boosting(float _Delta)
 			ResetMoveVector();
 		}
 	}
-	InteractiveActor::ApplyDepth();
+	ContentsActor::ApplyDepth();
 
 	ConsumeBroomFuel(_Delta);
 	GenerateBoostBroomDust(_Delta);
