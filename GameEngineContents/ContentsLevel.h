@@ -28,7 +28,6 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 protected:
-	void ChangeDebugMode();
 
 	
 	std::shared_ptr<class CameraControler> LevelCamera = nullptr;

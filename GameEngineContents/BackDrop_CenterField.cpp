@@ -102,20 +102,12 @@ void BackDrop_CenterField::ReleaseSpriteFile()
 
 void BackDrop_CenterField::CreateMap()
 {
-	const std::int32_t GroupZero = 0;
-
-	const std::shared_ptr<GameEngineTexture> MapTexture = GameEngineTexture::Find("CenterMap.png");
-	const float4 MapScale = MapTexture->GetScale();
-
-	BackScale = MapScale;
-
-
 	{
-		float4 MapPos = MapScale.Half();
+		float4 MapPos = BackScale.Half();
 		MapPos.Y *= -1.0f;
 		MapPos.Z = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Cliff);
 
-		std::shared_ptr<NormalProp> CenterMap = GetLevel()->CreateActor<NormalProp>(GroupZero);
+		std::shared_ptr<NormalProp> CenterMap = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		CenterMap->Transform.SetLocalPosition(MapPos);
 		CenterMap->Init();
 		CenterMap->m_Renderer->SetSprite("CenterMap.png");
@@ -124,11 +116,11 @@ void BackDrop_CenterField::CreateMap()
 	}
 
 	{
-		float4 BasePosition = MapScale.Half();
+		float4 BasePosition = BackScale.Half();
 		BasePosition.Y *= -1.0f;
 		BasePosition.Z = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Back_Paint);
 
-		std::shared_ptr<RendererActor> BaseGorund = GetLevel()->CreateActor<RendererActor>(GroupZero);
+		std::shared_ptr<RendererActor> BaseGorund = GetLevel()->CreateActor<RendererActor>(EUPDATEORDER::Objects);
 		BaseGorund->Transform.SetLocalPosition(BasePosition);
 		BaseGorund->Init();
 		BaseGorund->m_Renderer->SetSprite("GroundBase.png");
@@ -154,7 +146,7 @@ void BackDrop_CenterField::LoadSerBin()
 
 		for (unsigned int i = 0; i < ActorCount; i++)
 		{
-			const std::shared_ptr<NormalProp>& Object = GetLevel()->CreateActor<NormalProp>();
+			const std::shared_ptr<NormalProp>& Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 			Object->DeSerializer(LoadBin);
 			PixelVec.push_back(Object);
 		}
@@ -177,7 +169,7 @@ void BackDrop_CenterField::LoadSerBin()
 
 		for (unsigned int i = 0; i < ActorCount; i++)
 		{
-			std::shared_ptr<GroundRenderUnit> Object = GetLevel()->CreateActor<GroundRenderUnit>();
+			std::shared_ptr<GroundRenderUnit> Object = GetLevel()->CreateActor<GroundRenderUnit>(EUPDATEORDER::Objects);
 			Object->DeSerializer(LoadBin);
 		}
 	}
@@ -200,21 +192,21 @@ void BackDrop_CenterField::CreatePortalActor()
 
 void BackDrop_CenterField::NPCSetting()
 {
-	std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Craft_Potion");
-	if (true == Quest.expired())
+	const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = ContentsEvent::FindQuest("Craft_Potion");
+	if (nullptr == Quest)
 	{
 		MsgBoxAssert("생성되지 않은 퀘스트입니다.");
 		return;
 	}
 
-	if (false == Quest.lock()->isQuestComplete())
+	if (false == Quest->isQuestComplete())
 	{
 		return;
 	}
 
-	std::weak_ptr<Aurea> Npc_Aurea = GetLevel()->CreateActor<Aurea>(EUPDATEORDER::Entity);
-	Npc_Aurea.lock()->Transform.SetLocalPosition(float4(940.0f, -235.0f));
-	Npc_Aurea.lock()->Init();
+	std::shared_ptr<Aurea> Npc_Aurea = GetLevel()->CreateActor<Aurea>(EUPDATEORDER::Entity);
+	Npc_Aurea->Transform.SetLocalPosition(float4(940.0f, -235.0f));
+	Npc_Aurea->Init();
 }
 
 
@@ -286,14 +278,9 @@ void BackDrop_CenterField::CheckFireWorksEvent()
 	if (true == UI_Inventory::IsItem("FirecrackerPotion"))
 	{
 		std::vector<std::shared_ptr<FadeObject>> FadeObjects = GetLevel()->GetObjectGroupConvert<FadeObject>(EUPDATEORDER::Fade);
-		for (std::weak_ptr<FadeObject> Fade : FadeObjects)
+		for (const std::shared_ptr<FadeObject>& Fade : FadeObjects)
 		{
-			if (true == Fade.expired())
-			{
-				continue;
-			}
-
-			Fade.lock()->Death();
+			Fade->Death();
 		}
 
 		ReleaseEntity<FlowerBird>();
@@ -305,7 +292,7 @@ void BackDrop_CenterField::CheckFireWorksEvent()
 
 void BackDrop_CenterField::ShowFireWorksEvent()
 {
-	std::weak_ptr<FireWorksEvent> Event = GetLevel()->CreateActor<FireWorksEvent>(EUPDATEORDER::Event);
-	Event.lock()->Transform.SetLocalPosition(float4(734.0f, -918.0f));
-	Event.lock()->Init();
+	std::shared_ptr<FireWorksEvent> Event = GetLevel()->CreateActor<FireWorksEvent>(EUPDATEORDER::Event);
+	Event->Transform.SetLocalPosition(float4(734.0f, -918.0f));
+	Event->Init();
 }

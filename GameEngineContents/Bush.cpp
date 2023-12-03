@@ -33,8 +33,6 @@ void Bush::Update(float _Delta)
 	StaticEntity::Update(_Delta);
 
 	UpdateState(_Delta);
-
-	StaticEntity::UpdatePixelCollision();
 }
 
 void Bush::Release()

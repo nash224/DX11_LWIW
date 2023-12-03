@@ -33,8 +33,6 @@ bool StaticEntity::GetPixelCheck()
 void StaticEntity::SetPixelCollision(std::string_view _FileName)
 {
 	PixelCol = CreateComponent<PixelCollision>();
-	
-
 	PixelCol->SetPixelFileName(_FileName);
 
 	PixelRenderer = CreateComponent<GameEngineSpriteRenderer>();
@@ -46,19 +44,4 @@ void StaticEntity::SetPixelCollision(std::string_view _FileName)
 GameEngineColor StaticEntity::GetColor(const float4& _Position, GameEngineColor _DefaultColor /*= GameEngineColor::WHITE*/)
 {
 	return PixelCol->GetColor(_Position, Transform.GetLocalPosition(), _DefaultColor);
-}
-
-void StaticEntity::UpdatePixelCollision()
-{
-	if (nullptr != PixelRenderer)
-	{
-		if (true == PlayLevel::PixelDebugMode)
-		{
-			PixelRenderer->On();
-		}
-		else
-		{
-			PixelRenderer->Off();
-		}
-	}
 }

@@ -86,7 +86,7 @@ void BackDrop_WitchHouse_Yard::LoadSerBin()
 
 		for (unsigned int i = 0; i < ActorCount; i++)
 		{
-			std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>();
+			std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 			Object->DeSerializer(LoadBin);
 			PixelVec.push_back(Object);
 		}
@@ -109,7 +109,7 @@ void BackDrop_WitchHouse_Yard::LoadSerBin()
 
 		for (unsigned int i = 0; i < ActorCount; i++)
 		{
-			std::shared_ptr<GroundRenderUnit> Object = GetLevel()->CreateActor<GroundRenderUnit>();
+			std::shared_ptr<GroundRenderUnit> Object = GetLevel()->CreateActor<GroundRenderUnit>(EUPDATEORDER::Objects);
 			Object->DeSerializer(LoadBin);
 		}
 	}
@@ -153,8 +153,7 @@ void BackDrop_WitchHouse_Yard::CreateNormalProp()
 	}
 
 	{
-		const float4& WinScale = GlobalValue::GetWindowScale();
-		float4 Position = WinScale.Half();
+		float4 Position = GlobalValue::GetWindowScale().Half();
 		Position.Y *= -1.0f;
 
 		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
@@ -183,8 +182,6 @@ void BackDrop_WitchHouse_Yard::CreateHouse()
 
 void BackDrop_WitchHouse_Yard::CreatePortalActor()
 {
-	float4 HWinScale = GlobalValue::GetWindowScale().Half();
-
 	{
 		std::shared_ptr<PortalObject> Object = GetLevel()->CreateActor<PortalObject>(EUPDATEORDER::Portal);
 		Object->CreatePortalCollision(ECOLLISION::Portal);
@@ -199,7 +196,7 @@ void BackDrop_WitchHouse_Yard::CreatePortalActor()
 		std::shared_ptr<PortalObject> Object = GetLevel()->CreateActor<PortalObject>(EUPDATEORDER::Portal);
 		Object->CreatePortalCollision(ECOLLISION::Portal);
 		Object->SetChangeLevelName("Field_Center");
-		Object->SetLocalPosition({ HWinScale.X , -GlobalValue::GetWindowScale().Y });
+		Object->SetLocalPosition({ GlobalValue::GetWindowScale().Half().X , -GlobalValue::GetWindowScale().Y });
 		Object->SetCollisionRange({ 200.0f , 100.0f });
 		Object->SetCollisionType(ColType::AABBBOX2D);
 	}
@@ -225,14 +222,14 @@ void BackDrop_WitchHouse_Yard::EventSetting()
 
 void BackDrop_WitchHouse_Yard::CheckLetterEvent()
 {
-	std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("StartTraining");
-	if (true == Quest.expired())
+	const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = ContentsEvent::FindQuest("StartTraining");
+	if (nullptr == Quest)
 	{
 		MsgBoxAssert("생성되지 않은 퀘스트입니다.");
 		return;
 	}
 
-	if (false == Quest.lock()->IsQuestAccepted())
+	if (false == Quest->IsQuestAccepted())
 	{
 		CreateLetter();
 	}
@@ -240,7 +237,7 @@ void BackDrop_WitchHouse_Yard::CheckLetterEvent()
 
 void BackDrop_WitchHouse_Yard::CheckCrowEvent()
 {
-	const std::shared_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Crow_Meet");
+	const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = ContentsEvent::FindQuest("Crow_Meet");
 	if (nullptr == Quest)
 	{
 		MsgBoxAssert("생성되지 않은 퀘스트입니다.");

@@ -12,11 +12,6 @@ NormalProp::~NormalProp()
 {
 }
 
-void NormalProp::Update(float _Delta)
-{
-	UpdateDebug();
-}
-
 void NormalProp::Release()
 {
 	RendererActor::Release();
@@ -30,47 +25,9 @@ void NormalProp::LevelEnd(class GameEngineLevel* _NextLevel)
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
-
 void NormalProp::Init(int _Order /*= 0*/)
 {
 	m_Renderer = CreateComponent<GameEngineSpriteRenderer>(_Order);
-}
-
-
-void NormalProp::UpdateDebug()
-{
-	if (true == IsRendererOn && true == ContentsLevel::PixelDebugMode)
-	{
-		if (nullptr != m_Renderer)
-		{
-			m_Renderer->Off();
-		}
-
-		if (nullptr != m_DebugRenderer)
-		{
-			m_DebugRenderer->On();
-		}
-
-		IsRendererOn = false;
-	}
-
-	if (false == IsRendererOn && false == ContentsLevel::PixelDebugMode)
-	{
-		if (nullptr != m_Renderer)
-		{
-			m_Renderer->On();
-		}
-
-		if (nullptr != m_DebugRenderer)
-		{
-			m_DebugRenderer->Off();
-		}
-
-		IsRendererOn = true;
-	}
 }
 
 bool NormalProp::GetPixelCheck()
@@ -154,7 +111,7 @@ void NormalProp::DeSerializer(GameEngineSerializer& _Data)
 		std::string PixelSpriteName;
 		_Data >> PixelSpriteName;
 
-		if ("" != PixelSpriteName)
+		if (false == PixelSpriteName.empty())
 		{
 			SetPixelCollision(PixelSpriteName);
 		}

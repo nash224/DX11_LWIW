@@ -7,6 +7,8 @@
 // Ό³Έν :
 class StaticEntity : public InteractiveActor
 {
+	friend class PlayLevel;
+
 public:
 	// constrcuter destructer
 	StaticEntity();
@@ -19,7 +21,6 @@ public:
 	StaticEntity& operator=(StaticEntity&& _Other) noexcept = delete;
 
 	bool GetPixelCheck();
-	void UpdatePixelCollision();
 	void SetPixelCollision(std::string_view _FileName);
 
 	GameEngineColor GetColor(const float4& _Position, GameEngineColor _DefaultColor = GameEngineColor::WHITE);

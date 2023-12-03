@@ -7,6 +7,8 @@
 // 설명 : Props 기능을 물려받는 일반 소품입니다.
 class NormalProp : public RendererActor, public GameEngineSerializerObject
 {
+	friend class PlayLevel;
+
 public:
 	// constrcuter destructer
 	NormalProp();
@@ -34,14 +36,10 @@ public:
 
 protected:
 	void Start() override {}
-	void Update(float _Delta) override;
+	void Update(float _Delta) override {}
 	void Release() override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
-
-
-	void UpdateDebug();
-
 
 protected:
 	PixelCollision PixelCol;

@@ -41,7 +41,6 @@ void BranchTree::Update(float _Delta)
 
 	State.Update(_Delta);
 	UpdateBranch(_Delta);
-	UpdatePixelCollision();
 }
 
 void BranchTree::Release()

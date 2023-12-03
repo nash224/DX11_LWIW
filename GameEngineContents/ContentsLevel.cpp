@@ -41,13 +41,6 @@ void ContentsLevel::Start()
 
 void ContentsLevel::Update(float _Delta)
 {
-	if (true == GameEngineInput::IsDown(VK_F1, this))
-	{
-		IsDebug = !IsDebug;
-	}
-
-	ChangeDebugMode();
-
 	if (nullptr != MainPlaySound)
 	{
 		MainPlaySound->Update(_Delta);
@@ -59,24 +52,6 @@ void ContentsLevel::LevelStart(class GameEngineLevel* _NextLevel)
 	if (nullptr != LevelCamera)
 	{
 		CameraControler::MainCameraControler = LevelCamera;
-	}
-}
-
-void ContentsLevel::ChangeDebugMode()
-{
-	if (true == IsDebug)
-	{
-		if (true == GameEngineInput::IsDown(VK_F2, this))
-		{
-			PixelDebugMode = !PixelDebugMode;
-		}
-	}
-	else
-	{
-		if (true == PixelDebugMode)
-		{
-			PixelDebugMode = false;
-		}
 	}
 }
 

@@ -49,11 +49,9 @@ void BackDrop_WitchHouse_UpFloor::RenewMap()
 {
 	LoadResources();
 
-	GameEngineLevel* CurLevel = GetLevel();
-
-	CreateProp(CurLevel);
-	CreatePixelMap(CurLevel);
-	LoadPortalActor(CurLevel);
+	CreateProp();
+	CreatePixelMap();
+	LoadPortalActor();
 	LiftSetting();
 	BedSetting();
 
@@ -89,14 +87,14 @@ void BackDrop_WitchHouse_UpFloor::ReleaseResources()
 #pragma endregion
 
 #pragma region HouseComposition
-void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
+void BackDrop_WitchHouse_UpFloor::CreateProp()
 {
 	float4 RYWinScale = GlobalValue::GetWindowScale().Half();
 	RYWinScale.Y *= -1.0f;
 
 	{
 		const float4& Position = float4{ RYWinScale.X, RYWinScale.Y, DepthFunction::CalculateFixDepth(EHOUSEDEPTH::BackPaint) };
-		std::shared_ptr<RendererActor> Object = _Level->CreateActor<RendererActor>(EUPDATEORDER::Objects);
+		std::shared_ptr<RendererActor> Object = GetLevel()->CreateActor<RendererActor>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("UpFloor_Back.png");
@@ -104,7 +102,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 	}
 
 	{
-		std::shared_ptr<RendererActor> Object = _Level->CreateActor<RendererActor>(EUPDATEORDER::Objects);
+		std::shared_ptr<RendererActor> Object = GetLevel()->CreateActor<RendererActor>(EUPDATEORDER::Objects);
 		float4 Position = HouseLocation  + float4{ 174.0f , -79.0f };
 		Position.Z = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::BackWindow);
 		Object->Transform.SetLocalPosition(Position);
@@ -114,7 +112,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 	}
 
 	{
-		std::shared_ptr<RendererActor> Object = _Level->CreateActor<RendererActor>(EUPDATEORDER::Objects);
+		std::shared_ptr<RendererActor> Object = GetLevel()->CreateActor<RendererActor>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(HouseLocation  + float4{ 126.0f , -238.0f, DepthFunction::CalculateFixDepth(EHOUSEDEPTH::HouseComposition) });
 		Object->Init();
 		Object->m_Renderer->SetSprite("UpFloor_Floor.png");
@@ -123,14 +121,14 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 	{
 		const float4& Position = HouseLocation  + float4{ 174.0f , -78.0f, DepthFunction::CalculateFixDepth(EHOUSEDEPTH::HouseComposition) };
 
-		std::shared_ptr<RendererActor> Object = _Level->CreateActor<RendererActor>(EUPDATEORDER::Objects);
+		std::shared_ptr<RendererActor> Object = GetLevel()->CreateActor<RendererActor>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
 		Object->m_Renderer->SetSprite("UpFloor_WallPaper_1.png");
 	}
 
 	{
-		std::shared_ptr<RendererActor> Object = _Level->CreateActor<RendererActor>(EUPDATEORDER::Objects);
+		std::shared_ptr<RendererActor> Object = GetLevel()->CreateActor<RendererActor>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(HouseLocation  + float4{ 126.0f , -110.0f, DepthFunction::CalculateFixDepth(EHOUSEDEPTH::HouseComposition) });
 		Object->Init();
 		Object->m_Renderer->SetSprite("UpFloor_WallPaper.png");
@@ -139,21 +137,21 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 
 
 	{
-		std::shared_ptr<RendererActor> Object = _Level->CreateActor<RendererActor>(EUPDATEORDER::Objects);
+		std::shared_ptr<RendererActor> Object = GetLevel()->CreateActor<RendererActor>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(HouseLocation  + float4{ 126.0f , -177.0f, DepthFunction::CalculateFixDepth(EHOUSEDEPTH::Shadow )});
 		Object->Init();
 		Object->m_Renderer->SetSprite("UpFloor_Shadow.png");
 	}
 
 	{
-		std::shared_ptr<RendererActor> Object = _Level->CreateActor<RendererActor>(EUPDATEORDER::Objects);
+		std::shared_ptr<RendererActor> Object = GetLevel()->CreateActor<RendererActor>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(HouseLocation  + float4{ 124.0f , -305.0f, DepthFunction::CalculateFixDepth(EHOUSEDEPTH::Rug) });
 		Object->Init();
 		Object->m_Renderer->SetSprite("UpFloor_Carpet_0.png");
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
+		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = HouseLocation  + float4{ 228.0f , -163.0f };
 		Position.Z = DepthFunction::CalculateObjectDepth(BackScale.Y, Position.Y - 70.0f );
 		Object->Transform.SetLocalPosition(Position);
@@ -162,7 +160,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
+		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = HouseLocation  + float4{ 175.0f , -76.0f };
 		Position.Z = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::Rug);
 		Object->Transform.SetLocalPosition(Position);
@@ -171,7 +169,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
+		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = HouseLocation  + float4{ 49.0f , -192.0f };
 		Position.Z = DepthFunction::CalculateObjectDepth(BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -180,7 +178,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
+		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = HouseLocation  + float4{ 104.0f , -106.0f };
 		Position.Z = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::Rug);
 		Object->Transform.SetLocalPosition(Position);
@@ -189,7 +187,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
+		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = HouseLocation  + float4{ 174.0f , -175.0f };
 		Position.Z = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::Rug);
 		Object->Transform.SetLocalPosition(Position);
@@ -198,7 +196,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
+		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = HouseLocation  + float4{ 174.0f , -51.0f };
 		Position.Z = DepthFunction::CalculateObjectDepth(BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -207,7 +205,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
+		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = HouseLocation  + float4{ 33.0f , -285.0f };
 		Position.Z = DepthFunction::CalculateObjectDepth(BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -216,7 +214,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
+		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = HouseLocation  + float4{ 175.0f , -145.0f };
 		Position.Z = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::Chair);
 		Object->Transform.SetLocalPosition(Position);
@@ -225,7 +223,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
+		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = HouseLocation  + float4{ 174.0f , -149.0f };
 		Position.Z = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::Shadow);
 		Object->Transform.SetLocalPosition(Position);
@@ -234,7 +232,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
+		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = HouseLocation  + float4{ 174.0f , -127.0f };
 		Position.Z = DepthFunction::CalculateObjectDepth(BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -243,7 +241,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
+		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = HouseLocation  + float4{ 101.0f , -151.0f };
 		Position.Z = DepthFunction::CalculateObjectDepth(BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -252,7 +250,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
+		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = HouseLocation  + float4{ 14.0f , -259.0f };
 		Position.Z = DepthFunction::CalculateObjectDepth(BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -262,7 +260,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
+		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = HouseLocation  + float4{ 27.0f , -275.0f };
 		Position.Z = DepthFunction::CalculateObjectDepth(BackScale.Y, Position.Y - 14.0f);
 		Object->Transform.SetLocalPosition(Position);
@@ -271,7 +269,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
+		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = HouseLocation  + float4{ 117.0f , -84.0f };
 		Position.Z = DepthFunction::CalculateObjectDepth(BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -280,7 +278,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
+		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = HouseLocation  + float4{ 90.0f , -85.0f };
 		Position.Z = DepthFunction::CalculateObjectDepth(BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -289,7 +287,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
+		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = HouseLocation  + float4{ 113.0f , -168.0f };
 		Position.Z = DepthFunction::CalculateObjectDepth(BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -298,7 +296,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
+		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = HouseLocation  + float4{ 175.0f , -127.0f };
 		Position.Z = DepthFunction::CalculateObjectDepth(BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -307,7 +305,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
+		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = HouseLocation  + float4{ 32.0f , -116.0f };
 		Position.Z = DepthFunction::CalculateObjectDepth(BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -316,7 +314,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
+		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = HouseLocation  + float4{ 58.0f , -119.0f };
 		Position.Z = DepthFunction::CalculateObjectDepth(BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -325,7 +323,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
+		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = HouseLocation  + float4{ 58.0f , -98.0f };
 		Position.Z = DepthFunction::CalculateObjectDepth(BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -334,7 +332,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
+		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = HouseLocation  + float4{ 98.0f , -126.0f };
 		Position.Z = DepthFunction::CalculateObjectDepth(BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
@@ -343,7 +341,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
+		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = HouseLocation  + float4{ 58.0f , -75.0f };
 		Position.Z = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::Rug);
 		Object->Transform.SetLocalPosition(Position);
@@ -352,7 +350,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
+		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		float4 Position = HouseLocation  + float4{ 126.0f , -171.0f };
 		Position.Z = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::FRAME);
 		Object->Transform.SetLocalPosition(Position);
@@ -365,11 +363,11 @@ void BackDrop_WitchHouse_UpFloor::CreateProp(GameEngineLevel* _Level)
 
 #pragma region PixelMap
 
-void BackDrop_WitchHouse_UpFloor::CreatePixelMap(GameEngineLevel* _Level)
+void BackDrop_WitchHouse_UpFloor::CreatePixelMap()
 {
 	PixelVec.reserve(3);
 
-	std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>(EUPDATEORDER::Objects);
+	std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 	float4 Position = HouseLocation  + float4{ 128.0f , -242.0f };
 	Object->Transform.SetLocalPosition(Position);
 	Object->SetPixelCollision("UpFloor_PixelMap.png");
@@ -379,12 +377,12 @@ void BackDrop_WitchHouse_UpFloor::CreatePixelMap(GameEngineLevel* _Level)
 
 #pragma endregion 
 
-void BackDrop_WitchHouse_UpFloor::LoadPortalActor(GameEngineLevel* _Level)
+void BackDrop_WitchHouse_UpFloor::LoadPortalActor()
 {
 	float4 HWinScale = GlobalValue::GetWindowScale().Half();
 
 	{
-		std::shared_ptr<PortalObject> Object = _Level->CreateActor<PortalObject>(EUPDATEORDER::Portal);
+		std::shared_ptr<PortalObject> Object = GetLevel()->CreateActor<PortalObject>(EUPDATEORDER::Portal);
 		Object->CreatePortalCollision(ECOLLISION::Portal);
 		Object->SetChangeLevelName("WitchHouse_Yard");
 		Object->SetCollisionRange({ 60.0f , 10.0f });
@@ -408,10 +406,8 @@ void BackDrop_WitchHouse_UpFloor::LiftSetting()
 void BackDrop_WitchHouse_UpFloor::BedSetting()
 {
 	{
-		const float4& LiftPosition = HouseLocation  + float4{ 49.0f , -192.0f };
-
 		std::weak_ptr<WitchHouseBed> Object = GetLevel()->CreateActor<WitchHouseBed>(EUPDATEORDER::Entity);
-		Object.lock()->Transform.SetLocalPosition(LiftPosition);
+		Object.lock()->Transform.SetLocalPosition(HouseLocation + float4{ 49.0f , -192.0f });
 	}
 }
 
@@ -422,47 +418,44 @@ void BackDrop_WitchHouse_UpFloor::DustEventSetting()
 	FileLoadFunction::LoadTextureAndCreateSingleSpriteInPath("Resources\\PlayContents\\WitchHouse_UpFloor\\HouseDust");
 
 	{
-		const float4 DustPosition = float4(370.0f, -320.0f);
-		std::weak_ptr<Dust_HandBook> DustHandBook = GetLevel()->CreateActor<Dust_HandBook>(EUPDATEORDER::Entity);
-		DustHandBook.lock()->Transform.SetLocalPosition(DustPosition);
-		DustHandBook.lock()->Init("WitchHouse_Dust_10.png");
-		DustHandBook.lock()->AddDepth(-2.0f);
+		std::shared_ptr<Dust_HandBook> DustHandBook = GetLevel()->CreateActor<Dust_HandBook>(EUPDATEORDER::Entity);
+		DustHandBook->Transform.SetLocalPosition(float4(370.0f, -320.0f));
+		DustHandBook->Init("WitchHouse_Dust_10.png");
+		DustHandBook->AddDepth(-2.0f);
 	}
 
 	{
-		const float4 DustPosition = float4(445.0f, -241.0f);
-		std::weak_ptr<Dust_Bag> DustHandBook = GetLevel()->CreateActor<Dust_Bag>(EUPDATEORDER::Entity);
-		DustHandBook.lock()->Transform.SetLocalPosition(DustPosition);
-		DustHandBook.lock()->Init("WitchHouse_Dust_11.png");
-		DustHandBook.lock()->AddDepth(-1.0f);
+		std::shared_ptr<Dust_Bag> DustHandBook = GetLevel()->CreateActor<Dust_Bag>(EUPDATEORDER::Entity);
+		DustHandBook->Transform.SetLocalPosition(float4(445.0f, -241.0f));
+		DustHandBook->Init("WitchHouse_Dust_11.png");
+		DustHandBook->AddDepth(-1.0f);
 	}
 
 	{
-		const float4 DustPosition = float4(510.0f, -240.0f);
-		std::weak_ptr<Dust_Elevator> DustElevator = GetLevel()->CreateActor<Dust_Elevator>(EUPDATEORDER::Entity);
-		DustElevator.lock()->Transform.SetLocalPosition(DustPosition);
-		DustElevator.lock()->Init("paper.png", true);
+		std::shared_ptr<Dust_Elevator> DustElevator = GetLevel()->CreateActor<Dust_Elevator>(EUPDATEORDER::Entity);
+		DustElevator->Transform.SetLocalPosition(float4(510.0f, -240.0f));
+		DustElevator->Init("paper.png", true);
 	}
 }
 
 void BackDrop_WitchHouse_UpFloor::CheckHouseDustEvent()
 {
-	std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("House_Dust");
-	if (true == Quest.expired())
+	const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = ContentsEvent::FindQuest("House_Dust");
+	if (nullptr == Quest)
 	{
 		MsgBoxAssert("생성되지 않은 퀘스트입니다.");
 		return;
 	}
 
-	if (Quest.lock()->CheckPrerequisiteQuest())
+	if (true == Quest->CheckPrerequisiteQuest())
 	{
 		ShowHouseDustEvent();
-		Quest.lock()->QuestComplete();
+		Quest->QuestComplete();
 	}
 }
 
 void BackDrop_WitchHouse_UpFloor::ShowHouseDustEvent()
 {
-	std::weak_ptr<HouseDustEvent> HouseDust = GetLevel()->CreateActor<HouseDustEvent>(EUPDATEORDER::Entity);
-	HouseDust.lock()->Init();
+	std::shared_ptr<HouseDustEvent> HouseDust = GetLevel()->CreateActor<HouseDustEvent>(EUPDATEORDER::Entity);
+	HouseDust->Init();
 }

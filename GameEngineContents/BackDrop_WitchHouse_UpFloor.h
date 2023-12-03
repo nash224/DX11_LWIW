@@ -34,9 +34,9 @@ private:
 	void LoadResources();
 	void ReleaseResources();
 
-	void CreateProp(GameEngineLevel* _Level);
-	void CreatePixelMap(GameEngineLevel* _Level);
-	void LoadPortalActor(GameEngineLevel* _Level);
+	void CreateProp();
+	void CreatePixelMap();
+	void LoadPortalActor();
 	void LiftSetting();
 	void BedSetting();
 

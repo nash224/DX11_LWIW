@@ -44,9 +44,8 @@ void BackDrop_WitchHouse_DownFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 	Dir.MoveParentToExistsChild("Resources");
 	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_DownFloor\\DownSingle");
 	std::vector<GameEngineFile> Files = Dir.GetAllFile();
-	for (size_t i = 0; i < Files.size(); i++)
+	for (GameEngineFile& pFile : Files)
 	{
-		GameEngineFile pFile = Files[i];
 		GameEngineSprite::Release(pFile.GetFileName());
 	}
 }

@@ -9,6 +9,8 @@
 // Actor
 #include "Ellie.h"
 #include "FadeObject.h"
+#include "NormalProp.h"
+#include "StaticEntity.h"
 
 
 PlayLevel* PlayLevel::s_MainPlayLevel = nullptr;
@@ -58,6 +60,8 @@ void PlayLevel::Update(float _Delta)
 	{
 		s_AlertManager->Update(_Delta);
 	}
+
+	ChangeDebugMode();
 }
 
 void PlayLevel::LevelStart(GameEngineLevel* _NextLevel)
@@ -120,4 +124,78 @@ std::shared_ptr<class BackDrop_PlayLevel> PlayLevel::GetBackDropPtr() const
 	}
 
 	return Back;
+}
+
+
+void PlayLevel::ChangeDebugMode()
+{
+	if (true == GameEngineInput::IsDown(VK_F1, this))
+	{
+		IsDebug = !IsDebug;
+	}
+
+	if (true == GameEngineInput::IsDown(VK_F2, this))
+	{
+		PixelDebugMode = !PixelDebugMode;
+		if (true == PixelDebugMode)
+		{
+			std::vector<std::shared_ptr<RendererActor>> RenderActors = GetObjectGroupConvert<RendererActor>(EUPDATEORDER::Objects);
+			for (const std::shared_ptr<RendererActor>& Actor : RenderActors)
+			{
+				if (nullptr != Actor->m_Renderer)
+				{
+					Actor->m_Renderer->Off();
+				}
+			}
+
+			std::vector<std::shared_ptr<NormalProp>> Props = GetObjectGroupConvert<NormalProp>(EUPDATEORDER::Objects);
+			for (const std::shared_ptr<NormalProp>& Prop : Props)
+			{
+				if (true == Prop->GetPixelCheck())
+				{
+					Prop->m_DebugRenderer->On();
+				}
+			}
+
+			std::vector<std::shared_ptr<StaticEntity>> Entitys = GetObjectGroupConvert<StaticEntity>(EUPDATEORDER::Entity);
+			for (const std::shared_ptr<StaticEntity>& Entity : Entitys)
+			{
+				if (true == Entity->GetPixelCheck())
+				{
+					Entity->PixelRenderer->On();
+					Entity->BodyRenderer->Off();
+				}
+			}
+		}
+		else
+		{
+			std::vector<std::shared_ptr<RendererActor>> RenderActors = GetObjectGroupConvert<RendererActor>(EUPDATEORDER::Objects);
+			for (const std::shared_ptr<RendererActor>& Actor : RenderActors)
+			{
+				if (nullptr != Actor->m_Renderer)
+				{
+					Actor->m_Renderer->On();
+				}
+			}
+
+			std::vector<std::shared_ptr<NormalProp>> Props = GetObjectGroupConvert<NormalProp>(EUPDATEORDER::Objects);
+			for (const std::shared_ptr<NormalProp>& Prop : Props)
+			{
+				if (true == Prop->GetPixelCheck())
+				{
+					Prop->m_DebugRenderer->Off();
+				}
+			}
+
+			std::vector<std::shared_ptr<StaticEntity>> Entitys = GetObjectGroupConvert<StaticEntity>(EUPDATEORDER::Entity);
+			for (const std::shared_ptr<StaticEntity>& Entity : Entitys)
+			{
+				if (true == Entity->GetPixelCheck())
+				{
+					Entity->PixelRenderer->Off();
+					Entity->BodyRenderer->On();
+				}
+			}
+		}
+	}
 }

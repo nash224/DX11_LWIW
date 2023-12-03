@@ -46,39 +46,39 @@ void BackDrop_PlayLevel::CreateItem(std::string_view _ItemName, const float4& _P
 // 특정 위치에 픽셀데이터가 있는지 반환해줍니다.
 bool BackDrop_PlayLevel::IsColorAtPosition(const float4& _Position, GameEngineColor _CheckColor)
 {
-	for (std::weak_ptr<NormalProp> Object : PixelVec)
+	for (const std::shared_ptr<NormalProp>& Object : PixelVec)
 	{
-		if (true == Object.expired())
+		if (nullptr == Object)
 		{
 			MsgBoxAssert("생성되지 않은 액터를 참조하려고 했습니다.");
 			return false;
 		}
 
-		if (false == Object.lock()->GetPixelCheck())
+		if (false == Object->GetPixelCheck())
 		{
 			continue;
 		}
 
-		if (_CheckColor == Object.lock()->GetColor(_Position))
+		if (_CheckColor == Object->GetColor(_Position))
 		{
 			return true;
 		}
 	}
 
-	for (std::weak_ptr<StaticEntity> Entity : PixelStaticEntityVec)
+	for (const std::shared_ptr<StaticEntity>& Entity : PixelStaticEntityVec)
 	{
-		if (true == Entity.expired())
+		if (nullptr == Entity)
 		{
 			MsgBoxAssert("생성되지 않은 액터를 참조하려고 했습니다.");
 			return false;
 		}
 
-		if (false == Entity.lock()->GetPixelCheck())
+		if (false == Entity->GetPixelCheck())
 		{
 			continue;
 		}
 
-		if (_CheckColor == Entity.lock()->GetColor(_Position))
+		if (_CheckColor == Entity->GetColor(_Position))
 		{
 			return true;
 		}
