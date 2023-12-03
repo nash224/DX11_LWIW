@@ -195,22 +195,48 @@ int StringFunction::GetNewLineCount(std::string_view _Text)
 	return NewLineCount;
 }
 
+int StringFunction::GetNewLineCount(std::wstring_view _Text)
+{
+	int NewLineCount = 0;
+
+	for (const wchar_t Character : _Text)
+	{
+		if (Character == '\n')
+		{
+			++NewLineCount;
+		}
+	}
+
+	return NewLineCount;
+}
+
 std::string StringFunction::InsertNewLineBTWWord(std::string_view _Text, int _NumCharPerLine)
+{
+	std::wstring Result = InsertNewLine(GameEngineString::AnsiToUnicode(_Text), _NumCharPerLine);
+	return GameEngineString::UnicodeToAnsi(Result);
+}
+
+std::wstring StringFunction::InsertNewLineBTWWord(std::wstring_view _Text, int _NumCharPerLine)
+{
+	return InsertNewLine(_Text, _NumCharPerLine);
+}
+
+std::wstring StringFunction::InsertNewLine(std::wstring_view _Text, int _NumCharPerLine)
 {
 	int NewLineCnt = 0;
 	int LineCharCnt = 0;
 	int ESCapeAndSignCnt = 0;
-	
-	std::wstring Text = GameEngineString::AnsiToUnicode(_Text);
+
+	std::wstring Text = _Text.data();
 	std::wstring Result;
 	std::wstring Word;
 
-	Result.reserve(64);
+	Result.reserve(128);
 
 	for (int i = 0; i != Text.size(); i++)
 	{
 		const wchar_t Char = Text[i];
-		if (Char == ' ' || Char == '.' || Char == ',' || Char == '!' || Char == '\'')
+		if (Char == ' ' || Char == '.' || Char == ',' || Char == '!' || Char == '\'' || Char == ')' || Char == '?')
 		{
 			if (Word.empty())
 			{
@@ -241,7 +267,7 @@ std::string StringFunction::InsertNewLineBTWWord(std::string_view _Text, int _Nu
 			Word.push_back(Text[i]);
 			++LineCharCnt;
 		}
-		
+
 		if (_NumCharPerLine <= LineCharCnt)
 		{
 			Result.push_back('\n');
@@ -250,8 +276,22 @@ std::string StringFunction::InsertNewLineBTWWord(std::string_view _Text, int _Nu
 		}
 	}
 
-	return GameEngineString::UnicodeToAnsi(Result);
+	if (false == Word.empty())
+	{
+		if (Word.size() + LineCharCnt >= _NumCharPerLine)
+		{
+			Result.push_back('\n');
+			LineCharCnt = static_cast<int>(Word.size());
+			ESCapeAndSignCnt = 0;
+		}
+
+		Result += Word;
+	}
+
+	return Result;
 }
+
+
 
 float RandomFunction::GetRandomfValue(float _Min, float _Max)
 {
