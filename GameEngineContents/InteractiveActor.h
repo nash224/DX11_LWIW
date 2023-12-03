@@ -1,7 +1,5 @@
 #pragma once
 
-
-
 enum class EINTERACTION_TYPE
 {
 	Near,
@@ -119,7 +117,7 @@ public:
 
 	void ApplyDepth();
 
-	inline void SetDepthBias(float _DepthBias)
+	inline void SetPlusDepth(float _DepthBias)
 	{
 		PlusDepth = _DepthBias;
 	}

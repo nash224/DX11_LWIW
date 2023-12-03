@@ -42,19 +42,6 @@ void Bush::Release()
 	FXRenderer = nullptr;
 }
 
-void Bush::LevelStart(class GameEngineLevel* _NextLevel)
-{
-	StaticEntity::LevelStart(_NextLevel);
-}
-
-void Bush::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-	StaticEntity::LevelEnd(_NextLevel);
-}
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 // 부쉬타입 설정
 void Bush::SetBushType(EBUSHTYPE _Type)
@@ -65,7 +52,7 @@ void Bush::SetBushType(EBUSHTYPE _Type)
 // 시작
 void Bush::Init()
 {
-	SetDepthBias(-20.0f);
+	SetPlusDepth(-20.0f);
 	ApplyDepth();
 	CreateBushAnimation();
 	InteractiveOptionSetting();
@@ -86,22 +73,20 @@ void Bush::CreateBushAnimation()
 		GameEngineSprite::CreateCut("BushBug_Appearing.png", 5, 5);
 	}
 
-	static constexpr const int RenderOrder = 0;
 
-
-	FXRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
+	FXRenderer = CreateComponent<GameEngineSpriteRenderer>();
 	FXRenderer->AutoSpriteSizeOn();
 	FXRenderer->Off();
 
-	BodyRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
+	BodyRenderer = CreateComponent<GameEngineSpriteRenderer>();
 	BodyRenderer->AutoSpriteSizeOn();
-	BodyRenderer->CreateAnimation("Normal", "Bush_0.png", 5.0f, 9, 9);					// 평상시
+	BodyRenderer->CreateAnimation("Normal", "Bush_0.png", 5.0f, 9, 9); // 평상시
 
 
 	if (EBUSHTYPE::BushApple == BushType)
 	{
-		BodyRenderer->CreateAnimation("Shake", "Bush_0.png", 0.1f, 0, 7, false);			// 흔듬
-		BodyRenderer->CreateAnimation("Apple", "Bush_0.png", 5.0f, 10, 10, true);			// 사과
+		BodyRenderer->CreateAnimation("Shake", "Bush_0.png", 0.1f, 0, 7, false); // 흔듬
+		BodyRenderer->CreateAnimation("Apple", "Bush_0.png", 5.0f, 10, 10, true); // 사과
 	}
 
 	if (EBUSHTYPE::BushBug == BushType)
@@ -120,7 +105,7 @@ void Bush::CreateBushAnimation()
 		BodyRenderer->FindAnimation("Rustle")->Inter = { 0.1f, 0.1f, 0.1f, 0.1f, 0.8f };
 
 
-		FXRenderer->CreateAnimation("Rustle_FX", "Bush_Animation_1.png", 0.1f, 6, 13, false);		// 부스럭
+		FXRenderer->CreateAnimation("Rustle_FX", "Bush_Animation_1.png", 0.1f, 6, 13, false); // 부스럭
 		FXRenderer->SetEndEvent("Rustle_FX", [&](GameEngineSpriteRenderer* _Renderer)
 			{
 				if (nullptr == FXRenderer)
@@ -218,8 +203,6 @@ void Bush::BushStateSetting()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////
-
 
 void Bush::UpdateState(float _Delta)
 {
@@ -281,11 +264,9 @@ void Bush::ChangeBushAnimation(std::string_view _Name)
 std::string Bush::RandomBushShakingSoundFilleName()
 {
 	GameEngineRandom RandomClass;
-	int SelectValue = RandomClass.RandomInt(1, 3);
 
 	std::string_view FileName;
-
-	switch (SelectValue)
+	switch (RandomClass.RandomInt(1, 3))
 	{
 	case 1:
 		FileName = "SFX_BushBug_BushShake_01.wav";
@@ -306,11 +287,9 @@ std::string Bush::RandomBushShakingSoundFilleName()
 std::string Bush::RandomBushBugAppearSoundFilleName()
 {
 	GameEngineRandom RandomClass;
-	int SelectValue = RandomClass.RandomInt(1, 3);
 
 	std::string_view FileName;
-
-	switch (SelectValue)
+	switch (RandomClass.RandomInt(1, 3))
 	{
 	case 1:
 		FileName = "SFX_BushBug_Appear_01.wav";

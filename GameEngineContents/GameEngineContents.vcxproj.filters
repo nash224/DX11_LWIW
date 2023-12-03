@@ -166,60 +166,6 @@
     <Filter Include="Actor\Interactive">
       <UniqueIdentifier>{e2fea63f-3b07-4ea3-a0c6-8afed64b65e4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Interactive\Dynamic">
-      <UniqueIdentifier>{fc8d6363-d437-4520-b8e0-4457fcf0bd71}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Dynamic\Ellie">
-      <UniqueIdentifier>{cbb55847-2201-4890-b2cb-4340bd12c511}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Dynamic\Ellie\Broom">
-      <UniqueIdentifier>{53d7c11a-9686-454b-9dc1-ad1451b99e92}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Dynamic\Ellie\Broom\Ride_Particle">
-      <UniqueIdentifier>{989c26f1-1f17-4d7e-8449-823531de4c78}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Dynamic\Ellie\Broom\Ride_Fx">
-      <UniqueIdentifier>{2f14f9c3-c420-477c-99e0-bf1cc2395e0b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Dynamic\MongSiri">
-      <UniqueIdentifier>{523ad1c7-d8ca-4084-bf97-71f810474987}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Dynamic\MongSiri\Population">
-      <UniqueIdentifier>{b0b918d1-638e-439e-a55e-6dceadad57d3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Dynamic\FlowerBird">
-      <UniqueIdentifier>{ad4ce8be-aa5d-44c8-a8ab-c71dd46a39f5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Dynamic\BushBug">
-      <UniqueIdentifier>{890513e6-3068-46f2-b365-e4e5f838e0e6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Dynamic\PumpkinTerrier">
-      <UniqueIdentifier>{d8a4f972-b663-4186-8e67-0b79a54b9061}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Static">
-      <UniqueIdentifier>{79b1724d-f04f-4846-87e0-60822123a1e0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Static\Machine">
-      <UniqueIdentifier>{811fba09-69f6-46d6-b46f-4895c7831399}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Static\Machine\AlchemyPot">
-      <UniqueIdentifier>{357ed98c-4644-4ffe-b672-7f1cdf4ed2d7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Static\Machine\AlchemyPot\Dispensation">
-      <UniqueIdentifier>{1a53decc-91e0-44c8-8a7e-9b5303e3107f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Static\Machine\Extractor">
-      <UniqueIdentifier>{e7c61f69-627e-4b25-836a-f077f5c22092}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Static\Machine\Extractor\Process">
-      <UniqueIdentifier>{cc575566-e52c-4962-86a2-d02d86b8676f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Static\Bush">
-      <UniqueIdentifier>{9958f0f4-d110-480b-9a2d-e3753ed5311f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Static\BranchTree">
-      <UniqueIdentifier>{26f52f03-9544-4cb9-9bed-b4d5ab4198e5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Actor\Interactive\NPC">
       <UniqueIdentifier>{c1a15aa1-75f1-4523-8683-9d4e21a1ffb7}</UniqueIdentifier>
     </Filter>
@@ -253,29 +199,86 @@
     <Filter Include="Global\Math">
       <UniqueIdentifier>{124d7494-cddb-47e0-8664-505456c546b5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Interactive\WitchLift">
-      <UniqueIdentifier>{f961e473-ad3f-40ed-a9da-f310ed861eeb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Actor\Interactive\Plant">
       <UniqueIdentifier>{aabcb491-481d-4380-a119-aabdaa014822}</UniqueIdentifier>
     </Filter>
     <Filter Include="Actor\Interactive\Plant\SilverBellFlower">
       <UniqueIdentifier>{ef2cf91a-b5b9-4066-a22c-448abcd8977f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Interactive\LootedItem">
+    <Filter Include="Actor\Ellie">
+      <UniqueIdentifier>{cbb55847-2201-4890-b2cb-4340bd12c511}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Ellie\Broom">
+      <UniqueIdentifier>{53d7c11a-9686-454b-9dc1-ad1451b99e92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Ellie\Broom\Ride_Particle">
+      <UniqueIdentifier>{989c26f1-1f17-4d7e-8449-823531de4c78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Ellie\Broom\Ride_Fx">
+      <UniqueIdentifier>{2f14f9c3-c420-477c-99e0-bf1cc2395e0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Ellie\Fx">
+      <UniqueIdentifier>{e999dd6a-f217-453c-9604-14d36eda130c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\Creature">
+      <UniqueIdentifier>{12a552c4-4ae2-4367-b561-dc7982869c0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\Creature\Static">
+      <UniqueIdentifier>{79b1724d-f04f-4846-87e0-60822123a1e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\Creature\Static\Machine">
+      <UniqueIdentifier>{811fba09-69f6-46d6-b46f-4895c7831399}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\Creature\Static\Machine\AlchemyPot">
+      <UniqueIdentifier>{357ed98c-4644-4ffe-b672-7f1cdf4ed2d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\Creature\Static\Machine\AlchemyPot\Dispensation">
+      <UniqueIdentifier>{1a53decc-91e0-44c8-8a7e-9b5303e3107f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\Creature\Static\Machine\Extractor">
+      <UniqueIdentifier>{e7c61f69-627e-4b25-836a-f077f5c22092}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\Creature\Static\Machine\Extractor\Process">
+      <UniqueIdentifier>{cc575566-e52c-4962-86a2-d02d86b8676f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\Creature\Static\Bush">
+      <UniqueIdentifier>{9958f0f4-d110-480b-9a2d-e3753ed5311f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\Creature\Static\BranchTree">
+      <UniqueIdentifier>{26f52f03-9544-4cb9-9bed-b4d5ab4198e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\Objects">
+      <UniqueIdentifier>{10b599c2-ee53-43da-8fcd-402c4eeda086}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\Objects\LootedItem">
       <UniqueIdentifier>{b6d2005a-f0e8-4da1-acd3-a2da54859902}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Interactive\Bed">
-      <UniqueIdentifier>{37f9160f-fb2d-4236-8f18-93c511ad0d53}</UniqueIdentifier>
+    <Filter Include="Actor\Interactive\Objects\WitchLift">
+      <UniqueIdentifier>{f961e473-ad3f-40ed-a9da-f310ed861eeb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Interactive\Dust">
-      <UniqueIdentifier>{db8df703-58b8-401b-bbb9-81f78c5a5d4c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Letter">
+    <Filter Include="Actor\Interactive\Objects\Letter">
       <UniqueIdentifier>{3b14c426-c2d7-4ad5-877c-3e5211f4e208}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Interactive\Dynamic\Ellie\Fx">
-      <UniqueIdentifier>{e999dd6a-f217-453c-9604-14d36eda130c}</UniqueIdentifier>
+    <Filter Include="Actor\Interactive\Objects\Dust">
+      <UniqueIdentifier>{db8df703-58b8-401b-bbb9-81f78c5a5d4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\Objects\Bed">
+      <UniqueIdentifier>{37f9160f-fb2d-4236-8f18-93c511ad0d53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\Creature\BushBug">
+      <UniqueIdentifier>{890513e6-3068-46f2-b365-e4e5f838e0e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\Creature\FlowerBird">
+      <UniqueIdentifier>{ad4ce8be-aa5d-44c8-a8ab-c71dd46a39f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\Creature\MongSiri">
+      <UniqueIdentifier>{523ad1c7-d8ca-4084-bf97-71f810474987}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\Creature\MongSiri\Population">
+      <UniqueIdentifier>{b0b918d1-638e-439e-a55e-6dceadad57d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\Creature\PumpkinTerrier">
+      <UniqueIdentifier>{d8a4f972-b663-4186-8e67-0b79a54b9061}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -302,7 +305,7 @@
       <Filter>Actor\Interactive</Filter>
     </ClInclude>
     <ClInclude Include="Ellie.h">
-      <Filter>Actor\Interactive\Dynamic\Ellie</Filter>
+      <Filter>Actor\Ellie</Filter>
     </ClInclude>
     <ClInclude Include="GlobalLoad.h">
       <Filter>Global</Filter>
@@ -319,11 +322,8 @@
     <ClInclude Include="WitchHouse_DownFloor.h">
       <Filter>Level\2.Play\1.Witch</Filter>
     </ClInclude>
-    <ClInclude Include="DynamicEntity.h">
-      <Filter>Actor\Interactive\Dynamic</Filter>
-    </ClInclude>
     <ClInclude Include="StaticEntity.h">
-      <Filter>Actor\Interactive\Static</Filter>
+      <Filter>Actor\Interactive\Creature\Static</Filter>
     </ClInclude>
     <ClInclude Include="UIManager.h">
       <Filter>Manager\UIManager</Filter>
@@ -386,7 +386,7 @@
       <Filter>Data\Contents</Filter>
     </ClInclude>
     <ClInclude Include="Roaster.h">
-      <Filter>Actor\Interactive\Static\Machine</Filter>
+      <Filter>Actor\Interactive\Creature\Static\Machine</Filter>
     </ClInclude>
     <ClInclude Include="UI_InterativeMark.h">
       <Filter>Manager\UIManager\Mark</Filter>
@@ -401,10 +401,10 @@
       <Filter>Data\Contents</Filter>
     </ClInclude>
     <ClInclude Include="MongSiri.h">
-      <Filter>Actor\Interactive\Dynamic\MongSiri</Filter>
+      <Filter>Actor\Interactive\Creature\MongSiri</Filter>
     </ClInclude>
     <ClInclude Include="Bush.h">
-      <Filter>Actor\Interactive\Static\Bush</Filter>
+      <Filter>Actor\Interactive\Creature\Static\Bush</Filter>
     </ClInclude>
     <ClInclude Include="WitchFlower.h">
       <Filter>Actor\Interactive\Plant</Filter>
@@ -413,13 +413,13 @@
       <Filter>Actor\Interactive\Plant</Filter>
     </ClInclude>
     <ClInclude Include="FlowerBird.h">
-      <Filter>Actor\Interactive\Dynamic\FlowerBird</Filter>
+      <Filter>Actor\Interactive\Creature\FlowerBird</Filter>
     </ClInclude>
     <ClInclude Include="BushBug.h">
-      <Filter>Actor\Interactive\Dynamic\BushBug</Filter>
+      <Filter>Actor\Interactive\Creature\BushBug</Filter>
     </ClInclude>
     <ClInclude Include="BroomParticle.h">
-      <Filter>Actor\Interactive\Dynamic\Ellie\Broom\Ride_Particle</Filter>
+      <Filter>Actor\Ellie\Broom\Ride_Particle</Filter>
     </ClInclude>
     <ClInclude Include="PlayLevel.h">
       <Filter>Level\2.Play\0.PlayLevel</Filter>
@@ -431,7 +431,7 @@
       <Filter>Imgui</Filter>
     </ClInclude>
     <ClInclude Include="PumpkinTerrier.h">
-      <Filter>Actor\Interactive\Dynamic\PumpkinTerrier</Filter>
+      <Filter>Actor\Interactive\Creature\PumpkinTerrier</Filter>
     </ClInclude>
     <ClInclude Include="WitchHouse.h">
       <Filter>Actor\Prop\House</Filter>
@@ -464,34 +464,34 @@
       <Filter>Z_Test\Level</Filter>
     </ClInclude>
     <ClInclude Include="MongSiri_Population.h">
-      <Filter>Actor\Interactive\Dynamic\MongSiri\Population</Filter>
+      <Filter>Actor\Interactive\Creature\MongSiri\Population</Filter>
     </ClInclude>
     <ClInclude Include="ChubHole.h">
-      <Filter>Actor\Interactive\Dynamic\MongSiri\Population</Filter>
+      <Filter>Actor\Interactive\Creature\MongSiri\Population</Filter>
     </ClInclude>
     <ClInclude Include="BranchTree.h">
-      <Filter>Actor\Interactive\Static\BranchTree</Filter>
+      <Filter>Actor\Interactive\Creature\Static\BranchTree</Filter>
     </ClInclude>
     <ClInclude Include="UI_Dispensation.h">
-      <Filter>Actor\Interactive\Static\Machine\AlchemyPot\Dispensation</Filter>
+      <Filter>Actor\Interactive\Creature\Static\Machine\AlchemyPot\Dispensation</Filter>
     </ClInclude>
     <ClInclude Include="AlchemyPot.h">
-      <Filter>Actor\Interactive\Static\Machine\AlchemyPot</Filter>
+      <Filter>Actor\Interactive\Creature\Static\Machine\AlchemyPot</Filter>
     </ClInclude>
     <ClInclude Include="UI_ProcessManager.h">
-      <Filter>Actor\Interactive\Static\Machine\Extractor\Process</Filter>
+      <Filter>Actor\Interactive\Creature\Static\Machine\Extractor\Process</Filter>
     </ClInclude>
     <ClInclude Include="Extractor.h">
-      <Filter>Actor\Interactive\Static\Machine\Extractor</Filter>
+      <Filter>Actor\Interactive\Creature\Static\Machine\Extractor</Filter>
     </ClInclude>
     <ClInclude Include="UI_ProcessList.h">
-      <Filter>Actor\Interactive\Static\Machine\Extractor\Process</Filter>
+      <Filter>Actor\Interactive\Creature\Static\Machine\Extractor\Process</Filter>
     </ClInclude>
     <ClInclude Include="UI_ProcessListUnit.h">
-      <Filter>Actor\Interactive\Static\Machine\Extractor\Process</Filter>
+      <Filter>Actor\Interactive\Creature\Static\Machine\Extractor\Process</Filter>
     </ClInclude>
     <ClInclude Include="UI_ProcessB.h">
-      <Filter>Actor\Interactive\Static\Machine\Extractor\Process</Filter>
+      <Filter>Actor\Interactive\Creature\Static\Machine\Extractor\Process</Filter>
     </ClInclude>
     <ClInclude Include="MapEditorLevel.h">
       <Filter>Level\99.MapEditor</Filter>
@@ -554,7 +554,7 @@
       <Filter>Manager\UIManager\Hub</Filter>
     </ClInclude>
     <ClInclude Include="RidingFx.h">
-      <Filter>Actor\Interactive\Dynamic\Ellie\Broom\Ride_Fx</Filter>
+      <Filter>Actor\Ellie\Broom\Ride_Fx</Filter>
     </ClInclude>
     <ClInclude Include="UI_MainMenu_Button.h">
       <Filter>Level\BackManager\1.MainMenu</Filter>
@@ -605,10 +605,10 @@
       <Filter>Event</Filter>
     </ClInclude>
     <ClInclude Include="LootedItem.h">
-      <Filter>Actor\Interactive\LootedItem</Filter>
+      <Filter>Actor\Interactive\Objects\LootedItem</Filter>
     </ClInclude>
     <ClInclude Include="InteractiveLetter.h">
-      <Filter>Actor\Interactive\Letter</Filter>
+      <Filter>Actor\Interactive\Objects\Letter</Filter>
     </ClInclude>
     <ClInclude Include="DustFx.h">
       <Filter>Actor\Fx</Filter>
@@ -617,16 +617,16 @@
       <Filter>Manager\UIManager\Other</Filter>
     </ClInclude>
     <ClInclude Include="Dust.h">
-      <Filter>Actor\Interactive\Dust</Filter>
+      <Filter>Actor\Interactive\Objects\Dust</Filter>
     </ClInclude>
     <ClInclude Include="Dust_HandBook.h">
-      <Filter>Actor\Interactive\Dust</Filter>
+      <Filter>Actor\Interactive\Objects\Dust</Filter>
     </ClInclude>
     <ClInclude Include="Dust_Bag.h">
-      <Filter>Actor\Interactive\Dust</Filter>
+      <Filter>Actor\Interactive\Objects\Dust</Filter>
     </ClInclude>
     <ClInclude Include="Dust_Elevator.h">
-      <Filter>Actor\Interactive\Dust</Filter>
+      <Filter>Actor\Interactive\Objects\Dust</Filter>
     </ClInclude>
     <ClInclude Include="ContentsSpriteRenderer.h">
       <Filter>Rendering\Renderer</Filter>
@@ -635,10 +635,10 @@
       <Filter>Rendering\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="Dust_Pot.h">
-      <Filter>Actor\Interactive\Dust</Filter>
+      <Filter>Actor\Interactive\Objects\Dust</Filter>
     </ClInclude>
     <ClInclude Include="Dust_Extractor.h">
-      <Filter>Actor\Interactive\Dust</Filter>
+      <Filter>Actor\Interactive\Objects\Dust</Filter>
     </ClInclude>
     <ClInclude Include="SingleEvent.h">
       <Filter>Event\SingleEvent</Filter>
@@ -656,10 +656,10 @@
       <Filter>Actor\Interactive\NPC\Dian</Filter>
     </ClInclude>
     <ClInclude Include="WitchHouseBed.h">
-      <Filter>Actor\Interactive\Bed</Filter>
+      <Filter>Actor\Interactive\Objects\Bed</Filter>
     </ClInclude>
     <ClInclude Include="BedUI.h">
-      <Filter>Actor\Interactive\Bed</Filter>
+      <Filter>Actor\Interactive\Objects\Bed</Filter>
     </ClInclude>
     <ClInclude Include="FireWorksEvent.h">
       <Filter>Event</Filter>
@@ -740,16 +740,16 @@
       <Filter>Rendering\Renderer\Gauge</Filter>
     </ClInclude>
     <ClInclude Include="BaseLift.h">
-      <Filter>Actor\Interactive\WitchLift</Filter>
+      <Filter>Actor\Interactive\Objects\WitchLift</Filter>
     </ClInclude>
     <ClInclude Include="UpperLiftA.h">
-      <Filter>Actor\Interactive\WitchLift</Filter>
+      <Filter>Actor\Interactive\Objects\WitchLift</Filter>
     </ClInclude>
     <ClInclude Include="LowerLiftA.h">
-      <Filter>Actor\Interactive\WitchLift</Filter>
+      <Filter>Actor\Interactive\Objects\WitchLift</Filter>
     </ClInclude>
     <ClInclude Include="BroomCollisionParticle.h">
-      <Filter>Actor\Interactive\Dynamic\Ellie\Broom\Ride_Particle</Filter>
+      <Filter>Actor\Ellie\Broom\Ride_Particle</Filter>
     </ClInclude>
     <ClInclude Include="ContentsActor.h">
       <Filter>Actor</Filter>
@@ -758,13 +758,19 @@
       <Filter>Global</Filter>
     </ClInclude>
     <ClInclude Include="CheerFx.h">
-      <Filter>Actor\Interactive\Dynamic\Ellie\Fx</Filter>
+      <Filter>Actor\Ellie\Fx</Filter>
     </ClInclude>
     <ClInclude Include="FxBase.h">
-      <Filter>Actor\Interactive\Dynamic\Ellie\Fx</Filter>
+      <Filter>Actor\Ellie\Fx</Filter>
     </ClInclude>
     <ClInclude Include="FailFx.h">
-      <Filter>Actor\Interactive\Dynamic\Ellie\Fx</Filter>
+      <Filter>Actor\Ellie\Fx</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicEntity.h">
+      <Filter>Actor\Interactive\Creature</Filter>
+    </ClInclude>
+    <ClInclude Include="PixelManager.h">
+      <Filter>Z_Test</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -788,13 +794,13 @@
       <Filter>Actor\Interactive</Filter>
     </ClCompile>
     <ClCompile Include="Ellie.cpp">
-      <Filter>Actor\Interactive\Dynamic\Ellie</Filter>
+      <Filter>Actor\Ellie</Filter>
     </ClCompile>
     <ClCompile Include="GlobalLoad.cpp">
       <Filter>Global</Filter>
     </ClCompile>
     <ClCompile Include="Ellie_State.cpp">
-      <Filter>Actor\Interactive\Dynamic\Ellie</Filter>
+      <Filter>Actor\Ellie</Filter>
     </ClCompile>
     <ClCompile Include="Field_Center.cpp">
       <Filter>Level\2.Play\2.Field</Filter>
@@ -808,14 +814,11 @@
     <ClCompile Include="WitchHouse_DownFloor.cpp">
       <Filter>Level\2.Play\1.Witch</Filter>
     </ClCompile>
-    <ClCompile Include="DynamicEntity.cpp">
-      <Filter>Actor\Interactive\Dynamic</Filter>
-    </ClCompile>
     <ClCompile Include="StaticEntity.cpp">
-      <Filter>Actor\Interactive\Static</Filter>
+      <Filter>Actor\Interactive\Creature\Static</Filter>
     </ClCompile>
     <ClCompile Include="Ellie_Collision.cpp">
-      <Filter>Actor\Interactive\Dynamic\Ellie</Filter>
+      <Filter>Actor\Ellie</Filter>
     </ClCompile>
     <ClCompile Include="UIManager.cpp">
       <Filter>Manager\UIManager</Filter>
@@ -875,7 +878,7 @@
       <Filter>Data\Contents</Filter>
     </ClCompile>
     <ClCompile Include="Roaster.cpp">
-      <Filter>Actor\Interactive\Static\Machine</Filter>
+      <Filter>Actor\Interactive\Creature\Static\Machine</Filter>
     </ClCompile>
     <ClCompile Include="UI_InterativeMark.cpp">
       <Filter>Manager\UIManager\Mark</Filter>
@@ -890,16 +893,16 @@
       <Filter>Data\Contents</Filter>
     </ClCompile>
     <ClCompile Include="MongSiri_State.cpp">
-      <Filter>Actor\Interactive\Dynamic\MongSiri</Filter>
+      <Filter>Actor\Interactive\Creature\MongSiri</Filter>
     </ClCompile>
     <ClCompile Include="MongSiri.cpp">
-      <Filter>Actor\Interactive\Dynamic\MongSiri</Filter>
+      <Filter>Actor\Interactive\Creature\MongSiri</Filter>
     </ClCompile>
     <ClCompile Include="Bush.cpp">
-      <Filter>Actor\Interactive\Static\Bush</Filter>
+      <Filter>Actor\Interactive\Creature\Static\Bush</Filter>
     </ClCompile>
     <ClCompile Include="Bush_State.cpp">
-      <Filter>Actor\Interactive\Static\Bush</Filter>
+      <Filter>Actor\Interactive\Creature\Static\Bush</Filter>
     </ClCompile>
     <ClCompile Include="Plant.cpp">
       <Filter>Actor\Interactive\Plant</Filter>
@@ -908,16 +911,16 @@
       <Filter>Actor\Interactive\Plant</Filter>
     </ClCompile>
     <ClCompile Include="FlowerBird.cpp">
-      <Filter>Actor\Interactive\Dynamic\FlowerBird</Filter>
+      <Filter>Actor\Interactive\Creature\FlowerBird</Filter>
     </ClCompile>
     <ClCompile Include="FlowerBirdState.cpp">
-      <Filter>Actor\Interactive\Dynamic\FlowerBird</Filter>
+      <Filter>Actor\Interactive\Creature\FlowerBird</Filter>
     </ClCompile>
     <ClCompile Include="BushBug.cpp">
-      <Filter>Actor\Interactive\Dynamic\BushBug</Filter>
+      <Filter>Actor\Interactive\Creature\BushBug</Filter>
     </ClCompile>
     <ClCompile Include="BroomParticle.cpp">
-      <Filter>Actor\Interactive\Dynamic\Ellie\Broom\Ride_Particle</Filter>
+      <Filter>Actor\Ellie\Broom\Ride_Particle</Filter>
     </ClCompile>
     <ClCompile Include="PlayLevel.cpp">
       <Filter>Level\2.Play\0.PlayLevel</Filter>
@@ -929,7 +932,7 @@
       <Filter>Imgui</Filter>
     </ClCompile>
     <ClCompile Include="PumpkinTerrier.cpp">
-      <Filter>Actor\Interactive\Dynamic\PumpkinTerrier</Filter>
+      <Filter>Actor\Interactive\Creature\PumpkinTerrier</Filter>
     </ClCompile>
     <ClCompile Include="WitchHouse.cpp">
       <Filter>Actor\Prop\House</Filter>
@@ -962,35 +965,35 @@
       <Filter>Z_Test\Level</Filter>
     </ClCompile>
     <ClCompile Include="ChubHole.cpp">
-      <Filter>Actor\Interactive\Dynamic\MongSiri\Population</Filter>
+      <Filter>Actor\Interactive\Creature\MongSiri\Population</Filter>
     </ClCompile>
     <ClCompile Include="MongSiri_Population.cpp">
-      <Filter>Actor\Interactive\Dynamic\MongSiri\Population</Filter>
+      <Filter>Actor\Interactive\Creature\MongSiri\Population</Filter>
     </ClCompile>
     <ClCompile Include="BranchTree.cpp">
-      <Filter>Actor\Interactive\Static\BranchTree</Filter>
+      <Filter>Actor\Interactive\Creature\Static\BranchTree</Filter>
     </ClCompile>
     <ClCompile Include="ContentsCore_Resources.cpp" />
     <ClCompile Include="UI_Dispensation.cpp">
-      <Filter>Actor\Interactive\Static\Machine\AlchemyPot\Dispensation</Filter>
+      <Filter>Actor\Interactive\Creature\Static\Machine\AlchemyPot\Dispensation</Filter>
     </ClCompile>
     <ClCompile Include="AlchemyPot.cpp">
-      <Filter>Actor\Interactive\Static\Machine\AlchemyPot</Filter>
+      <Filter>Actor\Interactive\Creature\Static\Machine\AlchemyPot</Filter>
     </ClCompile>
     <ClCompile Include="UI_ProcessManager.cpp">
-      <Filter>Actor\Interactive\Static\Machine\Extractor\Process</Filter>
+      <Filter>Actor\Interactive\Creature\Static\Machine\Extractor\Process</Filter>
     </ClCompile>
     <ClCompile Include="Extractor.cpp">
-      <Filter>Actor\Interactive\Static\Machine\Extractor</Filter>
+      <Filter>Actor\Interactive\Creature\Static\Machine\Extractor</Filter>
     </ClCompile>
     <ClCompile Include="UI_ProcessList.cpp">
-      <Filter>Actor\Interactive\Static\Machine\Extractor\Process</Filter>
+      <Filter>Actor\Interactive\Creature\Static\Machine\Extractor\Process</Filter>
     </ClCompile>
     <ClCompile Include="UI_ProcessListUnit.cpp">
-      <Filter>Actor\Interactive\Static\Machine\Extractor\Process</Filter>
+      <Filter>Actor\Interactive\Creature\Static\Machine\Extractor\Process</Filter>
     </ClCompile>
     <ClCompile Include="UI_ProcessB.cpp">
-      <Filter>Actor\Interactive\Static\Machine\Extractor\Process</Filter>
+      <Filter>Actor\Interactive\Creature\Static\Machine\Extractor\Process</Filter>
     </ClCompile>
     <ClCompile Include="MapEditorLevel.cpp">
       <Filter>Level\99.MapEditor</Filter>
@@ -1062,16 +1065,16 @@
       <Filter>Manager\UIManager\Hub</Filter>
     </ClCompile>
     <ClCompile Include="Ellie_Resources.cpp">
-      <Filter>Actor\Interactive\Dynamic\Ellie</Filter>
+      <Filter>Actor\Ellie</Filter>
     </ClCompile>
     <ClCompile Include="RidingFx.cpp">
-      <Filter>Actor\Interactive\Dynamic\Ellie\Broom\Ride_Fx</Filter>
+      <Filter>Actor\Ellie\Broom\Ride_Fx</Filter>
     </ClCompile>
     <ClCompile Include="UI_MainMenu_Button.cpp">
       <Filter>Level\BackManager\1.MainMenu</Filter>
     </ClCompile>
     <ClCompile Include="Ellie_Riding_State.cpp">
-      <Filter>Actor\Interactive\Dynamic\Ellie\Broom</Filter>
+      <Filter>Actor\Ellie\Broom</Filter>
     </ClCompile>
     <ClCompile Include="PixelCollision.cpp">
       <Filter>Component\PixelCollision</Filter>
@@ -1122,10 +1125,10 @@
       <Filter>Data\Event</Filter>
     </ClCompile>
     <ClCompile Include="LootedItem.cpp">
-      <Filter>Actor\Interactive\LootedItem</Filter>
+      <Filter>Actor\Interactive\Objects\LootedItem</Filter>
     </ClCompile>
     <ClCompile Include="InteractiveLetter.cpp">
-      <Filter>Actor\Interactive\Letter</Filter>
+      <Filter>Actor\Interactive\Objects\Letter</Filter>
     </ClCompile>
     <ClCompile Include="DustFx.cpp">
       <Filter>Actor\Fx</Filter>
@@ -1134,16 +1137,16 @@
       <Filter>Manager\UIManager\Other</Filter>
     </ClCompile>
     <ClCompile Include="Dust.cpp">
-      <Filter>Actor\Interactive\Dust</Filter>
+      <Filter>Actor\Interactive\Objects\Dust</Filter>
     </ClCompile>
     <ClCompile Include="Dust_HandBook.cpp">
-      <Filter>Actor\Interactive\Dust</Filter>
+      <Filter>Actor\Interactive\Objects\Dust</Filter>
     </ClCompile>
     <ClCompile Include="Dust_Bag.cpp">
-      <Filter>Actor\Interactive\Dust</Filter>
+      <Filter>Actor\Interactive\Objects\Dust</Filter>
     </ClCompile>
     <ClCompile Include="Dust_Elevator.cpp">
-      <Filter>Actor\Interactive\Dust</Filter>
+      <Filter>Actor\Interactive\Objects\Dust</Filter>
     </ClCompile>
     <ClCompile Include="ContentsSpriteRenderer.cpp">
       <Filter>Rendering\Renderer</Filter>
@@ -1152,10 +1155,10 @@
       <Filter>Rendering\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Dust_Extractor.cpp">
-      <Filter>Actor\Interactive\Dust</Filter>
+      <Filter>Actor\Interactive\Objects\Dust</Filter>
     </ClCompile>
     <ClCompile Include="Dust_Pot.cpp">
-      <Filter>Actor\Interactive\Dust</Filter>
+      <Filter>Actor\Interactive\Objects\Dust</Filter>
     </ClCompile>
     <ClCompile Include="HouseDustEvent.cpp">
       <Filter>Event\SingleEvent</Filter>
@@ -1176,10 +1179,10 @@
       <Filter>Actor\Interactive\NPC\Dian</Filter>
     </ClCompile>
     <ClCompile Include="WitchHouseBed.cpp">
-      <Filter>Actor\Interactive\Bed</Filter>
+      <Filter>Actor\Interactive\Objects\Bed</Filter>
     </ClCompile>
     <ClCompile Include="BedUI.cpp">
-      <Filter>Actor\Interactive\Bed</Filter>
+      <Filter>Actor\Interactive\Objects\Bed</Filter>
     </ClCompile>
     <ClCompile Include="FireWorksEvent.cpp">
       <Filter>Event</Filter>
@@ -1260,16 +1263,16 @@
       <Filter>Rendering\Renderer\Gauge</Filter>
     </ClCompile>
     <ClCompile Include="BaseLift.cpp">
-      <Filter>Actor\Interactive\WitchLift</Filter>
+      <Filter>Actor\Interactive\Objects\WitchLift</Filter>
     </ClCompile>
     <ClCompile Include="UpperLiftA.cpp">
-      <Filter>Actor\Interactive\WitchLift</Filter>
+      <Filter>Actor\Interactive\Objects\WitchLift</Filter>
     </ClCompile>
     <ClCompile Include="LowerLiftA.cpp">
-      <Filter>Actor\Interactive\WitchLift</Filter>
+      <Filter>Actor\Interactive\Objects\WitchLift</Filter>
     </ClCompile>
     <ClCompile Include="BroomCollisionParticle.cpp">
-      <Filter>Actor\Interactive\Dynamic\Ellie\Broom\Ride_Particle</Filter>
+      <Filter>Actor\Ellie\Broom\Ride_Particle</Filter>
     </ClCompile>
     <ClCompile Include="ContentsActor.cpp">
       <Filter>Actor</Filter>
@@ -1278,13 +1281,19 @@
       <Filter>Global</Filter>
     </ClCompile>
     <ClCompile Include="CheerFx.cpp">
-      <Filter>Actor\Interactive\Dynamic\Ellie\Fx</Filter>
+      <Filter>Actor\Ellie\Fx</Filter>
     </ClCompile>
     <ClCompile Include="FxBase.cpp">
-      <Filter>Actor\Interactive\Dynamic\Ellie\Fx</Filter>
+      <Filter>Actor\Ellie\Fx</Filter>
     </ClCompile>
     <ClCompile Include="FailFx.cpp">
-      <Filter>Actor\Interactive\Dynamic\Ellie\Fx</Filter>
+      <Filter>Actor\Ellie\Fx</Filter>
+    </ClCompile>
+    <ClCompile Include="DynamicEntity.cpp">
+      <Filter>Actor\Interactive\Creature</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelManager.cpp">
+      <Filter>Z_Test</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

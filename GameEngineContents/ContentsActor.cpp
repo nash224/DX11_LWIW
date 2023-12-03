@@ -29,7 +29,18 @@ void ContentsActor::ApplyOnlyMovement(float _Delta)
 void ContentsActor::ApplyDepth()
 {
 	float4 MyPosition = Transform.GetLocalPosition();
-	float BackYScale = PlayLevel::GetPlayLevelPtr()->GetBackDropPtr()->GetBackGroundScale().Y;
+
+	float BackYScale = 0.0f;
+	const std::shared_ptr<BackDrop>& BackPtr = PlayLevel::GetPlayLevelPtr()->GetBackDropPtr();
+	if (nullptr != BackPtr)
+	{
+		BackYScale = BackPtr->GetBackGroundScale().Y;
+	}
+	else
+	{
+		BackYScale = GlobalValue::GetWindowScale().Y;
+	}
+
 	float Depth = DepthFunction::CalculateObjectDepth(BackYScale, MyPosition.Y + PlusDepth);
 	MyPosition.Z = Depth;
 

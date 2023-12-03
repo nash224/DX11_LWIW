@@ -30,6 +30,10 @@
 
 TestLevel::TestLevel() 
 {
+	// 1920, 1080
+	std::shared_ptr<GameEngineCamera> NewCamera = CreateCamera(INT_MIN, ECAMERAORDER::MainPrev);
+	NewCamera->SetZoomValue(2.0f);
+	NewCamera->Transform.SetLocalPosition(float4(GlobalValue::GetWindowScale().hX(), -GlobalValue::GetWindowScale().hY(), -500.0f));
 }
 
 TestLevel::~TestLevel() 
@@ -50,6 +54,7 @@ void TestLevel::Start()
 	if (nullptr != Window)
 	{
 		Window->AddDebugRenderTarget(0, "TestRenderTarget", GetMainCamera()->GetCameraAllRenderTarget());
+		Window->AddDebugRenderTarget(3, "TestPixelRenderTarget", GetCamera(static_cast<int>(ECAMERAORDER::MainPrev))->GetCameraAllRenderTarget());
 	}
 
 
@@ -226,10 +231,27 @@ void TestLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void TestLevel::TestCode()
 {
-	std::shared_ptr<NormalProp> TestTree =  CreateActor<NormalProp>(EUPDATEORDER::Objects);
-	TestTree->Transform.SetLocalPosition(float4(200.0f, -400.0f, DepthFunction::CalculateObjectDepth(GlobalValue::GetWindowScale().Y, -400.0f)));
-	TestTree->Init();
-	TestTree->m_Renderer->Transform.SetLocalPosition(float4(0.0f, 110.0f));
-	TestTree->m_Renderer->SetSprite("Tree_2.png");
-	TestTree->m_Renderer->RenderBaseInfoValue.Target1 = 1;
+	if (false)
+	{
+		std::shared_ptr<NormalProp> TestTree =  CreateActor<NormalProp>(EUPDATEORDER::Objects);
+		TestTree->Transform.SetLocalPosition(float4(200.0f, -400.0f, DepthFunction::CalculateObjectDepth(GlobalValue::GetWindowScale().Y, -400.0f)));
+		TestTree->Init();
+		TestTree->m_Renderer->Transform.SetLocalPosition(float4(0.0f, 110.0f));
+		TestTree->m_Renderer->SetSprite("Tree_2.png");
+		TestTree->m_Renderer->RenderBaseInfoValue.Target1 = 1;
+	}
+
+	if (true)
+	{
+		std::shared_ptr<RendererActor> TestCamera =  CreateActor<RendererActor>(EUPDATEORDER::Objects);
+		TestCamera->Transform.SetLocalPosition(float4(200.0f, -400.0f, DepthFunction::CalculateObjectDepth(GlobalValue::GetWindowScale().Y, -400.0f)));
+		TestCamera->Init();
+		TestCamera->m_Renderer->SetViewCameraSelect(static_cast<int>(ECAMERAORDER::MainPrev));
+		TestCamera->m_Renderer->Transform.SetLocalPosition(float4(0.0f, 110.0f));
+		TestCamera->m_Renderer->SetSprite("Tree_1.png");
+		TestCamera->m_Renderer->RenderBaseInfoValue.Target1 = 1;
+		TestCamera->m_Renderer->RenderBaseInfoValue.Target0 = 0;
+
+		// GetCamera(static_cast<int>(ECAMERAORDER::MainPrev))->GetCameraAllRenderTarget()->GetTexture(1)->GetColor();
+	}
 }

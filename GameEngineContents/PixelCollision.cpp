@@ -28,7 +28,7 @@ GameEngineColor PixelCollision::GetColor(const float4& _CheckPosition, const flo
 	float4 HalfTexturePos = Texture->GetScale().Half();
 	HalfTexturePos.X *= -1.0f;
 
-	const float4& MoveCheckPos = _MyPosition + HalfTexturePos;
+	const float4 MoveCheckPos = _MyPosition + HalfTexturePos;
 
 	float4 CheckPos = _CheckPosition - MoveCheckPos;
 	CheckPos.Y *= -1.0f;
