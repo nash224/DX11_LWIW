@@ -75,8 +75,8 @@ void Ellie::UpdateRiding_Standing(float _Delta)
 	DetectMovement();
 
 	VirgilRendererHelper.UpdateHelper(BodyRenderer, VirgilRenderer);
-	BroomHeadRendererHelper.UpdateHelper(BodyRenderer, Broom.BroomRenderer.at(static_cast<int>(EllieBroom::EBROOMSTRUCT::Head)));
-	BroomBodyRendererHelper.UpdateHelper(BodyRenderer, Broom.BroomRenderer.at(static_cast<int>(EllieBroom::EBROOMSTRUCT::Body)));
+	BroomHeadRendererHelper.UpdateHelper(BodyRenderer, Broom.HeadBroomRenderer);
+	BroomBodyRendererHelper.UpdateHelper(BodyRenderer, Broom.BodyBroomRenderer);
 
 
 	DecelerateNotDir(_Delta, Riding_Boost_Speed);
@@ -143,8 +143,8 @@ void Ellie::UpdateRiding_Moving(float _Delta)
 
 	ChangeDirectionAnimation("Riding_Moving");
 	VirgilRendererHelper.UpdateHelper(BodyRenderer, VirgilRenderer);
-	BroomHeadRendererHelper.UpdateHelper(BodyRenderer, Broom.BroomRenderer.at(static_cast<int>(EllieBroom::EBROOMSTRUCT::Head)));
-	BroomBodyRendererHelper.UpdateHelper(BodyRenderer, Broom.BroomRenderer.at(static_cast<int>(EllieBroom::EBROOMSTRUCT::Body)));
+	BroomHeadRendererHelper.UpdateHelper(BodyRenderer, Broom.HeadBroomRenderer);
+	BroomBodyRendererHelper.UpdateHelper(BodyRenderer, Broom.BodyBroomRenderer);
 
 	
 	DecelerateNotDir(_Delta, Riding_Move_Speed);
@@ -215,8 +215,8 @@ void Ellie::UpdateRiding_Boosting(float _Delta)
 
 	ChangeDirectionAnimation("Riding_Boosting");
 	VirgilRendererHelper.UpdateHelper(BodyRenderer, VirgilRenderer);
-	BroomHeadRendererHelper.UpdateHelper(BodyRenderer, Broom.BroomRenderer.at(static_cast<int>(EllieBroom::EBROOMSTRUCT::Head)));
-	BroomBodyRendererHelper.UpdateHelper(BodyRenderer, Broom.BroomRenderer.at(static_cast<int>(EllieBroom::EBROOMSTRUCT::Body)));
+	BroomHeadRendererHelper.UpdateHelper(BodyRenderer, Broom.HeadBroomRenderer);
+	BroomBodyRendererHelper.UpdateHelper(BodyRenderer, Broom.BodyBroomRenderer);
 
 
 	DecelerateNotDir(_Delta, Riding_Boost_Speed);

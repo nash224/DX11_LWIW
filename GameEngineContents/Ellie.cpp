@@ -117,12 +117,12 @@ void Ellie::Release()
 	VirgilRenderer = nullptr;
 
 	EllieCol = nullptr;
-	InteractiveCol = nullptr;
 	NetCollision = nullptr;
 
 	OtherEntity = nullptr;
 
-	Broom.BroomRenderer.clear();
+	Broom.HeadBroomRenderer = nullptr;
+	Broom.BodyBroomRenderer = nullptr;
 }
 
 void Ellie::LevelStart(class GameEngineLevel* _NextLevel)
@@ -324,16 +324,8 @@ void Ellie::ChangeState(EELLIE_STATE _State)
 			break;
 		}
 
-		if (true == Broom.BroomRenderer.empty())
-		{
-			MsgBoxAssert("빗자루 렌더러가 존재하지 않습니다.");
-			return;
-		}
-
-		for (const std::shared_ptr<GameEngineSpriteRenderer>& BroomRenderer : Broom.BroomRenderer)
-		{
-			BroomRenderer->Off();
-		}
+		Broom.HeadBroomRenderer->Off();
+		Broom.BodyBroomRenderer->Off();
 
 		State = _State;
 
@@ -505,7 +497,7 @@ void Ellie::ChangeVirgilSprite(std::string_view _AnimationName)
 		ShadowSpriteName = "Ellie_Basic_Walk.png";
 	}
 
-	bool isNeedVirgil = true;
+	bool NotRender = false;
 
 	switch (State)
 	{
@@ -527,16 +519,14 @@ void Ellie::ChangeVirgilSprite(std::string_view _AnimationName)
 	case EELLIE_STATE::Fail:
 		break;
 	case EELLIE_STATE::Juicy:
-		isNeedVirgil = false;
-		break;
 	case EELLIE_STATE::Drink:
-		isNeedVirgil = false;
+		NotRender = true;
 		break;
 	default:
 		break;
 	}
 
-	if (true == isNeedVirgil)
+	if (false == NotRender)
 	{
 		VirgilRenderer->SetSprite(ShadowSpriteName);
 		VirgilRenderer->On();
@@ -545,12 +535,6 @@ void Ellie::ChangeVirgilSprite(std::string_view _AnimationName)
 
 void Ellie::ChangeBroomSprite()
 {
-	if (true == Broom.BroomRenderer.empty())
-	{
-		MsgBoxAssert("빗자루 렌더러가 존재하지 않습니다.");
-		return;
-	}
-
 	std::string BroomSpriteName = "Broomstick_Basic_";
 
 	switch (State)
@@ -568,17 +552,18 @@ void Ellie::ChangeBroomSprite()
 		break;
 	}
 
-	for (const std::shared_ptr<GameEngineSpriteRenderer>& BroomRenderer : Broom.BroomRenderer)
+	if (nullptr == Broom.HeadBroomRenderer
+		|| nullptr == Broom.BodyBroomRenderer)
 	{
-		if (nullptr == BroomRenderer)
-		{
-			MsgBoxAssert("빗자루 렌더러가 존재하지 않습니다.");
-			return;
-		}
-
-		BroomRenderer->SetSprite(BroomSpriteName);
-		BroomRenderer->On();
+		MsgBoxAssert("존재하지 않은 렌더러를 세팅하려 했습니다.");
+		return;
 	}
+
+	Broom.HeadBroomRenderer->SetSprite(BroomSpriteName);
+	Broom.HeadBroomRenderer->On();
+
+	Broom.BodyBroomRenderer->SetSprite(BroomSpriteName);
+	Broom.BodyBroomRenderer->On();
 }
 
 void Ellie::ChangeDirectionAnimation(std::string_view _StateName)

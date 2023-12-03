@@ -72,18 +72,11 @@ private:
 	class EllieBroom
 	{
 	public:
-		enum class EBROOMSTRUCT
-		{
-			Head,
-			Body,
-			Max,
-		};
-
-	public:
-		std::vector<std::shared_ptr<GameEngineSpriteRenderer>> BroomRenderer;
+		std::shared_ptr<GameEngineSpriteRenderer> HeadBroomRenderer;
+		std::shared_ptr<GameEngineSpriteRenderer> BodyBroomRenderer;
 
 		float TransitionCoolDown = 0.0f;
-		static constexpr const float Transition_Recovery_Time = 0.4f;
+		static constexpr float Transition_Recovery_Time = 0.4f;
 
 	};
 
@@ -131,7 +124,6 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 	void RendererSetting();
-	void BroomSetting();
 	void CollisionSetting();
 	void SetPixelPointBaseOnCenter();
 

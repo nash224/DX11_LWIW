@@ -25,6 +25,12 @@ void Ellie::RendererSetting()
 
 	BodyRenderer->AutoSpriteSizeOn();
 
+	Broom.HeadBroomRenderer = CreateComponent<GameEngineSpriteRenderer>();
+	Broom.HeadBroomRenderer->Transform.SetLocalPosition(float4(0.0f, LWIW_Ellie_Y_Correction * 2.0f, 0.01f));
+
+	Broom.BodyBroomRenderer = CreateComponent<GameEngineSpriteRenderer>();
+	Broom.BodyBroomRenderer->Transform.SetLocalPosition(float4(0.0f, LWIW_Ellie_Y_Correction * 2.0f, -0.01f));
+
 
 #pragma region 기본 조작
 
@@ -432,8 +438,6 @@ void Ellie::RendererSetting()
 
 			});
 	}
-
-	BroomSetting();
 }
 
 void Ellie::ChangeFrameAnimationInterAllDirection(std::string_view _AnimationName, const std::vector<float>& _Inter)

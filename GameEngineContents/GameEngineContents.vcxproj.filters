@@ -1073,9 +1073,6 @@
     <ClCompile Include="Ellie_Riding_State.cpp">
       <Filter>Actor\Interactive\Dynamic\Ellie\Broom</Filter>
     </ClCompile>
-    <ClCompile Include="Ellie_Broom_Resources.cpp">
-      <Filter>Actor\Interactive\Dynamic\Ellie\Broom</Filter>
-    </ClCompile>
     <ClCompile Include="PixelCollision.cpp">
       <Filter>Component\PixelCollision</Filter>
     </ClCompile>

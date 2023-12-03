@@ -331,7 +331,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Ellie_Broom_Resources.cpp" />
     <ClCompile Include="Conversation.cpp">
       <SubType>
       </SubType>
