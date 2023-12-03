@@ -63,6 +63,7 @@ private:
 	static float BroomFuel;
 	static bool FirstInitCheck;
 
+	static FrameAnimationHelper ShadowRendererHelper;
 	static FrameAnimationHelper VirgilRendererHelper;
 	static FrameAnimationHelper BroomHeadRendererHelper;
 	static FrameAnimationHelper BroomBodyRendererHelper;
@@ -147,7 +148,6 @@ protected:
 	void ChangeStatus(const EELLIE_STATUS _Status);
 
 private:
-	void UpdateCoolTime(float _Delta);
 	void UpdateCollision();
 	void UpdatePortalCollsiion();
 	void UpdateInteractionCollsiion();
@@ -219,7 +219,9 @@ private:
 
 	void SitShadowUpdate();
 
+	// FX
 	void OnRideFx();
+	void UpdateCoolTime(float _Delta);
 	void GenerateBroomDust(float _Delta);
 	void GenerateBoostBroomDust(float _Delta);
 	void CreateBroomParticle(float _ParticleDistance = 0.0f);
@@ -228,7 +230,7 @@ private:
 
 	void ConsumeBroomFuel(float _Delta);
 
-private:
+	// Input
 	bool DetectMovement();
 	bool DetectVerticalMovement();
 	bool DetectHorizontalMovement();
@@ -237,11 +239,13 @@ private:
 	void CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce);
 	EDIRECTION ReturnDirectionCheckBothSide(EDIRECTION _Direction, const float4& _LeftCheckPoint, const float4& _RightCheckPoint);
 
+	// Move & WallCollision
 	void DecelerateNotDir(float _Delta, const float _MaxMoveForce);
 	float4 GetMoveForceByDir(float _Delta, float _MAXMoveForce, float _Acceleration_Time);
 	void LimitMoveVector(float _MAXMoveForce);
 	bool WallCollision();
 
+	// DayChange Event
 	void DayChangeEvent();
 	void CheckDayChange();
 

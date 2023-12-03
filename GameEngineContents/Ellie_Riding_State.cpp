@@ -26,8 +26,8 @@ void Ellie::StartRiding_Standing()
 
 void Ellie::OnRideFx()
 {
-	std::weak_ptr<RidingFx> riding_FX = GetLevel()->CreateActor<RidingFx>(EUPDATEORDER::Objects);
-	riding_FX.lock()->Init(Transform.GetLocalPosition());
+	std::shared_ptr<RidingFx> riding_FX = GetLevel()->CreateActor<RidingFx>(EUPDATEORDER::Objects);
+	riding_FX->Init(Transform.GetLocalPosition());
 }
 
 

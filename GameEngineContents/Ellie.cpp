@@ -3,7 +3,6 @@
 
 #include "ContentsMath.h"
 
-#include "PlayLevel.h"
 #include "TimeManager.h"
 #include "UIManager.h"
 
@@ -15,6 +14,7 @@ float Ellie::Stamina = 0.0f;
 float Ellie::BroomFuel = MAX_FUEL;
 int Ellie::Day = -1;
 bool Ellie::FirstInitCheck = false;
+FrameAnimationHelper Ellie::ShadowRendererHelper;
 FrameAnimationHelper Ellie::VirgilRendererHelper;
 FrameAnimationHelper Ellie::BroomHeadRendererHelper;
 FrameAnimationHelper Ellie::BroomBodyRendererHelper;
@@ -169,11 +169,6 @@ void Ellie::OnLevelStart()
 	ResetMoveVector();
 	ApplyDepth();
 	OnControl();
-
-	if (nullptr != EllieCol)
-	{
-		EllieCol->On();
-	}
 }
 
 void Ellie::RenewStatus()
@@ -330,22 +325,16 @@ void Ellie::ChangeState(EELLIE_STATE _State)
 			break;
 		}
 
-		if (nullptr != VirgilRenderer)
-		{
-			VirgilRenderer->Off();
-		}
-
 		if (true == Broom.BroomRenderer.empty())
 		{
 			MsgBoxAssert("빗자루 렌더러가 존재하지 않습니다.");
 			return;
 		}
 
-		for (std::weak_ptr<GameEngineSpriteRenderer> BroomRenderer : Broom.BroomRenderer)
+		for (const std::shared_ptr<GameEngineSpriteRenderer>& BroomRenderer : Broom.BroomRenderer)
 		{
-			BroomRenderer.lock()->Off();
+			BroomRenderer->Off();
 		}
-
 
 		State = _State;
 
@@ -388,6 +377,7 @@ void Ellie::SetAnimationByDirection(EDIRECTION _Dir /*= EDIRECTION::CENTER*/)
 	if (EDIRECTION::CENTER != _Dir)
 	{
 		Dir = _Dir;
+		RenderDir = _Dir;
 
 		if (EELLIE_STATUS::Normal == g_Status)
 		{
@@ -579,16 +569,16 @@ void Ellie::ChangeBroomSprite()
 		break;
 	}
 
-	for (std::weak_ptr<GameEngineSpriteRenderer> BroomRenderer : Broom.BroomRenderer)
+	for (const std::shared_ptr<GameEngineSpriteRenderer>& BroomRenderer : Broom.BroomRenderer)
 	{
-		if (true == BroomRenderer.expired())
+		if (nullptr == BroomRenderer)
 		{
 			MsgBoxAssert("빗자루 렌더러가 존재하지 않습니다.");
 			return;
 		}
 
-		BroomRenderer.lock()->SetSprite(BroomSpriteName);
-		BroomRenderer.lock()->On();
+		BroomRenderer->SetSprite(BroomSpriteName);
+		BroomRenderer->On();
 	}
 }
 

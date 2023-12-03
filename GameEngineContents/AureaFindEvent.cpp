@@ -86,20 +86,20 @@ void AureaFindEvent::StartAureaFocusOn(GameEngineState* _Parent)
 	const std::shared_ptr<CameraControler>& LevelCameraPtr = PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr();
 	LevelCameraPtr->SetCameraMode(ECAMERAMODE::Cinematic);
 
-	const float4& ElliePos = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->Transform.GetLocalPosition();
-	const float4& CameraPos = LevelCameraPtr->AdjustCameraInitialPosition(ElliePos);
+	const float4 ElliePos = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->Transform.GetLocalPosition();
+	const float4 CameraPos = LevelCameraPtr->AdjustCameraInitialPosition(ElliePos);
 
 	TargetPos = LevelCameraPtr->AdjustCameraInitialPosition(AureaPtr->Transform.GetLocalPosition());
 
-	const float4& TargetVector = TargetPos - CameraPos;
+	const float4 TargetVector = TargetPos - CameraPos;
 	const float Radian = std::atan2f(TargetVector.Y, TargetVector.X);
 	CameraDirection = float4::GetUnitVectorFromRad(Radian);
 }
 
 void AureaFindEvent::StartAureaFocusOff(GameEngineState* _Parent)
 {
-	const float4& CameraPos = PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr()->GetCameraCurrentPostion();
-	const float4& ElliePos = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->Transform.GetLocalPosition();
+	const float4 CameraPos = PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr()->GetCameraCurrentPostion();
+	const float4 ElliePos = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->Transform.GetLocalPosition();
 
 	TargetPos = ElliePos;
 
@@ -108,7 +108,7 @@ void AureaFindEvent::StartAureaFocusOff(GameEngineState* _Parent)
 		TargetPos.Y = -GlobalValue::GetWindowScale().hY();
 	}
 
-	const float4& TargetVector = TargetPos - CameraPos;
+	const float4 TargetVector = TargetPos - CameraPos;
 	const float Radian = std::atan2f(TargetVector.Y, TargetVector.X);
 	CameraDirection = float4::GetUnitVectorFromRad(Radian);
 }
@@ -121,7 +121,7 @@ void AureaFindEvent::StartSecondConversation(GameEngineState* _Parent)
 
 void AureaFindEvent::UpdateAureaFocusOn(float _Delta, GameEngineState* _Parent)
 {
-	const float4& MoveCameraVector = CameraDirection* CameraMovePower* _Delta;
+	const float4 MoveCameraVector = CameraDirection* CameraMovePower* _Delta;
 	PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr()->AddCameraPos(MoveCameraVector);
 
 	float Distance = CalculateDistanceCamemeraToActor(TargetPos);
@@ -141,7 +141,7 @@ void AureaFindEvent::UpdateStay(float _Delta, GameEngineState* _Parent)
 
 void AureaFindEvent::UpdateAureaFocusOff(float _Delta, GameEngineState* _Parent)
 {
-	const float4& MoveCameraVector = CameraDirection * CameraMovePower * _Delta;
+	const float4 MoveCameraVector = CameraDirection * CameraMovePower * _Delta;
 	PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr()->AddCameraPos(MoveCameraVector);
 
 	float Distance = CalculateDistanceCamemeraToActor(TargetPos);

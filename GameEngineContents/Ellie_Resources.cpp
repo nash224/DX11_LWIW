@@ -339,6 +339,14 @@ void Ellie::RendererSetting()
 	VirgilRendererHelper.CreateFrameInfo("Ellie_Basic_Sit_UP", { 45,46,47,48,48,47});
 	VirgilRendererHelper.CreateFrameInfo("Ellie_Basic_Sit_RIGHTUP", { 45,46,47,48,48,47 });
 
+	ShadowRendererHelper.CreateFrameInfo("Ellie_Basic_Sit_LEFT", { 1,1,2,3,3,2 });
+	ShadowRendererHelper.CreateFrameInfo("Ellie_Basic_Sit_LEFTDOWN", { 1,1,2,3,3,2 });
+	ShadowRendererHelper.CreateFrameInfo("Ellie_Basic_Sit_DOWN", { 1,1,2,3,3,2 });
+	ShadowRendererHelper.CreateFrameInfo("Ellie_Basic_Sit_RIGHT", { 1,1,2,3,3,2 });
+	ShadowRendererHelper.CreateFrameInfo("Ellie_Basic_Sit_RIGHTDOWN", { 1,1,2,3,3,2 });
+	ShadowRendererHelper.CreateFrameInfo("Ellie_Basic_Sit_LEFTUP", { 1,1,2,3,3,2 });
+	ShadowRendererHelper.CreateFrameInfo("Ellie_Basic_Sit_UP", { 1,1,2,3,3,2 });
+	ShadowRendererHelper.CreateFrameInfo("Ellie_Basic_Sit_RIGHTUP", { 1,1,2,3,3,2 });
 
 	{
 		BodyRenderer->CreateAnimation("Ellie_Basic_MongSiri_LEFT", "Ellie_Basic_Mongsiri.png", Ellie_MongSiri_Inter, 3, 7);

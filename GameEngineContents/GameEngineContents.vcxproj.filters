@@ -274,6 +274,9 @@
     <Filter Include="Actor\Interactive\Letter">
       <UniqueIdentifier>{3b14c426-c2d7-4ad5-877c-3e5211f4e208}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\Interactive\Dynamic\Ellie\Fx">
+      <UniqueIdentifier>{e999dd6a-f217-453c-9604-14d36eda130c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -753,6 +756,12 @@
     </ClInclude>
     <ClInclude Include="AnimationHelper.h">
       <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="CheerFx.h">
+      <Filter>Actor\Interactive\Dynamic\Ellie\Fx</Filter>
+    </ClInclude>
+    <ClInclude Include="FxBase.h">
+      <Filter>Actor\Interactive\Dynamic\Ellie\Fx</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1270,6 +1279,12 @@
     </ClCompile>
     <ClCompile Include="AnimationHelper.cpp">
       <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="CheerFx.cpp">
+      <Filter>Actor\Interactive\Dynamic\Ellie\Fx</Filter>
+    </ClCompile>
+    <ClCompile Include="FxBase.cpp">
+      <Filter>Actor\Interactive\Dynamic\Ellie\Fx</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

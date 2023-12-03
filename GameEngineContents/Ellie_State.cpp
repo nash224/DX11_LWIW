@@ -502,8 +502,7 @@ void Ellie::UpdateSit(float _Delta)
 		return;
 	}
 
-	SitShadowUpdate();
-
+	ShadowRendererHelper.UpdateHelper(BodyRenderer, ShadowRenderer);
 	VirgilRendererHelper.UpdateHelper(BodyRenderer, VirgilRenderer);
 }
 
@@ -604,6 +603,7 @@ void Ellie::UpdateCheer(float _Delta)
 		return;
 	}
 
+	ShadowRendererHelper.UpdateHelper(BodyRenderer, ShadowRenderer);
 	VirgilRendererHelper.UpdateHelper(BodyRenderer, VirgilRenderer);
 }
 
@@ -616,6 +616,7 @@ void Ellie::UpdateFail(float _Delta)
 		return;
 	}
 
+	ShadowRendererHelper.UpdateHelper(BodyRenderer, ShadowRenderer);
 	VirgilRendererHelper.UpdateHelper(BodyRenderer, VirgilRenderer);
 }
 
