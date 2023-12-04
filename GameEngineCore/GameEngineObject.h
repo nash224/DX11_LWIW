@@ -36,6 +36,11 @@ public:
 		IsUpdateValue = false;
 	}
 
+	virtual void OnOffSwitch()
+	{
+		IsUpdateValue = !IsUpdateValue;
+	}
+
 	void Death()
 	{
 		this->IsDeathValue = true;

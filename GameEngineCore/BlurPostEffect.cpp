@@ -1,12 +1,12 @@
 #include "PreCompile.h"
 #include "BlurPostEffect.h"
 
-BlurPostEffect::BlurPostEffect()
+BlurPostEffect::BlurPostEffect() 
 {
 	RenderBaseInfoValue.ScreenSize = GameEngineCore::MainWindow.GetScale();
 }
 
-BlurPostEffect::~BlurPostEffect()
+BlurPostEffect::~BlurPostEffect() 
 {
 }
 

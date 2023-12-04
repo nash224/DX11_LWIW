@@ -84,6 +84,7 @@ void GameEngineRenderer::Render(GameEngineCamera* _Camera, float _Delta)
 	{
 		Units[i]->ResSetting();
 		Units[i]->Draw();
+		Units[i]->ResReset();
 	}
 }
 

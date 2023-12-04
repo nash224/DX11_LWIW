@@ -109,7 +109,6 @@ void GameEngineSpriteRenderer::Start()
 
 	GameEngineRenderer::SetMesh("Rect");
 	GameEngineRenderer::SetMaterial("2DTexture");
-
 }
 
 // Update Order에 영향을 받는다.

@@ -366,7 +366,6 @@ void Ellie::SetAnimationByDirection(EDIRECTION _Dir /*= EDIRECTION::CENTER*/)
 	if (EDIRECTION::CENTER != _Dir)
 	{
 		Dir = _Dir;
-		RenderDir = _Dir;
 
 		if (EELLIE_STATUS::Normal == g_Status)
 		{
@@ -795,7 +794,6 @@ void Ellie::CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce)
 		}
 	}
 }
-
 
 EDIRECTION Ellie::ReturnDirectionCheckBothSide(EDIRECTION _Direction, const float4& _LeftCheckPoint, const float4& _RightCheckPoint)
 {

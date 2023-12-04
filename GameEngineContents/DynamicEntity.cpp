@@ -2,7 +2,7 @@
 #include "DynamicEntity.h"
 
 #include "BackDrop_PlayLevel.h"
-#include "CameraControler.h"
+#include "Ellie.h"
 #include "ContentsMath.h"
 
 DynamicEntity::DynamicEntity() 
@@ -48,11 +48,11 @@ void DynamicEntity::ApplyOnlyMovement(float _Delta)
 
 float DynamicEntity::GetVolumeReductionByDistance() const
 {
-	const float MaxVolume = 150.0f;
-	const float MinVolume = 300.0f;
+	const float MaxVolume = 100.0f;
+	const float MinVolume = 200.0f;
 
-	const float4 VectorToCamera = Transform.GetLocalPosition() - PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr()->GetCameraCurrentPostion();
-	const float4 Size = DirectX::XMVector2Length(VectorToCamera.DirectXVector);
+	const float4 VectorToPlayer = Transform.GetLocalPosition() - PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->Transform.GetLocalPosition();
+	const float4 Size = DirectX::XMVector2Length(VectorToPlayer.DirectXVector);
 	const float Distance = Size.X;
 
 	if (MaxVolume > Distance)

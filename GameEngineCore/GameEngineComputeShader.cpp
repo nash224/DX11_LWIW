@@ -1,11 +1,11 @@
 #include "PreCompile.h"
-#include "GameEngineGeometryShader.h"
+#include "GameEngineComputeShader.h"
 
-GameEngineGeometryShader::GameEngineGeometryShader() 
+GameEngineComputeShader::GameEngineComputeShader() 
 {
 }
 
-GameEngineGeometryShader::~GameEngineGeometryShader() 
+GameEngineComputeShader::~GameEngineComputeShader() 
 {
 	if (nullptr != ShaderPtr)
 	{
@@ -14,7 +14,7 @@ GameEngineGeometryShader::~GameEngineGeometryShader()
 	}
 }
 
-void GameEngineGeometryShader::ShaderLoad(
+void GameEngineComputeShader::ShaderLoad(
 	std::string_view _Path, 
 	std::string_view _EntryPoint, 
 	UINT _VersionHigh, 
@@ -22,7 +22,7 @@ void GameEngineGeometryShader::ShaderLoad(
 {
 	std::wstring UniPath = GameEngineString::AnsiToUnicode(_Path);
 
-	CreateVersion(ShaderType::Geometry, _VersionHigh, _VersionLow);
+	CreateVersion(ShaderType::Compute, _VersionHigh, _VersionLow);
 
 	EntryName = _EntryPoint;
 
@@ -64,7 +64,8 @@ void GameEngineGeometryShader::ShaderLoad(
 		return;
 	}
 
-	Result = GameEngineCore::GetDevice()->CreateGeometryShader(
+
+	Result = GameEngineCore::GetDevice()->CreateComputeShader(
 		BinaryCode->GetBufferPointer(),
 		BinaryCode->GetBufferSize(),
 		nullptr,
@@ -72,18 +73,13 @@ void GameEngineGeometryShader::ShaderLoad(
 
 	if (S_OK != Result)
 	{
-		MsgBoxAssert("지오메트리 쉐이더 생성에 실패했습니다.");
+		MsgBoxAssert("컴퓨트 쉐이더 생성에 실패했습니다.");
 	}
 
 	ShaderResCheck();
 }
 
-void GameEngineGeometryShader::Setting()
+void GameEngineComputeShader::Setting()
 {
-	GameEngineCore::GetContext()->GSSetShader(ShaderPtr, nullptr, 0);
-}
-
-void GameEngineGeometryShader::Reset()
-{
-	GameEngineCore::GetContext()->GSSetShader(nullptr, nullptr, 0);
+	GameEngineCore::GetContext()->CSSetShader(ShaderPtr, nullptr, 0);
 }

@@ -1,8 +1,9 @@
 #include "PreCompile.h"
 #include "GameEngineMaterial.h"
 #include "GameEngineVertexShader.h"
-#include "GameEnginePixelShader.h"
 #include "GameEngineRasterizer.h"
+#include "GameEngineGeometryShader.h"
+#include "GameEnginePixelShader.h"
 #include "GameEngineBlend.h"
 #include "GameEngineDepthStencil.h"
 #include "GameEngineRenderTarget.h"
@@ -26,6 +27,28 @@ void GameEngineMaterial::VertexShader()
 	}
 
 	VertexShaderPtr->Setting();
+}
+
+void GameEngineMaterial::GeometryShader()
+{
+	if (nullptr == GeometryShaderPtr)
+	{
+		// 지오메트리는 필수단계가 아니기 때문에 리턴만 하겠습니다.
+		return;
+		// MsgBoxAssert("존재하지 않는 버텍스 쉐이더를 세팅하려고 했습니다.");
+	}
+
+	GeometryShaderPtr->Setting();
+}
+
+void GameEngineMaterial::GeometryShaderReset()
+{
+	if (nullptr == GeometryShaderPtr)
+	{
+		return;
+	}
+
+	GeometryShaderPtr->Reset();
 }
 
 void GameEngineMaterial::Rasterizer()
@@ -81,6 +104,16 @@ void GameEngineMaterial::SetVertexShader(const std::string_view& _Value)
 	if (nullptr == VertexShaderPtr)
 	{
 		MsgBoxAssert("존재하지 않는 버텍스 쉐이더를 세팅하려고 했습니다.");
+	}
+}
+
+void GameEngineMaterial::SetGeometryShader(const std::string_view& _Value)
+{
+	GeometryShaderPtr = GameEngineGeometryShader::Find(_Value);
+
+	if (nullptr == GeometryShaderPtr)
+	{
+		MsgBoxAssert("존재하지 않는 지오메트리쉐이더를 세팅하려고 했습니다.");
 	}
 }
 

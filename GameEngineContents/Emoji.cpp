@@ -42,15 +42,12 @@ void Emoji::RendererSetting(GameEngineActor* _Actor, const float4& _EmotionPos)
 {
 	static constexpr int RenderOrder = 0;
 
-	const float BaseDepth = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Emoticon_Base);
-	const float EmotionDepth = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Emoticon_Emotion);
+	EmotionPos = _EmotionPos;
 
-	Base = _Actor->CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
-	Base->Transform.SetLocalPosition(float4(_EmotionPos.X, _EmotionPos.Y, BaseDepth));
+	Base = _Actor->CreateComponent<GameEngineUIRenderer>(RenderOrder);
 	Base->SetSprite("Emoticon_Background.png");
 
-	Emotion = _Actor->CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
-	Emotion->Transform.SetLocalPosition(float4(_EmotionPos.X, _EmotionPos.Y, EmotionDepth));
+	Emotion = _Actor->CreateComponent<GameEngineUIRenderer>(RenderOrder);
 }
 
 void Emoji::StateSetting()
@@ -166,4 +163,36 @@ float Emoji::GetDistanceToEllie()
 void Emoji::Update(float _Delta)
 {
 	State.Update(_Delta);
+	const TransformData& TransData = PlayLevel::GetPlayLevelPtr()->GetMainCamera()->Transform.GetConstTransformDataRef();
+	TransData.ViewMatrix;
+	TransData.ProjectionMatrix;
+}
+
+
+void Emoji::CalculateWorldToScreen()
+{
+	if (nullptr == Parent)
+	{
+		MsgBoxAssert("부모를 지정하지 않고 기능을 사용하려 했습니다.");
+		return;
+	}
+
+	const float4 WinScale = GlobalValue::GetWindowScale();
+	float4x4 ViewPort;
+	ViewPort.ViewPort(WinScale.X, WinScale.Y, 0.0f, 0.0f);
+
+
+	const float4 CameraPos = PlayLevel::GetPlayLevelPtr()->GetMainCamera()->Transform.GetLocalPosition();
+	float4 Pos = Parent->Transform.GetLocalPosition();
+	float4 Vector = Pos - CameraPos;
+
+	const float BaseDepth = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Emoticon_Base);
+	const float EmotionDepth = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Emoticon_Emotion);
+
+	Vector += EmotionPos;
+	Vector.Z = BaseDepth;
+	Base->Transform.SetWorldPosition(Vector);
+
+	Vector.Z = EmotionDepth;
+	Emotion->Transform.SetWorldPosition(Vector);
 }

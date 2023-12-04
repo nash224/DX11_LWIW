@@ -7,6 +7,7 @@
 #include "GameEngineShader.h"
 #include "GameEngineVertexShader.h"
 #include "GameEnginePixelShader.h"
+#include "GameEngineGeometryShader.h"
 #include "GameEngineRenderer.H"
 
 
@@ -88,6 +89,7 @@ void GameEngineRenderUnit::ResSetting()
 
 	Mesh->InputAssembler1();
 	Material->VertexShader();
+	Material->GeometryShader();
 	LayOut->Setting();
 	Mesh->InputAssembler2();
 	Material->Rasterizer();
@@ -96,6 +98,12 @@ void GameEngineRenderUnit::ResSetting()
 	Material->DepthStencil();
 
 	ShaderResHelper.AllShaderResourcesSetting();
+}
+
+void GameEngineRenderUnit::ResReset()
+{
+	Material->GeometryShaderReset();
+	ShaderResHelper.AllShaderResourcesReset();
 }
 
 
@@ -122,7 +130,7 @@ void GameEngineRenderUnit::Draw()
 
 			GameEngineCore::GetContext()->GSSetShader(nullptr, nullptr, 0);
 		}
-		else if (nullptr != Parent && Parent->GetLevel()->GetMainCamera()->GetProjectionType() == EPROJECTIONTYPE::Perspective)
+		else if (nullptr != Parent && ParentRenderer->GetCamera()->GetProjectionType() == EPROJECTIONTYPE::Perspective)
 		{
 			float4 ScreenPos = ParentRenderer->Transform.GetWorldPosition();
 
@@ -152,9 +160,18 @@ void GameEngineRenderUnit::Draw()
 		return;
 	}
 
-	Mesh->Draw();
+	switch (Mode)
+	{
+	case RenderMode::Indexed:
+		Mesh->IndexedDraw();
+		break;
+	case RenderMode::Instancing:
+		Mesh->InstancingDraw(InstancingCount);
+		break;
+	default:
+		break;
+	}
 }
-
 
 void GameEngineRenderUnit::SetMesh(std::string_view _Name)
 {
@@ -195,6 +212,7 @@ void GameEngineRenderUnit::SetMaterial(std::string_view _Name)
 	// 랜더러의 쉐이더 리소스 헬퍼에
 	// 버텍스와 픽셀쉐이더의 리소스정보들을 복사 받습니다.
 	ShaderResHelper.ShaderResCopy(Material->GetVertexShader().get());
+	ShaderResHelper.ShaderResCopy(Material->GetGeometryShader().get());
 	ShaderResHelper.ShaderResCopy(Material->GetPixelShader().get());
 
 	// 이걸 회사의 약속.

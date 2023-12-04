@@ -44,7 +44,25 @@ void GameEngineDevice::ResourcesInit()
 
 	{
 		std::vector<GameEngineVertex> Vertex;
-		Vertex.resize(3);
+		Vertex.resize(1);
+
+		Vertex[0] = { { 0.0f, 0.0f, 0.0f, 1.0f } };
+
+		GameEngineVertexBuffer::Create("PointMesh", Vertex);
+
+		std::vector<unsigned int> Index =
+		{
+			0
+		};
+		GameEngineIndexBuffer::Create("PointMesh", Index);
+
+		std::shared_ptr<GameEngineMesh> PointMesh = GameEngineMesh::Create("PointMesh");
+		PointMesh->SetTOPOLOGY(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+	}
+
+	{
+		std::vector<GameEngineVertex> Vertex;
+		Vertex.resize(2);
 
 		Vertex[0] = { { 1.0f, 0.0f, 0.0f, 1.0f } };
 		Vertex[1] = { { 0.0f, 0.0f, 0.0f, 1.0f } };
@@ -585,15 +603,14 @@ void GameEngineDevice::ResourcesInit()
 		Mat->SetRasterizer("EngineRasterizer");
 	}
 
+	{
+		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("ParticleRender");
+		Mat->SetVertexShader("ParticleRender_VS");
+		Mat->SetGeometryShader("ParticleRender_GS");
+		Mat->SetPixelShader("ParticleRender_PS");
+	}
+
+
 
 	GameEngineRenderTarget::MergeRenderUnitInit();
-
-
-	// 엔진수준에서 지원해주는 가장 기초적인 리소스들은 여기에서 만들어질 겁니다.
-	// 기본 매쉬
-	// 기본 텍스처
-	// 기본 쉐이더
-	// 여기에서 자기 텍스처 로드하지마세요.
-
-
 }

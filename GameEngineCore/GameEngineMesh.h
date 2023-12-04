@@ -53,7 +53,8 @@ public:
 	}
 
 
-	void Draw();
+	void IndexedDraw();
+	void InstancingDraw(int _DrawCount);
 
 protected:
 

@@ -1,18 +1,6 @@
 #pragma once
 #include "GameEngineShaderResHelper.h"
 
-enum class ShaderType
-{
-	None = 0, // 맨앞에 None를 넣어주는 사람은 에러를 체크하려는 사람들이 많이 쓴다.
-	Vertex, // 필수
-	Hull,
-	Tessellator,
-	Domain,
-	Geometry,
-	Pixel, // 필수
-	Max, // max는 for문돌리거나 할때 필요하니까.
-};
-
 // 설명 :
 class GameEngineShader
 {

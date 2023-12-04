@@ -22,6 +22,12 @@ void GameEngineConstantBufferSetter::Setting()
 	case ShaderType::Pixel:
 		Res->PSSetting(BindPoint);
 		break;
+	case ShaderType::Compute:
+		Res->CSSetting(BindPoint);
+		break;
+	case ShaderType::Geometry:
+		Res->GSSetting(BindPoint);
+		break;
 	default:
 		MsgBoxAssert("처리할수 없는 쉐이더 세팅 유형입니다.");
 		break;
@@ -46,6 +52,9 @@ void GameEngineTextureSetter::Setting()
 	case ShaderType::Pixel:
 		Res->PSSetting(BindPoint);
 		break;
+	case ShaderType::Compute:
+		Res->CSSetting(BindPoint);
+		break;
 	default:
 		MsgBoxAssert("처리할수 없는 쉐이더 세팅 유형입니다.");
 		break;
@@ -65,6 +74,9 @@ void GameEngineTextureSetter::Reset()
 	case ShaderType::Pixel:
 		Res->PSReset(BindPoint);
 		break;
+	case ShaderType::Compute:
+		Res->CSReset(BindPoint);
+		break;
 	default:
 		MsgBoxAssert("처리할수 없는 쉐이더 세팅 유형입니다.");
 		break;
@@ -83,6 +95,9 @@ void GameEngineSamplerSetter::Setting()
 	case ShaderType::Pixel:
 		Res->PSSetting(BindPoint);
 		break;
+	case ShaderType::Compute:
+		Res->CSSetting(BindPoint);
+		break;
 	default:
 		MsgBoxAssert("처리할수 없는 쉐이더 세팅 유형입니다.");
 		break;
@@ -92,14 +107,17 @@ void GameEngineSamplerSetter::Setting()
 
 void GameEngineStructedBufferSetter::Setting()
 {
-	if (nullptr == CPUDataPtr)
-	{
-		MsgBoxAssert(Name + "구조화 버퍼를 세팅해주지 않았습니다.");
-	}
-
 	ShaderType Type = ParentShader->GetShaderType();
 
-	Res->ChangeData(CPUDataPtr, DataSize * DataCount);
+	if (Res->GetStructuredBufferType() == StructuredBufferType::SRV_ONLY)
+	{
+		if (nullptr == CPUDataPtr)
+		{
+			MsgBoxAssert(Name + "구조화 버퍼를 세팅해주지 않았습니다.");
+		}
+
+		Res->ChangeData(CPUDataPtr, DataSize * DataCount);
+	}
 
 	switch (Type)
 	{
@@ -108,6 +126,12 @@ void GameEngineStructedBufferSetter::Setting()
 		break;
 	case ShaderType::Pixel:
 		Res->PSSetting(BindPoint);
+		break;
+	case ShaderType::Compute:
+		Res->CSSetting(BindPoint);
+		break;
+	case ShaderType::Geometry:
+		Res->GSSetting(BindPoint);
 		break;
 	default:
 		MsgBoxAssert("처리할수 없는 쉐이더 세팅 유형입니다.");
@@ -127,6 +151,12 @@ void GameEngineStructedBufferSetter::Reset()
 		break;
 	case ShaderType::Pixel:
 		Res->VSReset(BindPoint);
+		break;
+	case ShaderType::Geometry:
+		Res->GSReset(BindPoint);
+		break;
+	case ShaderType::Compute:
+		Res->CSReset(BindPoint);
 		break;
 	default:
 		MsgBoxAssert("처리할수 없는 쉐이더 세팅 유형입니다.");
@@ -280,6 +310,7 @@ void GameEngineShaderResHelper::ShaderResCheck(std::string _FunctionName, GameEn
 			SamplerSetters.insert(std::make_pair(UpperName, NewSetter));
 			break;
 		}
+		case D3D11_SIT_UAV_RWSTRUCTURED:
 		case D3D_SIT_STRUCTURED:
 		{
 			_FunctionName;
@@ -291,8 +322,8 @@ void GameEngineShaderResHelper::ShaderResCheck(std::string _FunctionName, GameEn
 			BufferInfo->GetDesc(&BufferDesc);
 
 			// 당연히 상수버퍼를 만들어야 합니다.
-			std::shared_ptr<GameEngineStructuredBuffer> SBuffer
-				= GameEngineStructuredBuffer::CreateAndFind(BufferDesc.Size, UpperName, BufferDesc);
+			std::shared_ptr<GameEngineStructuredBuffer> SBuffer 
+				= GameEngineStructuredBuffer::CreateAndFind(BufferDesc.Size, UpperName);
 
 			_FunctionName;
 			GameEngineStructedBufferSetter NewSetter;
@@ -319,6 +350,15 @@ void GameEngineShaderResHelper::ShaderResCheck(std::string _FunctionName, GameEn
 
 void GameEngineShaderResHelper::ShaderResCopy(GameEngineShader* _Shader)
 {
+	if (nullptr == _Shader)
+	{
+		// std::string 
+
+		// OutputDebugStringA("");
+		// MsgBoxAssert("");
+		return;
+	}
+
 	std::multimap<std::string, GameEngineConstantBufferSetter>& OtherConstantBufferSetters = _Shader->ResHelper.ConstantBufferSetters;
 	std::multimap<std::string, GameEngineTextureSetter>& OtherTextureSetters = _Shader->ResHelper.TextureSetters;
 	std::multimap<std::string, GameEngineSamplerSetter>& OtherSamplerSetters = _Shader->ResHelper.SamplerSetters;
@@ -565,6 +605,50 @@ void GameEngineShaderResHelper::SetSampler(std::string_view _Name, std::shared_p
 	}
 }
 
+std::list<std::shared_ptr<GameEngineStructuredBuffer>> GameEngineShaderResHelper::SetStructedNew(std::string_view _Name, StructuredBufferType _Type, const void* _Data, int _Size, int _Count)
+{
+	std::list<std::shared_ptr<GameEngineStructuredBuffer>> ReturnList;
+
+	if (false == IsStructedBuffer(_Name))
+	{
+		MsgBoxAssert(std::string(_Name) + "존재하지 않는 스트럭처드 버퍼에 링크를 걸려고 했습니다.");
+		return ReturnList;
+	}
+
+	if (0 == _Count)
+	{
+		MsgBoxAssert(std::string(_Name) + "개수가 0개인 데이터를 스트럭처드 버퍼에 세팅하려고 했습니다.");
+	}
+
+	std::string UpperString = GameEngineString::ToUpperReturn(_Name);
+
+	// 중복되는 이름의 시작 이터레이터와 끝 이터레이터를 찾는법
+	std::multimap<std::string, GameEngineStructedBufferSetter>::iterator NameStariter
+		= StructedBufferSetters.lower_bound(UpperString);
+	std::multimap<std::string, GameEngineStructedBufferSetter>::iterator NameEnditer
+		= StructedBufferSetters.upper_bound(UpperString);
+
+
+	for (; NameStariter != NameEnditer; ++NameStariter)
+	{
+		GameEngineStructedBufferSetter& Setter = NameStariter->second;
+		if (Setter.DataSize != _Size)
+		{
+			MsgBoxAssert(NameStariter->first + "구조화 버퍼에 크기가 다른 데이터를 세팅하려고 했습니다.");
+		}
+
+		// 새로운 스트럭처드 버퍼를 만든다.
+		// 완전히 새로운 스트럭처드 버퍼를 새롭게 만든다.
+		Setter.Res = GameEngineStructuredBuffer::CreateAndFind(Setter.Res->GetDataSize(), nullptr);
+		Setter.DataCount = _Count;
+		Setter.Res->CreateResize(_Size, _Count, _Type, _Data);
+		// 이제서야 만들어진다.
+		ReturnList.push_back(Setter.Res);
+	}
+
+	return ReturnList;
+}
+
 void GameEngineShaderResHelper::SetStructedBufferLink(std::string_view _Name, const void* _Data, int _Size, int _Count)
 {
 	if (false == IsStructedBuffer(_Name))
@@ -601,6 +685,57 @@ void GameEngineShaderResHelper::SetStructedBufferLink(std::string_view _Name, co
 		Setter.Res->CreateResize(_Size, _Count, StructuredBufferType::SRV_ONLY, _Data);
 		// 이제서야 만들어진다.
 	}
+}
+
+void GameEngineShaderResHelper::SetStructedBufferChange(std::string_view _Name, std::shared_ptr<GameEngineStructuredBuffer> _Buffer)
+{
+	if (false == IsStructedBuffer(_Name))
+	{
+		MsgBoxAssert(std::string(_Name) + "존재하지 않는 스트럭처드 버퍼에 링크를 걸려고 했습니다.");
+		return;
+	}
+
+	std::string UpperString = GameEngineString::ToUpperReturn(_Name);
+
+	// 중복되는 이름의 시작 이터레이터와 끝 이터레이터를 찾는법
+	std::multimap<std::string, GameEngineStructedBufferSetter>::iterator NameStariter
+		= StructedBufferSetters.lower_bound(UpperString);
+	std::multimap<std::string, GameEngineStructedBufferSetter>::iterator NameEnditer
+		= StructedBufferSetters.upper_bound(UpperString);
+
+	for (; NameStariter != NameEnditer; ++NameStariter)
+	{
+		GameEngineStructedBufferSetter& Setter = NameStariter->second;
+		Setter.Res = _Buffer;
+	}
+}
+
+std::shared_ptr<GameEngineStructuredBuffer> GameEngineShaderResHelper::GetStructedBuffer(std::string_view _Name, ShaderType Type)
+{
+	if (false == IsStructedBuffer(_Name))
+	{
+		return nullptr;
+	}
+
+	std::string UpperString = GameEngineString::ToUpperReturn(_Name);
+
+	// 중복되는 이름의 시작 이터레이터와 끝 이터레이터를 찾는법
+	std::multimap<std::string, GameEngineStructedBufferSetter>::iterator NameStariter
+		= StructedBufferSetters.lower_bound(UpperString);
+	std::multimap<std::string, GameEngineStructedBufferSetter>::iterator NameEnditer
+		= StructedBufferSetters.upper_bound(UpperString);
+
+	for (; NameStariter != NameEnditer; ++NameStariter)
+	{
+		GameEngineStructedBufferSetter& Setter = NameStariter->second;
+
+		if (Setter.ParentShader->GetShaderType() == Type)
+		{
+			return Setter.Res;
+		}
+	}
+
+	return nullptr;
 }
 
 void GameEngineShaderResHelper::ResClear()

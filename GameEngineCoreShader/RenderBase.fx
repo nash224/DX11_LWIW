@@ -34,3 +34,4 @@ cbuffer RenderBaseInfo : register(b11)
     int Target6;
     int Target7;
 };
+

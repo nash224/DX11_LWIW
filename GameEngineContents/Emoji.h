@@ -55,12 +55,15 @@ private:
 
 	float GetDistanceToEllie();
 
+	void CalculateWorldToScreen();
+
 private:
-	std::shared_ptr<GameEngineSpriteRenderer> Base;
-	std::shared_ptr<GameEngineSpriteRenderer> Emotion;
+	std::shared_ptr<GameEngineUIRenderer> Base;
+	std::shared_ptr<GameEngineUIRenderer> Emotion;
 	GameEngineActor* Parent = nullptr;
 
 	GameEngineState State;
+	float4 EmotionPos;
 
 	bool isUseOnlyExclamation = false;
 	float RecognitionRange = 30.0f;

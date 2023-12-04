@@ -26,6 +26,7 @@ public:
 	}
 
 	void VertexShader();
+	void GeometryShader();
 	void Rasterizer();
 	void PixelShader();
 	void Blend();
@@ -33,6 +34,7 @@ public:
 
 
 	void SetVertexShader(const std::string_view& _Value);
+	void SetGeometryShader(const std::string_view& _Value);
 	void SetRasterizer(const std::string_view& _Value);
 	void SetPixelShader(const std::string_view& _Value);
 	void SetBlendState(const std::string_view& _Value);
@@ -43,16 +45,24 @@ public:
 		return VertexShaderPtr;
 	}
 
+	std::shared_ptr<class GameEngineGeometryShader> GetGeometryShader()
+	{
+		return GeometryShaderPtr;
+	}
+
 	std::shared_ptr<class GameEnginePixelShader> GetPixelShader()
 	{
 		return PixelShaderPtr;
 	}
+
+	void GeometryShaderReset();
 
 
 protected:
 
 private:
 	std::shared_ptr<class GameEngineVertexShader> VertexShaderPtr;
+	std::shared_ptr<class GameEngineGeometryShader> GeometryShaderPtr;
 	std::shared_ptr<class GameEngineRasterizer> RasterizerPtr;
 	std::shared_ptr<class GameEnginePixelShader> PixelShaderPtr;
 	std::shared_ptr<class GameEngineBlend> BlendStatePtr;

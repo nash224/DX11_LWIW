@@ -29,6 +29,18 @@
     <FxCompile Include="BlurPostEffect.fx">
       <Filter>Effect</Filter>
     </FxCompile>
+    <FxCompile Include="ParticleUpdate.fx">
+      <Filter>Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="Random.fx">
+      <Filter>Header</Filter>
+    </FxCompile>
+    <FxCompile Include="ParticleRender.fx">
+      <Filter>Particle</Filter>
+    </FxCompile>
+    <FxCompile Include="ParticleHeader.fx">
+      <Filter>Particle</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header">
@@ -45,6 +57,9 @@
     </Filter>
     <Filter Include="Effect">
       <UniqueIdentifier>{ce1e9f9d-d554-4b67-b29c-13e5632a98aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Particle">
+      <UniqueIdentifier>{2bc1f4ae-539d-4e90-9fea-c5c60087d4c8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

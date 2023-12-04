@@ -176,7 +176,7 @@ PixelOut TextureShader_PS(PixelOutPut _Input) : SV_Target0
         Color = BaseColor;
         Color.a = 1;
     }
-    
+        
     Color += PlusColor;
     Color *= MulColor;
     
