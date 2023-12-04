@@ -251,6 +251,7 @@ private:
 	std::shared_ptr<GameEngineSpriteRenderer> BodyRenderer = nullptr;
 	std::shared_ptr<GameEngineSpriteRenderer> ShadowRenderer = nullptr;
 	std::shared_ptr<GameEngineSpriteRenderer> VirgilRenderer = nullptr;
+	std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer = nullptr;
 	std::shared_ptr<GameEngineCollision> EllieCol = nullptr;
 	std::shared_ptr<GameEngineCollision> NetCollision = nullptr;
 	class InteractiveActor* OtherEntity = nullptr;

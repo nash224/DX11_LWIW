@@ -114,6 +114,7 @@ void Ellie::Release()
 	BodyRenderer = nullptr;
 	ShadowRenderer = nullptr;
 	VirgilRenderer = nullptr;
+	DebugRenderer = nullptr;
 
 	EllieCol = nullptr;
 	NetCollision = nullptr;

@@ -76,6 +76,11 @@ void GameEngineLevel::Render(float _Delta)
 			continue;
 		}
 
+		if (false == CameraPair.second->IsUpdate())
+		{
+			continue;
+		}
+
 		// 레퍼런스로 받는다.
 		std::shared_ptr<GameEngineCamera>& Camera = CameraPair.second;
 		Camera->Render(_Delta);

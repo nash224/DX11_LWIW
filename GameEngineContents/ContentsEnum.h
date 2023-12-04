@@ -165,3 +165,9 @@ enum class EDIRECTION
 	LEFT,
 	LEFTUP,
 };
+
+enum class EDEUBGORDER
+{
+	Player,
+	Pixel = 0,
+};

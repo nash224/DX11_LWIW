@@ -31,6 +31,14 @@ void Ellie::RendererSetting()
 	Broom.BodyBroomRenderer = CreateComponent<GameEngineSpriteRenderer>();
 	Broom.BodyBroomRenderer->Transform.SetLocalPosition(float4(0.0f, LWIW_Ellie_Y_Correction * 2.0f, -0.01f));
 
+	DebugRenderer = CreateComponent<GameEngineSpriteRenderer>(EDEUBGORDER::Player);
+	DebugRenderer->AutoSpriteSizeOn();
+	DebugRenderer->SetAutoScaleRatio(4.0f);
+	DebugRenderer->SetSprite("Ellie_Mark.png");
+	DebugRenderer->SetCameraOrder(ECAMERAORDER::MainPrev);
+	DebugRenderer->RenderBaseInfoValue.Target0 = 0;
+	DebugRenderer->RenderBaseInfoValue.Target1 = 1;
+
 
 #pragma region 기본 조작
 

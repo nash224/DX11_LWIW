@@ -3,7 +3,7 @@
 
 #include "Ellie.h"
 
-static constexpr float NoneState_TransitionTime = 2.0f;
+static constexpr float ExpressionTime = 2.0f;
 
 Emoji::Emoji() 
 {
@@ -119,7 +119,7 @@ void Emoji::UpdateExclamation(float _Delta, GameEngineState* State)
 	}
 
 
-	if (State->GetStateTime() > NoneState_TransitionTime)
+	if (State->GetStateTime() > ExpressionTime)
 	{
 		State->ChangeState(EEMOJISTATE::None);
 		return;
@@ -134,7 +134,7 @@ void Emoji::UpdateQuestion(float _Delta, GameEngineState* State)
 		return;
 	}
 
-	if (State->GetStateTime() > NoneState_TransitionTime)
+	if (State->GetStateTime() > ExpressionTime)
 	{
 		State->ChangeState(EEMOJISTATE::None);
 		return;
