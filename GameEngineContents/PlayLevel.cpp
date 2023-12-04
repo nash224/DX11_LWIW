@@ -18,6 +18,7 @@ std::unique_ptr<TimeManager> PlayLevel::s_TimeManager;
 std::unique_ptr<AlertManager> PlayLevel::s_AlertManager;
 PlayLevel::PlayLevel()
 {
+	CreateCamera(INT_MIN, ECAMERAORDER::MainPrev);
 }
 
 PlayLevel::~PlayLevel()

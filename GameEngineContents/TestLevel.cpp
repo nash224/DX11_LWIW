@@ -50,10 +50,6 @@ void TestLevel::Start()
 {
 	GameEngineInput::AddInputObject(this);
 
-	
-
-	std::shared_ptr<GameEngineCamera> NewCamera = CreateCamera(INT_MIN, ECAMERAORDER::MainPrev);
-
 	GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<OutLineEffect>();
 
 	const std::shared_ptr<GameEngineCoreWindow>& Window = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");

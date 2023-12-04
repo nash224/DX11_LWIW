@@ -21,6 +21,7 @@ void PixelManager::Update(float _Delta)
 	if (false == isCaptureTexture && false == isSetCamera)
 	{
 		CreatePixelTexture();
+		Off();
 		isCaptureTexture = true;
 	}
 	if (true == isSetCamera)
@@ -28,7 +29,6 @@ void PixelManager::Update(float _Delta)
 		SetCameraBeforeCaptureTexture();
 		isSetCamera = false;
 	}
-
 }
 
 void PixelManager::SetCameraBeforeCaptureTexture()
@@ -43,9 +43,7 @@ void PixelManager::SetCameraBeforeCaptureTexture()
 		BackScale = PlayLevel::GetPlayLevelPtr()->GetBackDropPtr()->GetBackGroundScale();
 	}
 	
-	BackScale = GlobalValue::GetWindowScale() * 2.0f;
 	const float4 WinScale = GlobalValue::GetWindowScale();
-	const float ResolutionRatio = WinScale.X / WinScale.Y;
 
 	const float XRatio = BackScale.X / WinScale.X;
 	const float YRatio = BackScale.Y / WinScale.Y;
@@ -63,6 +61,9 @@ void PixelManager::CreatePixelTexture()
 	PixelTexture = GameEngineTexture::Create(PrevRenderTarget->GetTexture(1)->GetTexure2D());
 	PixelTexture->CaptureTexture();
 	PixelTexture->NotRefTexture2D();
+
+	const std::shared_ptr<GameEngineCamera>& CameraPtr = GetLevel()->GetCamera(static_cast<int>(ECAMERAORDER::MainPrev));
+	CameraPtr->Off();
 }
 
 GameEngineColor PixelManager::GetColor(const float4& _Position, GameEngineColor _DefaultColor /*= GameEngineColor::WHITE*/)

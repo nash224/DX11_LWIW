@@ -177,11 +177,6 @@ void Emoji::CalculateWorldToScreen()
 		return;
 	}
 
-	const float4 WinScale = GlobalValue::GetWindowScale();
-	float4x4 ViewPort;
-	ViewPort.ViewPort(WinScale.X, WinScale.Y, 0.0f, 0.0f);
-
-
 	const float4 CameraPos = PlayLevel::GetPlayLevelPtr()->GetMainCamera()->Transform.GetLocalPosition();
 	float4 Pos = Parent->Transform.GetLocalPosition();
 	float4 Vector = Pos - CameraPos;
