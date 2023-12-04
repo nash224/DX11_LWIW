@@ -225,14 +225,10 @@ void SkyLerp::LerpSky(const float4& _Color)
 
 void SkyLerp::FollowCamera() 
 {
-	if (false == CameraControler::MainCameraControler.expired())
-	{
-		const float4& CameraPos = CameraControler::MainCameraControler.lock()->GetCameraCurrentPostion();
-		float4 SkyPos = CameraPos;
-		SkyPos.Z = DepthFunction::CalculateFixDepth(ERENDERDEPTH::SkyBox);
+	float4 SkyPos = PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr()->GetCameraCurrentPostion();
+	SkyPos.Z = DepthFunction::CalculateFixDepth(ERENDERDEPTH::SkyBox);
 
-		Transform.SetLocalPosition(SkyPos);
-	}
+	Transform.SetLocalPosition(SkyPos);
 }
 
 void SkyLerp::UpdateALightRatio(const float _TimeRatio)

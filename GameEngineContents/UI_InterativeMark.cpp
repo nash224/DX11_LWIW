@@ -156,15 +156,9 @@ void UI_InterativeMark::UpdateMark(float _Delta)
 
 	if (nullptr != Pointer)
 	{
-		if (true == CameraControler::MainCameraControler.expired())
-		{
-			MsgBoxAssert("카메라가 존재하지 않습니다");
-			return;
-		}
-
-		const float4& MarkPositionToActor = float4{ 0.0f , 48.0f };
-		const float4& MainCameraPos = CameraControler::MainCameraControler.lock()->GetCameraWorldPosition();
-		const float4& ActorWorldPos = Pointer->Transform.GetWorldPosition();
+		const float4 MarkPositionToActor = float4{ 0.0f , 48.0f };
+		const float4 MainCameraPos = PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr()->GetCameraWorldPosition();
+		const float4 ActorWorldPos = Pointer->Transform.GetWorldPosition();
 
 		float4 Position = ActorWorldPos - MainCameraPos + MarkPositionToActor;
 		Position.Z = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Mark);

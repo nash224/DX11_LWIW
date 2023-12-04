@@ -192,12 +192,9 @@ void FireWorksEvent::StartFadeIn(GameEngineState* _Parent)
 	std::weak_ptr<FadeObject> Fade = GetLevel()->CreateActor<FadeObject>(EUPDATEORDER::Fade);
 	Fade.lock()->CallFadeIn(LastFadeTime);
 
-
-	if (false == CameraControler::MainCameraControler.expired())
-	{
-		CameraControler::MainCameraControler.lock()->SetCameraMode(ECAMERAMODE::Fix);
-		CameraControler::MainCameraControler.lock()->SetCameraPos(Transform.GetLocalPosition());
-	}
+	const std::shared_ptr<CameraControler>& LevelCameraPtr = PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr();
+	LevelCameraPtr->SetCameraMode(ECAMERAMODE::Fix);
+	LevelCameraPtr->SetCameraPos(Transform.GetLocalPosition());
 
 	PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr()->UseUIComponent();
 

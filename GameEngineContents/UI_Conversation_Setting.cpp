@@ -104,10 +104,10 @@ void UI_Conversation::DialogueSetting()
 	Dialogue.Right_Tail->SetSprite("Dialogue_Right_Tail.png");
 	Dialogue.Right_Tail->Off();
 
-	Dialogue.Main_Dialogue = CreateComponent<GameEngineUIRenderer>();
-	Dialogue.Main_Dialogue->Transform.SetLocalPosition(float4(0.0f, MainDialogue_YPos, FrameDepth));
-	Dialogue.Main_Dialogue->SetSprite("Dialogue.png");
-	Dialogue.Main_Dialogue->Off();
+	Dialogue.MainBase = CreateComponent<GameEngineUIRenderer>();
+	Dialogue.MainBase->Transform.SetLocalPosition(float4(0.0f, MainDialogue_YPos, FrameDepth));
+	Dialogue.MainBase->SetSprite("Dialogue.png");
+	Dialogue.MainBase->Off();
 
 	Dialogue.Main_Cursor = CreateComponent<GameEngineUIRenderer>();
 	Dialogue.Main_Cursor->Transform.SetLocalPosition(float4(0.0f, MainDialogueCursor_YPos, ArrowDepth));
@@ -119,12 +119,12 @@ void UI_Conversation::DialogueSetting()
 	Dialogue.Main_Font->Transform.SetLocalPosition(MessagePos);
 	Dialogue.Main_Font->Off();
 
-	Dialogue.Virgil_Dialogue = CreateComponent<GameEngineUIRenderer>(DialogueRenderOrder);
-	Dialogue.Virgil_Dialogue->Transform.SetLocalPosition(float4(-340.0f, 70.0f, FrameDepth));
-	Dialogue.Virgil_Dialogue->CreateAnimation("Saying", "Virgil_Dialogue_small.png", 0.2f);
-	Dialogue.Virgil_Dialogue->AutoSpriteSizeOn();
-	Dialogue.Virgil_Dialogue->ChangeAnimation("Saying");
-	Dialogue.Virgil_Dialogue->Off();
+	Dialogue.Virgil_DialogueBase = CreateComponent<GameEngineUIRenderer>(DialogueRenderOrder);
+	Dialogue.Virgil_DialogueBase->Transform.SetLocalPosition(float4(-340.0f, 70.0f, FrameDepth));
+	Dialogue.Virgil_DialogueBase->CreateAnimation("Saying", "Virgil_Dialogue_small.png", 0.2f);
+	Dialogue.Virgil_DialogueBase->AutoSpriteSizeOn();
+	Dialogue.Virgil_DialogueBase->ChangeAnimation("Saying");
+	Dialogue.Virgil_DialogueBase->Off();
 
 	Dialogue.Virgil_Cursor = CreateComponent<GameEngineUIRenderer>(DialogueRenderOrder);
 	Dialogue.Virgil_Cursor->Transform.SetLocalPosition(float4(-280.0f, 26.0f, ArrowDepth));

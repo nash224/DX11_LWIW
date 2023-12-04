@@ -23,12 +23,12 @@ public:
 	public:
 		std::shared_ptr<GameEngineUIRenderer> Left_Tail;
 		std::shared_ptr<GameEngineUIRenderer> Right_Tail;
-		std::shared_ptr<GameEngineUIRenderer> Main_Dialogue;
+		std::shared_ptr<GameEngineUIRenderer> MainBase;
 		std::shared_ptr<GameEngineUIRenderer> Main_Cursor;
 		std::shared_ptr<GameEngineUIRenderer> Main_Font;
 		std::wstring Main_Message;
 
-		std::shared_ptr<GameEngineUIRenderer> Virgil_Dialogue;
+		std::shared_ptr<GameEngineUIRenderer> Virgil_DialogueBase;
 		std::shared_ptr<GameEngineUIRenderer> Virgil_Cursor;
 		std::shared_ptr<GameEngineUIRenderer> Virgil_Font;
 		std::wstring Virgil_Message;
@@ -68,7 +68,7 @@ protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 	void RendererSetting();
@@ -91,7 +91,8 @@ protected:
 	void Reset();
 	void ResetVirgil();
 
-	void NPCDefaultIndexSetting();
+	const unsigned int GetVirgilIndexToElliePortrait(unsigned int _Index);
+	void SetDefaultNPCPortrait();
 
 	void SetNPCExpression(unsigned int _SpriteIndex);
 	void SetEllieExpression(unsigned int _SpriteIndex);
@@ -102,11 +103,7 @@ protected:
 	void SetVirgilMessage();
 
 
-	float4 Place2thLinePosition(const float4& _LinePosition);
-	float4 Place1thLinePosition(const float4& _LinePosition);
-	float4 CalculateNextLinePosition(const float4& _MessagePosition);
-
-	const unsigned int ReturnVirgilIndexToElliePortrait(unsigned int _Index);
+	float4 GetNextLinePosition(const float4& _MessagePosition, int _LineCount);
 
 	void NotVirgilSay();
 
@@ -128,7 +125,7 @@ private:
 
 	bool isJustVirgilTalked = false;
 	bool isOutPutMessage = false;
-	bool isNoneNpc = false;
+	bool NotNpc = false;
 
 	std::string OutPutFontStyle;
 
@@ -136,8 +133,7 @@ private:
 	const float4 SayingColor = float4::ONE;
 	float4 OutputFontColor;
 
-	static constexpr unsigned int MainMessage_MaxCharCount = 24;
-	static constexpr unsigned int VirgilMessage_MaxCharCount = 17;
+
 	static constexpr int EnableSkip_CharCount = 1;
 	static constexpr float MessageOutputInter = 0.11f;
 
