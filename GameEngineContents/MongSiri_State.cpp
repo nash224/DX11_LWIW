@@ -188,7 +188,7 @@ void MongSiri::UpdateJump(float _Delta)
 		const std::shared_ptr<BackDrop_PlayLevel>& MainBackDropPtr = PlayLevel::GetPlayLevelPtr()->GetBackDropPtr();
 		if (nullptr != MainBackDropPtr)
 		{
-			if (true == MainBackDropPtr->IsColorAtPosition(Transform.GetLocalPosition() + GetMoveVector() * _Delta, GameEngineColor::RED))
+			if (GameEngineColor::RED == MainBackDropPtr->GetColor(Transform.GetLocalPosition() + GetMoveVector() * _Delta, GameEngineColor::RED))
 			{
 				ResetMoveVector();
 			}

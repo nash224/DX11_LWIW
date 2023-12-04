@@ -38,9 +38,11 @@ bool NormalProp::GetPixelCheck()
 void NormalProp::SetPixelCollision(std::string_view _FileName)
 {
 	m_DebugRenderer = CreateComponent<GameEngineSpriteRenderer>();
-	m_DebugRenderer->Off();
 	m_DebugRenderer->SetSprite(_FileName);
-	PixelCol.SetPixelFileName(_FileName);
+	m_DebugRenderer->SetViewCameraSelect(static_cast<int>(ECAMERAORDER::MainPrev));
+	m_DebugRenderer->RenderBaseInfoValue.Target0 = 0;
+	m_DebugRenderer->RenderBaseInfoValue.Target1 = 1;
+	m_DebugRenderer->On();
 
 	PixelRendererCheck = true;
 }
@@ -54,15 +56,7 @@ void NormalProp::ChangePixeldata(std::string_view _PixelName)
 	}
 
 	m_DebugRenderer->SetSprite(_PixelName);
-
-	PixelCol.SetPixelFileName(_PixelName);
 }
-
-GameEngineColor NormalProp::GetColor(const float4& _Position, GameEngineColor _DefaultColor/* = GameEngineColor::WHITE*/)
-{
-	return PixelCol.GetColor(_Position, Transform.GetLocalPosition(), _DefaultColor);
-}
-
 
 void NormalProp::Serializer(GameEngineSerializer& _Data)
 {
@@ -81,7 +75,7 @@ void NormalProp::Serializer(GameEngineSerializer& _Data)
 	}
 
 	{
-		_Data << PixelCol.GetPixelFileName();
+		_Data << m_DebugRenderer->GetCurSprite().Texture->GetName();
 	}
 }
 

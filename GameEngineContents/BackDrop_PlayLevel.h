@@ -19,22 +19,21 @@ public:
 	BackDrop_PlayLevel& operator=(BackDrop_PlayLevel&& _Other) noexcept = delete;
 
 	void CreateItem(std::string_view _ItemName, const float4& _Position = float4::ZERO, const int _Stack = 1, const float _FallYPosition = 0.0f);
-	bool IsColorAtPosition(const float4& _Position, GameEngineColor _CheckColor);
+
+	GameEngineColor GetColor(const float4& _Position, GameEngineColor _Color = GameEngineColor::WHITE);
 
 protected:
-	void Start() override{}
+	void Start() override;
 	void Update(float _Delta) override{}
 	void Release() override {}
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
-	void LevelEnd(class GameEngineLevel* _NextLevel) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
+	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 	void CreateRenderActor(int _UpdateOrder, std::string_view _SpriteName, const float4& _Position
 		, int _DepthType, bool _isFixDepth = true, float _DepthCorrection = 0.0f);
 
-
 protected:
-	std::vector<std::shared_ptr<class NormalProp>> PixelVec;
-	std::vector<std::shared_ptr<class StaticEntity>> PixelStaticEntityVec;
+	std::shared_ptr<class PixelManager> PixelManagerPtr;
 
 };
 

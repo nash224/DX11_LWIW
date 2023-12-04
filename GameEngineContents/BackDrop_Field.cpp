@@ -27,6 +27,8 @@ BackDrop_Field::~BackDrop_Field()
 
 void BackDrop_Field::Start()
 {
+	BackDrop_PlayLevel::Start();
+
 	StateSetting();
 }
 
@@ -63,8 +65,6 @@ void BackDrop_Field::CreateBush(const float4& _Position, EBUSHTYPE _Type)
 	BushObject->Transform.SetLocalPosition(_Position);
 	BushObject->SetBushType(_Type);
 	BushObject->Init();
-
-	PixelStaticEntityVec.push_back(BushObject);
 }
 
 void BackDrop_Field::CreateWitchFlower(const float4& _Position)
@@ -86,7 +86,6 @@ void BackDrop_Field::CreateBranchTree(const float4& _Position)
 	std::shared_ptr<BranchTree> Object = GetLevel()->CreateActor<BranchTree>(EUPDATEORDER::Entity);
 	Object->Transform.SetLocalPosition(_Position);
 	Object->Init();
-	PixelStaticEntityVec.push_back(Object);
 }
 
 void BackDrop_Field::CreateMongSiriPopulation(int _MongsiriCount, const float4& _HolePosition, const float4& _MongsiriPosition)

@@ -319,9 +319,9 @@ bool Ellie::WallCollision()
 		const float4 LeftCheckPos = LeftCheckUnitVector * CheckDistanceToMyPos + CheckPos;
 		const float4 RightCheckPos = RightCheckUnitVector * CheckDistanceToMyPos + CheckPos;
 
-		bool LeftCheck = BackDropPtr->IsColorAtPosition(LeftCheckPos, GameEngineColor::RED);
-		bool RightCheck = BackDropPtr->IsColorAtPosition(RightCheckPos, GameEngineColor::RED);
-		bool isWall = (LeftCheck || RightCheck);
+		GameEngineColor LeftColor = BackDropPtr->GetColor(LeftCheckPos);
+		GameEngineColor RightColor = BackDropPtr->GetColor(RightCheckPos);
+		bool isWall = (GameEngineColor::RED == LeftColor || GameEngineColor::RED == RightColor);
 		if (false == isWall)
 		{
 			break;

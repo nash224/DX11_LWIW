@@ -60,9 +60,6 @@ void BackDrop_CenterField::RenewMap()
 {
 	SpriteFileLoad();
 
-	BackDrop_PlayLevel::PixelVec.reserve(256);
-	BackDrop_PlayLevel::PixelStaticEntityVec.reserve(32);
-
 	NPCSetting();
 	CreateMap();
 	LoadSerBin();
@@ -112,7 +109,6 @@ void BackDrop_CenterField::CreateMap()
 		CenterMap->Init();
 		CenterMap->m_Renderer->SetSprite("CenterMap.png");
 		CenterMap->SetPixelCollision("CenterMap_Pixel.png");
-		PixelVec.push_back(CenterMap);
 	}
 
 	{
@@ -148,7 +144,6 @@ void BackDrop_CenterField::LoadSerBin()
 		{
 			const std::shared_ptr<NormalProp>& Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 			Object->DeSerializer(LoadBin);
-			PixelVec.push_back(Object);
 		}
 	}
 
@@ -269,8 +264,6 @@ void BackDrop_CenterField::ReleaseAllCreature()
 
 	ReleaseItemDrop();
 	ReleaseMongSiriPopulation();
-
-	PixelStaticEntityVec.clear();
 }
 
 void BackDrop_CenterField::CheckFireWorksEvent()

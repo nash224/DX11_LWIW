@@ -1,5 +1,7 @@
 #pragma once
 
+#define WALLCOLOR GameEngineColor::RED
+
 // Ό³Έν :
 class ContentsActor : public GameEngineActor
 {

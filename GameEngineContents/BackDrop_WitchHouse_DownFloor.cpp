@@ -24,6 +24,8 @@ BackDrop_WitchHouse_DownFloor::~BackDrop_WitchHouse_DownFloor()
 
 void BackDrop_WitchHouse_DownFloor::Start()
 {
+	BackDrop_PlayLevel::Start();
+
 	DustEventSetting();
 	
 	BackDrop_PlayLevel::CreateItem("MapleHerb_Water", float4(670.0f , -260.0f), 1);
@@ -341,7 +343,6 @@ void BackDrop_WitchHouse_DownFloor::PixelMapSetting()
 		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(Position);
 		Object->SetPixelCollision("DownFloor_PixelMap.png");
-		BackDrop_PlayLevel::PixelVec.push_back(Object);
 	}
 }
 
@@ -357,8 +358,6 @@ void BackDrop_WitchHouse_DownFloor::InteractiveActorSetting()
 		std::shared_ptr<AlchemyPot> Object = GetLevel()->CreateActor<AlchemyPot>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
-
-		BackDrop_PlayLevel::PixelStaticEntityVec.push_back(Object);
 	}
 
 	{
@@ -367,8 +366,6 @@ void BackDrop_WitchHouse_DownFloor::InteractiveActorSetting()
 
 		std::shared_ptr<Extractor> Object = GetLevel()->CreateActor<Extractor>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(Position);
-		
-		BackDrop_PlayLevel::PixelStaticEntityVec.push_back(Object);
 	}
 
 	{

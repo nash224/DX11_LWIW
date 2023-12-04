@@ -26,6 +26,12 @@ BackDrop_WitchHouse_Yard::~BackDrop_WitchHouse_Yard()
 {
 }
 
+void BackDrop_WitchHouse_Yard::Start()
+{
+	BackDrop_PlayLevel::Start();
+}
+
+
 void BackDrop_WitchHouse_Yard::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	RenewMap();
@@ -88,7 +94,6 @@ void BackDrop_WitchHouse_Yard::LoadSerBin()
 		{
 			std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 			Object->DeSerializer(LoadBin);
-			PixelVec.push_back(Object);
 		}
 	}
 
@@ -149,7 +154,6 @@ void BackDrop_WitchHouse_Yard::CreateNormalProp()
 		Object->Init();
 		Object->m_Renderer->SetSprite("Yard_Stone_L_0.png");
 		Object->SetPixelCollision("Yard_Stone_L_0_Pixel.png");
-		PixelVec.push_back(Object);
 	}
 
 	{
@@ -159,7 +163,6 @@ void BackDrop_WitchHouse_Yard::CreateNormalProp()
 		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(Position);
 		Object->SetPixelCollision("Yard_Map_Pixel.png");
-		PixelVec.push_back(Object);
 	}
 }
 
@@ -172,7 +175,6 @@ void BackDrop_WitchHouse_Yard::CreateHouse()
 		std::shared_ptr<NormalProp> PixelObject = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		PixelObject->Transform.SetLocalPosition(float4(BackScale.Half().X, -202.0f));
 		PixelObject->SetPixelCollision("WitchHouse_Base_Pixel.png");
-		PixelVec.push_back(PixelObject);
 	}
 }
 

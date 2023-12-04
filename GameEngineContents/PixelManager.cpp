@@ -33,14 +33,15 @@ void PixelManager::Update(float _Delta)
 
 void PixelManager::SetCameraBeforeCaptureTexture()
 {
+	const std::shared_ptr<BackDrop_PlayLevel>& BackDropPtr = PlayLevel::GetPlayLevelPtr()->GetBackDropPtr();
 	float4 BackScale;
-	if (true)
+	if (nullptr != BackDropPtr)
 	{
-		BackScale = GlobalValue::GetWindowScale();
+		BackScale = BackDropPtr->GetBackGroundScale();
 	}
 	else
 	{
-		BackScale = PlayLevel::GetPlayLevelPtr()->GetBackDropPtr()->GetBackGroundScale();
+		BackScale = GlobalValue::GetWindowScale();
 	}
 	
 	const float4 WinScale = GlobalValue::GetWindowScale();
@@ -49,6 +50,18 @@ void PixelManager::SetCameraBeforeCaptureTexture()
 	const float YRatio = BackScale.Y / WinScale.Y;
 
 	ZoomRatio = max(XRatio, YRatio);
+
+	if (XRatio > YRatio)
+	{
+		const float Ratio = XRatio / YRatio;
+		BackScale.Y *= Ratio;
+	}
+	if (XRatio < YRatio)
+	{
+		const float Ratio = YRatio / XRatio;
+		BackScale.X *= Ratio;
+	}
+
 
 	const std::shared_ptr<GameEngineCamera>& CameraPtr = GetLevel()->GetCamera(static_cast<int>(ECAMERAORDER::MainPrev));
 	CameraPtr->SetZoomValue(ZoomRatio);
@@ -70,8 +83,7 @@ GameEngineColor PixelManager::GetColor(const float4& _Position, GameEngineColor 
 {
 	if (nullptr == PixelTexture)
 	{
-		MsgBoxAssert("텍스처가 존재하지 않습니다.");
-		return GameEngineColor();
+		return _DefaultColor;
 	}
 
 	// DXGI_FORMAT_B8G8R8A8_UNORM

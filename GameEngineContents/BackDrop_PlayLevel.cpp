@@ -3,6 +3,7 @@
 
 #include "NormalProp.h"
 #include "StaticEntity.h"
+#include "PixelManager.h"
 
 #include "LootedItem.h"
 
@@ -15,14 +16,11 @@ BackDrop_PlayLevel::~BackDrop_PlayLevel()
 {
 }
 
-void BackDrop_PlayLevel::LevelStart(class GameEngineLevel* _NextLevel)
+void BackDrop_PlayLevel::Start()
 {
+	PixelManagerPtr = GetLevel()->CreateActor<PixelManager>(EUPDATEORDER::Map);
 }
 
-void BackDrop_PlayLevel::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-	PixelVec.clear();
-}
 
 
 void BackDrop_PlayLevel::CreateItem(std::string_view _ItemName, const float4& _Position, const int _Stack /*= 1*/, const float _FallYPosition /*= 0.0f*/)
@@ -42,59 +40,19 @@ void BackDrop_PlayLevel::CreateItem(std::string_view _ItemName, const float4& _P
 	Item->Init(_ItemName);
 }
 
-
-// 특정 위치에 픽셀데이터가 있는지 반환해줍니다.
-bool BackDrop_PlayLevel::IsColorAtPosition(const float4& _Position, GameEngineColor _CheckColor)
+GameEngineColor BackDrop_PlayLevel::GetColor(const float4& _Position, GameEngineColor _Color /*= GameEngineColor::WHITE*/)
 {
-	for (const std::shared_ptr<NormalProp>& Object : PixelVec)
+	if (nullptr == PixelManagerPtr)
 	{
-		if (nullptr == Object)
-		{
-			MsgBoxAssert("생성되지 않은 액터를 참조하려고 했습니다.");
-			return false;
-		}
-
-		if (false == Object->GetPixelCheck())
-		{
-			continue;
-		}
-
-		if (_CheckColor == Object->GetColor(_Position))
-		{
-			return true;
-		}
+		return _Color;
 	}
 
-	for (const std::shared_ptr<StaticEntity>& Entity : PixelStaticEntityVec)
-	{
-		if (nullptr == Entity)
-		{
-			MsgBoxAssert("생성되지 않은 액터를 참조하려고 했습니다.");
-			return false;
-		}
-
-		if (false == Entity->GetPixelCheck())
-		{
-			continue;
-		}
-
-		if (_CheckColor == Entity->GetColor(_Position))
-		{
-			return true;
-		}
-	}
-
-	return false;
+	return PixelManagerPtr->GetColor(_Position, _Color);
 }
 
 
-void BackDrop_PlayLevel::CreateRenderActor(
-	int _UpdateOrder,
-	std::string_view _SpriteName,
-	const float4& _Position,
-	int _DepthType,
-	bool _isFixDepth /*= true*/,
-	float _DepthCorrection/*= 0.0f*/)
+void BackDrop_PlayLevel::CreateRenderActor(int _UpdateOrder, std::string_view _SpriteName,
+	const float4& _Position, int _DepthType, bool _isFixDepth /*= true*/, float _DepthCorrection/*= 0.0f*/)
 {
 	float Depth = 0.0f;
 	if (true == _isFixDepth)

@@ -32,6 +32,7 @@ void Field_Center::Start()
 	if (nullptr != Window)
 	{
 		Window->AddDebugRenderTarget(2, "CenterRenderTarget", GetMainCamera()->GetCameraAllRenderTarget());
+		Window->AddDebugRenderTarget(4, "CenterPixelTarget", GetCamera(static_cast<int>(ECAMERAORDER::MainPrev))->GetCameraAllRenderTarget());
 	}
 }
 

@@ -4,6 +4,7 @@
 
 enum class EUPDATEORDER
 {
+	Map,
 	Mouse,
 	Player,
 	Back,

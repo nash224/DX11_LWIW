@@ -29,6 +29,7 @@ BackDrop_WitchHouse_UpFloor::~BackDrop_WitchHouse_UpFloor()
 
 void BackDrop_WitchHouse_UpFloor::Start()
 {
+	BackDrop_PlayLevel::Start();
 	DustEventSetting();
 }
 
@@ -365,13 +366,10 @@ void BackDrop_WitchHouse_UpFloor::CreateProp()
 
 void BackDrop_WitchHouse_UpFloor::CreatePixelMap()
 {
-	PixelVec.reserve(3);
-
 	std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 	float4 Position = HouseLocation  + float4{ 128.0f , -242.0f };
 	Object->Transform.SetLocalPosition(Position);
 	Object->SetPixelCollision("UpFloor_PixelMap.png");
-	PixelVec.push_back(Object);
 }
 
 

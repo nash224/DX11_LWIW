@@ -29,10 +29,9 @@ public:
 
 
 	void SetPixelCollision(std::string_view _FileName);
-	void ChangePixeldata(std::string_view _PixelName);
 
 	bool GetPixelCheck();
-	GameEngineColor GetColor(const float4& _Position, GameEngineColor _DefaultColor = GameEngineColor::WHITE);
+	void ChangePixeldata(std::string_view _PixelName);
 
 	std::shared_ptr<GameEngineSpriteRenderer> m_DebugRenderer = nullptr;
 

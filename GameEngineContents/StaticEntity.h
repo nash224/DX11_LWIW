@@ -20,11 +20,7 @@ public:
 	StaticEntity& operator=(const StaticEntity& _Other) = delete;
 	StaticEntity& operator=(StaticEntity&& _Other) noexcept = delete;
 
-	bool GetPixelCheck();
-	void SetPixelCollision(std::string_view _FileName);
-
-	GameEngineColor GetColor(const float4& _Position, GameEngineColor _DefaultColor = GameEngineColor::WHITE);
-
+	bool GetPixelCheck() const;
 
 protected:
 	void Start() override {}
@@ -33,8 +29,9 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override{}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
+	void SetPixelCollision(std::string_view _FileName);
+
 private:
-	std::shared_ptr<PixelCollision> PixelCol;
 	std::shared_ptr<GameEngineSpriteRenderer> PixelRenderer;
 
 	bool isPixelSet = false;

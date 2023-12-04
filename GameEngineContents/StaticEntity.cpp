@@ -21,27 +21,22 @@ void StaticEntity::Release()
 {
 	InteractiveActor::Release();
 	PixelRenderer = nullptr;
-	PixelCol = nullptr;
 }
 
 
-bool StaticEntity::GetPixelCheck()
+bool StaticEntity::GetPixelCheck() const
 {
 	return isPixelSet;
 }
 
 void StaticEntity::SetPixelCollision(std::string_view _FileName)
 {
-	PixelCol = CreateComponent<PixelCollision>();
-	PixelCol->SetPixelFileName(_FileName);
-
 	PixelRenderer = CreateComponent<GameEngineSpriteRenderer>();
-	PixelRenderer->Off();
+	PixelRenderer->SetViewCameraSelect(static_cast<int>(ECAMERAORDER::MainPrev));
+	PixelRenderer->RenderBaseInfoValue.Target0 = 0;
+	PixelRenderer->RenderBaseInfoValue.Target1 = 1;
+	PixelRenderer->On();
 	PixelRenderer->SetSprite(_FileName);
-	isPixelSet = true;
-}
 
-GameEngineColor StaticEntity::GetColor(const float4& _Position, GameEngineColor _DefaultColor /*= GameEngineColor::WHITE*/)
-{
-	return PixelCol->GetColor(_Position, Transform.GetLocalPosition(), _DefaultColor);
+	isPixelSet = true;
 }

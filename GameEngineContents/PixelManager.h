@@ -1,6 +1,6 @@
 #pragma once
 
-// 설명 :
+// 설명 : 
 class PixelManager : public GameEngineActor
 {
 public:

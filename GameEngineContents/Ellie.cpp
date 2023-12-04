@@ -806,10 +806,10 @@ EDIRECTION Ellie::ReturnDirectionCheckBothSide(EDIRECTION _Direction, const floa
 
 	int DirNum = static_cast<int>(_Direction);
 
- 	bool LeftCheck = MainBackDropPtr->IsColorAtPosition(_LeftCheckPoint, GameEngineColor::RED);
-	bool RightCheck = MainBackDropPtr->IsColorAtPosition(_RightCheckPoint, GameEngineColor::RED);
+ 	GameEngineColor LeftColor = MainBackDropPtr->GetColor(_LeftCheckPoint);
+	GameEngineColor RightColor = MainBackDropPtr->GetColor(_RightCheckPoint);
 
-	bool isLeftWall = (true == LeftCheck && false == RightCheck);
+	bool isLeftWall = (WALLCOLOR == LeftColor && WALLCOLOR != RightColor);
 	if (isLeftWall)
 	{
 		if (8 == DirNum)
@@ -822,7 +822,7 @@ EDIRECTION Ellie::ReturnDirectionCheckBothSide(EDIRECTION _Direction, const floa
 		}
 	}
 
-	bool isRightWall = (false == LeftCheck && true == RightCheck);
+	bool isRightWall = (WALLCOLOR != LeftColor && WALLCOLOR == RightColor);
 	if (isRightWall)
 	{
 		if (1 == DirNum)
@@ -835,7 +835,7 @@ EDIRECTION Ellie::ReturnDirectionCheckBothSide(EDIRECTION _Direction, const floa
 		}
 	}
 
-	bool isFrontWall = (true == LeftCheck && true == RightCheck);
+	bool isFrontWall = (WALLCOLOR == LeftColor && WALLCOLOR == RightColor);
 	if (isFrontWall)
 	{
 		DirNum = 0;
