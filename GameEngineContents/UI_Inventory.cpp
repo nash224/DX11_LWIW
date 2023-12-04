@@ -554,7 +554,7 @@ void UI_Inventory::UnlockSlot(const unsigned int _Count /*= 1*/)
 		return;
 	}
 
-	const std::shared_ptr<UI_Inventory>& InventoryPtr = PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr()->GetInventoryPtr();
+	const std::shared_ptr<UI_Inventory>& InventoryPtr = PlayLevel::GetCurLevel()->GetUIManagerPtr()->GetInventoryPtr();
 
 	for (unsigned int y = PrevUnlockSlotY; y < UnlockSlotY; y++)
 	{

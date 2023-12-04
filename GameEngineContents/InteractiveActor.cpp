@@ -108,7 +108,7 @@ void InteractiveActor::ApplyDepth()
 	float4 MyPosition = Transform.GetLocalPosition();
 	float BackYScale = 0.0f;
 	
-	const std::shared_ptr<BackDrop_PlayLevel>& BackDropPtr = PlayLevel::GetPlayLevelPtr()->GetBackDropPtr();
+	const std::shared_ptr<BackDrop_PlayLevel>& BackDropPtr = PlayLevel::GetCurLevel()->GetBackDropPtr();
 	if (nullptr != BackDropPtr)
 	{
 		BackYScale = BackDropPtr->GetBackGroundScale().Y;

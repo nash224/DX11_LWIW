@@ -108,9 +108,9 @@ void UI_Hub_Broom::UpdateHasNotBroom(float _Delta, GameEngineState* _Parent)
 
 void UI_Hub_Broom::UpdateGauge(float _Delta, GameEngineState* _Parent)
 {
-	if (PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->GetBroomFuel() != RenderingAccFuel)
+	if (PlayLevel::GetCurLevel()->GetPlayerPtr()->GetBroomFuel() != RenderingAccFuel)
 	{
-		RenderingAccFuel = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->GetBroomFuel();
+		RenderingAccFuel = PlayLevel::GetCurLevel()->GetPlayerPtr()->GetBroomFuel();
 
 		const float FuelGaugeRatio = RenderingAccFuel / MAX_FUEL;
 		GaugeRenderer->GetGaugeInfo().Gauge = FuelGaugeRatio;

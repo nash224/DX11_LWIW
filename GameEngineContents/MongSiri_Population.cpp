@@ -122,7 +122,7 @@ void MongSiri_Population::CheckInstallationHoleSpace()
 			break;
 		}
 
-		const std::shared_ptr<BackDrop_PlayLevel>& BackDropPtr = PlayLevel::GetPlayLevelPtr()->GetBackDropPtr();
+		const std::shared_ptr<BackDrop_PlayLevel>& BackDropPtr = PlayLevel::GetCurLevel()->GetBackDropPtr();
 		if (nullptr != BackDropPtr)
 		{
 			if (GameEngineColor::RED == BackDropPtr->GetColor(CheckPoint))

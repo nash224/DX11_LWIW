@@ -225,7 +225,7 @@ void SkyLerp::LerpSky(const float4& _Color)
 
 void SkyLerp::FollowCamera() 
 {
-	float4 SkyPos = PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr()->GetCameraCurrentPostion();
+	float4 SkyPos = PlayLevel::GetCurLevel()->GetLevelCameraPtr()->GetCameraCurrentPostion();
 	SkyPos.Z = DepthFunction::CalculateFixDepth(ERENDERDEPTH::SkyBox);
 
 	Transform.SetLocalPosition(SkyPos);

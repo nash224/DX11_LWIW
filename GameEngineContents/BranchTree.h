@@ -1,10 +1,10 @@
 #pragma once
-#include "StaticEntity.h"
+#include "InteractiveActor.h"
 #include "HoldingGauge.h"
 
 
 // Ό³Έν :
-class BranchTree : public StaticEntity
+class BranchTree : public InteractiveActor
 {
 private:
 	enum class EBRANCHFALLORDER
@@ -65,6 +65,7 @@ private:
 
 private:
 	std::vector<std::shared_ptr<GameEngineSpriteRenderer>> BranchRenderers;
+	std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer;
 	HoldingGauge Gauge;
 
 	GameEngineState State;

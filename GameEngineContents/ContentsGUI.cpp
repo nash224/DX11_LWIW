@@ -19,6 +19,7 @@
 
 #include "ItemData.h"
 #include "BGMManager.h"
+#include "PixelManager.h"
 
 
 
@@ -181,10 +182,7 @@ void CheatTab::InventoryCheat()
 void DebugTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 {
 	ImGui::Checkbox("Show CollisionDebug", &GameEngineLevel::IsDebug);
-	if (true == GameEngineLevel::IsDebug)
-	{
-		ImGui::Checkbox("Show PixelDebug", &PlayLevel::PixelDebugMode);
-	}
+	ImGui::Checkbox("Show PixelDebug", &PixelManager::PixelDebugMode);
 
 	OnFPSTime(_DeltaTime);
 	ImGui::SeparatorText("Show Position");
@@ -216,7 +214,7 @@ void DebugTab::OnFPSTime(float _DeltaTime)
 
 void DebugTab::CameraPos()
 {
-	float4 CameraPosition = PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr()->GetCameraCurrentPostion();
+	float4 CameraPosition = PlayLevel::GetCurLevel()->GetLevelCameraPtr()->GetCameraCurrentPostion();
 	ImGui::Text(("CameraPos :" + CameraPosition.ToString()).c_str());
 }
 

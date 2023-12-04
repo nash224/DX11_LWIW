@@ -1,8 +1,8 @@
 #include "PreCompile.h"
 #include "BranchTree.h"
 
-
 #include "BackDrop_PlayLevel.h"
+#include "PixelSetter.h"
 
 BranchTree::BranchTree() 
 {
@@ -26,8 +26,8 @@ BranchTree::~BranchTree()
 
 void BranchTree::Start()
 {
-	StaticEntity::Start();
-	StaticEntity::SetPixelCollision("Tree_Pixel.png");
+	InteractiveActor::Start();
+	DebugRenderer = PixelSetter::SetPixelCollision(this, "Tree_Pixel.png");
 
 	InteractiveActor::SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Nothing);
 	InteractiveActor::CreateAndSetCollision(ECOLLISION::Entity, { 84.0f , 32.0f }, float4::ZERO, ColType::SPHERE2D);
@@ -37,7 +37,7 @@ void BranchTree::Start()
 
 void BranchTree::Update(float _Delta)
 {
-	StaticEntity::Update(_Delta);
+	InteractiveActor::Update(_Delta);
 
 	State.Update(_Delta);
 	UpdateBranch(_Delta);
@@ -45,9 +45,10 @@ void BranchTree::Update(float _Delta)
 
 void BranchTree::Release()
 {
-	StaticEntity::Release();
+	InteractiveActor::Release();
 
 	BodyRenderer = nullptr;
+	DebugRenderer = nullptr;
 	BranchRenderers.clear();
 
 	Gauge.Release();
@@ -266,7 +267,7 @@ void BranchTree::EraseBranch()
 
 void BranchTree::DropBranchItem()
 {
-	const std::shared_ptr<BackDrop_PlayLevel>& MainBackDropPtr = PlayLevel::GetPlayLevelPtr()->GetBackDropPtr();
+	const std::shared_ptr<BackDrop_PlayLevel>& MainBackDropPtr = PlayLevel::GetCurLevel()->GetBackDropPtr();
 	if (nullptr == MainBackDropPtr)
 	{
 		MsgBoxAssert("배경 매니저 포인터가 NUll을 가리킵니다.");

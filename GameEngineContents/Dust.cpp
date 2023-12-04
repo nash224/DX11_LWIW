@@ -135,7 +135,7 @@ void Dust::StateSetting()
 
 void Dust::StartRemove(GameEngineState* _Parent)
 {
-	PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr()->UseUIComponent();
+	PlayLevel::GetCurLevel()->GetUIManagerPtr()->UseUIComponent();
 
 	InteractiveActor::BodyRenderer->Off();
 
@@ -145,7 +145,7 @@ void Dust::StartRemove(GameEngineState* _Parent)
 
 void Dust::StartConverse(GameEngineState* _Parent)
 {
-	PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr()->DoneUIComponent();
+	PlayLevel::GetCurLevel()->GetUIManagerPtr()->DoneUIComponent();
 
 	AboutConversation.StartConversation(EDUSTTOPICTYPE::About);
 }

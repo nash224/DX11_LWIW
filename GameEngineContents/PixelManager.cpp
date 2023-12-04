@@ -6,10 +6,14 @@
 
 #include "BackDrop_PlayLevel.h"
 
+#include "NormalProp.h"
 
+
+bool PixelManager::PixelDebugMode = false;
 PixelManager::PixelManager() 
 {
-
+	GameEngineInput::AddInputObject(this);
+	PixelDebugValue = false;
 }
 
 PixelManager::~PixelManager() 
@@ -21,7 +25,6 @@ void PixelManager::Update(float _Delta)
 	if (false == isCaptureTexture && false == isSetCamera)
 	{
 		CreatePixelTexture();
-		Off();
 		isCaptureTexture = true;
 	}
 	if (true == isSetCamera)
@@ -29,11 +32,21 @@ void PixelManager::Update(float _Delta)
 		SetCameraBeforeCaptureTexture();
 		isSetCamera = false;
 	}
+	if (true == isCaptureTexture)
+	{
+		ChangeDebugMode();
+	}
+}
+
+void PixelManager::LevelStart(class GameEngineLevel* _NextLevel)
+{
+	PixelDebugMode = false;
+	PixelDebugValue = true;
 }
 
 void PixelManager::SetCameraBeforeCaptureTexture()
 {
-	const std::shared_ptr<BackDrop_PlayLevel>& BackDropPtr = PlayLevel::GetPlayLevelPtr()->GetBackDropPtr();
+	const std::shared_ptr<BackDrop_PlayLevel>& BackDropPtr = PlayLevel::GetCurLevel()->GetBackDropPtr();
 	float4 BackScale;
 	if (nullptr != BackDropPtr)
 	{
@@ -86,7 +99,6 @@ GameEngineColor PixelManager::GetColor(const float4& _Position, GameEngineColor 
 		return _DefaultColor;
 	}
 
-	// DXGI_FORMAT_B8G8R8A8_UNORM
 	float4 CheckPosition = _Position;
 	CheckPosition.Y *= -1.0f;
 	CheckPosition /= ZoomRatio;
@@ -94,3 +106,43 @@ GameEngineColor PixelManager::GetColor(const float4& _Position, GameEngineColor 
 	return PixelTexture->GetColor(CheckPosition, _DefaultColor);
 }
 
+
+void PixelManager::ChangeDebugMode()
+{
+	if (true == GameEngineInput::IsDown(VK_F2, this))
+	{
+		PixelDebugMode = !PixelDebugMode;
+	}
+
+	if (false == PixelDebugValue && true == PixelDebugMode)
+	{
+		std::vector<std::shared_ptr<RendererActor>> RenderActors = GetLevel()->GetObjectGroupConvert<RendererActor>(EUPDATEORDER::Objects);
+		for (const std::shared_ptr<RendererActor>& Actor : RenderActors)
+		{
+			if (nullptr != Actor->m_Renderer)
+			{
+				Actor->m_Renderer->Off();
+			}
+		}
+
+		GetLevel()->GetCamera(static_cast<int>(ECAMERAORDER::MainPrev))->On();
+
+		PixelDebugValue = true;
+	}
+
+	if (true == PixelDebugValue && false == PixelDebugMode)
+	{
+		std::vector<std::shared_ptr<RendererActor>> RenderActors = GetLevel()->GetObjectGroupConvert<RendererActor>(EUPDATEORDER::Objects);
+		for (const std::shared_ptr<RendererActor>& Actor : RenderActors)
+		{
+			if (nullptr != Actor->m_Renderer)
+			{
+				Actor->m_Renderer->On();
+			}
+		}
+
+		GetLevel()->GetCamera(static_cast<int>(ECAMERAORDER::MainPrev))->Off();
+
+		PixelDebugValue = false;
+	}
+}

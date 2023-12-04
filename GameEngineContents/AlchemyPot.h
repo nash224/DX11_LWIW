@@ -1,10 +1,10 @@
 #pragma once
-#include "StaticEntity.h"
+#include "InteractiveActor.h"
 
 
 
 // Ό³Έν :
-class AlchemyPot : public StaticEntity
+class AlchemyPot : public InteractiveActor
 {
 private:
 	enum class EPOTSTATE

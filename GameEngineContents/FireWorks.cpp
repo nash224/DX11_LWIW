@@ -279,10 +279,10 @@ void FireWorks::StartFocusRayLight(GameEngineState* _Parent)
 	RayLightStateInfo.Parent = this;
 	RayLightStateInfo.State.ChangeState(FireWorks::RayLightState::EFIRELINESTATE::Ready);
 
-	PlayLevel::GetPlayLevelPtr();
-	PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr()->SetCameraMode(ECAMERAMODE::Cinematic);
+	PlayLevel::GetCurLevel();
+	PlayLevel::GetCurLevel()->GetLevelCameraPtr()->SetCameraMode(ECAMERAMODE::Cinematic);
 
-	const float4& CameraPos = PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr()->GetCameraCurrentPostion();
+	const float4& CameraPos = PlayLevel::GetCurLevel()->GetLevelCameraPtr()->GetCameraCurrentPostion();
 	LimitCameraPos = CameraPos + float4(0.0f, TargetDistance);
 
 	SFXFunction::PlaySFX("SFX_Firework.wav");
@@ -291,7 +291,7 @@ void FireWorks::StartFocusRayLight(GameEngineState* _Parent)
 
 void FireWorks::UpdateFocusRayLight(float _Delta, GameEngineState* _Parent)
 {
-	const std::shared_ptr<CameraControler>& CurCameraPtr = PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr();
+	const std::shared_ptr<CameraControler>& CurCameraPtr = PlayLevel::GetCurLevel()->GetLevelCameraPtr();
 
 	RayLightStateInfo.State.Update(_Delta);
 

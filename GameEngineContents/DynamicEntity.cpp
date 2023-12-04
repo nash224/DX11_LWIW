@@ -51,7 +51,7 @@ float DynamicEntity::GetVolumeReductionByDistance() const
 	const float MaxVolume = 100.0f;
 	const float MinVolume = 200.0f;
 
-	const float4 VectorToPlayer = Transform.GetLocalPosition() - PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->Transform.GetLocalPosition();
+	const float4 VectorToPlayer = Transform.GetLocalPosition() - PlayLevel::GetCurLevel()->GetPlayerPtr()->Transform.GetLocalPosition();
 	const float4 Size = DirectX::XMVector2Length(VectorToPlayer.DirectXVector);
 	const float Distance = Size.X;
 

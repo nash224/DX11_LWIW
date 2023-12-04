@@ -4,9 +4,8 @@
 #include "BackDrop_WitchHouse_UpFloor.h"
 #include "BGMManager.h"
 #include "CameraControler.h"
-
 #include "Ellie.h"
-#include "UpperLiftA.h"
+#include "FadeObject.h"
 
 
 WitchHouse_UpFloor::WitchHouse_UpFloor()
@@ -45,20 +44,17 @@ void WitchHouse_UpFloor::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	PlayLevel::LevelStart(_NextLevel);
 
-	SetPlayerPos(_NextLevel);
-
+	SetPlayerPosAndFade(_NextLevel);
 	LoadTexture();
-	FileLoadFunction::LoadTextureAndCreateSingleSpriteInPath("Resources\\PlayContents\\Lift");
 }
 
 void WitchHouse_UpFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-	FileLoadFunction::ReleaseAllTextureAndSpriteInPath("Resources\\PlayContents\\Lift");
 	ReleaseTexture();
 }
 
 
-void WitchHouse_UpFloor::SetPlayerPos(class GameEngineLevel* _NextLevel) const
+void WitchHouse_UpFloor::SetPlayerPosAndFade(class GameEngineLevel* _NextLevel)
 {
 	if (nullptr == PlayLevel::Player)
 	{
@@ -70,12 +66,18 @@ void WitchHouse_UpFloor::SetPlayerPos(class GameEngineLevel* _NextLevel) const
 	{
 		PlayLevel::Player->SetAnimationByDirection(EDIRECTION::UP);
 		PlayLevel::Player->Transform.SetLocalPosition(float4(465.0f, -353.0f));
+
+		std::shared_ptr<FadeObject> Fade = CreateActor<FadeObject>(EUPDATEORDER::Fade);
+		Fade->CallFadeIn(0.2f);
 	}
 
 	if (_NextLevel->GetName() == "DreamLevel")
 	{
 		PlayLevel::Player->SetAnimationByDirection(EDIRECTION::DOWN);
 		PlayLevel::Player->Transform.SetLocalPosition(float4(440.0f, -271.0f));
+
+		std::shared_ptr<FadeObject> Fade = CreateActor<FadeObject>(EUPDATEORDER::Fade);
+		Fade->CallFadeIn(1.0f);
 	}
 }
 

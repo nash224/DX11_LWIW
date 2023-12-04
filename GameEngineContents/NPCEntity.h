@@ -1,5 +1,5 @@
 #pragma once
-#include "StaticEntity.h"
+#include "InteractiveActor.h"
 #include "Conversation.h"
 
 // Ό³Έν :

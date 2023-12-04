@@ -273,7 +273,7 @@ void UI_ProcessB::UpdateGauge(float _Delta)
 
 void UI_ProcessB::JuicyThis()
 {
-	PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->WaitDone(EELLIE_STATE::Juicy);
+	PlayLevel::GetCurLevel()->GetPlayerPtr()->WaitDone(EELLIE_STATE::Juicy);
 
 	UI_Inventory::PopItem(SourceInfo.ScrName, SourceInfo.NeedCount);
 

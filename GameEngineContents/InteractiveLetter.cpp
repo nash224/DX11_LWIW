@@ -122,7 +122,7 @@ void InteractiveLetter::ConversationSetting()
 
 				Quest.lock()->QuestAccept();
 
-				PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr()->UseUIComponent();
+				PlayLevel::GetCurLevel()->GetUIManagerPtr()->UseUIComponent();
 
 				State.ChangeState(ELETTERSTATE::Disappear);
 			});
@@ -158,7 +158,7 @@ void InteractiveLetter::StartDisappear(GameEngineState* _Parent)
 	std::shared_ptr<DustFx> Dust = GetLevel()->CreateActor<DustFx>(EUPDATEORDER::Objects);
 	Dust->Init(Transform.GetLocalPosition() + float4(0.0f, 0.0f, -2.0f));
 
-	PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr()->DoneUIComponent();
+	PlayLevel::GetCurLevel()->GetUIManagerPtr()->DoneUIComponent();
 
 	Death();
 }

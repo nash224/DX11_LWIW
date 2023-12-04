@@ -29,7 +29,7 @@ void Bush::UpdateApple(float _Delta)
 {
 	if (true == IsEnalbeActive)
 	{
-		const std::shared_ptr<BackDrop_PlayLevel>& BackDropPtr = PlayLevel::GetPlayLevelPtr()->GetBackDropPtr();
+		const std::shared_ptr<BackDrop_PlayLevel>& BackDropPtr = PlayLevel::GetCurLevel()->GetBackDropPtr();
 		if (nullptr == BackDropPtr)
 		{
 			MsgBoxAssert("배경 매니저가 존재하지 않습니다.");
@@ -128,7 +128,7 @@ void Bush::CreateBushBug()
 	std::shared_ptr<BushBug> BushBugPtr = GetLevel()->CreateActor<BushBug>();
 	float4 SpawnPosition = Transform.GetLocalPosition() + float4( 5.0f, 27.0f );
 
-	const std::shared_ptr<BackDrop_PlayLevel>& BackDropPtr = PlayLevel::GetPlayLevelPtr()->GetBackDropPtr();
+	const std::shared_ptr<BackDrop_PlayLevel>& BackDropPtr = PlayLevel::GetCurLevel()->GetBackDropPtr();
 	if (nullptr != BackDropPtr)
 	{
 		SpawnPosition.Z = DepthFunction::CalculateObjectDepth(BackDropPtr->GetBackGroundScale().Y, SpawnPosition.Y);

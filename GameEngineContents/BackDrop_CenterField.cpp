@@ -42,47 +42,23 @@ void BackDrop_CenterField::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	BackDrop_Field::LevelStart(_NextLevel);
 
-	RenewMap();
-	SpriteFileLoad();
-
-	CheckFireWorksEvent();
-}
-
-void BackDrop_CenterField::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-	BackDrop_Field::LevelEnd(_NextLevel);
-
-	ReleaseSpriteFile();
-}
-
-
-void BackDrop_CenterField::RenewMap()
-{
-	SpriteFileLoad();
-
-	NPCSetting();
-	CreateMap();
-	LoadSerBin();
-	CreatePortalActor();
-
-}
-
-#pragma region SpriteFile
-
-void BackDrop_CenterField::SpriteFileLoad()
-{
 	GameEngineDirectory Dir;
 	Dir.MoveParentToExistsChild("Resources");
 	Dir.MoveChild("Resources\\PlayContents\\FieldCenter");
 	std::vector<GameEngineFile> Files = Dir.GetAllFile();
 	for (GameEngineFile& pFile : Files)
 	{
+		GameEngineTexture::Load(pFile.GetStringPath());
 		GameEngineSprite::CreateSingle(pFile.GetFileName());
 	}
+
+	RenewMap();
 }
 
-void BackDrop_CenterField::ReleaseSpriteFile()
+void BackDrop_CenterField::LevelEnd(class GameEngineLevel* _NextLevel)
 {
+	BackDrop_Field::LevelEnd(_NextLevel);
+
 	GameEngineDirectory Dir;
 	Dir.MoveParentToExistsChild("Resources");
 	Dir.MoveChild("Resources\\PlayContents\\FieldCenter");
@@ -90,10 +66,19 @@ void BackDrop_CenterField::ReleaseSpriteFile()
 	for (GameEngineFile& pFile : Files)
 	{
 		GameEngineSprite::Release(pFile.GetFileName());
+		GameEngineTexture::Release(pFile.GetFileName());
 	}
 }
 
-#pragma endregion
+
+void BackDrop_CenterField::RenewMap()
+{
+	CreateMap();
+	LoadSerBin();
+	CreatePortalActor();
+	NPCSetting();
+	CheckFireWorksEvent();
+}
 
 #pragma region Map
 
@@ -175,14 +160,12 @@ void BackDrop_CenterField::LoadSerBin()
 
 void BackDrop_CenterField::CreatePortalActor()
 {
-	{
-		std::shared_ptr<PortalObject> Object = GetLevel()->CreateActor<PortalObject>(EUPDATEORDER::Portal);
-		Object->CreatePortalCollision(ECOLLISION::Portal);
-		Object->SetChangeLevelName("WitchHouse_Yard");
-		Object->SetCollisionRange({ 100.0f , 50.0f });
-		Object->SetLocalPosition({ 1432.0f , 0.0f });
-		Object->SetCollisionType(ColType::AABBBOX2D);
-	}
+	std::shared_ptr<PortalObject> Object = GetLevel()->CreateActor<PortalObject>(EUPDATEORDER::Portal);
+	Object->CreatePortalCollision(ECOLLISION::Portal);
+	Object->SetChangeLevelName("WitchHouse_Yard");
+	Object->SetCollisionRange({ 100.0f , 50.0f });
+	Object->SetLocalPosition({ 1432.0f , 0.0f });
+	Object->SetCollisionType(ColType::AABBBOX2D);
 }
 
 void BackDrop_CenterField::NPCSetting()

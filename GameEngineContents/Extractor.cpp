@@ -45,14 +45,14 @@ void Extractor::Start()
 
 void Extractor::Update(float _Delta)
 {
-	StaticEntity::Update(_Delta);
+	InteractiveActor::Update(_Delta);
 
 	State.Update(_Delta);
 }
 
 void Extractor::Release()
 {
-	StaticEntity::Release();
+	InteractiveActor::Release();
 
 	ExtractorRenderer = nullptr;
 	ProcessPage = nullptr;
@@ -145,12 +145,7 @@ void Extractor::StateSetting()
 }
 
 
-void Extractor::PullThis()
-{
-	State.ChangeState(EJUICERSTATE::Juicy);
-}
-
-void Extractor::ChangeExtractorAnimation(std::string_view _StateName)
+void Extractor::ChangeAnimation(std::string_view _StateName)
 {
 	if (nullptr == ExtractorRenderer)
 	{
@@ -177,18 +172,18 @@ void Extractor::StartBroken(GameEngineState* _Parent)
 		}
 	}
 
-	ChangeExtractorAnimation("Broken");
+	ChangeAnimation("Broken");
 }
 
 void Extractor::StartIdle(GameEngineState* _Parent)
 {
-	ChangeExtractorAnimation("Idle");
+	ChangeAnimation("Idle");
 }
 
 void Extractor::StartJuicy(GameEngineState* _Parent)
 {
 	SFXFunction::PlaySFX(RandomOpenJuicySoundFilleName());
-	ChangeExtractorAnimation("Juicy");
+	ChangeAnimation("Juicy");
 }
 
 void Extractor::UpdateBroken(float _Delta, GameEngineState* _Parent)

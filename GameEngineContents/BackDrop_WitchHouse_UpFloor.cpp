@@ -395,7 +395,7 @@ void BackDrop_WitchHouse_UpFloor::LiftSetting()
 	Lift->Transform.SetLocalPosition(float4(513.0f, -242.0f));
 	Lift->Init();
 	
-	if (PlayLevel::GetPlayLevelPtr()->GetPrevLevelName() == "WitchHouse_DownFloor")
+	if (PlayLevel::GetCurLevel()->GetPrevLevelName() == "WitchHouse_DownFloor")
 	{
 		Lift->LiftToArrive();
 	}

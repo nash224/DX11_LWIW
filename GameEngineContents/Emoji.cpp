@@ -154,7 +154,7 @@ float Emoji::GetDistanceToEllie()
 		return 0.0f;
 	}
 
-	const float4 ElliePos = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->Transform.GetLocalPosition();
+	const float4 ElliePos = PlayLevel::GetCurLevel()->GetPlayerPtr()->Transform.GetLocalPosition();
 	const float4 MyPos = Parent->Transform.GetLocalPosition();
 	const float4 Result = DirectX::XMVector2Length((MyPos - ElliePos).DirectXVector);
 	return Result.X;
@@ -163,7 +163,7 @@ float Emoji::GetDistanceToEllie()
 void Emoji::Update(float _Delta)
 {
 	State.Update(_Delta);
-	const TransformData& TransData = PlayLevel::GetPlayLevelPtr()->GetMainCamera()->Transform.GetConstTransformDataRef();
+	const TransformData& TransData = PlayLevel::GetCurLevel()->GetMainCamera()->Transform.GetConstTransformDataRef();
 	TransData.ViewMatrix;
 	TransData.ProjectionMatrix;
 }
@@ -177,7 +177,7 @@ void Emoji::CalculateWorldToScreen()
 		return;
 	}
 
-	const float4 CameraPos = PlayLevel::GetPlayLevelPtr()->GetMainCamera()->Transform.GetLocalPosition();
+	const float4 CameraPos = PlayLevel::GetCurLevel()->GetMainCamera()->Transform.GetLocalPosition();
 	float4 Pos = Parent->Transform.GetLocalPosition();
 	float4 Vector = Pos - CameraPos;
 

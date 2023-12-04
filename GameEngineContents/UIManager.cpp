@@ -249,7 +249,7 @@ void UIManager::InputUpdate()
 
 void UIManager::SetEllieControl(bool _Value)
 {
-	const std::shared_ptr<Ellie>& PlayerPtr = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr();
+	const std::shared_ptr<Ellie>& PlayerPtr = PlayLevel::GetCurLevel()->GetPlayerPtr();
 
 	if (nullptr != PlayerPtr)
 	{

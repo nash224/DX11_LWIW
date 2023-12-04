@@ -1,5 +1,5 @@
 #pragma once
-#include "StaticEntity.h"
+#include "InteractiveActor.h"
 
 
 enum class EJUICERSTATE
@@ -12,7 +12,7 @@ enum class EJUICERSTATE
 
 
 // Ό³Έν :
-class Extractor : public StaticEntity
+class Extractor : public InteractiveActor
 {
 private:
 	static Extractor* s_ExtractorPointer;
@@ -28,7 +28,10 @@ public:
 	Extractor& operator=(const Extractor& _Other) = delete;
 	Extractor& operator=(Extractor&& _Other) noexcept = delete;
 
-	void PullThis();
+	void PullThis()
+	{
+		State.ChangeState(EJUICERSTATE::Juicy);
+	}
 
 	static void ActiveInteractiveCollision();
 
@@ -46,7 +49,7 @@ private:
 	void UIProcessSetting();
 	void StateSetting();
 
-	void ChangeExtractorAnimation(std::string_view _StateName);
+	void ChangeAnimation(std::string_view _StateName);
 
 	void StartBroken(GameEngineState* _Parent);
 	void StartIdle(GameEngineState* _Parent);

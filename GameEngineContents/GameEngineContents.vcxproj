@@ -418,7 +418,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="PixelCollision.cpp">
+    <ClCompile Include="PixelSetter.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -638,10 +638,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="SkyLightEffect.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="StaticEntity.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -1070,7 +1066,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="PixelCollision.h">
+    <ClInclude Include="PixelSetter.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -1279,10 +1275,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="SkyLightEffect.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="StaticEntity.h">
       <SubType>
       </SubType>
     </ClInclude>

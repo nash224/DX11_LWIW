@@ -29,7 +29,7 @@ public:
 		return PrevLevelName;
 	}
 
-	static PlayLevel* GetPlayLevelPtr();
+	static PlayLevel* GetCurLevel();
 	std::shared_ptr<class UIManager> GetUIManagerPtr() const;
 	std::shared_ptr<class Ellie> GetPlayerPtr() const;
 	std::shared_ptr<class BackDrop_PlayLevel> GetBackDropPtr() const;
@@ -39,8 +39,6 @@ protected:
 	void Update(float _Delta) override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
-
-	void ChangeDebugMode();
 
 protected:
 	std::string LocationKRName;

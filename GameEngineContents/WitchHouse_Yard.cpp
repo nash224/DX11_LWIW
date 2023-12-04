@@ -5,6 +5,7 @@
 
 #include "BackDrop_WitchHouse_Yard.h"
 #include "Ellie.h"
+#include "FadeObject.h"
 
 WitchHouse_Yard::WitchHouse_Yard() 
 {
@@ -40,19 +41,17 @@ void WitchHouse_Yard::Update(float _Delta)
 void WitchHouse_Yard::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	FieldLevel::LevelStart(_NextLevel);
-
-	LoadLevelTexture();
-	SetPlayerPosition(_NextLevel);
+	SetPlayerPositionAndFade(_NextLevel);
 }
 
 void WitchHouse_Yard::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	FieldLevel::LevelEnd(_NextLevel);
-
-	ReleaseLevelTexture();
 }
 
-void WitchHouse_Yard::SetPlayerPosition(class GameEngineLevel* _NextLevel) const
+
+
+void WitchHouse_Yard::SetPlayerPositionAndFade(class GameEngineLevel* _NextLevel)
 {
 	if (nullptr == PlayLevel::Player)
 	{
@@ -60,54 +59,34 @@ void WitchHouse_Yard::SetPlayerPosition(class GameEngineLevel* _NextLevel) const
 		return;
 	}
 
-	const float4 HWinScale = GlobalValue::GetWindowScale().Half();
-	float4 SpawnPosition;
-
 	if (nullptr == _NextLevel)
 	{
-		SpawnPosition = { HWinScale.X , -450.0f };
+		PlayLevel::Player->Transform.SetLocalPosition(float4(GlobalValue::GetWindowScale().hX(), -450.0f));
+
+		std::shared_ptr<FadeObject> Fade = CreateActor<FadeObject>(EUPDATEORDER::Fade);
+		Fade->CallFadeIn(1.0f);
 	}
 	else if (_NextLevel->GetName() == "Field_Center")
 	{
-		SpawnPosition = { 480.0f , -461.0f };
+		PlayLevel::Player->Transform.SetLocalPosition(float4(480.0f, -461.0f));
 		PlayLevel::Player->SetAnimationByDirection(EDIRECTION::UP);
+
+		std::shared_ptr<FadeObject> Fade = CreateActor<FadeObject>(EUPDATEORDER::Fade);
+		Fade->CallFadeIn(0.2f);
 	}
 	else if (_NextLevel->GetName() == "WitchHouse_UpFloor")
 	{
-		SpawnPosition = { 485.0f , -337.0f };
+		PlayLevel::Player->Transform.SetLocalPosition(float4(485.0f, -337.0f));
 		PlayLevel::Player->SetAnimationByDirection(EDIRECTION::DOWN);
+
+		std::shared_ptr<FadeObject> Fade = CreateActor<FadeObject>(EUPDATEORDER::Fade);
+		Fade->CallFadeIn(0.2f);
 	}
 	else 
 	{
-		SpawnPosition = { HWinScale.X , -450.0f };
-	}
+		PlayLevel::Player->Transform.SetLocalPosition(float4(GlobalValue::GetWindowScale().hX(), -450.0f));
 
-	PlayLevel::Player->Transform.SetLocalPosition(SpawnPosition);
-}
-
-
-void WitchHouse_Yard::LoadLevelTexture()
-{
-	std::vector<GameEngineDirectory> Dirs = FileLoadFunction::GetAllDirInPath("Resources\\PlayContents\\WitchHouse_Yard");
-	for (GameEngineDirectory& Dir : Dirs)
-	{
-		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-		for (GameEngineFile& pFile : Files)
-		{
-			GameEngineTexture::Load(pFile.GetStringPath());
-		}
-	}
-}
-
-void WitchHouse_Yard::ReleaseLevelTexture()
-{
-	std::vector<GameEngineDirectory> Dirs = FileLoadFunction::GetAllDirInPath("Resources\\PlayContents\\WitchHouse_Yard");
-	for (GameEngineDirectory& Dir : Dirs)
-	{
-		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-		for (GameEngineFile& pFile : Files)
-		{
-			GameEngineTexture::Release(pFile.GetFileName());
-		}
+		std::shared_ptr<FadeObject> Fade = CreateActor<FadeObject>(EUPDATEORDER::Fade);
+		Fade->CallFadeIn(1.0f);
 	}
 }

@@ -153,7 +153,7 @@ void UI_Dispensation::Open()
 {
 	GameEngineInput::IsOnlyInputObject(this);
 
-	PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr()->OpenInventory(EINVENTORYMODE::Dispensation);
+	PlayLevel::GetCurLevel()->GetUIManagerPtr()->OpenInventory(EINVENTORYMODE::Dispensation);
 
 	On();
 }
@@ -305,7 +305,7 @@ void UI_Dispensation::Dispensation()
 
 	Off();
 
-	PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr()->GetInventoryPtr()->Off();
+	PlayLevel::GetCurLevel()->GetUIManagerPtr()->GetInventoryPtr()->Off();
 }
 
 bool UI_Dispensation::CheckDispensation(const ProductRecipeData& _Data)

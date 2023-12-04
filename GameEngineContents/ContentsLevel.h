@@ -4,8 +4,6 @@
 class ContentsLevel : public GameEngineLevel
 {
 public:
-	static bool PixelDebugMode;
-
 	static std::unique_ptr<class BGMManager> MainPlaySound;
 
 public:

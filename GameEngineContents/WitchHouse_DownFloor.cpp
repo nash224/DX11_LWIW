@@ -4,6 +4,7 @@
 #include "BackDrop_WitchHouse_DownFloor.h"
 #include "BGMManager.h"
 #include "CameraControler.h"
+#include "FadeObject.h"
 
 #include "Ellie.h"
 
@@ -21,6 +22,7 @@ void WitchHouse_DownFloor::Start()
 {
 	PlayLevel::Start();
 
+	
 	Back = CreateActor<BackDrop_WitchHouse_DownFloor>(EUPDATEORDER::Back);
 
 	if (nullptr != ContentsLevel::LevelCamera)
@@ -43,18 +45,12 @@ void WitchHouse_DownFloor::Update(float _Delta)
 void WitchHouse_DownFloor::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	PlayLevel::LevelStart(_NextLevel);
-
-	LoadTexture();
-
 }
 
 void WitchHouse_DownFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	PlayLevel::LevelEnd(_NextLevel);
-
-	ReleaseTexture();
 }
-
 
 
 void WitchHouse_DownFloor::AutoPlayBGM()
@@ -65,40 +61,6 @@ void WitchHouse_DownFloor::AutoPlayBGM()
 		if (static_cast<int>(EPLAYBGMTYPE::House) != bgmType)
 		{
 			ContentsLevel::MainPlaySound->NoneBGM();
-		}
-	}
-}
-
-
-
-void WitchHouse_DownFloor::LoadTexture()
-{
-	GameEngineDirectory Dir;
-	Dir.MoveParentToExistsChild("Resources");
-	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_DownFloor");
-	std::vector<GameEngineDirectory> Dirs = Dir.GetAllDirectory();
-	for (GameEngineDirectory& Dircetory : Dirs)
-	{
-		std::vector<GameEngineFile> Files = Dircetory.GetAllFile();
-		for (GameEngineFile& pFile : Files)
-		{
-			GameEngineTexture::Load(pFile.GetStringPath());
-		}
-	}
-}
-
-void WitchHouse_DownFloor::ReleaseTexture()
-{
-	GameEngineDirectory Dir;
-	Dir.MoveParentToExistsChild("Resources");
-	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_DownFloor");
-	std::vector<GameEngineDirectory> Dirs = Dir.GetAllDirectory();
-	for (GameEngineDirectory& Dircetory : Dirs)
-	{
-		std::vector<GameEngineFile> Files = Dircetory.GetAllFile();
-		for (GameEngineFile& pFile : Files)
-		{
-			GameEngineTexture::Release(pFile.GetFileName());
 		}
 	}
 }

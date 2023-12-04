@@ -1,5 +1,5 @@
 #pragma once
-#include "StaticEntity.h"
+#include "InteractiveActor.h"
 
 enum class EBUSHTYPE
 {
@@ -23,7 +23,7 @@ enum class EBUSHSTATE
 
 
 // Ό³Έν :
-class Bush : public StaticEntity
+class Bush : public InteractiveActor
 {
 public:
 	// constrcuter destructer
@@ -79,7 +79,8 @@ private:
 
 
 private:
-	std::shared_ptr<GameEngineSpriteRenderer> FXRenderer = nullptr;
+	std::shared_ptr<GameEngineSpriteRenderer> FXRenderer;
+	std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer;
 
 	EBUSHTYPE BushType = EBUSHTYPE::None;
 	EBUSHSTATE m_State = EBUSHSTATE::None;

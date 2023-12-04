@@ -34,31 +34,16 @@ void BackDrop_WitchHouse_Yard::Start()
 
 void BackDrop_WitchHouse_Yard::LevelStart(class GameEngineLevel* _NextLevel)
 {
-	RenewMap();
-}
+	std::vector<GameEngineDirectory> Dirs = FileLoadFunction::GetAllDirInPath("Resources\\PlayContents\\WitchHouse_Yard");
+	for (GameEngineDirectory& Dir : Dirs)
+	{
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pFile : Files)
+		{
+			GameEngineTexture::Load(pFile.GetStringPath());
+		}
+	}
 
-
-void BackDrop_WitchHouse_Yard::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-	ReleaseYardSprite();
-}
-
-
-
-void BackDrop_WitchHouse_Yard::RenewMap()
-{
-	LoadSprite();
-
-	CreateBase();
-	LoadSerBin();
-	CreateHouse();
-	CreateNormalProp();
-	CreatePortalActor();
-	EventSetting();
-}
-
-void BackDrop_WitchHouse_Yard::LoadSprite()
-{
 	if (nullptr == GameEngineSprite::Find("WitchHouse_Base.png"))
 	{
 		GameEngineDirectory Dir;
@@ -70,6 +55,46 @@ void BackDrop_WitchHouse_Yard::LoadSprite()
 			GameEngineSprite::CreateSingle(pFile.GetFileName());
 		}
 	}
+
+	RenewMap();
+}
+
+
+void BackDrop_WitchHouse_Yard::LevelEnd(class GameEngineLevel* _NextLevel)
+{
+	if (nullptr != GameEngineSprite::Find("WitchHouse_Base.png"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\PlayContents\\WitchHouse_Yard\\YardSingle");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pFile : Files)
+		{
+			GameEngineSprite::Release(pFile.GetFileName());
+		}
+	}
+
+	std::vector<GameEngineDirectory> Dirs = FileLoadFunction::GetAllDirInPath("Resources\\PlayContents\\WitchHouse_Yard");
+	for (GameEngineDirectory& Dir : Dirs)
+	{
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pFile : Files)
+		{
+			GameEngineTexture::Release(pFile.GetFileName());
+		}
+	}
+}
+
+
+
+void BackDrop_WitchHouse_Yard::RenewMap()
+{
+	CreateBase();
+	LoadSerBin();
+	CreateHouse();
+	CreateNormalProp();
+	CreatePortalActor();
+	EventSetting();
 }
 
 #pragma region MapLoad
@@ -300,20 +325,4 @@ void BackDrop_WitchHouse_Yard::ShowCrowEvent()
 {
 	std::shared_ptr<CrowEvent> Event = GetLevel()->CreateActor<CrowEvent>(EUPDATEORDER::Event);
 	Event->Init();
-}
-
-
-void BackDrop_WitchHouse_Yard::ReleaseYardSprite()
-{
-	if (nullptr != GameEngineSprite::Find("WitchHouse_Base.png"))
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExistsChild("Resources");
-		Dir.MoveChild("Resources\\PlayContents\\WitchHouse_Yard\\YardSingle");
-		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-		for (GameEngineFile& pFile : Files)
-		{
-			GameEngineSprite::Release(pFile.GetFileName());
-		}
-	}
 }

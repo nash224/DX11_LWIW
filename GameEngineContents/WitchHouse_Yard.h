@@ -23,10 +23,7 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
-	void SetPlayerPosition(class GameEngineLevel* _NextLevel) const;
-
-	void LoadLevelTexture();
-	void ReleaseLevelTexture();
+	void SetPlayerPositionAndFade(class GameEngineLevel* _NextLevel);
 
 };
 

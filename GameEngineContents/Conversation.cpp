@@ -76,9 +76,9 @@ void Conversation::StartConversation(int _ConversationType)
 	CurTopic = FindTopic(_ConversationType);
 	CurLine = 0;
 
-	const std::shared_ptr<UIManager>& ManagerPtr = PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr();
+	const std::shared_ptr<UIManager>& ManagerPtr = PlayLevel::GetCurLevel()->GetUIManagerPtr();
 	ManagerPtr->UseUIComponent();
-	ManagerPtr->GetConversationPtr()->StartConversation(CurTopic->EntitySpriteName, CurTopic->Default_Npc_Sprite_Index, CurTopic->Elli_First_Sprite_Index);
+	ManagerPtr->GetConversationPtr()->StartConversation(CurTopic->EntitySpriteName, CurTopic->Npc_DefaultIndex, CurTopic->Elli_StartIndex);
 
 	ConverseLine();
 }
@@ -151,7 +151,7 @@ void Conversation::ConverseLine()
 		return;
 	}
 
-	const std::shared_ptr<UIManager>& UIManagerPtr = PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr();
+	const std::shared_ptr<UIManager>& UIManagerPtr = PlayLevel::GetCurLevel()->GetUIManagerPtr();
 	UIManagerPtr->GetConversationPtr()->ShowConversation(CurTopic->Data[CurLine]);
 
 	CallLineEvent();

@@ -185,7 +185,7 @@ void MongSiri::UpdateJump(float _Delta)
 	bool isJumpFrame = (InteractiveActor::BodyRenderer->GetCurIndex() > 2 && InteractiveActor::BodyRenderer->GetCurIndex() < 9);
 	if (isJumpFrame)
 	{
-		const std::shared_ptr<BackDrop_PlayLevel>& MainBackDropPtr = PlayLevel::GetPlayLevelPtr()->GetBackDropPtr();
+		const std::shared_ptr<BackDrop_PlayLevel>& MainBackDropPtr = PlayLevel::GetCurLevel()->GetBackDropPtr();
 		if (nullptr != MainBackDropPtr)
 		{
 			if (GameEngineColor::RED == MainBackDropPtr->GetColor(Transform.GetLocalPosition() + GetMoveVector() * _Delta, GameEngineColor::RED))
@@ -373,7 +373,7 @@ void MongSiri::UpdateDisappear(float _Delta)
 
 void MongSiri::AutoChangeDirAnimation(std::string_view _StateName)
 {
-	const float4 ElliePos = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->Transform.GetLocalPosition();
+	const float4 ElliePos = PlayLevel::GetCurLevel()->GetPlayerPtr()->Transform.GetLocalPosition();
 	const float4 MyPos = Transform.GetLocalPosition();
 	const float4 VectorToEllie = ElliePos - MyPos;
 	const float Radian = std::atan2f(VectorToEllie.Y, VectorToEllie.X);

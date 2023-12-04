@@ -110,7 +110,7 @@ void Scenery::MoveSceneryLocation(float _Delta)
 		return;
 	}
 
-	const std::shared_ptr<CameraControler>& LevelCameraPtr = PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr();
+	const std::shared_ptr<CameraControler>& LevelCameraPtr = PlayLevel::GetCurLevel()->GetLevelCameraPtr();
 	
 	if (true == LevelCameraPtr->IsCameraMove())
 	{

@@ -25,6 +25,8 @@ AlchemyPot::AlchemyPot()
 			GameEngineSound::SoundLoad(pfile.GetStringPath());
 		}
 	}
+
+	InteractiveActor::SetGearName("사용하기");
 }
 
 AlchemyPot::~AlchemyPot() 
@@ -36,29 +38,27 @@ void AlchemyPot::Start()
 {
 	CreateAndSetCollision(ECOLLISION::Entity, { 160.0f , 100.0f }, float4(0.0f, -100.0f), ColType::SPHERE2D);
 	SetInteractionOption(EINTERACTION_BUTTONTYPE::Gear, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::AlchemyPot, ETOOLTYPE::Nothing);
-	InteractiveActor::SetGearName("사용하기");
 
 	s_PotPointer = this;
 }
 
 void AlchemyPot::Update(float _Delta)
 {
-	StaticEntity::Update(_Delta);
+	InteractiveActor::Update(_Delta);
 
 	State.Update(_Delta);
 }
 
 void AlchemyPot::Release()
 {
+	InteractiveActor::Release();
+
 	PotRenderer = nullptr;
 	WaterRenderer = nullptr;
 	FxRenderer = nullptr;
 	FireRenderer = nullptr;
 	SteamRenderer = nullptr;
 
-	InteractiveCol = nullptr;
-
-	// 연금UI
 	DispensationPage = nullptr;
 	s_PotPointer = nullptr;
 }
@@ -69,23 +69,20 @@ void AlchemyPot::LevelEnd(class GameEngineLevel* _NextLevel)
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
 void AlchemyPot::Init()
 {
 	RendererSetting();
 	StateSetting();
 	DispensationSetting();
 
-	std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Craft_Potion");
-	if (true == Quest.expired())
+	const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = ContentsEvent::FindQuest("Craft_Potion");
+	if (nullptr == Quest)
 	{
 		MsgBoxAssert("존재하지 않는 퀘스트입니다.");
 		return;
 	}
 
-	if (true == Quest.lock()->IsQuestAccepted())
+	if (true == Quest->IsQuestAccepted())
 	{
 		State.ChangeState(EPOTSTATE::Idle);
 	}
@@ -140,13 +137,13 @@ void AlchemyPot::RendererSetting()
 
 	FxRenderer->SetFrameEvent("Fail", 9, [&](GameEngineSpriteRenderer* _Renderer)
 		{
-			PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->WaitDone(EELLIE_STATE::Fail);
+			PlayLevel::GetCurLevel()->GetPlayerPtr()->WaitDone(EELLIE_STATE::Fail);
 		});
 	FxRenderer->SetEndEvent("Fail", std::bind(&AlchemyPot::EndPotionCreation, this));
 
 	FxRenderer->SetFrameEvent("Success", 16, [&](GameEngineSpriteRenderer* _Renderer)
 		{
-			PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->WaitDone(EELLIE_STATE::Cheer);
+			PlayLevel::GetCurLevel()->GetPlayerPtr()->WaitDone(EELLIE_STATE::Cheer);
 		});
 	FxRenderer->SetEndEvent("Success", std::bind(&AlchemyPot::EndPotionCreation, this));
 
@@ -206,16 +203,13 @@ void AlchemyPot::StateSetting()
 
 void AlchemyPot::ChangePotAnimation(std::string_view _StateName)
 {
-	std::string AnimationName;
-	AnimationName = _StateName.data();
-	
 	if (nullptr == FxRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	FxRenderer->ChangeAnimation(AnimationName);
+	FxRenderer->ChangeAnimation(_StateName);
 }
 
 
@@ -278,14 +272,14 @@ void AlchemyPot::StartSuccess(GameEngineState* _Parent)
 
 void AlchemyPot::UpdateBroken(float _Delta, GameEngineState* _Parent)
 {
-	std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Craft_Potion");
-	if (true == Quest.expired())
+	const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = ContentsEvent::FindQuest("Craft_Potion");
+	if (nullptr == Quest)
 	{
 		MsgBoxAssert("존재하지 않는 퀘스트입니다.");
 		return;
 	}
 
-	if (true == Quest.lock()->IsQuestAccepted() || true == Quest.lock()->isQuestComplete())
+	if (true == Quest->IsQuestAccepted() || true == Quest->isQuestComplete())
 	{
 		State.ChangeState(EPOTSTATE::Idle);
 	}
@@ -417,35 +411,35 @@ void AlchemyPot::RepairPot()
 
 void AlchemyPot::CheckCraftPotionEvent()
 {
-	std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Craft_Potion");
-	if (true == Quest.expired())
+	const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = ContentsEvent::FindQuest("Craft_Potion");
+	if (nullptr == Quest)
 	{
 		MsgBoxAssert("존재하지 않는 퀘스트입니다.");
 		return;
 	}
 
-	if (true == Quest.lock()->CheckPrerequisiteQuest())
+	if (true == Quest->CheckPrerequisiteQuest())
 	{
-		Quest.lock()->QuestComplete();
+		Quest->QuestComplete();
 		ShowCraftPotionEvent();
 	}
 }
 
 void AlchemyPot::CheckCraftFireCrackerEvent()
 {
-	std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Craft_Cracker_Potion");
-	if (true == Quest.expired())
+	const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = ContentsEvent::FindQuest("Craft_Cracker_Potion");
+	if (nullptr == Quest)
 	{
 		MsgBoxAssert("생성되지 않은 퀘스트입니다.");
 		return;
 	}
 
-	if (false == Quest.lock()->isQuestComplete())
+	if (false == Quest->isQuestComplete())
 	{
-		if (Quest.lock()->CheckPrerequisiteQuest())
+		if (Quest->CheckPrerequisiteQuest())
 		{
 			ShowFireCrackerEvent();
-			Quest.lock()->QuestComplete();
+			Quest->QuestComplete();
 		}
 	}
 }

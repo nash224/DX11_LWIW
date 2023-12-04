@@ -256,7 +256,7 @@ void FlowerBird::UpdateBloom(float _Delta)
 
 		if (CurIndex >= 3)
 		{
-			const std::shared_ptr<BackDrop_PlayLevel>& MainBackDropPtr = PlayLevel::GetPlayLevelPtr()->GetBackDropPtr();
+			const std::shared_ptr<BackDrop_PlayLevel>& MainBackDropPtr = PlayLevel::GetCurLevel()->GetBackDropPtr();
 			if (nullptr == MainBackDropPtr)
 			{
 				MsgBoxAssert("배경 매니저를 불러오지 못했습니다.");
@@ -369,7 +369,7 @@ void FlowerBird::StartFly()
 
 void FlowerBird::DecideFlyDirection()
 {
-	float4 ElliePosition = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->Transform.GetLocalPosition();
+	float4 ElliePosition = PlayLevel::GetCurLevel()->GetPlayerPtr()->Transform.GetLocalPosition();
 	float4 MyPosition = Transform.GetLocalPosition();
 
 	if (ElliePosition.X - MyPosition.X > 0.0f)
@@ -395,7 +395,7 @@ void FlowerBird::UpdateFly(float _Delta)
 
 	ApplyMovement(_Delta);
 	float4 MyPosition = Transform.GetLocalPosition();
-	float4 CameraPosition = PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr()->GetCameraCurrentPostion();
+	float4 CameraPosition = PlayLevel::GetCurLevel()->GetLevelCameraPtr()->GetCameraCurrentPostion();
 	float4 HWinScale = GlobalValue::GetWindowScale();
 
 	bool isExitOutOfCamera = (MyPosition.X - ExitCameraCorrection < CameraPosition.X - HWinScale.X);
@@ -445,7 +445,7 @@ bool FlowerBird::RecognizeWalkingEllie()
 {
 	static constexpr float DetectionEllieWalkRange = 70.0f;
 
-	const std::shared_ptr<Ellie>& MainPlayerPtr = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr();
+	const std::shared_ptr<Ellie>& MainPlayerPtr = PlayLevel::GetCurLevel()->GetPlayerPtr();
 	EELLIE_STATE CurEllieState = MainPlayerPtr->GetState();
 	if (EELLIE_STATE::SlowWalk == CurEllieState && EELLIE_STATE::Idle != CurEllieState)
 	{
@@ -466,7 +466,7 @@ bool FlowerBird::RecognizeEllie()
 {
 	static constexpr float DetectionEllieRange = 120.0f;
 
-	const std::shared_ptr<Ellie>& MainPlayerPtr = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr();
+	const std::shared_ptr<Ellie>& MainPlayerPtr = PlayLevel::GetCurLevel()->GetPlayerPtr();
 	EELLIE_STATE CurEllieState = MainPlayerPtr->GetState();
 	if (EELLIE_STATE::SlowWalk != CurEllieState && EELLIE_STATE::Idle != CurEllieState)
 	{

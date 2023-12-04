@@ -57,7 +57,7 @@ void UI_Hub_Stamina::RendererSetting()
 
 void UI_Hub_Stamina::RenewRender()
 {
-	const std::shared_ptr<Ellie>& PlayerPtr = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr();
+	const std::shared_ptr<Ellie>& PlayerPtr = PlayLevel::GetCurLevel()->GetPlayerPtr();
 	if (nullptr != PlayerPtr)
 	{
 		if (PlayerPtr->GetStamina() != RenderStamina)

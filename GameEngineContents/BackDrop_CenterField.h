@@ -32,9 +32,6 @@ protected:
 	void ReleaseAllCreature() override;
 
 protected:
-	void SpriteFileLoad();
-	void ReleaseSpriteFile();
-
 	void CreateMap();
 	void LoadSerBin();
 	void CreatePortalActor();

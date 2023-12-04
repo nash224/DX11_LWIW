@@ -290,6 +290,8 @@ void UI_Conversation::StartConversation(std::string_view _NPCSpriteName, int _NP
 		return;
 	}
 
+	Reset();
+
 	const int Virgil_Default_Index = GetVirgilIndexToElliePortrait(_Ellie_First_Sprite_Index);
 	Portrait.VirgilIndex = Virgil_Default_Index;
 

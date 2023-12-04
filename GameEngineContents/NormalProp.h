@@ -1,8 +1,5 @@
 #pragma once
 #include "RendererActor.h"
-#include "PixelCollision.h"
-
-
 
 // 설명 : Props 기능을 물려받는 일반 소품입니다.
 class NormalProp : public RendererActor, public GameEngineSerializerObject
@@ -22,15 +19,12 @@ public:
 
 	void Init(int _Order = 0) override;
 
-
-
 	void Serializer(GameEngineSerializer& _Data) override;
 	void DeSerializer(GameEngineSerializer& _Data) override;
 
 
 	void SetPixelCollision(std::string_view _FileName);
 
-	bool GetPixelCheck();
 	void ChangePixeldata(std::string_view _PixelName);
 
 	std::shared_ptr<GameEngineSpriteRenderer> m_DebugRenderer = nullptr;
@@ -41,12 +35,5 @@ protected:
 	void Release() override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
-
-protected:
-	PixelCollision PixelCol;
-
-
-	bool IsRendererOn = true;
-	bool PixelRendererCheck = false;
 
 };

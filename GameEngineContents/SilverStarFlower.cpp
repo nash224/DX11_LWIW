@@ -44,14 +44,14 @@ void SilverStarFlower::Start()
 
 void SilverStarFlower::Update(float _Delta)
 {
-	StaticEntity::Update(_Delta);
+	InteractiveActor::Update(_Delta);
 
 	State.Update(_Delta);
 }
 
 void SilverStarFlower::Release()
 {
-	StaticEntity::Release();
+	InteractiveActor::Release();
 
 	ShadowRenderer = nullptr;
 	UpperALight.Release();
@@ -166,7 +166,7 @@ void SilverStarFlower::LightUpdate(float _Delta, GameEngineState* _Parent)
 	}
 
 	bool isNetTouch = (Distance < Net_RecognitionRange);
-	if (isNetTouch && EELLIE_STATE::ButterflyNet == PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->GetState())
+	if (isNetTouch && EELLIE_STATE::ButterflyNet == PlayLevel::GetCurLevel()->GetPlayerPtr()->GetState())
 	{
 		State.ChangeState(ESILVERBELLSTATE::Touch);
 		return;
@@ -203,7 +203,7 @@ void SilverStarFlower::TouchUpdate(float _Delta, GameEngineState* _Parent)
 
 float SilverStarFlower::CalculateDistanceToEllie()
 {
-	const float4 ElliePos = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->Transform.GetLocalPosition();
+	const float4 ElliePos = PlayLevel::GetCurLevel()->GetPlayerPtr()->Transform.GetLocalPosition();
 	float4 MyPos = Transform.GetLocalPosition();
 	MyPos.Y += RendererYCorrection * 0.5f;
 	float4 Distance = MyPos - ElliePos;

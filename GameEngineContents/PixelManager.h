@@ -4,6 +4,9 @@
 class PixelManager : public GameEngineActor
 {
 public:
+	static bool PixelDebugMode;
+
+public:
 	// constrcuter destructer
 	PixelManager();
 	~PixelManager();
@@ -18,6 +21,9 @@ public:
 
 protected:
 	void Update(float _Delta) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override;
+
+	void ChangeDebugMode();
 
 	void SetCameraBeforeCaptureTexture();
 	void CreatePixelTexture();
@@ -25,6 +31,7 @@ protected:
 private:
 	bool isSetCamera = true;
 	bool isCaptureTexture = false;
+	bool PixelDebugValue = false;
 
 	float ZoomRatio = 0.0f;
 

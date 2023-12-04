@@ -1,10 +1,10 @@
 #pragma once
-#include "StaticEntity.h"
+#include "InteractiveActor.h"
 #include "ALightLerp.h"
 
 
 // Ό³Έν :
-class SilverStarFlower : public StaticEntity
+class SilverStarFlower : public InteractiveActor
 {
 private:
 	enum class ESILVERBELLSTATE

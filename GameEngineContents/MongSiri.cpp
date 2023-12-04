@@ -443,7 +443,7 @@ void MongSiri::ChangeAnimationByDircetion(std::string_view _StateName, unsigned 
 
 bool MongSiri::IsPlayerAround() const
 {
-	const float4 PlayerPosition = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->Transform.GetLocalPosition();
+	const float4 PlayerPosition = PlayLevel::GetCurLevel()->GetPlayerPtr()->Transform.GetLocalPosition();
 	const float PositionSize = (Transform.GetLocalPosition() - PlayerPosition).Size();
 	if (PositionSize < MongSiri_FOVSize)
 	{

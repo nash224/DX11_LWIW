@@ -22,15 +22,12 @@ protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override;
-	void LevelEnd(class GameEngineLevel* _NextLevel) override;
+	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 private:
 
-	void SetPlayerPos(class GameEngineLevel* _NextLevel) const;
+	void SetPlayerPosAndFade(class GameEngineLevel* _NextLevel);
 	void CameraSetting();
-
-	void LoadTexture();
-	void ReleaseTexture();
 
 };
 

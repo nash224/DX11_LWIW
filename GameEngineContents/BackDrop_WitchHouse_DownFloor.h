@@ -15,7 +15,9 @@ public:
 	BackDrop_WitchHouse_DownFloor& operator=(const BackDrop_WitchHouse_DownFloor& _Other) = delete;
 	BackDrop_WitchHouse_DownFloor& operator=(BackDrop_WitchHouse_DownFloor&& _Other) noexcept = delete;
 
+	void Init();
 	void RenewMap();
+
 
 protected:
 	void Start() override;

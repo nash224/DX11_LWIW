@@ -8,7 +8,6 @@
 #include "BGMManager.h"
 
 
-bool ContentsLevel::PixelDebugMode = false;
 std::unique_ptr<BGMManager> ContentsLevel::MainPlaySound;
 ContentsLevel::ContentsLevel() 
 {

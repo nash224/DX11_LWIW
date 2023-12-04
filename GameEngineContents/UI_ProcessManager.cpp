@@ -79,7 +79,7 @@ void UI_ProcessManager::OtherProcessSetting()
 // ¿­±â
 void UI_ProcessManager::Open()
 {
-	PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr()->UseUIComponent();
+	PlayLevel::GetCurLevel()->GetUIManagerPtr()->UseUIComponent();
 
 	if (nullptr != ProcessListWindow)
 	{
@@ -92,8 +92,8 @@ void UI_ProcessManager::Open()
 // ´Ý±â
 void UI_ProcessManager::Close()
 {
-	PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr()->DoneUIComponent();
-	PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->FinishWork();
+	PlayLevel::GetCurLevel()->GetUIManagerPtr()->DoneUIComponent();
+	PlayLevel::GetCurLevel()->GetPlayerPtr()->FinishWork();
 
 	if (nullptr != ProcessListWindow)
 	{

@@ -83,10 +83,10 @@ void AureaFindEvent::StartAureaFocusOn(GameEngineState* _Parent)
 		return;
 	}
 
-	const std::shared_ptr<CameraControler>& LevelCameraPtr = PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr();
+	const std::shared_ptr<CameraControler>& LevelCameraPtr = PlayLevel::GetCurLevel()->GetLevelCameraPtr();
 	LevelCameraPtr->SetCameraMode(ECAMERAMODE::Cinematic);
 
-	const float4 ElliePos = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->Transform.GetLocalPosition();
+	const float4 ElliePos = PlayLevel::GetCurLevel()->GetPlayerPtr()->Transform.GetLocalPosition();
 	const float4 CameraPos = LevelCameraPtr->AdjustCameraInitialPosition(ElliePos);
 
 	TargetPos = LevelCameraPtr->AdjustCameraInitialPosition(AureaPtr->Transform.GetLocalPosition());
@@ -98,8 +98,8 @@ void AureaFindEvent::StartAureaFocusOn(GameEngineState* _Parent)
 
 void AureaFindEvent::StartAureaFocusOff(GameEngineState* _Parent)
 {
-	const float4 CameraPos = PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr()->GetCameraCurrentPostion();
-	const float4 ElliePos = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->Transform.GetLocalPosition();
+	const float4 CameraPos = PlayLevel::GetCurLevel()->GetLevelCameraPtr()->GetCameraCurrentPostion();
+	const float4 ElliePos = PlayLevel::GetCurLevel()->GetPlayerPtr()->Transform.GetLocalPosition();
 
 	TargetPos = ElliePos;
 
@@ -122,7 +122,7 @@ void AureaFindEvent::StartSecondConversation(GameEngineState* _Parent)
 void AureaFindEvent::UpdateAureaFocusOn(float _Delta, GameEngineState* _Parent)
 {
 	const float4 MoveCameraVector = CameraDirection* CameraMovePower* _Delta;
-	PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr()->AddCameraPos(MoveCameraVector);
+	PlayLevel::GetCurLevel()->GetLevelCameraPtr()->AddCameraPos(MoveCameraVector);
 
 	float Distance = CalculateDistanceCamemeraToActor(TargetPos);
 	if (Distance < 4.0f)
@@ -142,7 +142,7 @@ void AureaFindEvent::UpdateStay(float _Delta, GameEngineState* _Parent)
 void AureaFindEvent::UpdateAureaFocusOff(float _Delta, GameEngineState* _Parent)
 {
 	const float4 MoveCameraVector = CameraDirection * CameraMovePower * _Delta;
-	PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr()->AddCameraPos(MoveCameraVector);
+	PlayLevel::GetCurLevel()->GetLevelCameraPtr()->AddCameraPos(MoveCameraVector);
 
 	float Distance = CalculateDistanceCamemeraToActor(TargetPos);
 	if (Distance < 4.0f)
@@ -174,14 +174,14 @@ void AureaFindEvent::ConversationSetting()
 
 	VirgilConveration.SetConversationEndEvent(ECURSEEVENTTOPIC::Look, [&]()
 		{
-			PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr()->UseUIComponent();
+			PlayLevel::GetCurLevel()->GetUIManagerPtr()->UseUIComponent();
 			State.ChangeState(ECURSEEVENTSTATE::AureaFocusOn);
 		});
 
 
 
 	Topic CloserTopic;
-	CloserTopic.Default_Npc_Sprite_Index = 0;
+	CloserTopic.Npc_DefaultIndex = 0;
 	CloserTopic.Data.reserve(64);
 	CloserTopic.Data =
 	{
@@ -195,7 +195,7 @@ void AureaFindEvent::ConversationSetting()
 
 	VirgilConveration.SetConversationEndEvent(ECURSEEVENTTOPIC::Closer, [&]()
 		{
-			PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr()->SetCameraMode(ECAMERAMODE::Play);
+			PlayLevel::GetCurLevel()->GetLevelCameraPtr()->SetCameraMode(ECAMERAMODE::Play);
 			Death();
 		});
 }

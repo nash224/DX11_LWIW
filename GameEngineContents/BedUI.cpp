@@ -211,7 +211,7 @@ void BedUI::UpdateDisappear(float _Delta, GameEngineState* _Parent)
 
 void BedUI::Open()
 {
-	PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->OffControl();
+	PlayLevel::GetCurLevel()->GetPlayerPtr()->OffControl();
 
 	Reset();
 	State.ChangeState(EBEDUISTATE::PopUp);
@@ -221,7 +221,7 @@ void BedUI::Open()
 
 void BedUI::Close()
 {
-	PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->OnControl();
+	PlayLevel::GetCurLevel()->GetPlayerPtr()->OnControl();
 
 	Off();
 }

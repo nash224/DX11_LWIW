@@ -29,7 +29,7 @@ void HouseDustEvent::LevelEnd(class GameEngineLevel* _NextLevel)
 void HouseDustEvent::ConversationSetting()
 {
 	Topic LookDustTopic;
-	LookDustTopic.Elli_First_Sprite_Index = 3;
+	LookDustTopic.Elli_StartIndex = 3;
 
 	LookDustTopic.Data.reserve(64);
 	LookDustTopic.Data =

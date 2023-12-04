@@ -3,7 +3,7 @@
 
 
 #include "BackDrop_PlayLevel.h"
-#include "PlayLevel.h"
+#include "PixelManager.h"
 
 WitchHouse::WitchHouse() 
 {
@@ -43,7 +43,7 @@ void WitchHouse::Init()
 	static constexpr float YRender_Correction = 148.0f;
 
 
-	const std::shared_ptr<BackDrop_PlayLevel>& BackDropPtr = PlayLevel::GetPlayLevelPtr()->GetBackDropPtr();
+	const std::shared_ptr<BackDrop_PlayLevel>& BackDropPtr = PlayLevel::GetCurLevel()->GetBackDropPtr();
 	if (nullptr == BackDropPtr)
 	{
 		MsgBoxAssert("배경 매니저가 존재하지 않습니다.");
@@ -88,31 +88,31 @@ void WitchHouse::RendererSetting()
 
 void WitchHouse::UpdateHouseDebug()
 {
-	if (false == IsRendererDebug && true == PlayLevel::PixelDebugMode)
+	if (false == IsRendererDebug && true == PixelManager::PixelDebugMode)
 	{
-		for (std::weak_ptr<GameEngineSpriteRenderer> HouseRenderer : HouseRenderers)
+		if (HouseRenderers.empty())
 		{
-			if (true == HouseRenderer.expired())
-			{
-				return;
-			}
-
-			HouseRenderer.lock()->Off();
+			return;
+		}
+		
+		for (const std::shared_ptr<GameEngineSpriteRenderer>& HouseRenderer : HouseRenderers)
+		{
+			HouseRenderer->Off();
 		}
 
 		IsRendererDebug = true;
 	}
 
-	if (true == IsRendererDebug && false == PlayLevel::PixelDebugMode)
+	if (true == IsRendererDebug && false == PixelManager::PixelDebugMode)
 	{
-		for (std::weak_ptr<GameEngineSpriteRenderer> HouseRenderer : HouseRenderers)
+		if (HouseRenderers.empty())
 		{
-			if (true == HouseRenderer.expired())
-			{
-				return;
-			}
-			
-			HouseRenderer.lock()->On();
+			return;
+		}
+
+		for (const std::shared_ptr<GameEngineSpriteRenderer>& HouseRenderer : HouseRenderers)
+		{
+			HouseRenderer->On();
 		}
 
 		IsRendererDebug = false;

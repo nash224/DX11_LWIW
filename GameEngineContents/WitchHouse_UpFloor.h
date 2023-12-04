@@ -24,7 +24,7 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
-	void SetPlayerPos(class GameEngineLevel* _NextLevel) const;
+	void SetPlayerPosAndFade(class GameEngineLevel* _NextLevel);
 
 	void AutoPlayBGM();
 

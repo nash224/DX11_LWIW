@@ -25,18 +25,40 @@ BackDrop_WitchHouse_DownFloor::~BackDrop_WitchHouse_DownFloor()
 void BackDrop_WitchHouse_DownFloor::Start()
 {
 	BackDrop_PlayLevel::Start();
-
-	DustEventSetting();
-	
-	BackDrop_PlayLevel::CreateItem("MapleHerb_Water", float4(670.0f , -260.0f), 1);
-	BackDrop_PlayLevel::CreateItem("Mongsiri_Water", float4(450.0f, -250.0f), 1);
-	BackDrop_PlayLevel::CreateItem("Mongsiri_Water", float4(670.0f, -430.0f), 1);
-	BackDrop_PlayLevel::CreateItem("WitchFlower_Water", float4(450.0f, -430.0f), 1);
 }
 
 void BackDrop_WitchHouse_DownFloor::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	BackDrop_PlayLevel::LevelStart(_NextLevel);
+
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\PlayContents\\WitchHouse_DownFloor");
+		std::vector<GameEngineDirectory> Dirs = Dir.GetAllDirectory();
+		for (GameEngineDirectory& Dircetory : Dirs)
+		{
+			std::vector<GameEngineFile> Files = Dircetory.GetAllFile();
+			for (GameEngineFile& pFile : Files)
+			{
+				GameEngineTexture::Load(pFile.GetStringPath());
+			}
+		}
+	}
+
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\PlayContents\\WitchHouse_DownFloor\\DownSingle");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pFile : Files)
+		{
+			GameEngineSprite::CreateSingle(pFile.GetFileName());
+		}
+	}
+
+
 	RenewMap();
 }
 
@@ -49,19 +71,30 @@ void BackDrop_WitchHouse_DownFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 	for (GameEngineFile& pFile : Files)
 	{
 		GameEngineSprite::Release(pFile.GetFileName());
+		GameEngineTexture::Release(pFile.GetFileName());
 	}
+
+	FileLoadFunction::ReleaseAllTextureInPath("Resources\\PlayContents\\WitchHouse_DownFloor\\Down_Sprite");
+}
+
+void BackDrop_WitchHouse_DownFloor::Init()
+{
+	DustEventSetting();
+
+	BackDrop_PlayLevel::CreateItem("MapleHerb_Water", float4(670.0f, -260.0f), 1);
+	BackDrop_PlayLevel::CreateItem("Mongsiri_Water", float4(450.0f, -250.0f), 1);
+	BackDrop_PlayLevel::CreateItem("Mongsiri_Water", float4(670.0f, -430.0f), 1);
+	BackDrop_PlayLevel::CreateItem("WitchFlower_Water", float4(450.0f, -430.0f), 1);
 }
 
 
 void BackDrop_WitchHouse_DownFloor::RenewMap()
 {
-	GameEngineDirectory Dir;
-	Dir.MoveParentToExistsChild("Resources");
-	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_DownFloor\\DownSingle");
-	std::vector<GameEngineFile> Files = Dir.GetAllFile();
-	for (GameEngineFile& pFile: Files)
+	static bool InitCheck = false;
+	if (false == InitCheck)
 	{
-		GameEngineSprite::CreateSingle(pFile.GetFileName());
+		Init();
+		InitCheck = true;
 	}
 
 	PropSetting();

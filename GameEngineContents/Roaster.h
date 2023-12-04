@@ -1,5 +1,5 @@
 #pragma once
-#include "StaticEntity.h"
+#include "InteractiveActor.h"
 
 
 enum class EROASTERSTATE
@@ -12,7 +12,7 @@ enum class EROASTERSTATE
 
 
 // Ό³Έν :
-class Roaster : public StaticEntity
+class Roaster : public InteractiveActor
 {
 public:
 	// constrcuter destructer
@@ -41,10 +41,6 @@ private:
 	void UpdateState(float _Delta);
 	void ChangeState(EROASTERSTATE _State);
 	void ChangeRoasterCompositionAnimation(std::string_view _StateName);
-
-
-	void StartBroken();
-	void UpdateBroken(float _Delta);
 
 	void StartIdle();
 	void UpdateIdle(float _Delta);

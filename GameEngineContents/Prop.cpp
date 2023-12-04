@@ -89,7 +89,7 @@ void Prop::SetRendererImageScale(const float4& _Scale)
 // 플레이 레벨에서 ZSort
 void Prop::SetPositionAndDepth(const float4& _Position)
 {
-	const std::shared_ptr<BackDrop_PlayLevel>& BackDropPtr = PlayLevel::GetPlayLevelPtr()->GetBackDropPtr();
+	const std::shared_ptr<BackDrop_PlayLevel>& BackDropPtr = PlayLevel::GetCurLevel()->GetBackDropPtr();
 	if (nullptr == BackDropPtr)
 	{
 		MsgBoxAssert("배경 매니저가 존재하지 않습니다.");

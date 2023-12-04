@@ -702,8 +702,6 @@ void Ellie::EndJuicy()
 	{
 		EllieCol->On();
 	}
-
-	OtherEntity = nullptr;
 }
 
 

@@ -6,6 +6,7 @@
 #include "CameraControler.h"
 #include "BackDrop_CenterField.h"
 #include "Ellie.h"
+#include "FadeObject.h"
 
 Field_Center::Field_Center() 
 {
@@ -45,21 +46,12 @@ void Field_Center::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	FieldLevel::LevelStart(_NextLevel);
 
-	LoadTexture();
-
-	SetPlayerPos(_NextLevel);
+	SetPlayerPosAndFade(_NextLevel);
 	CameraSetting();
 }
 
-void Field_Center::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-	FieldLevel::LevelEnd(_NextLevel);
 
-	ReleaseTexture();
-}
-
-
-void Field_Center::SetPlayerPos(class GameEngineLevel* _NextLevel) const
+void Field_Center::SetPlayerPosAndFade(class GameEngineLevel* _NextLevel)
 {
 	if (nullptr == PlayLevel::Player)
 	{
@@ -67,20 +59,24 @@ void Field_Center::SetPlayerPos(class GameEngineLevel* _NextLevel) const
 		return;
 	}
 
-	float4 SpawnPosition;
-
 	if (_NextLevel->GetName() == "WitchHouse_Yard")
 	{
-		SpawnPosition = { 1430.0f , -50.0f };
+		PlayLevel::Player->Transform.SetLocalPosition(float4(1430.0f, -50.0f));
 		PlayLevel::Player->SetAnimationByDirection(EDIRECTION::DOWN);
+
+		std::shared_ptr<FadeObject> Fade = CreateActor<FadeObject>(EUPDATEORDER::Fade);
+		Fade->CallFadeIn(0.2f);
 	}
 	else
 	{
-		SpawnPosition = { 1430.0f , -50.0f };
+		PlayLevel::Player->Transform.SetLocalPosition(float4(1430.0f, -50.0f));
 		PlayLevel::Player->SetAnimationByDirection(EDIRECTION::DOWN);
+
+		std::shared_ptr<FadeObject> Fade = CreateActor<FadeObject>(EUPDATEORDER::Fade);
+		Fade->CallFadeIn(1.0f);
 	}
 
-	PlayLevel::Player->Transform.SetLocalPosition(SpawnPosition);
+	
 }
 
 void Field_Center::CameraSetting()
@@ -95,32 +91,5 @@ void Field_Center::CameraSetting()
 
 		ContentsLevel::LevelCamera->SetFocusActor(PlayLevel::Player.get());
 		ContentsLevel::LevelCamera->SetAutoInitialPosition(PlayLevel::Player->Transform.GetWorldPosition());
-	}
-}
-
-
-void Field_Center::LoadTexture()
-{
-	GameEngineDirectory Dir;
-	Dir.MoveParentToExistsChild("Resources");
-	Dir.MoveChild("Resources\\PlayContents\\FieldCenter");
-	std::vector<GameEngineFile> Files = Dir.GetAllFile();
-	for (size_t i = 0; i < Files.size(); i++)
-	{
-		GameEngineFile File = Files[i];
-		GameEngineTexture::Load(File.GetStringPath());
-	}
-}
-
-void Field_Center::ReleaseTexture()
-{
-	GameEngineDirectory Dir;
-	Dir.MoveParentToExistsChild("Resources");
-	Dir.MoveChild("Resources\\PlayContents\\FieldCenter");
-	std::vector<GameEngineFile> Files = Dir.GetAllFile();
-	for (size_t i = 0; i < Files.size(); i++)
-	{
-		GameEngineFile File = Files[i];
-		GameEngineTexture::Release(File.GetFileName());
 	}
 }

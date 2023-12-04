@@ -51,13 +51,13 @@ void AlertManager::AlertCall(const std::shared_ptr<AlertData>& _Data)
 	switch (_Data->Type)
 	{
 	case EALERTTYPE::Enter:
-		UI_Alert_Enter::AlertLevelEnter(PlayLevel::GetPlayLevelPtr(), _Data->AlertName);
+		UI_Alert_Enter::AlertLevelEnter(PlayLevel::GetCurLevel(), _Data->AlertName);
 		break;
 	case EALERTTYPE::QuestAccept:
-		UI_Alert_Quest::CallAlertQuest(PlayLevel::GetPlayLevelPtr(), _Data->AlertName, EALERTTYPE::QuestAccept);
+		UI_Alert_Quest::CallAlertQuest(PlayLevel::GetCurLevel(), _Data->AlertName, EALERTTYPE::QuestAccept);
 		break;
 	case EALERTTYPE::QuestClear:
-		UI_Alert_Quest::CallAlertQuest(PlayLevel::GetPlayLevelPtr(), _Data->AlertName, EALERTTYPE::QuestClear);
+		UI_Alert_Quest::CallAlertQuest(PlayLevel::GetCurLevel(), _Data->AlertName, EALERTTYPE::QuestClear);
 		break;
 	case EALERTTYPE::Tutorial:
 		break;

@@ -32,7 +32,7 @@ void CrowEvent::Update(float _Delta)
 	if (false == EventStart)
 	{
 		EventStart = true;
-		PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr()->UseUIComponent();
+		PlayLevel::GetCurLevel()->GetUIManagerPtr()->UseUIComponent();
 	}
 
 	State.Update(_Delta);
@@ -166,7 +166,7 @@ void CrowEvent::ConversationSetting()
 {
 	Topic CrowTopic;
 	CrowTopic.EntitySpriteName = CrowTopic.Expression_Crow_Sprite_Name;
-	CrowTopic.Default_Npc_Sprite_Index = 0;
+	CrowTopic.Npc_DefaultIndex = 0;
 
 	CrowTopic.Data.reserve(64);
 	CrowTopic.Data =
@@ -207,7 +207,7 @@ void CrowEvent::ConversationSetting()
 		{
 			CrowRenderer->ChangeAnimation("Disappear");
 
-			PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr()->UseUIComponent();
+			PlayLevel::GetCurLevel()->GetUIManagerPtr()->UseUIComponent();
 
 			State.ChangeState(ECROWSTATE::Disappear);
 		});
@@ -215,7 +215,7 @@ void CrowEvent::ConversationSetting()
 
 
 	Topic DisappearTopic;
-	DisappearTopic.Default_Npc_Sprite_Index = 0;
+	DisappearTopic.Npc_DefaultIndex = 0;
 	DisappearTopic.Data.reserve(64);
 	DisappearTopic.Data =
 	{

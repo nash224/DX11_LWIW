@@ -1,7 +1,7 @@
 #include "PreCompile.h"
 #include "NormalProp.h"
 
-#include "ContentsLevel.h"
+#include "PixelSetter.h"
 
 
 NormalProp::NormalProp()
@@ -30,21 +30,9 @@ void NormalProp::Init(int _Order /*= 0*/)
 	m_Renderer = CreateComponent<GameEngineSpriteRenderer>(_Order);
 }
 
-bool NormalProp::GetPixelCheck()
-{
-	return PixelRendererCheck;
-}
-
 void NormalProp::SetPixelCollision(std::string_view _FileName)
 {
-	m_DebugRenderer = CreateComponent<GameEngineSpriteRenderer>();
-	m_DebugRenderer->SetSprite(_FileName);
-	m_DebugRenderer->SetViewCameraSelect(static_cast<int>(ECAMERAORDER::MainPrev));
-	m_DebugRenderer->RenderBaseInfoValue.Target0 = 0;
-	m_DebugRenderer->RenderBaseInfoValue.Target1 = 1;
-	m_DebugRenderer->On();
-
-	PixelRendererCheck = true;
+	m_DebugRenderer = PixelSetter::SetPixelCollision(this, _FileName);
 }
 
 void NormalProp::ChangePixeldata(std::string_view _PixelName)

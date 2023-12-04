@@ -1,10 +1,9 @@
 #include "PreCompile.h"
 #include "BackDrop_PlayLevel.h"
 
-#include "NormalProp.h"
-#include "StaticEntity.h"
 #include "PixelManager.h"
 
+#include "RendererActor.h"
 #include "LootedItem.h"
 
 

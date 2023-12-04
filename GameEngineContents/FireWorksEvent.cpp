@@ -127,7 +127,7 @@ void FireWorksEvent::ConversationSetting()
 
 	EventConversation.SetConversationEndEvent(EFIREWORKSEVENTTOPIC::Ready, [&]()
 		{
-			PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr()->UseUIComponent();
+			PlayLevel::GetCurLevel()->GetUIManagerPtr()->UseUIComponent();
 
 			State.ChangeState(EFIREWORKSSTATE::FireWorks);
 		});
@@ -147,7 +147,7 @@ void FireWorksEvent::ConversationSetting()
 
 	EventConversation.SetConversationEndEvent(EFIREWORKSEVENTTOPIC::Last, [&]()
 		{
-			PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr()->UseUIComponent();
+			PlayLevel::GetCurLevel()->GetUIManagerPtr()->UseUIComponent();
 
 			State.ChangeState(EFIREWORKSSTATE::EndTraining);
 		});
@@ -192,11 +192,11 @@ void FireWorksEvent::StartFadeIn(GameEngineState* _Parent)
 	std::weak_ptr<FadeObject> Fade = GetLevel()->CreateActor<FadeObject>(EUPDATEORDER::Fade);
 	Fade.lock()->CallFadeIn(LastFadeTime);
 
-	const std::shared_ptr<CameraControler>& LevelCameraPtr = PlayLevel::GetPlayLevelPtr()->GetLevelCameraPtr();
+	const std::shared_ptr<CameraControler>& LevelCameraPtr = PlayLevel::GetCurLevel()->GetLevelCameraPtr();
 	LevelCameraPtr->SetCameraMode(ECAMERAMODE::Fix);
 	LevelCameraPtr->SetCameraPos(Transform.GetLocalPosition());
 
-	PlayLevel::GetPlayLevelPtr()->GetUIManagerPtr()->UseUIComponent();
+	PlayLevel::GetCurLevel()->GetUIManagerPtr()->UseUIComponent();
 
 	if (nullptr != ContentsLevel::MainPlaySound)
 	{
@@ -302,7 +302,7 @@ void FireWorksEvent::SetElliePlacement() const
 {
 	const float4& VectorToEllie = float4(-70.0f, -20.0f);
 	
-	const std::shared_ptr<Ellie>& PlayerPtr = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr();
+	const std::shared_ptr<Ellie>& PlayerPtr = PlayLevel::GetCurLevel()->GetPlayerPtr();
 	PlayerPtr->Transform.SetLocalPosition(VectorToEllie + Transform.GetLocalPosition());
 	PlayerPtr->SetAnimationByDirection(EDIRECTION::RIGHT);
 	PlayerPtr->ApplyDepth();

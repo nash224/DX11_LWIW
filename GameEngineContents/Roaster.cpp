@@ -14,7 +14,7 @@ Roaster::~Roaster()
 
 void Roaster::Start()
 {
-	StaticEntity::Start();
+	InteractiveActor::Start();
 	CreateAndSetCollision(ECOLLISION::Entity, { 120.0f , 80.0f }, float4(0.0f, -40.0f), ColType::AABBBOX2D);
 	SetInteractionType(EINTERACTION_TYPE::Far);
 	SetInteractionButtonType(EINTERACTION_BUTTONTYPE::Gear);
@@ -22,14 +22,14 @@ void Roaster::Start()
 
 void Roaster::Update(float _Delta)
 {
-	StaticEntity::Update(_Delta);
+	InteractiveActor::Update(_Delta);
 
 	UpdateState(_Delta);
 }
 
 void Roaster::Release()
 {
-	StaticEntity::Release();
+	InteractiveActor::Release();
 
 	ShadowRenderer = nullptr;
 	m_Roaster = nullptr;
@@ -41,9 +41,6 @@ void Roaster::LevelEnd(class GameEngineLevel* _NextLevel)
 	Death();
 }
 
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 
 void Roaster::Init()
@@ -61,11 +58,9 @@ void Roaster::RendererSetting()
 		GameEngineSprite::CreateCut("Roaster_0_Top.png", 7, 6);
 	}
 
-	static constexpr const int RenderOrder = 0;
-
-	m_Roaster = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
-	m_RoasterFXSteam = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
-	ShadowRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
+	m_Roaster = CreateComponent<GameEngineSpriteRenderer>();
+	m_RoasterFXSteam = CreateComponent<GameEngineSpriteRenderer>();
+	ShadowRenderer = CreateComponent<GameEngineSpriteRenderer>();
 
 
 	m_Roaster->CreateAnimation("Broken", "Roaster_0.png", 5.0f, 7, 7);
@@ -129,16 +124,13 @@ void Roaster::ChangeState(EROASTERSTATE _State)
 
 void Roaster::ChangeRoasterCompositionAnimation(std::string_view _StateName)
 {
-	std::string AnimationName = "";
-	AnimationName += _StateName.data();
-
 	if (nullptr == m_Roaster)
 	{
 		MsgBoxAssert("믿기지 않겠지만 렌더러가 존재하지 않습니다.");
 		return;
 	}
 
-	m_Roaster->ChangeAnimation(AnimationName);
+	m_Roaster->ChangeAnimation(_StateName.data());
 }
 
 

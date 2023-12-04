@@ -135,7 +135,7 @@ void BaseLift::StartEnter(GameEngineState* _Parent)
 		InteractiveActor::InteractiveCol->Off();
 	}
 
-	const std::shared_ptr<Ellie>& PlayerPtr = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr();
+	const std::shared_ptr<Ellie>& PlayerPtr = PlayLevel::GetCurLevel()->GetPlayerPtr();
 	PlayerPtr->SetLocalPosition(Transform.GetLocalPosition());
 	PlayerPtr->OffControl();
 	PlayerPtr->SetAnimationByDirection(EDIRECTION::DOWN);
@@ -151,6 +151,9 @@ void BaseLift::StartArrive(GameEngineState* _Parent)
 	{
 		InteractiveActor::InteractiveCol->Off();
 	}
+
+	std::shared_ptr<FadeObject> Fade = GetLevel()->CreateActor<FadeObject>(EUPDATEORDER::Fade);
+	Fade->CallFadeIn(1.0f);
 }
 
 
@@ -174,7 +177,7 @@ void BaseLift::UpdateArrive(float _Delta, GameEngineState* _Parent)
 {
 	if (false == isArriveInit)
 	{
-		const std::shared_ptr<Ellie>& PlayerPtr = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr();
+		const std::shared_ptr<Ellie>& PlayerPtr = PlayLevel::GetCurLevel()->GetPlayerPtr();
 		PlayerPtr->SetAnimationByDirection(EDIRECTION::DOWN);
 		PlayerPtr->OffControl();
 
@@ -202,13 +205,13 @@ void BaseLift::UpdateArrive(float _Delta, GameEngineState* _Parent)
 void BaseLift::EndEnter(GameEngineState* _Parent)
 {
 	GameEngineInput::IsObjectAllInputOn();
-	PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->OnControl();
+	PlayLevel::GetCurLevel()->GetPlayerPtr()->OnControl();
 }
 
 void BaseLift::EndArrive(GameEngineState* _Parent)
 {
 	GameEngineInput::IsObjectAllInputOn();
-	const std::shared_ptr<Ellie>& PlayerPtr = PlayLevel::GetPlayLevelPtr()->GetPlayerPtr();
+	const std::shared_ptr<Ellie>& PlayerPtr = PlayLevel::GetCurLevel()->GetPlayerPtr();
 	PlayerPtr->OnControl();
 	PlayerPtr->SetLocalPosition(LiftArrivePoint);
 }
@@ -240,7 +243,7 @@ void BaseLift::MoveEv(float _Delta, ELIFTDIR _LiftType)
 
 	LiftMoveVector *= LiftSpeed * _Delta;
 
-	PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->AddLocalPosition(LiftMoveVector);
+	PlayLevel::GetCurLevel()->GetPlayerPtr()->AddLocalPosition(LiftMoveVector);
 	Transform.AddLocalPosition(LiftMoveVector);
 }
 
@@ -259,7 +262,7 @@ void BaseLift::SetEv(ELIFTDIR _LiftType)
 	LiftMoveVector *= ArriveStartDistance;
 	LiftMoveVector = Transform.GetLocalPosition() + LiftMoveVector;
 
-	PlayLevel::GetPlayLevelPtr()->GetPlayerPtr()->SetLocalPosition(LiftMoveVector);
+	PlayLevel::GetCurLevel()->GetPlayerPtr()->SetLocalPosition(LiftMoveVector);
 	
 
 	Transform.SetLocalPosition(LiftMoveVector);
