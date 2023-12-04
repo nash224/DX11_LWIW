@@ -228,7 +228,7 @@ private:
 
 	
 	void CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce);
-	EDIRECTION ReturnDirectionCheckBothSide(EDIRECTION _Direction, const float4& _LeftCheckPoint, const float4& _RightCheckPoint);
+	virtual EDIRECTION ReturnDirectionCheckBothSide(EDIRECTION _Direction, const float4& _LeftCheckPoint, const float4& _RightCheckPoint);
 
 	// Move & WallCollision
 	void DecelerateNotDir(float _Delta, const float _MaxMoveForce);

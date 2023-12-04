@@ -34,6 +34,8 @@ public:
 	bool GetPixelCheck();
 	GameEngineColor GetColor(const float4& _Position, GameEngineColor _DefaultColor = GameEngineColor::WHITE);
 
+	std::shared_ptr<GameEngineSpriteRenderer> m_DebugRenderer = nullptr;
+
 protected:
 	void Start() override {}
 	void Update(float _Delta) override {}
@@ -44,7 +46,6 @@ protected:
 protected:
 	PixelCollision PixelCol;
 
-	std::shared_ptr<GameEngineSpriteRenderer> m_DebugRenderer = nullptr;
 
 	bool IsRendererOn = true;
 	bool PixelRendererCheck = false;

@@ -280,6 +280,9 @@
     <Filter Include="Actor\Interactive\Creature\PumpkinTerrier">
       <UniqueIdentifier>{d8a4f972-b663-4186-8e67-0b79a54b9061}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Z_Test\Actor">
+      <UniqueIdentifier>{cf74d636-0f21-4c3b-8738-650d31b55b62}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -700,9 +703,6 @@
     <ClInclude Include="QuestData.h">
       <Filter>Data\Contents</Filter>
     </ClInclude>
-    <ClInclude Include="TestCircleGauge.h">
-      <Filter>Z_Test</Filter>
-    </ClInclude>
     <ClInclude Include="HoldingGauge.h">
       <Filter>Component\CircleProgressBar</Filter>
     </ClInclude>
@@ -771,6 +771,12 @@
     </ClInclude>
     <ClInclude Include="PixelManager.h">
       <Filter>Z_Test</Filter>
+    </ClInclude>
+    <ClInclude Include="TestCircleGauge.h">
+      <Filter>Z_Test\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="TestPlayer.h">
+      <Filter>Z_Test\Actor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1223,9 +1229,6 @@
     <ClCompile Include="QuestData.cpp">
       <Filter>Data\Contents</Filter>
     </ClCompile>
-    <ClCompile Include="TestCircleGauge.cpp">
-      <Filter>Z_Test</Filter>
-    </ClCompile>
     <ClCompile Include="HoldingGauge.cpp">
       <Filter>Component\CircleProgressBar</Filter>
     </ClCompile>
@@ -1294,6 +1297,12 @@
     </ClCompile>
     <ClCompile Include="PixelManager.cpp">
       <Filter>Z_Test</Filter>
+    </ClCompile>
+    <ClCompile Include="TestCircleGauge.cpp">
+      <Filter>Z_Test\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="TestPlayer.cpp">
+      <Filter>Z_Test\Actor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

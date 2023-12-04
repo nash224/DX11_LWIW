@@ -111,6 +111,7 @@ void Ellie::Update(float _Delta)
 
 void Ellie::Release()
 {
+	BodyRenderer = nullptr;
 	ShadowRenderer = nullptr;
 	VirgilRenderer = nullptr;
 
@@ -805,7 +806,7 @@ EDIRECTION Ellie::ReturnDirectionCheckBothSide(EDIRECTION _Direction, const floa
 
 	int DirNum = static_cast<int>(_Direction);
 
-	bool LeftCheck = MainBackDropPtr->IsColorAtPosition(_LeftCheckPoint, GameEngineColor::RED);
+ 	bool LeftCheck = MainBackDropPtr->IsColorAtPosition(_LeftCheckPoint, GameEngineColor::RED);
 	bool RightCheck = MainBackDropPtr->IsColorAtPosition(_RightCheckPoint, GameEngineColor::RED);
 
 	bool isLeftWall = (true == LeftCheck && false == RightCheck);

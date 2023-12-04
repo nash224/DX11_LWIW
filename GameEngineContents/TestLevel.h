@@ -6,6 +6,9 @@
 class TestLevel : public PlayLevel
 {
 public:
+	std::shared_ptr<class PixelManager> PixelManagerPtr = nullptr;
+
+public:
 	// constrcuter destructer
 	TestLevel();
 	~TestLevel();
@@ -23,9 +26,10 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 	void TestCode();
+	void SetPixelMap();
 
 private:
-	std::shared_ptr<class Ellie> Player = nullptr;
+	std::shared_ptr<class TestPlayer> Player = nullptr;
 	std::shared_ptr<class UIManager> UI = nullptr;
 	std::shared_ptr<class SkyLerp> SkyLight;
 	std::shared_ptr<class Bush> bush = nullptr;

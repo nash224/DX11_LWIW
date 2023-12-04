@@ -397,6 +397,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="TestPlayer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="UpperLiftA.cpp">
       <SubType>
       </SubType>
@@ -1043,6 +1047,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="PixelManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TestPlayer.h">
       <SubType>
       </SubType>
     </ClInclude>
