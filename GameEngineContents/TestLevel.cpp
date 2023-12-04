@@ -32,10 +32,6 @@
 
 TestLevel::TestLevel() 
 {
-	// 1920, 1080
-	std::shared_ptr<GameEngineCamera> NewCamera = CreateCamera(INT_MIN, ECAMERAORDER::MainPrev);
-	NewCamera->Transform.SetLocalPosition(float4(GlobalValue::GetWindowScale().hX(), -GlobalValue::GetWindowScale().hY(), -500.0f));
-
 	if (nullptr != LevelCamera)
 	{
 		float4 Position = GlobalValue::GetWindowScale().Half();
@@ -54,9 +50,13 @@ void TestLevel::Start()
 {
 	GameEngineInput::AddInputObject(this);
 
+	
+
+	std::shared_ptr<GameEngineCamera> NewCamera = CreateCamera(INT_MIN, ECAMERAORDER::MainPrev);
+
 	GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<OutLineEffect>();
 
-	std::shared_ptr<GameEngineCoreWindow> Window = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
+	const std::shared_ptr<GameEngineCoreWindow>& Window = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
 	if (nullptr != Window)
 	{
 		Window->AddDebugRenderTarget(0, "TestRenderTarget", GetMainCamera()->GetCameraAllRenderTarget());
@@ -301,12 +301,15 @@ void TestLevel::SetPixelMap()
 	MapPixel->m_DebugRenderer->RenderBaseInfoValue.Target1 = 1;
 	MapPixel->m_DebugRenderer->On();
 
-	MapPixel = CreateActor<NormalProp>(EUPDATEORDER::Objects);
-	MapPixel->Transform.SetLocalPosition(float4(480.0f, -270.0f));
-	MapPixel->SetPixelCollision("Tree_Pixel.png");
-	MapPixel->m_DebugRenderer->GetImageTransform().SetLocalScale(float4(300.0f, 300.0f));
-	MapPixel->m_DebugRenderer->SetViewCameraSelect(static_cast<int>(ECAMERAORDER::MainPrev));
-	MapPixel->m_DebugRenderer->RenderBaseInfoValue.Target0 = 0;
-	MapPixel->m_DebugRenderer->RenderBaseInfoValue.Target1 = 1;
-	MapPixel->m_DebugRenderer->On();
+	if (bool isTestOn = false)
+	{
+		MapPixel = CreateActor<NormalProp>(EUPDATEORDER::Objects);
+		MapPixel->Transform.SetLocalPosition(float4(480.0f, -270.0f));
+		MapPixel->SetPixelCollision("Tree_Pixel.png");
+		MapPixel->m_DebugRenderer->GetImageTransform().SetLocalScale(float4(300.0f, 300.0f));
+		MapPixel->m_DebugRenderer->SetViewCameraSelect(static_cast<int>(ECAMERAORDER::MainPrev));
+		MapPixel->m_DebugRenderer->RenderBaseInfoValue.Target0 = 0;
+		MapPixel->m_DebugRenderer->RenderBaseInfoValue.Target1 = 1;
+		MapPixel->m_DebugRenderer->On();
+	}
 }

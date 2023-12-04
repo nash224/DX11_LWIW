@@ -260,9 +260,9 @@ void GameEngineStructuredBuffer::ChangeData(const void* _Data, size_t _Size)
 void GameEngineStructuredBuffer::SetData(void* _pSrc, size_t _Count)
 {
 	// 공간이 모자라면 추가할당하면서 초기화한다.
-	if (DataCount < _Count)
+	if (DataCount < static_cast<int>(_Count))
 	{
-		CreateResize(DataSize, _Count, Type, _pSrc);
+		CreateResize(DataSize, static_cast<int>(_Count), Type, _pSrc);
 		return;
 	}
 

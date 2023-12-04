@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "PixelManager.h"
 
+#include <GameEngineCore/GameEngineCoreWindow.h>
 #include <GameEngineCore/GameEngineRenderTarget.h>
 
 #include "BackDrop_PlayLevel.h"
@@ -8,7 +9,7 @@
 
 PixelManager::PixelManager() 
 {
-	
+
 }
 
 PixelManager::~PixelManager() 
@@ -17,17 +18,20 @@ PixelManager::~PixelManager()
 
 void PixelManager::Update(float _Delta)
 {
-	if (false == isCaptureTexture && false == isFirstFrame)
+	if (false == isCaptureTexture && false == isSetCamera)
 	{
-		CreatePixelRenderTarget();
-		CopyRenderData();
+		CreatePixelTexture();
 		isCaptureTexture = true;
 	}
+	if (true == isSetCamera)
+	{
+		SetCameraBeforeCaptureTexture();
+		isSetCamera = false;
+	}
 
-	isFirstFrame = false;
 }
 
-void PixelManager::CreatePixelRenderTarget()
+void PixelManager::SetCameraBeforeCaptureTexture()
 {
 	float4 BackScale;
 	if (true)
@@ -38,30 +42,42 @@ void PixelManager::CreatePixelRenderTarget()
 	{
 		BackScale = PlayLevel::GetPlayLevelPtr()->GetBackDropPtr()->GetBackGroundScale();
 	}
+	
+	BackScale = GlobalValue::GetWindowScale() * 2.0f;
+	const float4 WinScale = GlobalValue::GetWindowScale();
+	const float ResolutionRatio = WinScale.X / WinScale.Y;
 
-	PixelRenderTarget = GameEngineRenderTarget::Create();
-	PixelRenderTarget->AddNewTexture(DXGI_FORMAT_R8G8B8A8_UNORM, BackScale, float4::ZERONULL);
+	const float XRatio = BackScale.X / WinScale.X;
+	const float YRatio = BackScale.Y / WinScale.Y;
+
+	ZoomRatio = max(XRatio, YRatio);
+
+	const std::shared_ptr<GameEngineCamera>& CameraPtr = GetLevel()->GetCamera(static_cast<int>(ECAMERAORDER::MainPrev));
+	CameraPtr->SetZoomValue(ZoomRatio);
+	CameraPtr->Transform.SetLocalPosition(float4(BackScale.hX(), -BackScale.hY(), -1000.0f));
 }
 
-void PixelManager::CopyRenderData()
+void PixelManager::CreatePixelTexture()
 {
-	if (nullptr == PixelRenderTarget)
-	{
-		MsgBoxAssert("렌더타겟을 세팅하지 않고 복사할 수 없습니다.");
-		return;
-	}
-
 	const std::shared_ptr<GameEngineRenderTarget>& PrevRenderTarget = GetLevel()->GetCamera(static_cast<int>(ECAMERAORDER::MainPrev))->GetCameraAllRenderTarget();
-	PixelRenderTarget->GetTexture(0)->CaptureTexture(PrevRenderTarget->GetTexture(1)->GetTexure2D());
+	PixelTexture = GameEngineTexture::Create(PrevRenderTarget->GetTexture(1)->GetTexure2D());
+	PixelTexture->CaptureTexture();
+	PixelTexture->NotRefTexture2D();
 }
-
 
 GameEngineColor PixelManager::GetColor(const float4& _Position, GameEngineColor _DefaultColor /*= GameEngineColor::WHITE*/)
 {
+	if (nullptr == PixelTexture)
+	{
+		MsgBoxAssert("텍스처가 존재하지 않습니다.");
+		return GameEngineColor();
+	}
+
 	// DXGI_FORMAT_B8G8R8A8_UNORM
 	float4 CheckPosition = _Position;
 	CheckPosition.Y *= -1.0f;
+	CheckPosition /= ZoomRatio;
 
-	return PixelRenderTarget->GetTexture(0)->GetColor(CheckPosition, _DefaultColor);
+	return PixelTexture->GetColor(CheckPosition, _DefaultColor);
 }
 

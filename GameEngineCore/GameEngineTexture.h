@@ -123,15 +123,19 @@ public:
 	// 깊버거 세팅용
 	void CreateDepthStencilView();
 
-
-	void CaptureTexture(ID3D11Texture2D* _pTexture2D)
+	void CaptureTexture()
 	{
-		DirectX::CaptureTexture(GameEngineCore::GetDevice(), GameEngineCore::GetContext(), _pTexture2D, Image);
+		DirectX::CaptureTexture(GameEngineCore::GetDevice(), GameEngineCore::GetContext(), Texture2D, Image);
 	}
 
 	inline ID3D11Texture2D* GetTexure2D()
 	{
 		return Texture2D;
+	}
+
+	void NotRefTexture2D()
+	{
+		Texture2D = nullptr;
 	}
 
 protected:
