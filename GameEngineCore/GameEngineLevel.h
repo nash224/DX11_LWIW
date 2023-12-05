@@ -4,7 +4,7 @@
 // 설명 :
 // class GameEngineActor; 이래도되고
 class GameEngineLevel : public GameEngineObject
-{
+{ 
 	friend class GameEngineCore;
 	friend class GameEngineCamera;
 	friend class GameEngineCollision;

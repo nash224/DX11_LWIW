@@ -1,5 +1,4 @@
 #pragma once
-#include "DynamicEntity.h"
 
 // Ό³Έν :
 class SilverStarPollen : public GameEngineActor
@@ -18,7 +17,7 @@ public:
 	void Init();
 
 protected:
-	void Start() override;
+	void Start() override {}
 	void Update(float _Delta) override;
 	void Release() override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}

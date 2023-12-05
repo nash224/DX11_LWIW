@@ -1,11 +1,11 @@
 #include "PreCompile.h"
 #include "FlowerBird.h"
 
-#include "Ellie.h"
-
-#include "CameraControler.h"
+#include "ContentsMath.h"
 
 #include "BackDrop_PlayLevel.h"
+#include "CameraControler.h"
+#include "Ellie.h"
 
 
 
@@ -25,7 +25,7 @@ void FlowerBird::StartIdle()
 void FlowerBird::DecideAction()
 {
 	GameEngineRandom RandomClass;
-	RandomClass.SetSeed(reinterpret_cast<__int64>(this) + GlobalValue::GetSeedValue());
+	RandomClass.SetSeed(GlobalValue::GetSeedValue());
 
 	int ChoosingNumber = RandomClass.RandomInt(0, 5);
 	enum class EBIRDACTION
@@ -43,29 +43,29 @@ void FlowerBird::DecideAction()
 	switch (Chance)
 	{
 	case EBIRDACTION::OneTurn:
-		m_AssignedTurnCount = 1;
-		m_TurnCount = m_AssignedTurnCount;
-		m_NextState = EFLOWERBIRDSTATE::Turn;
+		AssignedTurnCount = 1;
+		TurnCount = AssignedTurnCount;
+		NextState = EFLOWERBIRDSTATE::Turn;
 		break;
 	case EBIRDACTION::TwoTurn:
-		m_AssignedTurnCount = 2;
-		m_TurnCount = m_AssignedTurnCount;
-		m_NextState = EFLOWERBIRDSTATE::Turn;
+		AssignedTurnCount = 2;
+		TurnCount = AssignedTurnCount;
+		NextState = EFLOWERBIRDSTATE::Turn;
 		break;
 	case EBIRDACTION::ThreeTurn:
-		m_AssignedTurnCount = 3;
-		m_TurnCount = m_AssignedTurnCount;
-		m_NextState = EFLOWERBIRDSTATE::Turn;
+		AssignedTurnCount = 3;
+		TurnCount = AssignedTurnCount;
+		NextState = EFLOWERBIRDSTATE::Turn;
 		break;
 	case EBIRDACTION::Pick:
-		m_PickCount = MaxPickCount;
-		m_NextState = EFLOWERBIRDSTATE::Pick;
+		PickCount = MaxPickCount;
+		NextState = EFLOWERBIRDSTATE::Pick;
 		break;
 	case EBIRDACTION::Bloom:
-		m_NextState = EFLOWERBIRDSTATE::Bloom;
+		NextState = EFLOWERBIRDSTATE::Bloom;
 		break;
 	case EBIRDACTION::BloomFake:
-		m_NextState = EFLOWERBIRDSTATE::BloomFake;
+		NextState = EFLOWERBIRDSTATE::BloomFake;
 		break;
 	default:
 		break;
@@ -73,9 +73,8 @@ void FlowerBird::DecideAction()
 
 	IsActted = true;
 
-	constexpr float FlowerBirdIdleWaitTime = 0.6f;
-
-	m_IdleTime = FlowerBirdIdleWaitTime;
+	const float IdleWaitTime = 0.6f;
+	IdleTime = IdleWaitTime;
 }
 
 void FlowerBird::UpdateIdle(float _Delta)
@@ -86,9 +85,9 @@ void FlowerBird::UpdateIdle(float _Delta)
 	}
 
 	m_StateTime += _Delta;
-	if (m_StateTime > m_IdleTime)
+	if (m_StateTime > IdleTime)
 	{
-		ChangeState(m_NextState);
+		ChangeState(NextState);
 		return;
 	}
 }
@@ -126,45 +125,45 @@ void FlowerBird::SwapDirection()
 // 턴 시간 할당
 void FlowerBird::AssignTurnTime()
 {
-	if (1 == m_AssignedTurnCount)
+	if (1 == AssignedTurnCount)
 	{
-		m_TurnTime = FlowerBirdTurnFastTime;
+		TurnTime = FlowerBirdTurnFastTime;
 	}
 
-	if (2 == m_AssignedTurnCount)
+	if (2 == AssignedTurnCount)
 	{
-		switch (m_TurnCount)
+		switch (TurnCount)
 		{
 		case 1:
-			m_TurnTime = FlowerBirdTurnFastTime;
+			TurnTime = FlowerBirdTurnFastTime;
 			break;
 		case 2:
-			m_TurnTime = FlowerBirdTurnSlowTime;
+			TurnTime = FlowerBirdTurnSlowTime;
 			break;
 		default:
 			break;
 		}
 	}
 
-	if (3 == m_AssignedTurnCount)
+	if (3 == AssignedTurnCount)
 	{
-		switch (m_TurnCount)
+		switch (TurnCount)
 		{
 		case 1:
-			m_TurnTime = FlowerBirdTurnFastTime;
+			TurnTime = FlowerBirdTurnFastTime;
 			break;
 		case 2:
-			m_TurnTime = FlowerBirdTurnSlowTime;
+			TurnTime = FlowerBirdTurnSlowTime;
 			break;
 		case 3:
-			m_TurnTime = FlowerBirdTurnFastTime;
+			TurnTime = FlowerBirdTurnFastTime;
 			break;
 		default:
 			break;
 		}
 	}
 
-	m_IdleTime = 0.0f;
+	IdleTime = 0.0f;
 }
 
 void FlowerBird::UpdateTurn(float _Delta)
@@ -175,7 +174,7 @@ void FlowerBird::UpdateTurn(float _Delta)
 	}
 
 	m_StateTime += _Delta;
-	if (m_StateTime > m_TurnTime)
+	if (m_StateTime > TurnTime)
 	{
 		ChangeState(EFLOWERBIRDSTATE::Idle);
 		return;
@@ -185,9 +184,9 @@ void FlowerBird::UpdateTurn(float _Delta)
 void FlowerBird::EndTurn()
 {
 	m_StateTime = 0.0f;
-	--m_TurnCount;
+	--TurnCount;
 
-	if (0 == m_TurnCount)
+	if (0 == TurnCount)
 	{
 		IsActted = false;
 	}
@@ -201,25 +200,24 @@ void FlowerBird::StartPick()
 
 void FlowerBird::UpdatePick(float _Delta)
 {
-	constexpr float FlowerBirdPickWaitTime = 0.4f;
-
 	if (true == GetReadyToFly())
 	{
 		return;
 	}
 
-	if (5 != m_PickCount)
+	if (5 != PickCount)
 	{
 		if (true == BodyRenderer->IsCurAnimationEnd())
 		{
-			m_IdleTime = 0.0f;
+			IdleTime = 0.0f;
 			ChangeState(EFLOWERBIRDSTATE::Idle);
 			return;
 		}
 	}
 	else
 	{
-		m_IdleTime = FlowerBirdPickWaitTime;
+		const float PickWaitTime = 0.4f;
+		IdleTime = PickWaitTime;
 		ChangeState(EFLOWERBIRDSTATE::Idle);
 		return;
 	}
@@ -228,8 +226,8 @@ void FlowerBird::UpdatePick(float _Delta)
 void FlowerBird::EndPick()
 {
 	m_StateTime = 0.0f;
-	--m_PickCount;
-	if (0 == m_PickCount)
+	--PickCount;
+	if (0 == PickCount)
 	{
 		IsActted = false;
 	}
@@ -299,12 +297,12 @@ void FlowerBird::StartBloomFake()
 
 float FlowerBird::ReturnWaitWitherInter()
 {
-	constexpr float FlowerBirdMinWitherInter = 0.4f;
-	constexpr float FlowerBirdMaxWitherInter = 1.6f;
+	const float MinInter = 0.4f;
+	const float MaxInter = 1.6f;
 
 	GameEngineRandom RandomClass;
-	RandomClass.SetSeed(reinterpret_cast<__int64>(this) + GlobalValue::GetSeedValue());
-	float WaitTime = RandomClass.RandomFloat(FlowerBirdMinWitherInter, FlowerBirdMaxWitherInter);
+	RandomClass.SetSeed(GlobalValue::GetSeedValue());
+	float WaitTime = RandomClass.RandomFloat(MinInter, MaxInter);
 
 	return WaitTime;
 }
@@ -375,17 +373,17 @@ void FlowerBird::DecideFlyDirection()
 	if (ElliePosition.X - MyPosition.X > 0.0f)
 	{
 		float ReverseFlyDegree = 180.0f - FlyDegree;
-		m_BirdFlyDirection = float4::GetUnitVectorFromDeg(ReverseFlyDegree);
+		FlyDirVector = float4::GetUnitVectorFromDeg(ReverseFlyDegree);
 		Dir = EDIRECTION::RIGHT;
 	}
 	else
 	{
-		m_BirdFlyDirection = float4::GetUnitVectorFromDeg(FlyDegree);
+		FlyDirVector = float4::GetUnitVectorFromDeg(FlyDegree);
 		Dir = EDIRECTION::LEFT;
 	}
 
 	const float FlySpeed = 600.0f;
-	m_MoveVector = m_BirdFlyDirection * FlySpeed;
+	m_MoveVector = FlyDirVector * FlySpeed;
 	PlusDepth = 300.0f;
 }
 
@@ -416,6 +414,11 @@ bool FlowerBird::GetReadyToFly()
 {
 	if (true == FeelThreatened())
 	{
+		if (nullptr != InteractiveActor::InteractiveCol)
+		{
+			InteractiveActor::InteractiveCol->Off();
+		}
+		
 		ChangeState(EFLOWERBIRDSTATE::Fly);
 		return true;
 	}
@@ -428,56 +431,46 @@ bool FlowerBird::FeelThreatened()
 {
 	if (true == RecognizeEllie())
 	{
-		Emotion.ShowExclamation();
+		Emotion.ShowExpression(EMOJITYPE::Exclamation);
 		return true;
 	}
 
 	if (true == RecognizeWalkingEllie())
 	{
-		Emotion.ShowExclamation();
+		Emotion.ShowExpression(EMOJITYPE::Exclamation);
 		return true;
 	}
 
 	return false;
 }
 
-bool FlowerBird::RecognizeWalkingEllie()
+bool FlowerBird::RecognizeWalkingEllie() const
 {
-	static constexpr float DetectionEllieWalkRange = 70.0f;
-
 	const std::shared_ptr<Ellie>& MainPlayerPtr = PlayLevel::GetCurLevel()->GetPlayerPtr();
 	EELLIE_STATE CurEllieState = MainPlayerPtr->GetState();
 	if (EELLIE_STATE::SlowWalk == CurEllieState && EELLIE_STATE::Idle != CurEllieState)
 	{
 		const float4 MyPosition = Transform.GetLocalPosition();
 		const float4 ElliePosition = MainPlayerPtr->Transform.GetLocalPosition();
-		const float4 Size = DirectX::XMVector2Length((ElliePosition - MyPosition).DirectXVector);
+		const float WalkDetectionRange = 70.0f;
 
-		if (Size.X < DetectionEllieWalkRange)
-		{
-			return true;
-		}
+		return ContentMathFunction::IsAround2D(MyPosition, ElliePosition, WalkDetectionRange);
 	}
 	
 	return false;
 }
 
-bool FlowerBird::RecognizeEllie()
+bool FlowerBird::RecognizeEllie() const
 {
-	static constexpr float DetectionEllieRange = 120.0f;
-
 	const std::shared_ptr<Ellie>& MainPlayerPtr = PlayLevel::GetCurLevel()->GetPlayerPtr();
 	EELLIE_STATE CurEllieState = MainPlayerPtr->GetState();
 	if (EELLIE_STATE::SlowWalk != CurEllieState && EELLIE_STATE::Idle != CurEllieState)
 	{
 		float4 MyPosition = Transform.GetLocalPosition();
 		float4 ElliePosition = MainPlayerPtr->Transform.GetLocalPosition();
-		float4 Size = DirectX::XMVector2Length((ElliePosition - MyPosition).DirectXVector);
+		const float DetectionRange = 120.0f;
 
-		if (Size.X < DetectionEllieRange)
-		{
- 			return true;
-		}
+		return ContentMathFunction::IsAround2D(MyPosition, ElliePosition, DetectionRange);
 	}
 
 	return false;

@@ -86,8 +86,8 @@ private:
 
 	bool GetReadyToFly();
 	bool FeelThreatened();
-	bool RecognizeWalkingEllie();
-	bool RecognizeEllie();
+	bool RecognizeWalkingEllie() const;
+	bool RecognizeEllie() const;
 
 
 private:
@@ -96,21 +96,21 @@ private:
 	Emoji Emotion;
 
 	EFLOWERBIRDSTATE m_State = EFLOWERBIRDSTATE::None;
-	EFLOWERBIRDSTATE m_NextState = EFLOWERBIRDSTATE::None;
+	EFLOWERBIRDSTATE NextState = EFLOWERBIRDSTATE::None;
 
 	bool IsActted = false;
 
-	int m_PickCount = 0;
-	int m_TurnCount = 0;
-	int m_AssignedTurnCount = 0;
+	int PickCount = 0;
+	int TurnCount = 0;
+	int AssignedTurnCount = 0;
 	const int MaxPickCount = 8;
 
 	float m_StateTime = 0.0f;
-	float m_IdleTime = 0.0f;
-	float m_TurnTime = 0.0f;
+	float IdleTime = 0.0f;
+	float TurnTime = 0.0f;
 	static constexpr float FlyDegree = 30.0f;
 
-	float4 m_BirdFlyDirection = float4::ZERO;
+	float4 FlyDirVector = float4::ZERO;
 
 	static constexpr float FlowerBirdTurnSlowTime = 0.4f;
 	static constexpr float FlowerBirdTurnFastTime = 0.1f;

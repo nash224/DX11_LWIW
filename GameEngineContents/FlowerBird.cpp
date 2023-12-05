@@ -73,7 +73,6 @@ void FlowerBird::Init()
 	ApplyDepth();
 	AnimationSetting();
 	Emotion.Init(this, float4(0.0f, 40.0f));
-	Emotion.UseOnlyExclamation();
 	DirectionSetting();
 	ChangeState(EFLOWERBIRDSTATE::Idle);
 }
@@ -94,30 +93,28 @@ void FlowerBird::AnimationSetting()
 		GameEngineSprite::CreateCut("FlowerBird_Standing.png", 2, 2);
 	}
 
-	static constexpr const int RenderOrder = 0;
+	const float BloomInter = 0.06f;
+	const float PeaksInter = 0.2f;
+	const float BlossomInter = 1.0f;
 
-	static constexpr float FlowerBirdBloomInter = 0.06f;
-	static constexpr float FlowerBirdPeaksInter = 0.2f;
-	static constexpr float FlowerBirdBlossomInter = 1.0f;
-
-	BodyRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
+	BodyRenderer = CreateComponent<GameEngineSpriteRenderer>();
 	BodyRenderer->CreateAnimation("Idle", "FlowerBird_Standing.png", 5.0f, 2, 2, false);
 	BodyRenderer->CreateAnimation("Turn", "FlowerBird_IdleA.png", 0.03f, 3, 5, false);
 	BodyRenderer->CreateAnimation("Pick", "FlowerBird_IdleC.png", 0.08f, 4, 5, false);
 
-	BodyRenderer->CreateAnimation("Bloom", "FlowerBird_Bloom.png", FlowerBirdBloomInter, 2, 10, false);
-	BodyRenderer->FindAnimation("Bloom")->Inter[2] = FlowerBirdPeaksInter;
-	BodyRenderer->FindAnimation("Bloom")->Inter[8] = FlowerBirdBlossomInter;
+	BodyRenderer->CreateAnimation("Bloom", "FlowerBird_Bloom.png", BloomInter, 2, 10, false);
+	BodyRenderer->FindAnimation("Bloom")->Inter[2] = PeaksInter;
+	BodyRenderer->FindAnimation("Bloom")->Inter[8] = BlossomInter;
 
-	BodyRenderer->CreateAnimation("BloomFake", "FlowerBird_BloomC.png", FlowerBirdBloomInter, 2, 10, false);
-	BodyRenderer->FindAnimation("BloomFake")->Inter[2] = FlowerBirdPeaksInter;
+	BodyRenderer->CreateAnimation("BloomFake", "FlowerBird_BloomC.png", BloomInter, 2, 10, false);
+	BodyRenderer->FindAnimation("BloomFake")->Inter[2] = PeaksInter;
 
 	BodyRenderer->CreateAnimation("Fly", "FlowerBird_Fly.png", 0.06f, 1, 4, true);
 	BodyRenderer->CreateAnimation("Fly_Bloom", "FlowerBird_FlyB.png", 0.06f, 1, 4, true);
 	BodyRenderer->Transform.AddLocalPosition({ 0.0f,30.0f });
 	BodyRenderer->AutoSpriteSizeOn();
 
-	ShadowRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
+	ShadowRenderer = CreateComponent<GameEngineSpriteRenderer>();
 	ShadowRenderer->SetSprite("FlowerBird_Standing.png", 1);
 	ShadowRenderer->Transform.AddLocalPosition({ 0.0f,30.0f });
 

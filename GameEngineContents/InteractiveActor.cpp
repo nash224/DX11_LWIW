@@ -3,6 +3,8 @@
 #include "BackDrop_PlayLevel.h"
 
 #include "UI_InterativeMark.h"
+#include "ContentsMath.h"
+#include "Ellie.h"
 
 InteractiveActor::InteractiveActor() 
 {
@@ -101,4 +103,13 @@ EINTERACTION_PRESSTYPE InteractiveActor::GetInteractionPressType() const
 ETOOLTYPE InteractiveActor::GetCollectionToolType() const
 {
 	return Option.CollectionTool;
+}
+
+
+float InteractiveActor::GetDistance2DToEllie()
+{
+	const float4 ElliePos = PlayLevel::GetCurLevel()->GetPlayerPtr()->Transform.GetLocalPosition();
+	const float4 MyPos = Parent->Transform.GetLocalPosition();
+	const float4 Result = DirectX::XMVector2Length((MyPos - ElliePos).DirectXVector);
+	return Result.X;
 }

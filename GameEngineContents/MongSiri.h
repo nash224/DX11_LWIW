@@ -1,5 +1,6 @@
 #pragma once
 #include "InteractiveActor.h"
+#include "AnimationHelper.h"
 #include "Emoji.h"
 
 
@@ -16,6 +17,9 @@ class MongSiri : public InteractiveActor
 {
 	friend class Ellie;
 	friend class MongSiri_Population;
+
+private:
+	static FrameAnimationHelper ShadowRenderHelper;
 
 private:
 	class MongSiri_Population* MongSiriParant = nullptr;
@@ -63,52 +67,47 @@ protected:
 	void LookStateSetting();
 	void InitDirection();
 
+	void GetCaught() override;
+
 private:
 	void ChangeAnimation(std::string_view _StateName);
 	void ChangeAnimationByDircetion(std::string_view _StateName, unsigned int _Index = 0);
 	void AutoChangeDirAnimation(std::string_view _StateName);
 
-	bool IsPlayerAround() const;
-
 	void UpdateState(float _Delta);
 	void ChangeState(EMONGSIRISTATE _State);
 
+	// Start
 	void StartIdle();
-	void UpdateIdle(float _Delta);
-	void EndIdle();
-
 	void StartJump();
-	void SearchJumpLocation();
-	void UpdateJump(float _Delta);
-	void EndJump();
-
 	void StartLook();
-	void UpdateLook(float _Delta);
-
 	void StartRecognize(GameEngineState* _Parent);
-	void UpdateRecognize(float _Delta, GameEngineState* _Parent);
-
-	void StartNotRecognize(GameEngineState* _Parent);
-	void UpdateNotRecognize(float _Delta, GameEngineState* _Parent);
-	void EndNotRecognize(GameEngineState* _Parent);
-
-	void GetCaught() override;
 	void StartCaught();
-	void UpdateCaught(float _Delta);
-
-
 	void StartCollected();
-	void UpdateCollected(float _Delta);
-	void EndCollected();
-
 	void StartDisappear();
+
+	// Update
+	void UpdateIdle(float _Delta);
+	void UpdateJump(float _Delta);
+	void UpdateLook(float _Delta);
+	void UpdateRecognize(float _Delta, GameEngineState* _Parent);
+	void UpdateNotRecognize(float _Delta, GameEngineState* _Parent);
+	void UpdateCaught(float _Delta);
+	void UpdateCollected(float _Delta);
 	void UpdateDisappear(float _Delta);
 
+	// End
+	void EndIdle();
+	void EndJump();
+	void EndNotRecognize(GameEngineState* _Parent);
+	void EndCollected();
+
+	void SearchJumpLocation();
 	void ShowEscapeEmotion();
 
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> ShadowRenderer = nullptr;
-
+	
 	GameEngineState LookState;
 
 	EMONGSIRISTATE State = EMONGSIRISTATE::None;
@@ -122,12 +121,9 @@ private:
 
 	int IdleCount = 0;
 	bool IsOnTheHole = false;
-	static constexpr float MongSiri_FOVSize = 90.0f;
 
 
 	static constexpr float MongSiri_JumpMinSpeed = 0.0f;
 	static constexpr float MongSiri_JumpMaxSpeed = 60.0f;
 
 };
-
-

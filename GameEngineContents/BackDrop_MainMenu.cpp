@@ -407,7 +407,6 @@ void BackDrop_MainMenu::ChainPropSetting()
 		Object->SetRegenLocation(float4{ TreeSpawnDistance  , -418.0f });
 		Object->SetAutoSpawnPoint();
 	}
-
 }
 
 #pragma endregion 

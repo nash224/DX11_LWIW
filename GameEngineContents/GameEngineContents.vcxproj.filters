@@ -763,9 +763,6 @@
     <ClInclude Include="FailFx.h">
       <Filter>Actor\Ellie\Fx</Filter>
     </ClInclude>
-    <ClInclude Include="DynamicEntity.h">
-      <Filter>Actor\Interactive\Creature</Filter>
-    </ClInclude>
     <ClInclude Include="TestCircleGauge.h">
       <Filter>Z_Test\Actor</Filter>
     </ClInclude>
@@ -1285,9 +1282,6 @@
     </ClCompile>
     <ClCompile Include="FailFx.cpp">
       <Filter>Actor\Ellie\Fx</Filter>
-    </ClCompile>
-    <ClCompile Include="DynamicEntity.cpp">
-      <Filter>Actor\Interactive\Creature</Filter>
     </ClCompile>
     <ClCompile Include="TestCircleGauge.cpp">
       <Filter>Z_Test\Actor</Filter>

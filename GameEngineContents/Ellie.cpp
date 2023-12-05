@@ -324,9 +324,6 @@ void Ellie::ChangeState(EELLIE_STATE _State)
 			break;
 		}
 
-		Broom.HeadBroomRenderer->Off();
-		Broom.BodyBroomRenderer->Off();
-
 		State = _State;
 
 		switch (_State)
@@ -438,6 +435,10 @@ void Ellie::ChangeAnimationByDirection(std::string_view _StateName, bool _Direct
 	}
 
 	BodyRenderer->ChangeAnimation(AnimaitonName, _Force, _Index);
+
+	VirgilRendererHelper.UpdateHelper(BodyRenderer, VirgilRenderer);
+	BroomHeadRendererHelper.UpdateHelper(BodyRenderer, Broom.HeadBroomRenderer);
+	BroomBodyRendererHelper.UpdateHelper(BodyRenderer, Broom.BodyBroomRenderer);
 }
 
 void Ellie::ChangeShawdowSprite(std::string_view _AnimationName)

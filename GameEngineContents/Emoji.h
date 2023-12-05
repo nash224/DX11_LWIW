@@ -1,9 +1,14 @@
 #pragma once
 
-enum class EEMOJISTATE
+enum class EMOJITYPE
 {
 	Exclamation,
 	Question,
+};
+
+enum class EEMOJISTATE
+{
+	Expression,
 	None,
 };
 
@@ -23,17 +28,7 @@ public:
 
 	void Init(GameEngineActor* _Actor, const float4& _EmotionPos = float4::ZERO);
 
-	inline void SetRecognitionRange(float _Range)
-	{
-		RecognitionRange = _Range;
-	}
-
-	inline 	void UseOnlyExclamation()
-	{
-		isUseOnlyExclamation = true;
-	}
-
-	void ShowExclamation();
+	void ShowExpression(EMOJITYPE _Type);
 
 	void Update(float _Delta);
 
@@ -45,29 +40,21 @@ private:
 	void RendererSetting(GameEngineActor* _Actor, const float4& _EmotionPos);
 	void StateSetting();
 
-	void StartExclamation(GameEngineState* State);
-	void StartQuestion(GameEngineState* State);
-
-	void UpdateExclamation(float _Delta, GameEngineState* State);
-	void UpdateQuestion(float _Delta, GameEngineState* State);
-
+	void StartExpression(GameEngineState* State);
 	void StartNone(GameEngineState* State);
 
-	float GetDistanceToEllie();
+	void UpdateExpression(float _Delta, GameEngineState* State);
 
-	void CalculateWorldToScreen();
-	void TestSetting();
+	std::string GetFileName(EMOJITYPE _Type);
+	void CalculateEmotionPos();
 
 private:
-	std::shared_ptr<GameEngineUIRenderer> Base;
-	std::shared_ptr<GameEngineUIRenderer> Emotion;
+	std::shared_ptr<GameEngineUIRenderer> BaseRenderer;
+	std::shared_ptr<GameEngineUIRenderer> EmotionRenderer;
 	GameEngineActor* Parent = nullptr;
 
 	GameEngineState State;
 	float4 EmotionPos;
-
-	bool isUseOnlyExclamation = false;
-	float RecognitionRange = 30.0f;
 
 };
 

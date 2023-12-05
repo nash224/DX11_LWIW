@@ -26,6 +26,17 @@ void Ellie::StartRiding_Standing()
 
 void Ellie::OnRideFx()
 {
+	if (EELLIE_STATUS::Normal == g_Status)
+	{
+		Broom.HeadBroomRenderer->On();
+		Broom.BodyBroomRenderer->On();
+	}
+	else
+	{
+		Broom.HeadBroomRenderer->Off();
+		Broom.BodyBroomRenderer->Off();
+	}
+
 	std::shared_ptr<RidingFx> riding_FX = GetLevel()->CreateActor<RidingFx>(EUPDATEORDER::Objects);
 	riding_FX->Init(Transform.GetLocalPosition());
 }
@@ -149,7 +160,7 @@ void Ellie::UpdateRiding_Moving(float _Delta)
 
 	
 	DecelerateNotDir(_Delta, Riding_Move_Speed);
-	m_MoveVector += GetMoveForceByDir(_Delta, Riding_Move_Speed, Riding_Move_Acceleration_Time);
+	AddMoveVector(GetMoveForceByDir(_Delta, Riding_Move_Speed, Riding_Move_Acceleration_Time));
 	LimitMoveVector(Riding_Move_Speed);
 	ContentsActor::ApplyOnlyMovement(_Delta);
 	if (true == WallCollision())
@@ -221,7 +232,7 @@ void Ellie::UpdateRiding_Boosting(float _Delta)
 
 
 	DecelerateNotDir(_Delta, Riding_Boost_Speed);
-	m_MoveVector += GetMoveForceByDir(_Delta, Riding_Boost_Speed, Riding_Boost_Acceleration_Time);
+	AddMoveVector(GetMoveForceByDir(_Delta, Riding_Boost_Speed, Riding_Boost_Acceleration_Time));
 	LimitMoveVector(Riding_Boost_Speed);
 	ContentsActor::ApplyOnlyMovement(_Delta);
 	if (true == WallCollision())
@@ -242,7 +253,7 @@ void Ellie::UpdateRiding_Boosting(float _Delta)
 void Ellie::DecelerateNotDir(float _Delta, const float _Force)
 {
 	const float4 DirVector = DirectionFunction::GetVectorToDirection(Dir);
-	bool HorizontalCheck = (m_MoveVector.X * DirVector.X < 0.0f);
+	bool HorizontalCheck = (GetMoveVector().X * DirVector.X < 0.0f);
 
 	if (EHORIZONTAL_KEY_STATE::Center == HorizontalInputKey || true == HorizontalCheck)
 	{

@@ -13,10 +13,6 @@ SilverStarPollen::~SilverStarPollen()
 }
 
 
-void SilverStarPollen::Start()
-{
-}
-
 void SilverStarPollen::Update(float _Delta)
 {
 	UpdateState(_Delta);
@@ -34,9 +30,6 @@ void SilverStarPollen::LevelEnd(class GameEngineLevel* _NextLevel)
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
 void SilverStarPollen::Init()
 {
 	RendererSetting();
@@ -51,16 +44,14 @@ void SilverStarPollen::RendererSetting()
 		GameEngineSprite::CreateCut("SilverStarFlower_particle.png", 4, 1);
 	}
 
-	static constexpr const int RenderOrder = 0;
-
-	PollenRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
+	PollenRenderer = CreateComponent<GameEngineSpriteRenderer>();
 	PollenRenderer->Transform.AddLocalPosition(float4::BACKWARD);
 	PollenRenderer->AutoSpriteSizeOn();
 	PollenRenderer->CreateAnimation("Move", "SilverStarFlower_particle.png");
 	PollenRenderer->ChangeAnimation("Move");
 	PollenRenderer->RenderBaseInfoValue.Target3 = 1;
 
-	ParticleRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
+	ParticleRenderer = CreateComponent<GameEngineSpriteRenderer>();
 	ParticleRenderer->Transform.AddLocalPosition(float4::BACKWARD);
 	ParticleRenderer->AutoSpriteSizeOn();
 	ParticleRenderer->CreateAnimation("Move", "SilverStarFlower_particle_Light.png");
@@ -71,7 +62,7 @@ void SilverStarPollen::RendererSetting()
 void SilverStarPollen::MoveSetting()
 {
 	GameEngineRandom RandomClass;
-	RandomClass.SetSeed(reinterpret_cast<__int64>(this) + GlobalValue::GetSeedValue());
+	RandomClass.SetSeed(GlobalValue::GetSeedValue());
 
 	MovePower = RandomClass.RandomFloat(0.0f, MovementRadius);
 }

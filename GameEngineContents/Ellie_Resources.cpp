@@ -27,9 +27,11 @@ void Ellie::RendererSetting()
 
 	Broom.HeadBroomRenderer = CreateComponent<GameEngineSpriteRenderer>();
 	Broom.HeadBroomRenderer->Transform.SetLocalPosition(float4(0.0f, LWIW_Ellie_Y_Correction * 2.0f, 0.01f));
+	Broom.HeadBroomRenderer->Off();
 
 	Broom.BodyBroomRenderer = CreateComponent<GameEngineSpriteRenderer>();
 	Broom.BodyBroomRenderer->Transform.SetLocalPosition(float4(0.0f, LWIW_Ellie_Y_Correction * 2.0f, -0.01f));
+	Broom.BodyBroomRenderer->Off();
 
 	DebugRenderer = CreateComponent<GameEngineSpriteRenderer>(EDEUBGORDER::Player);
 	DebugRenderer->AutoSpriteSizeOn();

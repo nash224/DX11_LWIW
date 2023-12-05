@@ -150,7 +150,7 @@ void BushBug::StartMove(GameEngineState* _Parent)
 		FlyAngle *= -1.0f;
 	}
 	float4 UnitVector = float4::GetUnitVectorFromDeg(FlyAngle);
-	m_MoveVector = UnitVector * MoveSpeed;
+	SetMoveVector(UnitVector * MoveSpeed);
 }
 
 void BushBug::UpdateMove(float _Delta, GameEngineState* _Parent)

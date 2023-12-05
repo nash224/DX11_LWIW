@@ -53,6 +53,7 @@ protected:
 	void ApplyMovement(float _Delta);
 	void ApplyOnlyMovement(float _Delta);
 
+	bool IsPlayerAround(float _Range) const;
 
 	void StopSFX();
 	void UpdateSoundVolumeByDistance();
@@ -64,9 +65,9 @@ protected:
 	EDIRECTION Dir = EDIRECTION::LEFT;
 	EDIRECTION RenderDir = EDIRECTION::CENTER;
 
+	GameEngineSoundPlayer SoundPlayer;
+
 	float4 m_MoveVector = float4::ZERO;
 	float PlusDepth = 0.0f;
-
-	GameEngineSoundPlayer SoundPlayer;
 
 };

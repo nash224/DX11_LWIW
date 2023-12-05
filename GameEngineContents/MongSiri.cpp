@@ -5,8 +5,10 @@
 
 #include "Ellie.h"
 #include "UI_Inventory.h"
+#include "ContentsMath.h"
 
 
+FrameAnimationHelper MongSiri::ShadowRenderHelper;
 MongSiri::MongSiri()
 {
 	if (nullptr == GameEngineSound::FindSound("SFX_MongsiriJump_01.wav"))
@@ -63,7 +65,6 @@ void MongSiri::Init()
 	ApplyDepth();
 	RendererSetting();
 	Emotion.Init(this, float4(0.0f, 40.0f));
-	Emotion.SetRecognitionRange(MongSiri_FOVSize);
 	LookStateSetting();
 	InitDirection();
 	ChangeState(EMONGSIRISTATE::Idle);
@@ -85,10 +86,8 @@ void MongSiri::RendererSetting()
 		GameEngineSprite::CreateCut("Mongsiri_Jump.png", 5, 5);
 	}
 
-	static constexpr const int RenderOrder = 0;
-
-	InteractiveActor::BodyRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
-	ShadowRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
+	InteractiveActor::BodyRenderer = CreateComponent<GameEngineSpriteRenderer>();
+	ShadowRenderer = CreateComponent<GameEngineSpriteRenderer>();
 
 	ShadowRenderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, DepthFunction::CalculateFixDepth(ERENDERDEPTH::ObjectShadow)));
 
@@ -107,14 +106,14 @@ void MongSiri::RendererSetting()
 	InteractiveActor::BodyRenderer->CreateAnimation("CollectedB", "Mongsiri_Collected.png", 0.12f, 6, 4, false);
 	InteractiveActor::BodyRenderer->CreateAnimation("Disappear", "Mongsiri_Disappear.png", 0.1f, 10, 33, false);
 
-	std::weak_ptr<GameEngineFrameAnimation> Animation = InteractiveActor::BodyRenderer->FindAnimation("Disappear");
-	if (true == Animation.expired())
+	const std::shared_ptr<GameEngineFrameAnimation>& Animation = InteractiveActor::BodyRenderer->FindAnimation("Disappear");
+	if (nullptr == Animation)
 	{
 		MsgBoxAssert("애니메이션을 찾지 못했습니다.");
 		return;
 	}
 
-	Animation.lock()->Inter =
+	Animation->Inter =
 	{ 0.2f, 0.2f,
 		0.2f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f,
 		0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f,
@@ -123,86 +122,20 @@ void MongSiri::RendererSetting()
 		0.1f, 0.1f, 0.1f, 0.1f
 	};
 
+	ShadowRenderHelper.CreateFrameInfo("Idle", {1,2,3,2});
+	ShadowRenderHelper.CreateFrameInfo("Idle_Back", {1,2,3,2});
+	ShadowRenderHelper.CreateFrameInfo("Jump", {1,2,3,4,4, 4,4,4,1,1});
+	ShadowRenderHelper.CreateFrameInfo("Jump_Back", {1,2,3,4,4, 4,4,4,1,1});
+	ShadowRenderHelper.CreateFrameInfo("Disappear", { 1,2,3,4,4, 4,4,4,6,6, 6,6,6,6,7, 8,9,9,9,0 ,0,0,0,0 });
 
-	InteractiveActor::BodyRenderer->SetStartEvent("Idle", [&](GameEngineSpriteRenderer*)
-		{
-			ShadowRenderer->SetSprite("Mongsiri_IdleB.png", 1);
-		});
-	InteractiveActor::BodyRenderer->SetFrameEvent("Idle", 5, [&](GameEngineSpriteRenderer*)
-		{
-			ShadowRenderer->SetSprite("Mongsiri_IdleB.png", 2);
-		});
-	InteractiveActor::BodyRenderer->SetFrameEvent("Idle", 6, [&](GameEngineSpriteRenderer*)
-		{
-			ShadowRenderer->SetSprite("Mongsiri_IdleB.png", 3);
-		});
-	InteractiveActor::BodyRenderer->SetFrameEvent("Idle", 7, [&](GameEngineSpriteRenderer*)
-		{
-			ShadowRenderer->SetSprite("Mongsiri_IdleB.png", 2);
-		});
-
-
-	InteractiveActor::BodyRenderer->SetStartEvent("Idle_Back", [&](GameEngineSpriteRenderer*)
-		{
-			ShadowRenderer->SetSprite("Mongsiri_IdleB.png", 1);
-		});
-	InteractiveActor::BodyRenderer->SetFrameEvent("Idle_Back", 9, [&](GameEngineSpriteRenderer*)
-		{
-			ShadowRenderer->SetSprite("Mongsiri_IdleB.png", 2);
-		});
-	InteractiveActor::BodyRenderer->SetFrameEvent("Idle_Back", 8, [&](GameEngineSpriteRenderer*)
-		{
-			ShadowRenderer->SetSprite("Mongsiri_IdleB.png", 3);
-		});
-	InteractiveActor::BodyRenderer->SetFrameEvent("Idle_Back", 9, [&](GameEngineSpriteRenderer*)
-		{
-			ShadowRenderer->SetSprite("Mongsiri_IdleB.png", 2);
-		});
-
-
-	InteractiveActor::BodyRenderer->SetFrameEvent("Jump", 5, [&](GameEngineSpriteRenderer*)
-		{
-			ShadowRenderer->SetSprite("Mongsiri_Jump.png", 1);
-		});
-	InteractiveActor::BodyRenderer->SetFrameEvent("Jump", 6, [&](GameEngineSpriteRenderer*)
-		{
-			ShadowRenderer->SetSprite("Mongsiri_Jump.png", 2);
-		});
-	InteractiveActor::BodyRenderer->SetFrameEvent("Jump", 7, [&](GameEngineSpriteRenderer*)
-		{
-			ShadowRenderer->SetSprite("Mongsiri_Jump.png", 3);
-		});
 	InteractiveActor::BodyRenderer->SetFrameEvent("Jump", 8, [&](GameEngineSpriteRenderer*)
 		{
 			SoundPlayer = SFXFunction::PlaySFX("SFX_MongsiriJump_01.wav");
-			ShadowRenderer->SetSprite("Mongsiri_Jump.png", 4);
-		});
-	InteractiveActor::BodyRenderer->SetFrameEvent("Jump", 13, [&](GameEngineSpriteRenderer*)
-		{
-			ShadowRenderer->SetSprite("Mongsiri_Jump.png", 1);
 		});
 
-
-	InteractiveActor::BodyRenderer->SetFrameEvent("Jump_Back", 15, [&](GameEngineSpriteRenderer*)
-		{
-			ShadowRenderer->SetSprite("Mongsiri_Jump.png", 1);
-		});
-	InteractiveActor::BodyRenderer->SetFrameEvent("Jump_Back", 16, [&](GameEngineSpriteRenderer*)
-		{
-			ShadowRenderer->SetSprite("Mongsiri_Jump.png", 2);
-		});
-	InteractiveActor::BodyRenderer->SetFrameEvent("Jump_Back", 17, [&](GameEngineSpriteRenderer*)
-		{
-			ShadowRenderer->SetSprite("Mongsiri_Jump.png", 3);
-		});
 	InteractiveActor::BodyRenderer->SetFrameEvent("Jump_Back", 18, [&](GameEngineSpriteRenderer*)
 		{
 			SoundPlayer = SFXFunction::PlaySFX("SFX_MongsiriJump_01.wav");
-			ShadowRenderer->SetSprite("Mongsiri_Jump.png", 4);
-		});
-	InteractiveActor::BodyRenderer->SetFrameEvent("Jump_Back", 23, [&](GameEngineSpriteRenderer*)
-		{
-			ShadowRenderer->SetSprite("Mongsiri_Jump.png", 1);
 		});
 
 
@@ -210,7 +143,6 @@ void MongSiri::RendererSetting()
 		{
 			ShadowRenderer->SetSprite("Mongsiri_Jump.png", 1);
 		});
-
 
 	InteractiveActor::BodyRenderer->SetStartEvent("Look_Back", [&](GameEngineSpriteRenderer* _Renderer)
 		{
@@ -225,6 +157,7 @@ void MongSiri::RendererSetting()
 		{
 			ShadowRenderer->SetSprite("Mongsiri_Jump.png", 4);
 		});
+
 
 	InteractiveActor::BodyRenderer->SetFrameEvent("Collected", 7, [&](GameEngineSpriteRenderer* _Renderer)
 		{
@@ -243,45 +176,11 @@ void MongSiri::RendererSetting()
 			_Renderer->ChangeAnimation("CollectedB");
 		});
 
-	InteractiveActor::BodyRenderer->SetStartEvent("Disappear", [&](GameEngineSpriteRenderer*)
-		{
-			ShadowRenderer->SetSprite("Mongsiri_Disappear.png", 1);
-		});
-	InteractiveActor::BodyRenderer->SetFrameEvent("Disappear", 11, [&](GameEngineSpriteRenderer*)
-		{
-			ShadowRenderer->SetSprite("Mongsiri_Disappear.png", 2);
-		});
-	InteractiveActor::BodyRenderer->SetFrameEvent("Disappear", 12, [&](GameEngineSpriteRenderer*)
-		{
-			ShadowRenderer->SetSprite("Mongsiri_Disappear.png", 3);
-		});
-	InteractiveActor::BodyRenderer->SetFrameEvent("Disappear", 13, [&](GameEngineSpriteRenderer*)
-		{
-			ShadowRenderer->SetSprite("Mongsiri_Disappear.png", 4);
-		});
-	InteractiveActor::BodyRenderer->SetFrameEvent("Disappear", 18, [&](GameEngineSpriteRenderer*)
-		{
-			ShadowRenderer->SetSprite("Mongsiri_Disappear.png", 6);
-		});
+	// 10, 33
+
 	InteractiveActor::BodyRenderer->SetFrameEvent("Disappear", 21, [&](GameEngineSpriteRenderer*)
 		{
 			SoundPlayer = SFXFunction::PlaySFX("SFX_MongsiriHoleIn_01.wav");
-		});
-	InteractiveActor::BodyRenderer->SetFrameEvent("Disappear", 24, [&](GameEngineSpriteRenderer*)
-		{
-			ShadowRenderer->SetSprite("Mongsiri_Disappear.png", 7);
-		});
-	InteractiveActor::BodyRenderer->SetFrameEvent("Disappear", 25, [&](GameEngineSpriteRenderer*)
-		{
-			ShadowRenderer->SetSprite("Mongsiri_Disappear.png", 8);
-		});
-	InteractiveActor::BodyRenderer->SetFrameEvent("Disappear", 26, [&](GameEngineSpriteRenderer*)
-		{
-			ShadowRenderer->SetSprite("Mongsiri_Disappear.png", 9);
-		});
-	InteractiveActor::BodyRenderer->SetFrameEvent("Disappear", 28, [&](GameEngineSpriteRenderer*)
-		{
-			ShadowRenderer->Off();
 		});
 }
 
@@ -315,7 +214,6 @@ void MongSiri::LookStateSetting()
 	LookState.CreateState(ELOOKSTATE::Recognize, RecognizeState);
 
 	CreateStateParameter NotRecognizeState;
-	NotRecognizeState.Start = std::bind(&MongSiri::StartNotRecognize, this, std::placeholders::_1);
 	NotRecognizeState.Stay = std::bind(&MongSiri::UpdateNotRecognize, this, std::placeholders::_1, std::placeholders::_2);
 	NotRecognizeState.End = std::bind(&MongSiri::EndNotRecognize, this, std::placeholders::_1);
 	LookState.CreateState(ELOOKSTATE::NotRecognize, NotRecognizeState);
@@ -440,14 +338,30 @@ void MongSiri::ChangeAnimationByDircetion(std::string_view _StateName, unsigned 
 }
 
 
-bool MongSiri::IsPlayerAround() const
-{
-	const float4 PlayerPosition = PlayLevel::GetCurLevel()->GetPlayerPtr()->Transform.GetLocalPosition();
-	const float PositionSize = (Transform.GetLocalPosition() - PlayerPosition).Size();
-	if (PositionSize < MongSiri_FOVSize)
-	{
-		return true;
-	}
 
-	return false;
+void MongSiri::GetCaught()
+{
+	ChangeState(EMONGSIRISTATE::Caught);
+}
+
+
+void MongSiri::AutoChangeDirAnimation(std::string_view _StateName)
+{
+	const float4 ElliePos = PlayLevel::GetCurLevel()->GetPlayerPtr()->Transform.GetLocalPosition();
+	const float4 MyPos = Transform.GetLocalPosition();
+	const float4 VectorToEllie = ElliePos - MyPos;
+	const float Radian = std::atan2f(VectorToEllie.Y, VectorToEllie.X);
+	InteractiveActor::Dir = DirectionFunction::GetDirectionToDegree(Radian * GameEngineMath::R2D);
+
+	if (InteractiveActor::RenderDir != InteractiveActor::Dir)
+	{
+		const std::shared_ptr<GameEngineFrameAnimation>& Animation = InteractiveActor::BodyRenderer->CurAnimation();
+		if (nullptr == Animation)
+		{
+			MsgBoxAssert("애니메이션이 존재하지 않습니다.");
+			return;
+		}
+
+		ChangeAnimationByDircetion(_StateName, static_cast<unsigned int>(Animation->CurIndex));
+	}
 }

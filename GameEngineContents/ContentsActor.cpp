@@ -3,6 +3,8 @@
 
 #include "BackDrop_PlayLevel.h"
 #include "CameraControler.h"
+#include "ContentsMath.h"
+#include "Ellie.h"
 
 ContentsActor::ContentsActor() 
 {
@@ -47,6 +49,12 @@ void ContentsActor::ApplyDepth()
 	Transform.SetLocalPosition(MyPosition);
 }
 
+bool ContentsActor::IsPlayerAround(float _Range) const
+{
+	const float4 PlayerPosition = PlayLevel::GetCurLevel()->GetPlayerPtr()->Transform.GetLocalPosition();
+
+	return ContentMathFunction::IsAround2D(Transform.GetLocalPosition(), PlayerPosition, _Range);
+}
 
 
 void ContentsActor::StopSFX()
@@ -69,7 +77,7 @@ void ContentsActor::UpdateSoundVolumeByDistance()
 float ContentsActor::GetVolumeReductionByDistance() const
 {
 	const float MaxVolume = 150.0f;
-	const float MinVolume = 300.0f;
+	const float MinVolume = 370.0f;
 
 	const float4 VectorToCamera = Transform.GetLocalPosition() - PlayLevel::GetCurLevel()->GetLevelCameraPtr()->GetCameraCurrentPostion();
 	const float4 Size = DirectX::XMVector2Length(VectorToCamera.DirectXVector);

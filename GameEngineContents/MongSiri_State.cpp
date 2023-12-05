@@ -10,14 +10,15 @@
 #include "Ellie.h"
 
 
+static constexpr float MongSiri_FOVSize = 90.0f;
+
 void MongSiri::StartIdle()
 {
 	if (EMONGSIRISTATUS::Normal == Status )
 	{
 		GameEngineRandom RandomClass;
-		RandomClass.SetSeed(reinterpret_cast<__int64>(this) + GlobalValue::GetSeedValue());
-		int SelectNumber = RandomClass.RandomInt(0, 4);
-		switch (SelectNumber)
+		RandomClass.SetSeed(GlobalValue::GetSeedValue());
+		switch (RandomClass.RandomInt(0, 4))
 		{
 		case 0:
 			IdleCount  = 2;
@@ -40,15 +41,67 @@ void MongSiri::StartIdle()
 	}
 
 	ChangeAnimationByDircetion("Idle");
+	ShadowRenderHelper.SetSameAnimation(BodyRenderer, ShadowRenderer);
+	ShadowRenderHelper.UpdateHelper(BodyRenderer, ShadowRenderer);
+}
+
+void MongSiri::StartJump()
+{
+	SearchJumpLocation();
+	ChangeAnimationByDircetion("Jump");
+	ShadowRenderHelper.SetSameAnimation(BodyRenderer, ShadowRenderer);
+	ShadowRenderHelper.UpdateHelper(BodyRenderer, ShadowRenderer);
+}
+
+void MongSiri::StartLook()
+{
+	LookState.ChangeState(ELOOKSTATE::Recognize);
+}
+
+void MongSiri::StartCollected()
+{
+	if (nullptr == InteractiveCol)
+	{
+		MsgBoxAssert("충돌체가 존재하지 않는데 사용하려 했습니다.");
+		return;
+	}
+
+	InteractiveCol->Off();
+	ChangeAnimation("Collected");
+}
+
+void MongSiri::StartRecognize(GameEngineState* _Parent)
+{
+	Emotion.ShowExpression(EMOJITYPE::Question);
+
+	ChangeAnimationByDircetion("Look");
+}
+
+void MongSiri::StartCaught()
+{
+	Dir = EDIRECTION::LEFTDOWN;
+	ChangeAnimationByDircetion("Idle");
+}
+
+void MongSiri::StartDisappear()
+{
+	if (nullptr != InteractiveActor::InteractiveCol)
+	{
+		InteractiveActor::InteractiveCol->Off();
+	}
+
+	ChangeAnimation("Disappear");
+	ShadowRenderHelper.SetSameAnimation(BodyRenderer, ShadowRenderer);
+	ShadowRenderHelper.UpdateHelper(BodyRenderer, ShadowRenderer);
 }
 
 void MongSiri::UpdateIdle(float _Delta)
 {
-	if (true == IsPlayerAround() && EMONGSIRISTATUS::Escape != Status)
+	if (true == IsPlayerAround(MongSiri_FOVSize) && EMONGSIRISTATUS::Escape != Status)
 	{
 		ChangeState(EMONGSIRISTATE::Look);
 		return;
-	
+
 	}
 
 	if (nullptr == InteractiveActor::BodyRenderer)
@@ -59,32 +112,192 @@ void MongSiri::UpdateIdle(float _Delta)
 
 	if (true == InteractiveActor::BodyRenderer->IsCurAnimationEnd())
 	{
-		--IdleCount ;
+		--IdleCount;
 	}
 
-	if (IdleCount  <= 0)
+	if (IdleCount <= 0)
 	{
 		ChangeState(EMONGSIRISTATE::Jump);
 		return;
 	}
+
+	ShadowRenderHelper.UpdateHelper(BodyRenderer, ShadowRenderer);
+}
+
+void MongSiri::UpdateJump(float _Delta)
+{
+	if (nullptr == InteractiveActor::BodyRenderer)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
+
+	if (true == InteractiveActor::BodyRenderer->IsCurAnimationEnd())
+	{
+		if (true == IsOnTheHole)
+		{
+			ChangeState(EMONGSIRISTATE::Disappear);
+			return;
+		}
+
+		ChangeState(EMONGSIRISTATE::Idle);
+		return;
+	}
+
+	bool isJumpFrame = (InteractiveActor::BodyRenderer->GetCurIndex() > 2 && InteractiveActor::BodyRenderer->GetCurIndex() < 9);
+	if (isJumpFrame)
+	{
+		const std::shared_ptr<BackDrop_PlayLevel>& MainBackDropPtr = PlayLevel::GetCurLevel()->GetBackDropPtr();
+		if (nullptr != MainBackDropPtr)
+		{
+			if (WALLCOLOR == MainBackDropPtr->GetColor(Transform.GetLocalPosition() + GetMoveVector() * _Delta))
+			{
+				ResetMoveVector();
+			}
+		}
+
+		InteractiveActor::ApplyMovement(_Delta);
+	}
+
+	ShadowRenderHelper.UpdateHelper(BodyRenderer, ShadowRenderer);
+}
+
+void MongSiri::UpdateLook(float _Delta)
+{
+	LookState.Update(_Delta);
+}
+
+
+void MongSiri::UpdateRecognize(float _Delta, GameEngineState* _Parent)
+{
+	if (EMONGSIRISTATUS::Escape == Status)
+	{
+		ChangeState(EMONGSIRISTATE::Idle);
+		LookState.ChangeState(ELOOKSTATE::None);
+		return;
+	}
+
+	if (false == IsPlayerAround(MongSiri_FOVSize))
+	{
+		LookState.ChangeState(ELOOKSTATE::NotRecognize);
+		return;
+	}
+
+	if (nullptr != InteractiveActor::BodyRenderer)
+	{
+		if (true == InteractiveActor::BodyRenderer->IsCurAnimationEnd())
+		{
+			const std::shared_ptr<GameEngineFrameAnimation>& Animation = InteractiveActor::BodyRenderer->FindAnimation("Look");
+			if (nullptr == Animation)
+			{
+				MsgBoxAssert("포인터가 존재하지 않습니다.");
+				return;
+			}
+
+			GameEngineRandom RandomClass;
+			RandomClass.SetSeed(GlobalValue::GetSeedValue());
+
+			Animation->Inter[3] = RandomClass.RandomFloat(0.2f, 2.4f);
+		}
+	}
+
+	AutoChangeDirAnimation("Look");
+}
+
+
+void MongSiri::UpdateNotRecognize(float _Delta, GameEngineState* _Parent)
+{
+	const float LookAtCoolTime = 1.0f;
+
+	if (_Parent->GetStateTime() > LookAtCoolTime || EMONGSIRISTATUS::Escape == Status)
+	{
+		LookState.ChangeState(ELOOKSTATE::None);
+		return;
+	}
+}
+
+
+void MongSiri::UpdateCaught(float _Delta)
+{
+	if (true == IsEnalbeActive)
+	{
+		ChangeState(EMONGSIRISTATE::Collected);
+		return;
+	}
+}
+
+
+void MongSiri::UpdateCollected(float _Delta)
+{
+	if (nullptr == InteractiveActor::BodyRenderer)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
+
+	if (true == InteractiveActor::BodyRenderer->IsCurAnimationEnd()
+		&& true == InteractiveActor::BodyRenderer->IsCurAnimation("CollectedB"))
+	{
+		ChangeState(EMONGSIRISTATE::Idle);
+		return;
+	}
+}
+
+void MongSiri::UpdateDisappear(float _Delta)
+{
+	if (nullptr == InteractiveActor::BodyRenderer)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
+
+	if (true == InteractiveActor::BodyRenderer->IsCurAnimationEnd())
+	{
+		if (nullptr == MongSiriParant)
+		{
+			MsgBoxAssert("몽시리 개체군이 존재하지 않습니다.");
+			return;
+		}
+
+		MongSiriParant->MongSiriEntityList.remove(GetDynamic_Cast_This<MongSiri>());
+		Death();
+	}
+
+	ShadowRenderHelper.UpdateHelper(BodyRenderer, ShadowRenderer);
+}
+
+
+
+void MongSiri::EndJump()
+{
+	ResetMoveVector();
+}
+
+void MongSiri::EndNotRecognize(GameEngineState* _Parent)
+{
+	ChangeState(EMONGSIRISTATE::Idle);
 }
 
 void MongSiri::EndIdle()
 {
-	IdleCount  = 0;
+	IdleCount = 0;
 }
 
-
-void MongSiri::StartJump()
+void MongSiri::EndCollected()
 {
-	SearchJumpLocation();
-	ChangeAnimationByDircetion("Jump");
+	Status = EMONGSIRISTATUS::Escape;
+
+	if (nullptr != MongSiriParant)
+	{
+		MongSiriParant->EscapeHoleToOtherMonsiri();
+	}
 }
+
 
 // 뛸 장소를 찾아줍니다.
 void MongSiri::SearchJumpLocation()
 {
-	if (EMONGSIRISTATUS::Normal == Status )
+	if (EMONGSIRISTATUS::Normal == Status)
 	{
 		GameEngineRandom RandomClass;
 		RandomClass.SetSeed(GlobalValue::GetSeedValue());
@@ -144,7 +357,7 @@ void MongSiri::SearchJumpLocation()
 
 		float4 TargetVector = MongSiriParant->Hole->Transform.GetLocalPosition() - Transform.GetLocalPosition();
 		float4 DistanceToHole = DirectX::XMVector2Length(TargetVector.DirectXVector);
-		
+
 		TargetVector = DirectX::XMVector2Normalize(TargetVector.DirectXVector);
 
 		bool isReachHole = (DistanceToHole.X < 40.0f);
@@ -162,239 +375,8 @@ void MongSiri::SearchJumpLocation()
 	Dir = DirectionFunction::GetDiagonalDirectionToVector(GetMoveVector());
 }
 
-void MongSiri::UpdateJump(float _Delta)
-{
-	if (nullptr == InteractiveActor::BodyRenderer)
-	{
-		MsgBoxAssert("렌더러가 존재하지 않습니다.");
-		return;
-	}
-
-	if (true == InteractiveActor::BodyRenderer->IsCurAnimationEnd())
-	{
-		if (true == IsOnTheHole)
-		{
-			ChangeState(EMONGSIRISTATE::Disappear);
-			return;
-		}
-
-		ChangeState(EMONGSIRISTATE::Idle);
-		return;
-	}
-
-	bool isJumpFrame = (InteractiveActor::BodyRenderer->GetCurIndex() > 2 && InteractiveActor::BodyRenderer->GetCurIndex() < 9);
-	if (isJumpFrame)
-	{
-		const std::shared_ptr<BackDrop_PlayLevel>& MainBackDropPtr = PlayLevel::GetCurLevel()->GetBackDropPtr();
-		if (nullptr != MainBackDropPtr)
-		{
-			if (GameEngineColor::RED == MainBackDropPtr->GetColor(Transform.GetLocalPosition() + GetMoveVector() * _Delta, GameEngineColor::RED))
-			{
-				ResetMoveVector();
-			}
-		}
-
-		InteractiveActor::ApplyMovement(_Delta);
-	}
-}
-
-void MongSiri::EndJump()
-{
-	ResetMoveVector();
-}
-
-
-void MongSiri::StartLook()
-{
-	LookState.ChangeState(ELOOKSTATE::Recognize);
-}
-
-void MongSiri::UpdateLook(float _Delta)
-{
-	LookState.Update(_Delta);
-}
-
-void MongSiri::StartRecognize(GameEngineState* _Parent)
-{
-	Emotion.ShowExclamation();
-
-	ChangeAnimationByDircetion("Look");
-}
-
-void MongSiri::UpdateRecognize(float _Delta, GameEngineState* _Parent)
-{
-	if (EMONGSIRISTATUS::Escape == Status)
-	{
-		ChangeState(EMONGSIRISTATE::Idle);
-		LookState.ChangeState(ELOOKSTATE::None);
-		return;
-	}
-
-	if (false == IsPlayerAround())
-	{
-		LookState.ChangeState(ELOOKSTATE::NotRecognize);
-		return;
-	}
-
-	if (nullptr != InteractiveActor::BodyRenderer)
-	{
-		if (true == InteractiveActor::BodyRenderer->IsCurAnimationEnd())
-		{
-			std::weak_ptr<GameEngineFrameAnimation> Animation = InteractiveActor::BodyRenderer->FindAnimation("Look");
-			if (true == Animation.expired())
-			{
-				MsgBoxAssert("포인터가 존재하지 않습니다.");
-				return;
-			}
-
-			GameEngineRandom RandomClass;
-			RandomClass.SetSeed(GlobalValue::GetSeedValue());
-
-			Animation.lock()->Inter[3] = RandomClass.RandomFloat(0.2f, 2.4f);
-		}
-	}
-
-	AutoChangeDirAnimation("Look");
-}
-
-
-void MongSiri::StartNotRecognize(GameEngineState* _Parent)
-{
-	// 이모지
-}
-
-void MongSiri::UpdateNotRecognize(float _Delta, GameEngineState* _Parent)
-{
-	const float LookAtCoolTime = 1.0f;
-
-	if (_Parent->GetStateTime() > LookAtCoolTime || EMONGSIRISTATUS::Escape == Status)
-	{
-		LookState.ChangeState(ELOOKSTATE::None);
-		return;
-	}
-}
-
-void MongSiri::EndNotRecognize(GameEngineState* _Parent)
-{
-	ChangeState(EMONGSIRISTATE::Idle);
-}
-
-
-void MongSiri::GetCaught()
-{
-	ChangeState(EMONGSIRISTATE::Caught);
-}
-
-void MongSiri::StartCaught()
-{
-	Dir = EDIRECTION::LEFTDOWN;
-	ChangeAnimationByDircetion("Idle");
-}
-
-void MongSiri::UpdateCaught(float _Delta)
-{
-	if (true == IsEnalbeActive)
-	{
-		ChangeState(EMONGSIRISTATE::Collected);
-		return;
-	}
-}
-
-void MongSiri::StartCollected()
-{
-	if (nullptr == InteractiveCol)
-	{
-		MsgBoxAssert("충돌체가 존재하지 않는데 사용하려 했습니다.");
-		return;
-	}
-
-	InteractiveCol->Off();
-	ChangeAnimation("Collected");
-}
-
-void MongSiri::UpdateCollected(float _Delta)
-{
-	if (nullptr == InteractiveActor::BodyRenderer)
-	{
-		MsgBoxAssert("렌더러가 존재하지 않습니다.");
-		return;
-	}
-
-	if (true == InteractiveActor::BodyRenderer->IsCurAnimationEnd() 
-		&& true == InteractiveActor::BodyRenderer->IsCurAnimation("CollectedB"))
-	{
-		ChangeState(EMONGSIRISTATE::Idle);
-		return;
-	}
-}
-
-void MongSiri::EndCollected()
-{
-	Status = EMONGSIRISTATUS::Escape;
-
-	if (nullptr != MongSiriParant)
-	{
-		Emotion.UseOnlyExclamation();
-		MongSiriParant->EscapeHoleToOtherMonsiri();
-	}
-}
-
-
-void MongSiri::StartDisappear()
-{
-	if (nullptr != InteractiveActor::InteractiveCol)
-	{
-		InteractiveActor::InteractiveCol->Off();
-	}
-
-	ChangeAnimation("Disappear");
-}
-
-void MongSiri::UpdateDisappear(float _Delta)
-{
-	if (nullptr == InteractiveActor::BodyRenderer)
-	{
-		MsgBoxAssert("렌더러가 존재하지 않습니다.");
-		return;
-	}
-
-	if (true == InteractiveActor::BodyRenderer->IsCurAnimationEnd())
-	{
-		if (nullptr == MongSiriParant)
-		{
-			MsgBoxAssert("몽시리 개체군이 존재하지 않습니다.");
-			return;
-		}
-
-		MongSiriParant->MongSiriEntityList.remove(GetDynamic_Cast_This<MongSiri>());
-		Death();
-	}
-}
-
-void MongSiri::AutoChangeDirAnimation(std::string_view _StateName)
-{
-	const float4 ElliePos = PlayLevel::GetCurLevel()->GetPlayerPtr()->Transform.GetLocalPosition();
-	const float4 MyPos = Transform.GetLocalPosition();
-	const float4 VectorToEllie = ElliePos - MyPos;
-	const float Radian = std::atan2f(VectorToEllie.Y, VectorToEllie.X);
-	InteractiveActor::Dir = DirectionFunction::GetDirectionToDegree(Radian * GameEngineMath::R2D);
-
-	if (InteractiveActor::RenderDir != InteractiveActor::Dir)
-	{
-		std::weak_ptr<GameEngineFrameAnimation> Animation = InteractiveActor::BodyRenderer->CurAnimation();
-		if (true == Animation.expired())
-		{
-			MsgBoxAssert("애니메이션이 존재하지 않습니다.");
-			return;
-		}
-
-		const int currentIndex = Animation.lock()->CurIndex;
-		ChangeAnimationByDircetion(_StateName, static_cast<unsigned int>(currentIndex));
-	} 
-}
 
 void MongSiri::ShowEscapeEmotion()
 {
-	Emotion.ShowExclamation();
-	Emotion.UseOnlyExclamation();
+	Emotion.ShowExpression(EMOJITYPE::Exclamation);
 }

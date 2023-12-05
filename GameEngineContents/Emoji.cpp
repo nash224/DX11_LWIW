@@ -33,162 +33,52 @@ void Emoji::Init(GameEngineActor* _Actor, const float4& _EmotionPos /*= float4::
 
 void Emoji::Release()
 {
-	Base = nullptr;
-	Emotion = nullptr;
+	BaseRenderer = nullptr;
+	EmotionRenderer = nullptr;
 	Parent = nullptr;
 }
 
 void Emoji::RendererSetting(GameEngineActor* _Actor, const float4& _EmotionPos)
 {
-	static constexpr int RenderOrder = 0;
-
 	EmotionPos = _EmotionPos;
 
-	Base = _Actor->CreateComponent<GameEngineUIRenderer>(RenderOrder);
-	Base->SetSprite("Emoticon_Background.png");
+	BaseRenderer = _Actor->CreateComponent<GameEngineUIRenderer>();
+	BaseRenderer->SetSprite("Emoticon_Background.png");
 
-	Emotion = _Actor->CreateComponent<GameEngineUIRenderer>(RenderOrder);
+	EmotionRenderer = _Actor->CreateComponent<GameEngineUIRenderer>();
 }
 
-void Emoji::StateSetting()
+void Emoji::ShowExpression(EMOJITYPE _Type)
 {
-	CreateStateParameter ExclamationState;
-	ExclamationState.Start = std::bind(&Emoji::StartExclamation, this, std::placeholders::_1);
-	ExclamationState.Stay = std::bind(&Emoji::UpdateExclamation, this, std::placeholders::_1, std::placeholders::_2);
-	State.CreateState(EEMOJISTATE::Exclamation, ExclamationState);
-
-	CreateStateParameter QuestionState;
-	QuestionState.Start = std::bind(&Emoji::StartQuestion, this, std::placeholders::_1);
-	QuestionState.Stay = std::bind(&Emoji::UpdateQuestion, this, std::placeholders::_1, std::placeholders::_2);
-	State.CreateState(EEMOJISTATE::Question, QuestionState);
-
-	CreateStateParameter NoneState;
-	NoneState.Start = std::bind(&Emoji::StartNone, this, std::placeholders::_1);
-	State.CreateState(EEMOJISTATE::None, NoneState);
-
-	State.ChangeState(EEMOJISTATE::None);
+	EmotionRenderer->SetSprite(GetFileName(_Type));
+	State.ChangeState(EEMOJISTATE::Expression);
 }
 
 
-
-void Emoji::StartExclamation(GameEngineState* State)
+std::string Emoji::GetFileName(EMOJITYPE _Type)
 {
-	if (nullptr == Base || nullptr == Emotion)
+	std::string FileName;
+	switch (_Type)
 	{
-		MsgBoxAssert("렌더러가 존재하지 않습니다.");
-		return;
+	case EMOJITYPE::Exclamation:
+		FileName = "Exclamation.png";
+		break;
+	case EMOJITYPE::Question:
+		FileName = "Question.png";
+		break;
+	default:
+		break;
 	}
 
-	Base->On();
-	Emotion->On();
-	Emotion->SetSprite("Exclamation.png");
-}
-void Emoji::StartNone(GameEngineState* State)
-{
-	if (nullptr == Base || nullptr == Emotion)
-	{
-		MsgBoxAssert("렌더러가 존재하지 않습니다.");
-		return;
-	}
-
-	Base->Off();
-	Emotion->Off();
-}
-
-void Emoji::StartQuestion(GameEngineState* State)
-{
-	if (nullptr == Emotion)
-	{
-		MsgBoxAssert("렌더러가 존재하지 않습니다.");
-		return;
-	}
-
-	Emotion->SetSprite("Question.png");
-}
-
-
-void Emoji::UpdateExclamation(float _Delta, GameEngineState* State)
-{
-	if (false == isUseOnlyExclamation)
-	{
-		if (GetDistanceToEllie() > RecognitionRange)
-		{
-			State->ChangeState(EEMOJISTATE::Question);
-			return;
-		}
-	}
-
-
-	if (State->GetStateTime() > ExpressionTime)
-	{
-		State->ChangeState(EEMOJISTATE::None);
-		return;
-	}
-}
-
-void Emoji::UpdateQuestion(float _Delta, GameEngineState* State)
-{
-	if (GetDistanceToEllie() < RecognitionRange)
-	{
-		State->ChangeState(EEMOJISTATE::Exclamation);
-		return;
-	}
-
-	if (State->GetStateTime() > ExpressionTime)
-	{
-		State->ChangeState(EEMOJISTATE::None);
-		return;
-	}
-}
-
-void Emoji::ShowExclamation()
-{
-	State.ChangeState(EEMOJISTATE::Exclamation);
-}
-
-float Emoji::GetDistanceToEllie()
-{
-	if (nullptr == Parent)
-	{
-		MsgBoxAssert("부모를 지정해주지 않았습니다.");
-		return 0.0f;
-	}
-
-	const float4 ElliePos = PlayLevel::GetCurLevel()->GetPlayerPtr()->Transform.GetLocalPosition();
-	const float4 MyPos = Parent->Transform.GetLocalPosition();
-	const float4 Result = DirectX::XMVector2Length((MyPos - ElliePos).DirectXVector);
-	return Result.X;
+	return FileName;
 }
 
 void Emoji::Update(float _Delta)
 {
 	State.Update(_Delta);
-	CalculateWorldToScreen();
 }
 
-void Emoji::TestSetting()
-{
-	if (nullptr == Parent)
-	{
-		MsgBoxAssert("부모를 지정하지 않고 기능을 사용하려 했습니다.");
-		return;
-	}
-
-	float4 Pos = Parent->Transform.GetWorldPosition();
-	const TransformData& TransData = PlayLevel::GetCurLevel()->GetMainCamera()->Transform.GetConstTransformDataRef();
-	Pos *= TransData.ViewMatrix;
-	Pos *= TransData.ProjectionMatrix;
-
-	Pos += EmotionPos;
-
-	const float BaseDepth = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Emoticon_Base);
-	const float EmotionDepth = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Emoticon_Emotion);
-
-	Base->Transform.SetWorldPosition(float4(Pos.X, Pos.Y, BaseDepth));
-	Emotion->Transform.SetWorldPosition(float4(Pos.X, Pos.Y, EmotionDepth));
-}
-
-void Emoji::CalculateWorldToScreen()
+void Emoji::CalculateEmotionPos()
 {
 	if (nullptr == Parent)
 	{
@@ -205,6 +95,55 @@ void Emoji::CalculateWorldToScreen()
 
 	Vector += EmotionPos;
 
-	Base->Transform.SetWorldPosition(float4(Vector.X, Vector.Y, BaseDepth));
-	Emotion->Transform.SetWorldPosition(float4(Vector.X, Vector.Y, EmotionDepth));
+	BaseRenderer->Transform.SetWorldPosition(float4(Vector.X, Vector.Y, BaseDepth));
+	EmotionRenderer->Transform.SetWorldPosition(float4(Vector.X, Vector.Y, EmotionDepth));
+}
+
+
+void Emoji::StateSetting()
+{
+	CreateStateParameter ExpressionState;
+	ExpressionState.Start = std::bind(&Emoji::StartExpression, this, std::placeholders::_1);
+	ExpressionState.Stay = std::bind(&Emoji::UpdateExpression, this, std::placeholders::_1, std::placeholders::_2);
+	State.CreateState(EEMOJISTATE::Expression, ExpressionState);
+
+	CreateStateParameter NoneState;
+	NoneState.Start = std::bind(&Emoji::StartNone, this, std::placeholders::_1);
+	State.CreateState(EEMOJISTATE::None, NoneState);
+
+	State.ChangeState(EEMOJISTATE::None);
+}
+
+void Emoji::StartExpression(GameEngineState* State)
+{
+	if (nullptr == BaseRenderer || nullptr == EmotionRenderer)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
+
+	BaseRenderer->On();
+	EmotionRenderer->On();
+}
+void Emoji::StartNone(GameEngineState* State)
+{
+	if (nullptr == BaseRenderer || nullptr == EmotionRenderer)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
+
+	BaseRenderer->Off();
+	EmotionRenderer->Off();
+}
+
+void Emoji::UpdateExpression(float _Delta, GameEngineState* State)
+{
+	if (State->GetStateTime() > ExpressionTime)
+	{
+		State->ChangeState(EEMOJISTATE::None);
+		return;
+	}
+
+	CalculateEmotionPos();
 }

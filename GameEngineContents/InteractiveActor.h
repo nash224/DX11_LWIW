@@ -123,6 +123,9 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
+
+	float GetDistance2DToEllie();
+
 protected:
 	std::shared_ptr<GameEngineSpriteRenderer> BodyRenderer = nullptr;
 	std::shared_ptr<GameEngineCollision> InteractiveCol = nullptr;
