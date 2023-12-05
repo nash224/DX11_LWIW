@@ -194,7 +194,7 @@ void MongSiri::UpdateJump(float _Delta)
 			}
 		}
 
-		DynamicEntity::ApplyMovement(_Delta);
+		InteractiveActor::ApplyMovement(_Delta);
 	}
 }
 
@@ -377,9 +377,9 @@ void MongSiri::AutoChangeDirAnimation(std::string_view _StateName)
 	const float4 MyPos = Transform.GetLocalPosition();
 	const float4 VectorToEllie = ElliePos - MyPos;
 	const float Radian = std::atan2f(VectorToEllie.Y, VectorToEllie.X);
-	DynamicEntity::Dir = DirectionFunction::GetDirectionToDegree(Radian * GameEngineMath::R2D);
+	InteractiveActor::Dir = DirectionFunction::GetDirectionToDegree(Radian * GameEngineMath::R2D);
 
-	if (RenderDir != DynamicEntity::Dir)
+	if (InteractiveActor::RenderDir != InteractiveActor::Dir)
 	{
 		std::weak_ptr<GameEngineFrameAnimation> Animation = InteractiveActor::BodyRenderer->CurAnimation();
 		if (true == Animation.expired())

@@ -1,4 +1,5 @@
 #pragma once
+#include "ContentsActor.h"
 
 enum class EINTERACTION_TYPE
 {
@@ -22,7 +23,7 @@ enum class EINTERACTION_PRESSTYPE
 };
 
 // Ό³Έν :
-class InteractiveActor : public GameEngineActor
+class InteractiveActor : public ContentsActor
 {
 	friend class UI_InterativeMark;
 	friend class BackDrop;
@@ -113,13 +114,6 @@ public:
 	inline void ReachThis()
 	{
 		IsReach = true;
-	}
-
-	void ApplyDepth();
-
-	inline void SetPlusDepth(float _DepthBias)
-	{
-		PlusDepth = _DepthBias;
 	}
 
 protected:

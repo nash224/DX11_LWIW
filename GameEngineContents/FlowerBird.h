@@ -1,10 +1,10 @@
 #pragma once
-#include "DynamicEntity.h"
+#include "InteractiveActor.h"
 #include "Emoji.h"
 
 
 // Ό³Έν :
-class FlowerBird : public DynamicEntity
+class FlowerBird : public InteractiveActor
 {
 private:
 	enum class EFLOWERBIRDSTATE

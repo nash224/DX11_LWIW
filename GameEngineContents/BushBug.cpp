@@ -37,16 +37,16 @@ void BushBug::Start()
 
 void BushBug::Update(float _Delta)
 {
-	DynamicEntity::Update(_Delta);
+	InteractiveActor::Update(_Delta);
 
 	MainState.Update(_Delta);
 	Alight.UpdateLightLerp();
-	DynamicEntity::UpdateSoundVolumeByDistance();
+	InteractiveActor::UpdateSoundVolumeByDistance();
 }
 
 void BushBug::Release()
 {
-	DynamicEntity::Release();
+	InteractiveActor::Release();
 
 	Alight.Release();
 }
@@ -88,8 +88,8 @@ void BushBug::ALightSetting()
 {
 	Alight.Init(this, { float4(0.1f, 0.1f, 0.0f, 0.8f) , "Default_Particle.png" , float4(100.0f, 100.0f)});
 
-	std::weak_ptr<GameEngineFrameAnimation> Animation = BodyRenderer->FindAnimation("Idle");
-	if (true == Animation.expired())
+	const std::shared_ptr<GameEngineFrameAnimation>& Animation = BodyRenderer->FindAnimation("Idle");
+	if (nullptr == Animation)
 	{
 		MsgBoxAssert("애니메이션을 찾지 못했습니다.");
 		return;
@@ -145,7 +145,7 @@ void BushBug::StartMove(GameEngineState* _Parent)
 	GameEngineRandom RandomClass;
 	RandomClass.SetSeed(GlobalValue::GetSeedValue());
 	float FlyAngle = RandomClass.RandomFloat(0.0f, Max_YAngle);
-	if (0 == RandomClass.RandomFloat(0, 1))
+	if (0 == RandomClass.RandomInt(0, 1))
 	{
 		FlyAngle *= -1.0f;
 	}

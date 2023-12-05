@@ -1,5 +1,5 @@
 #pragma once
-#include "DynamicEntity.h"
+#include "InteractiveActor.h"
 #include "Emoji.h"
 
 
@@ -12,7 +12,7 @@ enum class EMONGSIRISTATUS
 };
 
 // Ό³Έν :
-class MongSiri : public DynamicEntity
+class MongSiri : public InteractiveActor
 {
 	friend class Ellie;
 	friend class MongSiri_Population;

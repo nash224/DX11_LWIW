@@ -24,19 +24,19 @@ public:
 	void ActorRelaese();
 
 private:
-	void Start() override;
+	void Start() override {}
 	void Update(float _Delta) override;
 	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
-	void LevelEnd(class GameEngineLevel* _NextLevel) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
+	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 
 private:
 	void GetHoleScale();
 	void ExploreSpawnLocation();
 	void CheckInstallationHoleSpace();
-	void SetUpChubHole(GameEngineLevel* _CurLevel);
-	void CreateMongSiri(GameEngineLevel* _CurLevel, unsigned int _Population);
+	void SetUpChubHole();
+	void CreateMongSiri(unsigned int _Population);
 	void SetMongSiriSeed(std::shared_ptr<class MongSiri> _Actor, GameEngineRandom& _RandomClass);
 
 private:

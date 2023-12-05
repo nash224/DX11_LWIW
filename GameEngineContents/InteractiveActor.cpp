@@ -102,24 +102,3 @@ ETOOLTYPE InteractiveActor::GetCollectionToolType() const
 {
 	return Option.CollectionTool;
 }
-
-void InteractiveActor::ApplyDepth()
-{
-	float4 MyPosition = Transform.GetLocalPosition();
-	float BackYScale = 0.0f;
-	
-	const std::shared_ptr<BackDrop_PlayLevel>& BackDropPtr = PlayLevel::GetCurLevel()->GetBackDropPtr();
-	if (nullptr != BackDropPtr)
-	{
-		BackYScale = BackDropPtr->GetBackGroundScale().Y;
-	}
-	else
-	{
-		BackYScale = GlobalValue::GetWindowScale().Y;
-	}
-
-	float MyDepth = DepthFunction::CalculateObjectDepth(BackYScale, MyPosition.Y + PlusDepth);
-	MyPosition.Z = MyDepth;
-	
-	Transform.SetLocalPosition(MyPosition);
-}

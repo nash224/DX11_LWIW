@@ -56,8 +56,8 @@ void Bush::SetBushType(EBUSHTYPE _Type)
 // Ω√¿€
 void Bush::Init()
 {
-	SetPlusDepth(-20.0f);
-	ApplyDepth();
+	ContentsActor::SetPlusDepth(-20.0f);
+	ContentsActor::ApplyDepth();
 	CreateBushAnimation();
 	InteractiveOptionSetting();
 	BushStateSetting();

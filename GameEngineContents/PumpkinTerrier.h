@@ -1,6 +1,5 @@
 #pragma once
-#include "DynamicEntity.h"
-
+#include "InteractiveActor.h"
 
 enum class EPUMPKINTERRIERSTATE
 {
@@ -17,7 +16,7 @@ enum class EPUMPKINTERRIERSTATE
 
 
 // Ό³Έν :
-class PumpkinTerrier : public DynamicEntity
+class PumpkinTerrier : public InteractiveActor
 {
 public:
 	// constrcuter destructer

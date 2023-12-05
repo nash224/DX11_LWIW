@@ -45,9 +45,9 @@ protected:
 		m_MoveVector += _Vector;
 	}
 
-	inline void SetDepth(float _DepthBias)
+	inline void SetPlusDepth(float _PlusDepth)
 	{
-		PlusDepth = _DepthBias;
+		PlusDepth = _PlusDepth;
 	}
 
 	void ApplyMovement(float _Delta);

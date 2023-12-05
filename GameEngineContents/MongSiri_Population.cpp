@@ -15,13 +15,6 @@ MongSiri_Population::~MongSiri_Population()
 {
 }
 
-
-
-void MongSiri_Population::Start()
-{
-
-}
-
 void MongSiri_Population::Update(float _Delta)
 {
 	UpdateEntityMiddlePoint();
@@ -34,37 +27,22 @@ void MongSiri_Population::Release()
 	Hole = nullptr;
 }
 
-void MongSiri_Population::LevelStart(class GameEngineLevel* _NextLevel)
-{
-	
-}
-
-void MongSiri_Population::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-	
-}
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
 // _Population : 개체수만큼 몽시리를 생성합니다.
 void MongSiri_Population::Init(unsigned int _Population)
 {
-	GameEngineLevel* CurLevel = GetLevel();
-	SetUpChubHole(CurLevel);
+	SetUpChubHole();
 	GetHoleScale();
 	ExploreSpawnLocation();
-	CreateMongSiri(CurLevel, _Population);
+	CreateMongSiri(_Population);
 }
 
 // 구멍을 설치합니다.
-void MongSiri_Population::SetUpChubHole(GameEngineLevel* _CurLevel)
+void MongSiri_Population::SetUpChubHole()
 {
 	float4 CurrentPosition = Transform.GetLocalPosition();
 	CurrentPosition.Z = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Hole);
 
-	Hole = _CurLevel->CreateActor<ChubHole>(EUPDATEORDER::Objects);
+	Hole = GetLevel()->CreateActor<ChubHole>(EUPDATEORDER::Objects);
 	Hole->Transform.SetLocalPosition(CurrentPosition);
 	Hole->Init();
 }
@@ -141,13 +119,13 @@ void MongSiri_Population::SetPopulationSpawnLocation(const float4& _Location)
 	m_PopulationLocation = _Location;
 }
 
-void MongSiri_Population::CreateMongSiri(GameEngineLevel* _CurLevel, unsigned int _Population)
+void MongSiri_Population::CreateMongSiri(unsigned int _Population)
 {
 	GameEngineRandom RandomClass;
 
-	for (size_t i = 0; i < _Population; i++)
+	for (unsigned int i = 0; i < _Population; i++)
 	{
-		std::shared_ptr<MongSiri> Object = _CurLevel->CreateActor<MongSiri>(EUPDATEORDER::Entity);
+		std::shared_ptr<MongSiri> Object = GetLevel()->CreateActor<MongSiri>(EUPDATEORDER::Entity);
 		SetMongSiriSeed(Object, RandomClass);
 		Object->Init();
 		Object->MongSiriParant = this;
@@ -157,7 +135,7 @@ void MongSiri_Population::CreateMongSiri(GameEngineLevel* _CurLevel, unsigned in
 
 void MongSiri_Population::SetMongSiriSeed(std::shared_ptr<MongSiri> _Actor, GameEngineRandom& _RandomClass)
 {
-	_RandomClass.SetSeed(reinterpret_cast<__int64>(_Actor.get()));
+	_RandomClass.SetSeed(GlobalValue::GetSeedValue());
 
 	float MongSiriSpawnDistance = _RandomClass.RandomFloat(0.0f, MonSiriSpawnRangeSize);		// 스폰 랜덤 거리 : 0 ~ 120.0f 
 	float MongSiriSpawnAngle = _RandomClass.RandomFloat(0.0f, 360.0f);							// 스폰 랜덤 각도

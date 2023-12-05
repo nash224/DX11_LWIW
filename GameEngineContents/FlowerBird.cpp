@@ -44,23 +44,23 @@ FlowerBird::~FlowerBird()
 
 void FlowerBird::Start()
 {
-	DynamicEntity::Start();
+	InteractiveActor::Start();
 	InteractiveActor::SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Gloves);
 	InteractiveActor::CreateAndSetCollision(ECOLLISION::Entity, { 300.0f }, float4::ZERO, ColType::SPHERE2D);
 }
 
 void FlowerBird::Update(float _Delta)
 {
-	DynamicEntity::Update(_Delta);
+	InteractiveActor::Update(_Delta);
 	
 	UpdateState(_Delta);
 	Emotion.Update(_Delta);
-	DynamicEntity::UpdateSoundVolumeByDistance();
+	InteractiveActor::UpdateSoundVolumeByDistance();
 }
 
 void FlowerBird::Release()
 {
-	DynamicEntity::Release();
+	InteractiveActor::Release();
 
 	ShadowRenderer = nullptr;
 
@@ -148,10 +148,9 @@ void FlowerBird::AnimationSetting()
 void FlowerBird::DirectionSetting()
 {
 	GameEngineRandom RandomClass;
-	RandomClass.SetSeed(reinterpret_cast<__int64>(this) + GlobalValue::GetSeedValue());
-	int Value = RandomClass.RandomInt(0, 1);
+	RandomClass.SetSeed(GlobalValue::GetSeedValue());
 
-	switch (Value)
+	switch (RandomClass.RandomInt(0, 1))
 	{
 	case 0:
 		Dir = EDIRECTION::LEFT;
@@ -231,13 +230,7 @@ void FlowerBird::ChangeState(EFLOWERBIRDSTATE _State)
 
 void FlowerBird::ChangeFlowerBirdAnimation(std::string_view _AnimationName)
 {
-	if (nullptr == BodyRenderer)
-	{
-		MsgBoxAssert("렌더러가 존재하지 않습니다.");
-		return;
-	}
-
-	if (nullptr == ShadowRenderer)
+	if (nullptr == InteractiveActor::BodyRenderer || nullptr == ShadowRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
@@ -246,26 +239,24 @@ void FlowerBird::ChangeFlowerBirdAnimation(std::string_view _AnimationName)
 	if (EDIRECTION::LEFT == Dir)
 	{
 		ShadowRenderer->LeftFlip();
-		BodyRenderer->LeftFlip();
+		InteractiveActor::BodyRenderer->LeftFlip();
 	}
 
 	if (EDIRECTION::RIGHT == Dir)
 	{
 		ShadowRenderer->RightFlip();
-		BodyRenderer->RightFlip();
+		InteractiveActor::BodyRenderer->RightFlip();
 	}
 
-	BodyRenderer->ChangeAnimation(_AnimationName);
+	InteractiveActor::BodyRenderer->ChangeAnimation(_AnimationName);
 }
 
 std::string FlowerBird::RandomBirdCrySoundName()
 {
-	GameEngineRandom RandomClass;
-	int SelectValue = RandomClass.RandomInt(2, 4);
-
 	std::string_view FileName;
 
-	switch (SelectValue)
+	GameEngineRandom RandomClass;
+	switch (RandomClass.RandomInt(2, 4))
 	{
 	case 2:
 		FileName = "SFX_BirdCrying_02.wav";

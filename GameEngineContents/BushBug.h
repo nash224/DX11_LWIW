@@ -1,10 +1,10 @@
 #pragma once
-#include "DynamicEntity.h"
+#include "InteractiveActor.h"
 #include "ALightLerp.h"
 
 
 // Ό³Έν :
-class BushBug : public DynamicEntity
+class BushBug : public InteractiveActor
 {
 private:
 	enum class EBUSHBUGSTATE

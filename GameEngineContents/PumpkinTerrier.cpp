@@ -12,34 +12,30 @@ PumpkinTerrier::~PumpkinTerrier()
 
 void PumpkinTerrier::Start()
 {
-	DynamicEntity::Start();
+	InteractiveActor::Start();
 }
 
 void PumpkinTerrier::Update(float _Delta)
 {
-	DynamicEntity::Update(_Delta);
+	InteractiveActor::Update(_Delta);
 }
 
 void PumpkinTerrier::Release()
 {
-	DynamicEntity::Release();
+	InteractiveActor::Release();
 
 	ShadowRenderer = nullptr;
 }
 
 void PumpkinTerrier::LevelStart(class GameEngineLevel* _NextLevel)
 {
-	DynamicEntity::LevelStart(_NextLevel);
+	InteractiveActor::LevelStart(_NextLevel);
 }
 
 void PumpkinTerrier::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-	DynamicEntity::LevelEnd(_NextLevel);
+	InteractiveActor::LevelEnd(_NextLevel);
 }
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 
 void PumpkinTerrier::Init()
@@ -63,13 +59,13 @@ void PumpkinTerrier::RendererSetting()
 		GameEngineSprite::CreateCut("PumpkinTerrier_Vine_RunB.png", 3, 3);
 	}
 
-
-	BodyRenderer = CreateComponent<GameEngineSpriteRenderer>();
-	BodyRenderer->AutoSpriteSizeOn();
-	BodyRenderer->Transform.SetLocalPosition({ 0.0f, RendererBias });
-	BodyRenderer->CreateAnimation("Idle_Down", "PumpkinTerrier_Vine_IdleA.png", 0.12f, 2, 5, true);
-	BodyRenderer->CreateAnimation("Idle_Up", "PumpkinTerrier_Vine_IdleA.png", 0.12f, 6, 9, true);
-	BodyRenderer->ChangeAnimation("Idle_Down");
+	
+	InteractiveActor::BodyRenderer = CreateComponent<GameEngineSpriteRenderer>();
+	InteractiveActor::BodyRenderer->AutoSpriteSizeOn();
+	InteractiveActor::BodyRenderer->Transform.SetLocalPosition({ 0.0f, RendererBias });
+	InteractiveActor::BodyRenderer->CreateAnimation("Idle_Down", "PumpkinTerrier_Vine_IdleA.png", 0.12f, 2, 5, true);
+	InteractiveActor::BodyRenderer->CreateAnimation("Idle_Up", "PumpkinTerrier_Vine_IdleA.png", 0.12f, 6, 9, true);
+	InteractiveActor::BodyRenderer->ChangeAnimation("Idle_Down");
 
 	ShadowRenderer = CreateComponent<GameEngineSpriteRenderer>();
 	ShadowRenderer->Transform.SetLocalPosition({ 0.0f, RendererBias });

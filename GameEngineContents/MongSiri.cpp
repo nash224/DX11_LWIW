@@ -42,16 +42,16 @@ void MongSiri::Start()
 
 void MongSiri::Update(float _Delta)
 {
-	DynamicEntity::Update(_Delta);
+	InteractiveActor::Update(_Delta);
 
 	UpdateState(_Delta);
 	Emotion.Update(_Delta);
-	DynamicEntity::UpdateSoundVolumeByDistance();
+	InteractiveActor::UpdateSoundVolumeByDistance();
 }
 
 void MongSiri::Release()
 {
-	DynamicEntity::Release();
+	InteractiveActor::Release();
 
 	ShadowRenderer = nullptr;
 	Emotion.Release();
@@ -288,8 +288,7 @@ void MongSiri::RendererSetting()
 void MongSiri::InitDirection()
 {
 	GameEngineRandom RandomClass;
-	const int DirctionNumber = RandomClass.RandomInt(0, 3);
-	switch (DirctionNumber)
+	switch (RandomClass.RandomInt(0, 3))
 	{
 	case 0:
 		Dir = EDIRECTION::UP;
@@ -435,7 +434,7 @@ void MongSiri::ChangeAnimationByDircetion(std::string_view _StateName, unsigned 
 		break;
 	}
 
-	DynamicEntity::RenderDir = DynamicEntity::Dir;
+	InteractiveActor::RenderDir = InteractiveActor::Dir;
 
 	InteractiveActor::BodyRenderer->ChangeAnimation(AnimationName, false, _Index);
 }
