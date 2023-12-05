@@ -168,7 +168,6 @@ void TestLevel::TestCode()
 		if (true)
 		{
 			SkyLight = CreateActor<SkyLerp>(EUPDATEORDER::Sky);
-			SkyLight->Init();
 		}
 
 		{

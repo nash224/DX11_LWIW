@@ -5,9 +5,6 @@
 // Ό³Έν :
 class UI_Hub_Broom : public UI_Hub_Actor
 {
-public:
-	static float RenderingAccFuel;
-
 private:
 	enum class EUIBROOMSTATE
 	{
@@ -48,6 +45,8 @@ protected:
 	void EndHasNotBroom(GameEngineState* _Parent);
 
 private:
+	float RenderingAccFuel = 0.0f;
+
 	GameEngineState State;
 
 	std::shared_ptr<GameEngineUIRenderer> FrameRenderer = nullptr;

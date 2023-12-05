@@ -41,7 +41,7 @@ void TimeManager::Reset()
 }
 
 
-float TimeManager::GetMaxTime()
+float TimeManager::GetMaxTime() const
 {
 	return MaxTime;
 }

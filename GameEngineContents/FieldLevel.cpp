@@ -23,10 +23,7 @@ void FieldLevel::Start()
 {
 	PlayLevel::Start();
 
-	Sky = CreateActor<SkyLerp>(EUPDATEORDER::Sky);
-	Sky->Init();
-
-	GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<SkyLightEffect>();
+	SkyPtr = CreateActor<SkyLerp>(EUPDATEORDER::Sky);
 }
 
 void FieldLevel::Update(float _Delta)

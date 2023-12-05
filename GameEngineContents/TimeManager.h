@@ -27,14 +27,13 @@ public:
 	TimeManager& operator=(const TimeManager& _Other) = delete;
 	TimeManager& operator=(TimeManager&& _Other) noexcept = delete;
 
-	void Init();
 	void SetTimeFlowRatio(float _FlowRatio);
 	void SetTime(float _Time);
 
 	void Pause(bool _Value);
 	void Reset();
 
-	float GetMaxTime();
+	float GetMaxTime() const;
 	float GetTime() const;
 	void SetTime(unsigned int  _Hour, unsigned int  _Minute);
 	int GetHour() const;
@@ -63,6 +62,11 @@ public:
 	inline float& GetTimeFlowRatio()
 	{
 		return TimeFlowRatio;
+	}
+
+	inline float& GetTimePointer()
+	{
+		return Time;
 	}
 
 protected:

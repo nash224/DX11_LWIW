@@ -98,15 +98,15 @@ void Conversation::UpdateConversation(float _Delta)
 
 	bool isDoneConverse = (false == UIConversationPtr->IsConversation());
 
-	bool isKeyDownSkip = (isDoneConverse && true == GameEngineInput::IsDown('T', UIConversationPtr.get()));
-	if (isKeyDownSkip)
+	bool SkipCheck = (isDoneConverse && true == GameEngineInput::IsDown('T', UIConversationPtr.get()));
+	if (SkipCheck)
 	{
 		EndConversation();
 		return;
 	}
 
-	bool isKeyDownNextConversation = (isDoneConverse && true == GameEngineInput::IsDown('Z', UIConversationPtr.get()));
-	if (isKeyDownNextConversation)
+	bool NextConditionCheck = (isDoneConverse && true == GameEngineInput::IsDown('Z', UIConversationPtr.get()));
+	if (NextConditionCheck)
 	{
 		NextConversationLine();
 		return;

@@ -6,6 +6,7 @@
 #include "CameraControler.h"
 #include "Ellie.h"
 #include "FadeObject.h"
+#include "HouseSkyLerp.h"
 
 
 WitchHouse_UpFloor::WitchHouse_UpFloor()
@@ -22,6 +23,7 @@ void WitchHouse_UpFloor::Start()
 	PlayLevel::Start();
 
 	Back = CreateActor<BackDrop_WitchHouse_UpFloor>(EUPDATEORDER::Back);
+	SkyPtr = CreateActor<HouseSkyLerp>(EUPDATEORDER::Sky);
 
 	if (nullptr != ContentsLevel::LevelCamera)
 	{

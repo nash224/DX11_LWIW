@@ -377,6 +377,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="HouseSkyLerp.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="InteractiveLetter.cpp">
       <SubType>
       </SubType>
@@ -1019,6 +1023,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="HouseDustEvent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="HouseSkyLerp.h">
       <SubType>
       </SubType>
     </ClInclude>

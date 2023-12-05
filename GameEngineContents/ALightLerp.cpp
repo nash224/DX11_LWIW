@@ -39,6 +39,7 @@ void ALightLerp::UpdateLightLerp()
 		return;
 	}
 
-	const float ALightValue = SkyLerp::MainSkyManager->GetALightValue();
+	
+	const float ALightValue = PlayLevel::GetCurLevel()->GetSkyPtr()->GetALightValue();
 	LightRenderer->GetColorData().MulColor.A = LightColor.A * ALightValue * Alpha;
 }

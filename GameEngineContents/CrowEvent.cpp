@@ -45,7 +45,12 @@ void CrowEvent::Release()
 {
 	CrowRenderer = nullptr;
 	CrowConveration.Release();
-	PlayLevel::GetCurLevel()->GetOutLinePtr()->DefaultSetting();
+
+	const std::shared_ptr<OutLineEffect>& OutLine = PlayLevel::GetCurLevel()->GetOutLinePtr();
+	if (nullptr != OutLine)
+	{
+		OutLine->DefaultSetting();
+	}
 
 	if (nullptr != GameEngineSprite::Find("Crow.png"))
 	{
@@ -66,8 +71,13 @@ void CrowEvent::Init()
 	}
 
 	Transform.SetLocalPosition(float4(435.0f, -250.0f, DepthFunction::CalculateFixDepth(ERENDERDEPTH::FX)));
-	PlayLevel::GetCurLevel()->GetOutLinePtr()->SetOutLineColor(float4(0.85f, 0.67f, 0.89f, 0.9f));
-	PlayLevel::GetCurLevel()->GetOutLinePtr()->SetOutLineThickness(2.4f);
+
+	const std::shared_ptr<OutLineEffect>& OutLine = PlayLevel::GetCurLevel()->GetOutLinePtr();
+	if (nullptr != OutLine)
+	{
+		OutLine->SetOutLineColor(float4(0.85f, 0.67f, 0.89f, 0.9f));
+		OutLine->SetOutLineThickness(2.4f);
+	}
 
 	RendererSetting();
 	StateSetting();
@@ -180,7 +190,7 @@ void CrowEvent::ConversationSetting()
 		{ L"±î¸¶±Í?" , ECONVERSATIONENTITY::Ellie, 9 },
 		{ L"¸¶³à! ±î¾Ç" , ECONVERSATIONENTITY::NPC , 1},
 		{ L"¸»À» Çß¾î?" , ECONVERSATIONENTITY::Ellie, 9 },
-		{ L"¸¶³à ±î¸¶±ÍÀÝ¾Æ." , ECONVERSATIONENTITY::Virgil , 4, {ConversationFont::Color_BLACK, GlobalValue::Font_JejuHanlasan}},
+		{ L"¸¶³à ±î¸¶±ÍÀÝ¾Æ." , ECONVERSATIONENTITY::Virgil , 4, ConversationFont::VigilDefaultFont},
 		{ L"¾Æ, ¸¶³à ±î¸¶±Í¿´±¸³ª." , ECONVERSATIONENTITY::Ellie , 3},
 		{ L"¸¶³à°¡ µ¹¾Æ¿Ô´Ù! ¸¶³à°¡ µ¹¾Æ¿Ô´Ù!" , ECONVERSATIONENTITY::NPC , 1},
 		{ L"³ª´Â ¿©±â Ã³À½¿Ô´Âµ¥." , ECONVERSATIONENTITY::Ellie , 1},

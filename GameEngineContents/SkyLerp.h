@@ -4,9 +4,6 @@
 class SkyLerp : public GameEngineActor
 {
 public:
-	static SkyLerp* MainSkyManager;
-
-public:
 	// constrcuter destructer
 	SkyLerp();
 	~SkyLerp();
@@ -17,22 +14,22 @@ public:
 	SkyLerp& operator=(const SkyLerp& _Other) = delete;
 	SkyLerp& operator=(SkyLerp&& _Other) noexcept = delete;
 
-	void Init();
-
 	void SetSkyColor();
+	void SetSkyColor(const float4& _Color);
 
 	float GetALightValue() const;
 
 protected:
-	void Start() override {}
+	void Start() override;
 	void Update(float _Delta) override;
 	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
+	virtual void SetSkyData();
 
 	void UpdateSkyLerp();
-	float CalculateTimeRatio(int _MinuteCount);
+	float GetTimeRatio(int _MinuteCount) const;
 	void FollowCamera();
 	void LerpSky(const float4& _ColorA, const float4& _ColorB, const float _Time);
 	void LerpSky(const float4& _Color);
@@ -43,8 +40,11 @@ public:
 	float4 SkyColor = float4::ZERONULL;
 	float4 ReflectionColor = float4::ZERONULL;
 
-private:
+protected:
 	std::vector<float4> SkyData;
+
+private:
+	std::shared_ptr<class SkyLightEffect> SkyEffectPtr;
 	std::shared_ptr<GameEngineSpriteRenderer> Sun_Renderer = nullptr;
 
 	bool PauseSkyLerp = false;

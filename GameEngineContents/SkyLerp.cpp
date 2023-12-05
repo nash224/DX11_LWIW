@@ -2,6 +2,7 @@
 #include "SkyLerp.h"
 
 #include "EffectEnum.h"
+#include "SkyLightEffect.h"
 
 #include "PlayLevel.h"
 
@@ -40,7 +41,6 @@
 #define Sky_740 { 0.0f, 0.0f, 0.18f, 0.7f }
 
 
-SkyLerp* SkyLerp::MainSkyManager = nullptr;
 SkyLerp::SkyLerp() 
 {
 }
@@ -49,6 +49,33 @@ SkyLerp::~SkyLerp()
 {
 }
 
+void SkyLerp::Start()
+{
+	SkyEffectPtr = GetLevel()->GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<SkyLightEffect>();
+
+	Sun_Renderer = CreateComponent<GameEngineSpriteRenderer>();
+	Sun_Renderer->SetSprite("SkyBox.png");
+	Sun_Renderer->GetImageTransform().SetLocalScale(GlobalValue::GetWindowScale() + float4(30.0f, 30.0f));
+	Sun_Renderer->GetColorData().MulColor.A = 0.0f;
+	Sun_Renderer->RenderBaseInfoValue.Target0 = 0;
+	Sun_Renderer->RenderBaseInfoValue.Target2 = 1;
+
+	SetSkyData();
+
+	if (nullptr == PlayLevel::s_TimeManager)
+	{
+		MsgBoxAssert("시간매니저 없이는 사용할 수 없는 기능입니다.");
+		return;
+	}
+
+	TenMinuteTimeRatio = PlayLevel::s_TimeManager->GetMinuteRatio();
+
+	SunsetStartTimeRatio = GetTimeRatio((SunsetStartHour - PlayLevel::s_TimeManager->GetStartHour()) * 6);
+	ALightStartTimeRatio = GetTimeRatio((AlightStartHour - PlayLevel::s_TimeManager->GetStartHour()) * 6);
+	SunsetEndTimeRatio = GetTimeRatio(static_cast<int>(SkyData.size()) - 1) + SunsetStartTimeRatio;
+
+	LerpSky(SkyData[0]);
+}
 
 void SkyLerp::Update(float _Delta)
 {
@@ -58,34 +85,13 @@ void SkyLerp::Update(float _Delta)
 
 void SkyLerp::Release()
 {
-	MainSkyManager = nullptr;
+	SkyEffectPtr = nullptr;
 	Sun_Renderer = nullptr;
 	SkyData.clear();
 }
 
-void SkyLerp::LevelStart(class GameEngineLevel* _NextLevel)
+void SkyLerp::SetSkyData()
 {
-	MainSkyManager = this;
-}
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////
-
-
-
-void SkyLerp::Init()
-{
-	MainSkyManager = this;
-
-	Sun_Renderer = CreateComponent<GameEngineSpriteRenderer>();
-	Sun_Renderer->SetSprite("SkyBox.png");
-	Sun_Renderer->GetImageTransform().SetLocalScale(GlobalValue::GetWindowScale() + float4(30.0f, 30.0f));
-	Sun_Renderer->GetColorData().MulColor.A = 0.0f;
-	Sun_Renderer->RenderBaseInfoValue.Target0 = 0;
-	Sun_Renderer->RenderBaseInfoValue.Target2 = 1;
-
-
 	SkyData.reserve(32);
 	SkyData.push_back(Sky_300);
 	SkyData.push_back(Sky_310);
@@ -116,22 +122,7 @@ void SkyLerp::Init()
 	SkyData.push_back(Sky_720);
 	SkyData.push_back(Sky_730);
 	SkyData.push_back(Sky_740);
-
-	if (nullptr == PlayLevel::s_TimeManager)
-	{
-		MsgBoxAssert("시간매니저 없이는 사용할 수 없는 기능입니다.");
-		return;
-	}
-
-	TenMinuteTimeRatio = PlayLevel::s_TimeManager->GetMinuteRatio();
-
-	SunsetStartTimeRatio = CalculateTimeRatio((SunsetStartHour - PlayLevel::s_TimeManager->GetStartHour()) * 6);
-	SunsetEndTimeRatio = CalculateTimeRatio(static_cast<int>(SkyData.size()) - 1) + SunsetStartTimeRatio;
-	ALightStartTimeRatio = CalculateTimeRatio((AlightStartHour - PlayLevel::s_TimeManager->GetStartHour()) * 6);
-
-	LerpSky(SkyData[0]);
 }
-
 
 // 하늘 고정색 지정
 void SkyLerp::SetSkyColor()
@@ -141,6 +132,14 @@ void SkyLerp::SetSkyColor()
 	Sun_Renderer->GetColorData().MulColor = SkyColor;
 }
 
+void SkyLerp::SetSkyColor(const float4& _Color)
+{
+	PauseSkyLerp = true;
+
+	SkyColor = _Color;
+
+	Sun_Renderer->GetColorData().MulColor = SkyColor;
+}
 
 float SkyLerp::GetALightValue() const
 {
@@ -174,9 +173,8 @@ void SkyLerp::UpdateSkyLerp()
 		SunSetRatio *= static_cast<float>(SkyData.size() - 1);
 		float fRefNumber;
 
-		SunSetRatio = std::modff(SunSetRatio, &fRefNumber);								// 정수부, 소수부 분리
+		SunSetRatio = std::modff(SunSetRatio, &fRefNumber);	// 정수부, 소수부 분리
 		const int RefNumber = static_cast<int>(fRefNumber);
-
 		const int MaxRefNumber = static_cast<int>(SkyData.size() - 1);
 
 		bool isOver740PM = (RefNumber < MaxRefNumber);
@@ -196,7 +194,7 @@ void SkyLerp::UpdateSkyLerp()
 	}
 }
 
-float SkyLerp::CalculateTimeRatio(int _MinuteCount)
+float SkyLerp::GetTimeRatio(int _MinuteCount) const
 {
 	return static_cast<float>(_MinuteCount * TenMinuteTimeRatio);
 }
@@ -235,8 +233,8 @@ void SkyLerp::UpdateALightRatio(const float _TimeRatio)
 {
 	if (_TimeRatio > ALightStartTimeRatio)
 	{
-		float ALightValue = (_TimeRatio - ALightStartTimeRatio) / (SunsetEndTimeRatio - ALightStartTimeRatio);
-		ALight = powf(ALightValue, 2.0f);
+		float ALightRatio = (_TimeRatio - ALightStartTimeRatio) / (SunsetEndTimeRatio - ALightStartTimeRatio);
+		ALight = powf(ALightRatio, 2.0f);
 
 		if (ALight >= 1.0f)
 		{

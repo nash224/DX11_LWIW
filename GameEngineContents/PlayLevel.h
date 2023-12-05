@@ -14,6 +14,7 @@ protected:
 	std::shared_ptr<class Ellie> Player = nullptr;
 	std::shared_ptr<class UIManager> UIManagerPtr = nullptr;
 	std::shared_ptr<class BackDrop_PlayLevel> Back = nullptr;
+	std::shared_ptr<class SkyLerp> SkyPtr = nullptr;
 	std::shared_ptr<class OutLineEffect> OutLinePtr = nullptr;
 
 public:
@@ -37,6 +38,7 @@ public:
 	std::shared_ptr<class Ellie> GetPlayerPtr() const;
 	std::shared_ptr<class BackDrop_PlayLevel> GetBackDropPtr() const;
 	std::shared_ptr<class OutLineEffect> GetOutLinePtr() const;
+	std::shared_ptr<class SkyLerp> GetSkyPtr() const;
 
 protected:
 	void Start() override;

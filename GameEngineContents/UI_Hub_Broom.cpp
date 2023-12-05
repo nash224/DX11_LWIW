@@ -5,7 +5,7 @@
 
 #include "ContentsEvent.h"
 
-float UI_Hub_Broom::RenderingAccFuel = 0.0f;
+
 UI_Hub_Broom::UI_Hub_Broom() 
 {
 }
@@ -33,7 +33,6 @@ void UI_Hub_Broom::Init()
 
 	RendererSetting();
 	StateSetting();
-	
 
 	Off();
 }
@@ -108,9 +107,11 @@ void UI_Hub_Broom::UpdateHasNotBroom(float _Delta, GameEngineState* _Parent)
 
 void UI_Hub_Broom::UpdateGauge(float _Delta, GameEngineState* _Parent)
 {
-	if (PlayLevel::GetCurLevel()->GetPlayerPtr()->GetBroomFuel() != RenderingAccFuel)
+	const float CurFuel = PlayLevel::GetCurLevel()->GetPlayerPtr()->GetBroomFuel();
+
+	if (CurFuel != RenderingAccFuel)
 	{
-		RenderingAccFuel = PlayLevel::GetCurLevel()->GetPlayerPtr()->GetBroomFuel();
+		RenderingAccFuel = CurFuel;
 
 		const float FuelGaugeRatio = RenderingAccFuel / MAX_FUEL;
 		GaugeRenderer->GetGaugeInfo().Gauge = FuelGaugeRatio;

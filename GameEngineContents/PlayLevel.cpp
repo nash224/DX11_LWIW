@@ -5,6 +5,7 @@
 #include "UIManager.h"
 #include "TimeManager.h"
 #include "AlertManager.h"
+#include "SkyLerp.h"
 
 // Actor
 #include "Ellie.h"
@@ -136,4 +137,14 @@ std::shared_ptr<class OutLineEffect> PlayLevel::GetOutLinePtr() const
 	}
 
 	return OutLinePtr;
+}
+
+std::shared_ptr<class SkyLerp> PlayLevel::GetSkyPtr() const
+{
+	if (nullptr == SkyPtr)
+	{
+		return nullptr;
+	}
+
+	return SkyPtr;
 }

@@ -189,8 +189,14 @@ void DebugTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	CameraPos();
 	ScreenMousePos();
 	WorldMousePos(_Level);
-	SkyColor();
-	SkyOn();
+
+	const std::shared_ptr<SkyLerp>& Sky = PlayLevel::GetCurLevel()->GetSkyPtr();
+	if (nullptr != Sky)
+	{
+		SkyColor();
+		SkyOn();
+	}
+
 	TimeDebug();
 	SoundDebug();
 }
@@ -235,22 +241,24 @@ void DebugTab::WorldMousePos(GameEngineLevel* _CurLevel)
 void DebugTab::SkyColor()
 {
 	ImGui::SeparatorText("Sky Light");
-	if (nullptr != SkyLerp::MainSkyManager)
+	const std::shared_ptr<SkyLerp>& Sky = PlayLevel::GetCurLevel()->GetSkyPtr();
+	if (nullptr != Sky)
 	{
-		if (ImGui::SliderFloat4("Sky Color", &SkyLerp::MainSkyManager->SkyColor.R, 0.0f, 1.0f, "%.2f"))
+		if (ImGui::SliderFloat4("Sky Color", &Sky->SkyColor.R, 0.0f, 1.0f, "%.2f"))
 		{
-			SkyLerp::MainSkyManager->SetSkyColor();
+			Sky->SetSkyColor();
 		}
 	}
 }
 
 void DebugTab::SkyOn()
 {
-	if (nullptr != SkyLerp::MainSkyManager)
+	const std::shared_ptr<SkyLerp>& Sky = PlayLevel::GetCurLevel()->GetSkyPtr();
+	if (nullptr != Sky)
 	{
 		if (ImGui::Checkbox("Sky On", &isSkyOn))
 		{
-			isSkyOn ? SkyLerp::MainSkyManager->On() : SkyLerp::MainSkyManager->Off();
+			isSkyOn ? Sky->On() : Sky->Off();
 		}
 	}
 }
@@ -260,10 +268,10 @@ void DebugTab::TimeDebug()
 	ImGui::SeparatorText("TimeDebug");
 	if (nullptr != PlayLevel::s_TimeManager)
 	{
-		if (ImGui::SliderFloat("TimeCustom", &TimeCustom, 0.0f, PlayLevel::s_TimeManager->GetMaxTime(), "%.0f"))
+		if (ImGui::SliderFloat("TimeCustom", &PlayLevel::s_TimeManager->GetTimePointer(), 0.0f, PlayLevel::s_TimeManager->GetMaxTime(), "%.0f"))
 		{
 			PlayLevel::s_TimeManager->Pause(true);
-			PlayLevel::s_TimeManager->SetTime(TimeCustom);
+			PlayLevel::s_TimeManager->SetTime(PlayLevel::s_TimeManager->GetTime());
 		}
 
 		ImGui::Text(std::string("Time : " + std::to_string(PlayLevel::s_TimeManager->GetTime())).c_str());
