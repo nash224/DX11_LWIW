@@ -14,14 +14,14 @@ bool ContentsEvent::Crow_Meet::QuestClearPrerequisite()
 {
 	if (nullptr != PlayLevel::s_TimeManager)
 	{
-		std::weak_ptr<ContentsEvent::QuestUnitBase> AureaQuest = ContentsEvent::FindQuest("Repair_Extractor");
-		if (true == AureaQuest.expired())
+		const std::shared_ptr<ContentsEvent::QuestUnitBase>& AureaQuest = ContentsEvent::FindQuest("Repair_Extractor");
+		if (nullptr == AureaQuest)
 		{
 			MsgBoxAssert("생성하지 않은 퀘스트입니다.");
 			return false;
 		}
 
-		bool isQuestComplete = AureaQuest.lock()->isQuestComplete();
+		bool isQuestComplete = AureaQuest->isQuestComplete();
 
 		if (PlayLevel::s_TimeManager->GetHour() >= 11 && true == isQuestComplete)
 		{

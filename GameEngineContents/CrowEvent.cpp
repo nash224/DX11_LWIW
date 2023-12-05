@@ -4,6 +4,8 @@
 #include "PlayLevel.h"
 #include "UIManager.h"
 
+#include "OutLineEffect.h"
+
 
 
 CrowEvent::CrowEvent() 
@@ -43,6 +45,7 @@ void CrowEvent::Release()
 {
 	CrowRenderer = nullptr;
 	CrowConveration.Release();
+	PlayLevel::GetCurLevel()->GetOutLinePtr()->DefaultSetting();
 
 	if (nullptr != GameEngineSprite::Find("Crow.png"))
 	{
@@ -63,6 +66,8 @@ void CrowEvent::Init()
 	}
 
 	Transform.SetLocalPosition(float4(435.0f, -250.0f, DepthFunction::CalculateFixDepth(ERENDERDEPTH::FX)));
+	PlayLevel::GetCurLevel()->GetOutLinePtr()->SetOutLineColor(float4(0.85f, 0.67f, 0.89f, 0.9f));
+	PlayLevel::GetCurLevel()->GetOutLinePtr()->SetOutLineThickness(2.4f);
 
 	RendererSetting();
 	StateSetting();
@@ -71,8 +76,7 @@ void CrowEvent::Init()
 
 void CrowEvent::RendererSetting()
 {
-	const int RendererGroup = 0;
-	CrowRenderer = CreateComponent<GameEngineSpriteRenderer>(RendererGroup);
+	CrowRenderer = CreateComponent<GameEngineSpriteRenderer>();
 	CrowRenderer->AutoSpriteSizeOn();
 	CrowRenderer->CreateAnimation("Idle", "Crow.png", 5.0f,1, 1, false);
 	CrowRenderer->CreateAnimation("Caw", "Crow.png", Caw_Animation_Inter, 2, 4, false);
@@ -81,6 +85,7 @@ void CrowEvent::RendererSetting()
 	CrowRenderer->CreateAnimation("CawReverse", "Crow.png", Caw_Animation_Inter, 4, 2, false);
 	CrowRenderer->CreateAnimation("Disappear", "Crow.png", Disappear_Animation_Inter, 5, 15, false);
 	CrowRenderer->FindAnimation("Disappear")->Inter[10] = 1.0f;
+	CrowRenderer->RenderBaseInfoValue.Target1 = 1;
 
 
 

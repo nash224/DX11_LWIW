@@ -36,6 +36,8 @@ public:
 		OutLineInfo.Thickness = _Thickness;
 	}
 
+	void DefaultSetting();
+
 protected:
 	void Start() override;
 	void EffectProcess(float _DeltaTime) override;

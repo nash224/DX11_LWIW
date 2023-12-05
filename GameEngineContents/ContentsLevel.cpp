@@ -29,8 +29,6 @@ void ContentsLevel::Start()
 {
 	GameEngineInput::AddInputObject(this);
 
-	GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<OutLineEffect>();
-
 	if (nullptr == MainPlaySound)
 	{
 		MainPlaySound = std::make_unique<BGMManager>();

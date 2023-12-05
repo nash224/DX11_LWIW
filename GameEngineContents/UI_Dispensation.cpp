@@ -162,14 +162,8 @@ void UI_Dispensation::Close()
 {
 	GameEngineInput::IsObjectAllInputOn();
 
-	if (nullptr == PlayLevel::s_MainPlayLevel)
-	{
-		MsgBoxAssert("레벨이 존재하지 않습니다.");
-		return;
-	}
-
-	PlayLevel::s_MainPlayLevel->GetUIManagerPtr()->CloseInventory();
-	PlayLevel::s_MainPlayLevel->GetPlayerPtr()->FinishWork();
+	PlayLevel::GetCurLevel()->GetUIManagerPtr()->CloseInventory();
+	PlayLevel::GetCurLevel()->GetPlayerPtr()->FinishWork();
 
 	Off();
 
@@ -255,7 +249,7 @@ bool UI_Dispensation::UnSelectThis(std::string_view _ItemName)
 		return false;
 	}
 
-	Info->ItemName = "";
+	Info->ItemName.clear();
 	Info->ItemCount = 0;
 	if (nullptr == Info->ItemImg)
 	{
@@ -273,7 +267,7 @@ void UI_Dispensation::ClearSlotInfo()
 	for (size_t i = 0; i < DispensationSlot.size(); i++)
 	{
 		DispensationSlot[i].ItemCount = 0;
-		DispensationSlot[i].ItemName = "";
+		DispensationSlot[i].ItemName.clear();
 		DispensationSlot[i].ItemImg->Off();
 	}
 }
@@ -283,7 +277,7 @@ void UI_Dispensation::Dispensation()
 {
 	const std::vector<ProductRecipeData::MaterialInfo> infoArray =
 	{
-		{DispensationSlot[0].ItemName, DispensationSlot[0].ItemCount },
+		{DispensationSlot[0].ItemName, DispensationSlot[0].ItemCount},
 		{DispensationSlot[1].ItemName, DispensationSlot[1].ItemCount},
 		{DispensationSlot[2].ItemName, DispensationSlot[2].ItemCount}
 	};
@@ -310,10 +304,10 @@ void UI_Dispensation::Dispensation()
 
 bool UI_Dispensation::CheckDispensation(const ProductRecipeData& _Data)
 {
-	std::map<std::string, std::shared_ptr<ProductRecipeData>>& NameData = ProductRecipeData::GetAllData();
+	std::map<std::string, std::shared_ptr<ProductRecipeData>> NameData = ProductRecipeData::GetAllData();
 	for (const std::pair<std::string, std::shared_ptr<ProductRecipeData>>& Data : NameData)
 	{
-		std::shared_ptr<ProductRecipeData> Recpie = Data.second;
+		const std::shared_ptr<ProductRecipeData>& Recpie = Data.second;
 		if (_Data == Recpie.get())
 		{
 			CreatedProductName = Recpie->ProductName;

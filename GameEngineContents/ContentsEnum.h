@@ -109,7 +109,7 @@ enum class EHOUSEDEPTH
 
 enum class EUI_RENDERORDERDEPTH
 {
-	Window_Font,
+	Window_Font = -400,
 	Window_Cursor,
 	Window_Frame,
 	Window_Base,

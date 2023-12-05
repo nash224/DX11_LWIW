@@ -385,7 +385,7 @@ void Ellie::ChangeAnimationByDirection(std::string_view _StateName, bool _Direct
 	std::string AnimaitonName = std::string("Ellie_Basic_") + _StateName.data();
 
 	ChangeShawdowSprite(AnimaitonName);
-	ChangeVirgilSprite(AnimaitonName);
+	// ChangeVirgilSprite(AnimaitonName);
 
 	if (g_Status == EELLIE_STATUS::Riding)
 	{
@@ -436,7 +436,10 @@ void Ellie::ChangeAnimationByDirection(std::string_view _StateName, bool _Direct
 
 	BodyRenderer->ChangeAnimation(AnimaitonName, _Force, _Index);
 
+	VirgilRendererHelper.SetSameAnimation(BodyRenderer, VirgilRenderer);
 	VirgilRendererHelper.UpdateHelper(BodyRenderer, VirgilRenderer);
+	VirgilRenderer->On();
+
 	BroomHeadRendererHelper.UpdateHelper(BodyRenderer, Broom.HeadBroomRenderer);
 	BroomBodyRendererHelper.UpdateHelper(BodyRenderer, Broom.BodyBroomRenderer);
 }

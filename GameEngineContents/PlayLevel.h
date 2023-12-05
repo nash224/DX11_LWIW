@@ -6,12 +6,15 @@
 class PlayLevel : public ContentsLevel
 {
 public:
-	static PlayLevel* s_MainPlayLevel;
 	static std::unique_ptr<class TimeManager> s_TimeManager;
 	static std::unique_ptr<class AlertManager> s_AlertManager; 
+
+protected:
+	static PlayLevel* s_MainPlayLevel;
 	std::shared_ptr<class Ellie> Player = nullptr;
 	std::shared_ptr<class UIManager> UIManagerPtr = nullptr;
 	std::shared_ptr<class BackDrop_PlayLevel> Back = nullptr;
+	std::shared_ptr<class OutLineEffect> OutLinePtr = nullptr;
 
 public:
 	// constrcuter destructer
@@ -33,6 +36,7 @@ public:
 	std::shared_ptr<class UIManager> GetUIManagerPtr() const;
 	std::shared_ptr<class Ellie> GetPlayerPtr() const;
 	std::shared_ptr<class BackDrop_PlayLevel> GetBackDropPtr() const;
+	std::shared_ptr<class OutLineEffect> GetOutLinePtr() const;
 
 protected:
 	void Start() override;

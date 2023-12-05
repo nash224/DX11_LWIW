@@ -94,13 +94,7 @@ void Conversation::UpdateConversation(float _Delta)
 		return;
 	}
 
-	if (nullptr == PlayLevel::s_MainPlayLevel)
-	{
-		MsgBoxAssert("참조하지 못했습니다.");
-		return;
-	}
-
-	const std::shared_ptr<UI_Conversation>& UIConversationPtr = PlayLevel::s_MainPlayLevel->UIManagerPtr->GetConversationPtr();
+	const std::shared_ptr<UI_Conversation>& UIConversationPtr = PlayLevel::GetCurLevel()->GetUIManagerPtr()->GetConversationPtr();
 
 	bool isDoneConverse = (false == UIConversationPtr->IsConversation());
 
@@ -159,17 +153,13 @@ void Conversation::ConverseLine()
 
 void Conversation::EndConversation()
 {
-	if (nullptr == PlayLevel::s_MainPlayLevel)
-	{
-		MsgBoxAssert("참조하지 못했습니다.");
-		return;
-	}
-
- 	const std::shared_ptr<UIManager>& UIManagerPtr = PlayLevel::s_MainPlayLevel->GetUIManagerPtr();
+ 	const std::shared_ptr<UIManager>& UIManagerPtr = PlayLevel::GetCurLevel()->GetUIManagerPtr();
 
 	UIManagerPtr->GetConversationPtr()->EndConversation();
 	UIManagerPtr->DoneUIComponent();
 
+	// 임시 저장 변수 
+	// 레퍼런스로 받으면 대화불가능 X
 	std::shared_ptr<Topic> TempTopic = CurTopic;
 	CallEndConversationEvent();
 

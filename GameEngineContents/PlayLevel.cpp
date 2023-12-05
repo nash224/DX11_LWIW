@@ -11,6 +11,8 @@
 #include "FadeObject.h"
 #include "NormalProp.h"
 
+#include "OutLineEffect.h"
+
 
 PlayLevel* PlayLevel::s_MainPlayLevel = nullptr;
 std::unique_ptr<TimeManager> PlayLevel::s_TimeManager;
@@ -45,6 +47,8 @@ void PlayLevel::Start()
 	{
 		s_AlertManager = std::make_unique<AlertManager>();
 	}
+
+	OutLinePtr = GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<OutLineEffect>();
 }
 
 void PlayLevel::Update(float _Delta)
@@ -122,4 +126,14 @@ std::shared_ptr<class BackDrop_PlayLevel> PlayLevel::GetBackDropPtr() const
 	}
 
 	return Back;
+}
+
+std::shared_ptr<class OutLineEffect> PlayLevel::GetOutLinePtr() const
+{
+	if (nullptr == OutLinePtr)
+	{
+		return nullptr;
+	}
+
+	return OutLinePtr;
 }

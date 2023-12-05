@@ -14,12 +14,6 @@ OutLineEffect::~OutLineEffect()
 }
 
 
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
-
-
 void OutLineEffect::Start()
 {
 	std::shared_ptr<GameEngineRenderTarget> AllRenderTarget = GameEngineCore::GetCurLevel()->GetMainCamera()->GetCameraAllRenderTarget();
@@ -27,6 +21,8 @@ void OutLineEffect::Start()
 	{
 		ResultTarget = AllRenderTarget->CreateChildRenderTarget({ 0 });
 	}
+
+	DefaultSetting();
 
 	EffectUnit.SetMesh("fullrect");
 	EffectUnit.SetMaterial("OutLineEffect2D");
@@ -43,4 +39,10 @@ void OutLineEffect::EffectProcess(float _DeltaTime)
 
 	EffectUnit.ShaderResHelper.AllShaderResourcesReset();
 	GameEngineRenderTarget::RenderTargetReset();
+}
+
+void OutLineEffect::DefaultSetting()
+{
+	OutLineInfo.OutLineColor = float4::WHITE;
+	OutLineInfo.Thickness = 2.0f;
 }
