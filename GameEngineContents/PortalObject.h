@@ -67,7 +67,7 @@ protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 private:
@@ -77,7 +77,7 @@ private:
 
 private:
 	std::shared_ptr<GameEngineCollision> PotalCol = nullptr;
-	std::string ChangeLevelName = "";
+	std::string ChangeLevelName;
 
 	PortalType PortalType = PortalType::Instant;
 	float4 CollisionScale = float4::ZERO;

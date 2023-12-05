@@ -163,11 +163,30 @@ float Emoji::GetDistanceToEllie()
 void Emoji::Update(float _Delta)
 {
 	State.Update(_Delta);
-	const TransformData& TransData = PlayLevel::GetCurLevel()->GetMainCamera()->Transform.GetConstTransformDataRef();
-	TransData.ViewMatrix;
-	TransData.ProjectionMatrix;
+	CalculateWorldToScreen();
 }
 
+void Emoji::TestSetting()
+{
+	if (nullptr == Parent)
+	{
+		MsgBoxAssert("부모를 지정하지 않고 기능을 사용하려 했습니다.");
+		return;
+	}
+
+	float4 Pos = Parent->Transform.GetWorldPosition();
+	const TransformData& TransData = PlayLevel::GetCurLevel()->GetMainCamera()->Transform.GetConstTransformDataRef();
+	Pos *= TransData.ViewMatrix;
+	Pos *= TransData.ProjectionMatrix;
+
+	Pos += EmotionPos;
+
+	const float BaseDepth = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Emoticon_Base);
+	const float EmotionDepth = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Emoticon_Emotion);
+
+	Base->Transform.SetWorldPosition(float4(Pos.X, Pos.Y, BaseDepth));
+	Emotion->Transform.SetWorldPosition(float4(Pos.X, Pos.Y, EmotionDepth));
+}
 
 void Emoji::CalculateWorldToScreen()
 {
@@ -185,9 +204,7 @@ void Emoji::CalculateWorldToScreen()
 	const float EmotionDepth = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Emoticon_Emotion);
 
 	Vector += EmotionPos;
-	Vector.Z = BaseDepth;
-	Base->Transform.SetWorldPosition(Vector);
 
-	Vector.Z = EmotionDepth;
-	Emotion->Transform.SetWorldPosition(Vector);
+	Base->Transform.SetWorldPosition(float4(Vector.X, Vector.Y, BaseDepth));
+	Emotion->Transform.SetWorldPosition(float4(Vector.X, Vector.Y, EmotionDepth));
 }

@@ -56,6 +56,7 @@ private:
 	float GetDistanceToEllie();
 
 	void CalculateWorldToScreen();
+	void TestSetting();
 
 private:
 	std::shared_ptr<GameEngineUIRenderer> Base;

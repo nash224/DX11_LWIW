@@ -1,12 +1,11 @@
 #include "PreCompile.h"
 #include "PixelManager.h"
 
-#include <GameEngineCore/GameEngineCoreWindow.h>
 #include <GameEngineCore/GameEngineRenderTarget.h>
 
 #include "BackDrop_PlayLevel.h"
 
-#include "NormalProp.h"
+#include "RendererActor.h"
 
 
 bool PixelManager::PixelDebugMode = false;

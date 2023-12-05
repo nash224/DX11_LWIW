@@ -29,19 +29,10 @@ void PortalObject::Release()
 }
 
 
-void PortalObject::LevelStart(class GameEngineLevel* _NextLevel)
-{
-
-}
-
 void PortalObject::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	Death();
 }
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 
 void PortalObject::CreatePortalCollision(int _Order)
@@ -128,18 +119,6 @@ void PortalObject::PortalUpdate()
 
 void PortalObject::CallFadeOut()
 {
-	GameEngineLevel* CurLevel = GetLevel();
-	if (nullptr == CurLevel)
-	{
-		MsgBoxAssert("레벨을 불러오지 못했습니다.");
-		return;
-	}
-
-	std::shared_ptr<FadeObject> Fade = CurLevel->CreateActor<FadeObject>(EUPDATEORDER::Fade);
-	if (nullptr == Fade)
-	{
-		MsgBoxAssert("액터를 생성하지 못했습니다.");
-		return;
-	}
+	std::shared_ptr<FadeObject> Fade = GetLevel()->CreateActor<FadeObject>(EUPDATEORDER::Fade);
 	Fade->CallFadeOut(ChangeLevelName, 0.4f);
 }

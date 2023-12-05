@@ -46,12 +46,6 @@
     <Filter Include="Actor">
       <UniqueIdentifier>{360830e7-99e1-4cdb-9d9a-8f9bf6595ee4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component">
-      <UniqueIdentifier>{17384fb5-9a1c-4bc6-ad5c-a141315e595f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\ALight">
-      <UniqueIdentifier>{be118570-faa6-4c87-b115-ac88aef36ec5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Global">
       <UniqueIdentifier>{ab10a2eb-9b67-4702-ba81-0ac60c48954b}</UniqueIdentifier>
     </Filter>
@@ -96,18 +90,6 @@
     </Filter>
     <Filter Include="Level\BackManager">
       <UniqueIdentifier>{1b0dee99-207d-445b-aa25-16e8f1c21756}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Level\BackManager\1.MainMenu">
-      <UniqueIdentifier>{e95f5b82-f9b3-4125-9c6f-0af11164f6dc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Level\BackManager\2.Play">
-      <UniqueIdentifier>{7225245d-3e89-4098-9cfd-3cfb1d98b3d0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Level\BackManager\2.Play\Yard">
-      <UniqueIdentifier>{9b1df275-f0ef-483d-b8d9-45c1837233dc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Level\BackManager\2.Play\CenterField">
-      <UniqueIdentifier>{11d30a68-7047-48f3-810a-b975f15773e1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Manager\UIManager\Inventory">
       <UniqueIdentifier>{1fd64459-b75a-45b6-b280-4dd714bded5e}</UniqueIdentifier>
@@ -178,23 +160,8 @@
     <Filter Include="Manager\UIManager\Other">
       <UniqueIdentifier>{5e5632f7-a19b-44da-a59b-7eb2b399937c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Level\BackManager\2.Play\DownFloor">
-      <UniqueIdentifier>{c64c75f1-4787-4e70-bff9-0bb58cca6266}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Level\BackManager\2.Play\UpFloor">
-      <UniqueIdentifier>{5ac030be-3fbc-41cc-87f1-c83d4c793644}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Rendering\Renderer\Gauge">
       <UniqueIdentifier>{87951ab5-ea2f-4bf5-8e7a-fb436f3fe6b8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\PixelCollision">
-      <UniqueIdentifier>{8a668e94-d491-4242-b5ac-e210bb340594}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\CircleProgressBar">
-      <UniqueIdentifier>{6f59f50b-5f64-48a3-a69b-f7a88373d951}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\Emoji">
-      <UniqueIdentifier>{d171a8ed-9849-413c-81e7-ee744aaa8902}</UniqueIdentifier>
     </Filter>
     <Filter Include="Global\Math">
       <UniqueIdentifier>{124d7494-cddb-47e0-8664-505456c546b5}</UniqueIdentifier>
@@ -283,6 +250,42 @@
     <Filter Include="Z_Test\Actor">
       <UniqueIdentifier>{cf74d636-0f21-4c3b-8738-650d31b55b62}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\Component">
+      <UniqueIdentifier>{17384fb5-9a1c-4bc6-ad5c-a141315e595f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Component\ALight">
+      <UniqueIdentifier>{be118570-faa6-4c87-b115-ac88aef36ec5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Component\PixelCollision">
+      <UniqueIdentifier>{8a668e94-d491-4242-b5ac-e210bb340594}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Component\CircleProgressBar">
+      <UniqueIdentifier>{6f59f50b-5f64-48a3-a69b-f7a88373d951}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Component\Emoji">
+      <UniqueIdentifier>{d171a8ed-9849-413c-81e7-ee744aaa8902}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\BackManager\MainMenu">
+      <UniqueIdentifier>{e95f5b82-f9b3-4125-9c6f-0af11164f6dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\BackManager\Play">
+      <UniqueIdentifier>{7225245d-3e89-4098-9cfd-3cfb1d98b3d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\BackManager\Play\Yard">
+      <UniqueIdentifier>{9b1df275-f0ef-483d-b8d9-45c1837233dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\BackManager\Play\CenterField">
+      <UniqueIdentifier>{11d30a68-7047-48f3-810a-b975f15773e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\BackManager\Play\DownFloor">
+      <UniqueIdentifier>{c64c75f1-4787-4e70-bff9-0bb58cca6266}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\BackManager\Play\UpFloor">
+      <UniqueIdentifier>{5ac030be-3fbc-41cc-87f1-c83d4c793644}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level\BackManager\Play\PixelManager">
+      <UniqueIdentifier>{400de674-d25b-4c9e-ac6d-d3d5424e7bd1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -324,9 +327,6 @@
     </ClInclude>
     <ClInclude Include="WitchHouse_DownFloor.h">
       <Filter>Level\2.Play\1.Witch</Filter>
-    </ClInclude>
-    <ClInclude Include="StaticEntity.h">
-      <Filter>Actor\Interactive\Creature\Static</Filter>
     </ClInclude>
     <ClInclude Include="UIManager.h">
       <Filter>Manager\UIManager</Filter>
@@ -395,10 +395,10 @@
       <Filter>Manager\UIManager\Mark</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_MainMenu.h">
-      <Filter>Level\BackManager\1.MainMenu</Filter>
+      <Filter>Level\BackManager\MainMenu</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_PlayLevel.h">
-      <Filter>Level\BackManager\2.Play</Filter>
+      <Filter>Level\BackManager\Play</Filter>
     </ClInclude>
     <ClInclude Include="ItemData.h">
       <Filter>Data\Contents</Filter>
@@ -518,7 +518,7 @@
       <Filter>Manager\ConversationManager</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_WitchHouse_Yard.h">
-      <Filter>Level\BackManager\2.Play\Yard</Filter>
+      <Filter>Level\BackManager\Play\Yard</Filter>
     </ClInclude>
     <ClInclude Include="FieldLevel.h">
       <Filter>Level\2.Play\0.PlayLevel</Filter>
@@ -560,13 +560,10 @@
       <Filter>Actor\Ellie\Broom\Ride_Fx</Filter>
     </ClInclude>
     <ClInclude Include="UI_MainMenu_Button.h">
-      <Filter>Level\BackManager\1.MainMenu</Filter>
-    </ClInclude>
-    <ClInclude Include="PixelCollision.h">
-      <Filter>Component\PixelCollision</Filter>
+      <Filter>Level\BackManager\MainMenu</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_Field.h">
-      <Filter>Level\BackManager\2.Play</Filter>
+      <Filter>Level\BackManager\Play</Filter>
     </ClInclude>
     <ClInclude Include="ContentsLevel.h">
       <Filter>Level</Filter>
@@ -581,7 +578,7 @@
       <Filter>Rendering\Effect</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_CenterField.h">
-      <Filter>Level\BackManager\2.Play\CenterField</Filter>
+      <Filter>Level\BackManager\Play\CenterField</Filter>
     </ClInclude>
     <ClInclude Include="Aurea.h">
       <Filter>Actor\Interactive\NPC\Aurea</Filter>
@@ -668,10 +665,10 @@
       <Filter>Event</Filter>
     </ClInclude>
     <ClInclude Include="ALightLerp.h">
-      <Filter>Component\ALight</Filter>
+      <Filter>Actor\Component\ALight</Filter>
     </ClInclude>
     <ClInclude Include="Emoji.h">
-      <Filter>Component\Emoji</Filter>
+      <Filter>Actor\Component\Emoji</Filter>
     </ClInclude>
     <ClInclude Include="BGMManager.h">
       <Filter>Manager\BGM</Filter>
@@ -704,19 +701,19 @@
       <Filter>Data\Contents</Filter>
     </ClInclude>
     <ClInclude Include="HoldingGauge.h">
-      <Filter>Component\CircleProgressBar</Filter>
+      <Filter>Actor\Component\CircleProgressBar</Filter>
     </ClInclude>
     <ClInclude Include="UI_HoldingGauge.h">
-      <Filter>Component\CircleProgressBar</Filter>
+      <Filter>Actor\Component\CircleProgressBar</Filter>
     </ClInclude>
     <ClInclude Include="UI_ButtonGuide.h">
       <Filter>Manager\UIManager\Other</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_WitchHouse_DownFloor.h">
-      <Filter>Level\BackManager\2.Play\DownFloor</Filter>
+      <Filter>Level\BackManager\Play\DownFloor</Filter>
     </ClInclude>
     <ClInclude Include="BackDrop_WitchHouse_UpFloor.h">
-      <Filter>Level\BackManager\2.Play\UpFloor</Filter>
+      <Filter>Level\BackManager\Play\UpFloor</Filter>
     </ClInclude>
     <ClInclude Include="UI_QuestUnit.h">
       <Filter>Manager\UIManager\Hub\MainBoard</Filter>
@@ -769,14 +766,17 @@
     <ClInclude Include="DynamicEntity.h">
       <Filter>Actor\Interactive\Creature</Filter>
     </ClInclude>
-    <ClInclude Include="PixelManager.h">
-      <Filter>Z_Test</Filter>
-    </ClInclude>
     <ClInclude Include="TestCircleGauge.h">
       <Filter>Z_Test\Actor</Filter>
     </ClInclude>
     <ClInclude Include="TestPlayer.h">
       <Filter>Z_Test\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="PixelSetter.h">
+      <Filter>Level\BackManager\Play\PixelManager</Filter>
+    </ClInclude>
+    <ClInclude Include="PixelManager.h">
+      <Filter>Level\BackManager\Play\PixelManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -819,9 +819,6 @@
     </ClCompile>
     <ClCompile Include="WitchHouse_DownFloor.cpp">
       <Filter>Level\2.Play\1.Witch</Filter>
-    </ClCompile>
-    <ClCompile Include="StaticEntity.cpp">
-      <Filter>Actor\Interactive\Creature\Static</Filter>
     </ClCompile>
     <ClCompile Include="Ellie_Collision.cpp">
       <Filter>Actor\Ellie</Filter>
@@ -890,10 +887,10 @@
       <Filter>Manager\UIManager\Mark</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_MainMenu.cpp">
-      <Filter>Level\BackManager\1.MainMenu</Filter>
+      <Filter>Level\BackManager\MainMenu</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_PlayLevel.cpp">
-      <Filter>Level\BackManager\2.Play</Filter>
+      <Filter>Level\BackManager\Play</Filter>
     </ClCompile>
     <ClCompile Include="ItemData.cpp">
       <Filter>Data\Contents</Filter>
@@ -1029,7 +1026,7 @@
       <Filter>Data\Event</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_WitchHouse_Yard.cpp">
-      <Filter>Level\BackManager\2.Play\Yard</Filter>
+      <Filter>Level\BackManager\Play\Yard</Filter>
     </ClCompile>
     <ClCompile Include="FieldLevel.cpp">
       <Filter>Level\2.Play\0.PlayLevel</Filter>
@@ -1077,16 +1074,13 @@
       <Filter>Actor\Ellie\Broom\Ride_Fx</Filter>
     </ClCompile>
     <ClCompile Include="UI_MainMenu_Button.cpp">
-      <Filter>Level\BackManager\1.MainMenu</Filter>
+      <Filter>Level\BackManager\MainMenu</Filter>
     </ClCompile>
     <ClCompile Include="Ellie_Riding_State.cpp">
       <Filter>Actor\Ellie\Broom</Filter>
     </ClCompile>
-    <ClCompile Include="PixelCollision.cpp">
-      <Filter>Component\PixelCollision</Filter>
-    </ClCompile>
     <ClCompile Include="BackDrop_Field.cpp">
-      <Filter>Level\BackManager\2.Play</Filter>
+      <Filter>Level\BackManager\Play</Filter>
     </ClCompile>
     <ClCompile Include="ContentsLevel.cpp">
       <Filter>Level</Filter>
@@ -1098,7 +1092,7 @@
       <Filter>Data\Event</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_CenterField.cpp">
-      <Filter>Level\BackManager\2.Play\CenterField</Filter>
+      <Filter>Level\BackManager\Play\CenterField</Filter>
     </ClCompile>
     <ClCompile Include="AureaEvent.cpp">
       <Filter>Actor\Interactive\NPC\Aurea</Filter>
@@ -1194,10 +1188,10 @@
       <Filter>Event</Filter>
     </ClCompile>
     <ClCompile Include="ALightLerp.cpp">
-      <Filter>Component\ALight</Filter>
+      <Filter>Actor\Component\ALight</Filter>
     </ClCompile>
     <ClCompile Include="Emoji.cpp">
-      <Filter>Component\Emoji</Filter>
+      <Filter>Actor\Component\Emoji</Filter>
     </ClCompile>
     <ClCompile Include="BGMManager.cpp">
       <Filter>Manager\BGM</Filter>
@@ -1230,19 +1224,19 @@
       <Filter>Data\Contents</Filter>
     </ClCompile>
     <ClCompile Include="HoldingGauge.cpp">
-      <Filter>Component\CircleProgressBar</Filter>
+      <Filter>Actor\Component\CircleProgressBar</Filter>
     </ClCompile>
     <ClCompile Include="UI_HoldingGauge.cpp">
-      <Filter>Component\CircleProgressBar</Filter>
+      <Filter>Actor\Component\CircleProgressBar</Filter>
     </ClCompile>
     <ClCompile Include="UI_ButtonGuide.cpp">
       <Filter>Manager\UIManager\Other</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_WitchHouse_DownFloor.cpp">
-      <Filter>Level\BackManager\2.Play\DownFloor</Filter>
+      <Filter>Level\BackManager\Play\DownFloor</Filter>
     </ClCompile>
     <ClCompile Include="BackDrop_WitchHouse_UpFloor.cpp">
-      <Filter>Level\BackManager\2.Play\UpFloor</Filter>
+      <Filter>Level\BackManager\Play\UpFloor</Filter>
     </ClCompile>
     <ClCompile Include="UI_QuestUnit.cpp">
       <Filter>Manager\UIManager\Hub\MainBoard</Filter>
@@ -1295,14 +1289,17 @@
     <ClCompile Include="DynamicEntity.cpp">
       <Filter>Actor\Interactive\Creature</Filter>
     </ClCompile>
-    <ClCompile Include="PixelManager.cpp">
-      <Filter>Z_Test</Filter>
-    </ClCompile>
     <ClCompile Include="TestCircleGauge.cpp">
       <Filter>Z_Test\Actor</Filter>
     </ClCompile>
     <ClCompile Include="TestPlayer.cpp">
       <Filter>Z_Test\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelSetter.cpp">
+      <Filter>Level\BackManager\Play\PixelManager</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelManager.cpp">
+      <Filter>Level\BackManager\Play\PixelManager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
