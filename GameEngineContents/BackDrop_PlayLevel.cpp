@@ -50,7 +50,7 @@ GameEngineColor BackDrop_PlayLevel::GetColor(const float4& _Position, GameEngine
 }
 
 
-void BackDrop_PlayLevel::CreateRenderActor(int _UpdateOrder, std::string_view _SpriteName,
+std::shared_ptr<RendererActor> BackDrop_PlayLevel::CreateRenderActor(int _UpdateOrder, std::string_view _SpriteName,
 	const float4& _Position, int _DepthType, bool _isFixDepth /*= true*/, float _DepthCorrection/*= 0.0f*/)
 {
 	float Depth = 0.0f;
@@ -69,4 +69,6 @@ void BackDrop_PlayLevel::CreateRenderActor(int _UpdateOrder, std::string_view _S
 	Object->Transform.SetLocalPosition(Position);
 	Object->Init();
 	Object->m_Renderer->SetSprite(_SpriteName);
+
+	return Object;
 }

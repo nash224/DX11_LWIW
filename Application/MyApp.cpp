@@ -5,7 +5,6 @@
 #pragma comment(lib, "GameEnginePlatform.lib")
 #pragma comment(lib, "GameEngineCore.lib") 
 #pragma comment(lib, "GameEngineContents.lib")
-#pragma comment(lib, "Test.lib")
 
 #include <iostream>
 #include <Windows.h>

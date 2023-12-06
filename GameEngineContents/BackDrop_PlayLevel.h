@@ -29,7 +29,7 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
-	void CreateRenderActor(int _UpdateOrder, std::string_view _SpriteName, const float4& _Position
+	std::shared_ptr<class RendererActor> CreateRenderActor(int _UpdateOrder, std::string_view _SpriteName, const float4& _Position
 		, int _DepthType, bool _isFixDepth = true, float _DepthCorrection = 0.0f);
 
 protected:

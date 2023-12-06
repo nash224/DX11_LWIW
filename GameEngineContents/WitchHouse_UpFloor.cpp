@@ -11,6 +11,10 @@
 
 WitchHouse_UpFloor::WitchHouse_UpFloor()
 {
+	float4 Position = GlobalValue::GetWindowScale().Half();
+	Position.Y *= -1.0f;
+	Position.Z = CAMERA_DEPTH;
+	CreateCamera(INT_MIN, ECAMERAORDER::MainNext)->Transform.SetLocalPosition(Position);
 }
 
 WitchHouse_UpFloor::~WitchHouse_UpFloor()

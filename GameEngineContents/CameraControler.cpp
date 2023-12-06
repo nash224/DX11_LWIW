@@ -2,8 +2,6 @@
 #include "CameraControler.h"
 
 
-static constexpr float CAMERA_DEPTH = -1000.0f;
-
 CameraControler::CameraControler()
 	:MainCameraPointer(nullptr)
 	, FocusActorPointer(nullptr)

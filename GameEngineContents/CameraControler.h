@@ -1,5 +1,6 @@
 #pragma once
 
+static constexpr float CAMERA_DEPTH = -1000.0f;
 
 enum class ECAMERAMODE
 {

@@ -127,18 +127,17 @@ void SkyLerp::SetSkyData()
 // 하늘 고정색 지정
 void SkyLerp::SetSkyColor()
 {
-	PauseSkyLerp = true;
-
 	Sun_Renderer->GetColorData().MulColor = SkyColor;
 }
 
-void SkyLerp::SetSkyColor(const float4& _Color)
+void SkyLerp::SetDebugSkyColor(const float4& _Color)
 {
-	PauseSkyLerp = true;
-
 	SkyColor = _Color;
 
+	PauseSkyLerp = true;
+
 	Sun_Renderer->GetColorData().MulColor = SkyColor;
+	UpdateSkyLerp();
 }
 
 float SkyLerp::GetALightValue() const

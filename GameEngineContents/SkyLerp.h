@@ -15,7 +15,6 @@ public:
 	SkyLerp& operator=(SkyLerp&& _Other) noexcept = delete;
 
 	void SetSkyColor();
-	void SetSkyColor(const float4& _Color);
 
 	float GetALightValue() const;
 
@@ -27,6 +26,8 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 	virtual void SetSkyData();
+
+	void SetDebugSkyColor(const float4& _Color);
 
 	void UpdateSkyLerp();
 	float GetTimeRatio(int _MinuteCount) const;
@@ -42,12 +43,12 @@ public:
 
 protected:
 	std::vector<float4> SkyData;
+	bool PauseSkyLerp = false;
 
 private:
 	std::shared_ptr<class SkyLightEffect> SkyEffectPtr;
 	std::shared_ptr<GameEngineSpriteRenderer> Sun_Renderer = nullptr;
 
-	bool PauseSkyLerp = false;
 	static constexpr const int SunsetStartHour = 15;
 	float SunsetStartTimeRatio = 0.0f;
 	float SunsetEndTimeRatio = 0.0f;

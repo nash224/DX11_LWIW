@@ -3,7 +3,6 @@
 
 #include "ContentsEvent.h"
 #include "HouseDustEvent.h"
-#include "UIManager.h"
 
 #include "Dust_HandBook.h"
 #include "Dust_Bag.h"
@@ -14,7 +13,6 @@
 #include "NormalProp.h"
 
 #include "UpperLiftA.h"
-#include "BaseLift.h"
 #include "WitchHouseBed.h"
 
 
@@ -32,6 +30,13 @@ void BackDrop_WitchHouse_UpFloor::Start()
 	BackDrop_PlayLevel::Start();
 	DustEventSetting();
 }
+
+//
+void BackDrop_WitchHouse_UpFloor::Update(float _Delta)
+{
+	// ArrangementHelper::InputUpdate(ArrangeRenderer.get(), this);
+}
+
 
 void BackDrop_WitchHouse_UpFloor::LevelStart(class GameEngineLevel* _NextLevel)
 {
@@ -351,12 +356,11 @@ void BackDrop_WitchHouse_UpFloor::CreateProp()
 	}
 
 	{
-		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		float4 Position = HouseLocation  + float4{ 126.0f , -171.0f };
-		Position.Z = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::FRAME);
-		Object->Transform.SetLocalPosition(Position);
-		Object->Init();
-		Object->m_Renderer->SetSprite("UpFloor_Frame.png");
+		float4 Position = GlobalValue::GetWindowScale().Half();
+		Position.Y *= -1.0f;
+		const std::shared_ptr<RendererActor>& Ceil 
+			= BackDrop_PlayLevel::CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "UpFloor_Frame.png", Position, static_cast<int>(EHOUSEDEPTH::FRAME));
+		Ceil->m_Renderer->SetViewCameraSelect(static_cast<int>(ECAMERAORDER::MainNext));
 	}
 }
 

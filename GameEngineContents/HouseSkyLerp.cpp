@@ -51,8 +51,11 @@ void SkyGUI::OnGUI(GameEngineLevel* _Level, float _Delta)
 		ImGui::SeparatorText("SkyDebug");
 		if (ImGui::ColorEdit4("Sky Color", &SkyPtr->SkyColor.R))
 		{
-			SkyPtr->SetSkyColor();
+			PlayLevel::s_TimeManager->Pause(true);
+			SkyPtr->SetDebugSkyColor(SkyPtr->SkyColor);
 		}
+
+		ImGui::Checkbox("Pause Update", &SkyPtr->PauseSkyLerp);
 
 		if (ImGui::BeginCombo("Sky Combo", Items.at(Curidx).c_str()))
 		{
