@@ -192,19 +192,12 @@ void HouseSkyLerp::Release()
 	SkyGUIWindow = nullptr;
 }
 
-void HouseSkyLerp::LevelStart(class GameEngineLevel* _NextLevel)
-{
-	On();
-}
-
 void HouseSkyLerp::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	if (nullptr != SkyGUIWindow)
 	{
 		SkyGUIWindow->Off();
 	}
-
-	Off();
 }
 
 void HouseSkyLerp::SetSkyData()

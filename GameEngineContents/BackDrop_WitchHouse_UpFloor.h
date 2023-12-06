@@ -36,6 +36,7 @@ private:
 
 	void CreateProp();
 	void CreatePixelMap();
+	void HouseLightSetting();
 	void LoadPortalActor();
 	void LiftSetting();
 	void BedSetting();
@@ -47,6 +48,7 @@ private:
 	void ShowHouseDustEvent();
 
 private:
+	std::shared_ptr<RendererActor> LightActor;
 	const float4 HouseLocation = float4{340.0f , -50.0f };
 
 	bool isInitDustEvent = false;

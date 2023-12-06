@@ -775,6 +775,10 @@
     <ClInclude Include="PixelManager.h">
       <Filter>Level\BackManager\Play\PixelManager</Filter>
     </ClInclude>
+    <ClInclude Include="HouseSkyLerp.h" />
+    <ClInclude Include="WitchHouseLight.h">
+      <Filter>Level\BackManager\Play\UpFloor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PreCompile.cpp">
@@ -1294,6 +1298,10 @@
     </ClCompile>
     <ClCompile Include="PixelManager.cpp">
       <Filter>Level\BackManager\Play\PixelManager</Filter>
+    </ClCompile>
+    <ClCompile Include="HouseSkyLerp.cpp" />
+    <ClCompile Include="WitchHouseLight.cpp">
+      <Filter>Level\BackManager\Play\UpFloor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

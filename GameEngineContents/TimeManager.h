@@ -15,6 +15,7 @@ enum class EDAYSTATE
 class TimeManager 
 {
 	friend class ContentsGUI;
+	friend class PlayLevel;
 
 public:
 	// constrcuter destructer
@@ -35,6 +36,7 @@ public:
 
 	float GetMaxTime() const;
 	float GetTime() const;
+	float GetTime(unsigned int  _Hour, unsigned int  _Minute) const;
 	void SetTime(unsigned int  _Hour, unsigned int  _Minute);
 	int GetHour() const;
 	int GetStartHour() const;
@@ -46,10 +48,6 @@ public:
 
 	bool IsDay();
 	EDAYSTATE GetDayState() const;
-
-	void Update(float _Delta);
-	void ConvertTimeToHour();
-	void ConvertHourToTime();
 
 
 	void ChangeDay();
@@ -70,6 +68,9 @@ public:
 	}
 
 protected:
+	void Update(float _Delta);
+	void ConvertTimeToHour();
+	void ConvertHourToTime();
 
 private:
 	bool IsPause = false;
@@ -87,9 +88,9 @@ private:
 	static constexpr int Start_Night_Hour = 19;
 	static constexpr int End_Day_Hour = 24;
 
-	static constexpr int One_Minutes_Per_Hour = 60;
+	static constexpr int OneMinutes_PerHour = 60;
 
-	static constexpr int Ratio_Per_TenMinute = 5;
+	static constexpr int TenMinute_PerHour = 5;
 
 };
 

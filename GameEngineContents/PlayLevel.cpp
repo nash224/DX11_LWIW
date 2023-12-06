@@ -97,6 +97,17 @@ PlayLevel* PlayLevel::GetCurLevel()
 	return s_MainPlayLevel;
 }
 
+TimeManager* PlayLevel::GetTimeManager() const
+{
+	if (nullptr == s_TimeManager)
+	{
+		MsgBoxAssert("타임 매니저가 생성되지 않았습니다.");
+		return nullptr;
+	}
+
+	return s_TimeManager.get();
+}
+
 std::shared_ptr<class UIManager> PlayLevel::GetUIManagerPtr() const
 {
 	if (nullptr == UIManagerPtr)

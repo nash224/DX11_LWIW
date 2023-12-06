@@ -810,6 +810,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="WitchHouseLight.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="WitchHouse_DownFloor.cpp">
       <SubType>
       </SubType>
@@ -1447,6 +1451,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="WitchHouseBed.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="WitchHouseLight.h">
       <SubType>
       </SubType>
     </ClInclude>

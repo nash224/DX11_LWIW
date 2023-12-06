@@ -34,6 +34,7 @@ public:
 	}
 
 	static PlayLevel* GetCurLevel();
+	class TimeManager* GetTimeManager() const;
 	std::shared_ptr<class UIManager> GetUIManagerPtr() const;
 	std::shared_ptr<class Ellie> GetPlayerPtr() const;
 	std::shared_ptr<class BackDrop_PlayLevel> GetBackDropPtr() const;
