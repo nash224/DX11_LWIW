@@ -18,6 +18,7 @@ private:
 	HouseSkyLerp* SkyPtr = nullptr;
 
 	std::vector<std::string> Items;
+	std::vector<float> PlotData;
 
 	int Curidx = 0;
 	
@@ -50,6 +51,7 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 	void SetSkyData() override;
+	void LoadData();
 
 private:
 	std::shared_ptr<SkyGUI> SkyGUIWindow;

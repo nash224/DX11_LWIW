@@ -283,7 +283,7 @@ void DebugTab::TimeDebug()
 		
 		ImGui::Checkbox("Time Pause", &PlayLevel::s_TimeManager->GetPause());
 		ImGui::SameLine();
-		ImGui::SliderFloat("Time Ratio", &PlayLevel::s_TimeManager->GetTimeFlowRatio(), 1.0f, 5.0f, "%.0f");
+		ImGui::SliderFloat("Time Ratio", &PlayLevel::s_TimeManager->GetTimeFlowRatio(), 1.0f, 10.0f, "%.0f");
 	}
 }
 
