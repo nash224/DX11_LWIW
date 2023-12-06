@@ -5,8 +5,8 @@
 
 
 
-static constexpr float MINALPHA = 0.2f;
-static constexpr float MAXALPHA = 0.6f;
+static constexpr float MINALPHA = 0.1f;
+static constexpr float MAXALPHA = 0.2f;
 
 #define DAYLIGHTCOLOR {1.0f, 0.96f, 0.62f, 1.0f}
 #define NIGHTLIGHTCOLOR {0.88f, 0.94f, 1.0f, 1.0f}
@@ -33,6 +33,7 @@ void WitchHouseLight::Start()
 		State.CreateState(EWLIGHTSTATE::Change, ChangeState);
 
 		CreateStateParameter NightState;
+		NightState.Start = std::bind(&WitchHouseLight::StartNight, this, std::placeholders::_1);
 		NightState.Stay = std::bind(&WitchHouseLight::UpdateNight, this, std::placeholders::_1, std::placeholders::_2);
 		State.CreateState(EWLIGHTSTATE::Night, NightState);
 	}
@@ -71,6 +72,7 @@ void WitchHouseLight::Update(float _Delta)
 void WitchHouseLight::Release()
 {
 	RendererActor::Release();
+	AlphaRenderer = nullptr;
 }
 
 void WitchHouseLight::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -78,9 +80,21 @@ void WitchHouseLight::LevelEnd(class GameEngineLevel* _NextLevel)
 	Death();
 }
 
-void WitchHouseLight::Init(int _Order)
+void WitchHouseLight::Init(std::string_view _SpriteName, int _RenderOrder /*= 0*/)
 {
-	m_Renderer = CreateComponent<GameEngineSpriteRenderer>(_Order);
+	m_Renderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::Light);
+	m_Renderer->SetMaterial("Light2DTexture");
+	m_Renderer->SetSprite(_SpriteName);
+	m_Renderer->RenderBaseInfoValue.Target3 = 1;
+
+	AlphaRenderer = CreateComponent<ContentsSpriteRenderer>(ERENDERORDER::AlphaLight);
+	AlphaRenderer->Transform.SetLocalPosition(float4(0.0f,0.0f, 10.0f));
+	AlphaRenderer->SetMaterial("ContentsLight2DTexture");
+	AlphaRenderer->SetSprite(_SpriteName);
+	AlphaRenderer->RenderBaseInfoValue.Target0 = 0;
+	AlphaRenderer->RenderBaseInfoValue.Target4 = 1;
+
+
 	const float CurTime = PlayLevel::GetCurLevel()->GetTimeManager()->GetTime();
 	if (CurTime > NightStartTime)
 	{
@@ -107,6 +121,10 @@ void WitchHouseLight::StartDay(GameEngineState* _Parent)
 	m_Renderer->GetColorData().MulColor = Color;
 }
 
+void WitchHouseLight::StartNight(GameEngineState* _Parent)
+{
+	NightState.ChangeState(EWLIGHT_NIGHTSTATE::NightBrighter);
+}
 
 void WitchHouseLight::UpdateDay(float _Delta, GameEngineState* _Parent)
 {
@@ -160,7 +178,6 @@ void WitchHouseLight::UpdateDarker(float _Delta, GameEngineState* _Parent)
 	if (CurTime >= ChangeTime)
 	{
 		State.ChangeState(EWLIGHTSTATE::Night);
-		NightState.ChangeState(EWLIGHT_NIGHTSTATE::NightBrighter);
 		return;
 	}
 
@@ -189,7 +206,7 @@ void WitchHouseLight::StartNightDarker(GameEngineState* _Parent)
 {
 	const float Chance = RandomFunction::GetRandomfValue(0.6f, 1.2f);
 	NightLerpTime = powf(Chance, 2.0f);
-	NightWaitTime = RandomFunction::GetRandomfValue(0.08f, 0.3f) + NightLerpTime;
+	NightWaitTime = RandomFunction::GetRandomfValue(0.3f, 1.3f) + NightLerpTime;
 	NotUpdateColor = false;
 }
 
@@ -209,6 +226,7 @@ void WitchHouseLight::UpdateNightBrighter(float _Delta, GameEngineState* _Parent
 
 	const float TimeRatio = CurTime / NightLerpTime;
 	LerpLightAlpha(MINALPHA, MAXALPHA, TimeRatio);
+	LerpALightAlpha(MINALPHA, 1.0f, TimeRatio);
 }
 
 void WitchHouseLight::UpdateNightDarker(float _Delta, GameEngineState* _Parent)
@@ -226,6 +244,7 @@ void WitchHouseLight::UpdateNightDarker(float _Delta, GameEngineState* _Parent)
 
 	const float TimeRatio = CurTime / NightLerpTime;
 	LerpLightAlpha(MAXALPHA, MINALPHA, TimeRatio);
+	LerpALightAlpha(1.0f, MINALPHA, TimeRatio);
 }
 
 #pragma endregion
@@ -257,5 +276,19 @@ void WitchHouseLight::LerpLightAlpha(float _From, float _To, float _LerpTime) co
 	if (nullptr != m_Renderer)
 	{
 		m_Renderer->GetColorData().MulColor.A = std::clamp(AlphaValue, 0.0f, 1.0f);
+	}
+}
+
+void WitchHouseLight::LerpALightAlpha(float _From, float _To, float _LerpTime) const
+{
+	if (true == NotUpdateColor)
+	{
+		return;
+	}
+
+	const float AlphaValue = std::lerp(_From, _To, _LerpTime);
+	if (nullptr != AlphaRenderer)
+	{
+		AlphaRenderer->GetColorData().MulColor.A = std::clamp(AlphaValue, 0.0f, 1.0f);
 	}
 }

@@ -25,9 +25,11 @@ void SkyLightEffect::Start()
 
 	EffectUnit.ShaderResHelper.SetTexture("SkyTex", AllRenderTarget->GetTexture(static_cast<int>(EEFFECTENUM::SkyLight)));
 	EffectUnit.ShaderResHelper.SetTexture("LightTex", AllRenderTarget->GetTexture(static_cast<int>(EEFFECTENUM::Illuminant)));
+	EffectUnit.ShaderResHelper.SetTexture("ALightTex", AllRenderTarget->GetTexture(static_cast<int>(EEFFECTENUM::AlphaIlluminant)));
 
 	EffectUnit.ShaderResHelper.SetSampler("SkySampler", "POINT");
 	EffectUnit.ShaderResHelper.SetSampler("LightSampler", "POINT");
+	EffectUnit.ShaderResHelper.SetSampler("ALightSampler", "POINT");
 }
 
 void SkyLightEffect::EffectProcess(float _DeltaTime)

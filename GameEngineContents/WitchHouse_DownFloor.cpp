@@ -1,6 +1,7 @@
 #include "PreCompile.h"
 #include "WitchHouse_DownFloor.h"
 
+#include "WorkSpaceSkyLerp.h"
 #include "BackDrop_WitchHouse_DownFloor.h"
 #include "BGMManager.h"
 #include "CameraControler.h"
@@ -11,6 +12,10 @@
 
 WitchHouse_DownFloor::WitchHouse_DownFloor()
 {
+	float4 Position = GlobalValue::GetWindowScale().Half();
+	Position.Y *= -1.0f;
+	Position.Z = CAMERA_DEPTH;
+	CreateCamera(INT_MIN, ECAMERAORDER::MainNext)->Transform.SetLocalPosition(Position);
 }
 
 WitchHouse_DownFloor::~WitchHouse_DownFloor()
@@ -33,6 +38,8 @@ void WitchHouse_DownFloor::Start()
 		ContentsLevel::LevelCamera->SetCameraMode(ECAMERAMODE::Fix);
 		ContentsLevel::LevelCamera->SetLocalPostion(SettingPos);
 	}
+
+	SkyPtr = CreateActor<WorkSpaceSkyLerp>(EUPDATEORDER::Sky);
 }
 
 void WitchHouse_DownFloor::Update(float _Delta)

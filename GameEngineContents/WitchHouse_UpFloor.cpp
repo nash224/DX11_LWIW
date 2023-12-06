@@ -1,6 +1,8 @@
 #include "PreCompile.h"
 #include "WitchHouse_UpFloor.h"
 
+#include <GameEngineCore/GameEngineCoreWindow.h>
+
 #include "BackDrop_WitchHouse_UpFloor.h"
 #include "BGMManager.h"
 #include "CameraControler.h"
@@ -36,6 +38,13 @@ void WitchHouse_UpFloor::Start()
 
 		ContentsLevel::LevelCamera->SetCameraMode(ECAMERAMODE::Fix);
 		ContentsLevel::LevelCamera->SetLocalPostion(SettingPos);
+	}
+
+
+	std::shared_ptr<GameEngineCoreWindow> Window = GameEngineGUI::FindGUIWindow<GameEngineCoreWindow>("GameEngineCoreWindow");
+	if (nullptr != Window)
+	{
+		Window->AddDebugRenderTarget(5, "HouseTarget", GetMainCamera()->GetCameraAllRenderTarget());
 	}
 }
 

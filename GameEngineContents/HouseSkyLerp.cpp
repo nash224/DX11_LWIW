@@ -217,6 +217,11 @@ void HouseSkyLerp::LoadData()
 	unsigned int Size;
 	LoadBin >> Size;
 
+	if (false == SkyData.empty())
+	{
+		SkyData.clear();
+	}
+
 	SkyData.resize(Size);
 	for (unsigned int i = 0; i < Size; i++)
 	{

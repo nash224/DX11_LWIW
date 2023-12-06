@@ -166,12 +166,6 @@
     <Filter Include="Global\Math">
       <UniqueIdentifier>{124d7494-cddb-47e0-8664-505456c546b5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Interactive\Plant">
-      <UniqueIdentifier>{aabcb491-481d-4380-a119-aabdaa014822}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Plant\SilverBellFlower">
-      <UniqueIdentifier>{ef2cf91a-b5b9-4066-a22c-448abcd8977f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Actor\Ellie">
       <UniqueIdentifier>{cbb55847-2201-4890-b2cb-4340bd12c511}</UniqueIdentifier>
     </Filter>
@@ -189,30 +183,6 @@
     </Filter>
     <Filter Include="Actor\Interactive\Creature">
       <UniqueIdentifier>{12a552c4-4ae2-4367-b561-dc7982869c0b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Creature\Static">
-      <UniqueIdentifier>{79b1724d-f04f-4846-87e0-60822123a1e0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Creature\Static\Machine">
-      <UniqueIdentifier>{811fba09-69f6-46d6-b46f-4895c7831399}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Creature\Static\Machine\AlchemyPot">
-      <UniqueIdentifier>{357ed98c-4644-4ffe-b672-7f1cdf4ed2d7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Creature\Static\Machine\AlchemyPot\Dispensation">
-      <UniqueIdentifier>{1a53decc-91e0-44c8-8a7e-9b5303e3107f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Creature\Static\Machine\Extractor">
-      <UniqueIdentifier>{e7c61f69-627e-4b25-836a-f077f5c22092}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Creature\Static\Machine\Extractor\Process">
-      <UniqueIdentifier>{cc575566-e52c-4962-86a2-d02d86b8676f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Creature\Static\Bush">
-      <UniqueIdentifier>{9958f0f4-d110-480b-9a2d-e3753ed5311f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Interactive\Creature\Static\BranchTree">
-      <UniqueIdentifier>{26f52f03-9544-4cb9-9bed-b4d5ab4198e5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Actor\Interactive\Objects">
       <UniqueIdentifier>{10b599c2-ee53-43da-8fcd-402c4eeda086}</UniqueIdentifier>
@@ -256,9 +226,6 @@
     <Filter Include="Actor\Component\ALight">
       <UniqueIdentifier>{be118570-faa6-4c87-b115-ac88aef36ec5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Component\PixelCollision">
-      <UniqueIdentifier>{8a668e94-d491-4242-b5ac-e210bb340594}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Actor\Component\CircleProgressBar">
       <UniqueIdentifier>{6f59f50b-5f64-48a3-a69b-f7a88373d951}</UniqueIdentifier>
     </Filter>
@@ -285,6 +252,36 @@
     </Filter>
     <Filter Include="Level\BackManager\Play\PixelManager">
       <UniqueIdentifier>{400de674-d25b-4c9e-ac6d-d3d5424e7bd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager\TimeManager\SkyLerp">
+      <UniqueIdentifier>{b2fe388c-153f-4411-a5a4-c9c5d338787b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\Creature\BranchTree">
+      <UniqueIdentifier>{26f52f03-9544-4cb9-9bed-b4d5ab4198e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\Creature\Bush">
+      <UniqueIdentifier>{9958f0f4-d110-480b-9a2d-e3753ed5311f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\Machine">
+      <UniqueIdentifier>{811fba09-69f6-46d6-b46f-4895c7831399}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\Machine\AlchemyPot">
+      <UniqueIdentifier>{357ed98c-4644-4ffe-b672-7f1cdf4ed2d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\Machine\AlchemyPot\Dispensation">
+      <UniqueIdentifier>{1a53decc-91e0-44c8-8a7e-9b5303e3107f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\Machine\Extractor">
+      <UniqueIdentifier>{e7c61f69-627e-4b25-836a-f077f5c22092}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\Machine\Extractor\Process">
+      <UniqueIdentifier>{cc575566-e52c-4962-86a2-d02d86b8676f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\Creature\Plant">
+      <UniqueIdentifier>{aabcb491-481d-4380-a119-aabdaa014822}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\Creature\Plant\SilverBellFlower">
+      <UniqueIdentifier>{ef2cf91a-b5b9-4066-a22c-448abcd8977f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -389,7 +386,7 @@
       <Filter>Data\Contents</Filter>
     </ClInclude>
     <ClInclude Include="Roaster.h">
-      <Filter>Actor\Interactive\Creature\Static\Machine</Filter>
+      <Filter>Actor\Interactive\Machine</Filter>
     </ClInclude>
     <ClInclude Include="UI_InterativeMark.h">
       <Filter>Manager\UIManager\Mark</Filter>
@@ -407,13 +404,13 @@
       <Filter>Actor\Interactive\Creature\MongSiri</Filter>
     </ClInclude>
     <ClInclude Include="Bush.h">
-      <Filter>Actor\Interactive\Creature\Static\Bush</Filter>
+      <Filter>Actor\Interactive\Creature\Bush</Filter>
     </ClInclude>
     <ClInclude Include="WitchFlower.h">
-      <Filter>Actor\Interactive\Plant</Filter>
+      <Filter>Actor\Interactive\Creature\Plant</Filter>
     </ClInclude>
     <ClInclude Include="Plant.h">
-      <Filter>Actor\Interactive\Plant</Filter>
+      <Filter>Actor\Interactive\Creature\Plant</Filter>
     </ClInclude>
     <ClInclude Include="FlowerBird.h">
       <Filter>Actor\Interactive\Creature\FlowerBird</Filter>
@@ -473,28 +470,28 @@
       <Filter>Actor\Interactive\Creature\MongSiri\Population</Filter>
     </ClInclude>
     <ClInclude Include="BranchTree.h">
-      <Filter>Actor\Interactive\Creature\Static\BranchTree</Filter>
+      <Filter>Actor\Interactive\Creature\BranchTree</Filter>
     </ClInclude>
     <ClInclude Include="UI_Dispensation.h">
-      <Filter>Actor\Interactive\Creature\Static\Machine\AlchemyPot\Dispensation</Filter>
+      <Filter>Actor\Interactive\Machine\AlchemyPot\Dispensation</Filter>
     </ClInclude>
     <ClInclude Include="AlchemyPot.h">
-      <Filter>Actor\Interactive\Creature\Static\Machine\AlchemyPot</Filter>
+      <Filter>Actor\Interactive\Machine\AlchemyPot</Filter>
     </ClInclude>
     <ClInclude Include="UI_ProcessManager.h">
-      <Filter>Actor\Interactive\Creature\Static\Machine\Extractor\Process</Filter>
+      <Filter>Actor\Interactive\Machine\Extractor\Process</Filter>
     </ClInclude>
     <ClInclude Include="Extractor.h">
-      <Filter>Actor\Interactive\Creature\Static\Machine\Extractor</Filter>
+      <Filter>Actor\Interactive\Machine\Extractor</Filter>
     </ClInclude>
     <ClInclude Include="UI_ProcessList.h">
-      <Filter>Actor\Interactive\Creature\Static\Machine\Extractor\Process</Filter>
+      <Filter>Actor\Interactive\Machine\Extractor\Process</Filter>
     </ClInclude>
     <ClInclude Include="UI_ProcessListUnit.h">
-      <Filter>Actor\Interactive\Creature\Static\Machine\Extractor\Process</Filter>
+      <Filter>Actor\Interactive\Machine\Extractor\Process</Filter>
     </ClInclude>
     <ClInclude Include="UI_ProcessB.h">
-      <Filter>Actor\Interactive\Creature\Static\Machine\Extractor\Process</Filter>
+      <Filter>Actor\Interactive\Machine\Extractor\Process</Filter>
     </ClInclude>
     <ClInclude Include="MapEditorLevel.h">
       <Filter>Level\99.MapEditor</Filter>
@@ -503,9 +500,6 @@
       <Filter>Level\99.MapEditor</Filter>
     </ClInclude>
     <ClInclude Include="TimeManager.h">
-      <Filter>Manager\TimeManager</Filter>
-    </ClInclude>
-    <ClInclude Include="SkyLerp.h">
       <Filter>Manager\TimeManager</Filter>
     </ClInclude>
     <ClInclude Include="Conversation.h">
@@ -584,13 +578,13 @@
       <Filter>Actor\Interactive\NPC\Aurea</Filter>
     </ClInclude>
     <ClInclude Include="SilverStarPollen.h">
-      <Filter>Actor\Interactive\Plant\SilverBellFlower</Filter>
+      <Filter>Actor\Interactive\Creature\Plant\SilverBellFlower</Filter>
     </ClInclude>
     <ClInclude Include="SilverStarFlower.h">
-      <Filter>Actor\Interactive\Plant\SilverBellFlower</Filter>
+      <Filter>Actor\Interactive\Creature\Plant\SilverBellFlower</Filter>
     </ClInclude>
     <ClInclude Include="SilverBellSpawner.h">
-      <Filter>Actor\Interactive\Plant\SilverBellFlower</Filter>
+      <Filter>Actor\Interactive\Creature\Plant\SilverBellFlower</Filter>
     </ClInclude>
     <ClInclude Include="OutLineEffect.h">
       <Filter>Rendering\Effect</Filter>
@@ -775,9 +769,17 @@
     <ClInclude Include="PixelManager.h">
       <Filter>Level\BackManager\Play\PixelManager</Filter>
     </ClInclude>
-    <ClInclude Include="HouseSkyLerp.h" />
     <ClInclude Include="WitchHouseLight.h">
       <Filter>Level\BackManager\Play\UpFloor</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyLerp.h">
+      <Filter>Manager\TimeManager\SkyLerp</Filter>
+    </ClInclude>
+    <ClInclude Include="HouseSkyLerp.h">
+      <Filter>Manager\TimeManager\SkyLerp</Filter>
+    </ClInclude>
+    <ClInclude Include="WorkSpaceSkyLerp.h">
+      <Filter>Manager\TimeManager\SkyLerp</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -882,7 +884,7 @@
       <Filter>Data\Contents</Filter>
     </ClCompile>
     <ClCompile Include="Roaster.cpp">
-      <Filter>Actor\Interactive\Creature\Static\Machine</Filter>
+      <Filter>Actor\Interactive\Machine</Filter>
     </ClCompile>
     <ClCompile Include="UI_InterativeMark.cpp">
       <Filter>Manager\UIManager\Mark</Filter>
@@ -903,16 +905,16 @@
       <Filter>Actor\Interactive\Creature\MongSiri</Filter>
     </ClCompile>
     <ClCompile Include="Bush.cpp">
-      <Filter>Actor\Interactive\Creature\Static\Bush</Filter>
+      <Filter>Actor\Interactive\Creature\Bush</Filter>
     </ClCompile>
     <ClCompile Include="Bush_State.cpp">
-      <Filter>Actor\Interactive\Creature\Static\Bush</Filter>
+      <Filter>Actor\Interactive\Creature\Bush</Filter>
     </ClCompile>
     <ClCompile Include="Plant.cpp">
-      <Filter>Actor\Interactive\Plant</Filter>
+      <Filter>Actor\Interactive\Creature\Plant</Filter>
     </ClCompile>
     <ClCompile Include="WitchFlower.cpp">
-      <Filter>Actor\Interactive\Plant</Filter>
+      <Filter>Actor\Interactive\Creature\Plant</Filter>
     </ClCompile>
     <ClCompile Include="FlowerBird.cpp">
       <Filter>Actor\Interactive\Creature\FlowerBird</Filter>
@@ -975,29 +977,29 @@
       <Filter>Actor\Interactive\Creature\MongSiri\Population</Filter>
     </ClCompile>
     <ClCompile Include="BranchTree.cpp">
-      <Filter>Actor\Interactive\Creature\Static\BranchTree</Filter>
+      <Filter>Actor\Interactive\Creature\BranchTree</Filter>
     </ClCompile>
     <ClCompile Include="ContentsCore_Resources.cpp" />
     <ClCompile Include="UI_Dispensation.cpp">
-      <Filter>Actor\Interactive\Creature\Static\Machine\AlchemyPot\Dispensation</Filter>
+      <Filter>Actor\Interactive\Machine\AlchemyPot\Dispensation</Filter>
     </ClCompile>
     <ClCompile Include="AlchemyPot.cpp">
-      <Filter>Actor\Interactive\Creature\Static\Machine\AlchemyPot</Filter>
+      <Filter>Actor\Interactive\Machine\AlchemyPot</Filter>
     </ClCompile>
     <ClCompile Include="UI_ProcessManager.cpp">
-      <Filter>Actor\Interactive\Creature\Static\Machine\Extractor\Process</Filter>
+      <Filter>Actor\Interactive\Machine\Extractor\Process</Filter>
     </ClCompile>
     <ClCompile Include="Extractor.cpp">
-      <Filter>Actor\Interactive\Creature\Static\Machine\Extractor</Filter>
+      <Filter>Actor\Interactive\Machine\Extractor</Filter>
     </ClCompile>
     <ClCompile Include="UI_ProcessList.cpp">
-      <Filter>Actor\Interactive\Creature\Static\Machine\Extractor\Process</Filter>
+      <Filter>Actor\Interactive\Machine\Extractor\Process</Filter>
     </ClCompile>
     <ClCompile Include="UI_ProcessListUnit.cpp">
-      <Filter>Actor\Interactive\Creature\Static\Machine\Extractor\Process</Filter>
+      <Filter>Actor\Interactive\Machine\Extractor\Process</Filter>
     </ClCompile>
     <ClCompile Include="UI_ProcessB.cpp">
-      <Filter>Actor\Interactive\Creature\Static\Machine\Extractor\Process</Filter>
+      <Filter>Actor\Interactive\Machine\Extractor\Process</Filter>
     </ClCompile>
     <ClCompile Include="MapEditorLevel.cpp">
       <Filter>Level\99.MapEditor</Filter>
@@ -1006,9 +1008,6 @@
       <Filter>Level\99.MapEditor</Filter>
     </ClCompile>
     <ClCompile Include="TimeManager.cpp">
-      <Filter>Manager\TimeManager</Filter>
-    </ClCompile>
-    <ClCompile Include="SkyLerp.cpp">
       <Filter>Manager\TimeManager</Filter>
     </ClCompile>
     <ClCompile Include="Conversation.cpp">
@@ -1102,13 +1101,13 @@
       <Filter>Actor\Interactive\NPC\Aurea</Filter>
     </ClCompile>
     <ClCompile Include="SilverStarFlower.cpp">
-      <Filter>Actor\Interactive\Plant\SilverBellFlower</Filter>
+      <Filter>Actor\Interactive\Creature\Plant\SilverBellFlower</Filter>
     </ClCompile>
     <ClCompile Include="SilverStarPollen.cpp">
-      <Filter>Actor\Interactive\Plant\SilverBellFlower</Filter>
+      <Filter>Actor\Interactive\Creature\Plant\SilverBellFlower</Filter>
     </ClCompile>
     <ClCompile Include="SilverBellSpawner.cpp">
-      <Filter>Actor\Interactive\Plant\SilverBellFlower</Filter>
+      <Filter>Actor\Interactive\Creature\Plant\SilverBellFlower</Filter>
     </ClCompile>
     <ClCompile Include="OutLineEffect.cpp">
       <Filter>Rendering\Effect</Filter>
@@ -1299,9 +1298,17 @@
     <ClCompile Include="PixelManager.cpp">
       <Filter>Level\BackManager\Play\PixelManager</Filter>
     </ClCompile>
-    <ClCompile Include="HouseSkyLerp.cpp" />
     <ClCompile Include="WitchHouseLight.cpp">
       <Filter>Level\BackManager\Play\UpFloor</Filter>
+    </ClCompile>
+    <ClCompile Include="HouseSkyLerp.cpp">
+      <Filter>Manager\TimeManager\SkyLerp</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyLerp.cpp">
+      <Filter>Manager\TimeManager\SkyLerp</Filter>
+    </ClCompile>
+    <ClCompile Include="WorkSpaceSkyLerp.cpp">
+      <Filter>Manager\TimeManager\SkyLerp</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

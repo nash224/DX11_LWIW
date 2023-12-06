@@ -30,17 +30,6 @@ void BackDrop_WitchHouse_UpFloor::Start()
 {
 	BackDrop_PlayLevel::Start();
 	DustEventSetting();
-	GameEngineInput::AddInputObject(this);
-	ArrangementHelper::RegisterInput(this);
-}
-
-//
-void BackDrop_WitchHouse_UpFloor::Update(float _Delta)
-{
-	if (nullptr != LightActor)
-	{
-		ArrangementHelper::InputUpdate(LightActor.get(), this);
-	}
 }
 
 
@@ -375,44 +364,25 @@ void BackDrop_WitchHouse_UpFloor::CreateProp()
 
 void BackDrop_WitchHouse_UpFloor::HouseLightSetting()
 {
-	if (false)
 	{
-		std::shared_ptr<RendererActor> Light = GetLevel()->CreateActor<RendererActor>(EUPDATEORDER::Objects);
-		Light->Transform.SetLocalPosition(float4(374.0f, -304.0f));
+		std::shared_ptr<WitchHouseLight> Light = GetLevel()->CreateActor<WitchHouseLight>(EUPDATEORDER::Objects);
+		Light->Transform.SetLocalPosition(float4(516.0f, -165.0f, -2000.0f));
 		Light->Transform.SetLocalScale(float4(0.25f, 0.25f, 1.0f));
-		Light->Init();
-		Light->m_Renderer->SetSprite("EllieHouse_Light_1.png");
-		Light->m_Renderer->GetColorData().MulColor.A = 0.7f;
-		Light->m_Renderer->RenderBaseInfoValue.Target3 = 1;
-		LightActor = Light;
+		Light->Init("EllieHouse_Light_2.png");
 	}
 
 	{
 		std::shared_ptr<WitchHouseLight> Light = GetLevel()->CreateActor<WitchHouseLight>(EUPDATEORDER::Objects);
-		Light->Transform.SetLocalPosition(float4(516.0f, -165.0f));
+		Light->Transform.SetLocalPosition(float4(374.0f, -304.0f, -2000.0f));
 		Light->Transform.SetLocalScale(float4(0.25f, 0.25f, 1.0f));
-		Light->Init();
-		Light->m_Renderer->SetSprite("EllieHouse_Light_2.png");
-		Light->m_Renderer->RenderBaseInfoValue.Target3 = 1;
+		Light->Init("EllieHouse_Light_0.png");
 	}
 
 	{
 		std::shared_ptr<WitchHouseLight> Light = GetLevel()->CreateActor<WitchHouseLight>(EUPDATEORDER::Objects);
-		Light->Transform.SetLocalPosition(float4(374.0f, -304.0f));
+		Light->Transform.SetLocalPosition(float4(514.0f, -264.0f, -2000.0f));
 		Light->Transform.SetLocalScale(float4(0.25f, 0.25f, 1.0f));
-		Light->Init();
-		Light->m_Renderer->SetSprite("EllieHouse_Light_0.png");
-		Light->m_Renderer->RenderBaseInfoValue.Target3 = 1;
-	}
-
-	{
-		// 514.000000 Y : -264
-		std::shared_ptr<WitchHouseLight> Light = GetLevel()->CreateActor<WitchHouseLight>(EUPDATEORDER::Objects);
-		Light->Transform.SetLocalPosition(float4(514.0f, -264.0f));
-		Light->Transform.SetLocalScale(float4(0.25f, 0.25f, 1.0f));
-		Light->Init();
-		Light->m_Renderer->SetSprite("EllieHouse_Light_1.png");
-		Light->m_Renderer->RenderBaseInfoValue.Target3 = 1;
+		Light->Init("EllieHouse_Light_1.png");
 	}
 }
 

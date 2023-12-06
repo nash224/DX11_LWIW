@@ -126,6 +126,7 @@ void AlchemyPot::RendererSetting()
 	FxRenderer->CreateAnimation("Boil", "Pot_Fx_Boil.png", 0.1f, 0, 14, false);
 	FxRenderer->CreateAnimation("Fail", "Pot_Fx_Fail.png", 0.1f, 0, 18, false);
 	FxRenderer->CreateAnimation("Success", "Pot_Fx_Success.png", 0.1f, 0, 21, false);
+	FxRenderer->RenderBaseInfoValue.Target3 = 1;
 
 
 	FxRenderer->SetStartEvent("Boil", [&](GameEngineSpriteRenderer* _Renderer)
@@ -155,8 +156,8 @@ void AlchemyPot::RendererSetting()
 	FireRenderer->CreateAnimation("Small", "Pot_Fire_Small.png", 0.1f, 1, 23);
 	FireRenderer->CreateAnimation("Large", "Pot_Fire_Large.png", 0.1f, 1, 23);
 	FireRenderer->AutoSpriteSizeOn();
-	
 	FireRenderer->ChangeAnimation("Small");
+	FireRenderer->RenderBaseInfoValue.Target3 = 1;
 
 	SteamRenderer = CreateComponent<GameEngineSpriteRenderer>();
 	SteamRenderer->AutoSpriteSizeOn();

@@ -1,6 +1,6 @@
 #pragma once
 #include "RendererActor.h"
-
+#include "ContentsSpriteRenderer.h"
 
 
 
@@ -42,7 +42,7 @@ public:
 	WitchHouseLight& operator=(const WitchHouseLight& _Other) = delete;
 	WitchHouseLight& operator=(WitchHouseLight&& _Other) noexcept = delete;
 
-	void Init(int Order = 0) override;
+	void Init(std::string_view _SpriteName, int _RenderOrder = 0);
 
 protected:
 	void Start() override;
@@ -53,9 +53,11 @@ protected:
 
 	void LerpLightColor(const float4& _From, const float4& _To, float _LerpTime);
 	void LerpLightAlpha(float _From, float _To, float _LerpTime) const;
+	void LerpALightAlpha(float _From, float _To, float _LerpTime) const;
 
 	// State::UPdate
 	void StartDay(GameEngineState* _Parent);
+	void StartNight(GameEngineState* _Parent);
 
 
 	void UpdateDay(float _Delta, GameEngineState* _Parent);
@@ -77,6 +79,8 @@ protected:
 	
 
 private:
+	std::shared_ptr<ContentsSpriteRenderer> AlphaRenderer;
+
 	GameEngineState State;
 	GameEngineState ChangeLightState;
 	GameEngineState NightState;

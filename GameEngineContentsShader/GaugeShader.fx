@@ -96,12 +96,12 @@ struct PixelOut
 {
     float4 Color0 : SV_Target0;
     float4 Color1 : SV_Target1;
-    float4 Color2 : SV_Target1;
-    float4 Color3 : SV_Target1;
-    float4 Color4 : SV_Target1;
-    float4 Color5 : SV_Target1;
-    float4 Color6 : SV_Target1;
-    float4 Color7 : SV_Target1;
+    float4 Color2 : SV_Target2;
+    float4 Color3 : SV_Target3;
+    float4 Color4 : SV_Target4;
+    float4 Color5 : SV_Target5;
+    float4 Color6 : SV_Target6;
+    float4 Color7 : SV_Target7;
 };
 
 
@@ -114,7 +114,7 @@ PixelOut GaugeShader_PS(PixelOutPut _Input) : SV_Target0
     PixelOut Result = (PixelOut)0.0f;
     
     float4 Color = DiffuseTex.Sample(DiffuseTexSampler, _Input.TEXCOORD.xy);
-    
+  
     if (1 == LineGauge) // 라인 진행 바
     {
         float GaugeRatio = Gauge; // 0 ~ 1
@@ -163,7 +163,26 @@ PixelOut GaugeShader_PS(PixelOutPut _Input) : SV_Target0
     //    Result.Color3 = Color;
     //}
     
-    Result.Color0 = Color;
+    if (0 < Target0)
+    {
+        Result.Color0 = Color;
+    }
+    if (0 < Target1)
+    {
+        Result.Color1 = Color;
+    }
+    if (0 < Target2)
+    {
+        Result.Color2 = Color;
+    }
+    if (0 < Target3)
+    {
+        Result.Color3 = Color;
+    }
+    if (0 < Target4)
+    {
+        Result.Color4 = Color;
+    }
     
     return Result;
 }

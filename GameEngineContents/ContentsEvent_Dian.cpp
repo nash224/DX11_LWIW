@@ -119,7 +119,7 @@ void ContentsEvent::Dian_Cracker::CompleteInternal()
 
 	if (nullptr != UI_Hub_MainBoard::s_QuestManager)
 	{
-		UI_Hub_MainBoard::s_QuestManager->RegisterData("Craft_Cracker_Potion");
 		UI_Hub_MainBoard::s_QuestManager->PopData("Dian_Cracker_Recipe");
+		UI_Hub_MainBoard::s_QuestManager->RegisterData("Craft_Cracker_Potion");
 	}
 }

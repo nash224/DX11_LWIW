@@ -137,6 +137,18 @@ void ContentsEvent::Repair_Extractor::CompleteInternal()
 
 bool ContentsEvent::Craft_Cracker_Potion::QuestClearPrerequisite()
 {
+	const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = FindQuest("Dian_Cracker");
+	if (nullptr == Quest)
+	{
+		MsgBoxAssert("존재하지 않는 퀘스트를 찾으려 했습니다.");
+		return false;
+	}
+
+	if (false == Quest->isQuestComplete())
+	{
+		return false;
+	}
+
 	if (true == UI_Inventory::IsItem("FirecrackerPotion"))
 	{
 		if (nullptr != UI_Hub_MainBoard::s_QuestManager)

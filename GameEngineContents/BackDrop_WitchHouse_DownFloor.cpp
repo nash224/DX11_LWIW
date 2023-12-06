@@ -25,6 +25,17 @@ BackDrop_WitchHouse_DownFloor::~BackDrop_WitchHouse_DownFloor()
 void BackDrop_WitchHouse_DownFloor::Start()
 {
 	BackDrop_PlayLevel::Start();
+	GameEngineInput::AddInputObject(this);
+	ArrangementHelper::RegisterInput(this);
+}
+
+//
+void BackDrop_WitchHouse_DownFloor::Update(float _Delta)
+{
+	if (nullptr != LightActor)
+	{
+		ArrangementHelper::InputUpdate(LightActor.get(), this);
+	}
 }
 
 void BackDrop_WitchHouse_DownFloor::LevelStart(class GameEngineLevel* _NextLevel)
@@ -357,8 +368,12 @@ void BackDrop_WitchHouse_DownFloor::PropSetting()
 	}
 
 	{
-		const float4 Position = HousePoint + float4(350.0f, -255.0f);
-		CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "DownFloor_Frame.png", Position, static_cast<int>(EHOUSEDEPTH::FRAME));
+		float4 Position = GlobalValue::GetWindowScale().Half();
+		Position.Y *= -1.0f;
+		//const std::shared_ptr<RendererActor>& Ceil
+		LightActor
+			= BackDrop_PlayLevel::CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "DownFloor_Frame.png", Position, static_cast<int>(EHOUSEDEPTH::FRAME));
+		LightActor->m_Renderer->SetViewCameraSelect(static_cast<int>(ECAMERAORDER::MainNext));
 	}
 }
 

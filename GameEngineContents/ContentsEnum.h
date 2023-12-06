@@ -24,6 +24,8 @@ enum class ERENDERORDER
 	NonAlphaBlend,
 	Effect,
 	SkyLight,
+	Light,
+	AlphaLight,
 	Fade = 100,
 };
 

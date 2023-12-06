@@ -7,7 +7,7 @@ enum class EEFFECTENUM
 	OutLine,
 	SkyLight,
 	Illuminant,
-	None4,
+	AlphaIlluminant,
 	None5,
 	None6,
 	None7,

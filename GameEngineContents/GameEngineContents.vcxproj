@@ -830,6 +830,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="WorkSpaceSkyLerp.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorEnum.h" />
@@ -1471,6 +1475,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="WorkplaceFindEvent.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="WorkSpaceSkyLerp.h">
       <SubType>
       </SubType>
     </ClInclude>
