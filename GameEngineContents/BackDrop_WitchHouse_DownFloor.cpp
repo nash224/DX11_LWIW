@@ -11,6 +11,7 @@
 
 #include "Dust_Pot.h"
 #include "Dust_Extractor.h"
+#include "ALightActor.h"
 
 
 BackDrop_WitchHouse_DownFloor::BackDrop_WitchHouse_DownFloor() 
@@ -32,9 +33,9 @@ void BackDrop_WitchHouse_DownFloor::Start()
 //
 void BackDrop_WitchHouse_DownFloor::Update(float _Delta)
 {
-	if (nullptr != LightActor)
+	if (nullptr != ArrangeActor)
 	{
-		ArrangementHelper::InputUpdate(LightActor.get(), this);
+		ArrangementHelper::InputUpdate(ArrangeActor.get(), this);
 	}
 }
 
@@ -86,6 +87,8 @@ void BackDrop_WitchHouse_DownFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 	}
 
 	FileLoadFunction::ReleaseAllTextureInPath("Resources\\PlayContents\\WitchHouse_DownFloor\\Down_Sprite");
+
+	ArrangeActor = nullptr;
 }
 
 void BackDrop_WitchHouse_DownFloor::Init()
@@ -109,6 +112,7 @@ void BackDrop_WitchHouse_DownFloor::RenewMap()
 	}
 
 	PropSetting();
+	LightSetting();
 	PixelMapSetting();
 	InteractiveActorSetting();
 }
@@ -370,14 +374,26 @@ void BackDrop_WitchHouse_DownFloor::PropSetting()
 	{
 		float4 Position = GlobalValue::GetWindowScale().Half();
 		Position.Y *= -1.0f;
-		//const std::shared_ptr<RendererActor>& Ceil
-		LightActor
+		const std::shared_ptr<RendererActor>& Ceil
 			= BackDrop_PlayLevel::CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "DownFloor_Frame.png", Position, static_cast<int>(EHOUSEDEPTH::FRAME));
-		LightActor->m_Renderer->SetViewCameraSelect(static_cast<int>(ECAMERAORDER::MainNext));
+		Ceil->m_Renderer->SetViewCameraSelect(static_cast<int>(ECAMERAORDER::MainNext));
 	}
 }
 
 #pragma endregion 
+
+void BackDrop_WitchHouse_DownFloor::LightSetting()
+{
+	{
+		std::shared_ptr<ALightActor> Light = GetLevel()->CreateActor<ALightActor>(EUPDATEORDER::Objects);
+		Light->Transform.SetLocalPosition(float4(560.0f, -310.0f));
+		Light->Init();
+		Light->SetSize(1.f);
+		Light->SetAlphaCorrection(0.2f);
+		Light->SetInner(0.2f);
+	}
+}
+
 
 #pragma region CreatePixelMap
 

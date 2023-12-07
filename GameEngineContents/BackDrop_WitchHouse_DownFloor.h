@@ -28,13 +28,14 @@ protected:
 
 private:
 	void PropSetting();
+	void LightSetting();
 	void PixelMapSetting();
 	void InteractiveActorSetting();
 
 	void DustEventSetting();
 
 private:
-	std::shared_ptr<RendererActor> LightActor;
+	std::shared_ptr<GameEngineActor> ArrangeActor;
 	const float4 HousePoint = float4( 150.0f , -10.0f );
 };
 

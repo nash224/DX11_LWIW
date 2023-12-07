@@ -16,6 +16,7 @@ public:
 	ALightActor& operator=(ALightActor&& _Other) noexcept = delete;
 
 	void Init();
+	void SetSize(float _Size) ;
 	void SetColor(const float4& _Color) const;
 	void SetAlpha(float _Alpha);
 	void SetAlphaCorrection(float _AlphaCorrection);

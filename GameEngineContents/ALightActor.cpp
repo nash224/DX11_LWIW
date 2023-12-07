@@ -44,6 +44,11 @@ void ALightActor::Init()
 	ALightRenderer->RenderBaseInfoValue.Target4 = 1;
 }
 
+void ALightActor::SetSize(float _Size) 
+{
+	Transform.SetLocalScale(float4(_Size, _Size, 1.0f));
+}
+
 void ALightActor::SetColor(const float4& _Color) const
 {
 	if (nullptr == LightRenderer)
