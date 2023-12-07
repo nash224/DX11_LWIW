@@ -139,6 +139,7 @@ void ContentsSpriteRenderer::SetMaterialEvent(std::string_view _Name, int _Index
 	GetShaderResHelper().SetConstantBufferLink("SpriteRendererInfo", SpriteRendererInfoValue);
 	GetShaderResHelper().SetConstantBufferLink("ColorData", ColorDataValue);
 	GetShaderResHelper().SetConstantBufferLink("GaugeInfo", GaugeInfoValue);
+	GetShaderResHelper().SetConstantBufferLink("TransparentInfo", TransparentData);
 	SetSprite("NSet.png");
 }
 

@@ -10,6 +10,14 @@ struct GaugeInfo
 	float Gauge = 1.0f;
 };
 
+struct TransparentInfo
+{
+	int iTransparent = 0;
+	float StartT = 0.0f;
+	float EndT = 0.0f;
+	float TransTemp = 0.0f;
+};
+
 // Ό³Έν :
 class ContentsSpriteRenderer : public GameEngineRenderer
 {
@@ -102,9 +110,14 @@ public:
 		return ColorDataValue;
 	}
 
-	GaugeInfo& GetGaugeInfo()
+	inline GaugeInfo& GetGaugeInfo()
 	{
 		return GaugeInfoValue;
+	}
+
+	inline TransparentInfo& GetTransparentInfo()
+	{
+		return TransparentData;
 	}
 
 protected:
@@ -130,6 +143,7 @@ private:
 
 	ColorData ColorDataValue;
 	GaugeInfo GaugeInfoValue;
+	TransparentInfo TransparentData;
 
 	GameEngineTransform ImageTransform;
 

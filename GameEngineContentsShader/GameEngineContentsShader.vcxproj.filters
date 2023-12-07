@@ -17,7 +17,7 @@
       <Filter>2D</Filter>
     </FxCompile>
     <FxCompile Include="Math.fx">
-      <Filter>Header</Filter>
+      <Filter>Effect\Header</Filter>
     </FxCompile>
     <FxCompile Include="MotionBlurEffect.fx">
       <Filter>Effect</Filter>
@@ -36,7 +36,7 @@
     <Filter Include="2D">
       <UniqueIdentifier>{d26b2f98-f3e7-44f4-a197-6716b12de78e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header">
+    <Filter Include="Effect\Header">
       <UniqueIdentifier>{7327c445-14fb-4a6a-8862-d2cd7c1c1aca}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

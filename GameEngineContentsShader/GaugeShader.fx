@@ -89,6 +89,16 @@ cbuffer GaugeInfo : register(b4)
     float Gauge;
 };
 
+
+cbuffer TransparentInfo : register(b5)
+{
+    int iTransparent;
+    float Inner;
+    float Suburb;
+    float TransTemp;
+};
+
+
 Texture2D DiffuseTex : register(t0);
 SamplerState DiffuseTexSampler : register(s0);
 
@@ -149,6 +159,22 @@ PixelOut GaugeShader_PS(PixelOutPut _Input) : SV_Target0
         }
     }
 
+    if (1 == iTransparent)
+    {
+        if (Inner > Suburb)
+        {
+            discard;
+        }
+        
+        float fSuburb = saturate(Suburb);
+        float fInner = saturate(Inner);
+        
+        float2 UVCenter = _Input.TEXCOORD.xy - float2(0.5f, 0.5f);
+        float Distance = length(UVCenter);
+        float Alpha = smoothstep(fInner, fSuburb, Distance);
+        Color.a *= Alpha;
+    }
+    
     
     if (0.0f >= Color.a)
     {
@@ -158,10 +184,6 @@ PixelOut GaugeShader_PS(PixelOutPut _Input) : SV_Target0
     Color += PlusColor;
     Color *= MulColor;
     
-    //if (0 < Target3)
-    //{
-    //    Result.Color3 = Color;
-    //}
     
     if (0 < Target0)
     {

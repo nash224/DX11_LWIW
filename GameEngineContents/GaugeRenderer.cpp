@@ -22,7 +22,6 @@ void GaugeRenderer::Start()
 
 	GameEngineRenderer::SetMesh("Rect");
 	GameEngineRenderer::SetMaterial("GaugeTexture2D");
-
 }
 
 void GaugeRenderer::Update(float _Delta)
