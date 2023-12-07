@@ -15,6 +15,7 @@
 #include "UpperLiftA.h"
 #include "WitchHouseBed.h"
 #include "WitchHouseLight.h"
+#include "WitchHouseLamp.h"
 
 
 BackDrop_WitchHouse_UpFloor::BackDrop_WitchHouse_UpFloor() 
@@ -30,8 +31,18 @@ void BackDrop_WitchHouse_UpFloor::Start()
 {
 	BackDrop_PlayLevel::Start();
 	DustEventSetting();
+	GameEngineInput::AddInputObject(this);
+	ArrangementHelper::RegisterInput(this);
 }
 
+//
+void BackDrop_WitchHouse_UpFloor::Update(float _Delta)
+{
+	if (nullptr != ArrangePtr)
+	{
+		ArrangementHelper::InputUpdate(ArrangePtr.get(), this);
+	}
+}
 
 void BackDrop_WitchHouse_UpFloor::LevelStart(class GameEngineLevel* _NextLevel)
 {
@@ -43,6 +54,7 @@ void BackDrop_WitchHouse_UpFloor::LevelStart(class GameEngineLevel* _NextLevel)
 void BackDrop_WitchHouse_UpFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	ReleaseResources();
+	ArrangePtr = nullptr;
 }
 
 
@@ -109,7 +121,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp()
 		Position.Z = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::BackWindow);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
-		Object->m_Renderer->SetSprite("UpFloor_Circle.png");
+		Object->m_Renderer->SetSprite("Circle.png");
 		Object->m_Renderer->GetImageTransform().SetLocalScale(float4(64.0f, 64.0f));
 	}
 
@@ -383,6 +395,12 @@ void BackDrop_WitchHouse_UpFloor::HouseLightSetting()
 		Light->Transform.SetLocalPosition(float4(514.0f, -264.0f, -2000.0f));
 		Light->Transform.SetLocalScale(float4(0.25f, 0.25f, 1.0f));
 		Light->Init("EllieHouse_Light_1.png");
+	}
+
+	{
+		std::shared_ptr<WitchHouseLamp> Light = GetLevel()->CreateActor<WitchHouseLamp>(EUPDATEORDER::Objects);
+		Light->Transform.SetLocalPosition(float4(434.0f, -185.0f));
+		ArrangePtr = Light;
 	}
 }
 

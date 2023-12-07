@@ -26,8 +26,46 @@
 
 #include "QuestData.h"
 
+#include "ContentsSpriteRenderer.h"
+
 #include "PixelManager.h"
 #include "TestPlayer.h"
+#include "ALightActor.h"
+
+
+
+void TestGUI::OnGUI(GameEngineLevel* _Level, float _Delta)
+{
+	if (nullptr != LevelPtr)
+	{
+		if (nullptr != LevelPtr->AlightPtr)
+		{
+			ImGui::SeparatorText("LightDebug");
+			if (ImGui::ColorEdit4("Color", &LightColor.R))
+			{
+				LevelPtr->AlightPtr->SetColor(LightColor);
+			}
+			if (ImGui::SliderFloat("Correction", &Correction, 0.0f, 1.0f, "%.2f"))
+			{
+				LevelPtr->AlightPtr->SetAlphaCorrection(Correction);
+			}
+			if (ImGui::SliderFloat("Inner", &Inner, 0.0f, 1.0f, "%.2f"))
+			{
+				LevelPtr->AlightPtr->SetInner(Inner);
+			}
+			if (ImGui::SliderFloat("Outter", &Outter, 0.0f, 1.0f, "%.2f"))
+			{
+				LevelPtr->AlightPtr->SetOutter(Outter);
+			}
+			if (ImGui::SliderFloat("Size", &Size, 0.0f, 2.0f, "%.2f"))
+			{
+				LevelPtr->AlightPtr->Transform.SetLocalScale(float4(Size, Size, 1.0f));
+				LevelPtr->AlightPtr->SetOutter(Size);
+			}
+		}
+	}
+}
+
 
 
 TestLevel::TestLevel() 
@@ -58,11 +96,32 @@ void TestLevel::Start()
 		Window->AddDebugRenderTarget(0, "TestRenderTarget", GetMainCamera()->GetCameraAllRenderTarget());
 		Window->AddDebugRenderTarget(3, "TestPixelRenderTarget", GetCamera(static_cast<int>(ECAMERAORDER::MainPrev))->GetCameraAllRenderTarget());
 	}
+
+	if (true)
+	{
+		SkyLight = CreateActor<SkyLerp>(EUPDATEORDER::Sky);
+	}
+
+	TestGUIWindow = GameEngineGUI::CreateGUIWindow<TestGUI>("TestGUI");
+	TestGUIWindow->LevelPtr = this;
+	TestGUIWindow->Off();
 }
 
 void TestLevel::Update(float _Delta)
 {
 	PlayLevel::Update(_Delta);
+
+	if (nullptr != TestGUIWindow && true == GameEngineInput::IsDown(VK_F8, this))
+	{
+		if (true == TestGUIWindow->IsUpdate())
+		{
+			TestGUIWindow->Off();
+		}
+		else
+		{
+			TestGUIWindow->On();
+		}
+	}
 }
 
 void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
@@ -83,7 +142,7 @@ void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
 		BaseRenderer->GetImageTransform().SetLocalScale(WinScale);
 	}
 
-	if (true)
+	if (false)
 	{
 		PixelManagerPtr = CreateActor<PixelManager>(EUPDATEORDER::Back);
 	}
@@ -97,12 +156,19 @@ void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
 
 
 	TestCode();
-	SetPixelMap();
+
+	if (false)
+	{
+		SetPixelMap();
+	}
 }
 
 void TestLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-	FileLoadFunction::ReleaseAllTextureAndSpriteInPath("Resources\\PlayContents\\Lift");
+	if (nullptr != TestGUIWindow)
+	{
+		TestGUIWindow->Off();
+	}
 
 	if (nullptr != Map)
 	{
@@ -161,25 +227,12 @@ void TestLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void TestLevel::TestCode()
 {
-	if (false)
+	if (true)
 	{
-
-
-		if (true)
-		{
-			SkyLight = CreateActor<SkyLerp>(EUPDATEORDER::Sky);
-		}
 
 		{
 			UI = CreateActor<UIManager>(EUPDATEORDER::UIMagnaer);
 			UI->Init();
-		}
-
-		if (false)
-		{
-			std::shared_ptr<BaseLift> Lift = CreateActor<BaseLift>(EUPDATEORDER::UIMagnaer);
-			Lift->Transform.SetLocalPosition(float4(540.0f, -480.0f));
-			Lift->Init();
 		}
 
 		{
@@ -221,6 +274,7 @@ void TestLevel::TestCode()
 			MainBoard->Init();
 		}
 
+		if (true)
 		{
 			std::vector<ButtonInfoParameter> Paras =
 			{
@@ -231,33 +285,59 @@ void TestLevel::TestCode()
 			};
 
 			ButtonGuide = CreateActor<TestCircleGauge>(EUPDATEORDER::Objects);
+			ButtonGuide->GaugeRenderer->Transform.SetLocalPosition(float4(200.0f, -100.0f));
 			Guide.SetGuideInfo(ButtonGuide.get(), Paras);
 			Guide.On();
+		}
+
+		if (false)
+		{
+			std::shared_ptr<NormalProp> TestTree =  CreateActor<NormalProp>(EUPDATEORDER::Objects);
+			TestTree->Transform.SetLocalPosition(float4(200.0f, -400.0f, DepthFunction::CalculateObjectDepth(GlobalValue::GetWindowScale().Y, -400.0f)));
+			TestTree->Init();
+			TestTree->m_Renderer->Transform.SetLocalPosition(float4(0.0f, 110.0f));
+			TestTree->m_Renderer->SetSprite("Tree_2.png");
+			TestTree->m_Renderer->RenderBaseInfoValue.Target1 = 1;
+		}
+
+		if (false)
+		{
+			std::shared_ptr<RendererActor> TestCamera =  CreateActor<RendererActor>(EUPDATEORDER::Objects);
+			TestCamera->Transform.SetLocalPosition(float4(200.0f, -400.0f, DepthFunction::CalculateObjectDepth(GlobalValue::GetWindowScale().Y, -400.0f)));
+			TestCamera->Init();
+			TestCamera->m_Renderer->SetViewCameraSelect(static_cast<int>(ECAMERAORDER::MainPrev));
+			TestCamera->m_Renderer->Transform.SetLocalPosition(float4(0.0f, 110.0f));
+			TestCamera->m_Renderer->SetSprite("Tree_1.png");
+			TestCamera->m_Renderer->RenderBaseInfoValue.Target1 = 1;
+			TestCamera->m_Renderer->RenderBaseInfoValue.Target0 = 0;
+
+			// GetCamera(static_cast<int>(ECAMERAORDER::MainPrev))->GetCameraAllRenderTarget()->GetTexture(1)->GetColor();
 		}
 	}
 
 	if (false)
 	{
-		std::shared_ptr<NormalProp> TestTree =  CreateActor<NormalProp>(EUPDATEORDER::Objects);
-		TestTree->Transform.SetLocalPosition(float4(200.0f, -400.0f, DepthFunction::CalculateObjectDepth(GlobalValue::GetWindowScale().Y, -400.0f)));
-		TestTree->Init();
-		TestTree->m_Renderer->Transform.SetLocalPosition(float4(0.0f, 110.0f));
-		TestTree->m_Renderer->SetSprite("Tree_2.png");
-		TestTree->m_Renderer->RenderBaseInfoValue.Target1 = 1;
+		std::shared_ptr<RendererActor> LightTest = CreateActor<RendererActor>();
+		LightTest->Transform.SetLocalPosition(float4(480.0f, -270.0f));
+		std::shared_ptr<ContentsSpriteRenderer> LightRenderer = LightTest->CreateComponent<ContentsSpriteRenderer>();
+		LightRenderer->SetMaterial("ContentsLight2DTexture");
+		LightRenderer->SetSprite("Circle.png");
+		LightRenderer->GetTransparentInfo().iTransparent = 1;
+		LightRenderer->GetTransparentInfo().Inner = 0.2f;
+		LightRenderer->GetTransparentInfo().Outter = 1.0f;
 	}
 
 	if (true)
 	{
-		std::shared_ptr<RendererActor> TestCamera =  CreateActor<RendererActor>(EUPDATEORDER::Objects);
-		TestCamera->Transform.SetLocalPosition(float4(200.0f, -400.0f, DepthFunction::CalculateObjectDepth(GlobalValue::GetWindowScale().Y, -400.0f)));
-		TestCamera->Init();
-		TestCamera->m_Renderer->SetViewCameraSelect(static_cast<int>(ECAMERAORDER::MainPrev));
-		TestCamera->m_Renderer->Transform.SetLocalPosition(float4(0.0f, 110.0f));
-		TestCamera->m_Renderer->SetSprite("Tree_1.png");
-		TestCamera->m_Renderer->RenderBaseInfoValue.Target1 = 1;
-		TestCamera->m_Renderer->RenderBaseInfoValue.Target0 = 0;
+		std::shared_ptr<ALightActor> LightTest = CreateActor<ALightActor>(EUPDATEORDER::Objects);
+		LightTest->Transform.SetLocalPosition(float4(480.0f, -270.0f));
+		LightTest->Init();
+		LightTest->SetImageScale(float4(100.0f, 100.0f));
+		LightTest->SetColor(float4(0.8f, 0.7f, 0.2f));
+		LightTest->SetAlphaCorrection(0.4f);
+		LightTest->SetInner(0.2f);
 
-		// GetCamera(static_cast<int>(ECAMERAORDER::MainPrev))->GetCameraAllRenderTarget()->GetTexture(1)->GetColor();
+		AlightPtr = LightTest;
 	}
 }
 

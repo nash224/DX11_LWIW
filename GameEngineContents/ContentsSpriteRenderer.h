@@ -13,8 +13,8 @@ struct GaugeInfo
 struct TransparentInfo
 {
 	int iTransparent = 0;
-	float StartT = 0.0f;
-	float EndT = 0.0f;
+	float Inner = 0.0f;
+	float Outter = 0.0f;
 	float TransTemp = 0.0f;
 };
 

@@ -183,6 +183,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="ALightActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="ALightLerp.cpp">
       <SubType>
       </SubType>
@@ -810,6 +814,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="WitchHouseLamp.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="WitchHouseLight.cpp">
       <SubType>
       </SubType>
@@ -842,6 +850,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="AlertManager.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ALightActor.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -1455,6 +1467,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="WitchHouseBed.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="WitchHouseLamp.h">
       <SubType>
       </SubType>
     </ClInclude>

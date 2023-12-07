@@ -94,7 +94,7 @@ cbuffer TransparentInfo : register(b5)
 {
     int iTransparent;
     float Inner;
-    float Suburb;
+    float Outter;
     float TransTemp;
 };
 
@@ -161,17 +161,23 @@ PixelOut GaugeShader_PS(PixelOutPut _Input) : SV_Target0
 
     if (1 == iTransparent)
     {
-        if (Inner > Suburb)
+        if (Inner > Outter)
         {
             discard;
         }
         
-        float fSuburb = saturate(Suburb);
+        float fOutter = saturate(Outter);
         float fInner = saturate(Inner);
         
-        float2 UVCenter = _Input.TEXCOORD.xy - float2(0.5f, 0.5f);
-        float Distance = length(UVCenter);
-        float Alpha = smoothstep(fInner, fSuburb, Distance);
+        float2 VetorToCenter = _Input.TEXCOORD.xy - float2(0.5f, 0.5f);
+        float2 Scalar2Scale = VetorToCenter * 2.0f;
+        float Distance = length(Scalar2Scale);
+        float Alpha = smoothstep(fOutter, fInner, Distance);
+        if (Distance <= fInner)
+        {
+            Alpha = 1.0f;
+        }
+        
         Color.a *= Alpha;
     }
     

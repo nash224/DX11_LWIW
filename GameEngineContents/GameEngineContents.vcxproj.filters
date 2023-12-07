@@ -283,6 +283,9 @@
     <Filter Include="Actor\Interactive\Creature\Plant\SilverBellFlower">
       <UniqueIdentifier>{ef2cf91a-b5b9-4066-a22c-448abcd8977f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\Prop\Comet">
+      <UniqueIdentifier>{0c04bc05-b02a-44c9-921d-ef6ca740c5a6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -715,12 +718,6 @@
     <ClInclude Include="LoopTextureActor.h">
       <Filter>Actor\Prop\RenderActor</Filter>
     </ClInclude>
-    <ClInclude Include="CometSpawner.h">
-      <Filter>Actor\Prop</Filter>
-    </ClInclude>
-    <ClInclude Include="Comet.h">
-      <Filter>Actor\Prop</Filter>
-    </ClInclude>
     <ClInclude Include="ContentsMath.h">
       <Filter>Global\Math</Filter>
     </ClInclude>
@@ -780,6 +777,18 @@
     </ClInclude>
     <ClInclude Include="WorkSpaceSkyLerp.h">
       <Filter>Manager\TimeManager\SkyLerp</Filter>
+    </ClInclude>
+    <ClInclude Include="ALightActor.h">
+      <Filter>Actor\Prop</Filter>
+    </ClInclude>
+    <ClInclude Include="CometSpawner.h">
+      <Filter>Actor\Prop\Comet</Filter>
+    </ClInclude>
+    <ClInclude Include="Comet.h">
+      <Filter>Actor\Prop\Comet</Filter>
+    </ClInclude>
+    <ClInclude Include="WitchHouseLamp.h">
+      <Filter>Level\BackManager\Play\UpFloor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1244,12 +1253,6 @@
     <ClCompile Include="LoopTextureActor.cpp">
       <Filter>Actor\Prop\RenderActor</Filter>
     </ClCompile>
-    <ClCompile Include="CometSpawner.cpp">
-      <Filter>Actor\Prop</Filter>
-    </ClCompile>
-    <ClCompile Include="Comet.cpp">
-      <Filter>Actor\Prop</Filter>
-    </ClCompile>
     <ClCompile Include="ContentsMath.cpp">
       <Filter>Global\Math</Filter>
     </ClCompile>
@@ -1309,6 +1312,18 @@
     </ClCompile>
     <ClCompile Include="WorkSpaceSkyLerp.cpp">
       <Filter>Manager\TimeManager\SkyLerp</Filter>
+    </ClCompile>
+    <ClCompile Include="ALightActor.cpp">
+      <Filter>Actor\Prop</Filter>
+    </ClCompile>
+    <ClCompile Include="Comet.cpp">
+      <Filter>Actor\Prop\Comet</Filter>
+    </ClCompile>
+    <ClCompile Include="CometSpawner.cpp">
+      <Filter>Actor\Prop\Comet</Filter>
+    </ClCompile>
+    <ClCompile Include="WitchHouseLamp.cpp">
+      <Filter>Level\BackManager\Play\UpFloor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
