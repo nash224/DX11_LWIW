@@ -218,8 +218,7 @@ void Ellie::CheckNetCollision()
 			for (int i = 0; i < _OtherGroup.size(); i++)
 			{
 				GameEngineCollision* Collision = _OtherGroup[i];
-				std::shared_ptr<GameEngineObject> Object = Collision->GetActor()->shared_from_this();
-				std::shared_ptr<InteractiveActor> Entity = Object->GetDynamic_Cast_This<InteractiveActor>();
+				const std::shared_ptr<InteractiveActor>& Entity = Collision->GetActor()->GetDynamic_Cast_This<InteractiveActor>();
 				if (nullptr == Entity)
 				{
 					MsgBoxAssert("형변환에 실패했습니다.");
