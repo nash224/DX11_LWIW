@@ -57,6 +57,8 @@ void Ellie::UpdateInteractionCollsiion()
 	float LeftFOVAngle = ContentMathFunction::ReturnClampDegree(DirAngle + FOVAngle);
 	float RightFOVAngle = ContentMathFunction::ReturnClampDegree(DirAngle - FOVAngle);
 
+	ShowFOVDebugLine(LeftFOVAngle, RightFOVAngle);
+
 	EllieCol->Collision(ECOLLISION::Entity, [=](std::vector<GameEngineCollision*>& _Collisions)
 		{
 			std::vector<float> vecDistance;
@@ -229,4 +231,18 @@ void Ellie::CheckNetCollision()
 				}
 			}
 		});
+}
+
+void Ellie::ShowFOVDebugLine(float _LeftFOVAngle, float _RightFOVAngle) 
+{
+	if (true == GameEngineLevel::IsDebug)
+	{
+		const float FOVDistance = 100.0f;
+		const float4 MyPos = Transform.GetLocalPosition() - GetLevel()->GetMainCamera()->Transform.GetLocalPosition();
+		float4 LeftLine = MyPos + float4::GetUnitVectorFromDeg(_LeftFOVAngle) * FOVDistance;
+		const float4 RightLine = MyPos + float4::GetUnitVectorFromDeg(_RightFOVAngle) * FOVDistance;
+	
+		GameEngineDebug::DrawLine(MyPos, LeftLine);
+		GameEngineDebug::DrawLine(MyPos, RightLine);
+	}
 }

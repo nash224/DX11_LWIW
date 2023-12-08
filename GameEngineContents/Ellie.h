@@ -116,7 +116,6 @@ protected:
 	
 	void ChangeFrameAnimationInterAllDirection(std::string_view _AnimationName, const std::vector<float>& _Inter);
 	void ChangeShawdowSprite(std::string_view _AnimationName);
-	void ChangeVirgilSprite(std::string_view _AnimationName);
 	void ChangeBroomSprite();
 
 
@@ -128,6 +127,8 @@ private:
 	void UpdatePortalCollsiion();
 	void UpdateInteractionCollsiion();
 	void CheckNetCollision();
+
+	void ShowFOVDebugLine(float _LeftFOVAngle, float _RightFOVAngle);
 
 	bool IsInSight(float _AngleToObject, float _LeftFov, float _RightFov);
 

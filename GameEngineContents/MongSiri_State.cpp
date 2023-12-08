@@ -193,7 +193,7 @@ void MongSiri::UpdateRecognize(float _Delta, GameEngineState* _Parent)
 			GameEngineRandom RandomClass;
 			RandomClass.SetSeed(GlobalValue::GetSeedValue());
 
-			Animation->Inter[3] = RandomClass.RandomFloat(0.2f, 2.4f);
+			Animation->Inter.at(3) = RandomClass.RandomFloat(0.2f, 2.4f);
 		}
 	}
 

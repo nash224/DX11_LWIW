@@ -362,7 +362,6 @@ void Ellie::ChangeAnimationByDirection(std::string_view _StateName, bool _Direct
 	std::string AnimaitonName = std::string("Ellie_Basic_") + _StateName.data();
 
 	ChangeShawdowSprite(AnimaitonName);
-	// ChangeVirgilSprite(AnimaitonName);
 
 	if (g_Status == EELLIE_STATUS::Riding)
 	{
@@ -463,56 +462,6 @@ void Ellie::ChangeShawdowSprite(std::string_view _AnimationName)
 	}
 }
 
-void Ellie::ChangeVirgilSprite(std::string_view _AnimationName)
-{
-	if (nullptr == VirgilRenderer)
-	{
-		MsgBoxAssert("버질 렌더러가 존재하지 않습니다.");
-		return;
-	}
-
-	std::string ShadowSpriteName = _AnimationName.data() + std::string(".png");
-	if ("Ellie_Basic_SlowWalk.png" == ShadowSpriteName)
-	{
-		ShadowSpriteName = "Ellie_Basic_Walk.png";
-	}
-
-	bool NotRender = false;
-
-	switch (State)
-	{
-	case EELLIE_STATE::Idle:
-	case EELLIE_STATE::SlowWalk:
-	case EELLIE_STATE::Walk:
-	case EELLIE_STATE::Run:
-	case EELLIE_STATE::ButterflyNet:
-	case EELLIE_STATE::RootUp:
-	case EELLIE_STATE::Sit:
-	case EELLIE_STATE::Throw:
-	case EELLIE_STATE::Riding_Boosting:
-	case EELLIE_STATE::Riding_Standing:
-	case EELLIE_STATE::Riding_Moving:
-	case EELLIE_STATE::Approach:
-	case EELLIE_STATE::MongSiri:
-	case EELLIE_STATE::Wait:
-	case EELLIE_STATE::Cheer:
-	case EELLIE_STATE::Fail:
-		break;
-	case EELLIE_STATE::Juicy:
-	case EELLIE_STATE::Drink:
-		NotRender = true;
-		break;
-	default:
-		break;
-	}
-
-	if (false == NotRender)
-	{
-		VirgilRenderer->SetSprite(ShadowSpriteName);
-		VirgilRenderer->On();
-	}
-}
-
 void Ellie::ChangeBroomSprite()
 {
 	std::string BroomSpriteName = "Broomstick_Basic_";
@@ -532,8 +481,7 @@ void Ellie::ChangeBroomSprite()
 		break;
 	}
 
-	if (nullptr == Broom.HeadBroomRenderer
-		|| nullptr == Broom.BodyBroomRenderer)
+	if (nullptr == Broom.HeadBroomRenderer || nullptr == Broom.BodyBroomRenderer)
 	{
 		MsgBoxAssert("존재하지 않은 렌더러를 세팅하려 했습니다.");
 		return;
