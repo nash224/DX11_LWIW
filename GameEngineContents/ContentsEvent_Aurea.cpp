@@ -17,15 +17,8 @@ bool ContentsEvent::Aurea_Find::QuestClearPrerequisite()
 
 void ContentsEvent::Aurea_Cure::AcceptInternal()
 {
-	if (nullptr != PlayLevel::s_AlertManager)
-	{
-		PlayLevel::s_AlertManager->RegisterAlert(AlertData("历林秦力 荤帕 力累", EALERTTYPE::QuestAccept));
-	}
-
-	if (nullptr != UI_Hub_MainBoard::s_QuestManager)
-	{
-		UI_Hub_MainBoard::s_QuestManager->RegisterData("Aurea_Cure");
-	}
+	PlayLevel::GetAlertManager()->RegisterAlert(AlertData("历林秦力 荤帕 力累", EALERTTYPE::QuestAccept));
+	UI_Hub_MainBoard::GetQuestManager()->RegisterData("Aurea_Cure");
 }
 
 bool ContentsEvent::Aurea_Cure::QuestClearPrerequisite()
@@ -46,13 +39,6 @@ void ContentsEvent::Aurea_Cure::CompleteInternal()
 		UI_Inventory::PushItem("Item_Etc_10", 1);
 	}
 
-	if (nullptr != PlayLevel::s_AlertManager)
-	{
-		PlayLevel::s_AlertManager->RegisterAlert(AlertData("历林秦力 荤帕 力累", EALERTTYPE::QuestClear));
-	}
-
-	if (nullptr != UI_Hub_MainBoard::s_QuestManager)
-	{
-		UI_Hub_MainBoard::s_QuestManager->PopData("Aurea_Cure");
-	}
+	PlayLevel::GetAlertManager()->RegisterAlert(AlertData("历林秦力 荤帕 力累", EALERTTYPE::QuestClear));
+	UI_Hub_MainBoard::GetQuestManager()->PopData("Aurea_Cure");
 }

@@ -12,16 +12,9 @@
 
 void ContentsEvent::StartTraining::AcceptInternal()
 {
-	if (nullptr != PlayLevel::s_AlertManager)
-	{
-		PlayLevel::s_AlertManager->RegisterAlert(AlertData("수습 시작", EALERTTYPE::QuestAccept));
-	}
-
-	if (nullptr != UI_Hub_MainBoard::s_QuestManager)
-	{
-		UI_Hub_MainBoard::s_QuestManager->PopData("FindLetter");
-		UI_Hub_MainBoard::s_QuestManager->RegisterData("StartTraining");
-	}
+	PlayLevel::GetAlertManager()->RegisterAlert(AlertData("수습 시작", EALERTTYPE::QuestAccept));
+	UI_Hub_MainBoard::GetQuestManager()->PopData("FindLetter");
+	UI_Hub_MainBoard::GetQuestManager()->RegisterData("StartTraining");
 }
 
 bool ContentsEvent::StartTraining::QuestClearPrerequisite()
@@ -31,10 +24,7 @@ bool ContentsEvent::StartTraining::QuestClearPrerequisite()
 
 void ContentsEvent::StartTraining::CompleteInternal()
 {
-	if (nullptr != PlayLevel::s_AlertManager)
-	{
-		PlayLevel::s_AlertManager->RegisterAlert(AlertData("수습 시작", EALERTTYPE::QuestClear));
-	}
+	PlayLevel::GetAlertManager()->RegisterAlert(AlertData("수습 시작", EALERTTYPE::QuestClear));
 }
 
 
@@ -64,28 +54,14 @@ bool ContentsEvent::Craft_Potion::QuestClearPrerequisite()
 
 void ContentsEvent::Craft_Potion::AcceptInternal()
 {
-	if (nullptr != PlayLevel::s_AlertManager)
-	{
-		PlayLevel::s_AlertManager->RegisterAlert(AlertData("포션 제작", EALERTTYPE::QuestAccept));
-	}
-
-	if (nullptr != UI_Hub_MainBoard::s_QuestManager)
-	{
-		UI_Hub_MainBoard::s_QuestManager->RegisterData("Craft_Potion");
-	}
+	PlayLevel::GetAlertManager()->RegisterAlert(AlertData("포션 제작", EALERTTYPE::QuestAccept));
+	UI_Hub_MainBoard::GetQuestManager()->RegisterData("Craft_Potion");
 }
 
 void ContentsEvent::Craft_Potion::CompleteInternal()
 {
-	if (nullptr != PlayLevel::s_AlertManager)
-	{
-		PlayLevel::s_AlertManager->RegisterAlert(AlertData("포션 제작", EALERTTYPE::QuestClear));
-	}
-
-	if (nullptr != UI_Hub_MainBoard::s_QuestManager)
-	{
-		UI_Hub_MainBoard::s_QuestManager->PopData("Craft_Potion");
-	}
+	PlayLevel::GetAlertManager()->RegisterAlert(AlertData("포션 제작", EALERTTYPE::QuestClear));
+	UI_Hub_MainBoard::GetQuestManager()->PopData("Craft_Potion");
 }
 
 
@@ -106,30 +82,16 @@ bool ContentsEvent::Repair_Extractor::QuestClearPrerequisite()
 
 void ContentsEvent::Repair_Extractor::AcceptInternal()
 {
-	if (nullptr != PlayLevel::s_AlertManager)
-	{
-		PlayLevel::s_AlertManager->RegisterAlert(AlertData("착즙기 수리", EALERTTYPE::QuestAccept));
-	}
-
-	if (nullptr != UI_Hub_MainBoard::s_QuestManager)
-	{
-		UI_Hub_MainBoard::s_QuestManager->RegisterData("Repair_Extractor");
-	}
+	PlayLevel::GetAlertManager()->RegisterAlert(AlertData("착즙기 수리", EALERTTYPE::QuestAccept));
+	UI_Hub_MainBoard::GetQuestManager()->RegisterData("Repair_Extractor");
 
 	Extractor::ActiveInteractiveCollision();
 }
 
 void ContentsEvent::Repair_Extractor::CompleteInternal()
 {
-	if (nullptr != PlayLevel::s_AlertManager)
-	{
-		PlayLevel::s_AlertManager->RegisterAlert(AlertData("착즙기 수리", EALERTTYPE::QuestClear));
-	}
-
-	if (nullptr != UI_Hub_MainBoard::s_QuestManager)
-	{
-		UI_Hub_MainBoard::s_QuestManager->PopData("Repair_Extractor");
-	}
+	PlayLevel::GetAlertManager()->RegisterAlert(AlertData("착즙기 수리", EALERTTYPE::QuestClear));
+	UI_Hub_MainBoard::GetQuestManager()->PopData("Repair_Extractor");
 
 	UI_Inventory::PopItem("Item_Etc_10", 1);
 }
@@ -151,11 +113,8 @@ bool ContentsEvent::Craft_Cracker_Potion::QuestClearPrerequisite()
 
 	if (true == UI_Inventory::IsItem("FirecrackerPotion"))
 	{
-		if (nullptr != UI_Hub_MainBoard::s_QuestManager)
-		{
-			UI_Hub_MainBoard::s_QuestManager->PopData("Craft_Cracker_Potion");
-			UI_Hub_MainBoard::s_QuestManager->RegisterData("Show_Cracker_Potion");
-		}
+		UI_Hub_MainBoard::GetQuestManager()->PopData("Craft_Cracker_Potion");
+		UI_Hub_MainBoard::GetQuestManager()->RegisterData("Show_Cracker_Potion");
 
 		return true;
 	}

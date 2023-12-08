@@ -109,6 +109,17 @@ TimeManager* PlayLevel::GetTimeManager()
 	return s_TimeManager.get();
 }
 
+AlertManager* PlayLevel::GetAlertManager()
+{
+	if (nullptr == s_AlertManager)
+	{
+		MsgBoxAssert("알림 매니저가 생성되지 않았습니다.");
+		return nullptr;
+	}
+
+	return s_AlertManager.get();
+}
+
 std::shared_ptr<class UIManager> PlayLevel::GetUIManagerPtr() const
 {
 	if (nullptr == UIManagerPtr)

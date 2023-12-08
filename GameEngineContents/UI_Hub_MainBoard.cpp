@@ -152,6 +152,17 @@ void UI_Hub_MainBoard::LevelEnd(GameEngineLevel* _NextLevel)
 }
 
 
+QuestManager* UI_Hub_MainBoard::GetQuestManager()
+{
+	if (nullptr == s_QuestManager)
+	{
+		MsgBoxAssert("퀘스트 매니저가 생성되지 않았습니다.");
+		return nullptr;
+	}
+
+	return s_QuestManager.get();
+}
+
 void UI_Hub_MainBoard::Init()
 {
 	const float BaseDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::HUB_Base);

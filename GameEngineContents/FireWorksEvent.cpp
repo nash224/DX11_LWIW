@@ -279,12 +279,9 @@ void FireWorksEvent::UpdateFireWorks(float _Delta, GameEngineState* _Parent)
 
 void FireWorksEvent::UpdateEndTraining(float _Delta, GameEngineState* _Parent)
 {
-	if (nullptr != PlayLevel::s_AlertManager)
+	if (true == PlayLevel::GetAlertManager()->IsAlertEnd())
 	{
-		if (true == PlayLevel::s_AlertManager->IsAlertEnd())
-		{
-			State.ChangeState(EFIREWORKSSTATE::FadeOut);
-		}
+		State.ChangeState(EFIREWORKSSTATE::FadeOut);
 	}
 }
 

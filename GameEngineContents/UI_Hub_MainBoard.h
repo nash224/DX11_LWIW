@@ -57,7 +57,7 @@ private:
 		None,
 	};
 
-public:
+protected:
 	static std::unique_ptr<QuestManager> s_QuestManager;
 
 public:
@@ -78,6 +78,8 @@ public:
 	void Open();
 	void OpenFrom(int _StartSlot);
 	void Close();
+
+	static QuestManager* GetQuestManager();
 
 protected:
 	void Start() override;

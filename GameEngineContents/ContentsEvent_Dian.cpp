@@ -47,15 +47,8 @@ bool ContentsEvent::Dian_Catalogue::QuestClearPrerequisite()
 
 void ContentsEvent::Dian_BadWeedPotion::AcceptInternal()
 {
-	if (nullptr != PlayLevel::s_AlertManager)
-	{
-		PlayLevel::s_AlertManager->RegisterAlert(AlertData("물약 검증", EALERTTYPE::QuestAccept));
-	}
-
-	if (nullptr != UI_Hub_MainBoard::s_QuestManager)
-	{
-		UI_Hub_MainBoard::s_QuestManager->RegisterData("Dian_BadWeedPotion");
-	}
+	PlayLevel::GetAlertManager()->RegisterAlert(AlertData("물약 검증", EALERTTYPE::QuestAccept));
+	UI_Hub_MainBoard::GetQuestManager()->RegisterData("Dian_BadWeedPotion");
 }
 
 bool ContentsEvent::Dian_BadWeedPotion::QuestClearPrerequisite()
@@ -70,15 +63,8 @@ bool ContentsEvent::Dian_BadWeedPotion::QuestClearPrerequisite()
 
 void ContentsEvent::Dian_BadWeedPotion::CompleteInternal()
 {
-	if (nullptr != PlayLevel::s_AlertManager)
-	{
-		PlayLevel::s_AlertManager->RegisterAlert(AlertData("물약 검증", EALERTTYPE::QuestClear));
-	}
-
-	if (nullptr != UI_Hub_MainBoard::s_QuestManager)
-	{
-		UI_Hub_MainBoard::s_QuestManager->PopData("Dian_BadWeedPotion");
-	}
+	PlayLevel::GetAlertManager()->RegisterAlert(AlertData("물약 검증", EALERTTYPE::QuestClear));
+	UI_Hub_MainBoard::GetQuestManager()->PopData("Dian_BadWeedPotion");
 
 	UI_Inventory::PushItem("Item_Etc_12");
 	UI_Inventory::UnlockSlot();
@@ -89,15 +75,8 @@ void ContentsEvent::Dian_BadWeedPotion::CompleteInternal()
 
 void ContentsEvent::Dian_Cracker::AcceptInternal()
 {
-	if (nullptr != PlayLevel::s_AlertManager)
-	{
-		PlayLevel::s_AlertManager->RegisterAlert(AlertData("폭죽 포션 레시피", EALERTTYPE::QuestAccept));
-	}
-
-	if (nullptr != UI_Hub_MainBoard::s_QuestManager)
-	{
-		UI_Hub_MainBoard::s_QuestManager->RegisterData("Dian_Cracker_Recipe");
-	}
+	PlayLevel::GetAlertManager()->RegisterAlert(AlertData("폭죽 포션 레시피", EALERTTYPE::QuestAccept));
+	UI_Hub_MainBoard::GetQuestManager()->RegisterData("Dian_Cracker_Recipe");
 }
 
 bool ContentsEvent::Dian_Cracker::QuestClearPrerequisite()
@@ -112,14 +91,7 @@ bool ContentsEvent::Dian_Cracker::QuestClearPrerequisite()
 
 void ContentsEvent::Dian_Cracker::CompleteInternal()
 {
-	if (nullptr != PlayLevel::s_AlertManager)
-	{
-		PlayLevel::s_AlertManager->RegisterAlert(AlertData("폭죽 포션 레시피", EALERTTYPE::QuestClear));
-	}
-
-	if (nullptr != UI_Hub_MainBoard::s_QuestManager)
-	{
-		UI_Hub_MainBoard::s_QuestManager->PopData("Dian_Cracker_Recipe");
-		UI_Hub_MainBoard::s_QuestManager->RegisterData("Craft_Cracker_Potion");
-	}
+	PlayLevel::GetAlertManager()->RegisterAlert(AlertData("폭죽 포션 레시피", EALERTTYPE::QuestClear));
+	UI_Hub_MainBoard::GetQuestManager()->PopData("Dian_Cracker_Recipe");
+	UI_Hub_MainBoard::GetQuestManager()->RegisterData("Craft_Cracker_Potion");
 }

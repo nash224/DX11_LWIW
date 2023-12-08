@@ -5,10 +5,8 @@
 // Ό³Έν :
 class PlayLevel : public ContentsLevel
 {
-public:
-	static std::unique_ptr<class AlertManager> s_AlertManager; 
-
 protected:
+	static std::unique_ptr<class AlertManager> s_AlertManager;
 	static std::unique_ptr<class TimeManager> s_TimeManager;
 	static PlayLevel* s_MainPlayLevel;
 	std::shared_ptr<class Ellie> Player = nullptr;
@@ -35,6 +33,7 @@ public:
 
 	static PlayLevel* GetCurLevel();
 	static class TimeManager* GetTimeManager();
+	static class AlertManager* GetAlertManager();
 	std::shared_ptr<class UIManager> GetUIManagerPtr() const;
 	std::shared_ptr<class Ellie> GetPlayerPtr() const;
 	std::shared_ptr<class BackDrop_PlayLevel> GetBackDropPtr() const;
