@@ -99,7 +99,8 @@ void Ellie::UpdateInteractionCollsiion()
 				}
 			}
 
-			if (-1 != ShortestNumber)
+			bool NotInSight = (-1 != ShortestNumber);
+			if (NotInSight)
 			{
 				GameEngineCollision* Collision = _Collisions[ShortestNumber];
 				if (true == Collision->IsDeath())
@@ -217,8 +218,8 @@ void Ellie::CheckNetCollision()
 			for (int i = 0; i < _OtherGroup.size(); i++)
 			{
 				GameEngineCollision* Collision = _OtherGroup[i];
-				GameEngineActor* Actor = Collision->GetActor();
-				InteractiveActor* Entity = dynamic_cast<InteractiveActor*>(Actor);
+				std::shared_ptr<GameEngineObject> Object = Collision->GetActor()->shared_from_this();
+				std::shared_ptr<InteractiveActor> Entity = Object->GetDynamic_Cast_This<InteractiveActor>();
 				if (nullptr == Entity)
 				{
 					MsgBoxAssert("형변환에 실패했습니다.");
@@ -239,7 +240,7 @@ void Ellie::ShowFOVDebugLine(float _LeftFOVAngle, float _RightFOVAngle)
 	{
 		const float FOVDistance = 100.0f;
 		const float4 MyPos = Transform.GetLocalPosition() - GetLevel()->GetMainCamera()->Transform.GetLocalPosition();
-		float4 LeftLine = MyPos + float4::GetUnitVectorFromDeg(_LeftFOVAngle) * FOVDistance;
+		const float4 LeftLine = MyPos + float4::GetUnitVectorFromDeg(_LeftFOVAngle) * FOVDistance;
 		const float4 RightLine = MyPos + float4::GetUnitVectorFromDeg(_RightFOVAngle) * FOVDistance;
 	
 		GameEngineDebug::DrawLine(MyPos, LeftLine);
