@@ -161,7 +161,7 @@ PixelOut GaugeShader_PS(PixelOutPut _Input) : SV_Target0
 
     if (1 == iTransparent)
     {
-        if (Inner > Outter)
+        if (Inner >= Outter)
         {
             discard;
         }
@@ -172,7 +172,7 @@ PixelOut GaugeShader_PS(PixelOutPut _Input) : SV_Target0
         float2 VetorToCenter = _Input.TEXCOORD.xy - float2(0.5f, 0.5f);
         float2 Scalar2Scale = VetorToCenter * 2.0f;
         float Distance = length(Scalar2Scale);
-        float Alpha = smoothstep(fOutter, fInner, Distance);
+        float Alpha = 1.0f - smoothstep(fInner, fOutter, Distance);
         if (Distance <= fInner)
         {
             Alpha = 1.0f;

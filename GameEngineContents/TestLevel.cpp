@@ -60,7 +60,6 @@ void TestGUI::OnGUI(GameEngineLevel* _Level, float _Delta)
 			if (ImGui::SliderFloat("Size", &Size, 0.0f, 2.0f, "%.2f"))
 			{
 				LevelPtr->AlightPtr->Transform.SetLocalScale(float4(Size, Size, 1.0f));
-				LevelPtr->AlightPtr->SetOutter(Size);
 			}
 		}
 	}

@@ -388,7 +388,7 @@ void BackDrop_WitchHouse_DownFloor::LightSetting()
 		std::shared_ptr<ALightActor> Light = GetLevel()->CreateActor<ALightActor>(EUPDATEORDER::Objects);
 		Light->Transform.SetLocalPosition(float4(560.0f, -310.0f));
 		Light->Init();
-		Light->SetSize(1.f);
+		Light->SetSize(1.0f);
 		Light->SetAlphaCorrection(0.2f);
 		Light->SetInner(0.2f);
 	}

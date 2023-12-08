@@ -118,31 +118,6 @@ std::string FileLoadFunction::GetParentString(std::string_view _ChildPath)
 	return ChildPath;
 }
 
-//bool InputFunction::InputRegister(char _Key, std::function<void()> _Func)
-//{
-//	std::unordered_map<const char, std::function<void()>>::iterator FindIter = InputEvents.find(_Key);
-//	if (FindIter != InputEvents.end())
-//	{
-//		return false;
-//	}
-//
-//	InputEvents.insert(std::make_pair(_Key, _Func));
-//}
-//
-//void InputFunction::Update()
-//{
-//	std::unordered_map<const char, std::function<void()>>::iterator StarIter = InputEvents.begin();
-//	std::unordered_map<const char, std::function<void()>>::iterator EndIter = InputEvents.end();
-//	 
-//	for (;StarIter != EndIter; ++StarIter)
-//	{
-//		if (true == GameEngineInput::IsDown((*StarIter).first, this))
-//		{
-//			(*StarIter).second();
-//			return;
-//		}
-//	}
-//}
 
 float DepthFunction::CalculateObjectDepth(float _BackYScale, float _PositionY, bool _isHill /*= false*/)
 {
@@ -341,7 +316,7 @@ bool ArrangementHelper::ArrangeRendererOnePixel(GameEngineObject* _Target, char 
 {
 	if (true == GameEngineInput::IsDown(_Character, _Ptr))
 	{
-		const float4& MoveVector = _MoveVector * Speed;
+		const float4 MoveVector = _MoveVector * Speed;
 
 		_Target->Transform.AddLocalPosition(MoveVector);
 		OutputDebugStringA(_Target->Transform.GetLocalPosition().ToString().c_str());

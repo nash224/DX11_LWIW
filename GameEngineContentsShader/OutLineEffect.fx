@@ -6,7 +6,6 @@ struct GameEngineVertex2D
 
 struct PixelOutPut
 {
-    // ÇÈ¼¿½¦ÀÌ´õ¿¡ º¸³»´À ¤¤¿ª
     float4 POSITION : SV_POSITION;
     float4 TEXCOORD : TEXCOORD;
 };
@@ -37,7 +36,7 @@ Texture2D OutLineTex : register(t0);
 SamplerState OutLineSampler : register(s0);
 
 float4 OutLineEffect_PS(PixelOutPut _Input) : SV_Target0
-{
+{ 
     float4 Result = (float4) 0.0f;
     
     for (int y = -1; y <= 1;++y)
