@@ -22,6 +22,9 @@
     <FxCompile Include="MotionBlurEffect.fx">
       <Filter>Effect</Filter>
     </FxCompile>
+    <FxCompile Include="LightShader.fx">
+      <Filter>2D</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Effect">

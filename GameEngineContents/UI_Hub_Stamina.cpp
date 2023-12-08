@@ -39,7 +39,7 @@ void UI_Hub_Stamina::RendererSetting()
 	UIStamina.Frame ->SetSprite("HUD_Gauge_Frame.png");
 
 
-	UIStamina.StaminaGauge = CreateComponent<ContentsUIRenderer>();
+	UIStamina.StaminaGauge = CreateComponent<GaugeUIRenderer>();
 	UIStamina.StaminaGauge->Transform.SetLocalPosition(float4(0.0f, 0.0f, StaminaDepth));
 	UIStamina.StaminaGauge->SetMaterial("GaugeTexture2D");
 	UIStamina.StaminaGauge->GetGaugeInfo().LineGauge = 1;

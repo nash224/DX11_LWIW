@@ -1,5 +1,5 @@
 #pragma once
-#include "ContentsUIRenderer.h"
+#include "GaugeUIRenderer.h"
 
 // Ό³Έν :
 class TestCircleGauge : public GameEngineActor
@@ -17,7 +17,7 @@ public:
 
 	void SetTime(float _Time);
 
-	std::shared_ptr<ContentsUIRenderer> GaugeRenderer;
+	std::shared_ptr<GaugeUIRenderer> GaugeRenderer;
 
 protected:
 	void Start() override;

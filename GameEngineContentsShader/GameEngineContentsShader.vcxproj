@@ -133,6 +133,7 @@
   <ItemGroup>
     <FxCompile Include="ContentsRenderBase.fx" />
     <FxCompile Include="GaugeShader.fx" />
+    <FxCompile Include="LightShader.fx" />
     <FxCompile Include="Math.fx" />
     <FxCompile Include="MotionBlurEffect.fx" />
     <FxCompile Include="OutLineEffect.fx" />

@@ -1,6 +1,6 @@
 #pragma once
 #include "UI_Hub_Actor.h"
-#include "ContentsUIRenderer.h"
+#include "GaugeUIRenderer.h"
 
 struct StaminaStruct
 {
@@ -8,7 +8,7 @@ struct StaminaStruct
 
 private:
 	std::shared_ptr<GameEngineUIRenderer> Frame = nullptr;
-	std::shared_ptr<ContentsUIRenderer> StaminaGauge = nullptr;
+	std::shared_ptr<GaugeUIRenderer> StaminaGauge = nullptr;
 	std::shared_ptr<GameEngineUIRenderer> RecoverableGauge = nullptr;
 	std::shared_ptr<GameEngineUIRenderer> Indicator = nullptr;
 

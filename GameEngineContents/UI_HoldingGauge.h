@@ -1,5 +1,5 @@
 #pragma once
-#include "ContentsUIRenderer.h"
+#include "GaugeUIRenderer.h"
 
 // Ό³Έν :
 class UI_HoldingGauge 
@@ -28,7 +28,7 @@ protected:
 
 private:
 	std::shared_ptr<GameEngineUIRenderer> Base;
-	std::shared_ptr<ContentsUIRenderer> Gauge;
+	std::shared_ptr<GaugeUIRenderer> GaugeUI;
 
 	bool isOn = false;
 

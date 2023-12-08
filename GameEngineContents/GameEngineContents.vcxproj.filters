@@ -286,6 +286,9 @@
     <Filter Include="Actor\Prop\Comet">
       <UniqueIdentifier>{0c04bc05-b02a-44c9-921d-ef6ca740c5a6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\Prop\Light">
+      <UniqueIdentifier>{761e2a4c-15d4-4376-ad4e-77462122bc8c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -778,9 +781,6 @@
     <ClInclude Include="WorkSpaceSkyLerp.h">
       <Filter>Manager\TimeManager\SkyLerp</Filter>
     </ClInclude>
-    <ClInclude Include="ALightActor.h">
-      <Filter>Actor\Prop</Filter>
-    </ClInclude>
     <ClInclude Include="CometSpawner.h">
       <Filter>Actor\Prop\Comet</Filter>
     </ClInclude>
@@ -789,6 +789,9 @@
     </ClInclude>
     <ClInclude Include="WitchHouseLamp.h">
       <Filter>Level\BackManager\Play\UpFloor</Filter>
+    </ClInclude>
+    <ClInclude Include="ALightActor.h">
+      <Filter>Actor\Prop\Light</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1313,9 +1316,6 @@
     <ClCompile Include="WorkSpaceSkyLerp.cpp">
       <Filter>Manager\TimeManager\SkyLerp</Filter>
     </ClCompile>
-    <ClCompile Include="ALightActor.cpp">
-      <Filter>Actor\Prop</Filter>
-    </ClCompile>
     <ClCompile Include="Comet.cpp">
       <Filter>Actor\Prop\Comet</Filter>
     </ClCompile>
@@ -1324,6 +1324,9 @@
     </ClCompile>
     <ClCompile Include="WitchHouseLamp.cpp">
       <Filter>Level\BackManager\Play\UpFloor</Filter>
+    </ClCompile>
+    <ClCompile Include="ALightActor.cpp">
+      <Filter>Actor\Prop\Light</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

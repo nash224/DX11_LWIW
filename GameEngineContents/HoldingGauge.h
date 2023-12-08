@@ -1,5 +1,5 @@
 #pragma once
-#include "ContentsUIRenderer.h"
+#include "GaugeUIRenderer.h"
 
 // Ό³Έν :
 class HoldingGauge 
@@ -29,7 +29,7 @@ protected:
 
 private:
 	std::shared_ptr<GameEngineSpriteRenderer> Base;
-	std::shared_ptr<ContentsSpriteRenderer> Guage;
+	std::shared_ptr<GaugeRenderer> GuageUI;
 
 	bool isOn = false;
 

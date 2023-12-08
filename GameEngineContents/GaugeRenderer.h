@@ -2,6 +2,14 @@
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineSprite.h>
 
+struct GaugeInfo
+{
+	int LineGauge = 0;
+	int FromLeft = 0;
+	int CircleGuage = 0;
+	float Gauge = 1.0f;
+};
+
 // Ό³Έν :
 class GaugeRenderer : public GameEngineRenderer
 {
@@ -16,22 +24,43 @@ public:
 	GaugeRenderer& operator=(const GaugeRenderer& _Other) = delete;
 	GaugeRenderer& operator=(GaugeRenderer&& _Other) noexcept = delete;
 
-private:
+
 	void SetSprite(std::string_view _Name, unsigned int index = 0);
-	void SetSampler(std::string_view _Name);
-	void SetImageScale(const float4& _Scale)
+
+	void AutoSpriteSizeOn();
+	void AutoSpriteSizeOff();
+
+	inline void SetAutoScaleRatio(float _Ratio)
 	{
-		ImageTransform.SetLocalScale(_Scale);
+		AutoScaleRatio.X = _Ratio;
+		AutoScaleRatio.Y = _Ratio;
 	}
 
-	void AddImageScale(const float4& _Scale)
+	inline void SetAutoScaleRatio(float4 _Ratio)
 	{
-		ImageTransform.AddLocalScale(_Scale);
+		AutoScaleRatio = _Ratio;
 	}
+
+	void SetPivotValue(const float4& _Value)
+	{
+		Pivot = _Value;
+	}
+	float4 GetPivotValue()
+	{
+		return Pivot;
+	}
+
+	void SetImageScale(const float4& _Scale);
+	void AddImageScale(const float4& _Scale);
 
 	std::shared_ptr<GameEngineSprite> GetSprite()
 	{
 		return Sprite;
+	}
+
+	const SpriteData& GetCurSprite()
+	{
+		return CurSprite;
 	}
 
 	inline GameEngineTransform& GetImageTransform()
@@ -44,10 +73,10 @@ private:
 		return ColorDataValue;
 	}
 
-	/*GaugeInfo& GetGaugeInfo()
+	inline GaugeInfo& GetGaugeInfo()
 	{
 		return GaugeInfoValue;
-	}*/
+	}
 
 protected:
 	void Start() override;
@@ -55,14 +84,23 @@ protected:
 	void Render(GameEngineCamera* _Camera, float _Delta) override;
 	void SetMaterialEvent(std::string_view _Name, int _Index) override;
 
+	int Index = 0;
+
+
 private:
 	std::shared_ptr<GameEngineSprite> Sprite;
-	std::shared_ptr<class GameEngineSampler> Sampler;
-
 	SpriteData CurSprite;
+	SpriteRendererInfo SpriteRendererInfoValue;
+
+	bool IsImageSize = false;
+	float4 AutoScaleRatio = { 1.0f,1.0f,1.0f };
+
 	float4 Pivot = { 0.5f, 0.5f };
+
 	ColorData ColorDataValue;
-	/*GaugeInfo GaugeInfoValue;*/
+	GaugeInfo GaugeInfoValue;
 
 	GameEngineTransform ImageTransform;
+
+	bool IsUserSampler = true;
 };

@@ -12,7 +12,7 @@ TestCircleGauge::~TestCircleGauge()
 
 void TestCircleGauge::Start()
 {
-	GaugeRenderer = CreateComponent<ContentsUIRenderer>();
+	GaugeRenderer = CreateComponent<GaugeUIRenderer>();
 	GaugeRenderer->SetMaterial("GaugeTexture2D");
 	GaugeRenderer->SetSprite("Quest_Notice_Complete.png");
 	GaugeRenderer->AutoSpriteSizeOn();

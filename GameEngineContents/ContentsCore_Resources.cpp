@@ -257,8 +257,8 @@ void ContentsCore::InitMaterialResoruces()
 
 	{
 		std::shared_ptr<GameEngineMaterial> Mat = GameEngineMaterial::Create("ContentsLight2DTexture");
-		Mat->SetVertexShader("GaugeShader_VS");
-		Mat->SetPixelShader("GaugeShader_PS");
+		Mat->SetVertexShader("LightShader_VS");
+		Mat->SetPixelShader("LightShader_PS");
 		Mat->SetDepthState("AlwaysDepth");
 		Mat->SetBlendState("Blend_Alight");
 	}

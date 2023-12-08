@@ -1,6 +1,6 @@
 #pragma once
 #include "UI_Hub_Actor.h"
-#include "ContentsUIRenderer.h"
+#include "GaugeUIRenderer.h"
 
 // Ό³Έν :
 class UI_Hub_Broom : public UI_Hub_Actor
@@ -50,7 +50,7 @@ private:
 	GameEngineState State;
 
 	std::shared_ptr<GameEngineUIRenderer> FrameRenderer = nullptr;
-	std::shared_ptr<ContentsUIRenderer> GaugeRenderer = nullptr;
+	std::shared_ptr<GaugeUIRenderer> GaugeUI = nullptr;
 	std::shared_ptr<GameEngineUIRenderer> IconRenderer = nullptr;
 
 };

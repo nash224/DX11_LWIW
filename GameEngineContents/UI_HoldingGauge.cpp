@@ -24,24 +24,24 @@ void UI_HoldingGauge::RendererSetting(GameEngineActor* _Actor)
 	Base->SetSprite("Button_PressHold_Outline.png");
 	Base->Off();
 
-	Gauge = _Actor->CreateComponent<ContentsUIRenderer>();
-	Gauge->AutoSpriteSizeOn();
-	Gauge->SetAutoScaleRatio(0.5f);
-	Gauge->SetMaterial("GaugeTexture2D");
-	Gauge->SetSprite("Button_PressHold.png");
-	Gauge->GetGaugeInfo().CircleGuage = 1;
-	Gauge->Off();
+	GaugeUI = _Actor->CreateComponent<GaugeUIRenderer>();
+	GaugeUI->AutoSpriteSizeOn();
+	GaugeUI->SetAutoScaleRatio(0.5f);
+	GaugeUI->SetMaterial("GaugeTexture2D");
+	GaugeUI->SetSprite("Button_PressHold.png");
+	GaugeUI->GetGaugeInfo().CircleGuage = 1;
+	GaugeUI->Off();
 }
 
 void UI_HoldingGauge::Release()
 {
 	Base = nullptr;
-	Gauge = nullptr;
+	GaugeUI = nullptr;
 }
 
 void UI_HoldingGauge::SetPosition(const float4& _Position)
 {
-	if (nullptr == Base || nullptr == Gauge)
+	if (nullptr == Base || nullptr == GaugeUI)
 	{
 		MsgBoxAssert("렌더러를 세팅하지 않고 사용할수없습니다.");
 		return;
@@ -51,44 +51,44 @@ void UI_HoldingGauge::SetPosition(const float4& _Position)
 	const float GuageDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Font);
 
 	Base->Transform.SetLocalPosition(float4(_Position.X, _Position.Y, BaseDepth));
-	Gauge->Transform.SetLocalPosition(float4(_Position.X, _Position.Y, GuageDepth));
+	GaugeUI->Transform.SetLocalPosition(float4(_Position.X, _Position.Y, GuageDepth));
 }
 
 void UI_HoldingGauge::SetGauge(float _Gauge)
 {
-	if (nullptr == Gauge)
+	if (nullptr == GaugeUI)
 	{
 		MsgBoxAssert("렌더러를 세팅하지 않고 사용할수없습니다.");
 		return;
 	}
 
-	Gauge->GetGaugeInfo().Gauge = _Gauge;
+	GaugeUI->GetGaugeInfo().Gauge = _Gauge;
 }
 
 void UI_HoldingGauge::On()
 {
-	if (nullptr == Base || nullptr == Gauge)
+	if (nullptr == Base || nullptr == GaugeUI)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
 	Base->On();
-	Gauge->On();
+	GaugeUI->On();
 
 	isOn = true;
 }
 
 void UI_HoldingGauge::Off()
 {
-	if (nullptr == Base || nullptr == Gauge)
+	if (nullptr == Base || nullptr == GaugeUI)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
 	Base->Off();
-	Gauge->Off();
+	GaugeUI->Off();
 
 	isOn = false;
 }

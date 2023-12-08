@@ -2,14 +2,6 @@
 #include <GameEngineCore/GameEngineRenderer.h>
 #include <GameEngineCore/GameEngineSprite.h>
 
-struct GaugeInfo
-{
-	int LineGauge = 0;
-	int FromLeft = 0;
-	int CircleGuage = 0;
-	float Gauge = 1.0f;
-};
-
 struct TransparentInfo
 {
 	int iTransparent = 0;
@@ -110,11 +102,6 @@ public:
 		return ColorDataValue;
 	}
 
-	inline GaugeInfo& GetGaugeInfo()
-	{
-		return GaugeInfoValue;
-	}
-
 	inline TransparentInfo& GetTransparentInfo()
 	{
 		return TransparentData;
@@ -142,7 +129,6 @@ private:
 	float4 Pivot = { 0.5f, 0.5f };
 
 	ColorData ColorDataValue;
-	GaugeInfo GaugeInfoValue;
 	TransparentInfo TransparentData;
 
 	GameEngineTransform ImageTransform;

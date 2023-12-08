@@ -1,9 +1,8 @@
 #include "PreCompile.h"
 #include "GaugeRenderer.h"
-#include <GameEngineCore/GameEngineTexture.h>
-#include <GameEngineCore/GameEngineSampler.h>
-#include <GameEngineCore/GameEngineConstantBuffer.h>
 
+#include <GameEngineCore/GameEngineTexture.h>
+#include <GameEngineCore/GameEngineConstantBuffer.h>
 
 
 GaugeRenderer::GaugeRenderer()
@@ -21,12 +20,30 @@ void GaugeRenderer::Start()
 	ImageTransform.SetParent(Transform);
 
 	GameEngineRenderer::SetMesh("Rect");
-	GameEngineRenderer::SetMaterial("GaugeTexture2D");
+
 }
 
 void GaugeRenderer::Update(float _Delta)
 {
+	if (true == IsImageSize)
+	{
+		float4 Scale = float4(CurSprite.GetScale());
+		Scale.Z = 1.0f;
+		Scale.W = 0.0f;
+		SetImageScale(Scale * AutoScaleRatio);
+	}
 
+	RenderBaseInfoValue.RenderScreenScale = CurSprite.GetScale();
+}
+
+void GaugeRenderer::SetImageScale(const float4& _Scale)
+{
+	ImageTransform.SetLocalScale(_Scale);
+}
+
+void GaugeRenderer::AddImageScale(const float4& _Scale)
+{
+	ImageTransform.AddLocalScale(_Scale);
 }
 
 
@@ -34,6 +51,7 @@ void GaugeRenderer::Render(GameEngineCamera* _Camera, float _Delta)
 {
 	float4 ParentScale = Transform.GetLocalScale();
 	float4 Scale = ImageTransform.GetLocalScale();
+
 	float4 CalPivot = Pivot;
 	CalPivot.X -= 0.5f;
 	CalPivot.Y -= 0.5f;
@@ -43,10 +61,11 @@ void GaugeRenderer::Render(GameEngineCamera* _Camera, float _Delta)
 	PivotPos.Y = Scale.Y * CalPivot.Y;
 
 	ImageTransform.SetLocalPosition(PivotPos);
+
 	ImageTransform.TransformUpdate();
 	ImageTransform.CalculationViewAndProjection(Transform.GetConstTransformDataRef());
 
-	GetShaderResHelper().SetTexture("GaugeTexture2D", CurSprite.Texture);
+	GetShaderResHelper().SetTexture("DiffuseTex", CurSprite.Texture, IsUserSampler);
 
 	GameEngineRenderer::Render(_Camera, _Delta);
 
@@ -62,21 +81,24 @@ void GaugeRenderer::SetSprite(std::string_view _Name, unsigned int index /*= 0*/
 	}
 
 	CurSprite = Sprite->GetSpriteData(index);
+	SetImageScale(CurSprite.GetScale() * AutoScaleRatio);
 }
 
+void GaugeRenderer::AutoSpriteSizeOn()
+{
+	IsImageSize = true;
+}
+
+void GaugeRenderer::AutoSpriteSizeOff()
+{
+	IsImageSize = false;
+}
 
 void GaugeRenderer::SetMaterialEvent(std::string_view _Name, int _Index)
 {
 	const TransformData& Data = ImageTransform.GetConstTransformDataRef();
 	GetShaderResHelper().SetConstantBufferLink("TransformData", Data);
 	GetShaderResHelper().SetConstantBufferLink("SpriteData", CurSprite.SpritePivot);
-	GetShaderResHelper().SetConstantBufferLink("ColorData", ColorDataValue);
-	/*GetShaderResHelper().SetConstantBufferLink("GaugeInfo", GaugeInfoValue);*/
+	GetShaderResHelper().SetConstantBufferLink("GaugeInfo", GaugeInfoValue);
 	SetSprite("NSet.png");
-}
-
-void GaugeRenderer::SetSampler(std::string_view _Name)
-{
-	std::shared_ptr<GameEngineRenderUnit> Unit = CreateAndFindRenderUnit(0);
-	Unit->ShaderResHelper.SetSampler("DiffuseTexSampler", _Name);
 }

@@ -23,7 +23,7 @@ void UI_Hub_Broom::Update(float _Delta)
 void UI_Hub_Broom::Release()
 {
 	FrameRenderer = nullptr;
-	GaugeRenderer = nullptr;
+	GaugeUI = nullptr;
 	IconRenderer = nullptr;
 }
 
@@ -47,11 +47,11 @@ void UI_Hub_Broom::RendererSetting()
 	FrameRenderer->Transform.SetLocalPosition(float4(0.0f, 0.0f, FrameDepth));
 	FrameRenderer->SetSprite("HUD_Broom_Gauge_Frame.png");
 
-	GaugeRenderer = CreateComponent<ContentsUIRenderer>();
-	GaugeRenderer->Transform.AddLocalPosition(float4(-1.0f, 0.0f, GaugeDepth));
-	GaugeRenderer->SetMaterial("GaugeTexture2D");
-	GaugeRenderer->GetGaugeInfo().LineGauge = 1;
-	GaugeRenderer->SetSprite("HUD_Broom_Gauge_1.png");
+	GaugeUI = CreateComponent<GaugeUIRenderer>();
+	GaugeUI->Transform.AddLocalPosition(float4(-1.0f, 0.0f, GaugeDepth));
+	GaugeUI->SetMaterial("GaugeTexture2D");
+	GaugeUI->GetGaugeInfo().LineGauge = 1;
+	GaugeUI->SetSprite("HUD_Broom_Gauge_1.png");
 
 	IconRenderer = CreateComponent<GameEngineUIRenderer>();
 	IconRenderer->Transform.AddLocalPosition(float4(0.0f, 32.0f, IconDepth));
@@ -84,14 +84,14 @@ void UI_Hub_Broom::StateSetting()
 
 void UI_Hub_Broom::StartHasNotBroom(GameEngineState* _Parent)
 {
-	if (nullptr == FrameRenderer || nullptr == GaugeRenderer || nullptr == IconRenderer)
+	if (nullptr == FrameRenderer || nullptr == GaugeUI || nullptr == IconRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
 	FrameRenderer->Off();
-	GaugeRenderer->Off();
+	GaugeUI->Off();
 	IconRenderer->Off();
 }
 
@@ -114,20 +114,20 @@ void UI_Hub_Broom::UpdateGauge(float _Delta, GameEngineState* _Parent)
 		RenderingAccFuel = CurFuel;
 
 		const float FuelGaugeRatio = RenderingAccFuel / MAX_FUEL;
-		GaugeRenderer->GetGaugeInfo().Gauge = FuelGaugeRatio;
+		GaugeUI->GetGaugeInfo().Gauge = FuelGaugeRatio;
 	}
 }
 
 
 void UI_Hub_Broom::EndHasNotBroom(GameEngineState* _Parent)
 {
-	if (nullptr == FrameRenderer || nullptr == GaugeRenderer || nullptr == IconRenderer)
+	if (nullptr == FrameRenderer || nullptr == GaugeUI || nullptr == IconRenderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
 	}
 
 	FrameRenderer->On();
-	GaugeRenderer->On();
+	GaugeUI->On();
 	IconRenderer->On();
 }
