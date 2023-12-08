@@ -91,14 +91,9 @@ void Ellie::UpdateRiding_Standing(float _Delta)
 
 
 	DecelerateNotDir(_Delta, Riding_Boost_Speed);
-	ContentsActor::ApplyOnlyMovement(_Delta);
-	if (true == WallCollision())
-	{
-		if (true == ChecckCollideWall())
-		{
-			ResetMoveVector();
-		}
-	}
+	ContentsActor::ApplyOnlyMovement(_Delta); 
+
+	WallLogic();
 
 	ContentsActor::ApplyDepth();
 }
@@ -163,13 +158,9 @@ void Ellie::UpdateRiding_Moving(float _Delta)
 	AddMoveVector(GetMoveForceByDir(_Delta, Riding_Move_Speed, Riding_Move_Acceleration_Time));
 	LimitMoveVector(Riding_Move_Speed);
 	ContentsActor::ApplyOnlyMovement(_Delta);
-	if (true == WallCollision())
-	{
-		if (true == ChecckCollideWall())
-		{
-			ResetMoveVector();
-		}
-	}
+
+	WallLogic();
+
 	ContentsActor::ApplyDepth();
 
 	ConsumeBroomFuel(_Delta);
@@ -234,14 +225,10 @@ void Ellie::UpdateRiding_Boosting(float _Delta)
 	DecelerateNotDir(_Delta, Riding_Boost_Speed);
 	AddMoveVector(GetMoveForceByDir(_Delta, Riding_Boost_Speed, Riding_Boost_Acceleration_Time));
 	LimitMoveVector(Riding_Boost_Speed);
-	ContentsActor::ApplyOnlyMovement(_Delta);
-	if (true == WallCollision())
-	{
-		if (true == ChecckCollideWall())
-		{
-			ResetMoveVector();
-		}
-	}
+	ContentsActor::ApplyOnlyMovement(_Delta); 
+
+	WallLogic();
+
 	ContentsActor::ApplyDepth();
 
 	ConsumeBroomFuel(_Delta);
@@ -303,55 +290,6 @@ void Ellie::DecelerateNotDir(float _Delta, const float _Force)
 	}
 }
 
-bool Ellie::WallCollision()
-{
-	const std::shared_ptr<BackDrop_PlayLevel>& BackDropPtr = PlayLevel::GetCurLevel()->GetBackDropPtr();
-	if (nullptr == BackDropPtr)
-	{
-		return false;
-	}
-
-	if (0.0f == GetMoveVector().X && 0.0f == GetMoveVector().Y)
-	{
-		return false;
-	}
-
-	const float4 CheckUnitVector = DirectX::XMVector2Normalize(GetMoveVector().DirectXVector);
-	const float4 LeftCheckUnitVector = float4::Cross3D(CheckUnitVector.DirectXVector, float4::FORWARD);
-	const float4 RightCheckUnitVector = float4::Cross3D(CheckUnitVector.DirectXVector, float4::BACKWARD);
-	static constexpr float CheckDistanceToMyPos = 10.0f;
-
-	static constexpr int Max_Check_Count = 8;
-	float fCount = 0.0f;
-
-	for (; fCount < static_cast<float>(Max_Check_Count); fCount += 0.5f)
-	{
-		const float4 CheckPos = Transform.GetLocalPosition() + CheckUnitVector * (CheckDistanceToMyPos - fCount);
-		const float4 LeftCheckPos = LeftCheckUnitVector * CheckDistanceToMyPos + CheckPos;
-		const float4 RightCheckPos = RightCheckUnitVector * CheckDistanceToMyPos + CheckPos;
-
-		GameEngineColor LeftColor = BackDropPtr->GetColor(LeftCheckPos);
-		GameEngineColor RightColor = BackDropPtr->GetColor(RightCheckPos);
-		bool isWall = (GameEngineColor::RED == LeftColor || GameEngineColor::RED == RightColor);
-		if (false == isWall)
-		{
-			break;
-		}
-	}
-
-	if (fCount == 0.0f)
-	{
-		return false;
-	}
-	float4 BackVector;
-	BackVector.X = -CheckUnitVector.X * fCount;
-	BackVector.Y = -CheckUnitVector.Y * fCount;
-
-	Transform.AddLocalPosition(BackVector);
-	return true;
-}
-
-
 void Ellie::CreateBroomParticle(float _ParticleDistance /*= 0.0f*/)
 {
 	const float4 ParticlePosition = GetBroomParticlePosition(_ParticleDistance);
@@ -387,14 +325,14 @@ void Ellie::GenerateBoostBroomDust(float _Delta)
 		StateTime -= Particle_Cool_Time;
 
 		// ReverseSpeedCheck
-		static constexpr float MinParticleDistance = 0.0f;
-		static constexpr float MaxParticleDistance = 20.0f;
+		static constexpr float MinDistance = 0.0f;
+		static constexpr float MaxDistance = 20.0f;
 
 		GameEngineRandom RandomClass;
 		for (int i = 0; i < 2; i++)
 		{
 			RandomClass.SetSeed(GlobalValue::GetSeedValue());
-			float DistanceChance = RandomClass.RandomFloat(MinParticleDistance, MaxParticleDistance);
+			float DistanceChance = RandomClass.RandomFloat(MinDistance, MaxDistance);
 			CreateBroomParticle(DistanceChance);
 		}
 	}
@@ -424,9 +362,9 @@ float4 Ellie::GetBroomParticlePosition(float _ParticleDistance)
 		PlusVector = float4::ZERO;
 	}
 
-	static constexpr float YCorrection = 28.0f;
+	const float4 Correction = float4(8.0f, 28.0f);
 
-	const float4 CenterPoint = float4(8.0f, YCorrection) + Transform.GetLocalPosition() + PlusVector * _ParticleDistance;
+	const float4 CenterPoint = Correction + Transform.GetLocalPosition() + PlusVector * _ParticleDistance;
 
 	GameEngineRandom RandomClass;
 	RandomClass.SetSeed(GlobalValue::GetSeedValue());
@@ -462,11 +400,22 @@ void Ellie::ConsumeBroomFuel(float _Delta)
 	}
 }
 
-bool Ellie::ChecckCollideWall()
+void Ellie::WallLogic()
 {
-	float4 CollisionForce = DirectX::XMVector2Length(GetMoveVector().DirectXVector);
-	const float ParticleActivationForce = 30.0f;
-	if (CollisionForce.X > ParticleActivationForce)
+	if (true == ContentsActor::WallCollision(PixelCheckDistance))
+	{
+		if (true == CheckCollideWall())
+		{
+			ResetMoveVector();
+		}
+	}
+}
+
+bool Ellie::CheckCollideWall()
+{
+	float4 CurScalar = DirectX::XMVector2Length(GetMoveVector().DirectXVector);
+	const float CollideForce = 30.0f;
+	if (CurScalar.X > CollideForce)
 	{
 		return true;
 	}

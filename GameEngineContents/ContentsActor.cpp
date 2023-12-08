@@ -95,3 +95,126 @@ float ContentsActor::GetVolumeReductionByDistance() const
 
 	return 0.0f;
 }
+
+
+std::vector<float4> ContentsActor::GetPixelCheckPoint(float _CheckDistance, const float4& _DirVector)
+{
+	std::vector<float4> Result;
+	Result.reserve(2);
+
+	// 3:1 
+	const float4 CheckPoint = _DirVector * _CheckDistance;
+	const float4 CrossVector = float4::Cross3D(_DirVector, float4::FORWARD);
+
+	const float4 CheckCrossVector = CrossVector * _CheckDistance / 3.0f;
+	const float4 LeftCheckPoint = CheckPoint - CheckCrossVector;
+	const float4 RightCheckPoint = CheckPoint + CheckCrossVector;
+	Result.push_back(LeftCheckPoint);
+	Result.push_back(RightCheckPoint);
+
+	return Result;
+}
+
+
+bool ContentsActor::WallCollision(float _CheckDistance)
+{
+	const std::shared_ptr<BackDrop_PlayLevel>& BackDropPtr = PlayLevel::GetCurLevel()->GetBackDropPtr();
+	if (nullptr == BackDropPtr)
+	{
+		return false;
+	}
+
+	if (0.0f == GetMoveVector().X && 0.0f == GetMoveVector().Y)
+	{
+		return false;
+	}
+
+	const float4 DirVector = DirectX::XMVector2Normalize(GetMoveVector().DirectXVector);
+	std::vector<float4> PixelCheckPos = GetPixelCheckPoint(_CheckDistance, DirVector);
+	if (2 != PixelCheckPos.size())
+	{
+		MsgBoxAssert("반환값이 잘못된 함수입니다.");
+		return false;
+	}
+
+	enum class ECHECKENUM
+	{
+		Left = 0,
+		Right = 1,
+	};
+
+
+	const float4 CheckUnitVector = DirectX::XMVector2Normalize(GetMoveVector().DirectXVector);
+	const float4 LeftCheckVector = PixelCheckPos.at(static_cast<int>(ECHECKENUM::Left));
+	const float4 RightCheckVector = PixelCheckPos.at(static_cast<int>(ECHECKENUM::Right));
+
+	static constexpr int Max_Check_Count = 8;
+	float fCount = 0.0f;
+
+	for (; fCount < static_cast<float>(Max_Check_Count); fCount += 0.5f)
+	{
+		const float4 CheckPos = Transform.GetLocalPosition() + CheckUnitVector * (-fCount);
+		const float4 LeftCheckPos = LeftCheckVector + CheckPos;
+		const float4 RightCheckPos = RightCheckVector + CheckPos;
+
+		const GameEngineColor LeftColor = BackDropPtr->GetColor(LeftCheckPos);
+		const GameEngineColor RightColor = BackDropPtr->GetColor(RightCheckPos);
+		bool isWall = (WALLCOLOR == LeftColor || WALLCOLOR == RightColor);
+		if (false == isWall)
+		{
+			break;
+		}
+		else
+		{
+			int a = 0;
+		}
+	}
+
+	if (fCount == 0.0f)
+	{
+		return false;
+	}
+	float4 BackVector;
+	BackVector.X = -CheckUnitVector.X * fCount;
+	BackVector.Y = -CheckUnitVector.Y * fCount;
+
+	Transform.AddLocalPosition(BackVector);
+	return true;
+}
+
+bool ContentsActor::WallCheck(float _CheckDistance)
+{
+	const std::shared_ptr<BackDrop_PlayLevel>& BackDropPtr = PlayLevel::GetCurLevel()->GetBackDropPtr();
+	if (nullptr == BackDropPtr)
+	{
+		return false;
+	}
+
+	const float4 DirVector = DirectX::XMVector2Normalize(GetMoveVector().DirectXVector);
+	std::vector<float4> PixelCheckPos = GetPixelCheckPoint(_CheckDistance, DirVector);
+	if (2 != PixelCheckPos.size())
+	{
+		MsgBoxAssert("반환값이 잘못된 함수입니다.");
+		return false;
+	}
+
+	enum class ECHECKENUM
+	{
+		Left = 0,
+		Right = 1,
+	};
+
+	const float4 MyPos = Transform.GetLocalPosition();
+	const float4 LeftCheckPos = PixelCheckPos.at(static_cast<int>(ECHECKENUM::Left)) + MyPos;
+	const float4 RightCheckPos = PixelCheckPos.at(static_cast<int>(ECHECKENUM::Right)) + MyPos;
+
+	const GameEngineColor LeftColor = BackDropPtr->GetColor(LeftCheckPos);
+	const GameEngineColor RightColor = BackDropPtr->GetColor(RightCheckPos);
+	bool isWall = (WALLCOLOR == LeftColor || WALLCOLOR == RightColor);
+	if (false == isWall)
+	{
+		return false;
+	}
+
+	return true;
+}

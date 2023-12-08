@@ -6,15 +6,16 @@ enum class EMOJITYPE
 	Question,
 };
 
-enum class EEMOJISTATE
-{
-	Expression,
-	None,
-};
-
 // Ό³Έν :
 class Emoji
 {
+private:
+	enum class EEMOJISTATE
+	{
+		Expression,
+		None,
+	};
+
 public:
 	// constrcuter destructer
 	Emoji();

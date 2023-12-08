@@ -60,7 +60,7 @@ void ContentsCore::Start()
 	GameEngineCore::CreateLevel<EndingLevel>("EndingLevel");
 	GameEngineCore::CreateLevel<TestLevel>("TestLevel");
 	GameEngineCore::CreateLevel<MapEditorLevel>("MapEditorLevel");
-	GameEngineCore::ChangeLevel("LogoLevel");
+	GameEngineCore::ChangeLevel("MainMenu");
 
 
 	ImGuiContentWindow = GameEngineGUI::CreateGUIWindow<ContentsGUI>("ContentsGUI");

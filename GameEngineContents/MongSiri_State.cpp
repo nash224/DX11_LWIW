@@ -147,13 +147,9 @@ void MongSiri::UpdateJump(float _Delta)
 	bool isJumpFrame = (InteractiveActor::BodyRenderer->GetCurIndex() > 2 && InteractiveActor::BodyRenderer->GetCurIndex() < 9);
 	if (isJumpFrame)
 	{
-		const std::shared_ptr<BackDrop_PlayLevel>& MainBackDropPtr = PlayLevel::GetCurLevel()->GetBackDropPtr();
-		if (nullptr != MainBackDropPtr)
+		if (true == ContentsActor::WallCheck(6.0f))
 		{
-			if (WALLCOLOR == MainBackDropPtr->GetColor(Transform.GetLocalPosition() + GetMoveVector() * _Delta))
-			{
-				ResetMoveVector();
-			}
+			ResetMoveVector();
 		}
 
 		InteractiveActor::ApplyMovement(_Delta);
@@ -348,17 +344,16 @@ void MongSiri::SearchJumpLocation()
 
 	if (EMONGSIRISTATUS::Escape == Status)
 	{
-		if (nullptr == MongSiriParant
-			|| nullptr == MongSiriParant->Hole)
+		if (nullptr == MongSiriParant || nullptr == MongSiriParant->Hole)
 		{
 			MsgBoxAssert("몽시리 개체군이 존재하지 않습니다.");
 			return;
 		}
 
-		float4 TargetVector = MongSiriParant->Hole->Transform.GetLocalPosition() - Transform.GetLocalPosition();
-		float4 DistanceToHole = DirectX::XMVector2Length(TargetVector.DirectXVector);
+		const float4 VectorToHole = MongSiriParant->Hole->Transform.GetLocalPosition() - Transform.GetLocalPosition();
+		const float4 DistanceToHole = DirectX::XMVector2Length(VectorToHole.DirectXVector);
 
-		TargetVector = DirectX::XMVector2Normalize(TargetVector.DirectXVector);
+		const float4 TargetVector = DirectX::XMVector2Normalize(VectorToHole.DirectXVector);
 
 		bool isReachHole = (DistanceToHole.X < 40.0f);
 		if (isReachHole)

@@ -38,20 +38,6 @@ enum class EELLIE_STATUS
 	Riding,
 };
 
-struct PixelCheckPoint
-{
-public:
-	float4 TopLeft = float4::ZERO;
-	float4 TopRight = float4::ZERO;
-	float4 LeftTop = float4::ZERO;
-	float4 LeftBottom = float4::ZERO;
-	float4 RightTop = float4::ZERO;
-	float4 RightBottom = float4::ZERO;
-	float4 BottomLeft = float4::ZERO;
-	float4 BottomRight = float4::ZERO;
-
-};
-
 
 // 설명 : 주인공 앨리입니다. 
 class Ellie : public ContentsActor
@@ -125,7 +111,6 @@ protected:
 
 	void RendererSetting();
 	void CollisionSetting();
-	void SetPixelPointBaseOnCenter();
 
 	void OnLevelStart();
 	
@@ -217,24 +202,26 @@ private:
 	void GenerateBoostBroomDust(float _Delta);
 	void CreateBroomParticle(float _ParticleDistance = 0.0f);
 	float4 GetBroomParticlePosition(float _ParticleDistance); 
-	bool ChecckCollideWall();
 
 	void ConsumeBroomFuel(float _Delta);
+
 
 	// Input
 	bool DetectMovement();
 	bool DetectVerticalMovement();
 	bool DetectHorizontalMovement();
 
-	
-	void CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce);
-	virtual EDIRECTION ReturnDirectionCheckBothSide(EDIRECTION _Direction, const float4& _LeftCheckPoint, const float4& _RightCheckPoint);
 
 	// Move & WallCollision
+	void NormalMoveLogic(float _Delta, float _MAXMoveForce);
+	EDIRECTION ReturnWallDir(EDIRECTION _Direction, const float4& _LeftCheckPoint, const float4& _RightCheckPoint);
+
+
 	void DecelerateNotDir(float _Delta, const float _MaxMoveForce);
 	float4 GetMoveForceByDir(float _Delta, float _MAXMoveForce, float _Acceleration_Time);
 	void LimitMoveVector(float _MAXMoveForce);
-	bool WallCollision();
+	bool CheckCollideWall();
+	void WallLogic();
 
 	// DayChange Event
 	void DayChangeEvent();
@@ -255,7 +242,6 @@ private:
 	std::shared_ptr<GameEngineCollision> EllieCol = nullptr;
 	std::shared_ptr<GameEngineCollision> NetCollision = nullptr;
 	class InteractiveActor* OtherEntity = nullptr;
-	PixelCheckPoint CheckPoint;
 
 	
 	float StateTime = 0.0f;
@@ -272,7 +258,8 @@ private:
 
 
 	static constexpr const float LWIW_Ellie_Y_Correction = 30.0f;
-	
+	static constexpr float PixelCheckDistance = 6.0f;
+
 	static constexpr float SlowWalk_Speed = 100.0f;
 	static constexpr float Walk_Speed = 160.0f;
 	static constexpr float Run_Speed = 220.0f;
@@ -281,8 +268,8 @@ private:
 	static constexpr float Riding_Move_Speed = 270.0f;
 	static constexpr float Riding_Boost_Speed = 330.0f;
 
-	static constexpr const float FOVAngle = 60.0f;
-	static constexpr const float FrictionForce = 0.5f;
+	static constexpr float FOVAngle = 60.0f;
+	static constexpr float FrictionForce = 0.5f;
 
 
 };

@@ -50,6 +50,12 @@ void Emoji::RendererSetting(GameEngineActor* _Actor, const float4& _EmotionPos)
 
 void Emoji::ShowExpression(EMOJITYPE _Type)
 {
+	if (nullptr == EmotionRenderer)
+	{
+		MsgBoxAssert("렌더러를 생성하지 않았습니다.");
+		return;
+	}
+
 	EmotionRenderer->SetSprite(GetFileName(_Type));
 	State.ChangeState(EEMOJISTATE::Expression);
 }

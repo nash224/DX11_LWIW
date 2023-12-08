@@ -10,7 +10,7 @@ int FrameAnimationHelper::GetIndex(std::string_view _AnimationName, int _CurInde
 	}
 
 	std::vector<int> Indexs = Find(_AnimationName);
-	if (0 == Indexs.size())
+	if (0 == Indexs.size() || _CurIndex >= Indexs.size())
 	{
 		const int NotFound = -1;
 		RenderIndex = NotFound;

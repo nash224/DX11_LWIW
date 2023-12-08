@@ -85,8 +85,6 @@ Ellie::Ellie()
 		FirstInitCheck = true;
 	}
 
-	SetPixelPointBaseOnCenter();
-
 	CheckDayChange();
 }
 
@@ -224,27 +222,6 @@ void Ellie::WaitDone(EELLIE_STATE _State)
 	ChangeState(_State);
 	isWaitDone = true;
 }
-
-
-void Ellie::SetPixelPointBaseOnCenter()
-{
-	const float CheckPointGap = 2.0f;
-
-	const float4 CheckPosBaseOnCenter = float4::ZERO;
-
-	const float4 CheckScale = { 10.0f , 10.0f };
-	const float4 HalfCheckScale = CheckScale.Half();
-
-	CheckPoint.TopLeft = CheckPosBaseOnCenter + float4{ -HalfCheckScale.X + CheckPointGap , HalfCheckScale.Y };
-	CheckPoint.TopRight = CheckPosBaseOnCenter + float4{ HalfCheckScale.X - CheckPointGap , HalfCheckScale.Y };
-	CheckPoint.LeftTop = CheckPosBaseOnCenter + float4{ -HalfCheckScale.X , HalfCheckScale.Y - CheckPointGap };
-	CheckPoint.LeftBottom = CheckPosBaseOnCenter + float4{ -HalfCheckScale.X , -HalfCheckScale.Y + CheckPointGap };
-	CheckPoint.RightTop = CheckPosBaseOnCenter + float4{ HalfCheckScale.X , HalfCheckScale.Y - CheckPointGap };
-	CheckPoint.RightBottom = CheckPosBaseOnCenter + float4{ HalfCheckScale.X , -HalfCheckScale.Y + CheckPointGap };
-	CheckPoint.BottomLeft = CheckPosBaseOnCenter + float4{ -HalfCheckScale.X + CheckPointGap , -HalfCheckScale.Y };
-	CheckPoint.BottomRight = CheckPosBaseOnCenter + float4{ HalfCheckScale.X - CheckPointGap , -HalfCheckScale.Y };
-}
-
 
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -736,60 +713,34 @@ bool Ellie::DetectHorizontalMovement()
 
 #pragma region 이동 및 방향 
 
-void Ellie::CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce)
+void Ellie::NormalMoveLogic(float _Delta, float _MAXMoveForce)
 {
-	const float4 DirVector = DirectionFunction::GetVectorToDirection(Dir);
-
-	SetMoveVector(DirVector * _MAXMoveForce);
-	
-	float4 LeftCheckPoint = Transform.GetWorldPosition();
-	float4 RightCheckPoint = Transform.GetWorldPosition();
-	EDIRECTION CheckDir = EDIRECTION::CENTER;
-
-
-	switch (Dir)
+	const float4 DirVector = DirectionFunction::GetVectorToDirection(ContentsActor::Dir);
+	std::vector<float4> PixelCheckPos = ContentsActor::GetPixelCheckPoint(PixelCheckDistance, DirVector);
+	if (2 != PixelCheckPos.size())
 	{
-	case EDIRECTION::UP:
-		LeftCheckPoint += CheckPoint.TopLeft;
-		RightCheckPoint += CheckPoint.TopRight;
-		break;
-	case EDIRECTION::LEFTUP:
-		LeftCheckPoint += CheckPoint.LeftTop;
-		RightCheckPoint += CheckPoint.TopLeft;
-		break;
-	case EDIRECTION::LEFT:
-		LeftCheckPoint += CheckPoint.LeftBottom;
-		RightCheckPoint += CheckPoint.LeftTop;
-		break;
-	case EDIRECTION::LEFTDOWN:
-		LeftCheckPoint += CheckPoint.BottomLeft;
-		RightCheckPoint += CheckPoint.LeftBottom;
-		break;
-	case EDIRECTION::DOWN:
-		LeftCheckPoint += CheckPoint.BottomRight;
-		RightCheckPoint += CheckPoint.BottomRight;
-		break;
-	case EDIRECTION::RIGHTDOWN:
-		LeftCheckPoint += CheckPoint.RightBottom;
-		RightCheckPoint += CheckPoint.BottomRight;
-		break;
-	case EDIRECTION::RIGHT:
-		LeftCheckPoint += CheckPoint.RightTop;
-		RightCheckPoint += CheckPoint.RightBottom;
-		break;
-	case EDIRECTION::RIGHTUP:
-		LeftCheckPoint += CheckPoint.TopRight;
-		RightCheckPoint += CheckPoint.RightTop;
-		break;
-	default:
-		break;
+		MsgBoxAssert("반환값이 잘못된 함수입니다.");
+		return;
 	}
-
-	CheckDir = ReturnDirectionCheckBothSide(Dir, LeftCheckPoint, RightCheckPoint);
-
-	if (CheckDir != Dir)
+	
+	enum class ECHECKENUM
 	{
-		if (CheckDir == EDIRECTION::CENTER)
+		Left = 0,
+		Right = 1,
+	};
+
+	EDIRECTION CheckDir = ReturnWallDir(Dir, PixelCheckPos.at(static_cast<int>(ECHECKENUM::Left)), PixelCheckPos.at(static_cast<int>(ECHECKENUM::Right)));
+
+	bool NotWall = (CheckDir == Dir);
+	if (NotWall)
+	{
+		const float4 DirVector = DirectionFunction::GetVectorToDirection(Dir);
+		SetMoveVector(DirVector* _MAXMoveForce);
+	}
+	else
+	{
+		bool isWall = (CheckDir == EDIRECTION::CENTER);
+		if (isWall)
 		{
 			ResetMoveVector();
 		}
@@ -801,7 +752,7 @@ void Ellie::CalulationMoveForceToNormalStatus(float _Delta, float _MAXMoveForce)
 	}
 }
 
-EDIRECTION Ellie::ReturnDirectionCheckBothSide(EDIRECTION _Direction, const float4& _LeftCheckPoint, const float4& _RightCheckPoint)
+EDIRECTION Ellie::ReturnWallDir(EDIRECTION _Direction, const float4& _LeftCheckPoint, const float4& _RightCheckPoint)
 {
 	const std::shared_ptr<BackDrop_PlayLevel>& MainBackDropPtr = PlayLevel::GetCurLevel()->GetBackDropPtr();
 	if (nullptr == MainBackDropPtr)
@@ -811,8 +762,9 @@ EDIRECTION Ellie::ReturnDirectionCheckBothSide(EDIRECTION _Direction, const floa
 
 	int DirNum = static_cast<int>(_Direction);
 
- 	GameEngineColor LeftColor = MainBackDropPtr->GetColor(_LeftCheckPoint);
-	GameEngineColor RightColor = MainBackDropPtr->GetColor(_RightCheckPoint);
+	const float4 MyPosition = Transform.GetLocalPosition();
+ 	const GameEngineColor LeftColor = MainBackDropPtr->GetColor(MyPosition + _LeftCheckPoint);
+	const GameEngineColor RightColor = MainBackDropPtr->GetColor(MyPosition + _RightCheckPoint);
 
 	bool isLeftWall = (WALLCOLOR == LeftColor && WALLCOLOR != RightColor);
 	if (isLeftWall)

@@ -268,7 +268,7 @@ void Ellie::UpdateSlowWalk(float _Delta)
 	ChangeDirectionAnimation("SlowWalk");
 	VirgilRendererHelper.UpdateHelper(BodyRenderer, VirgilRenderer);
 
-	CalulationMoveForceToNormalStatus(_Delta, SlowWalk_Speed);
+	NormalMoveLogic(_Delta, SlowWalk_Speed);
 	ApplyMovement(_Delta);
 }
 
@@ -309,7 +309,7 @@ void Ellie::UpdateWalk(float _Delta)
 	ChangeDirectionAnimation("Walk");
 	VirgilRendererHelper.UpdateHelper(BodyRenderer, VirgilRenderer);
 
-	CalulationMoveForceToNormalStatus(_Delta, Walk_Speed);
+	NormalMoveLogic(_Delta, Walk_Speed);
 	ApplyMovement(_Delta);
 }
 
@@ -358,7 +358,7 @@ void Ellie::UpdateRun(float _Delta)
 		Stamina -= RunCost;
 	}
 
-	CalulationMoveForceToNormalStatus(_Delta, Run_Speed);
+	NormalMoveLogic(_Delta, Run_Speed);
 	ApplyMovement(_Delta);
 }
 

@@ -53,6 +53,10 @@ protected:
 	void ApplyMovement(float _Delta);
 	void ApplyOnlyMovement(float _Delta);
 
+	std::vector<float4> GetPixelCheckPoint(float _CheckDistance, const float4& _DirVector);
+	bool WallCollision(float _CheckDistance);
+	bool WallCheck(float _CheckDistance);
+
 	bool IsPlayerAround(float _Range) const;
 
 	void StopSFX();
