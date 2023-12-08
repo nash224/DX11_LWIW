@@ -9,8 +9,6 @@
 
 // Actor
 #include "Ellie.h"
-#include "FadeObject.h"
-#include "NormalProp.h"
 
 #include "OutLineEffect.h"
 
@@ -34,11 +32,6 @@ void PlayLevel::Start()
 
 	s_MainPlayLevel = this;
 
-	Player = CreateActor<Ellie>(EUPDATEORDER::Player);
-
-	UIManagerPtr = CreateActor<UIManager>(EUPDATEORDER::UIMagnaer);
-	UIManagerPtr->Init();
-
 	if (nullptr == s_TimeManager)
 	{
 		s_TimeManager = std::make_unique<TimeManager>();
@@ -48,6 +41,12 @@ void PlayLevel::Start()
 	{
 		s_AlertManager = std::make_unique<AlertManager>();
 	}
+
+	Player = CreateActor<Ellie>(EUPDATEORDER::Player);
+
+	UIManagerPtr = CreateActor<UIManager>(EUPDATEORDER::UIMagnaer);
+	UIManagerPtr->Init();
+
 
 	OutLinePtr = GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<OutLineEffect>();
 }
@@ -97,7 +96,9 @@ PlayLevel* PlayLevel::GetCurLevel()
 	return s_MainPlayLevel;
 }
 
-TimeManager* PlayLevel::GetTimeManager() const
+
+
+TimeManager* PlayLevel::GetTimeManager()
 {
 	if (nullptr == s_TimeManager)
 	{

@@ -20,7 +20,7 @@ protected:
 	void Start() override;
 	void Update(float _Delta) override;
 	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 public:
@@ -42,15 +42,11 @@ private:
 	// 배경 Update => 카메라 이동거리의 일정비율로 위치가 변합니다.
 	void MoveSceneryLocation(float _Delta);
 
-public:
-	// 릴리즈
-	void ActorRelease();
-
 private:
-	std::shared_ptr<GameEngineSpriteRenderer> m_SpriteRenderer;
-	float4 m_TextureSize;
-	float4 m_Direction;
-	float m_MoveRatio;
+	std::shared_ptr<GameEngineSpriteRenderer> SpriteRenderer;
+	float4 TextureSize;
+	float4 Direction;
+	float MoveRatio;
 
 private:
 	

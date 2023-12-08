@@ -1,17 +1,12 @@
 #include "PreCompile.h"
 #include "MainMenu.h"
 
-// Global
-#include "GlobalValue.h"
-#include "GlobalUtils.h"
-
 // Manager
 #include "BackDrop_MainMenu.h"
 #include "CameraControler.h"
 
 // Actor
 #include "UI_MainMenu_Button.h"
-#include "TitleUI.h"
 
 MainMenu::MainMenu()
 {

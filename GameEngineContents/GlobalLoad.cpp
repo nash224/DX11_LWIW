@@ -33,9 +33,8 @@ void GlobalLoad::LoadGlobalSprite()
 	{
 		GameEngineDirectory Folder = Dirs[i];
 		std::vector<GameEngineFile> Files = Folder.GetAllFile();
-		for (size_t i = 0; i < Files.size(); i++)
+		for (GameEngineFile& pFile : Files)
 		{
-			GameEngineFile pFile =  Files[i];
 			GameEngineSprite::CreateSingle(pFile.GetFileName());
 		}
 	}

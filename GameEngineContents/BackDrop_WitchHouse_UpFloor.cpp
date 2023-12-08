@@ -48,12 +48,39 @@ void BackDrop_WitchHouse_UpFloor::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	BackDrop_PlayLevel::LevelStart(_NextLevel);
 
+	GameEngineDirectory Dir;
+	Dir.MoveParentToExistsChild("Resources");
+	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_UpFloor");
+	std::vector<GameEngineDirectory> Dirs = Dir.GetAllDirectory();
+	for (GameEngineDirectory& Dircetory : Dirs)
+	{
+		std::vector<GameEngineFile> Files = Dircetory.GetAllFile();
+		for (GameEngineFile& pFile : Files)
+		{
+			GameEngineTexture::Load(pFile.GetStringPath());
+		}
+	}
+
 	RenewMap();
 }
 
 void BackDrop_WitchHouse_UpFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 {
 	ReleaseResources();
+
+	GameEngineDirectory Dir;
+	Dir.MoveParentToExistsChild("Resources");
+	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_UpFloor");
+	std::vector<GameEngineDirectory> Dirs = Dir.GetAllDirectory();
+	for (GameEngineDirectory& Dircetory : Dirs)
+	{
+		std::vector<GameEngineFile> Files = Dircetory.GetAllFile();
+		for (GameEngineFile& pFile : Files)
+		{
+			GameEngineTexture::Release(pFile.GetFileName());
+		}
+	}
+
 	ArrangePtr = nullptr;
 }
 
@@ -111,8 +138,8 @@ void BackDrop_WitchHouse_UpFloor::CreateProp()
 		std::shared_ptr<RendererActor> Object = GetLevel()->CreateActor<RendererActor>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
-		Object->m_Renderer->SetSprite("UpFloor_Back.png");
-		Object->m_Renderer->GetImageTransform().SetLocalScale(float4(GlobalValue::GetWindowScale()));
+		Object->Renderer->SetSprite("UpFloor_Back.png");
+		Object->Renderer->GetImageTransform().SetLocalScale(float4(GlobalValue::GetWindowScale()));
 	}
 
 	{
@@ -121,15 +148,15 @@ void BackDrop_WitchHouse_UpFloor::CreateProp()
 		Position.Z = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::BackWindow);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
-		Object->m_Renderer->SetSprite("Circle.png");
-		Object->m_Renderer->GetImageTransform().SetLocalScale(float4(64.0f, 64.0f));
+		Object->Renderer->SetSprite("Circle.png");
+		Object->Renderer->GetImageTransform().SetLocalScale(float4(64.0f, 64.0f));
 	}
 
 	{
 		std::shared_ptr<RendererActor> Object = GetLevel()->CreateActor<RendererActor>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(HouseLocation  + float4{ 126.0f , -238.0f, DepthFunction::CalculateFixDepth(EHOUSEDEPTH::HouseComposition) });
 		Object->Init();
-		Object->m_Renderer->SetSprite("UpFloor_Floor.png");
+		Object->Renderer->SetSprite("UpFloor_Floor.png");
 	}
 
 	{
@@ -138,14 +165,14 @@ void BackDrop_WitchHouse_UpFloor::CreateProp()
 		std::shared_ptr<RendererActor> Object = GetLevel()->CreateActor<RendererActor>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
-		Object->m_Renderer->SetSprite("UpFloor_WallPaper_1.png");
+		Object->Renderer->SetSprite("UpFloor_WallPaper_1.png");
 	}
 
 	{
 		std::shared_ptr<RendererActor> Object = GetLevel()->CreateActor<RendererActor>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(HouseLocation  + float4{ 126.0f , -110.0f, DepthFunction::CalculateFixDepth(EHOUSEDEPTH::HouseComposition) });
 		Object->Init();
-		Object->m_Renderer->SetSprite("UpFloor_WallPaper.png");
+		Object->Renderer->SetSprite("UpFloor_WallPaper.png");
 	}
 
 
@@ -154,14 +181,14 @@ void BackDrop_WitchHouse_UpFloor::CreateProp()
 		std::shared_ptr<RendererActor> Object = GetLevel()->CreateActor<RendererActor>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(HouseLocation  + float4{ 126.0f , -177.0f, DepthFunction::CalculateFixDepth(EHOUSEDEPTH::Shadow )});
 		Object->Init();
-		Object->m_Renderer->SetSprite("UpFloor_Shadow.png");
+		Object->Renderer->SetSprite("UpFloor_Shadow.png");
 	}
 
 	{
 		std::shared_ptr<RendererActor> Object = GetLevel()->CreateActor<RendererActor>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(HouseLocation  + float4{ 124.0f , -305.0f, DepthFunction::CalculateFixDepth(EHOUSEDEPTH::Rug) });
 		Object->Init();
-		Object->m_Renderer->SetSprite("UpFloor_Carpet_0.png");
+		Object->Renderer->SetSprite("UpFloor_Carpet_0.png");
 	}
 
 	{
@@ -170,7 +197,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp()
 		Position.Z = DepthFunction::CalculateObjectDepth(BackScale.Y, Position.Y - 70.0f );
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
-		Object->m_Renderer->SetSprite("UpFloor_Cabinet.png");
+		Object->Renderer->SetSprite("UpFloor_Cabinet.png");
 	}
 
 	{
@@ -179,7 +206,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp()
 		Position.Z = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::Rug);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
-		Object->m_Renderer->SetSprite("UpFloor_window.png");
+		Object->Renderer->SetSprite("UpFloor_window.png");
 	}
 
 	{
@@ -188,7 +215,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp()
 		Position.Z = DepthFunction::CalculateObjectDepth(BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
-		Object->m_Renderer->SetSprite("UpFloor_bed.png");
+		Object->Renderer->SetSprite("UpFloor_bed.png");
 	}
 
 	{
@@ -197,7 +224,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp()
 		Position.Z = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::Rug);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
-		Object->m_Renderer->SetSprite("book_shelf_empty.png");
+		Object->Renderer->SetSprite("book_shelf_empty.png");
 	}
 
 	{
@@ -206,7 +233,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp()
 		Position.Z = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::Rug);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
-		Object->m_Renderer->SetSprite("UpFloor_Carpet_1.png");
+		Object->Renderer->SetSprite("UpFloor_Carpet_1.png");
 	}
 
 	{
@@ -215,7 +242,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp()
 		Position.Z = DepthFunction::CalculateObjectDepth(BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
-		Object->m_Renderer->SetSprite("UpFloor_plants.png");
+		Object->Renderer->SetSprite("UpFloor_plants.png");
 	}
 
 	{
@@ -224,7 +251,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp()
 		Position.Z = DepthFunction::CalculateObjectDepth(BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
-		Object->m_Renderer->SetSprite("UpFloor_drawer_under.png");
+		Object->Renderer->SetSprite("UpFloor_drawer_under.png");
 	}
 
 	{
@@ -233,7 +260,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp()
 		Position.Z = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::Chair);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
-		Object->m_Renderer->SetSprite("UpFloor_Chair.png");
+		Object->Renderer->SetSprite("UpFloor_Chair.png");
 	}
 
 	{
@@ -242,7 +269,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp()
 		Position.Z = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::Shadow);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
-		Object->m_Renderer->SetSprite("Chair_Shadow.png");
+		Object->Renderer->SetSprite("Chair_Shadow.png");
 	}
 
 	{
@@ -251,7 +278,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp()
 		Position.Z = DepthFunction::CalculateObjectDepth(BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
-		Object->m_Renderer->SetSprite("UpFloor_desk.png");
+		Object->Renderer->SetSprite("UpFloor_desk.png");
 	}
 
 	{
@@ -260,7 +287,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp()
 		Position.Z = DepthFunction::CalculateObjectDepth(BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
-		Object->m_Renderer->SetSprite("hanger.png");
+		Object->Renderer->SetSprite("hanger.png");
 	}
 
 	{
@@ -269,7 +296,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp()
 		Position.Z = DepthFunction::CalculateObjectDepth(BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
-		Object->m_Renderer->SetSprite("PhotoFrame_0.png");
+		Object->Renderer->SetSprite("PhotoFrame_0.png");
 	}
 
 
@@ -279,7 +306,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp()
 		Position.Z = DepthFunction::CalculateObjectDepth(BackScale.Y, Position.Y - 14.0f);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
-		Object->m_Renderer->SetSprite("SaveProp.png");
+		Object->Renderer->SetSprite("SaveProp.png");
 	}
 
 	{
@@ -288,7 +315,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp()
 		Position.Z = DepthFunction::CalculateObjectDepth(BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
-		Object->m_Renderer->SetSprite("UpFloor_Flower_0.png");
+		Object->Renderer->SetSprite("UpFloor_Flower_0.png");
 	}
 
 	{
@@ -297,7 +324,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp()
 		Position.Z = DepthFunction::CalculateObjectDepth(BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
-		Object->m_Renderer->SetSprite("UpFloor_Flower_1.png");
+		Object->Renderer->SetSprite("UpFloor_Flower_1.png");
 	}
 
 	{
@@ -306,7 +333,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp()
 		Position.Z = DepthFunction::CalculateObjectDepth(BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
-		Object->m_Renderer->SetSprite("UpFloor_bag.png");
+		Object->Renderer->SetSprite("UpFloor_bag.png");
 	}
 
 	{
@@ -315,7 +342,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp()
 		Position.Z = DepthFunction::CalculateObjectDepth(BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
-		Object->m_Renderer->SetSprite("book_open.png");
+		Object->Renderer->SetSprite("book_open.png");
 	}
 
 	{
@@ -324,7 +351,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp()
 		Position.Z = DepthFunction::CalculateObjectDepth(BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
-		Object->m_Renderer->SetSprite("DreamCapture.png");
+		Object->Renderer->SetSprite("DreamCapture.png");
 	}
 
 	{
@@ -333,7 +360,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp()
 		Position.Z = DepthFunction::CalculateObjectDepth(BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
-		Object->m_Renderer->SetSprite("UpFloor_PhotoFrame_1.png");
+		Object->Renderer->SetSprite("UpFloor_PhotoFrame_1.png");
 	}
 
 	{
@@ -342,7 +369,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp()
 		Position.Z = DepthFunction::CalculateObjectDepth(BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
-		Object->m_Renderer->SetSprite("UpFloor_PhotoFrame_2.png");
+		Object->Renderer->SetSprite("UpFloor_PhotoFrame_2.png");
 	}
 
 	{
@@ -351,7 +378,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp()
 		Position.Z = DepthFunction::CalculateObjectDepth(BackScale.Y, Position.Y);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
-		Object->m_Renderer->SetSprite("hanger_light.png");
+		Object->Renderer->SetSprite("hanger_light.png");
 	}
 
 	{
@@ -360,7 +387,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp()
 		Position.Z = DepthFunction::CalculateFixDepth(EHOUSEDEPTH::Rug);
 		Object->Transform.SetLocalPosition(Position);
 		Object->Init();
-		Object->m_Renderer->SetSprite("book_shelf.png");
+		Object->Renderer->SetSprite("book_shelf.png");
 	}
 
 	{
@@ -368,7 +395,7 @@ void BackDrop_WitchHouse_UpFloor::CreateProp()
 		Position.Y *= -1.0f;
 		const std::shared_ptr<RendererActor>& Ceil 
 			= BackDrop_PlayLevel::CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "UpFloor_Frame.png", Position, static_cast<int>(EHOUSEDEPTH::FRAME));
-		Ceil->m_Renderer->SetViewCameraSelect(static_cast<int>(ECAMERAORDER::MainNext));
+		Ceil->Renderer->SetViewCameraSelect(static_cast<int>(ECAMERAORDER::MainNext));
 	}
 }
 

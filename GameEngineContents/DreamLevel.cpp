@@ -60,7 +60,7 @@ void DreamLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 	ResRelease();
 	BGMPlayer.Stop();
 
-	PlayLevel::s_TimeManager->ChangeDay();
+	PlayLevel::GetTimeManager()->ChangeDay();
 }
 
 
@@ -74,8 +74,8 @@ void DreamLevel::RendererSetting()
 	std::shared_ptr<RendererActor> BaseBackGround = CreateActor<RendererActor>(EUPDATEORDER::Objects);
 	BaseBackGround->Transform.SetLocalPosition(BasePosition);
 	BaseBackGround->Init();
-	BaseBackGround->m_Renderer->GetColorData().PlusColor = float4(-1.0f, -1.0f, -1.0f, 1.0f);
-	BaseBackGround->m_Renderer->GetImageTransform().SetLocalScale(GlobalValue::GetWindowScale());
+	BaseBackGround->Renderer->GetColorData().PlusColor = float4(-1.0f, -1.0f, -1.0f, 1.0f);
+	BaseBackGround->Renderer->GetImageTransform().SetLocalScale(GlobalValue::GetWindowScale());
 
 
 	float4 BackGroundPosition = HWinScale;
@@ -86,9 +86,9 @@ void DreamLevel::RendererSetting()
 	std::shared_ptr<RendererActor> EndingBackGround = CreateActor<RendererActor>(EUPDATEORDER::Objects);
 	EndingBackGround->Transform.SetLocalPosition(BackGroundPosition);
 	EndingBackGround->Init();
-	EndingBackGround->m_Renderer->AutoSpriteSizeOn();
-	EndingBackGround->m_Renderer->CreateAnimation("Dream", "Sleep_1.png", 0.18f, 1, 11);
-	EndingBackGround->m_Renderer->ChangeAnimation("Dream");
+	EndingBackGround->Renderer->AutoSpriteSizeOn();
+	EndingBackGround->Renderer->CreateAnimation("Dream", "Sleep_1.png", 0.18f, 1, 11);
+	EndingBackGround->Renderer->ChangeAnimation("Dream");
 }
 
 void DreamLevel::StateSetting() 

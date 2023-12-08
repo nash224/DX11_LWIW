@@ -294,9 +294,9 @@ void TestLevel::TestCode()
 			std::shared_ptr<NormalProp> TestTree =  CreateActor<NormalProp>(EUPDATEORDER::Objects);
 			TestTree->Transform.SetLocalPosition(float4(200.0f, -400.0f, DepthFunction::CalculateObjectDepth(GlobalValue::GetWindowScale().Y, -400.0f)));
 			TestTree->Init();
-			TestTree->m_Renderer->Transform.SetLocalPosition(float4(0.0f, 110.0f));
-			TestTree->m_Renderer->SetSprite("Tree_2.png");
-			TestTree->m_Renderer->RenderBaseInfoValue.Target1 = 1;
+			TestTree->Renderer->Transform.SetLocalPosition(float4(0.0f, 110.0f));
+			TestTree->Renderer->SetSprite("Tree_2.png");
+			TestTree->Renderer->RenderBaseInfoValue.Target1 = 1;
 		}
 
 		if (false)
@@ -304,11 +304,11 @@ void TestLevel::TestCode()
 			std::shared_ptr<RendererActor> TestCamera =  CreateActor<RendererActor>(EUPDATEORDER::Objects);
 			TestCamera->Transform.SetLocalPosition(float4(200.0f, -400.0f, DepthFunction::CalculateObjectDepth(GlobalValue::GetWindowScale().Y, -400.0f)));
 			TestCamera->Init();
-			TestCamera->m_Renderer->SetViewCameraSelect(static_cast<int>(ECAMERAORDER::MainPrev));
-			TestCamera->m_Renderer->Transform.SetLocalPosition(float4(0.0f, 110.0f));
-			TestCamera->m_Renderer->SetSprite("Tree_1.png");
-			TestCamera->m_Renderer->RenderBaseInfoValue.Target1 = 1;
-			TestCamera->m_Renderer->RenderBaseInfoValue.Target0 = 0;
+			TestCamera->Renderer->SetViewCameraSelect(static_cast<int>(ECAMERAORDER::MainPrev));
+			TestCamera->Renderer->Transform.SetLocalPosition(float4(0.0f, 110.0f));
+			TestCamera->Renderer->SetSprite("Tree_1.png");
+			TestCamera->Renderer->RenderBaseInfoValue.Target1 = 1;
+			TestCamera->Renderer->RenderBaseInfoValue.Target0 = 0;
 
 			// GetCamera(static_cast<int>(ECAMERAORDER::MainPrev))->GetCameraAllRenderTarget()->GetTexture(1)->GetColor();
 		}
@@ -346,44 +346,44 @@ void TestLevel::SetPixelMap()
 	std::shared_ptr<NormalProp> MapPixel = CreateActor<NormalProp>(EUPDATEORDER::Objects);
 	MapPixel->Transform.SetLocalPosition(float4(300.0f, -200.0f));
 	MapPixel->SetPixelCollision("Bench_2_Pixel.png");
-	MapPixel->m_DebugRenderer->SetViewCameraSelect(static_cast<int>(ECAMERAORDER::MainPrev));
-	MapPixel->m_DebugRenderer->RenderBaseInfoValue.Target0 = 0;
-	MapPixel->m_DebugRenderer->RenderBaseInfoValue.Target1 = 1;
-	MapPixel->m_DebugRenderer->On();
+	MapPixel->DebugRenderer->SetViewCameraSelect(static_cast<int>(ECAMERAORDER::MainPrev));
+	MapPixel->DebugRenderer->RenderBaseInfoValue.Target0 = 0;
+	MapPixel->DebugRenderer->RenderBaseInfoValue.Target1 = 1;
+	MapPixel->DebugRenderer->On();
 
 	MapPixel = CreateActor<NormalProp>(EUPDATEORDER::Objects);
 	MapPixel->Transform.SetLocalPosition(float4(100.0f, -100.0f));
 	MapPixel->SetPixelCollision("FlowerPot_pixel.png");
-	MapPixel->m_DebugRenderer->SetViewCameraSelect(static_cast<int>(ECAMERAORDER::MainPrev));
-	MapPixel->m_DebugRenderer->RenderBaseInfoValue.Target0 = 0;
-	MapPixel->m_DebugRenderer->RenderBaseInfoValue.Target1 = 1;
-	MapPixel->m_DebugRenderer->On();
+	MapPixel->DebugRenderer->SetViewCameraSelect(static_cast<int>(ECAMERAORDER::MainPrev));
+	MapPixel->DebugRenderer->RenderBaseInfoValue.Target0 = 0;
+	MapPixel->DebugRenderer->RenderBaseInfoValue.Target1 = 1;
+	MapPixel->DebugRenderer->On();
 
 	MapPixel = CreateActor<NormalProp>(EUPDATEORDER::Objects);
 	MapPixel->Transform.SetLocalPosition(float4(700.0f, -400.0f));
 	MapPixel->SetPixelCollision("Tree_Pixel.png");
-	MapPixel->m_DebugRenderer->SetViewCameraSelect(static_cast<int>(ECAMERAORDER::MainPrev));
-	MapPixel->m_DebugRenderer->RenderBaseInfoValue.Target0 = 0;
-	MapPixel->m_DebugRenderer->RenderBaseInfoValue.Target1 = 1;
-	MapPixel->m_DebugRenderer->On();
+	MapPixel->DebugRenderer->SetViewCameraSelect(static_cast<int>(ECAMERAORDER::MainPrev));
+	MapPixel->DebugRenderer->RenderBaseInfoValue.Target0 = 0;
+	MapPixel->DebugRenderer->RenderBaseInfoValue.Target1 = 1;
+	MapPixel->DebugRenderer->On();
 
 	MapPixel = CreateActor<NormalProp>(EUPDATEORDER::Objects);
 	MapPixel->Transform.SetLocalPosition(float4(600.0f, -300.0f));
 	MapPixel->SetPixelCollision("Tree_Pixel.png");
-	MapPixel->m_DebugRenderer->SetViewCameraSelect(static_cast<int>(ECAMERAORDER::MainPrev));
-	MapPixel->m_DebugRenderer->RenderBaseInfoValue.Target0 = 0;
-	MapPixel->m_DebugRenderer->RenderBaseInfoValue.Target1 = 1;
-	MapPixel->m_DebugRenderer->On();
+	MapPixel->DebugRenderer->SetViewCameraSelect(static_cast<int>(ECAMERAORDER::MainPrev));
+	MapPixel->DebugRenderer->RenderBaseInfoValue.Target0 = 0;
+	MapPixel->DebugRenderer->RenderBaseInfoValue.Target1 = 1;
+	MapPixel->DebugRenderer->On();
 
 	if (bool isTestOn = false)
 	{
 		MapPixel = CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		MapPixel->Transform.SetLocalPosition(float4(480.0f, -270.0f));
 		MapPixel->SetPixelCollision("Tree_Pixel.png");
-		MapPixel->m_DebugRenderer->GetImageTransform().SetLocalScale(float4(300.0f, 300.0f));
-		MapPixel->m_DebugRenderer->SetViewCameraSelect(static_cast<int>(ECAMERAORDER::MainPrev));
-		MapPixel->m_DebugRenderer->RenderBaseInfoValue.Target0 = 0;
-		MapPixel->m_DebugRenderer->RenderBaseInfoValue.Target1 = 1;
-		MapPixel->m_DebugRenderer->On();
+		MapPixel->DebugRenderer->GetImageTransform().SetLocalScale(float4(300.0f, 300.0f));
+		MapPixel->DebugRenderer->SetViewCameraSelect(static_cast<int>(ECAMERAORDER::MainPrev));
+		MapPixel->DebugRenderer->RenderBaseInfoValue.Target0 = 0;
+		MapPixel->DebugRenderer->RenderBaseInfoValue.Target1 = 1;
+		MapPixel->DebugRenderer->On();
 	}
 }

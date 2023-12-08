@@ -168,3 +168,8 @@ void UI_ButtonGuide::Off()
 		Guides[i].GuideRenderer->Off();
 	}
 }
+
+void UI_ButtonGuide::Release()
+{
+	Guides.clear();
+}

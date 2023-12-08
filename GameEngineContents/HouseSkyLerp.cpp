@@ -29,21 +29,21 @@ void SkyGUI::OnGUI(GameEngineLevel* _Level, float _Delta)
 	}
 
 	ImGui::SeparatorText("TimeDebug");
-	if (ImGui::SliderFloat("TimeCustom", &PlayLevel::s_TimeManager->GetTimePointer(), 0.0f, PlayLevel::s_TimeManager->GetMaxTime(), "%.0f"))
+	if (ImGui::SliderFloat("TimeCustom", &PlayLevel::GetTimeManager()->GetTimePointer(), 0.0f, PlayLevel::GetTimeManager()->GetMaxTime(), "%.0f"))
 	{
-		PlayLevel::s_TimeManager->Pause(true);
-		PlayLevel::s_TimeManager->SetTime(PlayLevel::s_TimeManager->GetTime());
+		PlayLevel::GetTimeManager()->Pause(true);
+		PlayLevel::GetTimeManager()->SetTime(PlayLevel::GetTimeManager()->GetTime());
 	}
 
-	ImGui::Text(std::string("Time : " + std::to_string(PlayLevel::s_TimeManager->GetTime())).c_str());
-	ImGui::Text(std::string("Time : " + std::to_string(PlayLevel::s_TimeManager->GetHour())).c_str());
+	ImGui::Text(std::string("Time : " + std::to_string(PlayLevel::GetTimeManager()->GetTime())).c_str());
+	ImGui::Text(std::string("Time : " + std::to_string(PlayLevel::GetTimeManager()->GetHour())).c_str());
 	ImGui::SameLine();
-	ImGui::Text(std::string(": " + std::to_string(PlayLevel::s_TimeManager->GetMinute())).c_str());
+	ImGui::Text(std::string(": " + std::to_string(PlayLevel::GetTimeManager()->GetMinute())).c_str());
 
 
-	ImGui::Checkbox("Time Pause", &PlayLevel::s_TimeManager->GetPause());
+	ImGui::Checkbox("Time Pause", &PlayLevel::GetTimeManager()->GetPause());
 	ImGui::SameLine();
-	ImGui::SliderFloat("Time Ratio", &PlayLevel::s_TimeManager->GetTimeFlowRatio(), 1.0f, 10.0f, "%.0f");
+	ImGui::SliderFloat("Time Ratio", &PlayLevel::GetTimeManager()->GetTimeFlowRatio(), 1.0f, 10.0f, "%.0f");
 
 
 	if (nullptr != SkyPtr)
@@ -51,7 +51,7 @@ void SkyGUI::OnGUI(GameEngineLevel* _Level, float _Delta)
 		ImGui::SeparatorText("SkyDebug");
 		if (ImGui::ColorEdit4("Sky Color", &SkyPtr->SkyColor.R))
 		{
-			PlayLevel::s_TimeManager->Pause(true);
+			PlayLevel::GetTimeManager()->Pause(true);
 			SkyPtr->SetDebugSkyColor(SkyPtr->SkyColor);
 		}
 

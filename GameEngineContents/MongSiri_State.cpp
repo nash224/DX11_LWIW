@@ -305,7 +305,7 @@ void MongSiri::SearchJumpLocation()
 			return;
 		}
 
-		const float4 VectorToPopulation = MongSiriParant->m_PopulationLocation - Transform.GetLocalPosition();
+		const float4 VectorToPopulation = MongSiriParant->PopulationLocation - Transform.GetLocalPosition();
 		const float Degree = DirectX::XMConvertToDegrees(atan2f(VectorToPopulation.Y, VectorToPopulation.X));
 
 		const float4 Size = DirectX::XMVector2Length(VectorToPopulation.DirectXVector);
@@ -336,7 +336,7 @@ void MongSiri::SearchJumpLocation()
 			JumpAngle = Degree + JumpChangeRatio;
 		}
 
-		const float JumpPower = RandomClass.RandomFloat(0.0f, MongSiri_JumpMaxSpeed);
+		const float JumpPower = RandomClass.RandomFloat(0.0f, JumpMaxPower);
 		const float4 TargetUnitVector = float4::GetUnitVectorFromDeg(JumpAngle);
 
 		SetMoveVector(TargetUnitVector * JumpPower);
@@ -363,7 +363,7 @@ void MongSiri::SearchJumpLocation()
 		}
 		else
 		{
-			SetMoveVector(TargetVector * MongSiri_JumpMaxSpeed);
+			SetMoveVector(TargetVector * JumpMaxPower);
 		}
 	}
 

@@ -105,15 +105,15 @@ private:
 	int AssignedTurnCount = 0;
 	const int MaxPickCount = 8;
 
-	float m_StateTime = 0.0f;
+	float StateTime = 0.0f;
 	float IdleTime = 0.0f;
 	float TurnTime = 0.0f;
-	static constexpr float FlyDegree = 30.0f;
+
 
 	float4 FlyDirVector = float4::ZERO;
-
-	static constexpr float FlowerBirdTurnSlowTime = 0.4f;
-	static constexpr float FlowerBirdTurnFastTime = 0.1f;
+	static constexpr float FlyDegree = 30.0f;
+	static constexpr float TurnSlowTime = 0.4f;
+	static constexpr float TurnFastTime = 0.1f;
 
 };
 

@@ -6,10 +6,10 @@
 class PlayLevel : public ContentsLevel
 {
 public:
-	static std::unique_ptr<class TimeManager> s_TimeManager;
 	static std::unique_ptr<class AlertManager> s_AlertManager; 
 
 protected:
+	static std::unique_ptr<class TimeManager> s_TimeManager;
 	static PlayLevel* s_MainPlayLevel;
 	std::shared_ptr<class Ellie> Player = nullptr;
 	std::shared_ptr<class UIManager> UIManagerPtr = nullptr;
@@ -34,7 +34,7 @@ public:
 	}
 
 	static PlayLevel* GetCurLevel();
-	class TimeManager* GetTimeManager() const;
+	static class TimeManager* GetTimeManager();
 	std::shared_ptr<class UIManager> GetUIManagerPtr() const;
 	std::shared_ptr<class Ellie> GetPlayerPtr() const;
 	std::shared_ptr<class BackDrop_PlayLevel> GetBackDropPtr() const;

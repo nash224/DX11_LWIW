@@ -45,34 +45,27 @@ void MapEditorLevel::LevelStart(class GameEngineLevel* _NextLevel)
 	LoadResouces();
 
 
-	m_MapBaseActor = CreateActor<GameEngineActor>(EUPDATEORDER::Objects);
-	m_MapBaseRenderer = m_MapBaseActor->CreateComponent<GameEngineSpriteRenderer>();
-	m_MapBaseRenderer->Off();
+	MapBaseActor = CreateActor<GameEngineActor>(EUPDATEORDER::Objects);
+	MapBaseRenderer = MapBaseActor->CreateComponent<GameEngineSpriteRenderer>();
+	MapBaseRenderer->Off();
 
-	m_MouseManager = CreateActor<MouseManager>(EUPDATEORDER::Mouse);
+	MouseManagerPtr = CreateActor<MouseManager>(EUPDATEORDER::Mouse);
 }
 
 void MapEditorLevel::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-	m_MouseManager = nullptr;
+	MouseManagerPtr = nullptr;
 
-	if (nullptr != m_MapBaseActor)
+	if (nullptr != MapBaseActor)
 	{
-		m_MapBaseActor->Death();
+		MapBaseActor->Death();
 	}
 
-	m_MapBaseActor = nullptr;
-	m_MapBaseRenderer = nullptr;
+	MapBaseActor = nullptr;
+	MapBaseRenderer = nullptr;
 
 	ReleaseResouces();
 }
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
-
-
 
 
 void MapEditorLevel::UpdateMapEditor(float _Delta)
@@ -125,7 +118,7 @@ bool MapEditorLevel::ClickCreateActor()
 {
 	if (true == GameEngineInput::IsDown(VK_MBUTTON, this))
 	{
-		if ("" == _SelcetSprite)
+		if (true == _SelcetSprite.empty())
 		{
 			return false;
 		}
@@ -137,8 +130,8 @@ bool MapEditorLevel::ClickCreateActor()
 			Position.Z = 0.0f;
 			Object->Transform.SetLocalPosition(Position);
 			Object->Init();
-			Object->m_Renderer->SetSprite(_SelcetSprite);
-			Object->m_Renderer->Transform.SetLocalPosition(float4(0.0f, _RendererHeight));
+			Object->Renderer->SetSprite(_SelcetSprite);
+			Object->Renderer->Transform.SetLocalPosition(float4(0.0f, _RendererHeight));
 			SelectActor = Object.get();
 		}
 
@@ -149,10 +142,10 @@ bool MapEditorLevel::ClickCreateActor()
 			Position.Z = 0.0f;
 			Object->Transform.SetLocalPosition(Position);
 			Object->Init();
-			Object->m_Renderer->SetSprite(_SelcetSprite);
-			Object->m_Renderer->Transform.SetLocalPosition(float4(0.0f, _RendererHeight));
+			Object->Renderer->SetSprite(_SelcetSprite);
+			Object->Renderer->Transform.SetLocalPosition(float4(0.0f, _RendererHeight));
 
-			if ("" != _SelcetPixelSprite)
+			if (false == _SelcetPixelSprite.empty())
 			{
 				Object->SetPixelCollision(_SelcetPixelSprite);
 			}
@@ -174,7 +167,7 @@ bool MapEditorLevel::ClickForSelectActor()
 	if (true == GameEngineInput::IsDown(VK_RBUTTON, this))
 	{
 
-		float4 CurWorldMousePos = m_MouseManager->m_MouseInfo.CurPos;
+		float4 CurWorldMousePos = MouseManagerPtr->m_MouseInfo.CurPos;
 
 		std::vector<std::shared_ptr<RendererActor>> Group = GetObjectGroupConvert<RendererActor>(0);
 
@@ -184,9 +177,9 @@ bool MapEditorLevel::ClickForSelectActor()
 
 		for (int i = 0; i < Group.size(); i++)
 		{
-			float4 IMGWorldPos = Group[i]->m_Renderer->Transform.GetWorldPosition();
+			float4 IMGWorldPos = Group[i]->Renderer->Transform.GetWorldPosition();
 
-			std::shared_ptr<GameEngineTexture> Texture = Group[i]->m_Renderer->GetSprite()->GetSpriteData(0).Texture;
+			std::shared_ptr<GameEngineTexture> Texture = Group[i]->Renderer->GetSprite()->GetSpriteData(0).Texture;
 			if (nullptr == Texture)
 			{
 				MsgBoxAssert("텍스처가 존재하지 않습니다.");
@@ -257,11 +250,11 @@ bool MapEditorLevel::RotateSelectActor()
 
 		if (true == IsFlip)
 		{
-			SelectActor->m_Renderer->LeftFlip();
+			SelectActor->Renderer->LeftFlip();
 		}
 		else
 		{
-			SelectActor->m_Renderer->RightFlip();
+			SelectActor->Renderer->RightFlip();
 		}
 
 		return true;
@@ -279,7 +272,7 @@ bool MapEditorLevel::MoveSelectActor()
 
 	if (true == GameEngineInput::IsPress(VK_LBUTTON, this))
 	{
-		Position += m_MouseManager->m_MouseInfo.MovePos;
+		Position += MouseManagerPtr->m_MouseInfo.MovePos;
 		IsInput = true;
 	}
 

@@ -66,6 +66,8 @@ public:
 	void On();
 	void Off();
 
+	void Release();
+
 private:
 	std::string ReturnButtonSpriteName(EBUTTONTYPE _Type) const;
 	float GetTotalSize(std::string_view _FileName, int _StringSize) const;

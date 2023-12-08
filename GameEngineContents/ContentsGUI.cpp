@@ -83,10 +83,6 @@ void LevelChangeTab::OnGUI(GameEngineLevel* _Level, float _Delta)
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
-
 void CheatTab::Start()
 {
 	{
@@ -266,24 +262,24 @@ void DebugTab::SkyOn()
 void DebugTab::TimeDebug()
 {
 	ImGui::SeparatorText("TimeDebug");
-	if (nullptr != PlayLevel::s_TimeManager)
+	if (nullptr != PlayLevel::GetTimeManager())
 	{
-		if (ImGui::SliderFloat("TimeCustom", &PlayLevel::s_TimeManager->GetTimePointer(), 0.0f, PlayLevel::s_TimeManager->GetMaxTime(), "%.0f"))
+		if (ImGui::SliderFloat("TimeCustom", &PlayLevel::GetTimeManager()->GetTimePointer(), 0.0f, PlayLevel::GetTimeManager()->GetMaxTime(), "%.0f"))
 		{
-			PlayLevel::s_TimeManager->Pause(true);
-			PlayLevel::s_TimeManager->SetTime(PlayLevel::s_TimeManager->GetTime());
+			PlayLevel::GetTimeManager()->Pause(true);
+			PlayLevel::GetTimeManager()->SetTime(PlayLevel::GetTimeManager()->GetTime());
 		}
 
-		ImGui::Text(std::string("Time : " + std::to_string(PlayLevel::s_TimeManager->GetTime())).c_str());
+		ImGui::Text(std::string("Time : " + std::to_string(PlayLevel::GetTimeManager()->GetTime())).c_str());
 
-		ImGui::Text(std::string("Time : " + std::to_string(PlayLevel::s_TimeManager->GetHour())).c_str());
+		ImGui::Text(std::string("Time : " + std::to_string(PlayLevel::GetTimeManager()->GetHour())).c_str());
 		ImGui::SameLine();
-		ImGui::Text(std::string(": " + std::to_string(PlayLevel::s_TimeManager->GetMinute())).c_str());
+		ImGui::Text(std::string(": " + std::to_string(PlayLevel::GetTimeManager()->GetMinute())).c_str());
 
 		
-		ImGui::Checkbox("Time Pause", &PlayLevel::s_TimeManager->GetPause());
+		ImGui::Checkbox("Time Pause", &PlayLevel::GetTimeManager()->GetPause());
 		ImGui::SameLine();
-		ImGui::SliderFloat("Time Ratio", &PlayLevel::s_TimeManager->GetTimeFlowRatio(), 1.0f, 10.0f, "%.0f");
+		ImGui::SliderFloat("Time Ratio", &PlayLevel::GetTimeManager()->GetTimeFlowRatio(), 1.0f, 10.0f, "%.0f");
 	}
 }
 
@@ -293,7 +289,7 @@ void DebugTab::SoundDebug()
 	ImGui::SliderFloat("Global Volume", &GlobalValue::GetGlobalVolumePointer(), 0.0f, 2.0f, "%.1f");
 	if (true == ImGui::SliderFloat("BGM Volume", &GlobalValue::GetBGMVolumePointer(), 0.0f, 1.0f, "%.1f"))
 	{
-		ContentsLevel::MainPlaySound->SetVolume();
+		ContentsLevel::GetBGMPlayerPtr()->SetVolume();
 	}
 	
 	ImGui::SliderFloat("SFX Volume", &GlobalValue::GetSFXVolumePointer(), 0.0f, 1.0f, "%.1f");
@@ -471,10 +467,10 @@ void MapEditorTab::SettingTab(GameEngineLevel* _Level, float _DeltaTime)
 		BasePosition.Z = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Back_Paint);
 
 		MapEditorLevel* MapEditorPtr = static_cast<MapEditorLevel*>(_Level);
-		MapEditorPtr->m_MapBaseRenderer->SetSprite("GroundBase.png");
-		MapEditorPtr->m_MapBaseRenderer->GetImageTransform().SetLocalScale(BaseScale);
-		MapEditorPtr->m_MapBaseRenderer->Transform.SetLocalPosition(BasePosition);
-		MapEditorPtr->m_MapBaseRenderer->On();
+		MapEditorPtr->MapBaseRenderer->SetSprite("GroundBase.png");
+		MapEditorPtr->MapBaseRenderer->GetImageTransform().SetLocalScale(BaseScale);
+		MapEditorPtr->MapBaseRenderer->Transform.SetLocalPosition(BasePosition);
+		MapEditorPtr->MapBaseRenderer->On();
 		MapEditorPtr->m_BaseScale = BaseScale;
 	}
 
@@ -571,7 +567,7 @@ void BaseRendererItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTim
 	{
 		if (nullptr != EditorLevel->SelectActor)
 		{
-			EditorLevel->SelectActor->m_Renderer->SetSprite(SpriteNames[SelectSpriteItem]);
+			EditorLevel->SelectActor->Renderer->SetSprite(SpriteNames[SelectSpriteItem]);
 		}
 
 		EditorLevel->_SelcetSprite = SpriteNames[SelectSpriteItem];
@@ -609,7 +605,7 @@ void BaseRendererItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTim
 		{
 			if (ImGui::SliderFloat("Renderer Correction", &EditorLevel->_RendererHeight, -100.0f, 200.0f, "%.0f"))
 			{
-				const std::shared_ptr<GameEngineSpriteRenderer>& Renderer = EditorLevel->SelectActor->m_Renderer;
+				const std::shared_ptr<GameEngineSpriteRenderer>& Renderer = EditorLevel->SelectActor->Renderer;
 				float4 Position = Renderer->Transform.GetLocalPosition();
 				Position.Y = EditorLevel->_RendererHeight;
 				Renderer->Transform.SetLocalPosition(Position);
@@ -735,7 +731,7 @@ void PropItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTime)
 		{
 			if (nullptr != EditorLevel->SelectActor)
 			{
-				EditorLevel->SelectActor->m_Renderer->SetSprite(SpriteNames[SelectSpriteItem]);
+				EditorLevel->SelectActor->Renderer->SetSprite(SpriteNames[SelectSpriteItem]);
 			}
 
 			EditorLevel->_SelcetSprite = SpriteNames[SelectSpriteItem];
@@ -774,11 +770,11 @@ void PropItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTime)
 		{
 			if (ImGui::SliderFloat("Adjustment Height", &EditorLevel->_RendererHeight, 0.0f, 200.0f, "%.0f"))
 			{
-				EditorLevel->SelectActor->m_Renderer->Transform.SetLocalPosition(float4(Width, EditorLevel->_RendererHeight));
+				EditorLevel->SelectActor->Renderer->Transform.SetLocalPosition(float4(Width, EditorLevel->_RendererHeight));
 			}
 			if (ImGui::SliderFloat("Adjustment Weight", &Width, -100.0f, 100.0f, "%.0f"))
 			{
-				EditorLevel->SelectActor->m_Renderer->Transform.SetLocalPosition(float4(Width, EditorLevel->_RendererHeight));
+				EditorLevel->SelectActor->Renderer->Transform.SetLocalPosition(float4(Width, EditorLevel->_RendererHeight));
 			}
 
 			if (true == _Level->IsDebug)

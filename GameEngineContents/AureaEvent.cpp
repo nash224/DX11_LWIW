@@ -31,14 +31,14 @@ void Aurea::ShowFindAureaEvent()
 
 void Aurea::CheckAureaCurseConversation()
 {
-	std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Aurea_Cure");
-	if (true == Quest.expired())
+	const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = ContentsEvent::FindQuest("Aurea_Cure");
+	if (nullptr == Quest)
 	{
 		MsgBoxAssert("생성하지 않은 퀘스트입니다.");
 		return;
 	}
 
-	if (false == Quest.lock()->IsQuestAccepted())
+	if (false == Quest->IsQuestAccepted())
 	{
 		NPCEntity::ConverseWithEllie(EAUREATOPICTYPE::Curse);
 	}

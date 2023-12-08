@@ -24,7 +24,7 @@ public:
 		SpawnOrder = _Order;
 	}
 
-	inline int GetSpawnOrder()
+	inline int GetSpawnOrder() const
 	{
 		return SpawnOrder;
 	}

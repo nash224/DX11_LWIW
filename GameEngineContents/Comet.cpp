@@ -14,11 +14,11 @@ void Comet::Start()
 	const float AnimationInter = FallTime / 6.0f;
 
 	Init();
-	m_Renderer->AutoSpriteSizeOn();
-	m_Renderer->SetAutoScaleRatio(3.0f);
-	m_Renderer->CreateAnimation("Fall", "Title_comet", AnimationInter);
-	m_Renderer->ChangeAnimation("Fall");
-	m_Renderer->SetPivotType(PivotType::RightUp);
+	Renderer->AutoSpriteSizeOn();
+	Renderer->SetAutoScaleRatio(3.0f);
+	Renderer->CreateAnimation("Fall", "Title_comet", AnimationInter);
+	Renderer->ChangeAnimation("Fall");
+	Renderer->SetPivotType(PivotType::RightUp);
 
 	FallTime = RandomFunction::GetRandomfValue(0.4f, 0.7f);
 	FallDirection = float4(-1.0f, -1.0f).NormalizeReturn();
@@ -26,7 +26,7 @@ void Comet::Start()
 
 void Comet::Update(float _Delta)
 {
-	static constexpr float FallDistance = 500.0f;
+	const float FallDistance = 500.0f;
 
 	if (GetLiveTime() > FallTime)
 	{

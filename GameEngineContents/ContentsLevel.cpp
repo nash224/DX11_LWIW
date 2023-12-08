@@ -54,3 +54,14 @@ std::shared_ptr<class CameraControler> ContentsLevel::GetLevelCameraPtr() const
 
 	return LevelCamera;
 }
+
+BGMManager* ContentsLevel::GetBGMPlayerPtr()
+{
+	if (nullptr == MainPlaySound)
+	{
+		MsgBoxAssert("카메라 매니저가 존재하지 않습니다.");
+		return nullptr;
+	}
+
+	return MainPlaySound.get();
+}

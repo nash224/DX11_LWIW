@@ -51,6 +51,8 @@ void UI_ProcessList::Release()
 	CursorInfo.ScrollBase = nullptr;
 	CursorInfo.ScrollBar = nullptr;
 	ProcessManagerPtr = nullptr;
+
+	UIGuide.Release();
 }
 
 void UI_ProcessList::LevelEnd(class GameEngineLevel* _NextLevel) 
@@ -134,13 +136,13 @@ void UI_ProcessList::CursorSetting()
 	CursorInfo.Cursor->SetSprite("Process_A_Cursor.png");
 
 
-	std::weak_ptr<GameEngineTexture> ScrollBTexture = CursorInfo.ScrollBar->GetSprite()->GetSpriteData(0).Texture;
-	if (true == ScrollBTexture.expired())
+	const std::shared_ptr<GameEngineTexture>& ScrollBTexture = CursorInfo.ScrollBar->GetSprite()->GetSpriteData(0).Texture;
+	if (nullptr == ScrollBTexture)
 	{
 		MsgBoxAssert("존재하지 않는 텍스처를 사용하려했습니다.");
 		return;
 	}
-	const float4 ScrollScale = ScrollBTexture.lock()->GetScale();
+	const float4 ScrollScale = ScrollBTexture->GetScale();
 	CursorInfo.ScrollBarTotalYSize = ScrollScale.Y;
 
 	const float SizeRatio = PROCESS_MAX_SLOT / static_cast<float>(SlotVec.size());

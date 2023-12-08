@@ -251,14 +251,13 @@ void BedUI::SetFontScale(float _Size)
 
 	for (const BedUISlot& Slot : SlotInfo)
 	{
-		const float SlotFontScale = SlotFont_Size * _Size;
-
 		if (nullptr == Slot.FontRenderer)
 		{
 			MsgBoxAssert("폰트 렌더러가 존재하지 않습니다.");
 			return;
 		}
 		
+		const float SlotFontScale = SlotFont_Size * _Size;
 		Slot.FontRenderer->ChangeFontScale(SlotFontScale);
 	}
 }

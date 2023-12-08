@@ -16,7 +16,7 @@ private:
 	};
 
 private:
-	class BedCursorInfo
+	class BedCursorStruct
 	{
 	public:
 		std::shared_ptr<GameEngineUIRenderer> CursorRenderer;
@@ -84,7 +84,7 @@ private:
 	std::shared_ptr<GameEngineUIRenderer> BaseRenderer;
 	std::shared_ptr<GameEngineUIRenderer> HedFontRenderer;
 	std::vector<BedUISlot> SlotInfo;
-	BedCursorInfo CursorInfo;
+	BedCursorStruct CursorInfo;
 
 	GameEngineState State;
 

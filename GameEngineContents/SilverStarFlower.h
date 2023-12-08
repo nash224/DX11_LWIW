@@ -48,7 +48,6 @@ protected:
 	void LightUpdate(float _Delta, GameEngineState* _Parent);
 	void TouchUpdate(float _Delta, GameEngineState* _Parent);
 
-	float CalculateDistanceToEllie();
 	void UpdateFlowerLostLight(GameEngineState* _Parent);
 	void CreatePollenSpawner();
 

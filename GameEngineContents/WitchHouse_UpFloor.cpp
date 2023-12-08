@@ -60,14 +60,7 @@ void WitchHouse_UpFloor::LevelStart(class GameEngineLevel* _NextLevel)
 	PlayLevel::LevelStart(_NextLevel);
 
 	SetPlayerPosAndFade(_NextLevel);
-	LoadTexture();
 }
-
-void WitchHouse_UpFloor::LevelEnd(class GameEngineLevel* _NextLevel)
-{
-	ReleaseTexture();
-}
-
 
 void WitchHouse_UpFloor::SetPlayerPosAndFade(class GameEngineLevel* _NextLevel)
 {
@@ -105,39 +98,6 @@ void WitchHouse_UpFloor::AutoPlayBGM()
 		if (static_cast<int>(EPLAYBGMTYPE::House) != bgmType)
 		{
 			ContentsLevel::MainPlaySound->NoneBGM();
-		}
-	}
-}
-
-
-void WitchHouse_UpFloor::LoadTexture()
-{
-	GameEngineDirectory Dir;
-	Dir.MoveParentToExistsChild("Resources");
-	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_UpFloor");
-	std::vector<GameEngineDirectory> Dirs = Dir.GetAllDirectory();
-	for (GameEngineDirectory& Dircetory : Dirs)
-	{
-		std::vector<GameEngineFile> Files = Dircetory.GetAllFile();
-		for (GameEngineFile& pFile : Files)
-		{
-			GameEngineTexture::Load(pFile.GetStringPath());
-		}
-	}
-}
-
-void WitchHouse_UpFloor::ReleaseTexture()
-{
-	GameEngineDirectory Dir;
-	Dir.MoveParentToExistsChild("Resources");
-	Dir.MoveChild("Resources\\PlayContents\\WitchHouse_UpFloor");
-	std::vector<GameEngineDirectory> Dirs = Dir.GetAllDirectory();
-	for (GameEngineDirectory& Dircetory : Dirs)
-	{
-		std::vector<GameEngineFile> Files = Dircetory.GetAllFile();
-		for (GameEngineFile& pFile : Files)
-		{
-			GameEngineTexture::Release(pFile.GetFileName());
 		}
 	}
 }

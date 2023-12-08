@@ -122,8 +122,8 @@ void BackDrop_MainMenu::PropSetting()
 		std::shared_ptr<RendererActor> Object = GetLevel()->CreateActor<RendererActor>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(float4(0.0f, 0.0f, Depth));
 		Object->Init();
-		Object->m_Renderer->SetSprite("Title_Train_Sky.png");
-		Object->m_Renderer->SetPivotType(PivotType::LeftTop);
+		Object->Renderer->SetSprite("Title_Train_Sky.png");
+		Object->Renderer->SetPivotType(PivotType::LeftTop);
 	}
 
 	{
@@ -131,10 +131,10 @@ void BackDrop_MainMenu::PropSetting()
 		std::shared_ptr<RendererActor> Object = GetLevel()->CreateActor<RendererActor>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(float4(20.0f, -100.0f, Depth));
 		Object->Init();
-		Object->m_Renderer->CreateAnimation("StarAni", "Title_train_star");
-		Object->m_Renderer->ChangeAnimation("StarAni");
-		Object->m_Renderer->AutoSpriteSizeOn();
-		Object->m_Renderer->SetPivotType(PivotType::Left);
+		Object->Renderer->CreateAnimation("StarAni", "Title_train_star");
+		Object->Renderer->ChangeAnimation("StarAni");
+		Object->Renderer->AutoSpriteSizeOn();
+		Object->Renderer->SetPivotType(PivotType::Left);
 	}
 
 	{
@@ -142,8 +142,8 @@ void BackDrop_MainMenu::PropSetting()
 		std::shared_ptr<RendererActor> Object = GetLevel()->CreateActor<RendererActor>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(float4(0.0f, -398.0f, Depth));
 		Object->Init();
-		Object->m_Renderer->SetSprite("Title_Train_Water.png");
-		Object->m_Renderer->SetPivotType(PivotType::LeftTop);
+		Object->Renderer->SetSprite("Title_Train_Water.png");
+		Object->Renderer->SetPivotType(PivotType::LeftTop);
 	}
 
 	{
@@ -151,8 +151,8 @@ void BackDrop_MainMenu::PropSetting()
 		std::shared_ptr<RendererActor> Object = GetLevel()->CreateActor<RendererActor>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(float4(0.0f, -464.0f, Depth));
 		Object->Init();
-		Object->m_Renderer->SetSprite("Title_Train_Bridge_Shadow.png");
-		Object->m_Renderer->SetPivotType(PivotType::LeftTop);
+		Object->Renderer->SetSprite("Title_Train_Bridge_Shadow.png");
+		Object->Renderer->SetPivotType(PivotType::LeftTop);
 	}
 
 	{
@@ -160,8 +160,8 @@ void BackDrop_MainMenu::PropSetting()
 		std::shared_ptr<RendererActor> Object = GetLevel()->CreateActor<RendererActor>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(float4(0.0f, -492.0f, Depth));
 		Object->Init();
-		Object->m_Renderer->SetSprite("Title_Train_TrainWater_blur.png");
-		Object->m_Renderer->SetPivotType(PivotType::LeftTop);
+		Object->Renderer->SetSprite("Title_Train_TrainWater_blur.png");
+		Object->Renderer->SetPivotType(PivotType::LeftTop);
 	}
 
 	{
@@ -169,8 +169,8 @@ void BackDrop_MainMenu::PropSetting()
 		std::shared_ptr<RendererActor> Object = GetLevel()->CreateActor<RendererActor>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(float4(26.0f, -500.0f, Depth));
 		Object->Init();
-		Object->m_Renderer->SetSprite("Title_Train_Light_Blur.png");
-		Object->m_Renderer->SetPivotType(PivotType::LeftTop);
+		Object->Renderer->SetSprite("Title_Train_Light_Blur.png");
+		Object->Renderer->SetPivotType(PivotType::LeftTop);
 	}
 
 	{
@@ -178,8 +178,8 @@ void BackDrop_MainMenu::PropSetting()
 		std::shared_ptr<RendererActor> Object = GetLevel()->CreateActor<RendererActor>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(float4(220.0f, -490.0f, Depth));
 		Object->Init();
-		Object->m_Renderer->SetSprite("Title_Train_WindowWater_blur.png");
-		Object->m_Renderer->SetPivotType(PivotType::LeftTop);
+		Object->Renderer->SetSprite("Title_Train_WindowWater_blur.png");
+		Object->Renderer->SetPivotType(PivotType::LeftTop);
 	}
 
 	{
@@ -187,8 +187,8 @@ void BackDrop_MainMenu::PropSetting()
 		std::shared_ptr<RendererActor> Object = GetLevel()->CreateActor<RendererActor>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(float4(176.0f, -50.0f, Depth));
 		Object->Init();
-		Object->m_Renderer->SetSprite("Title_Train_Moon.png");
-		Object->m_Renderer->SetPivotType(PivotType::LeftTop);
+		Object->Renderer->SetSprite("Title_Train_Moon.png");
+		Object->Renderer->SetPivotType(PivotType::LeftTop);
 	}
 
 	{
@@ -196,9 +196,9 @@ void BackDrop_MainMenu::PropSetting()
 		std::shared_ptr<RendererActor> Object = GetLevel()->CreateActor<RendererActor>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(float4(437.0f, -284.0f, Depth));
 		Object->Init();
-		Object->m_Renderer->AutoSpriteSizeOn();
-		Object->m_Renderer->CreateAnimation("Smoke", "trainsmoke_big.png", 0.14f);
-		Object->m_Renderer->ChangeAnimation("Smoke");
+		Object->Renderer->AutoSpriteSizeOn();
+		Object->Renderer->CreateAnimation("Smoke", "trainsmoke_big.png", 0.14f);
+		Object->Renderer->ChangeAnimation("Smoke");
 	}
 
 	{
@@ -206,9 +206,9 @@ void BackDrop_MainMenu::PropSetting()
 		std::shared_ptr<RendererActor> Object = GetLevel()->CreateActor<RendererActor>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(float4(430.0f, -289.0f, Depth));
 		Object->Init();
-		Object->m_Renderer->AutoSpriteSizeOn();
-		Object->m_Renderer->CreateAnimation("Smoke", "trainsmoke_mid.png", 0.1f);
-		Object->m_Renderer->ChangeAnimation("Smoke");
+		Object->Renderer->AutoSpriteSizeOn();
+		Object->Renderer->CreateAnimation("Smoke", "trainsmoke_mid.png", 0.1f);
+		Object->Renderer->ChangeAnimation("Smoke");
 	}
 
 	{
@@ -216,9 +216,9 @@ void BackDrop_MainMenu::PropSetting()
 		std::shared_ptr<RendererActor> Object = GetLevel()->CreateActor<RendererActor>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(float4(434.0f, -289.0f, Depth));
 		Object->Init();
-		Object->m_Renderer->AutoSpriteSizeOn();
-		Object->m_Renderer->CreateAnimation("Smoke", "trainsmoke_small.png", 0.06f);
-		Object->m_Renderer->ChangeAnimation("Smoke");
+		Object->Renderer->AutoSpriteSizeOn();
+		Object->Renderer->CreateAnimation("Smoke", "trainsmoke_small.png", 0.06f);
+		Object->Renderer->ChangeAnimation("Smoke");
 	}
 
 
@@ -227,10 +227,10 @@ void BackDrop_MainMenu::PropSetting()
 		std::shared_ptr<RendererActor> Object = GetLevel()->CreateActor<RendererActor>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(float4(0.0f, 0.0f, Depth));
 		Object->Init();
-		Object->m_Renderer->SetSprite("Background_Shadow-Title.png");
-		Object->m_Renderer->AutoSpriteSizeOn();
-		Object->m_Renderer->SetAutoScaleRatio(0.5f);
-		Object->m_Renderer->SetPivotType(PivotType::LeftTop);
+		Object->Renderer->SetSprite("Background_Shadow-Title.png");
+		Object->Renderer->AutoSpriteSizeOn();
+		Object->Renderer->SetAutoScaleRatio(0.5f);
+		Object->Renderer->SetPivotType(PivotType::LeftTop);
 	}
 
 	{

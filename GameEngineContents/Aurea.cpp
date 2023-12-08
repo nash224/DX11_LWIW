@@ -81,11 +81,6 @@ void Aurea::StateSetting()
 	CurseState.Stay = std::bind(&Aurea::UpdateCurse, this, std::placeholders::_1, std::placeholders::_2);
 	State.CreateState(EAUREASTATE::Curse, CurseState);
 
-	CreateStateParameter NormalState;
-	NormalState.Start = std::bind(&Aurea::StartNormal, this, std::placeholders::_1);
-	NormalState.Stay = std::bind(&Aurea::UpdateNormal, this, std::placeholders::_1, std::placeholders::_2);
-	State.CreateState(EAUREASTATE::Normal, NormalState);
-
 	State.ChangeState(CurState);
 }
 
@@ -95,11 +90,6 @@ void Aurea::StartCurse(GameEngineState* _Parent)
 	CheckAureaCurseEvent();
 }
 
-void Aurea::StartNormal(GameEngineState* _Parent)
-{
-
-}
-
 
 void Aurea::UpdateCurse(float _Delta, GameEngineState* _Parent)
 {
@@ -107,11 +97,6 @@ void Aurea::UpdateCurse(float _Delta, GameEngineState* _Parent)
 	{
 		CheckAureaCurseConversation();
 	}
-}
-
-void Aurea::UpdateNormal(float _Delta, GameEngineState* _Parent)
-{
-
 }
 
 void Aurea::ConversationSetting()
@@ -182,26 +167,26 @@ void Aurea::ConversationSetting()
 
 		NPCEntity::NPCConversation.SetConversationEvent(EAUREATOPICTYPE::CurseAfter, 19, [&]()
 			{
-				std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Aurea_Cure");
-				if (true == Quest.expired())
+				const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = ContentsEvent::FindQuest("Aurea_Cure");
+				if (nullptr == Quest)
 				{
 					MsgBoxAssert("생성하지 않은 퀘스트입니다.");
 					return;
 				}
 
-				Quest.lock()->QuestAccept();
+				Quest->QuestAccept();
 			});
 
 		NPCEntity::NPCConversation.SetConversationEndEvent(EAUREATOPICTYPE::CurseAfter, [&]()
 			{
-				std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Aurea_Cure");
-				if (true == Quest.expired())
+				const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = ContentsEvent::FindQuest("Aurea_Cure");
+				if (nullptr == Quest)
 				{
 					MsgBoxAssert("생성하지 않은 퀘스트입니다.");
 					return;
 				}
 
-				Quest.lock()->QuestAccept();
+				Quest->QuestAccept();
 			});
 	}
 
@@ -256,26 +241,26 @@ void Aurea::ConversationSetting()
 
 		NPCEntity::NPCConversation.SetConversationEvent(EAUREATOPICTYPE::CurseCure, 28, [&]()
 			{
-				std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Aurea_Cure");
-				if (true == Quest.expired())
+				const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = ContentsEvent::FindQuest("Aurea_Cure");
+				if (nullptr == Quest)
 				{
 					MsgBoxAssert("생성하지 않은 퀘스트입니다.");
 					return;
 				}
 
-				Quest.lock()->QuestComplete();
+				Quest->QuestComplete();
 			});
 
 		NPCEntity::NPCConversation.SetConversationEndEvent(EAUREATOPICTYPE::CurseCure, [&]()
 			{
-				std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("Aurea_Cure");
-				if (true == Quest.expired())
+				const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = ContentsEvent::FindQuest("Aurea_Cure");
+				if (nullptr == Quest)
 				{
 					MsgBoxAssert("생성하지 않은 퀘스트입니다.");
 					return;
 				}
 
-				Quest.lock()->QuestComplete();
+				Quest->QuestComplete();
 
 				CurState = EAUREASTATE::Normal;
 				State.ChangeState(EAUREASTATE::Normal);

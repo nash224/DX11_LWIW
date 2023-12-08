@@ -68,7 +68,7 @@ std::shared_ptr<RendererActor> BackDrop_PlayLevel::CreateRenderActor(int _Update
 	std::shared_ptr<RendererActor> Object = GetLevel()->CreateActor<RendererActor>(_UpdateOrder);
 	Object->Transform.SetLocalPosition(Position);
 	Object->Init();
-	Object->m_Renderer->SetSprite(_SpriteName);
+	Object->Renderer->SetSprite(_SpriteName);
 
 	return Object;
 }

@@ -45,6 +45,7 @@ void UI_Dispensation::Release()
 	AlchemyPotPtr = nullptr;
 
 	DispensationSlot.clear();
+	UIGuide.Release();
 }
 
 void UI_Dispensation::LevelStart(class GameEngineLevel* _NextLevel)
@@ -58,8 +59,6 @@ void UI_Dispensation::LevelEnd(class GameEngineLevel* _NextLevel)
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 
 void UI_Dispensation::Init()
@@ -146,9 +145,6 @@ void UI_Dispensation::RendererSetting()
 	}
 }
 
-
-/////////////////////////////////////////////////////////////////////////////////////
-
 void UI_Dispensation::Open()
 {
 	GameEngineInput::IsOnlyInputObject(this);
@@ -194,7 +190,9 @@ bool UI_Dispensation::SelectThis(std::string_view _ItemName, int _ItemCount)
 	int EmptySlotNumber = ReturnEmptySlot();
 
 	DispensationSlotInfo* SlotInfo = FindSlot(_ItemName);
-	if (-1 != EmptySlotNumber && nullptr == SlotInfo)
+
+	bool NotEmpty = (-1 != EmptySlotNumber && nullptr == SlotInfo);
+	if (NotEmpty)
 	{
 		DispensationSlot[EmptySlotNumber].ItemName = _ItemName;
 		DispensationSlot[EmptySlotNumber].ItemCount = _ItemCount;
@@ -229,7 +227,7 @@ int UI_Dispensation::ReturnEmptySlot()
 
 DispensationSlotInfo* UI_Dispensation::FindSlot(std::string_view _ItemName)
 {
-	for (size_t i = 0; i < DispensationSlot.size(); i++)
+	for (int i = 0; i < DispensationSlot.size(); i++)
 	{
 		DispensationSlotInfo& Info = DispensationSlot[i];
 		if (Info.ItemName == _ItemName)
@@ -264,7 +262,7 @@ bool UI_Dispensation::UnSelectThis(std::string_view _ItemName)
 
 void UI_Dispensation::ClearSlotInfo()
 {
-	for (size_t i = 0; i < DispensationSlot.size(); i++)
+	for (int i = 0; i < DispensationSlot.size(); i++)
 	{
 		DispensationSlot[i].ItemCount = 0;
 		DispensationSlot[i].ItemName.clear();
@@ -285,7 +283,7 @@ void UI_Dispensation::Dispensation()
 
 	if (true == CheckDispensation(CurRecipeData))
 	{
-		for (size_t i = 0; i < DispensationSlot.size(); i++)
+		for (int i = 0; i < DispensationSlot.size(); i++)
 		{
 			PopDispensationMaterial(DispensationSlot[i].ItemName);
 		}
@@ -381,8 +379,7 @@ void UI_Dispensation::LowHit()
 	int iFire = static_cast<int>(CurFire);
 	--iFire;
 
-	if (nullptr == Fire_Gauge
-		|| nullptr == Fire_Gauge_Pin)
+	if (nullptr == Fire_Gauge || nullptr == Fire_Gauge_Pin)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;

@@ -249,4 +249,3 @@ public:
 	static std::map<std::string, std::shared_ptr<QuestUnitBase>> QuestData;
 
 };
-

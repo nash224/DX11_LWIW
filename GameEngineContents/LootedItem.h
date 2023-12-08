@@ -36,9 +36,6 @@ protected:
 private:
 	void CreateItemRenderer(std::string_view _ItemName);
 
-
-
-private:
 	void UpdateFallingItem(float _Delta);
 	void UpdateItemInteraction();
 

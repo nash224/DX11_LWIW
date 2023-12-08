@@ -8,7 +8,7 @@
 class MapEditorLevel : public ContentsLevel
 {
 public:
-	std::shared_ptr<class MouseManager> m_MouseManager = nullptr;
+	std::shared_ptr<class MouseManager> MouseManagerPtr = nullptr;
 	class RendererActor* SelectActor = nullptr;
 
 
@@ -28,15 +28,15 @@ public:
 	int _SelectDepth = 0;
 	float _RendererHeight = 0.0f;
 
-	std::string _SelcetSprite = "";
-	std::string _SelcetPixelSprite = "";
+	std::string _SelcetSprite;
+	std::string _SelcetPixelSprite;
 
 	float4 m_BaseScale = float4::ZERO;
 	float4 m_SaveLocation = float4::ZERO;
 
 
-	std::shared_ptr<GameEngineActor> m_MapBaseActor;
-	std::shared_ptr<GameEngineSpriteRenderer> m_MapBaseRenderer;
+	std::shared_ptr<GameEngineActor> MapBaseActor;
+	std::shared_ptr<GameEngineSpriteRenderer> MapBaseRenderer;
 
 
 	void CenterFieldMapSetting();

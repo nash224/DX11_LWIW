@@ -4,6 +4,7 @@
 #include "BackDrop_PlayLevel.h"
 #include "UI_Inventory.h"
 
+
 WitchFlower::WitchFlower() 
 {
 }
@@ -48,9 +49,7 @@ void WitchFlower::RendererSetting()
 		GameEngineSprite::CreateCut("WitchFlower.png", 4, 4);
 	}
 
-	static constexpr const int RenderOrder = 0;
-
-	BodyRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
+	BodyRenderer = CreateComponent<GameEngineSpriteRenderer>();
 	BodyRenderer->Transform.AddLocalPosition({ 0.0f, RenderYCorrection , 0.0f });
 	BodyRenderer->AutoSpriteSizeOn();
 	BodyRenderer->CreateAnimation("Idle", "WitchFlower.png", 5.0f, 5, 5, false);
@@ -58,11 +57,9 @@ void WitchFlower::RendererSetting()
 	BodyRenderer->FindAnimation("UpRoot")->Inter[7] = 0.24f;
 
 
-	ShadowRenderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
+	ShadowRenderer = CreateComponent<GameEngineSpriteRenderer>();
 	ShadowRenderer->SetSprite("WitchFlower.png", 1);
 	ShadowRenderer->Transform.AddLocalPosition({ 0.0f, RenderYCorrection, DepthFunction::CalculateFixDepth(ERENDERDEPTH::ObjectShadow)});
-
-
 
 	// 프레임 이벤트 설정
 	BodyRenderer->SetFrameEvent("UpRoot", 6, [=](GameEngineSpriteRenderer* _Renderer)

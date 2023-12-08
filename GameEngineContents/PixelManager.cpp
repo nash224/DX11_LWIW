@@ -118,9 +118,9 @@ void PixelManager::ChangeDebugMode()
 		std::vector<std::shared_ptr<RendererActor>> RenderActors = GetLevel()->GetObjectGroupConvert<RendererActor>(EUPDATEORDER::Objects);
 		for (const std::shared_ptr<RendererActor>& Actor : RenderActors)
 		{
-			if (nullptr != Actor->m_Renderer)
+			if (nullptr != Actor->Renderer)
 			{
-				Actor->m_Renderer->Off();
+				Actor->Renderer->Off();
 			}
 		}
 
@@ -134,9 +134,9 @@ void PixelManager::ChangeDebugMode()
 		std::vector<std::shared_ptr<RendererActor>> RenderActors = GetLevel()->GetObjectGroupConvert<RendererActor>(EUPDATEORDER::Objects);
 		for (const std::shared_ptr<RendererActor>& Actor : RenderActors)
 		{
-			if (nullptr != Actor->m_Renderer)
+			if (nullptr != Actor->Renderer)
 			{
-				Actor->m_Renderer->On();
+				Actor->Renderer->On();
 			}
 		}
 

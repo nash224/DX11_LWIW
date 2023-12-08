@@ -17,7 +17,7 @@ void Tunnel::Update(float _Delta)
 
 void Tunnel::Release()
 {
-	m_Renderer = nullptr;
+	Renderer = nullptr;
 }
 
 void Tunnel::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -35,16 +35,16 @@ void Tunnel::Init(std::string_view _NextLevelName)
 	NextLevelName = _NextLevelName;
 
 	// Actor Transfomr Setting
-	float4 WinScale = GlobalValue::GetWindowScale();
+	const float4 WinScale = GlobalValue::GetWindowScale();
 	float4 Position = { WinScale.X * 2.0f, 0.0f, DepthFunction::CalculateFixDepth(ERENDERDEPTH::FadeObject) };
 	Transform.SetLocalRotation({0.0f, 0.0f, 180.0f});
 	Transform.SetLocalPosition(Position);
 
 	// Renderer Setting
-	m_Renderer = CreateComponent<GameEngineUIRenderer>();
-	m_Renderer->SetSprite("Title_Train_Cover.png");
-	m_Renderer->UpFlip();
-	m_Renderer->GetImageTransform().SetLocalScale({ WinScale.X * 2.0f , WinScale.Y });
+	Renderer = CreateComponent<GameEngineUIRenderer>();
+	Renderer->SetSprite("Title_Train_Cover.png");
+	Renderer->UpFlip();
+	Renderer->GetImageTransform().SetLocalScale({ WinScale.X * 2.0f , WinScale.Y });
 
 
 	StateSetting();
@@ -73,6 +73,7 @@ void Tunnel::StartEnterTunnel(GameEngineState* _Parent)
 
 void Tunnel::UpdateEnterTunnel(float _Delta, GameEngineState* _Parent)
 {
+	const float TunnelSpeed = 2800.0f;
 	float MovePosition = -TunnelSpeed * _Delta;
 	Transform.AddLocalPosition({ MovePosition });
 
@@ -85,8 +86,7 @@ void Tunnel::UpdateEnterTunnel(float _Delta, GameEngineState* _Parent)
 
 void Tunnel::UpdateWait(float _Delta, GameEngineState* _Parent)
 {
-	static constexpr const float WaitDoneTime = 2.5f;
-	
+	const float WaitDoneTime = 2.5f;
 	if (_Parent->GetStateTime() > WaitDoneTime)
 	{
 		GameEngineCore::ChangeLevel(NextLevelName);

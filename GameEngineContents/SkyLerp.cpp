@@ -62,16 +62,10 @@ void SkyLerp::Start()
 
 	SetSkyData();
 
-	if (nullptr == PlayLevel::s_TimeManager)
-	{
-		MsgBoxAssert("시간매니저 없이는 사용할 수 없는 기능입니다.");
-		return;
-	}
+	TenMinuteTimeRatio = PlayLevel::GetTimeManager()->GetMinuteRatio();
 
-	TenMinuteTimeRatio = PlayLevel::s_TimeManager->GetMinuteRatio();
-
-	SunsetStartTimeRatio = GetTimeRatio((SunsetStartHour - PlayLevel::s_TimeManager->GetStartHour()) * 6);
-	ALightStartTimeRatio = GetTimeRatio((AlightStartHour - PlayLevel::s_TimeManager->GetStartHour()) * 6);
+	SunsetStartTimeRatio = GetTimeRatio((SunsetStartHour - PlayLevel::GetTimeManager()->GetStartHour()) * 6);
+	ALightStartTimeRatio = GetTimeRatio((AlightStartHour - PlayLevel::GetTimeManager()->GetStartHour()) * 6);
 	SunsetEndTimeRatio = GetTimeRatio(static_cast<int>(SkyData.size()) - 1) + SunsetStartTimeRatio;
 
 	LerpSky(SkyData[0]);
@@ -154,13 +148,7 @@ void SkyLerp::UpdateSkyLerp()
 		return;
 	}
 
-	if (nullptr == PlayLevel::s_TimeManager)
-	{
-		MsgBoxAssert("시간매니저 없이는 사용할 수 없는 기능입니다.");
-		return;
-	}
-
-	const float TimeRatio = PlayLevel::s_TimeManager->GetTimeRatio();
+	const float TimeRatio = PlayLevel::GetTimeManager()->GetTimeRatio();
 
 	bool isOver300PM = (TimeRatio > SunsetStartTimeRatio);
 	if (isOver300PM)

@@ -131,8 +131,8 @@ void BackDrop_WitchHouse_DownFloor::PropSetting()
 		std::shared_ptr<RendererActor> Object = GetLevel()->CreateActor<RendererActor>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition(float4(HWinScale.X, HWinScale.Y * -1.0f, Depth));
 		Object->Init();
-		Object->m_Renderer->SetSprite("DownFloor_Back.png");
-		Object->m_Renderer->GetImageTransform().SetLocalScale(GlobalValue::GetWindowScale());
+		Object->Renderer->SetSprite("DownFloor_Back.png");
+		Object->Renderer->GetImageTransform().SetLocalScale(GlobalValue::GetWindowScale());
 	}
 
 
@@ -376,7 +376,7 @@ void BackDrop_WitchHouse_DownFloor::PropSetting()
 		Position.Y *= -1.0f;
 		const std::shared_ptr<RendererActor>& Ceil
 			= BackDrop_PlayLevel::CreateRenderActor(static_cast<int>(EUPDATEORDER::Objects), "DownFloor_Frame.png", Position, static_cast<int>(EHOUSEDEPTH::FRAME));
-		Ceil->m_Renderer->SetViewCameraSelect(static_cast<int>(ECAMERAORDER::MainNext));
+		Ceil->Renderer->SetViewCameraSelect(static_cast<int>(ECAMERAORDER::MainNext));
 	}
 }
 

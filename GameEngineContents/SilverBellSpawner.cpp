@@ -36,7 +36,7 @@ void SilverBellSpawner::UpdateSpawner(float _Delta)
 	CreatePollenCoolTime += _Delta;
 	if (CreatePollenCoolTime > Create_Pollen_Time)
 	{
-		CreatePollenCoolTime = 0.0f;
+		CreatePollenCoolTime -= Create_Pollen_Time;
 		CreatePollen();
 	}
 }

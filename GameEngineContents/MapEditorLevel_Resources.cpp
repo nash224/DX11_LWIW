@@ -11,23 +11,10 @@ void MapEditorLevel::LoadResouces()
 		Dir.MoveChild("Resources\\PlayContents\\WitchHouse_Yard");
 		std::vector<GameEngineFile> Files = Dir.GetAllFile();
 
-		for (size_t i = 0; i < Files.size(); i++)
+		for (GameEngineFile& pFile : Files)
 		{
-			GameEngineFile pFile = Files[i];
 			GameEngineTexture::Load(pFile.GetStringPath());
-		}
-	}
-
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExistsChild("Resources");
-		Dir.MoveChild("Resources\\PlayContents\\WitchHouse_Yard");
-		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-
-		for (size_t i = 0; i < Files.size(); i++)
-		{
-			GameEngineFile pFile = Files[i];
-			GameEngineSprite::CreateSingle(pFile.GetFileName());
+			GameEngineTexture::Load(pFile.GetFileName());
 		}
 	}
 
@@ -37,20 +24,9 @@ void MapEditorLevel::LoadResouces()
 		Dir.MoveParentToExistsChild("Resources");
 		Dir.MoveChild("Resources\\PlayContents\\FieldCenter");
 		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-		for (GameEngineFile pFile : Files)
+		for (GameEngineFile& pFile : Files)
 		{
 			GameEngineTexture::Load(pFile.GetStringPath());
-		}
-	}
-
-	if (nullptr == GameEngineSprite::Find("CenterMap.png"))
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExistsChild("Resources");
-		Dir.MoveChild("Resources\\PlayContents\\FieldCenter");
-		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-		for (GameEngineFile pFile : Files)
-		{
 			GameEngineSprite::CreateSingle(pFile.GetFileName());
 		}
 	}
@@ -63,29 +39,12 @@ void MapEditorLevel::ReleaseResouces()
 		Dir.MoveParentToExistsChild("Resources");
 		Dir.MoveChild("Resources\\PlayContents\\WitchHouse_Yard");
 		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-
-		for (size_t i = 0; i < Files.size(); i++)
+		for (GameEngineFile& pFile : Files)
 		{
-			GameEngineFile pFile = Files[i];
 			GameEngineSprite::Release(pFile.GetFileName());
-		}
-	}
-
-
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExistsChild("Resources");
-		Dir.MoveChild("Resources\\PlayContents\\WitchHouse_Yard");
-		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-
-		for (size_t i = 0; i < Files.size(); i++)
-		{
-			GameEngineFile pFile = Files[i];
 			GameEngineTexture::Release(pFile.GetFileName());
 		}
 	}
-
-
 
 	if (nullptr == GameEngineSprite::Find("CenterMap.png"))
 	{
@@ -93,20 +52,9 @@ void MapEditorLevel::ReleaseResouces()
 		Dir.MoveParentToExistsChild("Resources");
 		Dir.MoveChild("Resources\\PlayContents\\FieldCenter");
 		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-		for (GameEngineFile pFile : Files)
+		for (GameEngineFile& pFile : Files)
 		{
 			GameEngineSprite::Release(pFile.GetFileName());
-		}
-	}
-
-	if (nullptr != GameEngineTexture::Find("CenterMap.png"))
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExistsChild("Resources");
-		Dir.MoveChild("Resources\\PlayContents\\FieldCenter");
-		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-		for (GameEngineFile pFile : Files)
-		{
 			GameEngineTexture::Release(pFile.GetFileName());
 		}
 	}
@@ -135,7 +83,7 @@ void MapEditorLevel::CenterFieldMapSetting()
 		std::shared_ptr<RendererActor> CenterMap = CreateActor<RendererActor>();
 		CenterMap->Transform.SetLocalPosition(MapPos);
 		CenterMap->Init();
-		CenterMap->m_Renderer->SetSprite("CenterMap.png");
+		CenterMap->Renderer->SetSprite("CenterMap.png");
 	}
 
 	{
@@ -146,7 +94,7 @@ void MapEditorLevel::CenterFieldMapSetting()
 		std::shared_ptr<RendererActor> BaseGorund = CreateActor<RendererActor>();
 		BaseGorund->Transform.SetLocalPosition(BasePosition);
 		BaseGorund->Init();
-		BaseGorund->m_Renderer->SetSprite("GroundBase.png");
-		BaseGorund->m_Renderer->SetImageScale(MapScale);
+		BaseGorund->Renderer->SetSprite("GroundBase.png");
+		BaseGorund->Renderer->SetImageScale(MapScale);
 	}
 }

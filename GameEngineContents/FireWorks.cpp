@@ -55,6 +55,7 @@ void FireWorks::Release()
 	FxRenderer = nullptr;
 	Crackers.clear();
 	LightData.clear();
+	RayLightStateInfo.Parent = nullptr;
 
 	GameEngineSprite::Release("Pot_2.png");
 	GameEngineSprite::Release("FireLine.png");
@@ -152,7 +153,7 @@ void FireWorks::RendererSetting()
 
 void FireWorks::CrackersSetting()
 {
-	const float4& CenterPopPos = float4(22.0f, 2000.0f);
+	const float4 CenterPopPos = float4(22.0f, 2000.0f);
 
 	float4 CrackerPosArr[MaxPopCount] =
 	{
@@ -178,7 +179,7 @@ void FireWorks::CrackersSetting()
 		Crackers[i].NextPopTime = NextPopTimeArr[i];
 	}
 
-	static constexpr float PopInter = 0.1f;
+	const float PopInter = 0.1f;
 
 	Crackers[0].PopRenderer->CreateAnimation("Pop", "Fireworkhalf_Main.png", PopInter, 33, 48, false);
 	Crackers[1].PopRenderer->CreateAnimation("Pop", "Fireworkhalf_Sub_A.png", PopInter, -1, -1, false);
@@ -282,7 +283,7 @@ void FireWorks::StartFocusRayLight(GameEngineState* _Parent)
 	PlayLevel::GetCurLevel();
 	PlayLevel::GetCurLevel()->GetLevelCameraPtr()->SetCameraMode(ECAMERAMODE::Cinematic);
 
-	const float4& CameraPos = PlayLevel::GetCurLevel()->GetLevelCameraPtr()->GetCameraCurrentPostion();
+	const float4 CameraPos = PlayLevel::GetCurLevel()->GetLevelCameraPtr()->GetCameraCurrentPostion();
 	LimitCameraPos = CameraPos + float4(0.0f, TargetDistance);
 
 	SFXFunction::PlaySFX("SFX_Firework.wav");
@@ -299,7 +300,7 @@ void FireWorks::UpdateFocusRayLight(float _Delta, GameEngineState* _Parent)
 	const float CameraMoveForce = TargetDistance* _Delta / TargetTime;
 	CurCameraPtr->AddCameraPos(float4(0.0f, CameraMoveForce));
 
-	const float4& CameraPos = CurCameraPtr->GetCameraCurrentPostion();
+	const float4 CameraPos = CurCameraPtr->GetCameraCurrentPostion();
 	if (CameraPos.Y > LimitCameraPos.Y)
 	{
 		CurCameraPtr->SetCameraPos(LimitCameraPos);

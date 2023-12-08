@@ -53,10 +53,8 @@ private:
 	void StateSetting();
 
 	void StartCurse(GameEngineState* _Parent);
-	void StartNormal(GameEngineState* _Parent);
 
 	void UpdateCurse(float _Delta, GameEngineState* _Parent);
-	void UpdateNormal(float _Delta, GameEngineState* _Parent);
 
 	void CheckAureaCurseEvent();
 	void ShowFindAureaEvent();
@@ -69,6 +67,6 @@ private:
 	GameEngineState State;
 
 
-	static constexpr const float RendererCorrection = 30.0f;
+	static constexpr float RendererCorrection = 30.0f;
 
 };

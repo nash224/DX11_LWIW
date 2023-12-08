@@ -18,6 +18,12 @@ void Ellie::UpdateCollision()
 
 void Ellie::UpdatePortalCollsiion()
 {
+	if (nullptr == EllieCol)
+	{
+		MsgBoxAssert("충돌체가 존재하지 않습니다.");
+		return;
+	}
+
 	EllieCol->Collision(ECOLLISION::Portal, [&](std::vector<GameEngineCollision*>& _Collision)
 		{
 			for (size_t i = 0; i < _Collision.size(); i++)
@@ -213,6 +219,12 @@ bool Ellie::IsInSight(float _AngleToObject, float _LeftFov, float _RightFov)
 
 void Ellie::CheckNetCollision()
 {
+	if (nullptr == NetCollision)
+	{
+		MsgBoxAssert("충돌체가 존재하지 않습니다.");
+		return;
+	}
+
 	NetCollision->Collision(ECOLLISION::Entity, [&](std::vector<GameEngineCollision*>& _OtherGroup)
 		{
 			for (int i = 0; i < _OtherGroup.size(); i++)

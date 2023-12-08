@@ -47,8 +47,8 @@ private:
 	std::shared_ptr<class ChubHole> Hole = nullptr;
 
 	float4 MiddlePoint = float4::ZERO;
-	float4 m_HoleScale = float4::ZERO;
-	float4 m_PopulationLocation = float4::ZERO;
+	float4 HoleScale = float4::ZERO;
+	float4 PopulationLocation = float4::ZERO;
 
 	static constexpr float MonSiriSpawnRangeSize = 80.0f;			// 몽시리 설치범위
 	static constexpr float PopulationMinCircle = 60.0f;

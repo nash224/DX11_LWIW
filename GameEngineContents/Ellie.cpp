@@ -771,11 +771,11 @@ void Ellie::LimitMoveVector(float _MAXMoveForce)
 
 void Ellie::CheckDayChange()
 {
-	if (nullptr != PlayLevel::s_TimeManager)
+	if (nullptr != PlayLevel::GetTimeManager())
 	{
-		if (Day != PlayLevel::s_TimeManager->GetDayCount())
+		if (Day != PlayLevel::GetTimeManager()->GetDayCount())
 		{
-			Day = PlayLevel::s_TimeManager->GetDayCount();
+			Day = PlayLevel::GetTimeManager()->GetDayCount();
 			DayChangeEvent();
 		}
 	}

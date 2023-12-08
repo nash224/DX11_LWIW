@@ -123,7 +123,7 @@ private:
 	bool IsOnTheHole = false;
 
 
-	static constexpr float MongSiri_JumpMinSpeed = 0.0f;
-	static constexpr float MongSiri_JumpMaxSpeed = 60.0f;
+	static constexpr float JumpMinPower = 0.0f;
+	static constexpr float JumpMaxPower = 60.0f;
 
 };

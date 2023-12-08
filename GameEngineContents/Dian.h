@@ -63,7 +63,7 @@ private:
 	
 	GameEngineState State;
 
-	static constexpr const float RendererYCorrection = 30.0f;
+	static constexpr float RendererYCorrection = 30.0f;
 
 };
 

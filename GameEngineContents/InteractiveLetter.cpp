@@ -38,7 +38,7 @@ void InteractiveLetter::Update(float _Delta)
 void InteractiveLetter::Release()
 {
 	InteractiveActor::Release();
-
+	LetterConversation.Release();
 	CutsceneFrame = nullptr;
 }
 

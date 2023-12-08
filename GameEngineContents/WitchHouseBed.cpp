@@ -61,17 +61,14 @@ void WitchHouseBed::StateSetting()
 	ActiveState.Stay = std::bind(&WitchHouseBed::UpdateActive, this, std::placeholders::_1, std::placeholders::_2);
 	State.CreateState(EBEDSTATE::Active, ActiveState);
 
-	if (nullptr != PlayLevel::s_TimeManager)
+	const unsigned int CurHour = PlayLevel::GetTimeManager()->GetHour();
+	if (CurHour >= Bed_Active_Hour)
 	{
-		const unsigned int CurHour = PlayLevel::s_TimeManager->GetHour();
-		if (CurHour >= Bed_Active_Hour)
-		{
-			State.ChangeState(EBEDSTATE::Active);
-		}
-		else
-		{
-			State.ChangeState(EBEDSTATE::NotActive);
-		}
+		State.ChangeState(EBEDSTATE::Active);
+	}
+	else
+	{
+		State.ChangeState(EBEDSTATE::NotActive);
 	}
 }
 
@@ -100,14 +97,11 @@ void WitchHouseBed::StartActive(GameEngineState* _Parent)
 
 void WitchHouseBed::UpdateNotActive(float _Delta, GameEngineState* _Parent)
 {
-	if (nullptr != PlayLevel::s_TimeManager)
+	const unsigned int CurHour = PlayLevel::GetTimeManager()->GetHour();
+	if (CurHour >= Bed_Active_Hour)
 	{
-		const unsigned int CurHour = PlayLevel::s_TimeManager->GetHour();
-		if (CurHour >= Bed_Active_Hour)
-		{
-			State.ChangeState(EBEDSTATE::Active);
-			return;
-		}
+		State.ChangeState(EBEDSTATE::Active);
+		return;
 	}
 }
 

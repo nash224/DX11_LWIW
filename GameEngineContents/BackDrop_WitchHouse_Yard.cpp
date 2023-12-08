@@ -169,15 +169,15 @@ void BackDrop_WitchHouse_Yard::CreateNormalProp()
 		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition({ 700.0f , -214.0f , DepthFunction::CalculateObjectDepth(BackScale.Y, -234.0f) });
 		Object->Init();
-		Object->m_Renderer->SetSprite("Yard_Pumpkins.png");
-		Object->m_Renderer->Transform.SetLocalPosition(float4(0.0f, 10.0f));
+		Object->Renderer->SetSprite("Yard_Pumpkins.png");
+		Object->Renderer->Transform.SetLocalPosition(float4(0.0f, 10.0f));
 	}
 
 	{
 		std::shared_ptr<NormalProp> Object = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		Object->Transform.SetLocalPosition({ 700.0f , -228.0f , DepthFunction::CalculateObjectDepth(BackScale.Y,-228.0f) });
 		Object->Init();
-		Object->m_Renderer->SetSprite("Yard_Stone_L_0.png");
+		Object->Renderer->SetSprite("Yard_Stone_L_0.png");
 		Object->SetPixelCollision("Yard_Stone_L_0_Pixel.png");
 	}
 
@@ -293,17 +293,17 @@ void BackDrop_WitchHouse_Yard::CheckDianSpawn()
 	if (true == Quest->isQuestComplete())
 	{
 		const std::shared_ptr<ContentsEvent::Crow_Meet>& CastedQuest = Quest->Get_DynamicCast_This<ContentsEvent::Crow_Meet>();
-		if (nullptr == PlayLevel::s_TimeManager)
+		if (nullptr == PlayLevel::GetTimeManager())
 		{
 			MsgBoxAssert("타임 매니저가 존재하지 않는데 참조하려 했습니다.");
 			return;
 		}
 
-		const int CurDayCount = PlayLevel::s_TimeManager->GetDayCount();
+		const int CurDayCount = PlayLevel::GetTimeManager()->GetDayCount();
 		const int EventViewDayCount = CastedQuest->GetEventDay();
 		if (EventViewDayCount < CurDayCount)
 		{
-			const int CurHour = PlayLevel::s_TimeManager->GetHour();
+			const int CurHour = PlayLevel::GetTimeManager()->GetHour();
 			if (CurHour < 19)
 			{
 				CreateDian();

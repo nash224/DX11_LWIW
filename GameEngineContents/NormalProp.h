@@ -27,7 +27,7 @@ public:
 
 	void ChangePixeldata(std::string_view _PixelName);
 
-	std::shared_ptr<GameEngineSpriteRenderer> m_DebugRenderer = nullptr;
+	std::shared_ptr<GameEngineSpriteRenderer> DebugRenderer = nullptr;
 
 protected:
 	void Start() override {}

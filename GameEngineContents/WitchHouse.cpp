@@ -40,7 +40,7 @@ void WitchHouse::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void WitchHouse::Init()
 {
-	static constexpr float YRender_Correction = 148.0f;
+	const float YRender_Correction = 148.0f;
 
 
 	const std::shared_ptr<BackDrop_PlayLevel>& BackDropPtr = PlayLevel::GetCurLevel()->GetBackDropPtr();
@@ -50,10 +50,10 @@ void WitchHouse::Init()
 		return;
 	}
 
-	const float4& BackScale = BackDropPtr->GetBackGroundScale();
+	const float4 BackScale = BackDropPtr->GetBackGroundScale();
 	const float HouseYPosition = -350.0f;
 	float HouseZ = DepthFunction::CalculateObjectDepth(BackScale.Y, HouseYPosition + 50.0f);
-	const float4& HousePosition = float4(BackScale.hX(), YRender_Correction + HouseYPosition, HouseZ);
+	const float4 HousePosition = float4(BackScale.hX(), YRender_Correction + HouseYPosition, HouseZ);
 
 	Transform.SetLocalPosition(HousePosition);
 

@@ -17,8 +17,8 @@ void CometSpawner::Start()
 
 void CometSpawner::Update(float _Delta)
 {
-	static constexpr float SpawnMinTime = 0.8f;
-	static constexpr float SpawnMaxTime = 1.2f;
+	const float SpawnMinTime = 0.8f;
+	const float SpawnMaxTime = 1.2f;
 
 	SpawnTime -= _Delta;
 	if (SpawnTime < 0.0f)

@@ -39,11 +39,9 @@ protected:
 
 
 private:
-	std::shared_ptr<GameEngineUIRenderer> m_Renderer = nullptr;
-	std::string NextLevelName = "";
+	std::shared_ptr<GameEngineUIRenderer> Renderer = nullptr;
+	std::string NextLevelName;
 
 	GameEngineState TunnelState;
-
-	static constexpr const float TunnelSpeed = 2800.0f;
 };
 

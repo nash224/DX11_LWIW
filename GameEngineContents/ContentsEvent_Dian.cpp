@@ -12,7 +12,7 @@
 
 bool ContentsEvent::Crow_Meet::QuestClearPrerequisite()
 {
-	if (nullptr != PlayLevel::s_TimeManager)
+	if (nullptr != PlayLevel::GetTimeManager())
 	{
 		const std::shared_ptr<ContentsEvent::QuestUnitBase>& AureaQuest = ContentsEvent::FindQuest("Repair_Extractor");
 		if (nullptr == AureaQuest)
@@ -23,7 +23,7 @@ bool ContentsEvent::Crow_Meet::QuestClearPrerequisite()
 
 		bool isQuestComplete = AureaQuest->isQuestComplete();
 
-		if (PlayLevel::s_TimeManager->GetHour() >= 11 && true == isQuestComplete)
+		if (PlayLevel::GetTimeManager()->GetHour() >= 11 && true == isQuestComplete)
 		{
 			return true;
 		}
@@ -34,9 +34,9 @@ bool ContentsEvent::Crow_Meet::QuestClearPrerequisite()
 
 void ContentsEvent::Crow_Meet::CompleteInternal()
 {
-	if (nullptr != PlayLevel::s_TimeManager)
+	if (nullptr != PlayLevel::GetTimeManager())
 	{
-		EventDay = PlayLevel::s_TimeManager->GetDayCount();
+		EventDay = PlayLevel::GetTimeManager()->GetDayCount();
 	}
 }
 

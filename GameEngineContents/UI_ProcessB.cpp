@@ -31,6 +31,8 @@ void UI_ProcessB::Release()
 {
 	BaseRenderer = nullptr;
 	FrameRenderer = nullptr;
+	PressFontRenderer = nullptr;
+	PressButtonRenderer = nullptr;
 	ProductInfo.ProductRenderer = nullptr;
 	ProductInfo.NameRenderer = nullptr;
 	SourceInfo.SourceRenderer = nullptr;
@@ -40,6 +42,7 @@ void UI_ProcessB::Release()
 	ProcessManager = nullptr;
 
 	Gauge.Release();
+	UIGuide.Release();
 }
 
 void UI_ProcessB::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -100,7 +103,7 @@ void UI_ProcessB::RendererSetting()
 	SourceInfo.NameRenderer->Transform.SetLocalPosition(float4(2.0f, 27.0f, FontDepth));
 	SourceInfo.NameRenderer->SetText(GlobalValue::Font_Sandoll, "", NameFontSize, BlackColor, FW1_TEXT_FLAG::FW1_CENTER);
 
-	static constexpr float SourceInfoFontYPos = 25.0f;
+	const float SourceInfoFontYPos = 25.0f;
 
 	SourceInfo.SlashRenderer = CreateComponent<GameEngineUIRenderer>();
 	SourceInfo.SlashRenderer->Transform.SetLocalPosition(float4(76.0f, SourceInfoFontYPos, FontDepth));

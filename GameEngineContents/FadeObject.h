@@ -46,7 +46,7 @@ private:
 	std::shared_ptr<GameEngineUIRenderer> FadeRenderer = nullptr;
 
 	CallFadeType FadeType = CallFadeType::None;
-	std::string NextLevelName = "";
+	std::string NextLevelName;
 
 	float FadeDuration = 1.0f;
 	float AccTime = 0.0f;

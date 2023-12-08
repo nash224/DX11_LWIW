@@ -45,9 +45,9 @@ private:
 	std::shared_ptr<GameEngineUIRenderer> MaterialMaskRenderer = nullptr;
 	std::shared_ptr<GameEngineUIRenderer> NameRenderer = nullptr;
 
-	std::string ItemName = "";
-	std::string ItemKRName = "";
-	std::string SrcName = "";
+	std::string ItemName;
+	std::string ItemKRName;
+	std::string SrcName;
 
 
 	EPROCESSUNITSTATE State = EPROCESSUNITSTATE::None;

@@ -92,7 +92,7 @@ void BackDrop_CenterField::CreateMap()
 		std::shared_ptr<NormalProp> CenterMap = GetLevel()->CreateActor<NormalProp>(EUPDATEORDER::Objects);
 		CenterMap->Transform.SetLocalPosition(MapPos);
 		CenterMap->Init();
-		CenterMap->m_Renderer->SetSprite("CenterMap.png");
+		CenterMap->Renderer->SetSprite("CenterMap.png");
 		CenterMap->SetPixelCollision("CenterMap_Pixel.png");
 	}
 
@@ -104,8 +104,8 @@ void BackDrop_CenterField::CreateMap()
 		std::shared_ptr<RendererActor> BaseGorund = GetLevel()->CreateActor<RendererActor>(EUPDATEORDER::Objects);
 		BaseGorund->Transform.SetLocalPosition(BasePosition);
 		BaseGorund->Init();
-		BaseGorund->m_Renderer->SetSprite("GroundBase.png");
-		BaseGorund->m_Renderer->SetImageScale(BackScale);
+		BaseGorund->Renderer->SetSprite("GroundBase.png");
+		BaseGorund->Renderer->SetImageScale(BackScale);
 	}
 }
 

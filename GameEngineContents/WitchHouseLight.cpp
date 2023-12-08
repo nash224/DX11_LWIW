@@ -82,10 +82,10 @@ void WitchHouseLight::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void WitchHouseLight::Init(std::string_view _SpriteName, int _RenderOrder /*= 0*/)
 {
-	m_Renderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::Light);
-	m_Renderer->SetMaterial("Light2DTexture");
-	m_Renderer->SetSprite(_SpriteName);
-	m_Renderer->RenderBaseInfoValue.Target3 = 1;
+	Renderer = CreateComponent<GameEngineSpriteRenderer>(ERENDERORDER::Light);
+	Renderer->SetMaterial("Light2DTexture");
+	Renderer->SetSprite(_SpriteName);
+	Renderer->RenderBaseInfoValue.Target3 = 1;
 
 	AlphaRenderer = CreateComponent<ContentsSpriteRenderer>(ERENDERORDER::AlphaLight);
 	AlphaRenderer->Transform.SetLocalPosition(float4(0.0f,0.0f, 10.0f));
@@ -110,7 +110,7 @@ void WitchHouseLight::Init(std::string_view _SpriteName, int _RenderOrder /*= 0*
 
 void WitchHouseLight::StartDay(GameEngineState* _Parent)
 {
-	if (nullptr == m_Renderer)
+	if (nullptr == Renderer)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
@@ -118,7 +118,7 @@ void WitchHouseLight::StartDay(GameEngineState* _Parent)
 
 	float4 Color = DAYLIGHTCOLOR;
 	Color.A = MINALPHA;
-	m_Renderer->GetColorData().MulColor = Color;
+	Renderer->GetColorData().MulColor = Color;
 }
 
 void WitchHouseLight::StartNight(GameEngineState* _Parent)
@@ -259,9 +259,9 @@ void WitchHouseLight::LerpLightColor(const float4& _From, const float4& _To, flo
 	Color.A = std::lerp(_From.A, _To.A, _LerpTime);
 	Alpha = Color.A;
 
-	if (nullptr != m_Renderer)
+	if (nullptr != Renderer)
 	{
-		m_Renderer->GetColorData().MulColor = Color;
+		Renderer->GetColorData().MulColor = Color;
 	}
 }
 
@@ -273,9 +273,9 @@ void WitchHouseLight::LerpLightAlpha(float _From, float _To, float _LerpTime) co
 	}
 
 	const float AlphaValue = std::lerp(_From, _To, _LerpTime);
-	if (nullptr != m_Renderer)
+	if (nullptr != Renderer)
 	{
-		m_Renderer->GetColorData().MulColor.A = std::clamp(AlphaValue, 0.0f, 1.0f);
+		Renderer->GetColorData().MulColor.A = std::clamp(AlphaValue, 0.0f, 1.0f);
 	}
 }
 

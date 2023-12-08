@@ -136,9 +136,6 @@
     <Filter Include="Actor\Prop\Tunnel">
       <UniqueIdentifier>{e201ae36-8db8-4f61-9102-12e0ccfe7975}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Prop\Title">
-      <UniqueIdentifier>{f3d3c48f-46d3-4187-9a1c-5f7b3a396b4f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Actor\Prop\ChainProp">
       <UniqueIdentifier>{0f62d58a-a574-4224-8eb5-e76b602e9369}</UniqueIdentifier>
     </Filter>
@@ -451,9 +448,6 @@
     <ClInclude Include="Tunnel.h">
       <Filter>Actor\Prop\Tunnel</Filter>
     </ClInclude>
-    <ClInclude Include="TitleUI.h">
-      <Filter>Actor\Prop\Title</Filter>
-    </ClInclude>
     <ClInclude Include="ChainProp.h">
       <Filter>Actor\Prop\ChainProp</Filter>
     </ClInclude>
@@ -527,9 +521,6 @@
       <Filter>Actor\Prop\RenderActor</Filter>
     </ClInclude>
     <ClInclude Include="NormalProp.h">
-      <Filter>Actor\Prop\RenderActor</Filter>
-    </ClInclude>
-    <ClInclude Include="Prop.h">
       <Filter>Actor\Prop\RenderActor</Filter>
     </ClInclude>
     <ClInclude Include="RendererActor.h">
@@ -964,9 +955,6 @@
     <ClCompile Include="Tunnel.cpp">
       <Filter>Actor\Prop\Tunnel</Filter>
     </ClCompile>
-    <ClCompile Include="TitleUI.cpp">
-      <Filter>Actor\Prop\Title</Filter>
-    </ClCompile>
     <ClCompile Include="ChainProp.cpp">
       <Filter>Actor\Prop\ChainProp</Filter>
     </ClCompile>
@@ -1047,9 +1035,6 @@
       <Filter>Actor\Prop\RenderActor</Filter>
     </ClCompile>
     <ClCompile Include="NormalProp.cpp">
-      <Filter>Actor\Prop\RenderActor</Filter>
-    </ClCompile>
-    <ClCompile Include="Prop.cpp">
       <Filter>Actor\Prop\RenderActor</Filter>
     </ClCompile>
     <ClCompile Include="RendererActor.cpp">

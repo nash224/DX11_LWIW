@@ -34,9 +34,8 @@ private:
 
 	float MovePower = 0.0f;
 
-	static constexpr const float MovementRadius = 12.0f;
-
-	static constexpr const float LiveTime = 1.0f;
+	static constexpr float MovementRadius = 12.0f;
+	static constexpr float LiveTime = 1.0f;
 
 };
 

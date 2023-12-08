@@ -27,11 +27,10 @@ void DustFx::Init(const float4& _ParentPosition, float DustScaleRatio)
 		GameEngineSprite::CreateCut("dust_remove.png", 22, 1);
 	}
 
-	static std::uint32_t FxGroupOrder = 0;
 	float4 FxPosition = _ParentPosition;
 	FxPosition.Z -= 3.0f;
 
-	DustRenderer = CreateComponent<GameEngineSpriteRenderer>(FxGroupOrder);
+	DustRenderer = CreateComponent<GameEngineSpriteRenderer>();
 	DustRenderer->Transform.SetLocalPosition(FxPosition);
 	DustRenderer->AutoSpriteSizeOn();
 	DustRenderer->SetAutoScaleRatio(DustScaleRatio);

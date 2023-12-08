@@ -16,7 +16,7 @@ void FlowerBird::StartIdle()
 		DecideAction();
 	}
 
-	m_StateTime = 0.0f;
+	StateTime = 0.0f;
 
 	ChangeFlowerBirdAnimation("Idle");
 }
@@ -27,7 +27,6 @@ void FlowerBird::DecideAction()
 	GameEngineRandom RandomClass;
 	RandomClass.SetSeed(GlobalValue::GetSeedValue());
 
-	int ChoosingNumber = RandomClass.RandomInt(0, 5);
 	enum class EBIRDACTION
 	{
 		OneTurn,
@@ -38,7 +37,7 @@ void FlowerBird::DecideAction()
 		BloomFake,
 	};
 
-	EBIRDACTION Chance = static_cast<EBIRDACTION>(ChoosingNumber);
+	EBIRDACTION Chance = static_cast<EBIRDACTION>(RandomClass.RandomInt(0, 5));
 
 	switch (Chance)
 	{
@@ -84,8 +83,8 @@ void FlowerBird::UpdateIdle(float _Delta)
 		return;
 	}
 
-	m_StateTime += _Delta;
-	if (m_StateTime > IdleTime)
+	StateTime += _Delta;
+	if (StateTime > IdleTime)
 	{
 		ChangeState(NextState);
 		return;
@@ -94,7 +93,7 @@ void FlowerBird::UpdateIdle(float _Delta)
 
 void FlowerBird::EndIdle()
 {
-	m_StateTime = 0.0f;
+	StateTime = 0.0f;
 }
 
 
@@ -127,7 +126,7 @@ void FlowerBird::AssignTurnTime()
 {
 	if (1 == AssignedTurnCount)
 	{
-		TurnTime = FlowerBirdTurnFastTime;
+		TurnTime = TurnFastTime;
 	}
 
 	if (2 == AssignedTurnCount)
@@ -135,10 +134,10 @@ void FlowerBird::AssignTurnTime()
 		switch (TurnCount)
 		{
 		case 1:
-			TurnTime = FlowerBirdTurnFastTime;
+			TurnTime = TurnFastTime;
 			break;
 		case 2:
-			TurnTime = FlowerBirdTurnSlowTime;
+			TurnTime = TurnSlowTime;
 			break;
 		default:
 			break;
@@ -150,13 +149,13 @@ void FlowerBird::AssignTurnTime()
 		switch (TurnCount)
 		{
 		case 1:
-			TurnTime = FlowerBirdTurnFastTime;
+			TurnTime = TurnFastTime;
 			break;
 		case 2:
-			TurnTime = FlowerBirdTurnSlowTime;
+			TurnTime = TurnSlowTime;
 			break;
 		case 3:
-			TurnTime = FlowerBirdTurnFastTime;
+			TurnTime = TurnFastTime;
 			break;
 		default:
 			break;
@@ -173,8 +172,8 @@ void FlowerBird::UpdateTurn(float _Delta)
 		return;
 	}
 
-	m_StateTime += _Delta;
-	if (m_StateTime > TurnTime)
+	StateTime += _Delta;
+	if (StateTime > TurnTime)
 	{
 		ChangeState(EFLOWERBIRDSTATE::Idle);
 		return;
@@ -183,7 +182,7 @@ void FlowerBird::UpdateTurn(float _Delta)
 
 void FlowerBird::EndTurn()
 {
-	m_StateTime = 0.0f;
+	StateTime = 0.0f;
 	--TurnCount;
 
 	if (0 == TurnCount)
@@ -225,7 +224,7 @@ void FlowerBird::UpdatePick(float _Delta)
 
 void FlowerBird::EndPick()
 {
-	m_StateTime = 0.0f;
+	StateTime = 0.0f;
 	--PickCount;
 	if (0 == PickCount)
 	{

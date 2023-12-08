@@ -32,7 +32,7 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override;
 
 public:
-	std::shared_ptr<GameEngineSpriteRenderer> m_Renderer = nullptr;
+	std::shared_ptr<GameEngineSpriteRenderer> Renderer = nullptr;
 
 	
 };

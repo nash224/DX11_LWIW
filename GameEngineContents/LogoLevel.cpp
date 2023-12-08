@@ -93,14 +93,14 @@ void LogoLevel::LoadActor()
 		BackPaint->Transform.SetLocalPosition(Position);
 		BackPaint->Transform.AddLocalPosition({ 0.0f, 0.0f, 1.0f });
 		BackPaint->Init();
-		BackPaint->m_Renderer->GetColorData().MulColor = float4::ZERO;
+		BackPaint->Renderer->GetColorData().MulColor = float4::ZERO;
 	}
 
 	{
 		std::shared_ptr<RendererActor> Logo = CreateActor<RendererActor>();
 		Logo->Transform.SetLocalPosition(Position);
 		Logo->Init();
-		Logo->m_Renderer->SetSprite("logo_1080p_0.png");
+		Logo->Renderer->SetSprite("logo_1080p_0.png");
 	}
 }
 

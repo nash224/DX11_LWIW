@@ -27,9 +27,7 @@ void SequentialProp::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void SequentialProp::Init()
 {
-	static constexpr int RenderOrder = 0;
-
-	Renderer = CreateComponent<GameEngineSpriteRenderer>(RenderOrder);
+	Renderer = CreateComponent<GameEngineSpriteRenderer>();
 }
 
 void SequentialProp::SetTextureScale(const float4& _Scale)
@@ -39,14 +37,13 @@ void SequentialProp::SetTextureScale(const float4& _Scale)
 
 void SequentialProp::SetSpeed(float _Speed)
 {
-	m_Speed = _Speed;
+	MoveSpeed = _Speed;
 }
 
 
 void SequentialProp::UpdateSequential(float _Delta)
 {
-	float Speed = m_Speed * _Delta;
-
+	const float Speed = MoveSpeed * _Delta;
 	Transform.AddLocalPosition(float4(Speed));
 
 	const float DeleteDistance = -RenderScale.Half().X;

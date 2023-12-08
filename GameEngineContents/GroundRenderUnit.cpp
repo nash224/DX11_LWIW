@@ -10,38 +10,15 @@ GroundRenderUnit::~GroundRenderUnit()
 }
 
 
-void GroundRenderUnit::Start()
-{
-
-}
-
-void GroundRenderUnit::Update(float _Delta)
-{
-	RendererActor::Update(_Delta);
-
-}
-
 void GroundRenderUnit::Release()
 {
 	RendererActor::Release();
 }
 
-void GroundRenderUnit::LevelStart(class GameEngineLevel* _NextLevel)
-{
-
-}
-
 void GroundRenderUnit::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-	RendererActor::LevelEnd(_NextLevel);
-
 	Death();
 }
-
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -53,12 +30,12 @@ void GroundRenderUnit::Serializer(GameEngineSerializer& _Data)
 	}
 
 	{
-		const TransformData& TransData = m_Renderer->Transform.GetConstTransformDataRef();
+		const TransformData& TransData = Renderer->Transform.GetConstTransformDataRef();
 		_Data.Write(&TransData, sizeof(TransData));
 	}
 
 	{
-		_Data << m_Renderer->GetSprite()->GetName();
+		_Data << Renderer->GetSprite()->GetName();
 	}
 }
 
@@ -75,13 +52,13 @@ void GroundRenderUnit::DeSerializer(GameEngineSerializer& _Data)
 
 	{
 		_Data.Read(&TransData, sizeof(TransData));
-		m_Renderer->Transform.SetTransformData(TransData);
+		Renderer->Transform.SetTransformData(TransData);
 	}
 
 	{
 		std::string SpriteName;
 		_Data >> SpriteName;
-		m_Renderer->SetSprite(SpriteName);
+		Renderer->SetSprite(SpriteName);
 	}
 
 	float4 Position = Transform.GetLocalPosition();

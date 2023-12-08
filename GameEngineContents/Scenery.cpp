@@ -9,10 +9,10 @@
 
 
 Scenery::Scenery() 
-	:m_SpriteRenderer(nullptr)
-	, m_Direction(float4::ZERO)
-	, m_TextureSize(float4::ZERO)
-	, m_MoveRatio(0.0f)
+	:SpriteRenderer(nullptr)
+	, Direction(float4::ZERO)
+	, TextureSize(float4::ZERO)
+	, MoveRatio(0.0f)
 {
 }
 
@@ -23,12 +23,7 @@ Scenery::~Scenery()
 
 void Scenery::Start()
 {
-	m_SpriteRenderer = CreateComponent<GameEngineSpriteRenderer>();
-	if (nullptr == m_SpriteRenderer)
-	{
-		MsgBoxAssert("컴포넌트 생성에 실패했습니다.");
-		return;
-	}
+	SpriteRenderer = CreateComponent<GameEngineSpriteRenderer>();
 }
 
 void Scenery::Update(float _Delta)
@@ -38,31 +33,25 @@ void Scenery::Update(float _Delta)
 
 void Scenery::Release()
 {
-	m_SpriteRenderer = nullptr;
-}
-
-void Scenery::LevelStart(class GameEngineLevel* _NextLevel)
-{
-
+	SpriteRenderer = nullptr;
 }
 
 void Scenery::LevelEnd(class GameEngineLevel* _NextLevel)
 {
-
+	Death();
 }
-
 
 #pragma region Setting
 
 void Scenery::SetSprite(std::string_view _SpriteName)
 {
-	if (nullptr == m_SpriteRenderer)
+	if (nullptr == SpriteRenderer)
 	{
 		MsgBoxAssert("렌더러를 생성하지 않았는데 사용하려고 했습니다.");
 		return;
 	}
 
-	m_SpriteRenderer->SetSprite(_SpriteName);
+	SpriteRenderer->SetSprite(_SpriteName);
 	std::shared_ptr<GameEngineTexture> Texture = GameEngineTexture::Find(_SpriteName);
 	if (nullptr == Texture)
 	{
@@ -70,18 +59,18 @@ void Scenery::SetSprite(std::string_view _SpriteName)
 		return;
 	}
 
-	m_TextureSize = Texture->GetScale();
+	TextureSize = Texture->GetScale();
 }
 
 void Scenery::SetRenderOrder(int _Order)
 {
-	if (nullptr == m_SpriteRenderer)
+	if (nullptr == SpriteRenderer)
 	{
 		MsgBoxAssert("렌더러를 생성하지 않았는데 사용하려고 했습니다.");
 		return;
 	}
 
-	m_SpriteRenderer->SetRenderOrder(_Order);
+	SpriteRenderer->SetRenderOrder(_Order);
 }
 
 void Scenery::SetWorldPosition(const float4& _Position)
@@ -91,12 +80,12 @@ void Scenery::SetWorldPosition(const float4& _Position)
 
 void Scenery::SetMoveDirection(const float4& _Direction)
 {
-	m_Direction = _Direction;
+	Direction = _Direction;
 }
 
 void Scenery::SetMoveRatio(float _Ratio)
 {
-	m_MoveRatio = _Ratio;
+	MoveRatio = _Ratio;
 }
 
 #pragma endregion 
@@ -105,7 +94,7 @@ void Scenery::SetMoveRatio(float _Ratio)
 
 void Scenery::MoveSceneryLocation(float _Delta)
 {
-	if (0.0f == m_MoveRatio)
+	if (0.0f == MoveRatio)
 	{
 		return;
 	}
@@ -115,16 +104,8 @@ void Scenery::MoveSceneryLocation(float _Delta)
 	if (true == LevelCameraPtr->IsCameraMove())
 	{
 		float4 CameraMoveDistance = LevelCameraPtr->GetCameraMoveDistance();
-		float4 CalMovePos = CameraMoveDistance * m_Direction * m_MoveRatio;
+		float4 CalMovePos = CameraMoveDistance * Direction * MoveRatio;
 		CalMovePos.X *= -1.0f;
 		Transform.AddLocalPosition(CalMovePos);
 	}
-}
-
-
-void Scenery::ActorRelease()
-{
-	m_SpriteRenderer = nullptr;
-
-	Death();
 }

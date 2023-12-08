@@ -3,8 +3,9 @@
 // Ό³Έν :
 class ContentsLevel : public GameEngineLevel
 {
-public:
+protected:
 	static std::unique_ptr<class BGMManager> MainPlaySound;
+	std::shared_ptr<class CameraControler> LevelCamera = nullptr;
 
 public:
 	// constrcuter destructer
@@ -18,6 +19,7 @@ public:
 	ContentsLevel& operator=(ContentsLevel&& _Other) noexcept = delete;
 
 	std::shared_ptr<class CameraControler> GetLevelCameraPtr() const;
+	static class BGMManager* GetBGMPlayerPtr();
 
 protected:
 	void Start() override;
@@ -25,10 +27,6 @@ protected:
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
-protected:
-
-	
-	std::shared_ptr<class CameraControler> LevelCamera = nullptr;
 
 };
 

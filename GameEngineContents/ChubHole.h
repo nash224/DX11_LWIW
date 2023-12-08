@@ -17,14 +17,14 @@ public:
 	void Init();
 
 protected:
-	void Start() override;
-	void Update(float _Delta) override;
+	void Start() override {}
+	void Update(float _Delta) override {}
 	void Release() override;
-	void LevelStart(class GameEngineLevel* _NextLevel) override;
-	void LevelEnd(class GameEngineLevel* _NextLevel) override;
+	void LevelStart(class GameEngineLevel* _NextLevel) override {}
+	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 private:
-	std::shared_ptr<GameEngineSpriteRenderer> m_HoleRenderer = nullptr;
+	std::shared_ptr<GameEngineSpriteRenderer> HoleRenderer = nullptr;
 
 };
 

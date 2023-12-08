@@ -42,9 +42,9 @@ void BackDrop_Field::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	BackDrop_PlayLevel::LevelStart(_NextLevel);
 
-	if (nullptr != PlayLevel::s_TimeManager)
+	if (nullptr != PlayLevel::GetTimeManager())
 	{
-		int TimeDay = PlayLevel::s_TimeManager->GetDayCount();
+		int TimeDay = PlayLevel::GetTimeManager()->GetDayCount();
 		bool UpdateDayisNotSame = (FieldDay != TimeDay);
 		if (UpdateDayisNotSame)
 		{
@@ -246,9 +246,9 @@ void BackDrop_Field::EndNight(GameEngineState* _Parent)
 
 void BackDrop_Field::DetectNight()
 {
-	if (nullptr != PlayLevel::s_TimeManager)
+	if (nullptr != PlayLevel::GetTimeManager())
 	{
-		bool isChangeNight = (false == isNight && EDAYSTATE::Night == PlayLevel::s_TimeManager->GetDayState());
+		bool isChangeNight = (false == isNight && EDAYSTATE::Night == PlayLevel::GetTimeManager()->GetDayState());
 		if (isChangeNight)
 		{
 			FieldState.ChangeState(EDAYSTATE::Night);

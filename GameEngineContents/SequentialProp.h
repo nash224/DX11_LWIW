@@ -36,7 +36,7 @@ public:
 private:
 	float4 RenderScale = float4::ZERO;
 
-	float m_Speed = 0.0f;
+	float MoveSpeed = 0.0f;
 	bool isOverScreen = false;
 };
 

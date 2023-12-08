@@ -12,7 +12,7 @@ RendererActor::~RendererActor()
 
 void RendererActor::Release()
 {
-	m_Renderer = nullptr;
+	Renderer = nullptr;
 }
 
 void RendererActor::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -23,5 +23,5 @@ void RendererActor::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void RendererActor::Init(int _Order)
 {
-	m_Renderer = CreateComponent<GameEngineSpriteRenderer>(_Order);
+	Renderer = CreateComponent<GameEngineSpriteRenderer>(_Order);
 }

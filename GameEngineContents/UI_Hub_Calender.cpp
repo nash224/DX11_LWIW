@@ -7,8 +7,6 @@
 
 UI_Hub_Calender::UI_Hub_Calender() 
 {
-	PlayLevel::s_TimeManager;
-
 	if (nullptr == GameEngineSprite::Find("Month_Symbol.png"))
 	{
 		GameEngineSprite::CreateCut("Month_Symbol.png", 4, 1);
@@ -83,17 +81,14 @@ void UI_Hub_Calender::UpateCalender()
 
 void UI_Hub_Calender::CalenderStruct::UpdateAll()
 {
-	if (nullptr != PlayLevel::s_TimeManager)
-	{
-		UpdateRenderDayAndWeek();
-		UpdateRenderTime();
-		UpdateSymbol();
-	}
+	UpdateRenderDayAndWeek();
+	UpdateRenderTime();
+	UpdateSymbol();
 }
 
 void UI_Hub_Calender::CalenderStruct::UpdateRenderDayAndWeek()
 {
-	const int CurDayCount = PlayLevel::s_TimeManager->GetDayCount();
+	const int CurDayCount = PlayLevel::GetTimeManager()->GetDayCount();
 	const int WeekNumber = CurDayCount % 7;
 
 	bool isWeekChange = (WeekNumber != RenderDayCount % 7);
@@ -146,8 +141,8 @@ void UI_Hub_Calender::CalenderStruct::UpdateRenderDayAndWeek()
 
 void UI_Hub_Calender::CalenderStruct::UpdateRenderTime()
 {
-	 const int CurHour = PlayLevel::s_TimeManager->GetHour();
-	 const int CurTenMinute = PlayLevel::s_TimeManager->GetMinute() / 10 * 10;
+	 const int CurHour = PlayLevel::GetTimeManager()->GetHour();
+	 const int CurTenMinute = PlayLevel::GetTimeManager()->GetMinute() / 10 * 10;
 	 int TimeNumber = CurHour + CurTenMinute;
 
 	 bool isTimeChange = (TimeNumber != RenderTime);
@@ -193,34 +188,31 @@ void UI_Hub_Calender::CalenderStruct::UpdateRenderTime()
 
 void UI_Hub_Calender::CalenderStruct::UpdateSymbol()
 {
-	if (nullptr != PlayLevel::s_TimeManager)
+	EDAYSTATE DayState = PlayLevel::GetTimeManager()->GetDayState();
+	bool isSymbolChange = (DayState != RenderDayState);
+	if (isSymbolChange)
 	{
-		EDAYSTATE DayState = PlayLevel::s_TimeManager->GetDayState();
-		bool isSymbolChange = (DayState != RenderDayState);
-		if (isSymbolChange)
+		static constexpr int Day_Symbol_Index = 1;
+		static constexpr int Night_Symbol_Index = 0;
+
+		RenderDayState = DayState;
+
+		switch (RenderDayState)
 		{
-			static constexpr const int Day_Symbol_Index = 1;
-			static constexpr const int Night_Symbol_Index = 0;
-
-			RenderDayState = DayState;
-
-			switch (RenderDayState)
-			{
-			case EDAYSTATE::Day:
-				Symbol->ChangeCurSprite(Day_Symbol_Index);
-				break;
-			case EDAYSTATE::Night:
-				Symbol->ChangeCurSprite(Night_Symbol_Index);
-				break;
-			case EDAYSTATE::None:
-			{
-				MsgBoxAssert("값이 잘못되었습니다.");
-				return;
-			}
-				break;
-			default:
-				break;
-			}
+		case EDAYSTATE::Day:
+			Symbol->ChangeCurSprite(Day_Symbol_Index);
+			break;
+		case EDAYSTATE::Night:
+			Symbol->ChangeCurSprite(Night_Symbol_Index);
+			break;
+		case EDAYSTATE::None:
+		{
+			MsgBoxAssert("값이 잘못되었습니다.");
+			return;
+		}
+			break;
+		default:
+			break;
 		}
 	}
 }

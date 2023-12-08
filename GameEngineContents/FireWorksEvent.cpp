@@ -189,8 +189,8 @@ void FireWorksEvent::StartFadeIn(GameEngineState* _Parent)
 {
 	SetElliePlacement();
 
-	std::weak_ptr<FadeObject> Fade = GetLevel()->CreateActor<FadeObject>(EUPDATEORDER::Fade);
-	Fade.lock()->CallFadeIn(LastFadeTime);
+	const std::shared_ptr<FadeObject>& Fade = GetLevel()->CreateActor<FadeObject>(EUPDATEORDER::Fade);
+	Fade->CallFadeIn(LastFadeTime);
 
 	const std::shared_ptr<CameraControler>& LevelCameraPtr = PlayLevel::GetCurLevel()->GetLevelCameraPtr();
 	LevelCameraPtr->SetCameraMode(ECAMERAMODE::Fix);
@@ -198,15 +198,9 @@ void FireWorksEvent::StartFadeIn(GameEngineState* _Parent)
 
 	PlayLevel::GetCurLevel()->GetUIManagerPtr()->UseUIComponent();
 
-	if (nullptr != ContentsLevel::MainPlaySound)
-	{
-		ContentsLevel::MainPlaySound->AbsoluteNoneBGM();
-	}
-
-	if (nullptr != PlayLevel::s_TimeManager)
-	{
-		PlayLevel::s_TimeManager->SetTime(22, 0);
-	}
+	ContentsLevel::GetBGMPlayerPtr()->AbsoluteNoneBGM();
+	
+	PlayLevel::GetTimeManager()->SetTime(22, 0);
 }
 
 void FireWorksEvent::UpdateFadeIn(float _Delta, GameEngineState* _Parent)
@@ -251,14 +245,14 @@ void FireWorksEvent::StartEndTraining(GameEngineState* _Parent)
 
 void FireWorksEvent::StartFadeOut(GameEngineState* _Parent)
 {
-	std::weak_ptr<FadeObject> Fade = GetLevel()->CreateActor<FadeObject>(EUPDATEORDER::Fade);
-	if (true == Fade.expired())
+	const std::shared_ptr<FadeObject>& Fade = GetLevel()->CreateActor<FadeObject>(EUPDATEORDER::Fade);
+	if (nullptr == Fade)
 	{
 		MsgBoxAssert("포인터가 존재하지 않습니다.");
 		return;
 	}
 
-	Fade.lock()->CallFadeOut("EndingLevel", LastFadeTime);
+	Fade->CallFadeOut("EndingLevel", LastFadeTime);
 }
 
 
@@ -310,12 +304,12 @@ void FireWorksEvent::SetElliePlacement() const
 
 void FireWorksEvent::CheckEndtrainingEvent()
 {
-	std::weak_ptr<ContentsEvent::QuestUnitBase> Quest = ContentsEvent::FindQuest("StartTraining");
-	if (true == Quest.expired())
+	const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = ContentsEvent::FindQuest("StartTraining");
+	if (nullptr == Quest)
 	{
 		MsgBoxAssert("생성되지 않은 퀘스트입니다.");
 		return;
 	}
 
-	Quest.lock()->QuestComplete();
+	Quest->QuestComplete();
 }
