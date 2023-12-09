@@ -45,6 +45,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameEngineCoreShader", "Gam
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameEngineContentsShader", "GameEngineContentsShader\GameEngineContentsShader.vcxproj", "{7AA0565A-2FFC-4165-A1F9-202CB31BEEED}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Doc", "Doc", "{B45BC0C3-7F4B-49E2-97AB-55BFCFB9A795}"
+	ProjectSection(SolutionItems) = preProject
+		설명.txt = 설명.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

@@ -84,8 +84,9 @@ private:
 	void DecideFlyDirection();
 	void UpdateFly(float _Delta);
 
-	bool GetReadyToFly();
+	bool ReadyToFly();
 	bool FeelThreatened();
+	void ShowThreatenRange() const;
 	bool RecognizeWalkingEllie() const;
 	bool RecognizeEllie() const;
 

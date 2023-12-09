@@ -1,5 +1,12 @@
 #pragma once
 
+enum class EPOPULATIONSTATE
+{
+	Normal,
+	Escape,
+	None,
+};
+
 // Ό³Έν :
 class MongSiri_Population : public GameEngineActor
 {
@@ -23,12 +30,23 @@ public:
 
 	void ActorRelaese();
 
-private:
+protected:
 	void Start() override {}
 	void Update(float _Delta) override;
 	void Release() override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
+
+	
+	inline EPOPULATIONSTATE GetState() const
+	{
+		return Status;
+	}
+
+	inline void SetState(EPOPULATIONSTATE _State)
+	{
+		Status = _State;
+	}
 
 
 private:
@@ -39,12 +57,13 @@ private:
 	void CreateMongSiri(unsigned int _Population);
 	void SetMongSiriSeed(std::shared_ptr<class MongSiri> _Actor, GameEngineRandom& _RandomClass);
 
-private:
 	void UpdateEntityMiddlePoint();
 
 private:
 	std::list<std::shared_ptr<class MongSiri>> MongSiriEntityList;
 	std::shared_ptr<class ChubHole> Hole = nullptr;
+
+	EPOPULATIONSTATE Status = EPOPULATIONSTATE::None;
 
 	float4 MiddlePoint = float4::ZERO;
 	float4 HoleScale = float4::ZERO;

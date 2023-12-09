@@ -14,7 +14,7 @@ static constexpr float MongSiri_FOVSize = 90.0f;
 
 void MongSiri::StartIdle()
 {
-	if (EMONGSIRISTATUS::Normal == Status )
+	if (nullptr != MongSiriParant && EPOPULATIONSTATE::Normal == MongSiriParant->GetState())
 	{
 		GameEngineRandom RandomClass;
 		RandomClass.SetSeed(GlobalValue::GetSeedValue());
@@ -35,7 +35,8 @@ void MongSiri::StartIdle()
 			break;
 		}
 	}
-	if (EMONGSIRISTATUS::Escape == Status )
+
+	if (nullptr != MongSiriParant && EPOPULATIONSTATE::Escape == MongSiriParant->GetState())
 	{
 		IdleCount  = 1;
 	}
@@ -97,7 +98,7 @@ void MongSiri::StartDisappear()
 
 void MongSiri::UpdateIdle(float _Delta)
 {
-	if (true == IsPlayerAround(MongSiri_FOVSize) && EMONGSIRISTATUS::Escape != Status)
+	if (true == IsPlayerAround(MongSiri_FOVSize) && nullptr != MongSiriParant && EPOPULATIONSTATE::Normal == MongSiriParant->GetState())
 	{
 		ChangeState(EMONGSIRISTATE::Look);
 		return;
@@ -166,7 +167,7 @@ void MongSiri::UpdateLook(float _Delta)
 
 void MongSiri::UpdateRecognize(float _Delta, GameEngineState* _Parent)
 {
-	if (EMONGSIRISTATUS::Escape == Status)
+	if (nullptr != MongSiriParant && EPOPULATIONSTATE::Escape == MongSiriParant->GetState())
 	{
 		ChangeState(EMONGSIRISTATE::Idle);
 		LookState.ChangeState(ELOOKSTATE::None);
@@ -175,6 +176,7 @@ void MongSiri::UpdateRecognize(float _Delta, GameEngineState* _Parent)
 
 	if (false == IsPlayerAround(MongSiri_FOVSize))
 	{
+		Emotion.ShowExpression(EMOJITYPE::Question);
 		LookState.ChangeState(ELOOKSTATE::NotRecognize);
 		return;
 	}
@@ -205,7 +207,7 @@ void MongSiri::UpdateNotRecognize(float _Delta, GameEngineState* _Parent)
 {
 	const float LookAtCoolTime = 1.0f;
 
-	if (_Parent->GetStateTime() > LookAtCoolTime || EMONGSIRISTATUS::Escape == Status)
+	if (_Parent->GetStateTime() > LookAtCoolTime || (nullptr != MongSiriParant && EPOPULATIONSTATE::Escape == MongSiriParant->GetState()))
 	{
 		LookState.ChangeState(ELOOKSTATE::None);
 		return;
@@ -281,29 +283,29 @@ void MongSiri::EndIdle()
 
 void MongSiri::EndCollected()
 {
-	Status = EMONGSIRISTATUS::Escape;
-
-	if (nullptr != MongSiriParant)
+	if (nullptr == MongSiriParant)
 	{
-		MongSiriParant->EscapeHoleToOtherMonsiri();
+		MsgBoxAssert("몽시리 개채군을 불러올 수 없습나다.");
+		return;
 	}
+
+	MongSiriParant->EscapeHoleToOtherMonsiri();
 }
 
 
 // 뛸 장소를 찾아줍니다.
 void MongSiri::SearchJumpLocation()
 {
-	if (EMONGSIRISTATUS::Normal == Status)
+	if (nullptr == MongSiriParant)
+	{
+		MsgBoxAssert("몽시리 개체군 매니저가 존재하지 않습니다.");
+		return;
+	}
+
+	if (EPOPULATIONSTATE::Normal == MongSiriParant->GetState())
 	{
 		GameEngineRandom RandomClass;
 		RandomClass.SetSeed(GlobalValue::GetSeedValue());
-
-
-		if (nullptr == MongSiriParant)
-		{
-			MsgBoxAssert("몽시리 개체군 매니저가 존재하지 않습니다.");
-			return;
-		}
 
 		const float4 VectorToPopulation = MongSiriParant->PopulationLocation - Transform.GetLocalPosition();
 		const float Degree = DirectX::XMConvertToDegrees(atan2f(VectorToPopulation.Y, VectorToPopulation.X));
@@ -342,7 +344,7 @@ void MongSiri::SearchJumpLocation()
 		SetMoveVector(TargetUnitVector * JumpPower);
 	}
 
-	if (EMONGSIRISTATUS::Escape == Status)
+	if (EPOPULATIONSTATE::Escape == MongSiriParant->GetState())
 	{
 		if (nullptr == MongSiriParant || nullptr == MongSiriParant->Hole)
 		{

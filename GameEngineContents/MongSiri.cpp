@@ -38,8 +38,6 @@ void MongSiri::Start()
 		EINTERACTION_TYPE::Near, 
 		ECOLLECTION_METHOD::MongSiri, 
 		ETOOLTYPE::Gloves);
-
-	Status  = EMONGSIRISTATUS::Normal;
 }
 
 void MongSiri::Update(float _Delta)

@@ -7,7 +7,8 @@
 #include "CameraControler.h"
 #include "Ellie.h"
 
-
+static constexpr float DetectionRange = 120.0f;
+static constexpr float WalkDetectionRange = 70.0f;
 
 void FlowerBird::StartIdle()
 {
@@ -78,7 +79,7 @@ void FlowerBird::DecideAction()
 
 void FlowerBird::UpdateIdle(float _Delta)
 {
-	if (true == GetReadyToFly())
+	if (true == ReadyToFly())
 	{
 		return;
 	}
@@ -167,7 +168,7 @@ void FlowerBird::AssignTurnTime()
 
 void FlowerBird::UpdateTurn(float _Delta)
 {
-	if (true == GetReadyToFly())
+	if (true == ReadyToFly())
 	{
 		return;
 	}
@@ -199,7 +200,7 @@ void FlowerBird::StartPick()
 
 void FlowerBird::UpdatePick(float _Delta)
 {
-	if (true == GetReadyToFly())
+	if (true == ReadyToFly())
 	{
 		return;
 	}
@@ -308,7 +309,7 @@ float FlowerBird::ReturnWaitWitherInter()
 
 void FlowerBird::UpdateBloomFake(float _Delta)
 {
-	if (true == GetReadyToFly())
+	if (true == ReadyToFly())
 	{
 		return;
 	}
@@ -334,7 +335,7 @@ void FlowerBird::StartBloomFlowers()
 
 void FlowerBird::UpdateBloomFlowers(float _Delta)
 {
-	if (true == GetReadyToFly())
+	if (true == ReadyToFly())
 	{
 		return;
 	}
@@ -409,7 +410,7 @@ void FlowerBird::UpdateFly(float _Delta)
 }
 
 // 날아갈 준비를 합니다.
-bool FlowerBird::GetReadyToFly()
+bool FlowerBird::ReadyToFly()
 {
 	if (true == FeelThreatened())
 	{
@@ -440,7 +441,18 @@ bool FlowerBird::FeelThreatened()
 		return true;
 	}
 
+	ShowThreatenRange();
+
 	return false;
+}
+
+void FlowerBird::ShowThreatenRange() const
+{
+	if (true == GameEngineLevel::IsDebug)
+	{
+		GameEngineDebug::DrawSphere2D(float4(DetectionRange * 2.0f), float4::ZERO, Transform.GetLocalPosition(), float4::BLUE);
+		GameEngineDebug::DrawSphere2D(float4(WalkDetectionRange * 2.0f), float4::ZERO, Transform.GetLocalPosition(), float4::BLUE);
+	}
 }
 
 bool FlowerBird::RecognizeWalkingEllie() const
@@ -451,7 +463,6 @@ bool FlowerBird::RecognizeWalkingEllie() const
 	{
 		const float4 MyPosition = Transform.GetLocalPosition();
 		const float4 ElliePosition = MainPlayerPtr->Transform.GetLocalPosition();
-		const float WalkDetectionRange = 70.0f;
 
 		return ContentMathFunction::IsAround2D(MyPosition, ElliePosition, WalkDetectionRange);
 	}
@@ -467,7 +478,6 @@ bool FlowerBird::RecognizeEllie() const
 	{
 		float4 MyPosition = Transform.GetLocalPosition();
 		float4 ElliePosition = MainPlayerPtr->Transform.GetLocalPosition();
-		const float DetectionRange = 120.0f;
 
 		return ContentMathFunction::IsAround2D(MyPosition, ElliePosition, DetectionRange);
 	}

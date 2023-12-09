@@ -32,6 +32,7 @@ void MongSiri_Population::Init(unsigned int _Population)
 	GetHoleScale();
 	ExploreSpawnLocation();
 	CreateMongSiri(_Population);
+	Status = EPOPULATIONSTATE::Normal;
 }
 
 // 구멍을 설치합니다.
@@ -171,21 +172,22 @@ void MongSiri_Population::EscapeHoleToOtherMonsiri()
 			return;
 		}
 
-		if (Other->Status != EMONGSIRISTATUS::Escape)
+		if (nullptr != Other->InteractiveCol && true == Other->InteractiveCol->IsUpdate()
+			&& EPOPULATIONSTATE::Escape != Status)
 		{
 			Other->ShowEscapeEmotion();
 		}
-
-		Other->Status = EMONGSIRISTATUS::Escape;
 	}
+
+	Status = EPOPULATIONSTATE::Escape;
 }
 
 
 void MongSiri_Population::ActorRelaese()
 {
-	for (std::weak_ptr<MongSiri> Object : MongSiriEntityList)
+	for (const std::shared_ptr<MongSiri>& Object : MongSiriEntityList)
 	{
-		Object.lock()->Death();
+		Object->Death();
 	}
 
 	Hole->Death();

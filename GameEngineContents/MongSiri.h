@@ -4,13 +4,6 @@
 #include "Emoji.h"
 
 
-enum class EMONGSIRISTATUS
-{
-	Normal,
-	Escape,
-	Look,
-	None,
-};
 
 // Ό³Έν :
 class MongSiri : public InteractiveActor
@@ -111,7 +104,6 @@ private:
 	GameEngineState LookState;
 
 	EMONGSIRISTATE State = EMONGSIRISTATE::None;
-	EMONGSIRISTATUS Status = EMONGSIRISTATUS::None;
 
 	EDIRECTION RenderDir = EDIRECTION::CENTER;
 
