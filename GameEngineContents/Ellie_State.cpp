@@ -66,7 +66,7 @@ void Ellie::StartApproach()
 		return;
 	}
 
-	if (ECOLLECTION_METHOD::MongSiri == OtherEntity->GetCollectionMethod())
+	if (EINTERACTIONTYPE::MongSiri == OtherEntity->GetInteractionType())
 	{
 		OtherEntity->GetCaught();
 	}
@@ -387,31 +387,31 @@ void Ellie::UpdateApproach(float _Delta)
 	bool isInRange = Size.X < OtherEntity->GetInteractiveRange();
 	if (isInRange)
 	{
-		if (ECOLLECTION_METHOD::Sit == OtherEntity->GetCollectionMethod())
+		if (EINTERACTIONTYPE::Sit == OtherEntity->GetInteractionType())
 		{
 			ChangeState(EELLIE_STATE::Sit);
 			return;
 		}
 		
-		if (ECOLLECTION_METHOD::RootUp == OtherEntity->GetCollectionMethod())
+		if (EINTERACTIONTYPE::RootUp == OtherEntity->GetInteractionType())
 		{
 			ChangeState(EELLIE_STATE::RootUp);
 			return;
 		}
 		
-		if (ECOLLECTION_METHOD::MongSiri == OtherEntity->GetCollectionMethod())
+		if (EINTERACTIONTYPE::MongSiri == OtherEntity->GetInteractionType())
 		{
 			ChangeState(EELLIE_STATE::MongSiri);
 			return;
 		}
 
-		if (ECOLLECTION_METHOD::Juicy == OtherEntity->GetCollectionMethod())
+		if (EINTERACTIONTYPE::Juicy == OtherEntity->GetInteractionType())
 		{
 			ChangeState(EELLIE_STATE::Wait);
 			return;
 		}
 
-		if (ECOLLECTION_METHOD::Lift == OtherEntity->GetCollectionMethod())
+		if (EINTERACTIONTYPE::Lift == OtherEntity->GetInteractionType())
 		{
 			ChangeState(EELLIE_STATE::Lift);
 			return;

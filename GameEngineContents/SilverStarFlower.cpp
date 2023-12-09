@@ -35,7 +35,7 @@ SilverStarFlower::~SilverStarFlower()
 void SilverStarFlower::Start()
 {
 	InteractiveActor::CreateAndSetCollision(ECOLLISION::Entity, { 20.0f }, float4(0.0f, RendererYCorrection * 0.5f), ColType::SPHERE2D);
-	InteractiveActor::SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Dragonfly);
+	InteractiveActor::SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EAPPROACH_TYPE::Far, EINTERACTIONTYPE::None, ETOOLTYPE::Dragonfly);
 
 	if (nullptr != InteractiveActor::InteractiveCol)
 	{

@@ -25,7 +25,7 @@ void Plant::Start()
 {
 	InteractiveActor::Start();
 
-	InteractiveActor::SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::Near, ECOLLECTION_METHOD::RootUp, ETOOLTYPE::Gloves);
+	InteractiveActor::SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EAPPROACH_TYPE::Near, EINTERACTIONTYPE::RootUp, ETOOLTYPE::Gloves);
 	InteractiveActor::SetNearInteractivePositionAndRange(float4::ZERO, 6.0f);
 
 	StateSetting();

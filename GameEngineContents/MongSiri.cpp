@@ -35,8 +35,8 @@ void MongSiri::Start()
 	InteractiveActor::SetNearInteractivePositionAndRange(float4::ZERO, 1.0f);
 	InteractiveActor::SetInteractionOption(
 		EINTERACTION_BUTTONTYPE::Gathering, 
-		EINTERACTION_TYPE::Near, 
-		ECOLLECTION_METHOD::MongSiri, 
+		EAPPROACH_TYPE::Near, 
+		EINTERACTIONTYPE::MongSiri, 
 		ETOOLTYPE::Gloves);
 }
 

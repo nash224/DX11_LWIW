@@ -45,7 +45,7 @@ FlowerBird::~FlowerBird()
 void FlowerBird::Start()
 {
 	InteractiveActor::Start();
-	InteractiveActor::SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Gloves);
+	InteractiveActor::SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EAPPROACH_TYPE::Far, EINTERACTIONTYPE::None, ETOOLTYPE::Gloves);
 	InteractiveActor::CreateAndSetCollision(ECOLLISION::Entity, { 300.0f }, float4::ZERO, ColType::SPHERE2D);
 }
 

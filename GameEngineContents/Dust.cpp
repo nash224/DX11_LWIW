@@ -18,7 +18,7 @@ Dust::~Dust()
 void Dust::Start()
 {
 	InteractiveActor::CreateAndSetCollision(ECOLLISION::Entity, float4(90.0f), float4::ZERO, ColType::SPHERE2D);
-	InteractiveActor::SetInteractionOption(EINTERACTION_BUTTONTYPE::Gear, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Nothing);
+	InteractiveActor::SetInteractionOption(EINTERACTION_BUTTONTYPE::Gear, EAPPROACH_TYPE::Far, EINTERACTIONTYPE::None, ETOOLTYPE::Nothing);
 	InteractiveActor::SetGearName("Ä¡¿ì±â");
 }
 

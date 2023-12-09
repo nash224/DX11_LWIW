@@ -29,10 +29,10 @@ void BranchTree::Start()
 	InteractiveActor::Start();
 	DebugRenderer = PixelSetter::SetPixelCollision(this, "Tree_Pixel.png");
 
-	InteractiveActor::SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Nothing);
+	InteractiveActor::SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EAPPROACH_TYPE::Far, EINTERACTIONTYPE::None, ETOOLTYPE::Nothing);
 	InteractiveActor::CreateAndSetCollision(ECOLLISION::Entity, { 84.0f , 32.0f }, float4::ZERO, ColType::SPHERE2D);
 	InteractiveActor::SetGearName("Èçµé±â");
-	InteractiveActor::SetInteractionInputType(EINTERACTION_PRESSTYPE::Press);
+	InteractiveActor::SetInteractionInputType(EINTERACTION_INPUTTYPE::Press);
 }
 
 void BranchTree::Update(float _Delta)

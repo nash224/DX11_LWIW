@@ -49,7 +49,7 @@ enum class EITEM_TYPE
 };
 
 
-enum class ECOLLECTION_METHOD
+enum class EINTERACTIONTYPE
 {
 	Sit,
 	RootUp,

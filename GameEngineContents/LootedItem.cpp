@@ -18,7 +18,7 @@ void LootedItem::Start()
 	InteractiveActor::Start();
 
 	InteractiveActor::CreateAndSetCollision(ECOLLISION::Entity, { 120.0f, 80.0f }, 0.0f, ColType::SPHERE2D);
-	InteractiveActor::SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::Near, ECOLLECTION_METHOD::Sit, ETOOLTYPE::Nothing);
+	InteractiveActor::SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EAPPROACH_TYPE::Near, EINTERACTIONTYPE::Sit, ETOOLTYPE::Nothing);
 }
 
 void LootedItem::Update(float _Delta)

@@ -148,7 +148,7 @@ void Bush::InteractiveOptionSetting()
 		break;
 	case EBUSHTYPE::BushBug:
 	case EBUSHTYPE::BushApple:
-		InteractiveActor::SetInteractionOption(EINTERACTION_BUTTONTYPE::Gear, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Nothing);
+		InteractiveActor::SetInteractionOption(EINTERACTION_BUTTONTYPE::Gear, EAPPROACH_TYPE::Far, EINTERACTIONTYPE::None, ETOOLTYPE::Nothing);
 		InteractiveActor::CreateAndSetCollision(ECOLLISION::Entity, { 96.0f , 96.0f }, float4::ZERO, ColType::AABBBOX2D);
 		InteractiveActor::SetGearName("Èçµé±â");
 		break;

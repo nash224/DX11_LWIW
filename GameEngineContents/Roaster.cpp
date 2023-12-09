@@ -16,7 +16,7 @@ void Roaster::Start()
 {
 	InteractiveActor::Start();
 	CreateAndSetCollision(ECOLLISION::Entity, { 120.0f , 80.0f }, float4(0.0f, -40.0f), ColType::AABBBOX2D);
-	SetInteractionType(EINTERACTION_TYPE::Far);
+	SetApproachType(EAPPROACH_TYPE::Far);
 	SetInteractionButtonType(EINTERACTION_BUTTONTYPE::Gear);
 }
 

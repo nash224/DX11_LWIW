@@ -32,8 +32,8 @@ void Extractor::Start()
 	InteractiveActor::SetNearInteractivePositionAndRange(float4(18.0f, -16.0f), 5.0f);
 	InteractiveActor::SetInteractionOption(
 		EINTERACTION_BUTTONTYPE::Gear, 
-		EINTERACTION_TYPE::Near, 
-		ECOLLECTION_METHOD::Juicy, 
+		EAPPROACH_TYPE::Near, 
+		EINTERACTIONTYPE::Juicy, 
 		ETOOLTYPE::Nothing);
 
 	InteractiveActor::SetGearName("작동하기");
@@ -158,7 +158,7 @@ void Extractor::ChangeAnimation(std::string_view _StateName)
 
 void Extractor::StartBroken(GameEngineState* _Parent)
 {
-	InteractiveActor::SetInteractionType(EINTERACTION_TYPE::Far);
+	InteractiveActor::SetApproachType(EAPPROACH_TYPE::Far);
 
 	if (nullptr != InteractiveActor::InteractiveCol)
 	{
@@ -201,7 +201,7 @@ void Extractor::UpdateBroken(float _Delta, GameEngineState* _Parent)
 		{
 			Quest->QuestComplete();
 
-			InteractiveActor::SetInteractionType(EINTERACTION_TYPE::Near);
+			InteractiveActor::SetApproachType(EAPPROACH_TYPE::Near);
 
 			State.ChangeState(EJUICERSTATE::Idle);
 		}

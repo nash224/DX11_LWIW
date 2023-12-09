@@ -125,14 +125,14 @@ void Ellie::UpdateInteractionCollsiion()
 				{	
 					if (true == GameEngineInput::IsDown('Z', this))
 					{
-						if (EINTERACTION_TYPE::Near == Entity->GetInteractionType())
+						if (EAPPROACH_TYPE::Near == Entity->GetApproachType())
 						{
 							OtherEntity = Entity;
 							ChangeState(EELLIE_STATE::Approach);
 						}
-						if (EINTERACTION_TYPE::Far == Entity->GetInteractionType())
+						if (EAPPROACH_TYPE::Far == Entity->GetApproachType())
 						{
-							if (ECOLLECTION_METHOD::AlchemyPot == Entity->GetCollectionMethod())
+							if (EINTERACTIONTYPE::AlchemyPot == Entity->GetInteractionType())
 							{
 								OtherEntity = Entity;
 								ChangeState(EELLIE_STATE::Wait);
@@ -144,25 +144,25 @@ void Ellie::UpdateInteractionCollsiion()
 						}
 					}
 				}
-				else if (UI_Hub_Tool::CurRenderToolType != ETOOLTYPE::Dragonfly && EINTERACTION_TYPE::None != Entity->GetInteractionType())
+				else if (UI_Hub_Tool::CurRenderToolType != ETOOLTYPE::Dragonfly && EAPPROACH_TYPE::None != Entity->GetApproachType())
 				{
-					if (EINTERACTION_PRESSTYPE::Down == Entity->GetInteractionPressType())
+					if (EINTERACTION_INPUTTYPE::Down == Entity->GetInteractionInputType())
 					{
 						if (true == GameEngineInput::IsDown('Z', this))
 						{
-							if (EINTERACTION_TYPE::Near == Entity->GetInteractionType())
+							if (EAPPROACH_TYPE::Near == Entity->GetApproachType())
 							{
 								OtherEntity = Entity;
 								ChangeState(EELLIE_STATE::Approach);
 							}
 							
-							if (EINTERACTION_TYPE::Far == Entity->GetInteractionType())
+							if (EAPPROACH_TYPE::Far == Entity->GetApproachType())
 							{
 								Entity->IsReach = true;
 							}
 						}
 					}
-					else if (EINTERACTION_PRESSTYPE::Press == Entity->GetInteractionPressType())
+					else if (EINTERACTION_INPUTTYPE::Press == Entity->GetInteractionInputType())
 					{
 						if (true == GameEngineInput::IsPress('Z', this))
 						{
@@ -230,7 +230,7 @@ void Ellie::CheckNetCollision()
 					return;
 				}
 
-				if (ETOOLTYPE::Dragonfly == Entity->GetCollectionToolType())
+				if (ETOOLTYPE::Dragonfly == Entity->GetInteractionToolType())
 				{
 					Entity->ReachThis();
 				}

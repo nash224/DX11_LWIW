@@ -51,9 +51,9 @@ void InteractiveActor::CreateAndSetCollision(ECOLLISION _Order, const float4& _S
 
 void InteractiveActor::SetNearInteractivePositionAndRange(const float4& _InteractivePosition, float _Range)
 {
-	if (EINTERACTION_TYPE::Near != Option.InteractionType)
+	if (EAPPROACH_TYPE::Near != Option.ApproachType)
 	{
-		Option.InteractionType = EINTERACTION_TYPE::Near;
+		Option.ApproachType = EAPPROACH_TYPE::Near;
 	}
 
 	InteractiveLocalPosition = _InteractivePosition;
@@ -69,20 +69,20 @@ void InteractiveActor::SetNearInteractivePositionAndRange(const float4& _Interac
 
 void InteractiveActor::SetInteractionOption(
 	const EINTERACTION_BUTTONTYPE _BUTTONTYPE,
-	const EINTERACTION_TYPE _Type,
-	const ECOLLECTION_METHOD _METHODType,
+	const EAPPROACH_TYPE _Type,
+	const EINTERACTIONTYPE _METHODType,
 	const ETOOLTYPE _TOOLType
 )
 {
 	Option.ButtonType = _BUTTONTYPE;
-	Option.InteractionType = _Type;
-	Option.CollectionMethod = _METHODType;
-	Option.CollectionTool = _TOOLType;
+	Option.ApproachType = _Type;
+	Option.InteractionType = _METHODType;
+	Option.InteractionTool = _TOOLType;
 }
 
-EINTERACTION_TYPE InteractiveActor::GetInteractionType() const
+EAPPROACH_TYPE InteractiveActor::GetApproachType() const
 {
-	return Option.InteractionType;
+	return Option.ApproachType;
 }
 
 EINTERACTION_BUTTONTYPE InteractiveActor::GetInteractionButtonType() const
@@ -90,19 +90,19 @@ EINTERACTION_BUTTONTYPE InteractiveActor::GetInteractionButtonType() const
 	return Option.ButtonType;
 }
 
-ECOLLECTION_METHOD InteractiveActor::GetCollectionMethod() const
+EINTERACTIONTYPE InteractiveActor::GetInteractionType() const
 {
-	return Option.CollectionMethod;
+	return Option.InteractionType;
 }
 
-EINTERACTION_PRESSTYPE InteractiveActor::GetInteractionPressType() const
+EINTERACTION_INPUTTYPE InteractiveActor::GetInteractionInputType() const
 {
 	return Option.InputType;
 }
 
-ETOOLTYPE InteractiveActor::GetCollectionToolType() const
+ETOOLTYPE InteractiveActor::GetInteractionToolType() const
 {
-	return Option.CollectionTool;
+	return Option.InteractionTool;
 }
 
 

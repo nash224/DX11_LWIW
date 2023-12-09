@@ -1,7 +1,7 @@
 #pragma once
 #include "ContentsActor.h"
 
-enum class EINTERACTION_TYPE
+enum class EAPPROACH_TYPE
 {
 	Near,
 	Far,
@@ -15,7 +15,7 @@ enum class EINTERACTION_BUTTONTYPE
 	None,
 };
 
-enum class EINTERACTION_PRESSTYPE
+enum class EINTERACTION_INPUTTYPE
 {
 	Down,
 	Press,
@@ -34,10 +34,10 @@ private:
 	{
 	public:
 		EINTERACTION_BUTTONTYPE ButtonType = EINTERACTION_BUTTONTYPE::None;
-		EINTERACTION_TYPE InteractionType = EINTERACTION_TYPE::None;
-		ECOLLECTION_METHOD CollectionMethod = ECOLLECTION_METHOD::None;
-		ETOOLTYPE CollectionTool = ETOOLTYPE::None;
-		EINTERACTION_PRESSTYPE InputType = EINTERACTION_PRESSTYPE::Down;
+		EAPPROACH_TYPE ApproachType = EAPPROACH_TYPE::None;
+		EINTERACTIONTYPE InteractionType = EINTERACTIONTYPE::None;
+		ETOOLTYPE InteractionTool = ETOOLTYPE::None;
+		EINTERACTION_INPUTTYPE InputType = EINTERACTION_INPUTTYPE::Down;
 
 		std::string GearName;
 
@@ -74,17 +74,17 @@ public:
 		Option.ButtonType = _Type;
 	}
 
-	inline void SetInteractionType(const EINTERACTION_TYPE _Type)
+	inline void SetApproachType(const EAPPROACH_TYPE _Type)
+	{
+		Option.ApproachType = _Type;
+	}
+
+	inline void SetInteractionType(const EINTERACTIONTYPE _Type)
 	{
 		Option.InteractionType = _Type;
 	}
 
-	inline void SetCollectionMethodType(const ECOLLECTION_METHOD _Type)
-	{
-		Option.CollectionMethod = _Type;
-	}
-
-	inline void SetInteractionInputType(const EINTERACTION_PRESSTYPE _Type)
+	inline void SetInteractionInputType(const EINTERACTION_INPUTTYPE _Type)
 	{
 		Option.InputType = _Type;
 	}
@@ -96,17 +96,17 @@ public:
 
 	void SetInteractionOption(
 		const EINTERACTION_BUTTONTYPE _BUTTONTYPE,
-		const EINTERACTION_TYPE _Type,
-		const ECOLLECTION_METHOD _METHODType,
+		const EAPPROACH_TYPE _Type,
+		const EINTERACTIONTYPE _METHODType,
 		const ETOOLTYPE _TOOLType
 	);
 
 
-	EINTERACTION_TYPE GetInteractionType() const;
+	EAPPROACH_TYPE GetApproachType() const;
 	EINTERACTION_BUTTONTYPE GetInteractionButtonType() const;
-	ECOLLECTION_METHOD GetCollectionMethod() const;
-	EINTERACTION_PRESSTYPE GetInteractionPressType() const;
-	ETOOLTYPE GetCollectionToolType() const;
+	EINTERACTIONTYPE GetInteractionType() const;
+	ETOOLTYPE GetInteractionToolType() const;
+	EINTERACTION_INPUTTYPE GetInteractionInputType() const;
 
 
 	virtual void GetCaught() {}

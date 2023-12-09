@@ -19,7 +19,7 @@ BaseLift::~BaseLift()
 void BaseLift::Start()
 {
 	InteractiveActor::CreateAndSetCollision(ECOLLISION::Entity, float4{ 100.0f , 88.0f }, float4::ZERO, ColType::SPHERE2D);
-	InteractiveActor::SetInteractionOption(EINTERACTION_BUTTONTYPE::Gear, EINTERACTION_TYPE::Near, ECOLLECTION_METHOD::Lift, ETOOLTYPE::Nothing);
+	InteractiveActor::SetInteractionOption(EINTERACTION_BUTTONTYPE::Gear, EAPPROACH_TYPE::Near, EINTERACTIONTYPE::Lift, ETOOLTYPE::Nothing);
 }
 
 void BaseLift::Update(float _Delta)
