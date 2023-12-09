@@ -46,15 +46,15 @@ protected:
 	void ReleaseEntity()
 	{
 		const std::vector<std::shared_ptr<EntityType>>& EntityGroup = GetLevel()->GetObjectGroupConvert<EntityType>(EUPDATEORDER::Entity);
-		for (std::weak_ptr<EntityType> Entity : EntityGroup)
+		for (const std::shared_ptr<EntityType>& Entity : EntityGroup)
 		{
-			if (true == Entity.expired())
+			if (nullptr == Entity)
 			{
 				MsgBoxAssert("아무것도 들어있지 않습니다");
 				return;
 			}
 
-			Entity.lock()->Death();
+			Entity->Death();
 		}
 	}
 

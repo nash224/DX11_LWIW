@@ -4,6 +4,7 @@
 #include "MongSiri.h"
 #include "ChubHole.h"
 #include "BackDrop_PlayLevel.h"
+#include "TimeManager.h"
 
 MongSiri_Population::MongSiri_Population() 
 {
@@ -11,11 +12,6 @@ MongSiri_Population::MongSiri_Population()
 
 MongSiri_Population::~MongSiri_Population() 
 {
-}
-
-void MongSiri_Population::Update(float _Delta)
-{
-	UpdateEntityMiddlePoint();
 }
 
 void MongSiri_Population::Release()
@@ -187,9 +183,23 @@ void MongSiri_Population::ActorRelaese()
 {
 	for (const std::shared_ptr<MongSiri>& Object : MongSiriEntityList)
 	{
+		if (nullptr == Object)
+		{
+			continue;
+		}
+
 		Object->Death();
 	}
 
-	Hole->Death();
+	if (nullptr != Hole)
+	{
+		Hole->Death();
+	}
+
 	Death();
+}
+
+void MongSiri_Population::LeaveMongsiri()
+{
+	Status = EPOPULATIONSTATE::Escape;
 }

@@ -42,17 +42,14 @@ void BackDrop_Field::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	BackDrop_PlayLevel::LevelStart(_NextLevel);
 
-	if (nullptr != PlayLevel::GetTimeManager())
+	int TimeDay = PlayLevel::GetTimeManager()->GetDayCount();
+	bool UpdateDayisNotSame = (FieldDay != TimeDay);
+	if (UpdateDayisNotSame)
 	{
-		int TimeDay = PlayLevel::GetTimeManager()->GetDayCount();
-		bool UpdateDayisNotSame = (FieldDay != TimeDay);
-		if (UpdateDayisNotSame)
-		{
-			FieldDay = TimeDay;
-			isNight = false;
+		FieldDay = TimeDay;
+		isNight = false;
 
-			FieldState.ChangeState(EDAYSTATE::DayChange);
-		}
+		FieldState.ChangeState(EDAYSTATE::DayChange);
 	}
 }
 
@@ -117,30 +114,30 @@ void BackDrop_Field::CreatePumpkinTerrier(const float4& _Position)
 void BackDrop_Field::LeavePopulation()
 {
 	const std::vector<std::shared_ptr<MongSiri_Population>>& GroupPopulation = GetLevel()->GetObjectGroupConvert<MongSiri_Population>(EUPDATEORDER::Objects);
-	for (std::weak_ptr<MongSiri_Population> Population : GroupPopulation)
+	for (const std::shared_ptr<MongSiri_Population>& Population : GroupPopulation)
 	{
-		if (true == Population.expired())
+		if (nullptr == Population)
 		{
 			MsgBoxAssert("아무것도 들어있지 않습니다");
 			return;
 		}
 
-		Population.lock()->EscapeHoleToOtherMonsiri();
+		Population->LeaveMongsiri();
 	}
 }
 
 void BackDrop_Field::LeaveFlowerBird()
 {
 	const std::vector<std::shared_ptr<FlowerBird>>& BirdGroup = GetLevel()->GetObjectGroupConvert<FlowerBird>(EUPDATEORDER::Entity);
-	for (std::weak_ptr<FlowerBird> Bird : BirdGroup)
+	for (const std::shared_ptr<FlowerBird>& Bird : BirdGroup)
 	{
-		if (true == Bird.expired())
+		if (nullptr == Bird)
 		{
 			MsgBoxAssert("아무것도 들어있지 않습니다");
 			return;
 		}
 
-		Bird.lock()->Leave();
+		Bird->Leave();
 	}
 }
 
@@ -151,30 +148,30 @@ void BackDrop_Field::LeaveFlowerBird()
 void BackDrop_Field::ReleaseMongSiriPopulation()
 {
 	const std::vector<std::shared_ptr<MongSiri_Population>>& GroupPopulation = GetLevel()->GetObjectGroupConvert<MongSiri_Population>(EUPDATEORDER::Objects);
-	for (std::weak_ptr<MongSiri_Population> Population : GroupPopulation)
+	for (const std::shared_ptr<MongSiri_Population>& Population : GroupPopulation)
 	{
-		if (true == Population.expired())
+		if (nullptr == Population)
 		{
 			MsgBoxAssert("아무것도 들어있지 않습니다");
 			return;
 		}
 
-		Population.lock()->ActorRelaese();
+		Population->ActorRelaese();
 	}
 }
 
 void BackDrop_Field::ReleaseItemDrop()
 {
 	std::vector<std::shared_ptr<LootedItem>> DropItems = GetLevel()->GetObjectGroupConvert<LootedItem>(EUPDATEORDER::Entity);
-	for (std::weak_ptr<LootedItem> DropItem : DropItems)
+	for (const std::shared_ptr<LootedItem>& DropItem : DropItems)
 	{
-		if (true == DropItem.expired())
+		if (nullptr == DropItem)
 		{
 			MsgBoxAssert("아무것도 들어있지 않습니다");
 			return;
 		}
 
-		DropItem.lock()->Death();
+		DropItem->Death();
 	}
 }
 

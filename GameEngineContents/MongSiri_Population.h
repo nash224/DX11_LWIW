@@ -11,6 +11,7 @@ enum class EPOPULATIONSTATE
 class MongSiri_Population : public GameEngineActor
 {
 	friend class MongSiri;
+	friend class BackDrop_Field;
 
 public:
 	// constrcuter destructer
@@ -32,7 +33,7 @@ public:
 
 protected:
 	void Start() override {}
-	void Update(float _Delta) override;
+	void Update(float _Delta) override {}
 	void Release() override;
 	void LevelStart(class GameEngineLevel* _NextLevel) override {}
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
@@ -58,6 +59,8 @@ private:
 	void SetMongSiriSeed(std::shared_ptr<class MongSiri> _Actor, GameEngineRandom& _RandomClass);
 
 	void UpdateEntityMiddlePoint();
+
+	void LeaveMongsiri();
 
 private:
 	std::list<std::shared_ptr<class MongSiri>> MongSiriEntityList;
