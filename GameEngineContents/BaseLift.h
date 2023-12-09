@@ -24,7 +24,7 @@ class BaseLift : public InteractiveActor
 	friend class Ellie;
 
 public:
-	static std::weak_ptr<BaseLift> MainLiftPtr;
+	static BaseLift* MainLiftPtr;
 	static bool isEnable;
 
 private:

@@ -5,7 +5,7 @@
 #include "FadeObject.h"
 
 
-std::weak_ptr<BaseLift> BaseLift::MainLiftPtr;
+BaseLift* BaseLift::MainLiftPtr = nullptr;
 
 bool BaseLift::isEnable = false;
 BaseLift::BaseLift() 
@@ -34,6 +34,7 @@ void BaseLift::Release()
 
 	Lift.Lift = nullptr;
 	Lift.Pattern = nullptr;
+	MainLiftPtr = nullptr;
 }
 
 void BaseLift::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -60,7 +61,7 @@ void BaseLift::Init()
 		}
 	}
 
-	MainLiftPtr = GetDynamic_Cast_This<BaseLift>();
+	MainLiftPtr = this;
 }
 
 void BaseLift::LiftSetting()

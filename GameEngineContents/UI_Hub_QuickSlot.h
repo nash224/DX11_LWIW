@@ -24,9 +24,9 @@ protected:
 	void LevelEnd(class GameEngineLevel* _NextLevel) override {}
 
 private:
-	std::shared_ptr<GameEngineUIRenderer> m_Slot = nullptr;
-	std::shared_ptr<GameEngineUIRenderer> m_ArrowLeft = nullptr;
-	std::shared_ptr<GameEngineUIRenderer> m_ArrowRight = nullptr;
-	std::shared_ptr<GameEngineUIRenderer> m_Item = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> SlotRenderer = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> ArrowLeft = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> ArrowRight = nullptr;
+	std::shared_ptr<GameEngineUIRenderer> ItemRenderer = nullptr;
 };
 

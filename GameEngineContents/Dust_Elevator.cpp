@@ -49,8 +49,11 @@ void Dust_Elevator::SetTopic()
 
 void Dust_Elevator::ActiveUpperLift()
 {
-	if (false == BaseLift::MainLiftPtr.expired())
+	if (nullptr == BaseLift::MainLiftPtr)
 	{
-		BaseLift::MainLiftPtr.lock()->EnableEv();
+		MsgBoxAssert("메인 리프트가 존재하지 않습니다.");
+		return;
 	}
+
+	BaseLift::MainLiftPtr->EnableEv();
 }

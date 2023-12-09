@@ -61,6 +61,8 @@ void BackDrop_WitchHouse_UpFloor::LevelStart(class GameEngineLevel* _NextLevel)
 		}
 	}
 
+	LoadResources();
+
 	RenewMap();
 }
 
@@ -87,8 +89,6 @@ void BackDrop_WitchHouse_UpFloor::LevelEnd(class GameEngineLevel* _NextLevel)
 
 void BackDrop_WitchHouse_UpFloor::RenewMap()
 {
-	LoadResources();
-
 	CreateProp();
 	HouseLightSetting();
 	CreatePixelMap();

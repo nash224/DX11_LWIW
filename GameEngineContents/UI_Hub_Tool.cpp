@@ -51,7 +51,7 @@ void UI_Hub_Tool::Init()
 {
 	CurRenderToolType = ETOOLTYPE::Gloves;
 
-	Transform.AddLocalPosition({ -418.0f , -196.0f });
+	Transform.AddLocalPosition(float4(-418.0f, -196.0f));
 
 
 	Tool = CreateComponent<GameEngineUIRenderer>();

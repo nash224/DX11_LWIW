@@ -75,7 +75,7 @@ void Ellie::StartApproach()
 
 	// 상대방을 바라보는 방향을 구합니다.
 	const float4 VectorToOther = OtherEntity->GetInteractiveLocalPositon() - Transform.GetLocalPosition();
-	DirectionFunction::GetDirectionToVector(VectorToOther);
+	ContentsActor::Dir = DirectionFunction::GetDirectionToVector(VectorToOther);
 
 	ChangeAnimationByDirection("Walk");
 }
@@ -83,12 +83,12 @@ void Ellie::StartApproach()
 void Ellie::StartLift()
 {
 	OtherEntity = nullptr;
-	if (true == BaseLift::MainLiftPtr.expired())
+	if (nullptr == BaseLift::MainLiftPtr)
 	{
 		MsgBoxAssert("엘리베티어가 존재하지 않습니다.");
 		return;
 	}
-	BaseLift::MainLiftPtr.lock()->ActiveEv();
+	BaseLift::MainLiftPtr->ActiveEv();
 	ChangeAnimationByDirection("Idle");
 }
 

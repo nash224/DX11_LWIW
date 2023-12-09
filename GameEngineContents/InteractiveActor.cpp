@@ -109,7 +109,7 @@ ETOOLTYPE InteractiveActor::GetCollectionToolType() const
 float InteractiveActor::GetDistance2DToEllie()
 {
 	const float4 ElliePos = PlayLevel::GetCurLevel()->GetPlayerPtr()->Transform.GetLocalPosition();
-	const float4 MyPos = Parent->Transform.GetLocalPosition();
+	const float4 MyPos = Transform.GetLocalPosition();
 	const float4 Result = DirectX::XMVector2Length((MyPos - ElliePos).DirectXVector);
 	return Result.X;
 }

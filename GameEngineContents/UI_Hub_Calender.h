@@ -17,33 +17,6 @@ private:
 		std::shared_ptr<GameEngineUIRenderer> Font_Time;
 		std::shared_ptr<GameEngineUIRenderer> Font_Meridiem;
 
-
-	private:
-		std::string WeekString;
-		int RenderTime = 0;
-		int RenderDayCount = 0;
-		EDAYSTATE RenderDayState = EDAYSTATE::None;
-		bool RenderAnteMeridiem = true;
-
-	private:
-		std::string_view FontStyle = GlobalValue::Font_Cafe24;
-		const float4 FontColorWhite = float4(0.95f, 0.95f, 0.95f, 1.0f);
-		static constexpr const float Day_Font_Scale = 30.0f;
-		static constexpr const float Time_Font_Scale = 33.0f;
-		static constexpr const float Meridiem_Font_Scale = 19.0f;
-
-	public:
-		void UpdateAll();
-		void UpdateRenderTime();
-		void UpdateRenderDayAndWeek();
-		void UpdateSymbol();
-		void UpdateMeridiem(std::string_view _Text);
-
-		void DayReset();
-
-		void SetCalenderFont(const std::shared_ptr<GameEngineUIRenderer>& _FontRenderer,
-			std::string_view _Text, float _Scale) const;
-
 	};
 
 
@@ -70,8 +43,27 @@ protected:
 	void RendererSetting();
 	void UpateCalender();
 
+	void UpdateAll();
+	void UpdateRenderTime();
+	void UpdateRenderDayAndWeek();
+	void UpdateSymbol();
+	void UpdateMeridiem(std::string_view _Text);
+
+	void DayReset();
+
+	void SetCalenderFont(const std::shared_ptr<GameEngineUIRenderer>& _FontRenderer,
+		std::string_view _Text, float _Scale) const;
+
 private:
 	CalenderStruct Calender;
+	std::string WeekString;
+	int RenderTime = 0;
+	int RenderDayCount = 0;
+	bool RenderAnteMeridiem = true;
+	EDAYSTATE RenderDayState = EDAYSTATE::None;
+
+	std::string_view FontStyle = GlobalValue::Font_Cafe24;
+	const float4 FontColorWhite = float4(0.95f, 0.95f, 0.95f, 1.0f);
 
 };
 

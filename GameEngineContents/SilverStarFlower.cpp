@@ -34,11 +34,12 @@ SilverStarFlower::~SilverStarFlower()
 
 void SilverStarFlower::Start()
 {
-	CreateAndSetCollision(ECOLLISION::Entity, { 20.0f }, float4(0.0f, RendererYCorrection * 0.5f), ColType::SPHERE2D);
-	SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Dragonfly);
-	if (nullptr != InteractiveCol)
+	InteractiveActor::CreateAndSetCollision(ECOLLISION::Entity, { 20.0f }, float4(0.0f, RendererYCorrection * 0.5f), ColType::SPHERE2D);
+	InteractiveActor::SetInteractionOption(EINTERACTION_BUTTONTYPE::Gathering, EINTERACTION_TYPE::Far, ECOLLECTION_METHOD::None, ETOOLTYPE::Dragonfly);
+
+	if (nullptr != InteractiveActor::InteractiveCol)
 	{
-		InteractiveCol->Off();
+		InteractiveActor::InteractiveCol->Off();
 	}
 }
 
@@ -89,7 +90,7 @@ void SilverStarFlower::RendererSetting()
 
 void SilverStarFlower::LightSetting()
 {
-	const float4& LightColor = float4(0.0f, 0.1f, 0.2f, 0.8f);
+	const float4 LightColor = float4(0.0f, 0.1f, 0.2f, 0.8f);
 
 	UpperALight.Init(this, { LightColor , "Default_Particle.png" , float4(60.0f, 60.0f) ,float4(-10.0f, 30.0f, -0.01f) });
 	LowerALight.Init(this, { LightColor , "Default_Particle.png" , float4(30.0f, 30.0f) ,float4(-4.0f, 14.0f, -0.01f) });

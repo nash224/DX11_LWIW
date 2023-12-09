@@ -50,8 +50,7 @@ void SilverBellSpawner::CreatePollen()
 
 	const float4 DirectionVector = float4::GetUnitVectorFromDeg(RandomClass.RandomFloat(3.0f, 150.0f));
 	const float4 RandomVector = DirectionVector * RandomDistance;
-	const float4 FlowerPosition = Transform.GetLocalPosition();
-	const float4 PollenPosition = FlowerPosition + RandomVector + float4(0.0f, 16.0f, -0.2f);
+	const float4 PollenPosition = Transform.GetLocalPosition() + RandomVector + float4(0.0f, 16.0f, -0.2f);
 
 	std::shared_ptr<SilverStarPollen> Pollen = GetLevel()->CreateActor<SilverStarPollen>(EUPDATEORDER::Objects);
 	Pollen->Transform.SetLocalPosition(PollenPosition);

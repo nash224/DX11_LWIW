@@ -189,7 +189,7 @@ void UI_Hub_MainBoard::Init()
 	MainBoard.Alert->SetAutoScaleRatio(2.0f);
 	MainBoard.Alert->CreateAnimation("Notice", "Quest_Notice_Notification.png", 0.1f, 1);
 	MainBoard.Alert->ChangeAnimation("Notice");
-	MainBoard.Alert->FindAnimation("Notice")->Inter[0] = 1.0f;
+	MainBoard.Alert->FindAnimation("Notice")->Inter.at(0) = 1.0f;
 	MainBoard.Alert->Off();
 
 
@@ -406,8 +406,8 @@ void UI_Hub_MainBoard::StartStay(GameEngineState* _Parent)
 
 void UI_Hub_MainBoard::StartClose(GameEngineState* _Parent)
 {
-	const float4& TexScale = MainBoard.Base->GetSprite()->GetSpriteData(0).Texture->GetScale();
-	const float4& Posision = float4(GlobalValue::GetWindowScale().hX() - TexScale.X, 0.0f);
+	const float4 TexScale = MainBoard.Base->GetSprite()->GetSpriteData(0).Texture->GetScale();
+	const float4 Posision = float4(GlobalValue::GetWindowScale().hX() - TexScale.X, 0.0f);
 	SetPosAllQuestUnit(Posision);
 	Transform.SetLocalPosition(Posision);
 }
@@ -415,13 +415,13 @@ void UI_Hub_MainBoard::StartClose(GameEngineState* _Parent)
 
 void UI_Hub_MainBoard::UpdateOpen(float _Delta, GameEngineState* _Parent)
 {
-	const float4& MovePos = float4(-MoveSpeed * _Delta);
+	const float4 MovePos = float4(-MoveSpeed * _Delta);
 	Transform.AddLocalPosition(MovePos);
 	AddPosAllQuestUnit(MovePos);
 
-	const float4& MyPosition = Transform.GetLocalPosition();
-	const float4& TexScale = MainBoard.Base->GetSprite()->GetSpriteData(0).Texture->GetScale();
-	const float4& CheckPosition = GlobalValue::GetWindowScale().hX() - TexScale.X;
+	const float4 MyPosition = Transform.GetLocalPosition();
+	const float4 TexScale = MainBoard.Base->GetSprite()->GetSpriteData(0).Texture->GetScale();
+	const float4 CheckPosition = GlobalValue::GetWindowScale().hX() - TexScale.X;
 	if (MyPosition.X < CheckPosition.X)
 	{
 		State.ChangeState(EMAINBOARDSTATE::Stay);
@@ -440,11 +440,11 @@ void UI_Hub_MainBoard::UpdateStay(float _Delta, GameEngineState* _Parent)
 
 void UI_Hub_MainBoard::UpdateClose(float _Delta, GameEngineState* _Parent)
 {
-	const float4& MovePos = float4(MoveSpeed * _Delta);
+	const float4 MovePos = float4(MoveSpeed * _Delta);
 	Transform.AddLocalPosition(MovePos);
 	AddPosAllQuestUnit(MovePos);
 
-	const float4& MyPosition = Transform.GetLocalPosition();
+	const float4 MyPosition = Transform.GetLocalPosition();
 	if (MyPosition.X > GlobalValue::GetWindowScale().hX())
 	{
 		State.ChangeState(EMAINBOARDSTATE::None);
@@ -455,17 +455,17 @@ void UI_Hub_MainBoard::UpdateClose(float _Delta, GameEngineState* _Parent)
 
 void UI_Hub_MainBoard::EndOpen(GameEngineState* _Parent)
 {
-	const float4& MyPosition = Transform.GetLocalPosition();
-	const float4& TexScale = MainBoard.Base->GetSprite()->GetSpriteData(0).Texture->GetScale();
-	const float4& Posision = float4(GlobalValue::GetWindowScale().hX() - TexScale.X + 2.0f , MyPosition.Y);
+	const float4 MyPosition = Transform.GetLocalPosition();
+	const float4 TexScale = MainBoard.Base->GetSprite()->GetSpriteData(0).Texture->GetScale();
+	const float4 Posision = float4(GlobalValue::GetWindowScale().hX() - TexScale.X + 2.0f , MyPosition.Y);
 	SetPosAllQuestUnit(Posision);
 	Transform.SetLocalPosition(Posision);
 }
 
 void UI_Hub_MainBoard::StartNone(GameEngineState* _Parent)
 {
-	const float4& MyPosition = Transform.GetLocalPosition();
-	const float4& Posision = float4(GlobalValue::GetWindowScale().hX(), MyPosition.Y);
+	const float4 MyPosition = Transform.GetLocalPosition();
+	const float4 Posision = float4(GlobalValue::GetWindowScale().hX(), MyPosition.Y);
 	SetPosAllQuestUnit(Posision);
 	Transform.SetLocalPosition(Posision);
 	Close();
@@ -478,15 +478,15 @@ void UI_Hub_MainBoard::AddPosAllQuestUnit(const float4& _Pos)
 		return;
 	}
 
-	for (std::weak_ptr<UI_QuestUnit> Unit : QuestList)
+	for (const std::shared_ptr<UI_QuestUnit>& Unit : QuestList)
 	{
-		if (true == Unit.expired())
+		if (nullptr == Unit)
 		{
 			MsgBoxAssert("리스트 안에 잘못된 값이 들어있습니다.");
 			return;
 		}
 
-		Unit.lock()->AddLocalPosition(_Pos);
+		Unit->AddLocalPosition(_Pos);
 	}
 }
 
@@ -497,14 +497,14 @@ void UI_Hub_MainBoard::SetPosAllQuestUnit(const float4& _Pos)
 		return;
 	}
 
-	for (std::weak_ptr<UI_QuestUnit> Unit : QuestList)
+	for (const std::shared_ptr<UI_QuestUnit>& Unit : QuestList)
 	{
-		if (true == Unit.expired())
+		if (nullptr == Unit)
 		{
 			MsgBoxAssert("리스트 안에 잘못된 값이 들어있습니다.");
 			return;
 		}
 
-		Unit.lock()->SetLocalPosition(_Pos);
+		Unit->SetLocalPosition(_Pos);
 	}
 }
