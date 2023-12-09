@@ -14,6 +14,7 @@ public:
 	SkyLerp& operator=(const SkyLerp& _Other) = delete;
 	SkyLerp& operator=(SkyLerp&& _Other) noexcept = delete;
 
+	// Debug
 	void SetSkyColor();
 
 	float GetALightValue() const;
@@ -49,14 +50,14 @@ private:
 	std::shared_ptr<class SkyLightEffect> SkyEffectPtr;
 	std::shared_ptr<GameEngineSpriteRenderer> Sun_Renderer = nullptr;
 
-	static constexpr const int SunsetStartHour = 15;
+	static constexpr int SunsetStartHour = 15;
 	float SunsetStartTimeRatio = 0.0f;
 	float SunsetEndTimeRatio = 0.0f;
 
 	float TenMinuteTimeRatio = 0.0f;
 
 
-	static constexpr const int AlightStartHour = 19;
+	static constexpr int AlightStartHour = 19;
 	float ALightStartTimeRatio = 0.0f;
 	float ALight = 0.0f;
 };

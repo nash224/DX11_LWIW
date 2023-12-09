@@ -53,8 +53,6 @@ void UI_ButtonGuide::SetGuideInfo(GameEngineActor* _Actor, const std::vector<But
 		}
 	}
 
-	const float HalfSize = TotalSize * 0.5f;
-
 	const float Depth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Font);
 
 	for (int i = 0; i < Guides.size(); i++)
@@ -67,7 +65,7 @@ void UI_ButtonGuide::SetGuideInfo(GameEngineActor* _Actor, const std::vector<But
 			TotalFrontInfoSize += DistanceBTW;
 		}
 
-		float XPos = -HalfSize + TotalFrontInfoSize;
+		float XPos = -TotalSize * 0.5f + TotalFrontInfoSize;
 		const float4 GuidePos = float4(XPos, RendererYPos, Depth);
 		Guides[i].ButtonRenderer->Transform.SetWorldPosition(GuidePos);
 		Guides[i].GuideRenderer->Transform.SetWorldPosition(GuidePos + float4(-8.0f, 6.0f));
@@ -144,10 +142,10 @@ float UI_ButtonGuide::GetTotalSize(std::string_view _FileName, int _StringSize) 
 		return 0.0f;
 	}
 
-	static constexpr float Font_Aspect_Ratio = 0.6f;
-	static constexpr float TextToButtonGap = 4.0f;
+	const float Font_Aspect_Ratio = 0.6f;
+	const float TextToButtonGap = 4.0f;
 
-	const float4& ButtonScale = Texture.lock()->GetScale();
+	const float4 ButtonScale = Texture.lock()->GetScale();
 	return ButtonScale.X + _StringSize * GuideFontSize * Font_Aspect_Ratio + TextToButtonGap;
 }
 

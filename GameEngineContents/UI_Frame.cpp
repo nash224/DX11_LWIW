@@ -28,19 +28,17 @@ void UI_Frame::Init(int _Type)
 
 void UI_Frame::RendererSetting(int _Type)
 {
-	static constexpr int RenderOrder = 0;
-
 	const float FrameDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Frame);
 	const float CutsceneDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Base);
 
 	std::string FileName = GetCutsceneName(static_cast<EFRAMETYPE>(_Type));
 
 
-	Frame = CreateComponent<GameEngineUIRenderer>(RenderOrder);
+	Frame = CreateComponent<GameEngineUIRenderer>();
 	Frame->Transform.SetLocalPosition(float4(0.0f, 0.0f, FrameDepth));
 	Frame->SetSprite("Sample_UI_Cutscene_Frame.png");
 
-	Cutscene = CreateComponent<GameEngineUIRenderer>(RenderOrder);
+	Cutscene = CreateComponent<GameEngineUIRenderer>();
 	Cutscene->Transform.SetLocalPosition(float4(0.0f, 0.0f, CutsceneDepth));
 	Cutscene->SetSprite(FileName);
 }

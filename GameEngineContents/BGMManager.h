@@ -92,8 +92,8 @@ private:
 
 	static constexpr float AmplificationTime = 0.8f;
 
-	static constexpr const float Max_BGM_Volume = 1.0f;
-	static constexpr const float Min_BGM_Volume = 0.0f;
+	static constexpr float Max_BGM_Volume = 1.0f;
+	static constexpr float Min_BGM_Volume = 0.0f;
 
 };
 

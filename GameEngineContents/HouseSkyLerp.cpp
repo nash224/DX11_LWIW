@@ -130,10 +130,8 @@ void SkyGUI::OnGUI(GameEngineLevel* _Level, float _Delta)
 
 			GameEngineFile File;
 			File.MoveParentToExistsChild("Resources");
-			File.MoveChild("Resources\\Data\\Sky");
-			std::string Path = File.GetStringPath();
-			Path += "\\SkyData.sky";
-			File = Path;
+			File.MoveChild("Resources\\Data\\Sky\\");
+			File.PlusFilePath("SkyDataTest.sky");
 			File.Open(FileOpenType::Write, FileDataType::Binary);
 			File.Write(BinSerial);
 		}

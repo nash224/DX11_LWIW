@@ -2,7 +2,6 @@
 #include "UI_Alert_Base.h"
 
 
-const float4 UI_Alert_Base::InitialFontColor = float4(0.85f, 0.85f, 0.85f, 1.0f);
 UI_Alert_Base::UI_Alert_Base() 
 {
 }
@@ -16,14 +15,6 @@ void UI_Alert_Base::Update(float _Delta)
 {
 	State.Update(_Delta);
 }
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
 
 void UI_Alert_Base::FSMSetting()
 {

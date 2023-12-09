@@ -186,9 +186,9 @@ void UIManager::DectectOpenUIComponent()
 
 		if (false == DictionaryPtr->IsOpen && false == InventoryPtr->IsOpen)
 		{
-			SwitchOpenHub = true;									// 허브를 열 수 있습니다.
-			IsActiveComponent = false;							// 현재 컴포넌트가 작동중인지 추적하는 변수입니다.
-			HubPreServeCheck = false;								// 허브를 닫지 않고 컴포넌트를 열지 결정합니다.
+			SwitchOpenHub = true;
+			IsActiveComponent = false;
+			HubPreServeCheck = false;
 		}
 	}
 
@@ -250,9 +250,5 @@ void UIManager::InputUpdate()
 void UIManager::SetEllieControl(bool _Value)
 {
 	const std::shared_ptr<Ellie>& PlayerPtr = PlayLevel::GetCurLevel()->GetPlayerPtr();
-
-	if (nullptr != PlayerPtr)
-	{
-		_Value ? PlayerPtr->OnControl() : PlayerPtr->OffControl();
-	}
+	_Value ? PlayerPtr->OnControl() : PlayerPtr->OffControl();
 }

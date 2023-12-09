@@ -5,6 +5,17 @@
 
 UI_Alert_Quest::UI_Alert_Quest() 
 {
+	if (nullptr == GameEngineSound::FindSound("SFX_Quest_Start_01.wav"))
+	{
+		GameEngineDirectory Dir;
+		Dir.MoveParentToExistsChild("Resources");
+		Dir.MoveChild("Resources\\Sound\\UI\\Quest");
+		std::vector<GameEngineFile> Files = Dir.GetAllFile();
+		for (GameEngineFile& pFile : Files)
+		{
+			GameEngineSound::SoundLoad(pFile.GetStringPath());
+		}
+	}
 }
 
 UI_Alert_Quest::~UI_Alert_Quest() 
@@ -37,12 +48,6 @@ void UI_Alert_Quest::LevelEnd(class GameEngineLevel* _NextLevel)
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
 void UI_Alert_Quest::CallAlertQuest(GameEngineLevel* _Level, std::string_view _QuestName, EALERTTYPE _Type)
 {
 	const std::shared_ptr<UI_Alert_Quest>& Alert = _Level->CreateActor<UI_Alert_Quest>(EUPDATEORDER::Objects);
@@ -70,21 +75,18 @@ void UI_Alert_Quest::CallAlertQuest(GameEngineLevel* _Level, std::string_view _Q
 
 void UI_Alert_Quest::SameInit(std::string_view _QuestName)
 {
-	const float4& Position = float4(0.0f, 140.0f);
-	Transform.SetLocalPosition(Position);
+	Transform.SetLocalPosition(float4(0.0f, 140.0f));
 
 	RendererSetting(_QuestName);
 	UI_Alert_Base::FSMSetting();
-
-	SoundSetting();
 }
 
 void UI_Alert_Quest::QuestAcceptInit(std::string_view _QuestName)
 {
 	SameInit(_QuestName);
 
-	 GameEngineSoundPlayer SFX = GameEngineSound::SoundPlay("SFX_Quest_Start_01.wav");
-	 SFX.SetVolume(GlobalValue::GetSFXVolume());
+	
+	SFXFunction::PlaySFX("SFX_Quest_Start_01.wav");
 }
 
 void UI_Alert_Quest::QuestClearInit(std::string_view _QuestName)
@@ -94,8 +96,7 @@ void UI_Alert_Quest::QuestClearInit(std::string_view _QuestName)
 	StampRendererSetting();
 	FSMStampSetting();
 
-	GameEngineSoundPlayer SFX = GameEngineSound::SoundPlay("SFX_Quest_Complete_01.wav");
-	SFX.SetVolume(GlobalValue::GetSFXVolume());
+	SFXFunction::PlaySFX("SFX_Quest_Complete_01.wav");
 }
 
 void UI_Alert_Quest::RendererSetting(std::string_view _QuestName)
@@ -105,91 +106,56 @@ void UI_Alert_Quest::RendererSetting(std::string_view _QuestName)
 		GameEngineSprite::CreateCut("Quest_Notice_Bar_Animation.png", 5, 5);
 	}
 
-	const int RenderOrder = 0;
-
 	const float ShadowDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Shadow);
 	const float BaseDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Base);
 	const float FontDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Font);
 
-	const float4& fShadowDepth = float4(0.0f, 0.0f, ShadowDepth);
-	const float4& fQuestFrameDepth = float4(0.0f, 0.0f, BaseDepth);
-	const float4& QuestFontPosition = float4(0.0f, 2.0f, FontDepth);
-	const float4& HeadFontPosition = float4(0.0f, 30.0f, FontDepth);
-
 
 	{
-		QuestInfo.Black = CreateComponent<GameEngineUIRenderer>(RenderOrder);
-		QuestInfo.Black->Transform.SetLocalPosition(fShadowDepth);
+		QuestInfo.Black = CreateComponent<GameEngineUIRenderer>();
+		QuestInfo.Black->Transform.SetLocalPosition(float4(0.0f, 0.0f, ShadowDepth));
 		QuestInfo.Black->SetSprite("Default_Particle.png");
 		QuestInfo.Black->GetColorData().MulColor = float4::ZERO;
 		QuestInfo.Black->GetImageTransform().SetLocalScale(float4(300.0f, 160.0f));
 	}
 
 	{
-		static constexpr const float QuestFrame_Animation_Inter = 0.045f;
-
-		QuestInfo.QuestFrame = CreateComponent<GameEngineUIRenderer>(RenderOrder);
-		QuestInfo.QuestFrame->Transform.SetLocalPosition(fQuestFrameDepth);
+		QuestInfo.QuestFrame = CreateComponent<GameEngineUIRenderer>();
+		QuestInfo.QuestFrame->Transform.SetLocalPosition(float4(0.0f, 0.0f, BaseDepth));
 		QuestInfo.QuestFrame->AutoSpriteSizeOn();
-		QuestInfo.QuestFrame->CreateAnimation("Alert", "Quest_Notice_Bar_Animation.png", QuestFrame_Animation_Inter, 0, 22, false);
+		QuestInfo.QuestFrame->CreateAnimation("Alert", "Quest_Notice_Bar_Animation.png", 0.045f, 0, 22, false);
 		QuestInfo.QuestFrame->ChangeAnimation("Alert");
 	}
 
 	{
-		QuestInfo.UnderLine = CreateComponent<GameEngineUIRenderer>(RenderOrder);
-		QuestInfo.UnderLine->Transform.SetLocalPosition(fQuestFrameDepth);
+		QuestInfo.UnderLine = CreateComponent<GameEngineUIRenderer>();
+		QuestInfo.UnderLine->Transform.SetLocalPosition(float4(0.0f, 0.0f, BaseDepth));
 		QuestInfo.UnderLine->SetSprite("Quest_Notice_Bar.png");
 	}
 
 	{
-		static constexpr const float FontScale = 21.0f;
-
-		const float4 InitialFontColor = float4(0.85f, 0.85f, 0.85f, 1.0f);
-
-		QuestInfo.Font = CreateComponent<GameEngineUIRenderer>(RenderOrder);
-		QuestInfo.Font->Transform.SetLocalPosition(QuestFontPosition);
-		QuestInfo.Font->SetText(GlobalValue::Font_Sandoll, _QuestName.data(), FontScale, InitialFontColor, FW1_TEXT_FLAG::FW1_CENTER);
+		QuestInfo.Font = CreateComponent<GameEngineUIRenderer>();
+		QuestInfo.Font->Transform.SetLocalPosition(float4(0.0f, 2.0f, FontDepth));
+		QuestInfo.Font->SetText(GlobalValue::Font_Sandoll, _QuestName.data(), 21.0f, float4(0.85f, 0.85f, 0.85f, 1.0f), FW1_TEXT_FLAG::FW1_CENTER);
 	}
 
 	{
-		static constexpr const float FontScale = 16.0f;
-
-		const float4 InitialFontColor = float4(0.75f, 0.2f, 0.1f, 1.0f);
-
-		QuestInfo.HeadFont = CreateComponent<GameEngineUIRenderer>(RenderOrder);
-		QuestInfo.HeadFont->Transform.SetLocalPosition(HeadFontPosition);
-		QuestInfo.HeadFont->SetText(GlobalValue::Font_Sandoll, "메인", FontScale, InitialFontColor, FW1_TEXT_FLAG::FW1_CENTER);
+		QuestInfo.HeadFont = CreateComponent<GameEngineUIRenderer>();
+		QuestInfo.HeadFont->Transform.SetLocalPosition(float4(0.0f, 30.0f, FontDepth));
+		QuestInfo.HeadFont->SetText(GlobalValue::Font_Sandoll, "메인", 16.0f, float4(0.75f, 0.2f, 0.1f, 1.0f), FW1_TEXT_FLAG::FW1_CENTER);
 	}
 }
 
 void UI_Alert_Quest::StampRendererSetting()
 {
-	const int RenderOrder = 0;
-
 	const float FrameDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Stamp);
-	const float4& StampPosition = float4(110.0f, -30.0f, FrameDepth);
 
-	QuestInfo.Stamp = CreateComponent<GameEngineUIRenderer>(RenderOrder);
-	QuestInfo.Stamp->Transform.SetLocalPosition(StampPosition);
+	QuestInfo.Stamp = CreateComponent<GameEngineUIRenderer>();
+	QuestInfo.Stamp->Transform.SetLocalPosition(float4(110.0f, -30.0f, FrameDepth));
 	QuestInfo.Stamp->SetSprite("Quest_Notice_Complete.png");
 	QuestInfo.Stamp->AutoSpriteSizeOn();
 	QuestInfo.Stamp->GetColorData().MulColor = float4(0.84f, 0.84f, 0.84f, 1.0f);
 	QuestInfo.Stamp->Off();
-}
-
-void UI_Alert_Quest::SoundSetting()
-{
-	if (nullptr == GameEngineSound::FindSound("SFX_Quest_Start_01.wav"))
-	{
-		GameEngineDirectory Dir;
-		Dir.MoveParentToExistsChild("Resources");
-		Dir.MoveChild("Resources\\Sound\\UI\\Quest");
-		std::vector<GameEngineFile> Files = Dir.GetAllFile();
-		for (GameEngineFile& pFile : Files)
-		{
-			GameEngineSound::SoundLoad(pFile.GetStringPath());
-		}
-	}
 }
 
 void UI_Alert_Quest::StartFadeIn(GameEngineState* _Parent)
@@ -213,9 +179,8 @@ void UI_Alert_Quest::UpdateFadeIn(float _DeltaTime, GameEngineState* _Parent)
 	ChangeMulColor(QuestInfo.UnderLine, SettingValue);
 
 	const float UnderLine_X_ScaleRatio = QuestInfo.UnderLine_Initial_X_Scale_Ratio + (1.0f - QuestInfo.UnderLine_Initial_X_Scale_Ratio) * SettingValue;
-	const float4& ScaleRatio = float4(UnderLine_X_ScaleRatio, 1.0f);
 
-	ChangeAutoScaleRatio(QuestInfo.UnderLine, ScaleRatio);
+	ChangeAutoScaleRatio(QuestInfo.UnderLine, float4(UnderLine_X_ScaleRatio, 1.0f));
 
 	if (_Parent->GetStateTime() > Fade_Change_Time)
 	{
@@ -232,7 +197,7 @@ void UI_Alert_Quest::UpdateFadeIn(float _DeltaTime, GameEngineState* _Parent)
 
 void UI_Alert_Quest::UpdateStay(float _DeltaTime, GameEngineState* _Parent)
 {
-	static constexpr const float StampTime = 0.2f;
+	const float StampTime = 0.2f;
 
 	bool isStampDone = (_Parent->GetStateTime() > StampTime && false == QuestInfo.isStamped);
 	if (isStampDone)
@@ -266,7 +231,7 @@ void UI_Alert_Quest::UpdateFadeOut(float _DeltaTime, GameEngineState* _Parent)
 		ChangeMulColor(QuestInfo.Stamp, MulColorValue);
 	}
 
-	static constexpr const float FadeOutTime = 0.8f;
+	const float FadeOutTime = 0.8f;
 
 	if (_Parent->GetStateTime() > FadeOutTime)
 	{
@@ -312,9 +277,8 @@ void UI_Alert_Quest::UpdateAppear(float _DeltaTime, GameEngineState* _Parent)
 
 	const float MinusScaleRatio = (QuestInfo.Stamp_Initial_Scale_Ratio_Size.X - 1.0f) * SettingValue;
 	const float StampScaleXRatio = QuestInfo.Stamp_Initial_Scale_Ratio_Size.X - MinusScaleRatio;
-	const float4& StampScaleRatio = float4(StampScaleXRatio, StampScaleXRatio);
 
-	ChangeAutoScaleRatio(QuestInfo.Stamp, StampScaleRatio);
+	ChangeAutoScaleRatio(QuestInfo.Stamp, float4(StampScaleXRatio, StampScaleXRatio));
 	
 	if (_Parent->GetStateTime() > QuestInfo.Stamp_Change_FadeIn_Time)
 	{

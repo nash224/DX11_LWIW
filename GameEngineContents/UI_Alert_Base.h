@@ -45,8 +45,7 @@ protected:
 
 
 protected:
-	static const float4 InitialFontColor;
-	
+	const float4 InitialFontColor = float4(0.85f, 0.85f, 0.85f, 1.0f);
 
 private:
 	GameEngineState State;

@@ -20,12 +20,6 @@ UI_InterativeMark::~UI_InterativeMark()
 }
 
 
-void UI_InterativeMark::Start()
-{
-	//OutLine = GetLevel()->GetMainCamera()->GetCameraAllRenderTarget()->CreateEffect<OutLineEffect>();
-	//OutLine->Off();
-}
-
 void UI_InterativeMark::Update(float _Delta)
 {
 	if (this != UI_Mark)

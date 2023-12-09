@@ -167,11 +167,11 @@ void SkyLerp::UpdateSkyLerp()
 		bool isOver740PM = (RefNumber < MaxRefNumber);
 		if (isOver740PM)
 		{
-			LerpSky(SkyData[RefNumber], SkyData[static_cast<size_t>(RefNumber) + 1], SunSetRatio);
+			LerpSky(SkyData.at(RefNumber), SkyData.at(RefNumber + 1), SunSetRatio);
 		}
 		else
 		{
-			LerpSky(SkyData[MaxRefNumber]);
+			LerpSky(SkyData.at(MaxRefNumber));
 		}
 	}
 	else

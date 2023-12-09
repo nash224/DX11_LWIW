@@ -252,6 +252,12 @@ bool UI_Conversation::IsConversation() const
 
 void UI_Conversation::Reset()
 {
+	if (nullptr == Portrait.Ellie || nullptr == Portrait.Virgil)
+	{
+		MsgBoxAssert("렌더러가 존재하지 않습니다.");
+		return;
+	}
+
 	Portrait.DefaultIndex = 0;
 	NotNpc = false;
 
@@ -261,11 +267,6 @@ void UI_Conversation::Reset()
 
 	Portrait.Ellie->ChangeCurSprite(ElliePortrait_DefaultIndex);
 	Portrait.Virgil->ChangeCurSprite(Virgil_DefaultIndex);
-
-	Dialogue.Left_Tail->Off();
-	Dialogue.Right_Tail->Off();
-	Dialogue.Main_Cursor->Off();
-	Dialogue.Main_Font->Off();
 
 	Dialogue.Main_Message.clear();
 	Dialogue.Virgil_Message.clear();

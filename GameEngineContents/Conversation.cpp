@@ -159,7 +159,7 @@ void Conversation::EndConversation()
 	UIManagerPtr->DoneUIComponent();
 
 	// 임시 저장 변수 
-	// 레퍼런스로 받으면 대화불가능 X
+	// 레퍼런스로 받으면 대화불가능
 	std::shared_ptr<Topic> TempTopic = CurTopic;
 	CallEndConversationEvent();
 

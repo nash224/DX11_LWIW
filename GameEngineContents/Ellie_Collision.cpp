@@ -26,16 +26,10 @@ void Ellie::UpdatePortalCollsiion()
 
 	EllieCol->Collision(ECOLLISION::Portal, [&](std::vector<GameEngineCollision*>& _Collision)
 		{
-			for (size_t i = 0; i < _Collision.size(); i++)
+			for (int i = 0; i < _Collision.size(); i++)
 			{
-				GameEngineActor* Object = _Collision[i]->GetActor();
-				if (nullptr == Object)
-				{
-					MsgBoxAssert("존재하지 않는 액터를 참조하려 했습니다.");
-					return;
-				}
-
-				PortalObject* PortalActor = dynamic_cast<PortalObject*>(Object);
+				GameEngineCollision* Collision = _Collision[i];
+				const std::shared_ptr<PortalObject>& PortalActor = Collision->GetActor()->GetDynamic_Cast_This<PortalObject>();
 				if (nullptr == PortalActor)
 				{
 					MsgBoxAssert("다운캐스팅에 실패했습니다.");
@@ -58,10 +52,10 @@ void Ellie::UpdateInteractionCollsiion()
 		return;
 	}
 
-	float4 DirectionVector = DirectionFunction::GetVectorToDirection(Dir);
-	float DirAngle = ContentMathFunction::ReturnClampDegree(ContentMathFunction::GetDegreeToVector2D(DirectionVector));
-	float LeftFOVAngle = ContentMathFunction::ReturnClampDegree(DirAngle + FOVAngle);
-	float RightFOVAngle = ContentMathFunction::ReturnClampDegree(DirAngle - FOVAngle);
+	const float4 DirectionVector = DirectionFunction::GetVectorToDirection(Dir);
+	const float DirAngle = ContentMathFunction::ReturnClampDegree(ContentMathFunction::GetDegreeToVector2D(DirectionVector));
+	const float LeftFOVAngle = ContentMathFunction::ReturnClampDegree(DirAngle + FOVAngle);
+	const float RightFOVAngle = ContentMathFunction::ReturnClampDegree(DirAngle - FOVAngle);
 
 	ShowFOVDebugLine(LeftFOVAngle, RightFOVAngle);
 

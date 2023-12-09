@@ -12,6 +12,7 @@ UI_Alert_Enter::~UI_Alert_Enter()
 }
 
 
+static constexpr float Fade_Change_Time = 1.0f;
 
 void UI_Alert_Enter::Update(float _Delta)
 {
@@ -33,9 +34,6 @@ void UI_Alert_Enter::LevelEnd(class GameEngineLevel* _NextLevel)
 }
 
 
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
 void UI_Alert_Enter::AlertLevelEnter(GameEngineLevel* _Level, std::string_view _LevelName)
 {
 	const std::shared_ptr<UI_Alert_Enter>& Alert = _Level->CreateActor<UI_Alert_Enter>(EUPDATEORDER::Objects);
@@ -44,8 +42,7 @@ void UI_Alert_Enter::AlertLevelEnter(GameEngineLevel* _Level, std::string_view _
 
 void UI_Alert_Enter::Init(std::string_view _LevelName)
 {
-	const float4& Position = float4(0.0f, 200.0f);
-	Transform.SetLocalPosition(Position);
+	Transform.SetLocalPosition(float4(0.0f, 200.0f));
 
 	RendererSetting(_LevelName);
 	UI_Alert_Base::FSMSetting();
@@ -58,53 +55,37 @@ void UI_Alert_Enter::RendererSetting(std::string_view _LevelName)
 		GameEngineSprite::CreateCut("ZoneName_Animation.png", 7, 6);
 	}
 
-	const int RenderOrder = 0;
-
 	const float ShadowDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Shadow);
 	const float BaseDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Base);
 	const float FontDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Font);
 
-	const float4& fShadowDepth = float4(0.0f, 0.0f, ShadowDepth);
-	const float4& fZoneFrameDepth = float4(0.0f, 0.0f, BaseDepth);
-	const float4& fFontDepth = float4(0.0f, 0.0f, FontDepth);
-
 
 	{
-		AlertInfo.Black = CreateComponent<GameEngineUIRenderer>(RenderOrder);
-		AlertInfo.Black->Transform.SetLocalPosition(fShadowDepth);
+		AlertInfo.Black = CreateComponent<GameEngineUIRenderer>();
+		AlertInfo.Black->Transform.SetLocalPosition(float4(0.0f, 0.0f, ShadowDepth));
 		AlertInfo.Black->GetColorData().MulColor = float4::ZERO;
 		AlertInfo.Black->SetSprite("Default_Particle.png");
 		AlertInfo.Black->GetImageTransform().SetLocalScale(float4(300.0f, 200.0f));
 	}
 
 	{
-		static constexpr const float ZoneFrame_Animation_Inter = 0.045f;
-
-		AlertInfo.ZoneFrame = CreateComponent<GameEngineUIRenderer>(RenderOrder);
-		AlertInfo.ZoneFrame->Transform.SetLocalPosition(fZoneFrameDepth);
+		AlertInfo.ZoneFrame = CreateComponent<GameEngineUIRenderer>();
+		AlertInfo.ZoneFrame->Transform.SetLocalPosition(float4(0.0f, 0.0f, BaseDepth));
 		AlertInfo.ZoneFrame->AutoSpriteSizeOn();
-		AlertInfo.ZoneFrame->CreateAnimation("Alert", "ZoneName_Animation.png", ZoneFrame_Animation_Inter, 0, 36, false);
+		AlertInfo.ZoneFrame->CreateAnimation("Alert", "ZoneName_Animation.png", 0.045f, 0, 36, false);
 		AlertInfo.ZoneFrame->ChangeAnimation("Alert");
 	}
 
 	{
-		static constexpr const float FontScale = 21.0f;
-
-		AlertInfo.Font = CreateComponent<GameEngineUIRenderer>(RenderOrder);
-		AlertInfo.Font->Transform.SetLocalPosition(fFontDepth);
-		AlertInfo.Font->SetText(GlobalValue::Font_Sandoll, _LevelName.data(), FontScale, InitialFontColor, FW1_TEXT_FLAG::FW1_CENTER);
+		AlertInfo.Font = CreateComponent<GameEngineUIRenderer>();
+		AlertInfo.Font->Transform.SetLocalPosition(float4(0.0f, 0.0f, FontDepth));
+		AlertInfo.Font->SetText(GlobalValue::Font_Sandoll, _LevelName.data(), 21.0f, InitialFontColor, FW1_TEXT_FLAG::FW1_CENTER);
 	}
 }
 
 void UI_Alert_Enter::StartFadeIn(GameEngineState* _Parent)
 {
-	if (nullptr == AlertInfo.Font)
-	{
-		MsgBoxAssert("렌더러가 존재하지 않습니다.");
-		return;
-	}
-
-	if (nullptr == AlertInfo.Black)
+	if (nullptr == AlertInfo.Font || nullptr == AlertInfo.Black)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
@@ -132,6 +113,7 @@ void UI_Alert_Enter::UpdateFadeIn(float _DeltaTime, GameEngineState* _Parent)
 
 void UI_Alert_Enter::UpdateStay(float _DeltaTime, GameEngineState* _Parent)
 {
+	const float WaitTime = 1.6f;
 	if (_Parent->GetStateTime() > WaitTime)
 	{
 		ChangeState(EENTERSTATE::FadeOut);

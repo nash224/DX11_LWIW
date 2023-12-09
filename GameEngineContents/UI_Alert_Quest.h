@@ -63,7 +63,6 @@ protected:
 
 	void RendererSetting(std::string_view _LevelName);
 	void StampRendererSetting();
-	void SoundSetting();
 
 	void StartFadeIn(GameEngineState* _Parent) override;
 
@@ -75,8 +74,8 @@ private:
 	AlertQuestInfo QuestInfo;
 	GameEngineState StampState;
 
-	static constexpr const float Fade_Change_Time = 1.0f;
-	static constexpr const float WaitTime = 1.4f;
+	static constexpr float Fade_Change_Time = 1.0f;
+	static constexpr float WaitTime = 1.4f;
 
 private:
 	void FSMStampSetting();

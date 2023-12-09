@@ -27,9 +27,9 @@ private:
 		std::shared_ptr<GameEngineUIRenderer> ContentFont;
 
 	public:
-		static constexpr const float Fade_Change_Time = 1.0f;
+		static constexpr float Fade_Change_Time = 1.0f;
 
-		static constexpr const float FontScale = 23.0f;
+		static constexpr float FontScale = 23.0f;
 
 	};
 
@@ -70,8 +70,8 @@ private:
 
 	const float4 FadeMulColor = float4(0.0f, 0.0f, 0.0f, 0.4f);
 
-	static constexpr const float StartAlphaRatio = 0.7f;
-	static constexpr const float PopupTime = 0.3f;
+	static constexpr float StartAlphaRatio = 0.7f;
+	static constexpr float PopupTime = 0.3f;
 
 };
 

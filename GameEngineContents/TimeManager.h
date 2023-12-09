@@ -1,7 +1,5 @@
 #pragma once
 
-
-
 enum class EDAYSTATE
 {
 	Day,
@@ -90,7 +88,6 @@ private:
 
 	static constexpr int OneMinutes_PerHour = 60;
 
-	static constexpr int TenMinute_PerHour = 5;
+	static constexpr int TimeFlow_PerTenMinute = 5;
 
 };
-

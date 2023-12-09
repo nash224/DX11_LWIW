@@ -124,10 +124,10 @@ float4 CameraControler::AdjustCameraInitialPosition(const float4& _ActorPos)
 
 	float4 CurCameraPos = _ActorPos;
 	
-	const float4& HWinScale = GlobalValue::GetWindowScale().Half();
+	const float4 HWinScale = GlobalValue::GetWindowScale().Half();
 
-	const float4& CameraLeftTopPoint = CurCameraPos + float4{ -HWinScale.X , HWinScale.Y };
-	const float4& CameraRightBottomPoint = CurCameraPos + float4{ HWinScale.X , -HWinScale.Y };
+	const float4 CameraLeftTopPoint = CurCameraPos + float4{ -HWinScale.X , HWinScale.Y };
+	const float4 CameraRightBottomPoint = CurCameraPos + float4{ HWinScale.X , -HWinScale.Y };
 
 	bool IsLeftTopCornerInBackScale = true;
 	bool IsLeftBottomCornerInBackScale = true;
@@ -271,7 +271,7 @@ float4 CameraControler::AdjustCameraInitialPosition(const float4& _ActorPos)
 
 void CameraControler::SetAutoInitialPosition(const float4& _ActorPos)
 {
-	const float4& AdjustCameraPos = AdjustCameraInitialPosition(_ActorPos);
+	const float4 AdjustCameraPos = AdjustCameraInitialPosition(_ActorPos);
 	MainCameraPointer->Transform.SetLocalPosition(AdjustCameraPos);
 }
 
@@ -340,12 +340,12 @@ void CameraControler::UpdatePlayMode(float _Delta)
 		return;
 	}
 
-	static constexpr float m_SmoothingRatio = 0.035f;
+	static constexpr float SmoothingRatio = 0.035f;
 
-	const float4& ActorPos = FocusActorPointer->Transform.GetWorldPosition();
-	const float4& CurCameraPos = MainCameraPointer->Transform.GetWorldPosition();
+	const float4 ActorPos = FocusActorPointer->Transform.GetWorldPosition();
+	const float4 CurCameraPos = MainCameraPointer->Transform.GetWorldPosition();
 	
-	const float4& SmoothingPos = CurCameraPos + (ActorPos - CurCameraPos) * m_SmoothingRatio;
+	const float4 SmoothingPos = CurCameraPos + (ActorPos - CurCameraPos) * SmoothingRatio;
 	float4 CameraMovePos = SmoothingPos - CurCameraPos;
 
 	LockCamera(CameraMovePos, CurCameraPos);
@@ -358,12 +358,12 @@ void CameraControler::UpdatePlayMode(float _Delta)
 
 void CameraControler::LockCamera(float4& _pCameraMovePos, const float4& _CurCameraPos) const
 {
-	const float4& HalfWinScale = GlobalValue::GetWindowScale().Half();
+	const float4 HalfWinScale = GlobalValue::GetWindowScale().Half();
 	float4 BackPosition = BackScale;
 	BackPosition.Y *= -1.0f;
 
-	const float4& CameraLeftTopLimitPoint = float4{ HalfWinScale.X , -HalfWinScale.Y };
-	const float4& CameraRightBottomLimitPoint = float4{ BackPosition.X - HalfWinScale.X , BackPosition.Y + HalfWinScale.Y } /*+ float4{ 200.0f , -200.f }*/;
+	const float4 CameraLeftTopLimitPoint = float4{ HalfWinScale.X , -HalfWinScale.Y };
+	const float4 CameraRightBottomLimitPoint = float4{ BackPosition.X - HalfWinScale.X , BackPosition.Y + HalfWinScale.Y } /*+ float4{ 200.0f , -200.f }*/;
 
 	if (_CurCameraPos.X + _pCameraMovePos.X < CameraLeftTopLimitPoint.X)
 	{
@@ -399,7 +399,7 @@ void CameraControler::UpdateCinematicMode(float _Delta)
 
 void CameraControler::UpdateEditorMode(float _Delta)
 {
-	static constexpr float EditorMoveSpeed = 200.0f;
+	const float EditorMoveSpeed = 200.0f;
 
 	float CameraSpeed = EditorMoveSpeed * _Delta;
 	if (true == GameEngineInput::IsPress(VK_SHIFT, this))

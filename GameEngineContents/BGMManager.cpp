@@ -71,7 +71,7 @@ void BGMManager::UpdateAmplification(float _Delta, GameEngineState* _Parent)
 
 void BGMManager::UpdateAttenuation(float _Delta, GameEngineState* _Parent)
 {
-	static constexpr float ReadyTime = 2.0f;
+	const float ReadyTime = 2.0f;
 
 	BGMVolume -= _Delta / AmplificationTime;
 	SetVolume();
@@ -185,7 +185,7 @@ void BGMManager::ResourceLoad()
 	Dir.MoveParentToExistsChild("Resources");
 	Dir.MoveChild("Resources\\Sound\\BGM\\Play");
 	std::vector<GameEngineFile> Files = Dir.GetAllFile();
-	for (GameEngineFile pFile : Files)
+	for (GameEngineFile& pFile : Files)
 	{
 		GameEngineSound::SoundLoad(pFile.GetStringPath());
 	}

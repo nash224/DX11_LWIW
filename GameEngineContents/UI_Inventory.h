@@ -146,7 +146,7 @@ private:
 	void LockSlot(const unsigned int _Y);
 
 	void ChangeDataParent();
-	void DisplayItem(const size_t _SlotNumber, std::string_view _FileName, unsigned int _Count);
+	void DisplayItem(int _SlotNumber, std::string_view _FileName, unsigned int _Count);
 	void RenewInventory();
 
 	void OpenInternal() override;

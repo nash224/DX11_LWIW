@@ -43,12 +43,11 @@ float UI_Alert_Tutorial::AlertLevelEnter(GameEngineLevel* _Level, std::string_vi
 
 void UI_Alert_Tutorial::Init(std::string_view _LevelName)
 {
-	const float4& Position = float4(0.0f, 200.0f);
-	Transform.SetLocalPosition(Position);
+	Transform.SetLocalPosition(float4(0.0f, 200.0f));
 
 	RendererSetting(_LevelName);
 	UI_Alert_Base::FSMSetting();
-}
+} 
 
 void UI_Alert_Tutorial::RendererSetting(std::string_view _LevelName)
 {
@@ -57,61 +56,46 @@ void UI_Alert_Tutorial::RendererSetting(std::string_view _LevelName)
 		GameEngineSprite::CreateCut("ZoneName_Animation.png", 7, 6);
 	}
 
-	const int RenderOrder = 0;
 
 	const float BaseDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Base);
 	const float ShadowDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Shadow);
 	const float FontDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Font);
 	const float ImgDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::Alert_Img);
 
-	const float4& fFadeDepth = float4(0.0f, 0.0f, ShadowDepth);
-	const float4& fBaseDepth = float4(0.0f, 0.0f, BaseDepth);
-	const float4& fImgDepth = float4(0.0f, 0.0f, FontDepth);
-	const float4& fFontDepth = float4(0.0f, 0.0f, FontDepth);
-
-
 	{
-		AlertInfo.Base = CreateComponent<GameEngineUIRenderer>(RenderOrder);
-		AlertInfo.Base->Transform.SetLocalPosition(fBaseDepth);
+		AlertInfo.Base = CreateComponent<GameEngineUIRenderer>();
+		AlertInfo.Base->Transform.SetLocalPosition(float4(0.0f, 0.0f, BaseDepth));
 		AlertInfo.Base->SetSprite("Popup_Keyword_Base.png");
 	}
 
 	{
-		AlertInfo.Fade = CreateComponent<GameEngineUIRenderer>(RenderOrder);
-		AlertInfo.Fade->Transform.SetLocalPosition(fFadeDepth);
+		AlertInfo.Fade = CreateComponent<GameEngineUIRenderer>();
+		AlertInfo.Fade->Transform.SetLocalPosition(float4(0.0f, 0.0f, ShadowDepth));
 		AlertInfo.Fade->GetColorData().MulColor = FadeMulColor;
 		AlertInfo.Fade->GetImageTransform().SetLocalScale(GlobalValue::GetWindowScale());
 	}
 
 
 	{
-		static constexpr const float FontScale = 21.0f;
+		const float FontScale = 21.0f;
 
-		/*float4 TitleFontPosition = float4( 3.0f,  ) + fFontDepth;*/
-
-		AlertInfo.TitleFont = CreateComponent<GameEngineUIRenderer>(RenderOrder);
-		AlertInfo.TitleFont->Transform.SetLocalPosition(fFontDepth);
+		AlertInfo.TitleFont = CreateComponent<GameEngineUIRenderer>();
+		AlertInfo.TitleFont->Transform.SetLocalPosition(float4(0.0f, 0.0f, FontDepth));
 		AlertInfo.TitleFont->SetText(GlobalValue::Font_Sandoll, _LevelName.data(), FontScale, InitialFontColor, FW1_TEXT_FLAG::FW1_CENTER);
 	}
 
 	{
-		static constexpr const float FontScale = 21.0f;
+		const float FontScale = 21.0f;
 
-		AlertInfo.ContentFont = CreateComponent<GameEngineUIRenderer>(RenderOrder);
-		AlertInfo.ContentFont->Transform.SetLocalPosition(fFontDepth);
+		AlertInfo.ContentFont = CreateComponent<GameEngineUIRenderer>();
+		AlertInfo.ContentFont->Transform.SetLocalPosition(float4(0.0f, 0.0f, FontDepth));
 		AlertInfo.ContentFont->SetText(GlobalValue::Font_Sandoll, _LevelName.data(), FontScale, InitialFontColor, FW1_TEXT_FLAG::FW1_CENTER);
 	}
 }
 
 void UI_Alert_Tutorial::StartFadeIn(GameEngineState* _Parent)
 {
-	if (nullptr == AlertInfo.Base)
-	{
-		MsgBoxAssert("렌더러가 존재하지 않습니다.");
-		return;
-	}
-
-	if (nullptr == AlertInfo.Fade)
+	if (nullptr == AlertInfo.Base || AlertInfo.Fade)
 	{
 		MsgBoxAssert("렌더러가 존재하지 않습니다.");
 		return;
@@ -130,7 +114,7 @@ void UI_Alert_Tutorial::UpdateFadeIn(float _DeltaTime, GameEngineState* _Parent)
 
 void UI_Alert_Tutorial::UpdateStay(float _DeltaTime, GameEngineState* _Parent)
 {
-	static constexpr const float WaitTime = 1.6f;
+	const float WaitTime = 1.6f;
 
 	if (_Parent->GetStateTime() > WaitTime)
 	{

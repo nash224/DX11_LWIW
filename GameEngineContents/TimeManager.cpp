@@ -5,7 +5,7 @@
 TimeManager::TimeManager() 
 {
 	Reset();
-	MaxTime = static_cast<float>((End_Day_Hour - Start_Day_Hour) * OneMinutes_PerHour / (10 / TenMinute_PerHour));
+	MaxTime = static_cast<float>((End_Day_Hour - Start_Day_Hour) * OneMinutes_PerHour / (10 / TimeFlow_PerTenMinute));
 	SetTime(10, 0);
 }
 
@@ -52,8 +52,8 @@ float TimeManager::GetTime() const
 }
 float TimeManager::GetTime(unsigned int  _Hour, unsigned int  _Minute) const
 {
-	int HourTime = (_Hour - Start_Day_Hour) * OneMinutes_PerHour / (10 / TenMinute_PerHour);
-	int MinuteTime = _Minute / (10 / TenMinute_PerHour);
+	int HourTime = (_Hour - Start_Day_Hour) * OneMinutes_PerHour / (10 / TimeFlow_PerTenMinute);
+	int MinuteTime = _Minute / (10 / TimeFlow_PerTenMinute);
 	return static_cast<float>(HourTime + MinuteTime);
 }
 
@@ -123,7 +123,7 @@ float TimeManager::GetTimeRatio() const
 
 float TimeManager::GetMinuteRatio() const
 {
-	return static_cast<float>(TenMinute_PerHour) / MaxTime;
+	return static_cast<float>(TimeFlow_PerTenMinute) / MaxTime;
 }
 
 
@@ -182,7 +182,7 @@ EDAYSTATE TimeManager::GetDayState() const
 void TimeManager::ConvertTimeToHour()
 {
 	float fHour = 0.0f;
-	float TimeRatio = Time / static_cast<float>(OneMinutes_PerHour / (10 / TenMinute_PerHour));
+	float TimeRatio = Time / static_cast<float>(OneMinutes_PerHour / (10 / TimeFlow_PerTenMinute));
 	float fMinutes = std::modff(TimeRatio, &fHour);
 	const int AddHour = static_cast<int>(fHour);
 
@@ -201,8 +201,8 @@ void TimeManager::ConvertTimeToHour()
 
 void TimeManager::ConvertHourToTime()
 {
-	int HourTime = (Hour - Start_Day_Hour) * OneMinutes_PerHour / (10 / TenMinute_PerHour);
-	int MinuteTime = Minute / (10 / TenMinute_PerHour);
+	int HourTime = (Hour - Start_Day_Hour) * OneMinutes_PerHour / (10 / TimeFlow_PerTenMinute);
+	int MinuteTime = Minute / (10 / TimeFlow_PerTenMinute);
 	Time = static_cast<float>(HourTime + MinuteTime);
 
 	if (Hour >= Start_Night_Hour)

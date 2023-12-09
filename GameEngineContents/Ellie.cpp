@@ -517,10 +517,10 @@ void Ellie::ChangeDirectionAnimation(std::string_view _StateName)
 
 bool Ellie::DetectMovement()
 {
-	bool IsLeftDetect = DetectVerticalMovement();
-	bool IsRightDetect = DetectHorizontalMovement();
+	bool isVeritcalInput = DetectVerticalMovement();
+	bool isHorizontalInput = DetectHorizontalMovement();
 
-	if (true == IsLeftDetect || true == IsRightDetect)
+	if (true == isVeritcalInput || true == isHorizontalInput)
 	{
 		if (EHORIZONTAL_KEY_STATE::Center == HorizontalInputKey)
 		{
@@ -677,7 +677,7 @@ void Ellie::NormalMoveLogic(float _Delta, float _MAXMoveForce)
 		Right = 1,
 	};
 
-	EDIRECTION CheckDir = ReturnWallDir(Dir, PixelCheckPos.at(static_cast<int>(ECHECKENUM::Left)), PixelCheckPos.at(static_cast<int>(ECHECKENUM::Right)));
+	const EDIRECTION CheckDir = ReturnWallDir(Dir, PixelCheckPos.at(static_cast<int>(ECHECKENUM::Left)), PixelCheckPos.at(static_cast<int>(ECHECKENUM::Right)));
 
 	bool NotWall = (CheckDir == Dir);
 	if (NotWall)
@@ -694,7 +694,7 @@ void Ellie::NormalMoveLogic(float _Delta, float _MAXMoveForce)
 		}
 		else
 		{
-			float4 MoveDirVector = DirectionFunction::GetVectorToDirection(CheckDir);
+			const float4 MoveDirVector = DirectionFunction::GetVectorToDirection(CheckDir);
 			SetMoveVector(MoveDirVector * (_MAXMoveForce * FrictionForce));
 		}
 	}
