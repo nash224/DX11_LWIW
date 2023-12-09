@@ -42,11 +42,11 @@ void BackDrop_Field::LevelStart(class GameEngineLevel* _NextLevel)
 {
 	BackDrop_PlayLevel::LevelStart(_NextLevel);
 
-	int TimeDay = PlayLevel::GetTimeManager()->GetDayCount();
-	bool UpdateDayisNotSame = (FieldDay != TimeDay);
-	if (UpdateDayisNotSame)
+	int DayCount = PlayLevel::GetTimeManager()->GetDayCount();
+	bool NotSameDay = (FieldDay != DayCount);
+	if (NotSameDay)
 	{
-		FieldDay = TimeDay;
+		FieldDay = DayCount;
 		isNight = false;
 
 		FieldState.ChangeState(EDAYSTATE::DayChange);

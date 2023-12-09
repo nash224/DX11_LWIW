@@ -277,14 +277,14 @@
     <Filter Include="Actor\Interactive\Creature\Plant">
       <UniqueIdentifier>{aabcb491-481d-4380-a119-aabdaa014822}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Interactive\Creature\Plant\SilverBellFlower">
-      <UniqueIdentifier>{ef2cf91a-b5b9-4066-a22c-448abcd8977f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Actor\Prop\Comet">
       <UniqueIdentifier>{0c04bc05-b02a-44c9-921d-ef6ca740c5a6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Actor\Prop\Light">
       <UniqueIdentifier>{761e2a4c-15d4-4376-ad4e-77462122bc8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Interactive\Creature\SilverBellFlower">
+      <UniqueIdentifier>{ef2cf91a-b5b9-4066-a22c-448abcd8977f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -575,13 +575,13 @@
       <Filter>Actor\Interactive\NPC\Aurea</Filter>
     </ClInclude>
     <ClInclude Include="SilverStarPollen.h">
-      <Filter>Actor\Interactive\Creature\Plant\SilverBellFlower</Filter>
+      <Filter>Actor\Interactive\Creature\SilverBellFlower</Filter>
     </ClInclude>
     <ClInclude Include="SilverStarFlower.h">
-      <Filter>Actor\Interactive\Creature\Plant\SilverBellFlower</Filter>
+      <Filter>Actor\Interactive\Creature\SilverBellFlower</Filter>
     </ClInclude>
     <ClInclude Include="SilverBellSpawner.h">
-      <Filter>Actor\Interactive\Creature\Plant\SilverBellFlower</Filter>
+      <Filter>Actor\Interactive\Creature\SilverBellFlower</Filter>
     </ClInclude>
     <ClInclude Include="OutLineEffect.h">
       <Filter>Rendering\Effect</Filter>
@@ -1098,13 +1098,13 @@
       <Filter>Actor\Interactive\NPC\Aurea</Filter>
     </ClCompile>
     <ClCompile Include="SilverStarFlower.cpp">
-      <Filter>Actor\Interactive\Creature\Plant\SilverBellFlower</Filter>
+      <Filter>Actor\Interactive\Creature\SilverBellFlower</Filter>
     </ClCompile>
     <ClCompile Include="SilverStarPollen.cpp">
-      <Filter>Actor\Interactive\Creature\Plant\SilverBellFlower</Filter>
+      <Filter>Actor\Interactive\Creature\SilverBellFlower</Filter>
     </ClCompile>
     <ClCompile Include="SilverBellSpawner.cpp">
-      <Filter>Actor\Interactive\Creature\Plant\SilverBellFlower</Filter>
+      <Filter>Actor\Interactive\Creature\SilverBellFlower</Filter>
     </ClCompile>
     <ClCompile Include="OutLineEffect.cpp">
       <Filter>Rendering\Effect</Filter>

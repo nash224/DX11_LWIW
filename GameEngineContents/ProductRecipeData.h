@@ -40,37 +40,47 @@ public:
 	ProductRecipeData& operator=(const ProductRecipeData& _Other) = default;
 	ProductRecipeData& operator=(ProductRecipeData&& _Other) noexcept = default;
 
-
-	// 레시피가 오른쪽에 와야합니다.
-	bool operator==(const ProductRecipeData* _Other) const
+	// 재료가 왼쪽에 
+	bool operator==(const ProductRecipeData* _Recipe) const
 	{
-		if (_Other->Ladle != Ladle)
+		if (nullptr == _Recipe)
+		{
+			MsgBoxAssert("레시피가 존재하지 않습니다.");
+			return false;
+		}
+
+		if (_Recipe->Ladle != Ladle)
 		{
 			return false;
 		}
 
-		if (_Other->Fire != Fire)
+		if (_Recipe->Fire != Fire)
+		{
+			return false;
+		}
+
+		if (_Recipe->Material.size() != Material.size())
 		{
 			return false;
 		}
 
 		std::vector<MaterialInfo> CheckMaterial;
-		CheckMaterial.resize(3);
+		CheckMaterial.resize(Material.size());
 		for (int i = 0; i < CheckMaterial.size(); i++)
 		{
 			CheckMaterial[i] = Material[i];
 		}
 
 
-		for (int MCount = 0; MCount < _Other->Material.size(); MCount++)
+		for (int MCount = 0; MCount < _Recipe->Material.size(); MCount++)
 		{
 			bool IsCollect = false;
 
 			for (int RCount = 0; RCount < CheckMaterial.size(); RCount++)
 			{
-				if (CheckMaterial[RCount].MaterialName == _Other->Material[MCount].MaterialName)
+				if (CheckMaterial[RCount].MaterialName == _Recipe->Material[MCount].MaterialName)
 				{
-					if (CheckMaterial[RCount].MaterialCount >= _Other->Material[MCount].MaterialCount)
+					if (CheckMaterial[RCount].MaterialCount >= _Recipe->Material[MCount].MaterialCount)
 					{
 						CheckMaterial.erase(CheckMaterial.begin() + RCount);
 						IsCollect = true;

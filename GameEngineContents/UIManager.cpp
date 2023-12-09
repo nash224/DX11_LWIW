@@ -87,7 +87,6 @@ void UIManager::OpenInventory(EINVENTORYMODE _Mode)
 
 	InventoryPtr->Open();
 	InventoryPtr->UsingOtherComponent(_Mode);
-	UseUIComponent();
 }
 
 void UIManager::CloseInventory()

@@ -273,12 +273,23 @@ void UI_Dispensation::ClearSlotInfo()
 
 void UI_Dispensation::Dispensation()
 {
-	const std::vector<ProductRecipeData::MaterialInfo> infoArray =
+	const int SlotCnt = static_cast<int>(DispensationSlot.size());
+
+	std::vector<ProductRecipeData::MaterialInfo> infoArray;
+	infoArray.reserve(SlotCnt);
+
+	for (int i = 0; i < SlotCnt; i++)
 	{
-		{DispensationSlot[0].ItemName, DispensationSlot[0].ItemCount},
-		{DispensationSlot[1].ItemName, DispensationSlot[1].ItemCount},
-		{DispensationSlot[2].ItemName, DispensationSlot[2].ItemCount}
-	};
+		const DispensationSlotInfo& CurInfo = DispensationSlot[i];
+		if (true == CurInfo.ItemName.empty())
+		{
+			continue;
+		}
+
+		ProductRecipeData::MaterialInfo MatInfo = { CurInfo.ItemName ,  CurInfo.ItemCount };
+		infoArray.push_back(MatInfo);
+	}
+
 	const ProductRecipeData CurRecipeData = ProductRecipeData{ infoArray, EBREWING_DIFFICULTY::Normal, CurStir, CurFire};
 
 	if (true == CheckDispensation(CurRecipeData))
@@ -308,6 +319,9 @@ bool UI_Dispensation::CheckDispensation(const ProductRecipeData& _Data)
 		const std::shared_ptr<ProductRecipeData>& Recpie = Data.second;
 		if (_Data == Recpie.get())
 		{
+			// 인벤토리가 다 찼을 때, 아이템을 받는 슬롯이 없으면 재료는 빠지지만 아이템은 안들어가는 버그를 알고 있음
+			// 해결 방법은 인벤토리에서 IsSlotEmpty 지원해주고 빠지는 아이템이 없다면 제작하지 않으면 해결
+
 			CreatedProductName = Recpie->ProductName;
 			return true;
 		}
