@@ -26,9 +26,8 @@ void Ellie::UpdatePortalCollsiion()
 
 	EllieCol->Collision(ECOLLISION::Portal, [&](std::vector<GameEngineCollision*>& _Collision)
 		{
-			for (int i = 0; i < _Collision.size(); i++)
+			for (GameEngineCollision* Collision : _Collision)
 			{
-				GameEngineCollision* Collision = _Collision[i];
 				const std::shared_ptr<PortalObject>& PortalActor = Collision->GetActor()->GetDynamic_Cast_This<PortalObject>();
 				if (nullptr == PortalActor)
 				{
@@ -37,6 +36,7 @@ void Ellie::UpdatePortalCollsiion()
 				}
 
 				PortalActor->SetCollisionFlag(true);
+				ContentsActor::ResetMoveVector();
 				OffControl();
 			}
 		});
@@ -221,9 +221,8 @@ void Ellie::CheckNetCollision()
 
 	NetCollision->Collision(ECOLLISION::Entity, [&](std::vector<GameEngineCollision*>& _OtherGroup)
 		{
-			for (int i = 0; i < _OtherGroup.size(); i++)
+			for (GameEngineCollision* Collision : _OtherGroup)
 			{
-				GameEngineCollision* Collision = _OtherGroup[i];
 				const std::shared_ptr<InteractiveActor>& Entity = Collision->GetActor()->GetDynamic_Cast_This<InteractiveActor>();
 				if (nullptr == Entity)
 				{
