@@ -12,12 +12,12 @@ TestCircleGauge::~TestCircleGauge()
 
 void TestCircleGauge::Start()
 {
-	GaugeRenderer = CreateComponent<GaugeUIRenderer>();
-	GaugeRenderer->SetMaterial("GaugeTexture2D");
-	GaugeRenderer->SetSprite("Quest_Notice_Complete.png");
-	GaugeRenderer->AutoSpriteSizeOn();
-	GaugeRenderer->SetAutoScaleRatio(4.0f);
-	GaugeRenderer->GetGaugeInfo().CircleGuage = 1;
+	TestRenderer = CreateComponent<GaugeUIRenderer>();
+	TestRenderer->SetMaterial("GaugeTexture2D");
+	TestRenderer->SetSprite("Quest_Notice_Complete.png");
+	TestRenderer->AutoSpriteSizeOn();
+	TestRenderer->SetAutoScaleRatio(4.0f);
+	TestRenderer->GetGaugeInfo().CircleGuage = 1;
 }
 
 void TestCircleGauge::Update(float _Delta)
@@ -27,6 +27,7 @@ void TestCircleGauge::Update(float _Delta)
 
 void TestCircleGauge::Release()
 {
+	TestRenderer = nullptr;
 }
 
 void TestCircleGauge::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -34,9 +35,6 @@ void TestCircleGauge::LevelEnd(class GameEngineLevel* _NextLevel)
 	Death();
 }
 
-
-/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
 
 void TestCircleGauge::SetTime(float _Time)
 {
@@ -46,7 +44,7 @@ void TestCircleGauge::SetTime(float _Time)
 void TestCircleGauge::GaugeUpdate(float _Delta)
 {
 	Gauge += _Delta / GaugeTime * Reverse;
-	GaugeRenderer->GetGaugeInfo().Gauge = Gauge;
+	TestRenderer->GetGaugeInfo().Gauge = Gauge;
 
 	if (Reverse > 0.0f && Gauge > 1.0f)
 	{

@@ -144,8 +144,10 @@ void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
 	if (false)
 	{
 		PixelManagerPtr = CreateActor<PixelManager>(EUPDATEORDER::Back);
+		SetPixelMap();
 	}
 
+	if (false)
 	{
 		float4 InitialPosition = WinScale.Half();
 		InitialPosition.Y *= -1.0f;
@@ -153,13 +155,7 @@ void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
 		Player->Transform.SetLocalPosition(InitialPosition);
 	}
 
-
 	TestCode();
-
-	if (false)
-	{
-		SetPixelMap();
-	}
 }
 
 void TestLevel::LevelEnd(class GameEngineLevel* _NextLevel)
@@ -284,7 +280,7 @@ void TestLevel::TestCode()
 			};
 
 			ButtonGuide = CreateActor<TestCircleGauge>(EUPDATEORDER::Objects);
-			ButtonGuide->GaugeRenderer->Transform.SetLocalPosition(float4(200.0f, -100.0f));
+			ButtonGuide->TestRenderer->Transform.SetLocalPosition(float4(200.0f, -100.0f));
 			Guide.SetGuideInfo(ButtonGuide.get(), Paras);
 			Guide.On();
 		}

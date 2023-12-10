@@ -17,7 +17,7 @@ public:
 
 	void SetTime(float _Time);
 
-	std::shared_ptr<GaugeUIRenderer> GaugeRenderer;
+	std::shared_ptr<GaugeUIRenderer> TestRenderer;
 
 protected:
 	void Start() override;
