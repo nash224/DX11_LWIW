@@ -164,7 +164,7 @@ void Dian::ConversationSetting()
 		WitchCatalogueTopic.Data.shrink_to_fit();
 		NPCConversation.CreateTopic(EDIANTOPICTYPE::WitchCatalogue, WitchCatalogueTopic);
 
-		NPCConversation.SetConversationEvent(EDIANTOPICTYPE::WitchCatalogue, 22, [&]()
+		NPCConversation.SetConversationEvent(EDIANTOPICTYPE::WitchCatalogue, 22, []()
 			{
 				UI_Inventory::PushItem("Item_Etc_11");
 				UI_Inventory::UnlockSlot();
@@ -248,7 +248,7 @@ void Dian::ConversationSetting()
 		PotionVerificationTopic.Data.shrink_to_fit();
 		NPCConversation.CreateTopic(EDIANTOPICTYPE::PotionVerification, PotionVerificationTopic);
 
-		NPCConversation.SetConversationEvent(EDIANTOPICTYPE::PotionVerification, 22, [&]()
+		NPCConversation.SetConversationEvent(EDIANTOPICTYPE::PotionVerification, 22, []()
 			{
 				const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = ContentsEvent::FindQuest("Dian_BadWeedPotion");
 				if (nullptr == Quest)
@@ -260,7 +260,7 @@ void Dian::ConversationSetting()
 				Quest->QuestAccept();
 			});
 
-		NPCConversation.SetConversationEndEvent(EDIANTOPICTYPE::PotionVerification, [&]()
+		NPCConversation.SetConversationEndEvent(EDIANTOPICTYPE::PotionVerification, []()
 			{
 				const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = ContentsEvent::FindQuest("Dian_BadWeedPotion");
 				if (nullptr == Quest)
@@ -290,7 +290,7 @@ void Dian::ConversationSetting()
 		DragonFlyTopic.Data.shrink_to_fit();
 		NPCConversation.CreateTopic(EDIANTOPICTYPE::DragonFly, DragonFlyTopic);
 
-		NPCConversation.SetConversationEvent(EDIANTOPICTYPE::DragonFly, 2, [&]()
+		NPCConversation.SetConversationEvent(EDIANTOPICTYPE::DragonFly, 2, []()
 			{
 				const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = ContentsEvent::FindQuest("Dian_BadWeedPotion");
 				if (nullptr == Quest)
@@ -302,7 +302,7 @@ void Dian::ConversationSetting()
 				Quest->QuestComplete();
 			});
 
-		NPCConversation.SetConversationEndEvent(EDIANTOPICTYPE::DragonFly, [&]()
+		NPCConversation.SetConversationEndEvent(EDIANTOPICTYPE::DragonFly, []()
 			{
 				const std::shared_ptr<ContentsEvent::QuestUnitBase>& Quest = ContentsEvent::FindQuest("Dian_BadWeedPotion");
 				if (nullptr == Quest)
@@ -347,7 +347,7 @@ void Dian::ConversationSetting()
 		FireCrackerTopic.Data.shrink_to_fit();
 		NPCConversation.CreateTopic(EDIANTOPICTYPE::FireCracker, FireCrackerTopic);
 
-		NPCConversation.SetConversationEvent(EDIANTOPICTYPE::FireCracker, 19, [&]()
+		NPCConversation.SetConversationEvent(EDIANTOPICTYPE::FireCracker, 19, []()
 			{
 				const std::shared_ptr<ContentsEvent::QuestUnitBase>& CrackerQuest = ContentsEvent::FindQuest("Dian_Cracker");
 				if (nullptr == CrackerQuest)
@@ -406,7 +406,7 @@ void Dian::ConversationSetting()
 		NPCConversation.CreateTopic(EDIANTOPICTYPE::FireCrackerRecipe, FireCrackerRecipeTopic);
 
 
-		NPCConversation.SetConversationEndEvent(EDIANTOPICTYPE::FireCrackerRecipe, [&]()
+		NPCConversation.SetConversationEndEvent(EDIANTOPICTYPE::FireCrackerRecipe, []()
 			{
 				const std::shared_ptr<ContentsEvent::QuestUnitBase>& CrackerQuest = ContentsEvent::FindQuest("Dian_Cracker");
 				if (nullptr == CrackerQuest)

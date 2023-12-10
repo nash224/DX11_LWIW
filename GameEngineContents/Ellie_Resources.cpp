@@ -88,14 +88,14 @@ void Ellie::RendererSetting()
 		BodyRenderer->CreateAnimation("Ellie_Basic_Walk_UP", "Ellie_Basic_Walk.png", 0.1f, 78, 85);
 		BodyRenderer->CreateAnimation("Ellie_Basic_Walk_RIGHTUP", "Ellie_Basic_Walk.png", 0.1f, 91, 98);
 
-		VirgilRendererHelper.CreateFrameInfo("Ellie_Basic_Walk_LEFT", { 108,99,100,101,108,109,100,100 });
-		VirgilRendererHelper.CreateFrameInfo("Ellie_Basic_Walk_LEFTDOWN", { 108,99,100,101,108,109,100,100 });
+		VirgilRendererHelper.CreateFrameInfo("Ellie_Basic_Walk_LEFT", { 108,109,100,100,108,109,100,100 });
+		VirgilRendererHelper.CreateFrameInfo("Ellie_Basic_Walk_LEFTDOWN", { 108,109,100,100,108,109,100,100 });
 		VirgilRendererHelper.CreateFrameInfo("Ellie_Basic_Walk_DOWN", { 110,111,0,0,110,111,0,0 });
 		VirgilRendererHelper.CreateFrameInfo("Ellie_Basic_Walk_RIGHT", { 115,116,117, 117,115,116,117,117 });
 		VirgilRendererHelper.CreateFrameInfo("Ellie_Basic_Walk_RIGHTDOWN", { 115,116,117, 117,115,116,117,117 });
-		VirgilRendererHelper.CreateFrameInfo("Ellie_Basic_Walk_LEFTUP", { 120,121,119,119,120,121,121,121 });
+		VirgilRendererHelper.CreateFrameInfo("Ellie_Basic_Walk_LEFTUP", { 120,121,119,119,120,121,119,119 });
 		VirgilRendererHelper.CreateFrameInfo("Ellie_Basic_Walk_UP", { });
-		VirgilRendererHelper.CreateFrameInfo("Ellie_Basic_Walk_RIGHTUP", { 126,127,127,128,126,127,128,128 });
+		VirgilRendererHelper.CreateFrameInfo("Ellie_Basic_Walk_RIGHTUP", { 126,127,128,128,126,127,128,128 });
 	}
 
 
@@ -109,14 +109,14 @@ void Ellie::RendererSetting()
 		BodyRenderer->CreateAnimation("Ellie_Basic_SlowWalk_UP", "Ellie_Basic_Walk.png", Ellie_SlowWalk_Inter, 78, 85);
 		BodyRenderer->CreateAnimation("Ellie_Basic_SlowWalk_RIGHTUP", "Ellie_Basic_Walk.png", Ellie_SlowWalk_Inter, 91, 98);
 
-		VirgilRendererHelper.CreateFrameInfo("Ellie_Basic_SlowWalk_LEFT", { 108,99,100,101,108,109,100,100 });
-		VirgilRendererHelper.CreateFrameInfo("Ellie_Basic_SlowWalk_LEFTDOWN", { 108,99,100,101,108,109,100,100 });
+		VirgilRendererHelper.CreateFrameInfo("Ellie_Basic_SlowWalk_LEFT", { 108,109,100,100,108,109,100,100 });
+		VirgilRendererHelper.CreateFrameInfo("Ellie_Basic_SlowWalk_LEFTDOWN", { 108,109,100,100,108,109,100,100 });
 		VirgilRendererHelper.CreateFrameInfo("Ellie_Basic_SlowWalk_DOWN", { 110,111,0,0,110,111,0,0 });
 		VirgilRendererHelper.CreateFrameInfo("Ellie_Basic_SlowWalk_RIGHT", { 115,116,117, 117,115,116,117,117 });
 		VirgilRendererHelper.CreateFrameInfo("Ellie_Basic_SlowWalk_RIGHTDOWN", { 115,116,117, 117,115,116,117,117 });
-		VirgilRendererHelper.CreateFrameInfo("Ellie_Basic_SlowWalk_LEFTUP", { 120,121,119,119,120,121,121,121 });
+		VirgilRendererHelper.CreateFrameInfo("Ellie_Basic_SlowWalk_LEFTUP", { 120,121,119,119,120,121,119,119 });
 		VirgilRendererHelper.CreateFrameInfo("Ellie_Basic_SlowWalk_UP", { });
-		VirgilRendererHelper.CreateFrameInfo("Ellie_Basic_SlowWalk_RIGHTUP", { 126,127,127,128,126,127,128,128 });
+		VirgilRendererHelper.CreateFrameInfo("Ellie_Basic_SlowWalk_RIGHTUP", { 126,127,128,128,126,127,128,128 });
 	}
 
 

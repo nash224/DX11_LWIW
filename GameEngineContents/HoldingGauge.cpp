@@ -14,18 +14,46 @@ HoldingGauge::~HoldingGauge()
 {
 }
 
+void HoldingGauge::Update()
+{
+	if (false == IsUpdate())
+	{
+		return;
+	}
+
+	if (nullptr == MyParent)
+	{
+		MsgBoxAssert("부모를 지정하지 않고 기능을 사용하려 했습니다.");
+		return;
+	}
+
+	const float4 CameraPos = PlayLevel::GetCurLevel()->GetMainCamera()->Transform.GetLocalPosition();
+	float4 Pos = MyParent->Transform.GetLocalPosition();
+	float4 Vector = Pos - CameraPos;
+
+	const float BaseDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::PlayUI_Base);
+	const float GaugeDepth = DepthFunction::CalculateFixDepth(EUI_RENDERORDERDEPTH::PlayUI_Guage);
+
+	Vector += Correction;
+
+	Base->Transform.SetWorldPosition(float4(Vector.X, Vector.Y, BaseDepth));
+	GuageUI->Transform.SetWorldPosition(float4(Vector.X, Vector.Y, GaugeDepth));
+}
+
 
 void HoldingGauge::RendererSetting(GameEngineActor* _Actor)
 {
-	Base = _Actor->CreateComponent<GameEngineSpriteRenderer>();
+	Base = _Actor->CreateComponent<GameEngineUIRenderer>();
 	Base->SetSprite("Holding_Base.png");
-	Base->Off();
 
-	GuageUI = _Actor->CreateComponent<GaugeRenderer>();
+	GuageUI = _Actor->CreateComponent<GaugeUIRenderer>();
 	GuageUI->SetMaterial("GaugeTexture2D");
 	GuageUI->SetSprite("Holding_Gauge.png");
 	GuageUI->GetGaugeInfo().CircleGuage = 1;
-	GuageUI->Off();
+
+	MyParent = _Actor;
+
+	Off();
 }
 
 void HoldingGauge::SetPosition(const float4& _Position)
@@ -35,6 +63,8 @@ void HoldingGauge::SetPosition(const float4& _Position)
 		MsgBoxAssert("렌더러를 세팅하지 않고 사용할수없습니다.");
 		return;
 	}
+
+	Correction = _Position;
 
 	const float BaseDepth = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Gauge_Base);
 	const float GuageDepth = DepthFunction::CalculateFixDepth(ERENDERDEPTH::Gauge_Bar);
@@ -66,6 +96,8 @@ void HoldingGauge::On()
 	Base->On();
 	GuageUI->On();
 
+	GameEngineObjectBase::On();
+
 	isOn = true;
 }
 
@@ -80,6 +112,8 @@ void HoldingGauge::Off()
 	Base->Off();
 	GuageUI->Off();
 
+	GameEngineObjectBase::Off();
+
 	isOn = false;
 }
 
@@ -93,4 +127,5 @@ void HoldingGauge::Release()
 {
 	Base = nullptr;
 	GuageUI = nullptr;
+	MyParent = nullptr;
 }

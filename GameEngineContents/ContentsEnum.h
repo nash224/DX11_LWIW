@@ -143,6 +143,8 @@ enum class EUI_RENDERORDERDEPTH
 	HUB_Frame,
 	HUB_Base,
 	Mark,
+	PlayUI_Guage,
+	PlayUI_Base,
 };
 
 

@@ -2,11 +2,11 @@
 #include "Ellie.h"
 
 #include "ContentsMath.h"
-
-#include "TimeManager.h"
-#include "UIManager.h"
+#include "ContentsEvent.h"
 
 #include "BackDrop_PlayLevel.h"
+#include "TimeManager.h"
+#include "UIManager.h"
 
 
 EELLIE_STATUS Ellie::g_Status = EELLIE_STATUS::None;
@@ -104,6 +104,11 @@ void Ellie::Update(float _Delta)
  	UpdateState(_Delta);
 	UpdateCoolTime(_Delta);
 	UpdateCollision();
+
+	if (true == GameEngineInput::IsDown('7', this))
+	{
+		ContentsEvent::HasWitchBroom = true;
+	}
 }
 
 

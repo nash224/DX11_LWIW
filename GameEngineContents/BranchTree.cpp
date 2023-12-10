@@ -41,6 +41,7 @@ void BranchTree::Update(float _Delta)
 
 	State.Update(_Delta);
 	UpdateBranch(_Delta);
+	Gauge.Update();
 }
 
 void BranchTree::Release()

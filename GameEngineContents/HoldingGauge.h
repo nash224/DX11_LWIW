@@ -2,7 +2,7 @@
 #include "GaugeUIRenderer.h"
 
 // Ό³Έν :
-class HoldingGauge 
+class HoldingGauge : public GameEngineObjectBase
 {
 public:
 	// constrcuter destructer
@@ -15,6 +15,7 @@ public:
 	HoldingGauge& operator=(const HoldingGauge& _Other) = delete;
 	HoldingGauge& operator=(HoldingGauge&& _Other) noexcept = delete;
 
+	void Update();
 	void RendererSetting(GameEngineActor* _Actor);
 	void Release();
 
@@ -28,8 +29,11 @@ protected:
 
 
 private:
-	std::shared_ptr<GameEngineSpriteRenderer> Base;
-	std::shared_ptr<GaugeRenderer> GuageUI;
+	std::shared_ptr<GameEngineUIRenderer> Base;
+	std::shared_ptr<GaugeUIRenderer> GuageUI;
+	GameEngineObject* MyParent = nullptr;
+
+	float4 Correction = float4::ZERO;
 
 	bool isOn = false;
 
