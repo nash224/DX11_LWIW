@@ -147,7 +147,7 @@ void TestLevel::LevelStart(class GameEngineLevel* _NextLevel)
 		SetPixelMap();
 	}
 
-	if (false)
+	if (true)
 	{
 		float4 InitialPosition = WinScale.Half();
 		InitialPosition.Y *= -1.0f;
