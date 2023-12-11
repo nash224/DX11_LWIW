@@ -13,7 +13,6 @@ struct PixelSetter
 		std::shared_ptr<GameEngineSpriteRenderer> PixelRenderer = _Actor->CreateComponent<GameEngineSpriteRenderer>();
 		PixelRenderer->SetSprite(_FileName);
 		PixelRenderer->SetViewCameraSelect(static_cast<int>(ECAMERAORDER::MainPrev));
-		PixelRenderer->RenderBaseInfoValue.Target0 = 0;
 		PixelRenderer->RenderBaseInfoValue.Target1 = 1;
 		PixelRenderer->On();
 

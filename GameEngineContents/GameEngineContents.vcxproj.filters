@@ -286,6 +286,9 @@
     <Filter Include="Actor\Interactive\Creature\SilverBellFlower">
       <UniqueIdentifier>{ef2cf91a-b5b9-4066-a22c-448abcd8977f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Level\99.MapEditor\NewFilter1">
+      <UniqueIdentifier>{7c972fd8-11c6-46d4-a1ad-0c918e66cd16}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PreCompile.h">
@@ -783,6 +786,9 @@
     </ClInclude>
     <ClInclude Include="ALightActor.h">
       <Filter>Actor\Prop\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="NormalPropEditor.h">
+      <Filter>Level\99.MapEditor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1312,6 +1318,9 @@
     </ClCompile>
     <ClCompile Include="ALightActor.cpp">
       <Filter>Actor\Prop\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="NormalPropEditor.cpp">
+      <Filter>Level\99.MapEditor</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

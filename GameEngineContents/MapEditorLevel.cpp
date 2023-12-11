@@ -6,7 +6,7 @@
 #include "MouseManager.h"
 
 #include "GroundRenderUnit.h"
-#include "NormalProp.h"
+#include "NormalPropEditor.h"
 
 
 MapEditorLevel::MapEditorLevel() 
@@ -137,7 +137,7 @@ bool MapEditorLevel::ClickCreateActor()
 
 		if ("PROPITEMTAB" == MapEditorTab::MapEditorGui->GetCurItemTabName())
 		{
-			std::shared_ptr<NormalProp> Object = CreateActor<NormalProp>();
+			std::shared_ptr<NormalPropEditor> Object = CreateActor<NormalPropEditor>();
 			float4 Position = GetMainCamera()->GetWorldMousePos2D();
 			Position.Z = 0.0f;
 			Object->Transform.SetLocalPosition(Position);
@@ -213,7 +213,7 @@ bool MapEditorLevel::ClickForSelectActor()
 			SelectActor = Group[NearestNumber].get();
 
 			GroundRenderUnit* Check1 = dynamic_cast<GroundRenderUnit*>(SelectActor);
-			NormalProp* Check2 = dynamic_cast<NormalProp*>(SelectActor);
+			NormalPropEditor* Check2 = dynamic_cast<NormalPropEditor*>(SelectActor);
 			if (nullptr == Check1 && nullptr == Check2)
 			{
 				SelectActor = nullptr;

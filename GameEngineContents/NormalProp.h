@@ -23,7 +23,7 @@ public:
 	void DeSerializer(GameEngineSerializer& _Data) override;
 
 
-	void SetPixelCollision(std::string_view _FileName);
+	virtual void SetPixelCollision(std::string_view _FileName);
 
 	void ChangePixeldata(std::string_view _PixelName);
 

@@ -13,7 +13,7 @@
 
 
 #include "GroundRenderUnit.h"
-#include "NormalProp.h"
+#include "NormalPropEditor.h"
 #include "SkyLerp.h"
 #include "FireWorks.h"
 
@@ -722,7 +722,7 @@ void PropItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTime)
 		std::vector<const char*> CNames;
 		CNames.reserve(SpriteNames.size());
 
-		for (size_t i = 0; i < SpriteNames.size(); i++)
+		for (int i = 0; i < SpriteNames.size(); i++)
 		{
 			CNames.push_back(SpriteNames[i].c_str());
 		}
@@ -801,7 +801,7 @@ void PropItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTime)
 
 				if (nullptr != EditorLevel->SelectActor)
 				{
-					NormalProp* Object = static_cast<NormalProp*>(EditorLevel->SelectActor);
+					NormalPropEditor* Object = static_cast<NormalPropEditor*>(EditorLevel->SelectActor);
 					Object->ChangePixeldata(SelectSpriteName);
 				}
 			}
@@ -810,8 +810,8 @@ void PropItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTime)
 
 	if (ImGui::Button("All Clear"))
 	{
-		const std::vector<std::shared_ptr<NormalProp>> Objects = _Level->GetObjectGroupConvert<NormalProp>(0);
-		for (const std::shared_ptr<NormalProp>& Object : Objects)
+		const std::vector<std::shared_ptr<NormalPropEditor>> Objects = _Level->GetObjectGroupConvert<NormalPropEditor>(0);
+		for (const std::shared_ptr<NormalPropEditor>& Object : Objects)
 		{
 			Object->Death();
 		}
@@ -824,12 +824,12 @@ void PropItemTab::SaveItemTab(GameEngineLevel* _Level)
 {
 	constexpr std::uint32_t GroupIndex = 0;
 	GameEngineSerializer BinSerial;
-	const std::vector<std::shared_ptr<NormalProp>> ObjectGroup = _Level->GetObjectGroupConvert<NormalProp>(GroupIndex);
+	const std::vector<std::shared_ptr<NormalPropEditor>> ObjectGroup = _Level->GetObjectGroupConvert<NormalPropEditor>(GroupIndex);
 
 	const std::uint32_t objectCount = static_cast<std::uint32_t>(ObjectGroup.size());
 	BinSerial << objectCount;
 
-	for(const std::shared_ptr<NormalProp> Object : ObjectGroup )
+	for(const std::shared_ptr<NormalPropEditor> Object : ObjectGroup)
 	{
 		Object->Serializer(BinSerial);
 	}
@@ -848,8 +848,8 @@ void PropItemTab::LoadItemTab(GameEngineLevel* _Level)
 	File.Open(FileOpenType::Read, FileDataType::Binary);
 	File.DataAllRead(LoadBin);
 
-	std::vector<std::shared_ptr<NormalProp>> ObjectGroup = _Level->GetObjectGroupConvert<NormalProp>(0);
-	for (const std::shared_ptr<NormalProp>& Object : ObjectGroup)
+	std::vector<std::shared_ptr<NormalPropEditor>> ObjectGroup = _Level->GetObjectGroupConvert<NormalPropEditor>(0);
+	for (const std::shared_ptr<NormalPropEditor>& Object : ObjectGroup)
 	{
 		Object->Death();
 	}
@@ -860,7 +860,7 @@ void PropItemTab::LoadItemTab(GameEngineLevel* _Level)
 
 	for (size_t i = 0; i < ActorCount; i++)
 	{
-		std::shared_ptr<NormalProp> Object = _Level->CreateActor<NormalProp>();
+		std::shared_ptr<NormalPropEditor> Object = _Level->CreateActor<NormalPropEditor>();
 		Object->DeSerializer(LoadBin);
 	}
 }

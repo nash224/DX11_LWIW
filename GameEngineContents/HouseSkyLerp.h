@@ -52,6 +52,7 @@ protected:
 
 	void SetSkyData() override;
 	void LoadData();
+	void SetTestData();
 
 private:
 	std::shared_ptr<SkyGUI> SkyGUIWindow;

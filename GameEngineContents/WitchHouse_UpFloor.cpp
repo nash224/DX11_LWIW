@@ -45,6 +45,7 @@ void WitchHouse_UpFloor::Start()
 	if (nullptr != Window)
 	{
 		Window->AddDebugRenderTarget(5, "HouseTarget", GetMainCamera()->GetCameraAllRenderTarget());
+		Window->AddDebugRenderTarget(6, "CeilCamera", GetCamera(static_cast<int>(ECAMERAORDER::MainNext))->GetCameraAllRenderTarget());
 	}
 }
 

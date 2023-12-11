@@ -78,7 +78,7 @@ void SkyGUI::OnGUI(GameEngineLevel* _Level, float _Delta)
 		ImGui::Text(Items.at(Curidx).c_str());
 		ImGui::Text(SkyPtr->SkyData.at(Curidx).ToString().c_str());
 
-		if (ImGui::Button("Save Current SkyColor"))
+		if (ImGui::Button("Change Current SkyColor"))
 		{
 			SkyPtr->SkyData.at(Curidx) = SkyPtr->SkyColor;
 		}
@@ -131,7 +131,7 @@ void SkyGUI::OnGUI(GameEngineLevel* _Level, float _Delta)
 			GameEngineFile File;
 			File.MoveParentToExistsChild("Resources");
 			File.MoveChild("Resources\\Data\\Sky\\");
-			File.PlusFilePath("SkyDataTest.sky");
+			File = File.PlusFilePath("SkyDataTest.sky");
 			File.Open(FileOpenType::Write, FileDataType::Binary);
 			File.Write(BinSerial);
 		}
@@ -140,7 +140,7 @@ void SkyGUI::OnGUI(GameEngineLevel* _Level, float _Delta)
 
 		if (ImGui::Button("Load"))
 		{
-			SkyPtr->LoadData();
+			SkyPtr->SetTestData();
 		}
 	}
 
@@ -209,6 +209,32 @@ void HouseSkyLerp::LoadData()
 	GameEngineFile File;
 	File.MoveParentToExistsChild("Resources");
 	File.MoveChild("Resources\\Data\\Sky\\SkyData.sky");
+	File.Open(FileOpenType::Read, FileDataType::Binary);
+	File.DataAllRead(LoadBin);
+
+	unsigned int Size;
+	LoadBin >> Size;
+
+	if (false == SkyData.empty())
+	{
+		SkyData.clear();
+	}
+
+	SkyData.resize(Size);
+	for (unsigned int i = 0; i < Size; i++)
+	{
+		float4 Color;
+		LoadBin.Read(&Color, sizeof(Color));
+		SkyData[i] = Color;
+	}
+}
+
+void HouseSkyLerp::SetTestData()
+{
+	GameEngineSerializer LoadBin;
+	GameEngineFile File;
+	File.MoveParentToExistsChild("Resources");
+	File.MoveChild("Resources\\Data\\Sky\\SkyDataTest.sky");
 	File.Open(FileOpenType::Read, FileDataType::Binary);
 	File.DataAllRead(LoadBin);
 
