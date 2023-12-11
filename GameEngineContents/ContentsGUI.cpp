@@ -21,9 +21,6 @@
 #include "BGMManager.h"
 #include "PixelManager.h"
 
-
-
-
 void ContentsGUI::Start()
 {
 	AllTabs.push_back(std::make_shared<LevelChangeTab>("LevelChange"));
@@ -34,7 +31,7 @@ void ContentsGUI::Start()
 	AllTabs.push_back(std::make_shared<ManualTab>("Manual"));
 	AllTabs.push_back(std::make_shared<LightTest>("LightTest"));
 
-	for (size_t i = 0; i < AllTabs.size(); i++)
+	for (int i = 0; i < AllTabs.size(); i++)
 	{
 		AllTabs[i]->Start();
 	}
@@ -367,6 +364,26 @@ void MapEditorTab::OnGUI(GameEngineLevel* _Level, float _DeltaTime)
 	if (_Level->GetName() != "MapEditorLevel")
 	{
 		return;
+	}
+
+	if (ImGui::Checkbox("Show Only Pixel Collision", &PixelDebugValue))
+	{
+		std::vector<std::shared_ptr<RendererActor>> Actors = _Level->GetObjectGroupConvert<RendererActor>(0);
+
+		if (true == PixelDebugValue)
+		{
+			for (const std::shared_ptr<RendererActor>& Actor : Actors)
+			{
+				Actor->Renderer->Off();
+			}
+		}
+		else
+		{
+			for (const std::shared_ptr<RendererActor>& Actor : Actors)
+			{
+				Actor->Renderer->On();
+		}
+		}
 	}
 
 	if (ImGui::BeginTabBar("Eidtor"))
@@ -727,7 +744,7 @@ void PropItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTime)
 			CNames.push_back(SpriteNames[i].c_str());
 		}
 
-		if (ImGui::ListBox("SpriteNames", &SelectSpriteItem, &CNames[0], static_cast<int>(CNames.size())))
+		if (ImGui::Combo("SpriteNames", &SelectSpriteItem, &CNames[0], static_cast<int>(CNames.size()), 8))
 		{
 			if (nullptr != EditorLevel->SelectActor)
 			{
@@ -737,6 +754,9 @@ void PropItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTime)
 			EditorLevel->_SelcetSprite = SpriteNames[SelectSpriteItem];
 			SelectSpriteName = SpriteNames[SelectSpriteItem];
 		}
+
+		ImGui::SameLine();
+		HelpMarker::Marker("Select Sprite And Pixel Collision Texture");
 	}
 
 	ImGui::Text("Select : ");
@@ -760,7 +780,7 @@ void PropItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTime)
 			CNames.push_back(Type.first.c_str());
 		}
 
-		if (ImGui::ListBox("Depth", &SelectDepthItem, &CNames[0], static_cast<int>(CNames.size())), 3)
+		if (ImGui::ListBox("Depth", &SelectDepthItem, &CNames[0], static_cast<int>(CNames.size())))
 		{
 			static_cast<MapEditorLevel*>(_Level)->_SelectDepth = DepthTypes.find(CNames[SelectDepthItem])->second;
 		}
@@ -794,7 +814,7 @@ void PropItemTab::EditoritemTab(GameEngineLevel* _Level, float _DeltaTime)
 				CNames.push_back(SpriteName.c_str());
 			}
 
-			if (ImGui::ListBox("Pixel Sprite List", &SelectPixelSpriteItem, &CNames[0], static_cast<int>(CNames.size())))
+			if (ImGui::Combo("Pixel Sprite List", &SelectPixelSpriteItem, &CNames[0], static_cast<int>(CNames.size())))
 			{
 				EditorLevel->_SelcetPixelSprite = PixelSpriteNames[SelectPixelSpriteItem];
 				SelectSpriteName = PixelSpriteNames[SelectPixelSpriteItem];
@@ -829,7 +849,7 @@ void PropItemTab::SaveItemTab(GameEngineLevel* _Level)
 	const std::uint32_t objectCount = static_cast<std::uint32_t>(ObjectGroup.size());
 	BinSerial << objectCount;
 
-	for(const std::shared_ptr<NormalPropEditor> Object : ObjectGroup)
+	for(const std::shared_ptr<NormalPropEditor>& Object : ObjectGroup)
 	{
 		Object->Serializer(BinSerial);
 	}

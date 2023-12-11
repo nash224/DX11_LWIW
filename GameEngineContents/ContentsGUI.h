@@ -2,6 +2,23 @@
 #include "ContentsEvent.h"
 
 
+struct HelpMarker
+{
+public:
+	static void Marker(const std::string& _Text)
+	{
+		ImGui::TextDisabled("(?)");
+		if (ImGui::BeginItemTooltip())
+		{
+			ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
+			ImGui::TextUnformatted(_Text.c_str());
+			ImGui::PopTextWrapPos();
+			ImGui::EndTooltip();
+		}
+	}
+
+};
+
 class UITab
 {
 public:
@@ -143,7 +160,7 @@ class ItemTab;
 class MapEditorTab : public UITab
 {
 public:
-	static MapEditorTab* MapEditorGui;
+	static MapEditorTab* MapEditorGui ;
 
 public:
 	void Start() override;
@@ -194,10 +211,7 @@ public:
 
 	char PathString[256] = { 0, };
 	
-
-
-	
-
+	bool PixelDebugValue = false;
 };
 
 
